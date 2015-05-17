@@ -2,7 +2,7 @@
     'use strict';
 
     var Dialog = require('foreground/model/dialog/dialog');
-    var DialogContent = require('foreground/view/behavior/dialogContent');
+    var ClearStreamView = require('foreground/view/dialog/clearStreamView');
     var DialogView = require('foreground/view/dialog/dialogView');
 
     var ClearStreamDialogView = DialogView.extend({
@@ -16,14 +16,7 @@
                 reminderProperty: 'remindClearStream'
             });
 
-            this.contentView = new Marionette.LayoutView({
-                template: _.template(chrome.i18n.getMessage('clearStreamQuestion')),
-                behaviors: {
-                    DialogContent: {
-                        behaviorClass: DialogContent
-                    }
-                }
-            });
+            this.contentView = new ClearStreamView();
 
             DialogView.prototype.initialize.apply(this, arguments);
         },

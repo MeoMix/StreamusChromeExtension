@@ -3,25 +3,20 @@
 
     var RepeatButtonView = require('foreground/view/stream/repeatButtonView');
     var RepeatButton = require('background/model/repeatButton');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('RepeatButtonView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.repeatButtonView = new RepeatButtonView({
+            this.view = new RepeatButtonView({
                 model: new RepeatButton()
             });
         });
 
         afterEach(function() {
-            this.repeatButtonView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.repeatButtonView.render().el);
-
-            _.forIn(this.repeatButtonView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

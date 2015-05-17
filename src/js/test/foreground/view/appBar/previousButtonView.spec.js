@@ -10,6 +10,7 @@
     var RadioButton = require('background/model/radioButton');
     var ShuffleButton = require('background/model/shuffleButton');
     var RepeatButton = require('background/model/repeatButton');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('PreviousButtonView', function() {
         beforeEach(function() {
@@ -24,7 +25,7 @@
             var radioButton = new RadioButton();
             var repeatButton = new RepeatButton();
 
-            this.previousButtonView = new PreviousButtonView({
+            this.view = new PreviousButtonView({
                 model: new PreviousButton({
                     player: player,
                     shuffleButton: shuffleButton,
@@ -40,15 +41,9 @@
         });
 
         afterEach(function() {
-            this.previousButtonView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.previousButtonView.render().el);
-
-            _.forIn(this.previousButtonView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

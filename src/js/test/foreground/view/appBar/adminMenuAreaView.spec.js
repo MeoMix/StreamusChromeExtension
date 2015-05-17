@@ -2,23 +2,18 @@
     'use strict';
 
     var AdminMenuAreaView = require('foreground/view/appBar/adminMenuAreaView');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('AdminMenuAreaView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.adminMenuAreaView = new AdminMenuAreaView();
+            this.view = new AdminMenuAreaView();
         });
 
         afterEach(function() {
-            this.adminMenuAreaView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.adminMenuAreaView.render().el);
-
-            _.forIn(this.adminMenuAreaView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

@@ -2,23 +2,18 @@
     'use strict';
 
     var SearchResultsView = require('foreground/view/search/searchResultsView');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SearchResultsView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.searchResultsView = new SearchResultsView();
+            this.view = new SearchResultsView();
         });
 
         afterEach(function() {
-            this.searchResultsView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.searchResultsView.render().el);
-
-            _.forIn(this.searchResultsView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

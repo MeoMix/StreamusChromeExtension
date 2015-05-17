@@ -1,12 +1,12 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var ListItemButton = require('foreground/view/behavior/listItemButton');
     var PlayPauseSongButtonTemplate = require('text!template/listItemButton/playPauseSongButton.html');
     var PlayIconTemplate = require('text!template/icon/playIcon_18.svg');
     var PauseIconTemplate = require('text!template/icon/pauseIcon_18.svg');
 
-    var PlayPauseSongButtonView = ListItemButtonView.extend({
+    var PlayPauseSongButtonView = Marionette.ItemView.extend({
         template: _.template(PlayPauseSongButtonTemplate),
         templateHelpers: {
             playIcon: _.template(PlayIconTemplate)(),
@@ -22,6 +22,12 @@
             pauseIcon: '[data-ui~=pauseIcon]'
         },
 
+        behaviors: {
+            ListItemButton: {
+                behaviorClass: ListItemButton
+            }
+        },
+
         streamItems: null,
         player: null,
 
@@ -30,8 +36,6 @@
             this.player = options.player;
             this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
             this.listenTo(this.streamItems, 'change:active', this._onStreamItemsChangeActive);
-
-            ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
 
         onRender: function() {

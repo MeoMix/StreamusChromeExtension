@@ -3,6 +3,7 @@
 
     var BrowserSettingsView = require('foreground/view/dialog/browserSettingsView');
     var Settings = require('background/model/settings');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('BrowserSettingsView', function() {
         beforeEach(function() {
@@ -16,9 +17,6 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

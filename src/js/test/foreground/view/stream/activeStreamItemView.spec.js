@@ -6,11 +6,12 @@
     var Player = require('background/model/player');
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('ActiveStreamItemView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.activeStreamItemView = new ActiveStreamItemView({
+            this.view = new ActiveStreamItemView({
                 model: new StreamItem(),
                 player: new Player({
                     settings: new Settings(),
@@ -20,15 +21,9 @@
         });
 
         afterEach(function() {
-            this.activeStreamItemView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.activeStreamItemView.render().el);
-
-            _.forIn(this.activeStreamItemView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

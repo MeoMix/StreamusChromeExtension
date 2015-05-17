@@ -3,6 +3,7 @@
 
     var ClearStreamDialogView = require('foreground/view/dialog/clearStreamDialogView');
     var StreamItems = require('background/collection/streamItems');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('ClearStreamDialogView', function() {
         beforeEach(function() {
@@ -18,10 +19,7 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
 
         describe('onSubmit', function() {
             it('should clear StreamItems', function() {

@@ -3,6 +3,7 @@
 
     var Checkbox = require('foreground/model/element/checkbox');
     var CheckboxView = require('foreground/view/element/checkboxView');
+    var KeyCode = require('foreground/enum/keyCode');
     var DialogTemplate = require('text!template/dialog/dialog.html');
 
     var DialogView = Marionette.LayoutView.extend({
@@ -19,15 +20,12 @@
             panel: '[data-ui~=panel]',
             submitButton: '[data-ui~=submitButton]',
             cancelButton: '[data-ui~=cancelButton]',
-            reminderCheckbox: '[data-ui~=reminderCheckbox]',
-            closeButton: '[data-ui~=closeButton]',
             submittable: '[data-ui~=submittable]'
         },
 
         events: {
             'mousedown': '_onMouseDown',
             'mouseup': '_onMouseUp',
-            'click @ui.closeButton': '_onClickCloseButton',
             'click @ui.cancelButton': '_onClickCancelButton',
             'click @ui.submitButton': '_onClickSubmitButton',
             'keypress @ui.submittable': '_onKeyPressSubmittable'
@@ -84,10 +82,6 @@
             this.mouseDownTarget = null;
         },
 
-        _onClickCloseButton: function() {
-            this._hide();
-        },
-
         _onClickCancelButton: function() {
             this._hide();
         },
@@ -98,7 +92,7 @@
         
         //  If the enter key is pressed on a js-submittable element, treat as if user pressed OK button.
         _onKeyPressSubmittable: function(event) {
-            if (event.which === 13) {
+            if (event.which === KeyCode.Enter) {
                 this._submit();
             }
         },

@@ -6,11 +6,12 @@
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
     var AnalyticsManager = require('background/model/analyticsManager');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('ForegroundAreaView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.foregroundAreaView = new ForegroundAreaView({
+            this.view = new ForegroundAreaView({
                 el: false,
                 player: new Player({
                     settings: new Settings(),
@@ -22,15 +23,9 @@
         });
 
         afterEach(function() {
-            this.foregroundAreaView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.foregroundAreaView.render().el);
-
-            _.forIn(this.foregroundAreaView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

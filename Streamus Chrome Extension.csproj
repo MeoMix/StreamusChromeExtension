@@ -86,9 +86,15 @@
     <Content Include="src\js\foreground\enum\keyCode.js" />
     <Content Include="src\js\foreground\model\tooltip\tooltip.js" />
     <Content Include="src\js\foreground\view\behavior\dialogContent.js" />
+    <Content Include="src\js\foreground\view\behavior\listItemButton.js" />
     <Content Include="src\js\foreground\view\contextMenu\contextMenuItemsView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusView.js" />
+    <Content Include="src\js\foreground\view\dialog\clearStreamView.js" />
+    <Content Include="src\js\foreground\view\dialog\errorView.js" />
+    <Content Include="src\js\foreground\view\dialog\googleSignInView.js" />
+    <Content Include="src\js\foreground\view\dialog\linkUserIdView.js" />
+    <Content Include="src\js\foreground\view\dialog\updateStreamusView.js" />
     <Content Include="src\js\foreground\view\element\fixedMenuItemView.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
@@ -118,6 +124,7 @@
     <Content Include="src\js\test\foreground\view\behavior\collectionViewMultiSelect.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\dialogContent.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\itemViewMultiSelect.spec.js" />
+    <Content Include="src\js\test\foreground\view\behavior\listItemButton.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\scrollable.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\slidingRender.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\sortable.spec.js" />
@@ -130,10 +137,14 @@
     <Content Include="src\js\test\foreground\view\contextMenu\contextMenuView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\aboutStreamusDialogView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\aboutStreamusView.spec.js" />
-    <Content Include="src\js\test\foreground\view\dialog\dialogContentView.spec.js" />
+    <Content Include="src\js\test\foreground\view\dialog\clearStreamView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\dialogRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\dialogSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\dialog\dialogView.spec.js" />
+    <Content Include="src\js\test\foreground\view\dialog\errorView.spec.js" />
+    <Content Include="src\js\test\foreground\view\dialog\googleSignInView.spec.js" />
+    <Content Include="src\js\test\foreground\view\dialog\linkUserIdView.spec.js" />
+    <Content Include="src\js\test\foreground\view\dialog\updateStreamusView.spec.js" />
     <Content Include="src\js\test\foreground\view\element\checkboxView.spec.js" />
     <Content Include="src\js\test\foreground\view\element\elementSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\element\radioButtonView.spec.js" />
@@ -159,7 +170,6 @@
     <Content Include="src\js\test\foreground\view\listItemButton\deleteListItemButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\listItemButton\listItemButtonSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\listItemButton\listItemButtonsView.spec.js" />
-    <Content Include="src\js\test\foreground\view\listItemButton\listItemButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\listItemButton\moreActionsButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\listItemButton\playPauseSongButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\listItemButton\playPlaylistButtonView.spec.js" />
@@ -200,6 +210,7 @@
     <Content Include="src\js\test\foreground\view\video\videoRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\video\videoSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\video\videoView.spec.js" />
+    <Content Include="src\js\test\foreground\view\viewTestUtility.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />
@@ -356,7 +367,6 @@
     <Content Include="src\js\foreground\view\stream\shuffleButtonView.js" />
     <Content Include="src\js\foreground\view\stream\streamItemsView.js" />
     <Content Include="src\js\foreground\view\search\searchRegion.js" />
-    <Content Include="src\js\foreground\view\listItemButton\listItemButtonView.js" />
     <Content Include="src\js\foreground\view\notification\notificationRegion.js" />
     <Content Include="src\js\foreground\view\notification\notificationView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistsAreaRegion.js" />

@@ -9,11 +9,12 @@
     var ShuffleButton = require('background/model/shuffleButton');
     var RadioButton = require('background/model/radioButton');
     var RepeatButton = require('background/model/repeatButton');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('StreamView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.streamView = new StreamView({
+            this.view = new StreamView({
                 model: new Stream({
                     player: new Player({
                         settings: new Settings(),
@@ -27,15 +28,9 @@
         });
 
         afterEach(function() {
-            this.streamView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.streamView.render().el);
-
-            _.forIn(this.streamView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

@@ -7,11 +7,12 @@
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
     var Song = require('background/model/song');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('PlayPauseSongButtonView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.playPauseSongButtonView = new PlayPauseSongButtonView({
+            this.view = new PlayPauseSongButtonView({
                 model: new Song(),
                 streamItems: new StreamItems(),
                 player: new Player({
@@ -22,15 +23,9 @@
         });
 
         afterEach(function() {
-            this.playPauseSongButtonView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.playPauseSongButtonView.render().el);
-
-            _.forIn(this.playPauseSongButtonView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

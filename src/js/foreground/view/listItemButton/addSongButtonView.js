@@ -1,14 +1,20 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var ListItemButton = require('foreground/view/behavior/listItemButton');
     var AddListItemButtonTemplate = require('text!template/listItemButton/addListItemButton.html');
     var AddIconTemplate = require('text!template/icon/addIcon_18.svg');
 
-    var AddSongButtonView = ListItemButtonView.extend({
+    var AddSongButtonView = Marionette.ItemView.extend({
         template: _.template(AddListItemButtonTemplate),
         templateHelpers: {
             addIcon: _.template(AddIconTemplate)()
+        },
+
+        behaviors: {
+            ListItemButton: {
+                behaviorClass: ListItemButton
+            }
         },
 
         streamItems: null,
@@ -21,8 +27,6 @@
         initialize: function(options) {
             this.streamItems = options.streamItems;
             this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
-
-            ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
 
         onRender: function() {

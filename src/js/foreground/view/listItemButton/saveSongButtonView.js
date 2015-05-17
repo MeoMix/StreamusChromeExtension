@@ -1,14 +1,20 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var ListItemButton = require('foreground/view/behavior/listItemButton');
     var SaveListItemButtonTemplate = require('text!template/listItemButton/saveListItemButton.html');
     var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
-    var SaveSongButtonView = ListItemButtonView.extend({
+    var SaveSongButtonView = Marionette.ItemView.extend({
         template: _.template(SaveListItemButtonTemplate),
         templateHelpers: {
             saveIcon: _.template(SaveIconTemplate)()
+        },
+
+        behaviors: {
+            ListItemButton: {
+                behaviorClass: ListItemButton
+            }
         },
 
         signInManager: null,
@@ -16,8 +22,6 @@
         initialize: function(options) {
             this.signInManager = options.signInManager;
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
-
-            ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
 
         onRender: function() {

@@ -3,6 +3,7 @@
 
     var LinkUserIdDialogView = require('foreground/view/dialog/linkUserIdDialogView');
     var SignInManager = require('background/model/signInManager');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('LinkUserIdDialogView', function() {
         beforeEach(function() {
@@ -18,10 +19,7 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
 
         describe('onSubmit', function() {
             it('should tell SignInManager to save the current user\'s GooglePlusId', function() {

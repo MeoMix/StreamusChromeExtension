@@ -2,7 +2,7 @@
     'use strict';
 
     var Dialog = require('foreground/model/dialog/dialog');
-    var DialogContent = require('foreground/view/behavior/dialogContent');
+    var ErrorView = require('foreground/view/dialog/errorView');
     var DialogView = require('foreground/view/dialog/dialogView');
 
     var ErrorDialogView = DialogView.extend({
@@ -16,15 +16,10 @@
                 showCancelButton: false
             });
 
-            this.contentView = new Marionette.LayoutView({
-                template: _.template(options.text),
-                behaviors: {
-                    DialogContent: {
-                        behaviorClass: DialogContent
-                    }
-                }
+            this.contentView = new ErrorView({
+                text: options.text
             });
-
+                
             DialogView.prototype.initialize.apply(this, arguments);
 
             //  TODO: This tends to flood my DB with errors. Possible (expected) errors still need to be handled:

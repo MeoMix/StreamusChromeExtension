@@ -1,11 +1,11 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var ListItemButton = require('foreground/view/behavior/listItemButton');
     var MoreActionsListItemButtonTemplate = require('text!template/listItemButton/moreActionsListItemButton.html');
     var MoreActionsIconTemplate = require('text!template/icon/moreActionsIcon_18.svg');
 
-    var MoreActionsButtonView = ListItemButtonView.extend({
+    var MoreActionsButtonView = Marionette.ItemView.extend({
         template: _.template(MoreActionsListItemButtonTemplate),
         templateHelpers: {
             moreActionsIcon: _.template(MoreActionsIconTemplate)()
@@ -15,8 +15,13 @@
             'data-tooltip-text': chrome.i18n.getMessage('moreActions')
         },
 
+        behaviors: {
+            ListItemButton: {
+                behaviorClass: ListItemButton
+            }
+        },
+
         initialize: function() {
-            ListItemButtonView.prototype.initialize.apply(this, arguments);
             // TODO: BAD
             this.$el.addClass('moreActions');
         },

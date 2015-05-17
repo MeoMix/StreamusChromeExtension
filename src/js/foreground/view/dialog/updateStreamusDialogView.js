@@ -2,7 +2,7 @@
     'use strict';
 
     var Dialog = require('foreground/model/dialog/dialog');
-    var DialogContent = require('foreground/view/behavior/dialogContent');
+    var UpdateStreamusView = require('foreground/view/dialog/updateStreamusView');
     var DialogView = require('foreground/view/dialog/dialogView');
 
     var UpdateStreamusDialogView = DialogView.extend({
@@ -13,14 +13,7 @@
                 submitButtonText: chrome.i18n.getMessage('update')
             });
 
-            this.contentView = new Marionette.LayoutView({
-                template: _.template(chrome.i18n.getMessage('anUpdateIsAvailable')),
-                behaviors: {
-                    DialogContent: {
-                        behaviorClass: DialogContent
-                    }
-                }
-            });
+            this.contentView = new UpdateStreamusView();
 
             DialogView.prototype.initialize.apply(this, arguments);
         },

@@ -9,6 +9,7 @@
     var YouTubePlayer = require('background/model/youTubePlayer');
     var PlayPauseButton = require('background/model/playPauseButton');
     var ListItemType = require('common/enum/listItemType');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('StreamItemView', function() {
         beforeEach(function() {
@@ -19,7 +20,7 @@
                 youTubePlayer: new YouTubePlayer()
             });
 
-            this.streamItemView = new StreamItemView({
+            this.view = new StreamItemView({
                 model: new StreamItem(),
                 player: player,
                 playPauseButton: new PlayPauseButton({
@@ -32,15 +33,9 @@
         });
 
         afterEach(function() {
-            this.streamItemView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.streamItemView.render().el);
-
-            _.forIn(this.streamItemView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

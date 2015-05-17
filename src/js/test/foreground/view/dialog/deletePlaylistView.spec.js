@@ -3,6 +3,7 @@
 
     var DeletePlaylistView = require('foreground/view/dialog/deletePlaylistView');
     var TestUtility = require('test/testUtility');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('DeletePlaylistView', function() {
         beforeEach(function() {
@@ -16,10 +17,7 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
 
         it('should destroy its model when calling deletePlaylist', function() {
             sinon.stub(this.view.model, 'destroy');

@@ -4,6 +4,7 @@
     var EditPlaylistView = require('foreground/view/dialog/editPlaylistView');
     var EditPlaylist = require('foreground/model/dialog/editPlaylist');
     var TestUtility = require('test/testUtility');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('EditPlaylistView', function() {
         beforeEach(function() {
@@ -19,9 +20,6 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

@@ -4,6 +4,7 @@
     var ExportPlaylist = require('foreground/model/dialog/exportPlaylist');
     var ExportPlaylistDialogView = require('foreground/view/dialog/exportPlaylistDialogView');
     var TestUtility = require('test/testUtility');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('ExportPlaylistDialogView', function() {
         beforeEach(function() {
@@ -19,10 +20,7 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
 
         describe('onSubmit', function() {
             it('should export its playlist', function() {

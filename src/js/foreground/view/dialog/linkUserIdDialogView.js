@@ -2,7 +2,7 @@
     'use strict';
 
     var Dialog = require('foreground/model/dialog/dialog');
-    var DialogContent = require('foreground/view/behavior/dialogContent');
+    var LinkUserIdView = require('foreground/view/dialog/linkUserIdView');
     var DialogView = require('foreground/view/dialog/dialogView');
 
     var LinkUserIdDialogView = DialogView.extend({
@@ -18,14 +18,7 @@
                 alwaysSaveReminder: true
             });
 
-            this.contentView = new Marionette.LayoutView({
-                template: _.template(chrome.i18n.getMessage('linkAccountsMessage')),
-                behaviors: {
-                    DialogContent: {
-                        behaviorClass: DialogContent
-                    }
-                }
-            });
+            this.contentView = new LinkUserIdView();
 
             DialogView.prototype.initialize.apply(this, arguments);
         },

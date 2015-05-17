@@ -2,6 +2,7 @@
     'use strict';
 
     var SettingsDialogView = require('foreground/view/dialog/settingsDialogView');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SettingsDialogView', function() {
         beforeEach(function() {
@@ -13,10 +14,7 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
 
         describe('onSubmit', function() {
             it('should save configured settings', function() {

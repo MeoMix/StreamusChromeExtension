@@ -5,11 +5,12 @@
     var Player = require('background/model/player');
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('VideoView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.videoView = new VideoView({
+            this.view = new VideoView({
                 player: new Player({
                     settings: new Settings(),
                     youTubePlayer: new YouTubePlayer()
@@ -18,15 +19,9 @@
         });
 
         afterEach(function() {
-            this.videoView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.videoView.render().el);
-
-            _.forIn(this.videoView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

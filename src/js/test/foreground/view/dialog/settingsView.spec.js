@@ -4,6 +4,7 @@
     var SettingsView = require('foreground/view/dialog/settingsView');
     var SignInManager = require('background/model/signInManager');
     var Settings = require('background/model/settings');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SettingsView', function() {
         beforeEach(function() {
@@ -18,10 +19,6 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
-
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

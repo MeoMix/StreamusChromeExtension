@@ -6,6 +6,7 @@
     var Playlists = require('background/collection/playlists');
     var DataSourceManager = require('background/model/dataSourceManager');
     var testUtility = require('test/testUtility');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('CreatePlaylistView', function() {
         beforeEach(function() {
@@ -23,9 +24,6 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

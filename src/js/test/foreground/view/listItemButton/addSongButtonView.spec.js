@@ -4,26 +4,21 @@
     var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
     var Song = require('background/model/song');
     var StreamItems = require('background/collection/streamItems');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('AddSongButtonView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.addSongButtonView = new AddSongButtonView({
+            this.view = new AddSongButtonView({
                 model: new Song(),
                 streamItems: new StreamItems()
             });
         });
 
         afterEach(function() {
-            this.addSongButtonView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.addSongButtonView.render().el);
-
-            _.forIn(this.addSongButtonView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

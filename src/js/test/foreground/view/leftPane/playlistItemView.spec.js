@@ -8,11 +8,12 @@
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
     var ListItemType = require('common/enum/listItemType');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('PlaylistItemView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.playlistItemView = new PlaylistItemView({
+            this.view = new PlaylistItemView({
                 model: new PlaylistItem(),
                 streamItems: new StreamItems(),
                 player: new Player({
@@ -25,15 +26,9 @@
         });
 
         afterEach(function() {
-            this.playlistItemView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.playlistItemView.render().el);
-
-            _.forIn(this.playlistItemView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

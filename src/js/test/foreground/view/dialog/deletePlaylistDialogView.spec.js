@@ -3,6 +3,7 @@
 
     var DeletePlaylistDialogView = require('foreground/view/dialog/deletePlaylistDialogView');
     var TestUtility = require('test/testUtility');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('DeletePlaylistDialogView', function() {
         beforeEach(function() {
@@ -16,10 +17,7 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
 
         describe('onSubmit', function() {
             it('should delete its playlist', function() {

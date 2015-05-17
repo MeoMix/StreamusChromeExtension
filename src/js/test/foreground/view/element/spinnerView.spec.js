@@ -2,23 +2,18 @@
     'use strict';
 
     var SpinnerView = require('foreground/view/element/spinnerView');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SpinnerView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.spinnerView = new SpinnerView();
+            this.view = new SpinnerView();
         });
 
         afterEach(function() {
-            this.spinnerView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.spinnerView.render().el);
-
-            _.forIn(this.spinnerView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

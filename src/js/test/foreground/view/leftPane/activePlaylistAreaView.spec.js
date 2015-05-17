@@ -4,13 +4,14 @@
     var ActivePlaylistAreaView = require('foreground/view/leftPane/activePlaylistAreaView');
     var Playlist = require('background/model/playlist');
     var StreamItems = require('background/collection/streamItems');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('ActivePlaylistAreaView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
 
             var playlist = new Playlist();
-            this.activePlaylistAreaView = new ActivePlaylistAreaView({
+            this.view = new ActivePlaylistAreaView({
                 model: playlist,
                 collection: playlist.get('items'),
                 streamItems: new StreamItems()
@@ -18,15 +19,9 @@
         });
 
         afterEach(function() {
-            this.activePlaylistAreaView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.activePlaylistAreaView.render().el);
-
-            _.forIn(this.activePlaylistAreaView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

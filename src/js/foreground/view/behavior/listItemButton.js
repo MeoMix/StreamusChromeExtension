@@ -3,13 +3,7 @@
 
     var Tooltipable = require('foreground/view/behavior/tooltipable');
 
-    var ListItemButtonView = Marionette.ItemView.extend({
-        className: 'listItem-button button button--icon button--icon--secondary button--medium',
-
-        attributes: {
-            'data-ui': 'tooltipable'
-        },
-
+    var ListItemButton = Marionette.Behavior.extend({
         events: {
             'click': '_onClick',
             'dblclick': '_onDblClick'
@@ -25,6 +19,12 @@
             //  Debounced to defend against accidental/spam clicking. Bound in initialize because
             //  the debounce timer will be shared between all ListItemButtonViews if bound before initialize.
             this._debounceOnClickAction = _.debounce(this._doOnClickAction.bind(this), 100, true);
+        },
+
+        onRender: function() {
+            //  Prefer setting these in initialize, but currently $el is not available in behaviors until render.
+            this.$el.addClass('listItem-button button button--icon button--icon--secondary button--medium');
+            this.$el.attr('data-ui', 'tooltipable');
         },
 
         //  TODO: I actually do need to have these bubble up because global events don't fire.
@@ -48,10 +48,11 @@
 
         _doOnClickAction: function() {
             if (!this.$el.hasClass('is-disabled')) {
-                this.doOnClickAction();
+                //  TODO: This should probably be a triggerMethod?
+                this.view.doOnClickAction();
             }
         }
     });
 
-    return ListItemButtonView;
+    return ListItemButton;
 });

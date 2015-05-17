@@ -4,26 +4,21 @@
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var Song = require('background/model/song');
     var SignInManager = require('background/model/signInManager');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SaveSongButtonView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.saveSongButtonView = new SaveSongButtonView({
+            this.view = new SaveSongButtonView({
                 model: new Song(),
                 signInManager: new SignInManager()
             });
         });
 
         afterEach(function() {
-            this.saveSongButtonView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.saveSongButtonView.render().el);
-
-            _.forIn(this.saveSongButtonView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

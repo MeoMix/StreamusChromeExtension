@@ -3,25 +3,20 @@
 
     var SignInView = require('foreground/view/leftPane/signInView');
     var SignInManager = require('background/model/signInManager');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SignInView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.signInView = new SignInView({
+            this.view = new SignInView({
                 model: new SignInManager()
             });
         });
 
         afterEach(function() {
-            this.signInView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.signInView.render().el);
-
-            _.forIn(this.signInView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

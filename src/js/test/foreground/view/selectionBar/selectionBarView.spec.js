@@ -6,11 +6,12 @@
     var StreamItems = require('background/collection/streamItems');
     var SearchResults = require('background/collection/searchResults');
     var SignInManager = require('background/model/signInManager');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SelectionBarView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.selectionBarView = new SelectionBarView({
+            this.view = new SelectionBarView({
                 streamItems: new StreamItems(),
                 searchResults: new SearchResults(),
                 signInManager: new SignInManager(),
@@ -19,15 +20,9 @@
         });
 
         afterEach(function() {
-            this.selectionBarView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.selectionBarView.render().el);
-
-            _.forIn(this.selectionBarView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

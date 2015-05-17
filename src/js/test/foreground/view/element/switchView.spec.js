@@ -3,25 +3,20 @@
 
     var SwitchView = require('foreground/view/element/switchView');
     var Switch = require('foreground/model/element/switch');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SwitchView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.switchView = new SwitchView({
+            this.view = new SwitchView({
                 model: new Switch()
             });
         });
 
         afterEach(function() {
-            this.switchView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.switchView.render().el);
-
-            _.forIn(this.switchView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

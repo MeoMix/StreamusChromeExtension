@@ -2,7 +2,7 @@
     'use strict';
 
     var Dialog = require('foreground/model/dialog/dialog');
-    var DialogContent = require('foreground/view/behavior/dialogContent');
+    var GoogleSignInView = require('foreground/view/dialog/googleSignInView');
     var DialogView = require('foreground/view/dialog/dialogView');
 
     var GoogleSignInDialogView = DialogView.extend({
@@ -17,14 +17,7 @@
                 alwaysSaveReminder: true
             });
 
-            this.contentView = new Marionette.LayoutView({
-                template: _.template(chrome.i18n.getMessage('googleSignInMessage')),
-                behaviors: {
-                    DialogContent: {
-                        behaviorClass: DialogContent
-                    }
-                }
-            });
+            this.contentView = new GoogleSignInView();
 
             DialogView.prototype.initialize.apply(this, arguments);
         },

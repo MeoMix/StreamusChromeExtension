@@ -3,6 +3,7 @@
 
     var GoogleSignInDialogView = require('foreground/view/dialog/googleSignInDialogView');
     var SignInManager = require('background/model/signInManager');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('GoogleSignInDialogView', function() {
         beforeEach(function() {
@@ -17,10 +18,7 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
 
         describe('onSubmit', function() {
             it('should tell SignInManager not to notify again', function() {

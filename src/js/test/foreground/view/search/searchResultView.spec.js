@@ -9,11 +9,12 @@
     var YouTubePlayer = require('background/model/youTubePlayer');
     var ListItemType = require('common/enum/listItemType');
     var testUtility = require('test/testUtility');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SearchResultView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.searchResultView = new SearchResultView({
+            this.view = new SearchResultView({
                 model: new SearchResult({
                     song: testUtility.buildSong()
                 }),
@@ -28,15 +29,9 @@
         });
 
         afterEach(function() {
-            this.searchResultView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.searchResultView.render().el);
-
-            _.forIn(this.searchResultView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

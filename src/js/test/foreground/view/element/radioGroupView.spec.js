@@ -3,25 +3,20 @@
 
     var RadioGroupView = require('foreground/view/element/radioGroupView');
     var RadioGroup = require('foreground/model/element/radioGroup');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('RadioGroupView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.radioGroupView = new RadioGroupView({
+            this.view = new RadioGroupView({
                 model: new RadioGroup()
             });
         });
 
         afterEach(function() {
-            this.radioGroupView.destroy();
+            this.view.destroy();
         });
 
-        it('should be able to find all referenced ui targets', function() {
-            this.documentFragment.appendChild(this.radioGroupView.render().el);
-
-            _.forIn(this.radioGroupView.ui, function(element) {
-                expect(element.length).to.not.equal(0);
-            });
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
     });
 });

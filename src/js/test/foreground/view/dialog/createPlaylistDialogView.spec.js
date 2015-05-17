@@ -2,6 +2,7 @@
     'use strict';
 
     var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
+    var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('CreatePlaylistDialogView', function() {
         beforeEach(function() {
@@ -13,10 +14,7 @@
             this.view.destroy();
         });
 
-        it('should show', function() {
-            this.documentFragment.appendChild(this.view.render().el);
-            this.view.triggerMethod('show');
-        });
+        viewTestUtility.ensureBasicAssumptions.call(this);
 
         describe('onSubmit', function() {
             it('should create a playlist', function() {
