@@ -4,6 +4,11 @@
     //  Provides event handler unbinding of models given to the implementing view.
     //  For instance, if a view's model sets up event handlers then those will memory leak if the view is destroyed and no references to the model remain.
     //  If you know that a given model's lifetime is scoped to its view then you can safely setup event handlers in the model if the view implements this Behavior.
+    //  Example:
+    //  ViewModelContainer: {
+    //          behaviorClass: ViewModelContainer,
+    //          viewModelNames: ['model']
+    //  }
     var ViewModelContainer = Marionette.Behavior.extend({
         viewModelNames: null,
 
