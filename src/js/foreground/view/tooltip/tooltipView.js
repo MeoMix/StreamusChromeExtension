@@ -7,10 +7,6 @@
         className: 'tooltip',
         template: _.template(TooltipTemplate),
 
-        ui: {
-            content: '[data-ui~=content]'
-        },
-
         modelEvents: {
             'change:text': '_onChangeText'
         },
@@ -28,7 +24,7 @@
         },
 
         _onChangeText: function(model, text) {
-            this.ui.content.text(text);
+            this.$el.text(text);
         },
 
         _onTransitionOutComplete: function() {
