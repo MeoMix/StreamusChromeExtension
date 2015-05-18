@@ -108,7 +108,7 @@
             return isMonitoring;
         }.bind(this);
 
-        //  If failed to find the videoStream -- keep searching for a bit. Opera can run content scripts too early and 
+        //  If failed to find the videoStream -- keep searching for a bit. Opera can run content scripts too early and
         //  other oddities could potentially happen / YouTube is just slow to load.
         this.pollForVideoStream = function() {
             var currentLoadAttempt = 0;
@@ -135,7 +135,7 @@
             this.errors.push(message);
         }.bind(this);
 
-        //  Initialization code: 
+        //  Initialization code:
         window.addEventListener('error', this.onWindowError);
         this.patchVideoCanPlayType();
         this.appendInterceptorScript();

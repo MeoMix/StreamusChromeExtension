@@ -45,7 +45,7 @@ define(function() {
                 exports: 'window.ga'
             }
         },
-        
+
         map: {
             '*': {
                 'underscore': 'lodash'

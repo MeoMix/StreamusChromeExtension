@@ -8,7 +8,7 @@
     var ErrorDialogView = DialogView.extend({
         id: 'errorDialog',
         player: null,
-   
+
         initialize: function(options) {
             this.player = options.player;
 
@@ -19,7 +19,7 @@
             this.contentView = new ErrorView({
                 text: options.text
             });
-                
+
             DialogView.prototype.initialize.apply(this, arguments);
 
             //  TODO: This tends to flood my DB with errors. Possible (expected) errors still need to be handled:

@@ -1,63 +1,6 @@
 {
-    "requireCurlyBraces": [
-        "if",
-        "else",
-        "for",
-        "while",
-        "do",
-        "try",
-        "catch"
-    ],
-    "requireOperatorBeforeLineBreak": true,
-    "requireCamelCaseOrUpperCaseIdentifiers": true,
-    "maximumLineLength": {
-      "value": 200,
-      "allowComments": true,
-      "allowRegex": true
-    },
-    "validateIndentation": 4,
-    "validateQuoteMarks": "'",
-
-    "disallowMultipleLineStrings": true,
-    "disallowMixedSpacesAndTabs": true,
-    "disallowTrailingWhitespace": true,
-    "disallowSpaceAfterPrefixUnaryOperators": true,
-    "disallowMultipleVarDecl": true,
-    "disallowKeywordsOnNewLine": ["else"],
-
-    "requireSpaceAfterKeywords": [
-      "if",
-      "else",
-      "for",
-      "while",
-      "do",
-      "switch",
-      "return",
-      "try",
-      "catch"
-    ],
-    "requireSpaceBeforeBinaryOperators": [
-        "=", "+=", "-=", "*=", "/=", "%=", "<<=", ">>=", ">>>=",
-        "&=", "|=", "^=", "+=",
-
-        "+", "-", "*", "/", "%", "<<", ">>", ">>>", "&",
-        "|", "^", "&&", "||", "===", "==", ">=",
-        "<=", "<", ">", "!=", "!=="
-    ],
-    "requireSpaceAfterBinaryOperators": true,
-    "requireSpacesInConditionalExpression": true,
-    "requireSpaceBeforeBlockStatements": true,
-    "requireSpacesInForStatement": true,
-    "requireSpacesInFunctionExpression": {
-        "beforeOpeningCurlyBrace": true
-    },
-    "disallowSpacesInAnonymousFunctionExpression": {
-        "beforeOpeningRoundBrace": true
-    },
-    "disallowSpacesInsideObjectBrackets": "all",
-    "disallowSpacesInsideArrayBrackets": "all",
-    "disallowSpacesInsideParentheses": true,
-
-    "disallowMultipleLineBreaks": true,
-    "disallowNewlineBeforeBlockStatements": true
+    "preset": "google",
+    "maximumLineLength": 180,
+    "requireLineFeedAtFileEnd": null,
+    "validateIndentation": 4
 }

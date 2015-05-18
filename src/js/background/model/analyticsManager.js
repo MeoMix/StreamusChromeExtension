@@ -6,7 +6,7 @@
             module: null
         },
 
-        //  The Google Analytics code has been slightly modified to work within the extension environment. 
+        //  The Google Analytics code has been slightly modified to work within the extension environment.
         //  See this link for more information regarding GA and Chrome Extensions: https://developer.chrome.com/extensions/tut_analytics
         //  See this link for more information regarduing Universal Analytics: https://developers.google.com/analytics/devguides/collection/analyticsjs/
         initialize: function() {
@@ -38,7 +38,7 @@
             // before the library has fully loaded.
             require(['https://www.google-analytics.com/analytics.js']);
         },
-        
+
         sendPageView: function(url) {
             this.get('module')('send', 'pageview', url);
         }

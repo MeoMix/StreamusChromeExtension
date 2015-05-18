@@ -49,9 +49,9 @@
                     index++;
                 }
             }, this);
-            
+
             if (itemsToCreate.length > 0) {
-                //  Emit a custom event signaling items have been added. 
+                //  Emit a custom event signaling items have been added.
                 //  Useful for not responding to add until all items have been added.
                 this.trigger('add:completed', this);
             }

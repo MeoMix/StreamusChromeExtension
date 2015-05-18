@@ -12,13 +12,13 @@
             playlist: null,
             fileType: ExportFileType.Csv
         },
-        
+
         //  Don't want to save the playlist to localStorage -- only the configuration variables
         blacklist: ['playlist'],
         toJSON: function() {
             return this.omit(this.blacklist);
         },
-        
+
         initialize: function() {
             //  Load from Backbone.LocalStorage
             this.fetch();

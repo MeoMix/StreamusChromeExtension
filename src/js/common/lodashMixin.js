@@ -16,7 +16,7 @@
                     wait = false;
                     callback.apply(context, args);
                 });
-            };
+            }
         };
     }
 });

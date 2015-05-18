@@ -83,7 +83,7 @@
             var trimmedTitle = this._getTrimmedTitle();
             this.ui.titleCharacterCount.text(trimmedTitle.length);
         },
-        
+
         //  Throttle for typing support so I don't continuously validate while typing
         _debounceParseInput: _.debounce(function() {
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)

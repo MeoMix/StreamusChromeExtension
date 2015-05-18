@@ -68,7 +68,7 @@
         _onActiveStreamItemAreaBeforeVisible: function() {
             //  listItems's height isn't updated until ItemViews inside it are rendered which is just after the ActiveStreamItemArea is about to be visible.
             setTimeout(function() {
-                //  If the content isn't going to have a scrollbar later then add a class to ensure that 
+                //  If the content isn't going to have a scrollbar later then add a class to ensure that
                 //  a scrollbar doesn't shown for a second as the content transitions in.
                 if (this.ui.listItems.height() <= this.$el.height()) {
                     this.ui.listItems.addClass('is-heightRestricted');

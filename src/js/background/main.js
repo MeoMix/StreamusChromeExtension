@@ -7,7 +7,7 @@
 //    requireConfig.shim['https://www.google-analytics.com/analytics.js'] = {
 //        exports: 'window.ga'
 //    };
-    
+
 //    //  Setup the configuration needed to use requireJS
 //    require.config(requireConfig);
 

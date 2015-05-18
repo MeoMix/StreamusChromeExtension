@@ -71,7 +71,7 @@
         title = title.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
         title = title.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
         title = title.replace(/^[\/\s,:;~-\s"]+/, ''); // trim starting white chars and dash
-        title = title.replace(/[\/\s,:;~-\s"\s!]+$/, ''); // trim trailing white chars and dash 
+        title = title.replace(/[\/\s,:;~-\s"\s!]+$/, ''); // trim trailing white chars and dash
 
         return title;
     },
@@ -108,7 +108,7 @@
 
         return str;
     },
-    
+
     //  Converts an ISO8061 format (i.e: PT1H3M52S) to numeric representation in seconds.
     iso8061DurationToSeconds: function(isoDuration) {
         var hoursMatch = isoDuration.match(/(\d+)H/);

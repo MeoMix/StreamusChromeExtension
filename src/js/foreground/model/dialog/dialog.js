@@ -1,6 +1,6 @@
 ﻿define(function() {
     'use strict';
-    
+
     var Dialog = Backbone.Model.extend({
         defaults: {
             title: '',
@@ -12,7 +12,7 @@
             reminderText: chrome.i18n.getMessage('remind'),
             alwaysSaveReminder: false
         },
-        
+
         hasReminder: function() {
             return this.get('reminderProperty') !== '';
         }

@@ -115,7 +115,7 @@
                         if (signedInUser !== null && !signedInUser.linkedToGoogle()) {
                             this._setSignedInUser(signedInUser);
                         } else {
-                            //  But, if the signed in user is already linked to Google -- then it's OK to swap it out with other data because it won't be lost, just need to sign in with that account.
+                            //  If user already linked to Google then it is OK to swap data because no information will be lost.
                             signingInUser.tryloadByUserId();
                         }
                     }
@@ -237,7 +237,7 @@
                     break;
             }
         },
-        
+
         _onChromeRuntimeMessageExternal: function(request, sender, sendResponse) {
             var sendAsynchronousResponse = false;
 

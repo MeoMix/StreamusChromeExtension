@@ -10,11 +10,11 @@
             property: '',
             buttons: null
         },
-        
+
         initialize: function() {
             this._ensureButtonsCollection();
         },
-        
+
         _ensureButtonsCollection: function() {
             var buttons = this.get('buttons');
 
@@ -26,7 +26,7 @@
                 }));
             }
         },
-        
+
         getCheckedValue: function() {
             return this.get('buttons').getChecked().get('value');
         }

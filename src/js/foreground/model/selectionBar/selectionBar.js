@@ -29,7 +29,7 @@
         playlistsEvents: {
             'change:active': '_onPlaylistsChangeActive'
         },
-        
+
         initialize: function() {
             var signInManager = this.get('signInManager');
             var signedInUser = signInManager.get('signedInUser');
@@ -48,7 +48,7 @@
 
             Marionette.bindEntityEvents(this, this.get('streamItems'), this.streamItemsEvents);
         },
-        
+
         _onChangeActiveCollection: function(model, activeCollection) {
             var signedInUser = this.get('signInManager').get('signedInUser');
             this._setState(activeCollection, signedInUser);
@@ -99,7 +99,7 @@
         _onStreamItemsReset: function() {
             this._setCanAddState(this.get('activeCollection'));
         },
-        
+
         _setState: function(activeCollection, signedInUser) {
             var activeCollectionExists = activeCollection !== null;
             var isSignedIn = signedInUser !== null;

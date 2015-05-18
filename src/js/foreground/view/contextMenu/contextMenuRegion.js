@@ -22,7 +22,7 @@
         _onElementClick: function() {
             this._hideContextMenu();
         },
-        
+
         //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
         //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
         _onElementContextMenu: function(event) {

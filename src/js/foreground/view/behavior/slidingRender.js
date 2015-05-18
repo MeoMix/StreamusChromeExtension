@@ -12,7 +12,7 @@
             'add:completed': '_onCollectionAddCompleted',
             'change:active': '_onCollectionChangeActive'
         },
-        
+
         //  Enables progressive rendering of children by keeping track of indices which are currently rendered.
         minRenderIndex: -1,
         maxRenderIndex: -1,
@@ -22,7 +22,7 @@
         childContainerHeight: -1,
         childContainerTranslateY: -1,
         viewportHeight: -1,
-        
+
         //  The number of items to render outside of the viewport. Helps with flickering because if
         //  only views which would be visible are rendered then they'd be visible while loading.
         threshold: 10,
@@ -47,7 +47,7 @@
             this.el.addEventListener('scroll', _.throttleFramerate(requestAnimationFrame, this._onScroll.bind(this)));
             this.view.triggerMethod('UpdateScrollbar');
         },
-        
+
         //  jQuery UI's sortable needs to be able to know the minimum rendered index. Whenever an external
         //  event requests the min render index -- return it!
         onGetMinRenderIndex: function() {
@@ -67,7 +67,7 @@
         _onScroll: function() {
             this._setRenderedElements(this.el.scrollTop);
         },
-        
+
         //  Whenever the viewport height is changed -- adjust the items which are currently rendered to match
         _setViewportHeight: function() {
             this.viewportHeight = this.$el.height();
@@ -166,7 +166,7 @@
             }
 
             if (itemsToAdd.length > 0 || itemsToRemove.length > 0) {
-                //  When drag-and-dropping an item to the end of a SlidingRender-enabled CollectionView, the 
+                //  When drag-and-dropping an item to the end of a SlidingRender-enabled CollectionView, the
                 //  drag-and-drop behavior will push the scrollTop to a length which is greater than the collection's length.
                 //  This causes rendering issues - so, safeguard against this happening and simply do not attempt to re-render in this scenario.
                 if (maxRenderIndex < this.view.collection.length + this.threshold) {
@@ -176,7 +176,7 @@
                     if (itemsToAdd.length > 0) {
                         var currentTotalRendered = (currentMaxRenderIndex - currentMinRenderIndex) + 1;
                         if (direction === Direction.Down) {
-                            //  Items will be appended after oldMaxRenderIndex. 
+                            //  Items will be appended after oldMaxRenderIndex.
                             this._addItems(itemsToAdd, currentMaxRenderIndex + 1, currentTotalRendered, true);
                         } else {
                             this._addItems(itemsToAdd, minRenderIndex, currentTotalRendered, false);
@@ -253,7 +253,7 @@
                 }
             }, this);
         },
-        
+
         //  Remove N items from the end of the render item list.
         _removeItemsByIndex: function(startIndex, countToRemove) {
             for (var index = 0; index < countToRemove; index++) {
@@ -313,7 +313,7 @@
             var isInRange = index >= this.minRenderIndex && index <= this.maxRenderIndex;
             return isInRange;
         },
-        
+
         //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
         _scrollToItem: function(item) {
             var itemIndex = this.view.collection.indexOf(item);
@@ -398,7 +398,7 @@
                 this._removeItemsByIndex(this.maxRenderIndex + 1, 1);
             }
         },
-        
+
         _onCollectionAddCompleted: function() {
             this._setHeightTranslateY();
 

@@ -35,7 +35,7 @@
     firstSelected: function() {
         return this.findWhere({firstSelected: true});
     },
-    
+
     //  Returns the underlying Songs of the collection.
     getSelectedSongs: function() {
         return _.map(this.selected(), function(selectedItem) {

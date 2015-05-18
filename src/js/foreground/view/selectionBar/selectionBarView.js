@@ -150,7 +150,7 @@
             this._setAddButtonState(this.model.get('canAdd'), activeCollection);
             this._setDeleteButtonState(this.model.get('canDelete'), activeCollection);
         },
-        
+
         //  Update the text which shows how many songs are currently selected
         _setSelectionCountText: function(selectedCount) {
             var selectionCountText = chrome.i18n.getMessage('collectionSelected', [selectedCount, chrome.i18n.getMessage(selectedCount === 1 ? 'song' : 'songs')]);
@@ -159,7 +159,7 @@
             //  The tooltip might transition between 'cant add song' and 'cant add songs' depending on # of selections.
             this._setAddButtonState(this.model.get('canAdd'), this.model.get('activeCollection'));
         },
-        
+
         //  Set buttons to disabled when transitioning the view out as well as handle specific scenarios for each button
         _setButtonStates: function(activeCollection) {
             this._setPlayButtonState(this.model.get('canPlay'));

@@ -14,7 +14,7 @@
         initialize: function(options) {
             this.player = options.player;
             this.signInManager = options.signInManager;
- 
+
             this.listenTo(Streamus.channels.dialog.commands, 'show:dialog', this._showDialog);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
             this.listenTo(this.player, 'youTubeError', this._onPlayerYouTubeError);
@@ -35,7 +35,7 @@
             //  Calling requestUpdateCheck will cause onUpdateAvailable to trigger if an update is available.
             chrome.runtime.requestUpdateCheck(_.noop);
         },
-        
+
         //  If SignInManager indicates that sign-in state has changed and necessitates asking the user to link their account to Google, do so.
         //  This might happen while the foreground UI isn't open (most likely, in fact), so need to check state upon foreground UI opening.
         _showDialogIfNeedLinkUserId: function() {
@@ -49,7 +49,7 @@
                 this._showGoogleSignInDialog();
             }
         },
-        
+
         //  Notify user that they should restart Streamus because an update has been downloaded.
         _onChromeRuntimeUpdateAvailable: function() {
             this._showDialog(UpdateStreamusDialogView);
@@ -66,7 +66,7 @@
                 this._showGoogleSignInDialog();
             }
         },
-        
+
         //  Ask the user to confirm linking their Google+ ID to the currently signed in Chrome account.
         _showLinkUserIdDialog: function() {
             this._showDialog(LinkUserIdDialogView, {
@@ -96,7 +96,7 @@
         _onPlayerYouTubeError: function(model, youTubeError) {
             this._showYouTubeErrorDialog(youTubeError);
         },
-        
+
         //  Notify user that YouTube's API has emitted an error
         _showYouTubeErrorDialog: function(youTubeError) {
             var text = chrome.i18n.getMessage('errorEncountered');

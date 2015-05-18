@@ -23,7 +23,7 @@
                 }
             };
         },
-        
+
         initialize: function() {
             this.model.get('analyticsManager').sendPageView('/background.html');
         },

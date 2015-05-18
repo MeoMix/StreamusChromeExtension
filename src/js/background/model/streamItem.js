@@ -21,7 +21,7 @@
                 listItemType: ListItemType.StreamItem
             };
         },
-        
+
         //  Don't want to save everything to localStorage -- only variables which need to be persisted.
         blacklist: ['selected', 'firstSelected'],
         toJSON: function() {
@@ -55,7 +55,7 @@
                 });
             }
         },
-        
+
         //  Whenever a streamItem is activated it is considered playedRecently.
         //  This will reset when all streamItems in the stream have been played recently.
         _onChangeActive: function(model, active) {

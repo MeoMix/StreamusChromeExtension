@@ -28,7 +28,7 @@
                 complete: options.complete
             });
         },
-        
+
         //  Performs a search of YouTube with the provided text and returns a list of playable songs (<= max-results)
         //  Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
         search: function(options) {
@@ -216,7 +216,7 @@
                 }
             };
         },
-        
+
         //  Converts a list of YouTube song ids into actual video information by querying YouTube with the list of ids.
         getSongs: function(options) {
             return this._doRequest(YouTubeServiceType.Videos, {

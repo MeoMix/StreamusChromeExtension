@@ -51,7 +51,7 @@
         onAttach: function() {
             requestAnimationFrame(this._transitionIn.bind(this));
         },
-        
+
         //  Unless a dialog specifically implements reminderProperty it is assumed that reminder is enabled and the dialog will be shown when asked.
         isReminderEnabled: function() {
             var isReminderEnabled = true;
@@ -89,7 +89,7 @@
         _onClickSubmitButton: function() {
             this._submit();
         },
-        
+
         //  If the enter key is pressed on a js-submittable element, treat as if user pressed OK button.
         _onKeyPressSubmittable: function(event) {
             if (event.which === KeyCode.Enter) {
@@ -156,7 +156,7 @@
 
         _isValid: function() {
             var isValid = true;
-            
+
             var contentViewModel = this.contentView.model;
             if (!_.isUndefined(contentViewModel)) {
                 isValid = contentViewModel.has('valid') ? contentViewModel.get('valid') : true;

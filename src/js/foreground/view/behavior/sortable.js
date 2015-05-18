@@ -107,7 +107,7 @@
 
             this._overrideSortableItem(ui);
         },
-        
+
         //  Placeholder stops being accessible once beforeStop finishes, so store its index here for use later.
         _beforeStop: function(event, ui) {
             //  Subtract one from placeholderIndex when parentNode exists because jQuery UI moves the HTML element above the placeholder.
@@ -227,8 +227,8 @@
                 }
 
                 itemsHandled++;
-            }, this);            
-            
+            }, this);
+
             if (moved) {
                 //  If a move happened call sort without silent so that views can update accordingly.
                 this.view.collection.sort();
@@ -264,7 +264,7 @@
                 .toggleClass('is-warnDroppable', warnDroppable)
                 .html(placeholderTextElement);
         },
-        
+
         //  Override jQuery UI's sortableItem to allow a dragged item to scroll another sortable collection.
         //  Need to re-call method on start to ensure that dragging still works inside normal parent collection, too.
         // http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example

@@ -119,7 +119,7 @@
         _onStreamItemsReset: function(collection) {
             this._setState(collection.isEmpty());
         },
-        
+
         //  Hide the empty message if there is anything in the collection
         _setState: function(collectionEmpty) {
             this.ui.emptyMessage.toggleClass('is-hidden', !collectionEmpty);

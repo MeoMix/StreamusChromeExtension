@@ -21,7 +21,7 @@
         localDebug: true,
         testing: true,
         serverUrl: '',
-        
+
         //  TODO: Not sure how I am going to handle background/foreground channels.
         channels: {
             global: Backbone.Wreqr.radio.channel('global'),

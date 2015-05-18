@@ -197,7 +197,7 @@
 
             return saveContextMenuId;
         },
-        
+
         //  Whenever a playlist context menu is clicked -- add the related song to that playlist.
         _createPlaylistContextMenu: function(contextMenuOptions, parentId, playlist) {
             var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {

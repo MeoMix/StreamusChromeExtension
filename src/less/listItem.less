@@ -18,7 +18,7 @@
     position: relative;
     display: flex;
     width: 100%;
-    transition: color @transition-color-time @transition-easeOutSine, 
+    transition: color @transition-color-time @transition-easeOutSine,
                 background @transition-color-time @transition-easeOutSine,
                 opacity @transition-color-time @transition-easeOutSine;
 
@@ -27,7 +27,7 @@
             .is-hidden;
         }
     }
-    
+
     //  TODO: Not all things should highlight.
     &:not(.is-disabled):not(.grouping-item):not(.simpleListItem):hover {
         background: @dark--quinary;

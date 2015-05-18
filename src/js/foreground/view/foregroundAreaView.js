@@ -120,7 +120,7 @@
             this.settings = options.settings;
             this.analyticsManager = options.analyticsManager;
             this.bindEntityEvents(this.player, this.playerEvents);
-            
+
             //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
             this._onWindowUnload = this._onWindowUnload.bind(this);
             this._onWindowResize = this._onWindowResize.bind(this);
@@ -209,7 +209,7 @@
             this.ui.loadingFailedMessage.addClass('is-hidden');
             this.ui.loadingMessage.removeClass('is-hidden');
         },
-        
+
         //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
         _stopLoading: function() {
             this.ui.loadingMessage.addClass('is-hidden');

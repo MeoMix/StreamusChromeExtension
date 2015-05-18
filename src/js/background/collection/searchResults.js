@@ -16,19 +16,19 @@
                 var searchResults = this._songsAsSearchResults(songs);
                 this.add(searchResults);
 
-                //  Emit a custom event signaling items have been added. 
+                //  Emit a custom event signaling items have been added.
                 //  Useful for not responding to add until all items have been added.
                 this.trigger('add:completed', this);
             }
         },
-        
+
         //  Returns an array of Song models corresponding to the current collection of SearchResults
         getSongs: function() {
             return this.map(function(model) {
                 return model.get('song');
             });
         },
-        
+
         //  Reset the collection with SearchResults derived from a collection, array, or individual Song
         resetSongs: function(songs) {
             var searchResults = this._songsAsSearchResults(songs);

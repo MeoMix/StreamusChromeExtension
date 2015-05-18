@@ -61,7 +61,7 @@
         _onInputTimeRange: function() {
             this._updateTimeProgress();
         },
-        
+
         //  Allow the user to manual time change by click or scroll.
         _onWheelTimeRange: function(event) {
             var delta = event.originalEvent.wheelDeltaY / 120;

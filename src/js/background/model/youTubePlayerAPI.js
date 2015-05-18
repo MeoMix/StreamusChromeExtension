@@ -24,10 +24,10 @@
         _onYouTubeIframeAPIReady: function() {
             this.set('ready', true);
         },
-		
+
         //  This code is from https://www.youtube.com/iframe_api. I pull it in locally as to not need to relax content_security_policy.
         _loadIframeAPI: function() {
-            //  jshint ignore:start
+            /* jshint ignore:start */
             //  jscs:disable
             if (!window['YT']) {
                 window.YT = {
@@ -77,7 +77,7 @@
             }
             /* jshint ignore:end */
         },
-		
+
         //  This code is from https://s.ytimg.com/yts/jsbin/www-widgetapi-vflBfDu58/www-widgetapi.js. I pull it in locally as to not need to relax content_security_policy.
         //  NOTE: I have patched a bug in this code. It is documented here: https://code.google.com/p/gdata-issues/issues/detail?id=6402
         _loadWidgetAPI: function() {
@@ -1504,7 +1504,7 @@
             var Wb = l("onYouTubePlayerAPIReady");
             Wb && Wb();
 
-            //  jshint ignore:end
+            /* jshint ignore:end */
             //  jscs:disable
         }
     });

@@ -150,7 +150,7 @@
 
                                     playlistItems.addSongs(song, {
                                         success: function() {
-                                            //  TODO: I would prefer displaying this notification through the addSongs method, but I think I'll need access to playlist title in the future.
+                                            //  TODO: Prefer showing notification via playlist
                                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                                                 title: chrome.i18n.getMessage('songAdded'),
                                                 message: song.get('title')
@@ -231,7 +231,7 @@
 
             this._setCanDelete(this.length > 1);
         },
-        
+
         //  Whenever a playlist is removed, if it was selected, select the next playlist.
         _onRemove: function(removedPlaylist, collection, options) {
             if (removedPlaylist.get('active')) {

@@ -8,7 +8,7 @@
             this.listenTo(Streamus.channels.listItem.vent, 'selected', this._onListItemSelected);
             this.listenTo(Streamus.channels.listItem.commands, 'deselect:collection', this._deselectCollection);
         },
-        
+
         //  Whenever an item is dragged - ensure it is selected because click event doesn't happen
         //  when performing a drag operation. It doesn't feel right to use mousedown instead of click.
         onItemDragged: function(options) {
@@ -36,7 +36,7 @@
         _deselectCollection: function() {
             this.view.collection.deselectAll();
         },
-        
+
         onChildviewClickLeftContent: function(childView, options) {
             this._setSelected({
                 shiftKey: options.shiftKey,
@@ -57,8 +57,9 @@
 
             var isSelectedAlready = modelToSelect.get('selected');
 
-            //  It's important to check shiftKeyPressed because selectGroup relies on firstSelected which will be undefined if modelToSelect is deselected
-            //  when it was also the firstSelected. i.e. hold shift, group select 0-3, then hold shift, select 0. 0 is set to selected: false, 1-2 are still selected, no firstSelected.
+            //  Check shiftKeyPressed because selectGroup relies on firstSelected.
+            //  firstSelected will be undefined if modelToSelect is deselected when it was also the firstSelected.
+            //  Example: group select 0-3. Hold shift and select 0. 0 is de-selected, 1-2 are still selected, no firstSelected.
             modelToSelect.set('selected', isSelectedAlready && !shiftKeyPressed && !isDrag ? false : true);
 
             if (shiftKeyPressed) {

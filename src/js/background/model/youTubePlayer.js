@@ -31,12 +31,12 @@
             this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted);
             this.on('change:loading', this._onChangeLoading);
         },
-        
+
         //  Preload is used to indicate that an attempt to load YouTube's API is hopefully going to come soon. However, if the iframe
         //  holding YouTube's API fails to load then load will not be called. If the iframe does load successfully then load will be called.
         preload: function() {
             if (!this.get('loading')) {
-                //  Ensure the widget is null for debugging purposes. 
+                //  Ensure the widget is null for debugging purposes.
                 //  Being able to tell the difference between a widget API method failing and the widget itself not being ready is important.
                 youTubePlayerWidget = null;
                 //  It is important to set loading after ready because having the player be both 'loading' and 'ready' does not make sense.
@@ -44,7 +44,7 @@
                 this.set('loading', true);
             }
         },
-        
+
         //  Loading a widget requires the widget's API be ready first. Ensure that the API is loaded
         //  otherwise defer loading a widget until the API is ready.
         load: function() {
@@ -71,8 +71,8 @@
 
         seekTo: function(timeInSeconds) {
             //  Always pass allowSeekAhead: true to the seekTo method.
-            //  If this value is not provided and the user seeks to the end of a song while paused 
-            //  the player will enter into a bad state of 'ended -> playing.' 
+            //  If this value is not provided and the user seeks to the end of a song while paused
+            //  the player will enter into a bad state of 'ended -> playing.'
             //  https://developers.google.com/youtube/js_api_reference#seekTo
             youTubePlayerWidget.seekTo(timeInSeconds, true);
         },
@@ -171,7 +171,7 @@
                 this.set('currentLoadAttempt', currentLoadAttempt + 1);
             }
         },
-        
+
         //  Streamus could have disconnected from the API and failed to recover automatically.
         //  A good time to try recovering again is when the user is interacting the UI.
         _onForegroundStarted: function() {

@@ -111,9 +111,9 @@
                     index++;
                 }
             }, this);
-            
+
             if (createdStreamItems.length > 0) {
-                //  Emit a custom event signaling items have been added. 
+                //  Emit a custom event signaling items have been added.
                 //  Useful for not responding to add until all items have been added.
                 this.trigger('add:completed', this);
             }
@@ -167,7 +167,7 @@
                 this._ensureAllNotPlayedRecentlyExcept(model);
             }
         },
-        
+
         //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
         _onChromeRuntimeMessage: function(request) {
             switch (request.method) {
@@ -266,7 +266,7 @@
 
             return relatedSongs;
         },
-        
+
         //  When all streamItems have been played recently, reset to not having been played recently.
         //  Allows for de-prioritization of played streamItems during shuffling.
         _ensureAllNotPlayedRecentlyExcept: function(model) {
@@ -281,8 +281,9 @@
 
         _onChromeCommandsCommand: function(command) {
             //  Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
-            var streamItemsCommands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl, ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
-  
+            var streamItemsCommands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl,
+                ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
+
             if (_.contains(streamItemsCommands, command)) {
                 if (this.length === 0) {
                     Streamus.channels.notification.commands.trigger('show:notification', {

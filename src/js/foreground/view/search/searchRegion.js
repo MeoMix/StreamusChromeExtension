@@ -26,7 +26,7 @@
         },
 
         _onForegroundAreaIdle: function() {
-            //  If the search view isn't going to be shown right off the bat then it's OK to defer loading until idle so that 
+            //  If the search view isn't going to be shown right off the bat then it's OK to defer loading until idle so that
             //  the initial load time of the application isn't impacted.
             if (!this.settings.get('openToSearch')) {
                 this._createSearchView();

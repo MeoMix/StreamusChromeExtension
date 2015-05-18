@@ -22,7 +22,7 @@
             this.listenTo(Streamus.channels.error.commands, 'log:error', this._logError);
             this.listenTo(Streamus.channels.error.vent, 'windowError', this._onWindowError);
         },
-        
+
         //  Only log client errors to the database in a deploy environment, not when debugging locally.
         _warnDebugEnabled: function(message) {
             console.warn('Debugging enabled; Message:' + message);

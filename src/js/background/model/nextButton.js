@@ -23,7 +23,7 @@
 
             this._setEnabled();
         },
-        
+
         //  Prevent spamming by only allowing a next click once every 100ms.
         tryActivateNextStreamItem: _.debounce(function() {
             var activatedNextItem = false;

@@ -17,7 +17,7 @@
                 userId: ''
             };
         },
-        
+
         //  Don't save error because stack is a better representation of error.
         blacklist: ['error'],
         toJSON: function() {
@@ -29,12 +29,12 @@
             this._dropUrlPrefix();
             this._setStack();
         },
-        
+
         //  The first part of the message just tells me an error was thrown, no need to know that.
         _cleanMessage: function() {
             this.set('message', this.get('message').replace('Uncaught Error: ', '').replace('Uncaught TypeError: ', ''));
         },
-        
+
         //  The first part of the URL is always the same and not very interesting. Drop it off.
         _dropUrlPrefix: function() {
             this.set('url', this.get('url').replace('chrome-extension://' + chrome.runtime.id + '/', ''));

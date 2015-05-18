@@ -36,7 +36,7 @@
             'click @ui.addAllButton': '_onClickAddAllButton',
             'click @ui.playAllButton': '_onClickPlayAllButton'
         },
-        
+
         behaviors: {
             Tooltipable: {
                 behaviorClass: Tooltipable
@@ -44,13 +44,13 @@
         },
 
         streamItems: null,
-        
+
         streamItemsEvents: {
             'add:completed': '_onStreamItemsAddCompleted',
             'remove': '_onStreamItemsRemove',
             'reset': '_onStreamItemsReset'
         },
-        
+
         playlistItemsEvents: {
             'add:completed': '_onPlaylistItemsAddCompleted',
             'remove': '_onPlaylistItemsRemove',

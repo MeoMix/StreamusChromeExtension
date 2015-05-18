@@ -15,7 +15,7 @@
             title: '',
             url: ''
         },
-        
+
         //  TODO: Reduce cyclomatic complexity
         //  Take the URL given to the dataSource and parse it for relevant information.
         //  If the URL is for a Playlist -- just get the title and set the ID. If it's a Channel,
@@ -114,7 +114,7 @@
         isYouTubeVideo: function() {
             return this.get('type') === DataSourceType.YouTubeVideo;
         },
-        
+
         //  Expects options: { success: function, error: function }
         getTitle: function(options) {
             //  If the title has already been fetched from the URL -- return the cached one.
@@ -133,7 +133,7 @@
                 error: options.error
             });
         },
-        
+
         //  Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
         _parseYouTubeSongIdFromUrl: function(url) {
             var songId = '';
@@ -145,7 +145,7 @@
 
             return songId;
         },
-        
+
         //  Find a YouTube Channel or Playlist ID by looking through the URL for the given identifier.
         _parseIdFromUrlWithIdentifiers: function(url, identifiers) {
             var id = '';

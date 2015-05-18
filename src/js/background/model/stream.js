@@ -204,7 +204,7 @@
         },
 
         _onGetRelatedSongsSuccess: function(model, relatedSongs) {
-            //  The model could have been removed from the collection while the request was still in flight. 
+            //  The model could have been removed from the collection while the request was still in flight.
             //  If this happened, just discard the data instead of trying to update the model.
             if (this.get('items').get(model)) {
                 model.get('relatedSongs').reset(relatedSongs.models);
@@ -294,7 +294,7 @@
             this.set('activeItem', null);
             this.get('player').stop();
         },
-        
+
         //  When StreamItems are added or loaded from localStorage, they might not have relatedSongs. This can happen for a number of reasons.
         //  If the JSON in localStorage is out of date, if a network request failed, etc. So, try loading relatedSongs again if not found.
         _ensureHasRelatedSongs: function(streamItem) {

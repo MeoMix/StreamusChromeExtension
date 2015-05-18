@@ -58,7 +58,7 @@ define(function(require) {
             return sequence;
         },
 
-        //  Return what sequence number would be necessary to be at the given index   
+        //  Return what sequence number would be necessary to be at the given index
         //  If skippedModelId is given then it will be skipped (useful when moving an item already in collection)
         getSequenceFromIndex: function(index) {
             var sequence;

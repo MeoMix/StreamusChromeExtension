@@ -35,7 +35,7 @@
             callback(relatedSongs);
             this._checkRequestQueue();
         },
-        
+
         //  If more requests are queued up when a request finishes, run the next request in the queue.
         _checkRequestQueue: function() {
             var requestOptions = this.get('requestOptionsQueue').shift();

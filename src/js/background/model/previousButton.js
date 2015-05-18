@@ -70,7 +70,7 @@
             var enabled = previousItem !== null || this._songHasBeenPlaying();
             this.set('enabled', enabled);
         },
-        
+
         //  Consider the active song 'playing' after a few (3) seconds. After this amount of time
         //  clicking 'previous' will skip to the front of the song rather than skipping to the previous
         //  song in the stream

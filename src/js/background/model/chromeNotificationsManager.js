@@ -5,7 +5,7 @@
 
     //  Use the chrome.notifications API to create rich notifications using templates and show these notifications to users in the system tray.
     //  Availability: Stable since Chrome 28, but getPermissionLevel since Chrome 32
-    //  Permissions: "notifications" 
+    //  Permissions: "notifications"
     //  Note: This API is currently available on ChromeOS, Windows, and Mac.
     //  URL: https://developer.chrome.com/extensions/notifications
     var ChromeNotificationsManager = Backbone.Model.extend({
@@ -108,7 +108,7 @@
                 callback(true);
             }
         },
-        
+
         //  Converts the DesktopNotificationDuration enum into milliseconds for use in setTimeout.
         _getNotificationDuration: function(desktopNotificationDuration) {
             var notificationDuration;

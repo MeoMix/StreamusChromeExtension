@@ -16,7 +16,7 @@
                 this._showDeletePlaylistDialog();
             }
         },
-        
+
         _showDeletePlaylistDialog: function() {
             Streamus.channels.dialog.commands.trigger('show:dialog', DeletePlaylistDialogView, {
                 playlist: this.get('playlist')

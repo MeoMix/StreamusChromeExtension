@@ -55,7 +55,7 @@
             this.stopClearQueryTimer();
             this.set('clearQueryTimeout', setTimeout(this._clearQuery.bind(this), 10000));
         },
-        
+
         //  Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
         _hasSearchableQuery: function() {
             return this._getTrimmedQuery() !== '';
@@ -64,7 +64,7 @@
         _getTrimmedQuery: function() {
             return this.get('query').trim();
         },
-        
+
         //  Perform a search on the given query or just terminate immediately if nothing to do.
         _search: function() {
             this._clearResults();
@@ -78,14 +78,14 @@
                 this.set('searchQueued', false);
             }
         },
-        
+
         //  Set some flags indicating that a search is in progress.
         _startSearching: function() {
             this.set('searchQueued', true);
             //  Debounce a search request so that when the user stops typing the last request will run.
             this._doDebounceSearch(this._getTrimmedQuery());
         },
-        
+
         //  Handle the actual search functionality inside of a debounced function.
         //  This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
         _doDebounceSearch: _.debounce(function(trimmedQuery) {
@@ -183,7 +183,7 @@
                 this.set('pendingRequest', null);
             }
         },
-        
+
         _onSearchError: function() {
             this.set('pendingRequest', null);
         },

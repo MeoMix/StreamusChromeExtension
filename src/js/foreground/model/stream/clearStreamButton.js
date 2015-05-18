@@ -6,7 +6,7 @@
             enabled: false,
             streamItems: null
         },
-        
+
         initialize: function() {
             var streamItems = this.get('streamItems');
 
@@ -16,13 +16,13 @@
 
             this.set('enabled', !streamItems.isEmpty());
         },
-        
+
         getStateMessage: function() {
             var isEnabled = this.get('enabled');
             var stateMessage = chrome.i18n.getMessage(isEnabled ? 'clearStream' : 'streamEmpty');
             return stateMessage;
         },
-        
+
         _onStreamItemsAddCompleted: function(collection) {
             this.set('enabled', !collection.isEmpty());
         },

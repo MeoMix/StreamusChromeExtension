@@ -14,7 +14,7 @@
             //  Duration in seconds for the length of the given song.
             duration: -1,
             type: SongType.None,
-                
+
             //  These are calculated:
             prettyDuration: '',
             url: '',
@@ -44,12 +44,12 @@
                 message: chrome.i18n.getMessage('urlCopied')
             });
         },
-        
+
         //  Calculate this value pre-emptively because when rendering I don't want to incur inefficiency
         _setPrettyDuration: function(duration) {
             this.set('prettyDuration', Utility.prettyPrintTime(duration));
         },
-        
+
         //  Useful for comparisons and other searching.
         _setCleanTitle: function(title) {
             this.set('cleanTitle', Utility.cleanTitle(title));

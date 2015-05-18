@@ -48,13 +48,13 @@ define(function(require) {
                 youTubePlayer: null
             };
         },
-        
+
         //  Don't want to save everything to localStorage -- only variables which need to be persisted.
         whitelist: ['muted', 'volume'],
         toJSON: function() {
             return this.pick(this.whitelist);
         },
-        
+
         //  Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
         initialize: function() {
             this.on('change:volume', this._onChangeVolume);
@@ -228,7 +228,7 @@ define(function(require) {
 
             return isPausable;
         },
-        
+
         //  Ensure that the initial state of the player properly reflects the state of its APIs
         _ensureInitialState: function() {
             this.set('ready', this.get('youTubePlayer').get('ready'));
@@ -242,7 +242,7 @@ define(function(require) {
             var youTubeQuality = this._getYouTubeQuality(songQuality);
             this.get('youTubePlayer').setPlaybackQuality(youTubeQuality);
         },
-        
+
         //  Update the volume whenever the UI modifies the volume property.
         _onChangeVolume: function(model, volume) {
             if (this.get('ready')) {
@@ -276,7 +276,7 @@ define(function(require) {
                 this.get('youTubePlayer').setVolume(this.get('volume'));
                 this.get('youTubePlayer').setMuted(this.get('muted'));
 
-                //  If an 'activateSong' command came in while the player was not ready, fulfill it now. 
+                //  If an 'activateSong' command came in while the player was not ready, fulfill it now.
                 var songToActivate = this.get('songToActivate');
                 if (songToActivate !== null) {
                     this.activateSong(songToActivate);
@@ -368,7 +368,7 @@ define(function(require) {
         _onYouTubePlayerChangeCurrentLoadAttempt: function(model, currentLoadAttempt) {
             this.set('currentLoadAttempt', currentLoadAttempt);
         },
-        
+
         //  Emit errors so the foreground so can notify the user.
         _onYouTubePlayerError: function(model, error) {
             this.trigger('youTubeError', this, error);
@@ -391,7 +391,7 @@ define(function(require) {
                 });
             }
         },
-        
+
         _clearRefreshAlarm: function() {
             if (this.get('refreshAlarmCreated')) {
                 this.set('refreshAlarmCreated', false);
@@ -402,7 +402,7 @@ define(function(require) {
         _playOnActivate: function(playOnActivate) {
             this.set('playOnActivate', playOnActivate);
         },
-        
+
         //  Maps a SongQuality enumeration value to the corresponding YouTubeQuality enumeration value.
         _getYouTubeQuality: function(songQuality) {
             var youTubeQuality = YouTubeQuality.Default;
@@ -424,7 +424,7 @@ define(function(require) {
 
             return youTubeQuality;
         },
-        
+
         //  Maps a YouTubePlayerState enumeration value to the corresponding PlayerState enumeration value.
         _getPlayerState: function(youTubePlayerState) {
             var playerState;
@@ -463,7 +463,7 @@ define(function(require) {
             this.get('buffers').length = 0;
             //  NOTE: It's technically possible to squeeze a bit of extra performance out of MediaSource by not clearing bufferType here.
             //  Instead, one could keep track of the 'lastKnownBufferType' and only call addSourceBuffer when the bufferType changes.
-            //  HOWEVER, knowledge of a video's bufferType arrives after the 'loadedVideoId' event fires. This leads to complications where a 
+            //  HOWEVER, knowledge of a video's bufferType arrives after the 'loadedVideoId' event fires. This leads to complications where a
             //  MediaSource attempts to use one bufferType for a video only to find out that the bufferType is incorrect a moment later.
             //  So, I'm clearing the bufferType every time the video changes to prevent this confusion, but at the cost of a small perf. hit.
             this.set('bufferType', '');

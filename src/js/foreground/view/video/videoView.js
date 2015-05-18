@@ -85,7 +85,7 @@
 
         _requestCurrentTimeUpdate: function() {
             //  It's important to specifically ask the player for the currentTime because this will give 100% accurate result.
-            //  Otherwise, can only get within ~200ms by responding to the 'timeupdate' event of the other video. 
+            //  Otherwise, can only get within ~200ms by responding to the 'timeupdate' event of the other video.
             this.player.requestCurrentTimeHighPrecision();
         },
 

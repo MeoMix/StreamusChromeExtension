@@ -49,7 +49,7 @@
                 this._showSignInContent();
             }
         },
-        
+
         //  If the user is signed in -- show the user's active playlist items / information.
         _showActivePlaylistContent: function(activePlaylist) {
             this.showChildView('content', new ActivePlaylistAreaView({

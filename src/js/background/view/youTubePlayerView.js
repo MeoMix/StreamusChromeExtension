@@ -50,7 +50,7 @@
             chrome.webRequest.onBeforeSendHeaders.removeListener(this._onChromeWebRequestBeforeSendHeaders);
             chrome.webRequest.onCompleted.removeListener(this._onChromeWebRequestCompleted);
         },
-        
+
         //  Add a Referer to requests because Chrome extensions don't implicitly have one.
         //  Without a Referer - YouTube will reject most requests to play music.
         _onChromeWebRequestBeforeSendHeaders: function(info) {
@@ -102,7 +102,7 @@
 
             return {requestHeaders: info.requestHeaders};
         },
-        
+
         //  Only load YouTube's API once the iframe has been built successfully.
         //  If Internet is lagging or disconnected then _onWebRequestCompleted will not fire.
         //  Even if the Internet is working properly, it's possible to try and load the API before CORS is ready to allow postMessages.

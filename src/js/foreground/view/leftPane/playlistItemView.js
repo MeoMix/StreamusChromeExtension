@@ -85,7 +85,7 @@
             this._setDataId(id);
             this._setShowingSpinnerClass();
         },
-        
+
         //  If the playlistItem hasn't been successfully saved to the server -- show a spinner over the UI.
         _setShowingSpinnerClass: function() {
             this.$el.toggleClass('is-showingSpinner', this.model.isNew());

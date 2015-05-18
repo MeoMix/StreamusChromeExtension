@@ -23,7 +23,7 @@
                     headerWritten = true;
                 }
 
-                console.warn('%cKey not found. \n Rename "' + requireModule + '.js.example" to "' + requireModule + '.js".\n Then, follow the instructions in the file.', 'color: red');
+                console.warn('%cKey not found. \n Copy "' + requireModule + '.js.example" to "' + requireModule + '.js".\n Then, follow the file\'s instructions.', 'color: red');
             }
         });
 

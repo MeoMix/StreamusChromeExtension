@@ -11,7 +11,7 @@
             seeking: false,
             totalTime: ''
         },
-        
+
         //  Don't want to save everything to localStorage -- only variables which need to be persisted.
         whitelist: ['showRemainingTime'],
         toJSON: function() {

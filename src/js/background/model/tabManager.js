@@ -83,7 +83,7 @@
                 }
             }.bind(this));
         },
-        
+
         //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
         messageTabs: function(urlPatterns, message) {
             _.each(urlPatterns, function(urlPattern) {

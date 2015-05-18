@@ -25,7 +25,7 @@ define(function(require) {
             //  Only allowed to delete a playlist if more than 1 exists.
             canDelete: false
         },
-            
+
         //  Convert data which is sent from the server back to a proper Backbone.Model.
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
         parse: function(playlistDto) {
@@ -71,7 +71,7 @@ define(function(require) {
                 error: options.error
             });
         },
-        
+
         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
         loadDataSource: function() {
             YouTubeV3API.getPlaylistSongs({
@@ -125,7 +125,7 @@ define(function(require) {
                 this.get('items').deselectAll();
             }
         },
-        
+
         //  Notify all open YouTube tabs that a playlist has been renamed.
         _emitYouTubeTabUpdateEvent: function(data) {
             Streamus.channels.tab.commands.trigger('notify:youTube', {

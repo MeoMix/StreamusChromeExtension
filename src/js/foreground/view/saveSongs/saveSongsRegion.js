@@ -19,7 +19,7 @@ define(function(require) {
 
         _showSimpleMenu: function(options) {
             //  Wrap the logic for showing a simpleMenu in defer to allow 'click' event to fully propagate before showing the view.
-            //  This ensure that a click event which spawned the simpleMenu does not also trigger the closing of the menu 
+            //  This ensure that a click event which spawned the simpleMenu does not also trigger the closing of the menu
             _.defer(function() {
                 var playlists = this.signInManager.get('signedInUser').get('playlists');
 
@@ -33,7 +33,7 @@ define(function(require) {
 
                 var simpleMenuView = new SimpleMenuView({
                     model: new SimpleMenu({
-                        simpleMenuItems: simpleMenuItems, 
+                        simpleMenuItems: simpleMenuItems,
                         fixedMenuItem: new FixedMenuItem({
                             text: chrome.i18n.getMessage('createPlaylist')
                         })

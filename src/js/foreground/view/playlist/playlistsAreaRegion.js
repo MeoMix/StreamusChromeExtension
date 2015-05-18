@@ -57,7 +57,7 @@
                 this.show(playlistsAreaView);
             }
         },
-        
+
         //  Don't allow this view to be shown if the user is not signed in.
         _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
             if (signedInUser !== null) {
