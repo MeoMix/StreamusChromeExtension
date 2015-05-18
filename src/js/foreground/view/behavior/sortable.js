@@ -30,15 +30,7 @@
             //  So, only run it once the user could potentially need to do so.
             if (!this.isDecorated) {
                 this.isDecorated = true;
-
                 this.ui.listItems.sortable(this._getSortableOptions());
-
-                this.$el.scroll(_.throttle(function() {
-                    //  Any function which is throttled can potentially be ran after the view is destroyed.
-                    if (!this.view.isDestroyed) {
-                        this.ui.listItems.sortable('refresh');
-                    }
-                }.bind(this), 20));
             }
         },
 
