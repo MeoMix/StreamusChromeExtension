@@ -124,5 +124,44 @@
 
         var secondsDuration = seconds + (60 * minutes) + (60 * 60 * hours);
         return secondsDuration;
+    },
+
+    //  Determines if a given elementLength will fit inside of a containerLength.
+    //  If it overflows out of containerLength then shift it such that it does not overflow.
+    shiftOffset: function(offset, elementLength, containerLength) {
+        var adjustedOffset = offset;
+        var overflow = offset + elementLength - containerLength;
+
+        //  Shift the element based such that it stays within the container
+        if (offset < 0) {
+            adjustedOffset -= offset;
+        } else if (overflow > 0) {
+            adjustedOffset -= overflow;
+        }
+
+        return adjustedOffset;
+    },
+
+    //  Determines if a given elementLength at a given offset will fit inside a containerLength.
+    //  If it overflows out of containerLength then flip it over a given targetLength.
+    //  targetLength and adjust are both optional.
+    flipInvertOffset: function(offset, elementLength, containerLength, targetLength, adjust) {
+        targetLength = targetLength || 0;
+        adjust = adjust || 0;
+
+        var adjustedOffset = offset;
+        var overflow = offset + elementLength - containerLength;
+        var flipInvertAmount = elementLength + targetLength + adjust;
+
+        if (offset < 0) {
+            //  Move element from above target to below target.
+            adjustedOffset += flipInvertAmount;
+        }
+        else if (overflow > 0) {
+            //  Move element from below target to above target.
+            adjustedOffset -= flipInvertAmount;
+        }
+
+        return adjustedOffset;
     }
 });

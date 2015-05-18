@@ -7,6 +7,7 @@ define(function(require) {
     var SimpleMenu = require('foreground/model/element/simpleMenu');
     var SimpleMenuView = require('foreground/view/element/simpleMenuView');
     var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
+    var utility = require('common/utility');
 
     var SaveSongsRegion = Marionette.Region.extend({
         signInManager: null,
@@ -45,8 +46,8 @@ define(function(require) {
                 this.show(simpleMenuView);
 
                 //  TODO: Maybe it's better to position completely over the button on flip? Would need a bit more math.
-                var offsetTop = this._ensureOffset(options.top, simpleMenuView.$el.outerHeight(), this.$el.height());
-                var offsetLeft = this._ensureOffset(options.left, simpleMenuView.$el.outerWidth(), this.$el.width());
+                var offsetTop = utility.flipInvertOffset(options.top, simpleMenuView.$el.outerHeight(), this.$el.height());
+                var offsetLeft = utility.flipInvertOffset(options.left, simpleMenuView.$el.outerWidth(), this.$el.width());
 
                 simpleMenuView.$el.offset({
                     top: offsetTop,
@@ -65,19 +66,6 @@ define(function(require) {
             Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
                 songs: songs
             });
-        },
-
-        //  TODO: Keep DRY w/ contextmenu
-        //  Prevent displaying ContextMenu outside of viewport by ensuring its offsets are valid.
-        _ensureOffset: function(offset, elementDimension, containerDimension) {
-            var ensuredOffset = offset;
-            var needsFlip = offset + elementDimension > containerDimension;
-
-            if (needsFlip) {
-                ensuredOffset -= elementDimension;
-            }
-
-            return ensuredOffset;
         }
     });
 

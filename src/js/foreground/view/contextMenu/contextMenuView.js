@@ -3,6 +3,7 @@
 
     var ContextMenuTemplate = require('text!template/contextMenu/contextMenu.html');
     var ContextMenuItemsView = require('foreground/view/contextMenu/contextMenuItemsView');
+    var utility = require('common/utility');
 
     var ContextMenuView = Marionette.LayoutView.extend({
         id: 'contextMenu',
@@ -20,8 +21,8 @@
         },
 
         onAttach: function() {
-            var offsetTop = this._ensureOffset(this.model.get('top'), this.$el.outerHeight(), this.model.get('containerHeight'));
-            var offsetLeft = this._ensureOffset(this.model.get('left'), this.$el.outerWidth(), this.model.get('containerWidth'));
+            var offsetTop = utility.flipInvertOffset(this.model.get('top'), this.$el.outerHeight(), this.model.get('containerHeight'));
+            var offsetLeft = utility.flipInvertOffset(this.model.get('left'), this.$el.outerWidth(), this.model.get('containerWidth'));
 
             this.$el.offset({
                 top: offsetTop,
@@ -39,18 +40,6 @@
         _onTransitionOutComplete: function() {
             this.model.get('items').reset();
             this.destroy();
-        },
-        
-        //  Prevent displaying ContextMenu outside of viewport by ensuring its offsets are valid.
-        _ensureOffset: function(offset, elementDimension, containerDimension) {
-            var ensuredOffset = offset;
-            var needsFlip = offset + elementDimension > containerDimension;
-
-            if (needsFlip) {
-                ensuredOffset -= elementDimension;
-            }
-
-            return ensuredOffset;
         }
     });
 

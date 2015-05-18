@@ -114,5 +114,20 @@
             expect(Streamus.channels.tooltip.commands.trigger.calledWithMatch('show:tooltip', {})).to.equal(true);
             Streamus.channels.tooltip.commands.trigger.restore();
         });
+
+        it('should be able to update a tooltip', function(done) {
+            sinon.stub(this.tooltipable, '_updateTooltip');
+            var target = document.createElement('div');
+            this.tooltipable._watchTooltipText(target, {});
+
+            target.setAttribute('data-tooltip-text', 'foo');
+
+            //  Let the mutation observer fire.
+            _.defer(function() {
+                expect(this.tooltipable._updateTooltip.calledOnce).to.equal(true);
+                this.tooltipable._updateTooltip.restore();
+                done();
+            }.bind(this));
+        });
     });
 });

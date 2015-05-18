@@ -20,7 +20,7 @@
         },
 
         events: {
-            'click': '_onClick',
+            'click': '_onClick'
         },
 
         modelEvents: {

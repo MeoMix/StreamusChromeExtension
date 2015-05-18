@@ -3,11 +3,13 @@
 
     var TooltipView = require('foreground/view/tooltip/tooltipView');
     var Tooltip = require('foreground/model/tooltip/tooltip');
+    var utility = require('common/utility');
 
     var TooltipRegion = Marionette.Region.extend({
         initialize: function() {
             this.listenTo(Streamus.channels.tooltip.commands, 'show:tooltip', this._showTooltip);
             this.listenTo(Streamus.channels.tooltip.commands, 'hide:tooltip', this._hideTooltip);
+            this.listenTo(Streamus.channels.tooltip.commands, 'update:tooltip', this._updateTooltip);
         },
 
         _showTooltip: function(options) {
@@ -26,6 +28,13 @@
         _hideTooltip: function() {
             if (!_.isUndefined(this.currentView)) {
                 this.currentView.hide();
+            }
+        },
+
+        _updateTooltip: function(options) {
+            if (!_.isUndefined(this.currentView)) {
+                this.currentView.model.set('text', options.text);
+                this._setTooltipViewOffset(this.currentView, options.targetBoundingClientRect);
             }
         },
 
@@ -51,8 +60,10 @@
                 left: boundingClientRect.left + targetWidth / 2 - tooltipWidth / 2
             };
 
-            var adjustedLeftOffset = this._shiftLeftOffset(targetOffset.left, window.innerWidth, tooltipWidth);
-            var adjustedTopOffset = this._flipInvertTopOffset(targetOffset.top, window.innerHeight, adjustY, targetHeight, tooltipHeight);
+            var adjustedLeftOffset = utility.shiftOffset(targetOffset.left, tooltipWidth, window.innerWidth);
+            //  Double the adjust value because it has already been added once to topOffset before taking into account adjustments.
+            //  So, need to double it when inverting to counter-act the existing amount.
+            var adjustedTopOffset = utility.flipInvertOffset(targetOffset.top, tooltipHeight, window.innerHeight, targetHeight, adjustY * 2);
 
             var adjustedOffset = {
                 top: adjustedTopOffset,
@@ -60,42 +71,6 @@
             };
 
             return adjustedOffset;
-        },
-
-        //  Figure out whether the tooltip fits inside the viewport when centered over the target.
-        //  If it is not inside the viewport then determine the amount of shifting it needs to fit.
-        _shiftLeftOffset: function(leftOffset, viewportLength, tooltipWidth) {
-            var adjustedLeftOffset = leftOffset;
-            var overflow = leftOffset + tooltipWidth - viewportLength;
-
-            //  Shift the tooltip left/right based on how much it needs to shift to be able to fit inside the viewport.
-            if (leftOffset < 0) {
-                adjustedLeftOffset -= leftOffset;
-            } else if(overflow > 0) {
-                adjustedLeftOffset -= overflow;
-            }
-
-            return adjustedLeftOffset;
-        },
-
-        //  Figure out whether the tooltip fits beneath the target. If not, get a new topOffset for it to be flipped.
-        _flipInvertTopOffset: function(topOffset, viewportHeight, adjust, targetHeight, tooltipHeight) {
-            var adjustedTopOffset = topOffset;
-            var overflow = topOffset + tooltipHeight - viewportHeight;
-            //  Double the adjust value because it has already been added once to topOffset before taking into account adjustments.
-            //  So, need to double it when inverting to counter-act the existing amount.
-            var flipInvertAmount = tooltipHeight + targetHeight + (adjust * 2);
-
-            if (topOffset < 0) {
-                //  This logic will move the tooltip from above the target to beneath the target.
-                adjustedTopOffset += flipInvertAmount;
-            }
-            else if (overflow > 0) {
-                //  This logic will move the tooltip from beneath the target to above the target.
-                adjustedTopOffset -= flipInvertAmount;
-            }
-
-            return adjustedTopOffset;
         }
     });
 

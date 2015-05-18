@@ -11,6 +11,10 @@
             content: '[data-ui~=content]'
         },
 
+        modelEvents: {
+            'change:text': '_onChangeText'
+        },
+
         //  Move the tooltip's location to a spot on the page and fade it in
         showAtOffset: function(offset) {
             this.$el.css(offset);
@@ -21,6 +25,10 @@
         hide: function() {
             this.$el.one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-visible');
+        },
+
+        _onChangeText: function(model, text) {
+            this.ui.content.text(text);
         },
 
         _onTransitionOutComplete: function() {

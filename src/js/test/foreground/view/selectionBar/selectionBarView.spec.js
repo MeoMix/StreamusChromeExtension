@@ -12,10 +12,11 @@
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.view = new SelectionBarView({
-                streamItems: new StreamItems(),
-                searchResults: new SearchResults(),
-                signInManager: new SignInManager(),
-                model: new SelectionBar()
+                model: new SelectionBar({
+                    streamItems: new StreamItems(),
+                    searchResults: new SearchResults(),
+                    signInManager: new SignInManager()
+                })
             });
         });
 

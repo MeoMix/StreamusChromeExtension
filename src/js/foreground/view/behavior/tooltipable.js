@@ -80,7 +80,7 @@
             var mutationObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     var newText = mutation.target.getAttribute(mutation.attributeName);
-                    this._showTooltip(boundingClientRect, newText);
+                    this._updateTooltip(boundingClientRect, newText);
                 }.bind(this));
             }.bind(this));
 
@@ -118,6 +118,14 @@
                 text: text
             });
             this.isShowingTooltip = true;
+        },
+
+        //  Tell the current visible tooltip to update its text instead of re-showing it which would cause it to flicker.
+        _updateTooltip: function(boundingClientRect, text) {
+            Streamus.channels.tooltip.commands.trigger('update:tooltip', {
+                targetBoundingClientRect: boundingClientRect,
+                text: text
+            });
         }
     });
 
