@@ -3,6 +3,7 @@
 
     var Tooltipable = require('foreground/view/behavior/tooltipable');
     var ClearStreamDialogView = require('foreground/view/dialog/clearStreamDialogView');
+    var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
     var ClearStreamButtonTemplate = require('text!template/stream/clearStreamButton.html');
     var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
 
@@ -29,6 +30,10 @@
         behaviors: {
             Tooltipable: {
                 behaviorClass: Tooltipable
+            },
+            ViewModelContainer: {
+                behaviorClass: ViewModelContainer,
+                viewModelNames: ['model']
             }
         },
 

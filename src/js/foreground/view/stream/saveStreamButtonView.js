@@ -3,6 +3,7 @@
 
     var Tooltipable = require('foreground/view/behavior/tooltipable');
     var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
+    var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
     var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
     var SaveStreamButtonView = Marionette.ItemView.extend({
@@ -28,6 +29,10 @@
         behaviors: {
             Tooltipable: {
                 behaviorClass: Tooltipable
+            },
+            ViewModelContainer: {
+                behaviorClass: ViewModelContainer,
+                viewModelNames: ['model']
             }
         },
 

@@ -73,6 +73,7 @@
     <Content Include="src\img\streamus_icon38.png" />
     <Content Include="src\img\streamus_icon48.png" />
     <Content Include="src\img\streamus_icon_white19.png" />
+    <Content Include="src\js\background\enum\entityType.js" />
     <Content Include="src\js\background\model\analyticsManager.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
     <Content Include="src\js\common\lodashMixin.js" />
@@ -87,6 +88,7 @@
     <Content Include="src\js\foreground\model\tooltip\tooltip.js" />
     <Content Include="src\js\foreground\view\behavior\dialogContent.js" />
     <Content Include="src\js\foreground\view\behavior\listItemButton.js" />
+    <Content Include="src\js\foreground\view\behavior\viewModelContainer.js" />
     <Content Include="src\js\foreground\view\contextMenu\contextMenuItemsView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusView.js" />

@@ -57,7 +57,7 @@
             var adjustedOffset = {
                 top: adjustedTopOffset,
                 left: adjustedLeftOffset
-            }
+            };
 
             return adjustedOffset;
         },
