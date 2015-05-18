@@ -29,11 +29,11 @@
         },
 
         _onMouseEnter: function(event) {
-            this._ensureHovered(event.target);
+            this._ensureHovered(event.currentTarget);
         },
 
         _onMouseLeave: function(event) {
-            $(event.target).data('is-hovered', false);
+            $(event.currentTarget).data('is-hovered', false);
             this._hideTooltip();
         },
 

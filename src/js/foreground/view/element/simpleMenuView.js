@@ -99,8 +99,6 @@
             var centering = (listItemHeight - offsetData.itemHeight) / 2 - paddingTop;
             var topOffset = offsetData.itemOffset + centering;
 
-            console.log('this.$el height and scroll', this.el.offsetHeight, this.el.scrollHeight);
-
             this.$el.css('top', topOffset);
         }
     });

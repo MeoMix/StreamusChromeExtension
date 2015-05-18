@@ -24,7 +24,7 @@
         initialize: function() {
             this.on('change:signedInUser', this._onChangeSignedInUser);
             this.on('change:signInFailed', this._onChangeSignInFailed);
-            this.listenTo(Streamus.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
+            //this.listenTo(Streamus.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
             chrome.identity.onSignInChanged.addListener(this._onChromeIdentitySignInChanged.bind(this));
