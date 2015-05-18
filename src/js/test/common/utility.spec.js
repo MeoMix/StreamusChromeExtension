@@ -51,7 +51,6 @@
             var containerLength = 1000;
             var elementLength = 100;
 
-            debugger;
             var adjustedOffset = Utility.shiftOffset(offset, elementLength, containerLength);
             expect(adjustedOffset).not.to.equal(offset);
             expect(adjustedOffset).to.equal(900);
