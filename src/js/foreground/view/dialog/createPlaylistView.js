@@ -150,7 +150,7 @@
         _onGetTitleSuccess: function(title) {
             if (!this.isDestroyed) {
                 this.ui.title.val(title);
-                this.tit();
+                this._validateTitle();
                 this.ui.dataSource.removeClass('is-invalid').addClass('is-valid');
                 this.ui.dataSourceHint.text(chrome.i18n.getMessage('playlistLoaded'));
                 this.model.set('dataSourceValid', true);

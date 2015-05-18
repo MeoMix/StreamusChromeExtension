@@ -42,6 +42,7 @@
         //  If it can't go along the bottom then flip it and place it along the top.
         //  If it can't fit in the center then shift it to the left or right until it fits.
         _getAdjustedOffset: function(boundingClientRect, tooltipWidth, tooltipHeight) {
+            //  adjustY is a feel good value for how far below the target the tooltip should be offset.
             var adjustY = 8;
             var targetHeight = boundingClientRect.height;
             var targetWidth = boundingClientRect.width;
@@ -50,56 +51,51 @@
                 left: boundingClientRect.left + targetWidth / 2 - tooltipWidth / 2
             };
 
-            //  Note that these methods have side-effects on the targetOffset object.
-            this._shiftLeftOffset(targetOffset, window.innerWidth, targetWidth, tooltipWidth);
-            this._flipInvertTopOffset(targetOffset, window.innerHeight, adjustY, targetHeight, tooltipHeight);
+            var adjustedLeftOffset = this._shiftLeftOffset(targetOffset.left, window.innerWidth, tooltipWidth);
+            var adjustedTopOffset = this._flipInvertTopOffset(targetOffset.top, window.innerHeight, adjustY, targetHeight, tooltipHeight);
 
-            return targetOffset;
+            var adjustedOffset = {
+                top: adjustedTopOffset,
+                left: adjustedLeftOffset
+            }
+
+            return adjustedOffset;
         },
 
-        //  Credit to jquery.qtip2, http://qtip2.com/, for providing a lot of this math
-        //  https://github.com/qTip2/qTip2/blob/master/src/position/viewport.js
-        //  I've stripped the given math **way** down to just my specific use case.
-        
-        //  Perform math to figure out whether the element needs to be shifted left/right and, if so, how much it needs to shift.
-        _shiftLeftOffset: function(targetOffset, viewportLength, targetLength, tooltipLength) {
-            var initialOffset = targetOffset.left;
-            var myLength = -tooltipLength / 2;
-            var overflow1 = -initialOffset;
-            var overflow2 = initialOffset + tooltipLength - viewportLength;
-            var offset = -myLength;
+        //  Figure out whether the tooltip fits inside the viewport when centered over the target.
+        //  If it is not inside the viewport then determine the amount of shifting it needs to fit.
+        _shiftLeftOffset: function(leftOffset, viewportLength, tooltipWidth) {
+            var adjustedLeftOffset = leftOffset;
+            var overflow = leftOffset + tooltipWidth - viewportLength;
 
-            // Adjust position but keep it within viewport dimensions
-            targetOffset.left += overflow1 > 0 ? overflow1 : overflow2 > 0 ? -overflow2 : 0;
-            targetOffset.left = Math.max(
-                initialOffset - offset,
-                Math.min(
-                    Math.max(
-                        viewportLength,
-                        initialOffset + offset
-                    ),
-                    targetOffset.left,
-                    // Make sure we don't adjust complete off the element when using 'center'
-                    initialOffset - myLength
-                )
-            );
+            //  Shift the tooltip left/right based on how much it needs to shift to be able to fit inside the viewport.
+            if (leftOffset < 0) {
+                adjustedLeftOffset -= leftOffset;
+            } else if(overflow > 0) {
+                adjustedLeftOffset -= overflow;
+            }
+
+            return adjustedLeftOffset;
         },
 
-        //  Perform math to figure out whether the element fits beneath the target. If not, flip it to the top.
-        _flipInvertTopOffset: function(targetOffset, viewportLength, adjust, targetLength, tooltipLength) {
-            var initialOffset = targetOffset.top;
-            var overflow1 = -initialOffset;
-            var overflow2 = initialOffset + tooltipLength - viewportLength;
-            var offset = tooltipLength + targetLength;
+        //  Figure out whether the tooltip fits beneath the target. If not, get a new topOffset for it to be flipped.
+        _flipInvertTopOffset: function(topOffset, viewportHeight, adjust, targetHeight, tooltipHeight) {
+            var adjustedTopOffset = topOffset;
+            var overflow = topOffset + tooltipHeight - viewportHeight;
+            //  Double the adjust value because it has already been added once to topOffset before taking into account adjustments.
+            //  So, need to double it when inverting to counter-act the existing amount.
+            var flipInvertAmount = tooltipHeight + targetHeight + (adjust * 2);
 
-            if (overflow1 > 0 && overflow2 > 0) {
-                // Check for overflow on the left/top
-                targetOffset.top -= offset + adjust;
+            if (topOffset < 0) {
+                //  This logic will move the tooltip from above the target to beneath the target.
+                adjustedTopOffset += flipInvertAmount;
             }
-            else if (overflow2 > 0) {
-                // Check for overflow on the left/top
-                targetOffset.top -= offset + (adjust * 2);
+            else if (overflow > 0) {
+                //  This logic will move the tooltip from beneath the target to above the target.
+                adjustedTopOffset -= flipInvertAmount;
             }
+
+            return adjustedTopOffset;
         }
     });
 

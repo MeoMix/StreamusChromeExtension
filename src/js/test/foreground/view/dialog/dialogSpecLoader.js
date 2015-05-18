@@ -1,6 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
+    /* jshint ignore:start */
     require('test/foreground/view/dialog/aboutStreamusDialogView.spec');
     require('test/foreground/view/dialog/aboutStreamusView.spec');
     require('test/foreground/view/dialog/browserSettingsDialogView.spec');
@@ -27,4 +28,5 @@
     require('test/foreground/view/dialog/settingsView.spec');
     require('test/foreground/view/dialog/updateStreamusDialogView.spec');
     require('test/foreground/view/dialog/updateStreamusView.spec');
+    /* jshint ignore:end */
 });

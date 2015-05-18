@@ -6,6 +6,7 @@ define(function(require) {
     var ShareCode = require('background/model/shareCode');
     var YouTubeV3API = require('background/model/youTubeV3API');
     var ListItemType = require('common/enum/listItemType');
+    var EntityType = require('background/enum/entityType');
 
     //  Playlist holds a collection of PlaylistItems as well as properties pertaining to a playlist.
     //  Provides methods to work with PlaylistItems such as getting, removing, updating, etc..
@@ -60,7 +61,8 @@ define(function(require) {
             $.ajax({
                 url: Streamus.serverUrl + 'ShareCode/GetShareCode',
                 data: {
-                    playlistId: this.get('id')
+                    id: this.get('id'),
+                    entityType: EntityType.Playlist
                 },
                 success: function(shareCodeJson) {
                     var shareCode = new ShareCode(shareCodeJson);

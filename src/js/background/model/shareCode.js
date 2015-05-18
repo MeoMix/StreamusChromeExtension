@@ -1,11 +1,12 @@
-define(function() {
+define(function(require) {
     'use strict';
+
+    var EntityType = require('background/enum/entityType');
 
     var ShareCode = Backbone.Model.extend({
         defaults: {
             id: null,
-            //  TODO: Remove this or use it?
-            entityType: -1,
+            entityType: EntityType.None,
             entityId: null,
             shortId: null,
             urlFriendlyEntityTitle: ''
@@ -16,9 +17,10 @@ define(function() {
         },
 
         copyUrl: function() {
+            var entityType = this.get('entityType');
             var shortId = this.get('shortId');
             var urlFriendlyEntityTitle = this.get('urlFriendlyEntityTitle');
-            var shareUrl = 'https://streamus.com/share/playlist/' + shortId + '/' + urlFriendlyEntityTitle;
+            var shareUrl = 'https://streamus.com/share/' + entityType + '/' + shortId + '/' + urlFriendlyEntityTitle;
 
             Streamus.channels.clipboard.commands.trigger('copy:text', shareUrl);
         }
