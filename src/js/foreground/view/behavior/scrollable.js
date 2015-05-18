@@ -24,7 +24,6 @@
             this._updateScrollbar();
         },
 
-        //  TODO: This wouldn't be necessary (and bad) if I calculate the height of the view before sliding it out and use transforms.
         onListHeightUpdated: function() {
             requestAnimationFrame(this._updateScrollbar.bind(this));
         },

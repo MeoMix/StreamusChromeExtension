@@ -127,7 +127,7 @@
         },
 
         _setRenderedElements: function(scrollTop) {
-            //  TODO: Clean this up. It's still such a huge function.
+            //  TODO: Reduce cyclomatic complexity
             /* jshint ignore:start */
             //  Figure out the range of items currently rendered:
             var currentMinRenderIndex = this.minRenderIndex;

@@ -7,7 +7,6 @@
     var EditPlaylistView = Marionette.LayoutView.extend({
         id: 'editPlaylist',
         template: _.template(EditPlaylistTemplate),
-        //  TODO: Not DRY w/ CreatePlaylistView -- pull from DB?
         titleMaxLength: 150,
 
         templateHelpers: function() {

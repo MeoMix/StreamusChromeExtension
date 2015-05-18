@@ -47,8 +47,8 @@
         _debounceOnClickAction: null,
 
         _doOnClickAction: function() {
+            //  TODO: Prefer not to check hasClass and leverage state of a model.
             if (!this.$el.hasClass('is-disabled')) {
-                //  TODO: This should probably be a triggerMethod?
                 this.view.doOnClickAction();
             }
         }

@@ -33,7 +33,6 @@
         //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
         _showDialogIfUpdateAvailable: function() {
             //  Calling requestUpdateCheck will cause onUpdateAvailable to trigger if an update is available.
-            //  TODO: Check if the response is 'throttled' and, if so, wait 5 seconds and try again. Potentially use exponential back-off instead of linear 5s.
             chrome.runtime.requestUpdateCheck(_.noop);
         },
         

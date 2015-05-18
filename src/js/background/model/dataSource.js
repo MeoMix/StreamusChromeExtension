@@ -16,7 +16,7 @@
             url: ''
         },
         
-        //  TODO: Function is way too big
+        //  TODO: Reduce cyclomatic complexity
         //  Take the URL given to the dataSource and parse it for relevant information.
         //  If the URL is for a Playlist -- just get the title and set the ID. If it's a Channel,
         //  need to fetch the Channel's Uploads playlist first.

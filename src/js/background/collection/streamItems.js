@@ -79,7 +79,7 @@
         },
 
         addSongs: function(songs, options) {
-            //  TODO: reduce cyclomatic complexity.
+            //  TODO: Reduce cyclomatic complexity.
             /* jshint ignore:start */
             options = _.isUndefined(options) ? {} : options;
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];

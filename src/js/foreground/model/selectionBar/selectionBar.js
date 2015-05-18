@@ -46,7 +46,6 @@
             this.on('change:activeCollection', this._onChangeActiveCollection);
             this.listenTo(signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
 
-            //  TODO: Make bindEntityEvents a part of BB model
             Marionette.bindEntityEvents(this, this.get('streamItems'), this.streamItemsEvents);
         },
         
