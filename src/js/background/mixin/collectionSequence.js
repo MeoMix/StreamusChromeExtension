@@ -22,10 +22,10 @@ define(function(require) {
             if (currentIndex !== index) {
                 moveResult.direction = currentIndex < index ? Direction.Down : Direction.Up;
                 var sequence = this.getSequenceFromIndexDuringMove(index, moveResult.direction);
-                model.save({ sequence: sequence }, { patch: true });
+                model.save({sequence: sequence}, {patch: true});
 
                 //  Collections with a comparator will not automatically re-sort if you later change model attributes
-                this.sort({ silent: options.silent });
+                this.sort({silent: options.silent});
                 moveResult.moved = true;
             }
 

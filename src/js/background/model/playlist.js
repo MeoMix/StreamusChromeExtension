@@ -110,7 +110,7 @@ define(function(require) {
                 title: title
             });
 
-            this.save({ title: title }, { patch: true });
+            this.save({title: title}, {patch: true});
         },
 
         _onChangeActive: function(model, active) {

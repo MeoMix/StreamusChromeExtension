@@ -29,7 +29,7 @@
         },
 
         getActivePlaylist: function() {
-            return this.findWhere({ active: true });
+            return this.findWhere({active: true});
         },
 
         //  Expects options: { playlistId, success, error };

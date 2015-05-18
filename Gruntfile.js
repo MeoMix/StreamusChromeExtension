@@ -223,6 +223,14 @@ module.exports = function(grunt) {
                 files: ['src/less/*'],
                 tasks: ['less']
             }
+        },
+        jscs: {
+            src: ['src/js/**/*.js', '!src/js/thirdParty/**/*.js'],
+            options: {
+                config: '.jscsrc',
+                verbose: true,
+                fix: true
+            }
         }
     });
 

@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ExportFileType = require('common/enum/exportFileType');
@@ -15,11 +15,11 @@
         
         //  Don't want to save the playlist to localStorage -- only the configuration variables
         blacklist: ['playlist'],
-        toJSON: function () {
+        toJSON: function() {
             return this.omit(this.blacklist);
         },
         
-        initialize: function () {
+        initialize: function() {
             //  Load from Backbone.LocalStorage
             this.fetch();
         }

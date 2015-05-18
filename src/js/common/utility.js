@@ -33,18 +33,16 @@
     prettyPrintTimeWithWords: function(timeInSeconds) {
         var prettyTime;
         var timeInMinutes = Math.floor(timeInSeconds / 60);
+        var oneDayInMinutes = 1440;
+        var oneHourInMinutes = 60;
 
-        //  Print the total duration of content in minutes unless there is 3+ hours, then just print hours.
+        //  Print the total duration of content in minutes unless there is 3+ hours or 3+ days then just print hours/days.
         if (timeInMinutes === 1) {
             prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minute');
-        }
-            //  3 days
-        else if (timeInMinutes > 4320) {
-            prettyTime = Math.floor(timeInMinutes / 1440) + ' ' + chrome.i18n.getMessage('days');
-        }
-            //  3 hours
-        else if (timeInMinutes > 180) {
-            prettyTime = Math.floor(timeInMinutes / 60) + ' ' + chrome.i18n.getMessage('hours');
+        } else if (timeInMinutes > oneDayInMinutes * 3) {
+            prettyTime = Math.floor(timeInMinutes / oneDayInMinutes) + ' ' + chrome.i18n.getMessage('days');
+        } else if (timeInMinutes > oneHourInMinutes * 3) {
+            prettyTime = Math.floor(timeInMinutes / oneHourInMinutes) + ' ' + chrome.i18n.getMessage('hours');
         } else {
             prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minutes');
         }
@@ -156,8 +154,7 @@
         if (offset < 0) {
             //  Move element from above target to below target.
             adjustedOffset += flipInvertAmount;
-        }
-        else if (overflow > 0) {
+        } else if (overflow > 0) {
             //  Move element from below target to above target.
             adjustedOffset -= flipInvertAmount;
         }

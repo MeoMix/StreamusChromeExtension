@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var DeletePlaylistDialogView = require('foreground/view/dialog/deletePlaylistDialogView');
@@ -8,7 +8,7 @@
             playlist: null
         },
 
-        deletePlaylist: function () {
+        deletePlaylist: function() {
             //  No need to notify if the playlist is empty.
             if (this.get('playlist').get('items').length === 0) {
                 this.get('playlist').destroy();

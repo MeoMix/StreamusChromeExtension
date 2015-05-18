@@ -1,4 +1,4 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
 
     var TimeArea = Backbone.Model.extend({
@@ -14,11 +14,11 @@
         
         //  Don't want to save everything to localStorage -- only variables which need to be persisted.
         whitelist: ['showRemainingTime'],
-        toJSON: function () {
+        toJSON: function() {
             return this.pick(this.whitelist);
         },
 
-        initialize: function () {
+        initialize: function() {
             //  Load from Backbone.LocalStorage
             this.fetch();
         }

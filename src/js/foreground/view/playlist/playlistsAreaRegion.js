@@ -18,7 +18,7 @@
         //  PlaylistsAreaView isn't initially visible. So, it is OK to defer creation until idle.
         //  This ensures that initial rendering performance isn't hurt, but also allows for the view to be cached before needed.
         //  Caching the view allows for a snappier response when animating.
-        _onForegroundAreaIdle: function () {
+        _onForegroundAreaIdle: function() {
             var signedInUser = this.signInManager.get('signedInUser');
             if (signedInUser !== null) {
                 this._createPlaylistsAreaView(signedInUser.get('playlists'));
@@ -42,7 +42,7 @@
                 this.currentView.hide();
             }
         },
-        
+
         //  Returns true if PlaylistsAreaView is currently shown in the region.
         _playlistsAreaViewExists: function() {
             return !_.isUndefined(this.currentView);

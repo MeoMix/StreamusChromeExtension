@@ -79,7 +79,7 @@
     _copyId: function(preparedModel, existingModel) {
         if (existingModel.has('id')) {
             if (preparedModel instanceof Backbone.Model) {
-                preparedModel.set('id', existingModel.get('id'), { silent: true });
+                preparedModel.set('id', existingModel.get('id'), {silent: true});
             } else {
                 preparedModel.id = existingModel.get('id');
             }

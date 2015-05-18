@@ -71,12 +71,11 @@
                 var shuffleEnabled = this.get('shuffleButton').get('enabled');
                 var repeatButtonState = this.get('repeatButton').get('state');
 
-                //  You can skip with shuffle enabled if there are multiple items to shuffle between.
                 if (shuffleEnabled && streamItems.length > 1) {
+                    //  You can skip with shuffle enabled if there are multiple items to shuffle between.
                     enabled = true;
-                }
+                } else if (radioEnabled || repeatButtonState !== RepeatButtonState.Off) {
                     //  You can always continue if radio is enabled or if repeating is enabled
-                else if (radioEnabled || repeatButtonState !== RepeatButtonState.Off) {
                     enabled = true;
                 } else {
                     //  Enable only if there are more items to skip to.

@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Checkbox = require('foreground/model/element/checkbox');
@@ -6,8 +6,8 @@
     var Checkboxes = Backbone.Collection.extend({
         model: Checkbox,
         
-        isChecked: function (property) {
-            return this.findWhere({ property: property }).get('checked');
+        isChecked: function(property) {
+            return this.findWhere({property: property}).get('checked');
         }
     });
 

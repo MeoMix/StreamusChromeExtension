@@ -94,7 +94,7 @@
                 this.player.play();
             } else {
                 this.player.set('playOnActivate', true);
-                streamItem.save({ active: true });
+                streamItem.save({active: true});
             }
         }
     });

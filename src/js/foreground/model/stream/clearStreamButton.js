@@ -1,4 +1,4 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
 
     var ClearStreamButton = Backbone.Model.extend({
@@ -7,7 +7,7 @@
             streamItems: null
         },
         
-        initialize: function () {
+        initialize: function() {
             var streamItems = this.get('streamItems');
 
             this.listenTo(streamItems, 'add:completed', this._onStreamItemsAddCompleted);
@@ -17,7 +17,7 @@
             this.set('enabled', !streamItems.isEmpty());
         },
         
-        getStateMessage: function () {
+        getStateMessage: function() {
             var isEnabled = this.get('enabled');
             var stateMessage = chrome.i18n.getMessage(isEnabled ? 'clearStream' : 'streamEmpty');
             return stateMessage;
@@ -27,11 +27,11 @@
             this.set('enabled', !collection.isEmpty());
         },
 
-        _onStreamItemsRemove: function (model, collection) {
+        _onStreamItemsRemove: function(model, collection) {
             this.set('enabled', !collection.isEmpty());
         },
 
-        _onStreamItemsReset: function (collection) {
+        _onStreamItemsReset: function(collection) {
             this.set('enabled', !collection.isEmpty());
         }
     });

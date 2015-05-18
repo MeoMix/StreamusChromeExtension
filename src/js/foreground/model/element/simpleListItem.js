@@ -1,8 +1,8 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
 
     var SimpleListItem = Backbone.Model.extend({
-        defaults: function () {
+        defaults: function() {
             return {
                 property: '',
                 labelKey: '',

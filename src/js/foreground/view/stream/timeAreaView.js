@@ -114,7 +114,7 @@
 
         _seekToCurrentTime: function() {
             //  Bind to progressBar mouse-up to support dragging as well as clicking.
-            //  I don't want to send a message until drag ends, so mouseup works nicely. 
+            //  I don't want to send a message until drag ends, so mouseup works nicely.
             var currentTime = parseInt(this.ui.timeRange.val());
             this.player.seekTo(currentTime);
         },

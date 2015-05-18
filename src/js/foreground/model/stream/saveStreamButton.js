@@ -1,4 +1,4 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
 
     var SaveStreamButton = Backbone.Model.extend({
@@ -8,7 +8,7 @@
             signInManager: null
         },
         
-        initialize: function () {
+        initialize: function() {
             var streamItems = this.get('streamItems');
             this.listenTo(streamItems, 'add:completed', this._onStreamItemsAddCompleted);
             this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);
@@ -22,7 +22,7 @@
             this._setEnabled(signInManager.isSignedIn(), streamItems.isEmpty());
         },
         
-        getStateMessage: function () {
+        getStateMessage: function() {
             var signedIn = this.get('signInManager').isSignedIn();
 
             var stateMessage;
@@ -36,7 +36,7 @@
             return stateMessage;
         },
         
-        _setEnabled: function (signedIn, streamEmpty) {
+        _setEnabled: function(signedIn, streamEmpty) {
             this.set('enabled', signedIn && !streamEmpty);
         },
         
@@ -44,11 +44,11 @@
             this._setEnabled(this.get('signInManager').isSignedIn(), false);
         },
 
-        _onStreamItemsRemove: function (model, collection) {
+        _onStreamItemsRemove: function(model, collection) {
             this._setEnabled(this.get('signInManager').isSignedIn(), collection.isEmpty());
         },
 
-        _onStreamItemsReset: function (collection) {
+        _onStreamItemsReset: function(collection) {
             this._setEnabled(this.get('signInManager').isSignedIn(), collection.isEmpty());
         },
         
@@ -57,7 +57,7 @@
         },
         
         //  Since models don't cascade clean-up their listenTo event handlers I need to do this manually when the foreground unloads.
-        _onForegroundBeginUnload: function () {
+        _onForegroundBeginUnload: function() {
             this.stopListening();
         }
     });

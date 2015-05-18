@@ -40,7 +40,7 @@
             //  Need to convert song object to Backbone.Model
             if (!(song instanceof Backbone.Model)) {
                 //  Silent because song is just being properly set.
-                this.set('song', new Song(song), { silent: true });
+                this.set('song', new Song(song), {silent: true});
             }
         },
 
@@ -60,7 +60,7 @@
         //  This will reset when all streamItems in the stream have been played recently.
         _onChangeActive: function(model, active) {
             if (active && !this.get('playedRecently')) {
-                this.save({ playedRecently: true });
+                this.save({playedRecently: true});
             }
         }
     });

@@ -27,7 +27,8 @@
 		
         //  This code is from https://www.youtube.com/iframe_api. I pull it in locally as to not need to relax content_security_policy.
         _loadIframeAPI: function() {
-            /* jshint ignore:start */
+            //  jshint ignore:start
+            //  jscs:disable
             if (!window['YT']) {
                 window.YT = {
                     loading: 0,
@@ -1503,7 +1504,8 @@
             var Wb = l("onYouTubePlayerAPIReady");
             Wb && Wb();
 
-            /* jshint ignore:end */
+            //  jshint ignore:end
+            //  jscs:disable
         }
     });
 

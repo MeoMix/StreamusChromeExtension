@@ -107,7 +107,7 @@
             chrome.tabs.highlight(highlightInfo, _.noop);
         },
 
-        _onChromeCommandsCommand: function (command) {
+        _onChromeCommandsCommand: function(command) {
             if (command === ChromeCommand.OpenInTab) {
                 this.showStreamusTab();
             }

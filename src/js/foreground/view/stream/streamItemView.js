@@ -81,7 +81,7 @@
                 this.playPauseButton.tryTogglePlayerState();
             } else {
                 this.player.set('playOnActivate', true);
-                this.model.save({ active: true });
+                this.model.save({active: true});
             }
         },
 

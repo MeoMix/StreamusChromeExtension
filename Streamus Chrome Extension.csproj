@@ -473,6 +473,7 @@
     <Content Include="src\js\background\key\youTubeAPIKey.js.example" />
     <Content Include="changelog.md" />
     <Content Include="CONTRIBUTING.md" />
+    <Content Include=".jscsrc" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\less\color.less" />
     <Content Include="src\less\font.less" />
@@ -541,7 +542,7 @@
     <Content Include="src\js\test\main.js" />
     <Content Include="src\js\test\background\model\relatedSongsManager.spec.js" />
     <Content Include="src\js\test\background\model\dataSource.spec.js" />
-    <Content Include="src\js\test\common\model\utility.spec.js" />
+    <Content Include="src\js\test\common\utility.spec.js" />
     <Content Include="src\js\test\background\model\youTubeV3API.spec.js" />
     <Content Include="src\js\test\test.js" />
     <Content Include="src\js\test\testUtility.js" />

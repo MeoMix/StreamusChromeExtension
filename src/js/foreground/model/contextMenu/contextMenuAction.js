@@ -1,4 +1,4 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
 
     var ContextMenuAction = Backbone.Model.extend({
@@ -20,15 +20,15 @@
             }]);
         },
 
-        _copyUrl: function () {
+        _copyUrl: function() {
             this.get('song').copyUrl();
         },
 
-        _copyTitleAndUrl: function () {
+        _copyTitleAndUrl: function() {
             this.get('song').copyTitleAndUrl();
         },
 
-        _watchOnYouTube: function () {
+        _watchOnYouTube: function() {
             this.get('player').watchInTab(this.get('song'));
         }
     });

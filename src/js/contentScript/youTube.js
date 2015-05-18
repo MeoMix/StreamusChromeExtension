@@ -145,7 +145,7 @@
             this.appendStreamusActionPanel();
 
             //  Append or remove HTML dependent on whether the user is signed in (show add playlist functionality) or signed out (show sign in button)
-            chrome.runtime.sendMessage({ method: 'getSignedInState' }, function(state) {
+            chrome.runtime.sendMessage({method: 'getSignedInState'}, function(state) {
                 while (sharePanel.lastChild) {
                     sharePanel.removeChild(sharePanel.lastChild);
                 }

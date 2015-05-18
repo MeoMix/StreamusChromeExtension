@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var RadioButtons = require('foreground/collection/element/radioButtons');
@@ -11,11 +11,11 @@
             buttons: null
         },
         
-        initialize: function () {
+        initialize: function() {
             this._ensureButtonsCollection();
         },
         
-        _ensureButtonsCollection: function () {
+        _ensureButtonsCollection: function() {
             var buttons = this.get('buttons');
 
             //  Need to convert buttons array to Backbone.Collection

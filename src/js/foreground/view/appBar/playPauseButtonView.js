@@ -45,7 +45,7 @@
             this._tryTogglePlayerState();
         },
 
-        _tryTogglePlayerState: function(){
+        _tryTogglePlayerState: function() {
             this.model.tryTogglePlayerState();
         },
 

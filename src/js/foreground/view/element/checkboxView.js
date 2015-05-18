@@ -31,7 +31,7 @@
         },
 
         _onIconWebkitAnimationEnd: function() {
-            if (this.model.get('checking')){
+            if (this.model.get('checking')) {
                 this.$el.removeClass('is-checking');
                 this.$el.addClass('is-checked');
             } else {

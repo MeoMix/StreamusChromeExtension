@@ -18,7 +18,7 @@
 
         describe('when parsing YouTube Playlist URLs', function() {
             it('should handle ?list= URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?list=PL63F0C78739B09958' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/playlist?list=PL63F0C78739B09958'});
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
@@ -32,7 +32,7 @@
             });
 
             it('should handle ?p= URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?p=PL63F0C78739B09958' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/playlist?p=PL63F0C78739B09958'});
 
                 dataSource.parseUrl({
                     success: function() {
@@ -49,7 +49,7 @@
 
         describe('when parsing YouTube Favorites URLs', function() {
             it('should handle ?list= URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?list=FL-SyDtP6JOvHZVcRrZrXnyA' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/playlist?list=FL-SyDtP6JOvHZVcRrZrXnyA'});
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
@@ -63,7 +63,7 @@
             });
 
             it('should handle ?p= URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?p=FL-SyDtP6JOvHZVcRrZrXnyA' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/playlist?p=FL-SyDtP6JOvHZVcRrZrXnyA'});
 
                 dataSource.parseUrl({
                     success: function() {
@@ -80,7 +80,7 @@
 
         describe('when parsing YouTube Channel Uploads URLs', function() {
             it('should handle ?list= URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?list=UU-e1BqfubuSdFPHauQwZmlg' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/playlist?list=UU-e1BqfubuSdFPHauQwZmlg'});
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
@@ -94,7 +94,7 @@
             });
 
             it('should handle ?p= URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?p=UU-e1BqfubuSdFPHauQwZmlg' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/playlist?p=UU-e1BqfubuSdFPHauQwZmlg'});
 
                 dataSource.parseUrl({
                     success: function() {
@@ -111,7 +111,7 @@
 
         describe('when parsing YouTube Auto-Generated Playlist URLs', function() {
             it('should handle ?list= URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?p=ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/playlist?p=ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH'});
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
@@ -125,7 +125,7 @@
             });
 
             it('should handle ?p= URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?list=ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/playlist?list=ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH'});
 
                 dataSource.parseUrl({
                     success: function() {
@@ -161,13 +161,13 @@
         });
 
         it('Should be able to successfully indicate whether it isYouTubePlaylist', function() {
-            var dataSource = new DataSource({ type: DataSourceType.YouTubePlaylist });
+            var dataSource = new DataSource({type: DataSourceType.YouTubePlaylist});
             expect(dataSource.isYouTubePlaylist()).to.equal(true);
 
-            dataSource = new DataSource({ type: DataSourceType.None });
+            dataSource = new DataSource({type: DataSourceType.None});
             expect(dataSource.isYouTubePlaylist()).to.equal(false);
 
-            dataSource = new DataSource({ type: DataSourceType.UserInput });
+            dataSource = new DataSource({type: DataSourceType.UserInput});
             expect(dataSource.isYouTubePlaylist()).to.equal(false);
         });
 
@@ -184,7 +184,7 @@
 
         describe('when parsing YouTube Channel URLs', function() {
             it('should handle /channel/ URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/channel/UCXIyz409s7bNWVcM-vjfdVA' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/channel/UCXIyz409s7bNWVcM-vjfdVA'});
 
                 sinon.stub(YouTubeV3API, 'getChannelUploadsPlaylistId').yieldsTo('success', {
                     uploadsPlaylistId: 'UUXIyz409s7bNWVcM-vjfdVA'
@@ -205,7 +205,7 @@
             });
 
             it('should handle /user/ URLs', function(done) {
-                var dataSource = new DataSource({ url: 'http://www.youtube.com/user/majesticcasual' });
+                var dataSource = new DataSource({url: 'http://www.youtube.com/user/majesticcasual'});
 
                 sinon.stub(YouTubeV3API, 'getChannelUploadsPlaylistId').yieldsTo('success', {
                     uploadsPlaylistId: 'UUXIyz409s7bNWVcM-vjfdVA'

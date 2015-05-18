@@ -33,7 +33,7 @@
         },
 
         getActiveItem: function() {
-            return this.findWhere({ active: true });
+            return this.findWhere({active: true});
         },
 
         getActiveSongId: function() {
@@ -48,7 +48,7 @@
         },
 
         notPlayedRecently: function() {
-            return this.where({ playedRecently: false });
+            return this.where({playedRecently: false});
         },
 
         getBySong: function(song) {
@@ -120,7 +120,7 @@
 
             if (options.playOnAdd || options.markFirstActive) {
                 if (createdStreamItems.length > 0) {
-                    createdStreamItems[0].save({ active: true });
+                    createdStreamItems[0].save({active: true});
                 } else {
                     var songToActivate = this.getBySong(songs[0]);
 
@@ -131,7 +131,7 @@
                     if (songToActivate.get('active')) {
                         songToActivate.trigger('change:active', songToActivate, true);
                     } else {
-                        songToActivate.save({ active: true });
+                        songToActivate.save({active: true});
                     }
                 }
             }
@@ -143,7 +143,7 @@
         _onAdd: function(model) {
             //  Ensure a streamItem is always active
             if (_.isUndefined(this.getActiveItem())) {
-                model.save({ active: true });
+                model.save({active: true});
             }
         },
 
@@ -222,7 +222,7 @@
             this.each(function(streamItem) {
                 //  Be sure to check if it is active before saving to avoid hammering localStorage.
                 if (streamItem !== changedStreamItem && streamItem.get('active')) {
-                    streamItem.save({ active: false });
+                    streamItem.save({active: false});
                 }
             });
         },
@@ -270,10 +270,10 @@
         //  When all streamItems have been played recently, reset to not having been played recently.
         //  Allows for de-prioritization of played streamItems during shuffling.
         _ensureAllNotPlayedRecentlyExcept: function(model) {
-            if (this.where({ playedRecently: true }).length === this.length) {
+            if (this.where({playedRecently: true}).length === this.length) {
                 this.each(function(streamItem) {
                     if (streamItem !== model) {
-                        streamItem.save({ playedRecently: false });
+                        streamItem.save({playedRecently: false});
                     }
                 });
             }

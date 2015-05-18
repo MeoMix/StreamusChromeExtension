@@ -69,7 +69,7 @@
             this.$el.removeClass('is-instant is-visible');
         },
 
-        showContextMenu: function () {
+        showContextMenu: function() {
             var contextMenuAction = new ContextMenuAction({
                 song: this.model.get('song'),
                 player: this.player
@@ -93,7 +93,7 @@
             }
         },
 
-        _onContextMenu: function () {
+        _onContextMenu: function() {
             event.preventDefault();
             this.showContextMenu();
         }

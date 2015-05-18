@@ -62,7 +62,7 @@
                         signedInUser.mergeByGooglePlusId();
                     } else {
                         //  Otherwise, no account -- safe to patch in a save and use this account as the main one.
-                        signedInUser.save({ googlePlusId: profileUserInfo.id }, { patch: true });
+                        signedInUser.save({googlePlusId: profileUserInfo.id}, {patch: true});
                     }
                 }.bind(this));
             }.bind(this));
@@ -225,7 +225,7 @@
             }
         },
 
-        _onChromeRuntimeMessage: function (request, sender, sendResponse) {
+        _onChromeRuntimeMessage: function(request, sender, sendResponse) {
             switch (request.method) {
                 case 'getSignedInState':
                     sendResponse({
@@ -238,14 +238,14 @@
             }
         },
         
-        _onChromeRuntimeMessageExternal: function (request, sender, sendResponse) {
+        _onChromeRuntimeMessageExternal: function(request, sender, sendResponse) {
             var sendAsynchronousResponse = false;
 
             switch (request.method) {
                 case 'copyPlaylist':
                     if (this._canSignIn()) {
                         //  TODO: What if sign in fails?
-                        this.once('change:signedInUser', function () {
+                        this.once('change:signedInUser', function() {
                             this._handleCopyPlaylistRequest(request, sendResponse);
                         });
 
@@ -268,7 +268,7 @@
             return sendAsynchronousResponse;
         },
 
-        _handleCopyPlaylistRequest: function (request, sendResponse) {
+        _handleCopyPlaylistRequest: function(request, sendResponse) {
             //  TODO: Probably house this logic on signedInUser or on playlists?
             this.get('signedInUser').get('playlists').copyPlaylist({
                 playlistId: request.playlistId,

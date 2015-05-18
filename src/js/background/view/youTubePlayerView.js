@@ -100,7 +100,7 @@
                 }
             }
 
-            return { requestHeaders: info.requestHeaders };
+            return {requestHeaders: info.requestHeaders};
         },
         
         //  Only load YouTube's API once the iframe has been built successfully.

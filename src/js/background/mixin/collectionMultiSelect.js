@@ -28,12 +28,12 @@
 
     //  Return a list of selected models.
     selected: function() {
-        return this.where({ selected: true });
+        return this.where({selected: true});
     },
 
     //  Returns the model which was first selected (or selected last if ctrl was pressed)
     firstSelected: function() {
-        return this.findWhere({ firstSelected: true });
+        return this.findWhere({firstSelected: true});
     },
     
     //  Returns the underlying Songs of the collection.

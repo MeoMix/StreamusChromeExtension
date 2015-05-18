@@ -21,7 +21,7 @@
             this._decorate();
         },
 
-        _onMouseEnter: function () {
+        _onMouseEnter: function() {
             this._decorate();
         },
 

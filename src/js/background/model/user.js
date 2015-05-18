@@ -131,7 +131,7 @@ define(function(require) {
         _setLanguage: function() {
             var language = chrome.i18n.getUILanguage();
             if (this.get('language') !== language) {
-                this.save({ language: language }, { patch: true });
+                this.save({language: language}, {patch: true});
             }
         }
     });

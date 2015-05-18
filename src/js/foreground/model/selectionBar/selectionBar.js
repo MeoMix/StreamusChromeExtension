@@ -1,4 +1,4 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
 
     var SelectionBar = Backbone.Model.extend({
@@ -100,7 +100,7 @@
             this._setCanAddState(this.get('activeCollection'));
         },
         
-        _setState: function (activeCollection, signedInUser) {
+        _setState: function(activeCollection, signedInUser) {
             var activeCollectionExists = activeCollection !== null;
             var isSignedIn = signedInUser !== null;
 

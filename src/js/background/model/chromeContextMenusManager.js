@@ -243,7 +243,7 @@
 
         _onClickPlayContextMenu: function(onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
-            var dataSource = new DataSource({ url: url });
+            var dataSource = new DataSource({url: url});
 
             dataSource.getSong({
                 success: function(song) {
@@ -257,7 +257,7 @@
         _onClickAddContextMenu: function(onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
 
-            var dataSource = new DataSource({ url: url });
+            var dataSource = new DataSource({url: url});
             dataSource.getSong({
                 success: function(song) {
                     this.get('streamItems').addSongs(song);
@@ -268,7 +268,7 @@
         _onClickSaveContextMenu: function(playlist, onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
 
-            var dataSource = new DataSource({ url: url });
+            var dataSource = new DataSource({url: url});
             dataSource.getSong({
                 success: function(song) {
                     playlist.get('items').addSongs(song);

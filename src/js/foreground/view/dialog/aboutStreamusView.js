@@ -39,9 +39,11 @@
         },
 
         _onClickOpenHomepage: function() {
-            /* jshint camelcase: false */
+            //  jshint camelcase: false
+            //  jscs:disable requireCamelCaseOrUpperCaseIdentifiers
             var homepageUrl = chrome.app.getDetails().homepage_url;
-            /* jshint camelcase: true */
+            //  jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+            //  jshint camelcase: true
             this.tabManager.showWebsite(homepageUrl);
         },
 

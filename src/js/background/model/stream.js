@@ -74,7 +74,7 @@
                 //  All songs will be played recently if there's only one item because it just finished playing.
                 if (eligibleItems.length > 0) {
                     nextItem = _.sample(eligibleItems);
-                    nextItem.save({ active: true });
+                    nextItem.save({active: true});
                 }
             } else {
                 var nextItemIndex;
@@ -98,7 +98,7 @@
                         if (nextItem.get('active')) {
                             nextItem.trigger('change:active', nextItem, true);
                         } else {
-                            nextItem.save({ active: true });
+                            nextItem.save({active: true});
                         }
                     } else if (radioEnabled) {
                         var randomRelatedSong = items.getRandomRelatedSong();
@@ -109,20 +109,19 @@
                         });
 
                         nextItem = addedSongs[0];
-                    }
+                    } else if (!_.isUndefined(removedActiveItemIndex)) {
                         //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
                         //  This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
-                    else if (!_.isUndefined(removedActiveItemIndex)) {
-                        items.last().save({ active: true });
+                        items.last().save({active: true});
                         this.get('player').pause();
                     } else {
                         //  Otherwise, activate the first item in the playlist and then pause the player because playlist looping shouldn't continue.
-                        items.first().save({ active: true });
+                        items.first().save({active: true});
                         this.get('player').pause();
                     }
                 } else {
                     nextItem = items.at(nextItemIndex);
-                    nextItem.save({ active: true });
+                    nextItem.save({active: true});
                 }
             }
 
@@ -154,7 +153,7 @@
                 history.shift();
                 this.save('history', history);
 
-                previousStreamItem.save({ active: true });
+                previousStreamItem.save({active: true});
             }
         },
 
