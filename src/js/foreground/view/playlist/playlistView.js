@@ -70,23 +70,29 @@
             this._setItemCount(this.model.get('items').length);
         },
 
-        showContextMenu: function() {
+        showContextMenu: function(top, left) {
             var isEmpty = this.model.get('items').isEmpty();
 
-            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                text: chrome.i18n.getMessage('edit'),
-                onClick: this._showEditPlaylistDialog.bind(this)
-            }, {
-                //  No point in sharing an empty playlist.
-                disabled: isEmpty,
-                text: chrome.i18n.getMessage('copyUrl'),
-                onClick: this._copyPlaylistUrl.bind(this)
-            }, {
-                //  No point in exporting an empty playlist.
-                disabled: isEmpty,
-                text: chrome.i18n.getMessage('export'),
-                onClick: this._showExportPlaylistDialog.bind(this)
-            }]);
+            //  TODO: Do I want tooltips for disabled?
+            Streamus.channels.simpleMenu.commands.trigger('show:simpleMenu', {
+                isContextMenu: true,
+                top: top,
+                left: left,
+                items: [{
+                    text: chrome.i18n.getMessage('edit'),
+                    onClick: this._showEditPlaylistDialog.bind(this)
+                }, {
+                    //  No point in sharing an empty playlist.
+                    disabled: isEmpty,
+                    text: chrome.i18n.getMessage('copyUrl'),
+                    onClick: this._copyPlaylistUrl.bind(this)
+                }, {
+                    //  No point in exporting an empty playlist.
+                    disabled: isEmpty,
+                    text: chrome.i18n.getMessage('export'),
+                    onClick: this._showExportPlaylistDialog.bind(this)
+                }]
+            });
         },
 
         _onChangeTitle: function(model, title) {

@@ -8,9 +8,6 @@
     //  /view/behavior/
     require('test/foreground/view/behavior/behaviorSpecLoader');
 
-    //  /view/contextMenu/
-    require('test/foreground/view/contextMenu/contextMenuSpecLoader');
-
     //  /view/dialog/
     require('test/foreground/view/dialog/dialogSpecLoader');
 
@@ -37,6 +34,9 @@
 
     //  /view/selectionBar/
     require('test/foreground/view/selectionBar/selectionBarSpecLoader');
+
+    //  /view/simpleMenu/
+    require('test/foreground/view/simpleMenu/simpleMenuSpecLoader');
 
     //  /view/stream/
     require('test/foreground/view/stream/streamSpecLoader');

@@ -7,7 +7,6 @@ define(function(require) {
     var SimpleMenu = require('foreground/model/element/simpleMenu');
     var SimpleMenuView = require('foreground/view/element/simpleMenuView');
     var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
-    var utility = require('common/utility');
 
     var SaveSongsRegion = Marionette.Region.extend({
         signInManager: null,
@@ -33,6 +32,13 @@ define(function(require) {
 
                 var simpleMenuView = new SimpleMenuView({
                     model: new SimpleMenu({
+                        reposition: true,
+                        repositionData: {
+                            top: options.top,
+                            left: options.left,
+                            containerHeight: this.$el.height(),
+                            containerWidth: this.$el.width(),
+                        },
                         simpleMenuItems: simpleMenuItems,
                         fixedMenuItem: new FixedMenuItem({
                             text: chrome.i18n.getMessage('createPlaylist')
@@ -44,15 +50,6 @@ define(function(require) {
                 simpleMenuView.on('click:fixedMenuItem', this._onClickFixedMenuItem.bind(this, options.songs));
 
                 this.show(simpleMenuView);
-
-                //  TODO: Maybe it's better to position completely over the button on flip? Would need a bit more math.
-                var offsetTop = utility.flipInvertOffset(options.top, simpleMenuView.$el.outerHeight(), this.$el.height());
-                var offsetLeft = utility.flipInvertOffset(options.left, simpleMenuView.$el.outerWidth(), this.$el.width());
-
-                simpleMenuView.$el.offset({
-                    top: offsetTop,
-                    left: offsetLeft
-                });
             }.bind(this));
         },
 

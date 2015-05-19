@@ -40,7 +40,8 @@
 
         _onContextMenu: function(event) {
             event.preventDefault();
-            this.showContextMenu();
+            //  Show the element just slightly offset as to not break onHover effects.
+            this.showContextMenu(event.pageY, event.pageX + 1);
         },
 
         _onMouseEnter: function() {

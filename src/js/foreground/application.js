@@ -13,7 +13,6 @@
             foreground: Backbone.Wreqr.radio.channel('foreground'),
             foregroundArea: Backbone.Wreqr.radio.channel('foregroundArea'),
             window: Backbone.Wreqr.radio.channel('window'),
-            contextMenu: Backbone.Wreqr.radio.channel('contextMenu'),
             playlistsArea: Backbone.Wreqr.radio.channel('playlistsArea'),
             search: Backbone.Wreqr.radio.channel('search'),
             activeStreamItemArea: Backbone.Wreqr.radio.channel('activeStreamItemArea'),

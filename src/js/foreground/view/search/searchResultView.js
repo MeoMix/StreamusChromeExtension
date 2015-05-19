@@ -52,13 +52,13 @@
             this.player = options.player;
         },
 
-        showContextMenu: function() {
+        showContextMenu: function(top, left) {
             var contextMenuAction = new ContextMenuAction({
                 song: this.model.get('song'),
                 player: this.player
             });
 
-            contextMenuAction.showContextMenu();
+            contextMenuAction.showContextMenu(top, left);
         },
 
         _onDblClick: function() {

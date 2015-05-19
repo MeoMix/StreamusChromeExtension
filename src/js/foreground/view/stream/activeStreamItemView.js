@@ -69,13 +69,13 @@
             this.$el.removeClass('is-instant is-visible');
         },
 
-        showContextMenu: function() {
+        showContextMenu: function(top, left) {
             var contextMenuAction = new ContextMenuAction({
                 song: this.model.get('song'),
                 player: this.player
             });
 
-            contextMenuAction.showContextMenu();
+            contextMenuAction.showContextMenu(top, left);
         },
 
         _onTransitionInComplete: function(event) {
@@ -93,9 +93,10 @@
             }
         },
 
-        _onContextMenu: function() {
+        _onContextMenu: function(event) {
             event.preventDefault();
-            this.showContextMenu();
+            //  Show the element just slightly offset as to not break onHover effects.
+            this.showContextMenu(event.pageY, event.pageX + 1);
         }
     });
 

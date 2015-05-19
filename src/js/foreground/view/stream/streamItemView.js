@@ -15,9 +15,7 @@
         template: _.template(StreamItemTemplate),
 
         events: _.extend({}, ListItemView.prototype.events, {
-            'dblclick': '_onDblClick',
-            //  TODO: bad
-            'click .moreActions': '_showContextMenu'
+            'dblclick': '_onDblClick'
         }),
 
         modelEvents: {
@@ -47,6 +45,12 @@
                 DeleteListItemButtonView: {
                     viewClass: DeleteListItemButtonView,
                     model: this.model
+                },
+                MoreActionsButtonView: {
+                    viewClass: MoreActionsButtonView,
+                    model: this.model,
+                    //  TODO: bad
+                    onShowMoreActions: this.onShowMoreActions.bind(this)
                 }
             };
         },
@@ -64,16 +68,16 @@
         },
 
         onShowMoreActions: function() {
-            this._showContextMenu();
+            this.showContextMenu();
         },
 
-        showContextMenu: function() {
+        showContextMenu: function(top, left) {
             var contextMenuAction = new ContextMenuAction({
                 song: this.model.get('song'),
                 player: this.player
             });
 
-            contextMenuAction.showContextMenu();
+            contextMenuAction.showContextMenu(top, left);
         },
 
         _onDblClick: function() {

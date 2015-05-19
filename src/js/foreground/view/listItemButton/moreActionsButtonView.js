@@ -15,19 +15,17 @@
             'data-tooltip-text': chrome.i18n.getMessage('moreActions')
         },
 
+        events: {
+        },
+
         behaviors: {
             ListItemButton: {
                 behaviorClass: ListItemButton
             }
         },
 
-        initialize: function() {
-            // TODO: BAD
-            this.$el.addClass('moreActions');
-        },
-
         doOnClickAction: function() {
-
+            this.options.onShowMoreActions();
         }
     });
 

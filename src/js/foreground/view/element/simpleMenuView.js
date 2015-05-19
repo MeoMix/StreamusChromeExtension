@@ -4,6 +4,7 @@
     var SimpleMenuItemsView = require('foreground/view/element/simpleMenuItemsView');
     var FixedMenuItemView = require('foreground/view/element/fixedMenuItemView');
     var SimpleMenuTemplate = require('text!template/element/simpleMenu.html');
+    var utility = require('common/utility');
 
     var SimpleMenuView = Marionette.LayoutView.extend({
         id: 'simpleMenu',
@@ -26,6 +27,11 @@
 
         initialize: function() {
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+            this.listenTo(Streamus.channels.element.vent, 'drag', this._onElementDrag);
+
+            if (this.model.get('isContextMenu')) {
+                this.listenTo(Streamus.channels.element.vent, 'contextMenu', this._onElementContextMenu);
+            }
         },
 
         onRender: function() {
@@ -42,6 +48,10 @@
         },
 
         onAttach: function() {
+            if (this.model.get('reposition')) {
+                this._setPosition(this.model.get('repositionData'));
+            }
+
             //  This needs to be ran on the parent because _centerActive has a dependency on simpleMenuItems scrollTop which is set here.
             this.getChildView('simpleMenuItems').ensureActiveIsVisible();
 
@@ -50,6 +60,7 @@
                 this._centerActive(listItemHeight);
             }
 
+            //  TODO: RAF?
             requestAnimationFrame(function() {
                 this.$el.addClass('is-visible');
             }.bind(this));
@@ -78,6 +89,29 @@
             if (event.target !== this.getRegion('simpleMenuItems').el) {
                 this.hide();
             }
+        },
+
+        _onElementDrag: function() {
+            this.hide();
+        },
+
+        //  If a context menu click occurs and this menu is a context menu, hide it.
+        //  However, context menu clicks can also show this view. So, check event.isDefaultPrevented()
+        //  in order to prevent hiding this view as it is being shown.
+        _onElementContextMenu: function(event) {
+            if (!event.isDefaultPrevented()) {
+                this.hide();
+            }
+        },
+
+        _setPosition: function(positionData) {
+            var offsetTop = utility.flipInvertOffset(positionData.top, this.$el.outerHeight(), positionData.containerHeight);
+            var offsetLeft = utility.flipInvertOffset(positionData.left, this.$el.outerWidth(), positionData.containerWidth);
+
+            this.$el.offset({
+                top: offsetTop,
+                left: offsetLeft
+            });
         },
 
         _handleClickedMenuItem: function(menuItemType) {

@@ -214,6 +214,8 @@
     <Content Include="src\js\test\foreground\view\video\videoSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\video\videoView.spec.js" />
     <Content Include="src\js\test\foreground\view\viewTestUtility.js" />
+    <Content Include="src\js\thirdParty\babel-4.6.6.min.js" />
+    <Content Include="src\js\thirdParty\es6.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />

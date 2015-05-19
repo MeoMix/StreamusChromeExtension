@@ -2,7 +2,7 @@
     'use strict';
 
     var AppBarRegion = require('foreground/view/appBar/appBarRegion');
-    var ContextMenuRegion = require('foreground/view/contextMenu/contextMenuRegion');
+    var SimpleMenuRegion = require('foreground/view/simpleMenu/simpleMenuRegion');
     var DialogRegion = require('foreground/view/dialog/dialogRegion');
     var SpinnerView = require('foreground/view/element/spinnerView');
     var LeftPaneRegion = require('foreground/view/leftPane/leftPaneRegion');
@@ -63,9 +63,9 @@
                     selector: '[data-region=notification]',
                     regionClass: NotificationRegion
                 },
-                contextMenu: {
-                    selector: '[data-region=contextMenu]',
-                    regionClass: ContextMenuRegion
+                simpleMenu: {
+                    selector: '[data-region=simpleMenu]',
+                    regionClass: SimpleMenuRegion
                 },
                 leftPane: {
                     selector: '[data-region=leftPane]',

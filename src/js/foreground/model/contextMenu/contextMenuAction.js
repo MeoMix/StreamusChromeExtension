@@ -7,17 +7,22 @@
             player: null
         },
 
-        showContextMenu: function() {
-            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                text: chrome.i18n.getMessage('copyUrl'),
-                onClick: this._copyUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                onClick: this._copyTitleAndUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('watchOnYouTube'),
-                onClick: this._watchOnYouTube.bind(this)
-            }]);
+        showContextMenu: function(top, left) {
+            Streamus.channels.simpleMenu.commands.trigger('show:simpleMenu', {
+                isContextMenu: true,
+                top: top,
+                left: left,
+                items: [{
+                    text: chrome.i18n.getMessage('copyUrl'),
+                    onClick: this._copyUrl.bind(this)
+                }, {
+                    text: chrome.i18n.getMessage('copyTitleAndUrl'),
+                    onClick: this._copyTitleAndUrl.bind(this)
+                }, {
+                    text: chrome.i18n.getMessage('watchOnYouTube'),
+                    onClick: this._watchOnYouTube.bind(this)
+                }]
+            });
         },
 
         _copyUrl: function() {
