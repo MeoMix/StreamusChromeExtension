@@ -1,8 +1,8 @@
 ﻿define(function(require) {
     'use strict';
 
-    var SimpleMenuItemView = require('foreground/view/element/simpleMenuItemView');
-    var SimpleMenuItem = require('foreground/model/element/simpleMenuItem');
+    var SimpleMenuItemView = require('foreground/view/simpleMenu/simpleMenuItemView');
+    var SimpleMenuItem = require('foreground/model/simpleMenu/simpleMenuItem');
     var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
     describe('SimpleMenuItemView', function() {

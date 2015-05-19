@@ -1,15 +1,15 @@
 ﻿define(function(require) {
     'use strict';
 
-    var FixedMenuItemView = require('foreground/view/element/fixedMenuItemView');
-    var FixedMenuItem = require('foreground/model/element/fixedMenuItem');
+    var SimpleMenuView = require('foreground/view/simpleMenu/simpleMenuView');
+    var SimpleMenu = require('foreground/model/simpleMenu/simpleMenu');
     var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
-    describe('FixedMenuItemView', function() {
+    describe('SimpleMenuView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.view = new FixedMenuItemView({
-                model: new FixedMenuItem()
+            this.view = new SimpleMenuView({
+                model: new SimpleMenu()
             });
         });
 

@@ -2,7 +2,7 @@
     'use strict';
 
     var Tooltipable = require('foreground/view/behavior/tooltipable');
-    var MenuItemTemplate = require('text!template/element/menuItem.html');
+    var MenuItemTemplate = require('text!template/simpleMenu/menuItem.html');
 
     var SimpleMenuItemView = Marionette.LayoutView.extend({
         className: function() {

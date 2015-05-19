@@ -2,10 +2,10 @@
 define(function(require) {
     'use strict';
 
-    var SimpleMenuItems = require('foreground/collection/element/simpleMenuItems');
-    var FixedMenuItem = require('foreground/model/element/fixedMenuItem');
-    var SimpleMenu = require('foreground/model/element/simpleMenu');
-    var SimpleMenuView = require('foreground/view/element/simpleMenuView');
+    var SimpleMenuItems = require('foreground/collection/simpleMenu/simpleMenuItems');
+    var FixedMenuItem = require('foreground/model/simpleMenu/fixedMenuItem');
+    var SimpleMenu = require('foreground/model/simpleMenu/simpleMenu');
+    var SimpleMenuView = require('foreground/view/simpleMenu/simpleMenuView');
     var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
 
     var SaveSongsRegion = Marionette.Region.extend({

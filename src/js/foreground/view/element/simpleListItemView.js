@@ -1,10 +1,10 @@
 ﻿define(function(require) {
     'use strict';
 
-    var SimpleMenuItems = require('foreground/collection/element/simpleMenuItems');
-    var SimpleMenu = require('foreground/model/element/simpleMenu');
-    var SimpleMenuView = require('foreground/view/element/simpleMenuView');
-    var SimpleListItemTemplate = require('text!template/element/simpleListItem.html');
+    var SimpleMenuItems = require('foreground/collection/simpleMenu/simpleMenuItems');
+    var SimpleMenu = require('foreground/model/simpleMenu/simpleMenu');
+    var SimpleMenuView = require('foreground/view/simpleMenu/simpleMenuView');
+    var SimpleListItemTemplate = require('text!template/simpleMenu/simpleListItem.html');
 
     var SimpleListItemView = Marionette.LayoutView.extend({
         className: 'simpleListItem listItem listItem--medium listItem--clickable',

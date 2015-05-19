@@ -1,9 +1,9 @@
 ﻿define(function(require) {
     'use strict';
 
-    var SimpleMenuItemsView = require('foreground/view/element/simpleMenuItemsView');
-    var FixedMenuItemView = require('foreground/view/element/fixedMenuItemView');
-    var SimpleMenuTemplate = require('text!template/element/simpleMenu.html');
+    var SimpleMenuItemsView = require('foreground/view/simpleMenu/simpleMenuItemsView');
+    var FixedMenuItemView = require('foreground/view/simpleMenu/fixedMenuItemView');
+    var SimpleMenuTemplate = require('text!template/simpleMenu/simpleMenu.html');
     var utility = require('common/utility');
 
     var SimpleMenuView = Marionette.LayoutView.extend({

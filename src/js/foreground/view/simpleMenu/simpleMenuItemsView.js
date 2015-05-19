@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var SimpleMenuItemView = require('foreground/view/element/simpleMenuItemView');
+    var SimpleMenuItemView = require('foreground/view/simpleMenu/simpleMenuItemView');
     var Scrollable = require('foreground/view/behavior/scrollable');
 
     var SimpleMenuItemsView = Marionette.CollectionView.extend({

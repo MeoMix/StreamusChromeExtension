@@ -1,9 +1,9 @@
 ﻿define(function(require) {
     'use strict';
 
-    var SimpleMenuView = require('foreground/view/element/simpleMenuView');
-    var SimpleMenu = require('foreground/model/element/simpleMenu');
-    var SimpleMenuItems = require('foreground/collection/element/simpleMenuItems');
+    var SimpleMenuView = require('foreground/view/simpleMenu/simpleMenuView');
+    var SimpleMenu = require('foreground/model/simpleMenu/simpleMenu');
+    var SimpleMenuItems = require('foreground/collection/simpleMenu/simpleMenuItems');
 
     var SimpleMenuRegion = Marionette.Region.extend({
         initialize: function() {
