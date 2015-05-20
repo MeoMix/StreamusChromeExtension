@@ -3,7 +3,7 @@
 
     var Tooltipable = require('foreground/view/behavior/tooltipable');
     var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
-    var SongsAction = require('foreground/model/song/songsAction');
+    var SongActions = require('foreground/model/song/songActions');
     var SelectionBarTemplate = require('text!template/selectionBar/selectionBar.html');
     var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
 
@@ -93,14 +93,12 @@
             var canSave = this.model.get('canSave');
 
             if (canSave) {
-                var songsAction = new SongsAction({
-                    songs: this.model.get('activeCollection').getSelectedSongs()
-                });
-
+                var songActions = new SongActions();
+                var songs = this.model.get('activeCollection').getSelectedSongs();
                 var offset = this.ui.saveButton.offset();
                 var playlists = this.model.get('signInManager').get('signedInUser').get('playlists');
 
-                songsAction.showSaveMenu(offset.top, offset.left, playlists);
+                songActions.showSaveMenu(songs, offset.top, offset.left, playlists);
 
                 //  TODO: This feels a little weird. Not 100% sure on it.
                 //  Don't deselect collections immediately when the button is clicked because more actions are needed.

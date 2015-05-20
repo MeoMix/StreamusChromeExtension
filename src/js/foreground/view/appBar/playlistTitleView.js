@@ -26,8 +26,8 @@
             this._setTooltipText(this.model.get('title'));
         },
 
-        _onChangeTitle: function() {
-            this.render();
+        _onChangeTitle: function(model, title) {
+            this.$el.text(title);
         },
 
         _setTooltipText: function(tooltipText) {

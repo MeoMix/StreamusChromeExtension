@@ -7,7 +7,7 @@
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var SearchResultTemplate = require('text!template/search/searchResult.html');
-    var ContextMenuAction = require('foreground/model/contextMenu/contextMenuAction');
+    var SongActions = require('foreground/model/song/songActions');
 
     var SearchResultView = ListItemView.extend({
         className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',
@@ -53,12 +53,10 @@
         },
 
         showContextMenu: function(top, left) {
-            var contextMenuAction = new ContextMenuAction({
-                song: this.model.get('song'),
-                player: this.player
-            });
+            var songActions = new SongActions();
+            var song = this.model.get('song');
 
-            contextMenuAction.showContextMenu(top, left);
+            songActions.showContextMenu(song, top, left, this.player);
         },
 
         _onDblClick: function() {

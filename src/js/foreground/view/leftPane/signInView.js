@@ -40,7 +40,6 @@
 
         onRender: function() {
             this._toggleBigText(this.model.get('signingIn'), this.model.get('signInFailed'));
-            this.showChildView('spinner', new SpinnerView());
         },
 
         _onClickSignInLink: function() {
@@ -65,6 +64,11 @@
 
         //  Set the visibility of any visible text messages.
         _toggleBigText: function(signingIn, signInFailed) {
+            //  Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
+            if (signingIn && !this.getRegion('spinner').hasView()) {
+                this.showChildView('spinner', new SpinnerView());
+            }
+
             this.ui.signInFailedMessage.toggleClass('is-hidden', !signInFailed);
             this.ui.signingInMessage.toggleClass('is-hidden', !signingIn);
             this.ui.signInMessage.toggleClass('is-hidden', signingIn || signInFailed);

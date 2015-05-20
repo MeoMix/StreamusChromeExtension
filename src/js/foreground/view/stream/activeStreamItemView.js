@@ -5,7 +5,7 @@
     var Tooltipable = require('foreground/view/behavior/tooltipable');
     var TimeAreaView = require('foreground/view/stream/timeAreaView');
     var ActiveStreamItemTemplate = require('text!template/stream/activeStreamItem.html');
-    var ContextMenuAction = require('foreground/model/contextMenu/contextMenuAction');
+    var SongActions = require('foreground/model/song/songActions');
 
     var ActiveStreamItemView = Marionette.LayoutView.extend({
         id: 'activeStreamItem',
@@ -70,12 +70,10 @@
         },
 
         showContextMenu: function(top, left) {
-            var contextMenuAction = new ContextMenuAction({
-                song: this.model.get('song'),
-                player: this.player
-            });
+            var songActions = new SongActions();
+            var song = this.model.get('song');
 
-            contextMenuAction.showContextMenu(top, left);
+            songActions.showContextMenu(song, top, left, this.player);
         },
 
         _onTransitionInComplete: function(event) {

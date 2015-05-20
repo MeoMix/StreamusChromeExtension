@@ -6,8 +6,7 @@
     var AddPlaylistButtonView = require('foreground/view/listItemButton/addPlaylistButtonView');
     var DeletePlaylistButtonView = require('foreground/view/listItemButton/deletePlaylistButtonView');
     var PlayPlaylistButtonView = require('foreground/view/listItemButton/playPlaylistButtonView');
-    var EditPlaylistDialogView = require('foreground/view/dialog/editPlaylistDialogView');
-    var ExportPlaylistDialogView = require('foreground/view/dialog/exportPlaylistDialogView');
+    var PlaylistActions = require('foreground/model/playlist/playlistActions');
     var PlaylistTemplate = require('text!template/playlist/playlist.html');
 
     var PlaylistView = ListItemView.extend({
@@ -61,39 +60,15 @@
         },
 
         onRender: function() {
-            this.showChildView('spinner', new SpinnerView({
-                className: 'overlay u-marginAuto'
-            }));
-
             this._setShowingSpinnerClass();
             this._setActiveClass(this.model.get('active'));
             this._setItemCount(this.model.get('items').length);
         },
 
         showContextMenu: function(top, left) {
-            var isEmpty = this.model.get('items').isEmpty();
+            var playlistActions = new PlaylistActions();
 
-            //  TODO: Do I want tooltips for disabled?
-            //  TODO: Combine into ContextMenuAction.
-            Streamus.channels.simpleMenu.commands.trigger('show:simpleMenu', {
-                isContextMenu: true,
-                top: top,
-                left: left,
-                simpleMenuItems: [{
-                    text: chrome.i18n.getMessage('edit'),
-                    onClick: this._showEditPlaylistDialog.bind(this)
-                }, {
-                    //  No point in sharing an empty playlist.
-                    disabled: isEmpty,
-                    text: chrome.i18n.getMessage('copyUrl'),
-                    onClick: this._copyPlaylistUrl.bind(this)
-                }, {
-                    //  No point in exporting an empty playlist.
-                    disabled: isEmpty,
-                    text: chrome.i18n.getMessage('export'),
-                    onClick: this._showExportPlaylistDialog.bind(this)
-                }]
-            });
+            playlistActions.showContextMenu(this.model, top, left);
         },
 
         _onChangeTitle: function(model, title) {
@@ -115,7 +90,17 @@
         _setShowingSpinnerClass: function() {
             var loading = this.model.isLoading();
             var saving = this.model.isNew();
-            this.$el.toggleClass('is-showingSpinner', loading || saving);
+            var isShowingSpinner = loading || saving;
+
+            //  Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
+            if (isShowingSpinner && !this.getRegion('spinner').hasView()) {
+                this.showChildView('spinner', new SpinnerView({
+                    //  TODO: Don't override className like this.
+                    className: 'overlay u-marginAuto'
+                }));
+            }
+
+            this.$el.toggleClass('is-showingSpinner', isShowingSpinner);
         },
 
         _setActiveClass: function(active) {
@@ -145,41 +130,6 @@
 
         _activate: function() {
             this.model.set('active', true);
-        },
-
-        _copyPlaylistUrl: function() {
-            this.model.getShareCode({
-                success: this._onGetShareCodeSuccess,
-                error: this._onGetShareCodeError
-            });
-        },
-
-        _onGetShareCodeSuccess: function(shareCode) {
-            shareCode.copyUrl();
-
-            Streamus.channels.notification.commands.trigger('show:notification', {
-                message: chrome.i18n.getMessage('urlCopied')
-            });
-        },
-
-        _onGetShareCodeError: function() {
-            Streamus.channels.notification.commands.trigger('show:notification', {
-                message: chrome.i18n.getMessage('copyFailed')
-            });
-
-            Streamus.backgroundChannels.error.commands.trigger('log:error', new Error('Failed to get sharecode; ' + ' playlist: ' + this.model.get('id')));
-        },
-
-        _showEditPlaylistDialog: function() {
-            Streamus.channels.dialog.commands.trigger('show:dialog', EditPlaylistDialogView, {
-                playlist: this.model
-            });
-        },
-
-        _showExportPlaylistDialog: function() {
-            Streamus.channels.dialog.commands.trigger('show:dialog', ExportPlaylistDialogView, {
-                playlist: this.model
-            });
         },
 
         _onClick: function() {

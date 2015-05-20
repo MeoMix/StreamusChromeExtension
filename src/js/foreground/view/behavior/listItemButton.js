@@ -16,6 +16,7 @@
         },
 
         initialize: function() {
+            //  TODO: I still don't rly believe this.
             //  Debounced to defend against accidental/spam clicking. Bound in initialize because
             //  the debounce timer will be shared between all ListItemButtonViews if bound before initialize.
             this._debounceOnClickAction = _.debounce(this._doOnClickAction.bind(this), 100, true);

@@ -130,7 +130,6 @@
         },
 
         onRender: function() {
-            this.showChildView('spinner', new SpinnerView());
             this._checkPlayerLoading();
 
             Streamus.channels.foregroundArea.vent.trigger('rendered');
@@ -199,6 +198,11 @@
         },
 
         _startLoading: function() {
+            //  Prefer lazy-rendering the spinner view to not take a perf hit when not actually loading.
+            if (!this.getRegion('spinner').hasView()) {
+                this.showChildView('spinner', new SpinnerView());
+            }
+
             this.$el.addClass('is-showingSpinner');
             this.ui.loadingFailedMessage.addClass('is-hidden');
             this.ui.loadingMessage.removeClass('is-hidden');

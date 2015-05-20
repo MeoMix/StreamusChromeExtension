@@ -2,7 +2,7 @@
     'use strict';
 
     var ListItemButton = require('foreground/view/behavior/listItemButton');
-    var SongsAction = require('foreground/model/song/songsAction');
+    var SongActions = require('foreground/model/song/songActions');
     var SaveListItemButtonTemplate = require('text!template/listItemButton/saveListItemButton.html');
     var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
@@ -30,14 +30,11 @@
         },
 
         doOnClickAction: function() {
-            var songsAction = new SongsAction({
-                songs: [this.model]
-            });
-
+            var songActions = new SongActions();
             var offset = this.$el.offset();
             var playlists = this.signInManager.get('signedInUser').get('playlists');
 
-            songsAction.showSaveMenu(offset.top, offset.left, playlists);
+            songActions.showSaveMenu(this.model, offset.top, offset.left, playlists);
         },
 
         _onSignInManagerChangeSignedInUser: function() {

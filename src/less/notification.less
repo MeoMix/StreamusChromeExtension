@@ -1,6 +1,12 @@
 ﻿@import "color";
 
 .notification {
+    //  TODO: Fix this! Need to rethink the pattern for sliding views in so that it can support whitespace around it.
+    //  Don't want the whitespace area around the notification to be unclickable.
+    pointer-events: none !important;
+}
+
+.notification-content {
     max-width: 568px;
     min-width: 288px;
     padding: 0 24px;

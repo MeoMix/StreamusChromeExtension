@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var PlaylistAction = require('foreground/model/playlist/playlistAction');
+    var PlaylistActions = require('foreground/model/playlist/playlistActions');
     var ListItemButton = require('foreground/view/behavior/listItemButton');
     var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
     var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
@@ -30,11 +30,9 @@
         },
 
         doOnClickAction: function() {
-            var playlistAction = new PlaylistAction({
-                playlist: this.model
-            });
+            var playlistActions = new PlaylistActions();
 
-            playlistAction.deletePlaylist();
+            playlistActions.deletePlaylist(this.model);
         },
 
         _setState: function() {

@@ -2,7 +2,7 @@
     'use strict';
 
     var Tooltipable = require('foreground/view/behavior/tooltipable');
-    var SongsAction = require('foreground/model/song/songsAction');
+    var SongActions = require('foreground/model/song/songActions');
     var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
     var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
     var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
@@ -57,14 +57,11 @@
         },
 
         _showSaveSongsSimpleMenu: function(songs) {
-            var songsAction = new SongsAction({
-                songs: songs
-            });
-
+            var songActions = new SongActions();
             var offset = this.$el.offset();
             var playlists = this.model.get('signInManager').get('signedInUser').get('playlists');
 
-            songsAction.showSaveMenu(offset.top, offset.left, playlists);
+            songActions.showSaveMenu(songs, offset.top, offset.left, playlists);
         }
     });
 

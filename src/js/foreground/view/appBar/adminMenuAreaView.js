@@ -18,7 +18,7 @@
             openInTabMessage: chrome.i18n.getMessage('openInTab'),
             aboutStreamusMessage: chrome.i18n.getMessage('aboutStreamus'),
             reloadMessage: chrome.i18n.getMessage('reload'),
-            settingsIcon: SettingsIcon
+            settingsIcon: _.template(SettingsIcon)()
         },
 
         ui: {

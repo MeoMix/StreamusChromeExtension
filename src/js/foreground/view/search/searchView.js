@@ -3,7 +3,7 @@
 
     var SpinnerView = require('foreground/view/element/spinnerView');
     var SearchResultsView = require('foreground/view/search/searchResultsView');
-    var SongsAction = require('foreground/model/song/songsAction');
+    var SongActions = require('foreground/model/song/songActions');
     var SearchTemplate = require('text!template/search/search.html');
 
     var SearchView = Marionette.LayoutView.extend({
@@ -74,8 +74,6 @@
             this.showChildView('searchResults', new SearchResultsView({
                 collection: this.model.get('results')
             }));
-
-            this.showChildView('spinner', new SpinnerView());
         },
 
         //  onVisible is triggered when the element begins to transition into the viewport.
@@ -158,14 +156,12 @@
             var canSave = this._canSave();
 
             if (canSave) {
-                var songsAction = new SongsAction({
-                    songs: this.collection.getSongs()
-                });
-
+                var songActions = new SongActions();
+                var songs = this.collection.getSongs();
                 var offset = this.ui.saveAllButton.offset();
                 var playlists = this.signInManager.get('signedInUser').get('playlists');
 
-                songsAction.showSaveMenu(offset.top, offset.left, playlists);
+                songActions.showSaveMenu(songs, offset.top, offset.left, playlists);
             }
         },
 
@@ -189,6 +185,12 @@
             //  Hide the search message when there is no search in progress
             //  If the search is in progress and the first 50 results have already been returned, also hide the message.
             var searching = this.model.get('searching');
+
+            //  Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
+            if (searching && !this.getRegion('spinner').hasView()) {
+                this.showChildView('spinner', new SpinnerView());
+            }
+
             this.ui.searchingMessage.toggleClass('is-hidden', !searching || hasSearchResults);
 
             //  Hide the type to search message once user has typed something.

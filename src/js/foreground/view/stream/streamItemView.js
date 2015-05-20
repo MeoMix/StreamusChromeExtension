@@ -8,7 +8,7 @@
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var MoreActionsButtonView = require('foreground/view/listItemButton/moreActionsButtonView');
     var StreamItemTemplate = require('text!template/stream/streamItem.html');
-    var ContextMenuAction = require('foreground/model/contextMenu/contextMenuAction');
+    var SongActions = require('foreground/model/song/songActions');
 
     var StreamItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' stream-item listItem--medium listItem--hasButtons listItem--selectable',
@@ -72,12 +72,10 @@
         },
 
         showContextMenu: function(top, left) {
-            var contextMenuAction = new ContextMenuAction({
-                song: this.model.get('song'),
-                player: this.player
-            });
+            var songActions = new SongActions();
+            var song = this.model.get('song');
 
-            contextMenuAction.showContextMenu(top, left);
+            songActions.showContextMenu(song, top, left, this.player);
         },
 
         _onDblClick: function() {
