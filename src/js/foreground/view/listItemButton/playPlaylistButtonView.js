@@ -34,7 +34,7 @@
             this._setState(this.model.get('items').isEmpty());
         },
 
-        doOnClickAction: function() {
+        onClick: function() {
             var songs = this.model.get('items').pluck('song');
 
             this.streamItems.addSongs(songs, {

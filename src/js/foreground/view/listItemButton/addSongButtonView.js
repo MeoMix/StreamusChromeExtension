@@ -33,7 +33,7 @@
             this._setState();
         },
 
-        doOnClickAction: function() {
+        onClick: function() {
             this.streamItems.addSongs(this.model);
         },
 

@@ -6,7 +6,7 @@
     var DeleteListItemButtonView = require('foreground/view/listItemButton/deleteListItemButtonView');
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
-    var MoreActionsButtonView = require('foreground/view/listItemButton/moreActionsButtonView');
+    var SongOptionsButtonView = require('foreground/view/listItemButton/songOptionsButtonView');
     var StreamItemTemplate = require('text!template/stream/streamItem.html');
     var SongActions = require('foreground/model/song/songActions');
 
@@ -46,11 +46,9 @@
                     viewClass: DeleteListItemButtonView,
                     model: this.model
                 },
-                MoreActionsButtonView: {
-                    viewClass: MoreActionsButtonView,
-                    model: this.model,
-                    //  TODO: bad
-                    onShowMoreActions: this.onShowMoreActions.bind(this)
+                SongOptionsButtonView: {
+                    viewClass: SongOptionsButtonView,
+                    model: this.model.get('song')
                 }
             };
         },
@@ -65,10 +63,6 @@
 
         onRender: function() {
             this._setActiveClass(this.model.get('active'));
-        },
-
-        onShowMoreActions: function() {
-            this.showContextMenu();
         },
 
         showContextMenu: function(top, left) {

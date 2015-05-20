@@ -29,7 +29,7 @@
             this._setState();
         },
 
-        doOnClickAction: function() {
+        onClick: function() {
             var songActions = new SongActions();
             var offset = this.$el.offset();
             var playlists = this.signInManager.get('signedInUser').get('playlists');

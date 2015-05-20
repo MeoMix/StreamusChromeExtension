@@ -540,7 +540,7 @@
     "openPatchNotes": {
         "message": "Open patch notes"
     },
-    "moreActions": { 
-        "message":  "More actions"
+    "moreOptions": { 
+        "message":  "More options"
     }
 }

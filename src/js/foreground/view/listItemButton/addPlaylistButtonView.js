@@ -41,6 +41,11 @@
             this._setState();
         },
 
+        onClick: function() {
+            var songs = this.model.get('items').pluck('song');
+            this.streamItems.addSongs(songs);
+        },
+
         _onPlaylistItemsAddCompleted: function() {
             this._setState();
         },
@@ -81,11 +86,6 @@
             }
 
             this.$el.attr('data-tooltip-text', tooltipText);
-        },
-
-        doOnClickAction: function() {
-            var songs = this.model.get('items').pluck('song');
-            this.streamItems.addSongs(songs);
         }
     });
 

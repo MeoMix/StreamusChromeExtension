@@ -6,6 +6,7 @@
     var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
+    var SongOptionsButtonView = require('foreground/view/listItemButton/songOptionsButtonView');
     var SearchResultTemplate = require('text!template/search/searchResult.html');
     var SongActions = require('foreground/model/song/songActions');
 
@@ -40,6 +41,10 @@
                     viewClass: SaveSongButtonView,
                     model: this.model.get('song'),
                     signInManager: Streamus.backgroundPage.signInManager
+                },
+                SongOptionsButtonView: {
+                    viewClass: SongOptionsButtonView,
+                    model: this.model.get('song')
                 }
             };
         },

@@ -15,7 +15,9 @@
             //  Defer binding event listeners which will hide this view to ensure that events which
             //  were responsible for showing it do not also result in hiding.
             _.defer(function() {
-                this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+                if (!this.isDestroyed) {
+                    this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+                }
             }.bind(this));
         },
 

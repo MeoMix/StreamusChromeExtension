@@ -78,10 +78,9 @@
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
     <Content Include="src\js\common\lodashMixin.js" />
     <Content Include="src\js\contentScript\interceptor.js" />
-    <Content Include="src\js\foreground\model\contextMenu\contextMenuAction.js" />
     <Content Include="src\js\foreground\model\dialog\createPlaylist.js" />
     <Content Include="src\js\foreground\model\dialog\editPlaylist.js" />
-    <Content Include="src\js\foreground\model\song\songsAction.js" />
+    <Content Include="src\js\foreground\model\song\songActions.js" />
     <Content Include="src\js\foreground\model\video\mediaSourceWrapper.js" />
     <Content Include="src\js\foreground\model\video\sourceBufferWrapper.js" />
     <Content Include="src\js\foreground\enum\keyCode.js" />
@@ -207,8 +206,6 @@
     <Content Include="src\js\test\foreground\view\video\videoSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\video\videoView.spec.js" />
     <Content Include="src\js\test\foreground\view\viewTestUtility.js" />
-    <Content Include="src\js\thirdParty\babel-4.6.6.min.js" />
-    <Content Include="src\js\thirdParty\es6.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />
@@ -320,7 +317,7 @@
     <Content Include="src\js\foreground\model\element\radioButton.js" />
     <Content Include="src\js\foreground\model\element\radioGroup.js" />
     <Content Include="src\js\foreground\model\stream\saveStreamButton.js" />
-    <Content Include="src\js\foreground\model\playlist\playlistAction.js" />
+    <Content Include="src\js\foreground\model\playlist\playlistActions.js" />
     <Content Include="src\js\foreground\model\dialog\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification\notification.js" />
     <Content Include="src\js\background\model\tabManager.js" />

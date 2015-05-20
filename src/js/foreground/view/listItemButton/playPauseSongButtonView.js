@@ -42,7 +42,7 @@
             this._setState();
         },
 
-        doOnClickAction: function() {
+        onClick: function() {
             var isPausable = this._isPausable();
 
             if (isPausable) {

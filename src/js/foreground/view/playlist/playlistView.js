@@ -6,6 +6,7 @@
     var AddPlaylistButtonView = require('foreground/view/listItemButton/addPlaylistButtonView');
     var DeletePlaylistButtonView = require('foreground/view/listItemButton/deletePlaylistButtonView');
     var PlayPlaylistButtonView = require('foreground/view/listItemButton/playPlaylistButtonView');
+    var PlaylistOptionsButtonView = require('foreground/view/listItemButton/playlistOptionsButtonView');
     var PlaylistActions = require('foreground/model/playlist/playlistActions');
     var PlaylistTemplate = require('text!template/playlist/playlist.html');
 
@@ -44,6 +45,10 @@
                 },
                 DeletePlaylistButtonView: {
                     viewClass: DeletePlaylistButtonView,
+                    model: this.model
+                },
+                PlaylistOptionsButtonView: {
+                    viewClass: PlaylistOptionsButtonView,
                     model: this.model
                 }
             };

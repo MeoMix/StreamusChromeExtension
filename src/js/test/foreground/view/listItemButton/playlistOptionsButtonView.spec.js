@@ -1,13 +1,13 @@
 ﻿define(function(require) {
     'use strict';
 
-    var MoreActionsButtonView = require('foreground/view/listItemButton/moreActionsButtonView');
+    var PlaylistOptionsButtonView = require('foreground/view/listItemButton/playlistOptionsButtonView');
     var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
-    describe('MoreActionsButtonView', function() {
+    describe('PlaylistOptionsButtonView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.view = new MoreActionsButtonView();
+            this.view = new PlaylistOptionsButtonView();
         });
 
         afterEach(function() {

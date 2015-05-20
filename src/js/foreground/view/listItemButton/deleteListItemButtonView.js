@@ -23,10 +23,14 @@
 
         initialize: function() {
             //  Ensure that the user isn't able to destroy the model more than once.
-            this.doOnClickAction = _.once(this.doOnClickAction);
+            this._deleteListItem = _.once(this._deleteListItem);
         },
 
-        doOnClickAction: function() {
+        onClick: function() {
+            this._deleteListItem();
+        },
+
+        _deleteListItem: function() {
             this.model.destroy();
         }
     });

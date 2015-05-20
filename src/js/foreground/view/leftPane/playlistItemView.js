@@ -7,6 +7,7 @@
     var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
     var DeleteListItemButtonView = require('foreground/view/listItemButton/deleteListItemButtonView');
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
+    var SongOptionsButtonView = require('foreground/view/listItemButton/songOptionsButtonView');
     var PlaylistItemTemplate = require('text!template/leftPane/playlistItem.html');
     var Tooltipable = require('foreground/view/behavior/tooltipable');
     var SongActions = require('foreground/model/song/songActions');
@@ -48,6 +49,10 @@
                 DeleteListItemButtonView: {
                     viewClass: DeleteListItemButtonView,
                     model: this.model
+                },
+                SongOptionsButtonView: {
+                    viewClass: SongOptionsButtonView,
+                    model: this.model.get('song')
                 }
             };
         },

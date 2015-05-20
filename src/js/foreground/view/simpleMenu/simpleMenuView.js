@@ -28,11 +28,13 @@
             //  Defer binding event listeners which will hide this view to ensure that events which
             //  were responsible for showing it do not also result in hiding.
             _.defer(function() {
-                this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
-                this.listenTo(Streamus.channels.element.vent, 'drag', this._onElementDrag);
+                if (!this.isDestroyed) {
+                    this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+                    this.listenTo(Streamus.channels.element.vent, 'drag', this._onElementDrag);
 
-                if (this.model.get('isContextMenu')) {
-                    this.listenTo(Streamus.channels.element.vent, 'contextMenu', this._onElementContextMenu);
+                    if (this.model.get('isContextMenu')) {
+                        this.listenTo(Streamus.channels.element.vent, 'contextMenu', this._onElementContextMenu);
+                    }
                 }
             }.bind(this));
         },

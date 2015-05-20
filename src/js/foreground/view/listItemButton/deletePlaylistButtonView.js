@@ -26,10 +26,14 @@
             this._setState();
 
             //  Ensure that the user isn't able to destroy the model more than once.
-            this.doOnClickAction = _.once(this.doOnClickAction);
+            this._deletePlaylist = _.once(this._deletePlaylist);
         },
 
-        doOnClickAction: function() {
+        onClick: function() {
+            this._deletePlaylist();
+        },
+
+        _deletePlaylist: function() {
             var playlistActions = new PlaylistActions();
 
             playlistActions.deletePlaylist(this.model);
