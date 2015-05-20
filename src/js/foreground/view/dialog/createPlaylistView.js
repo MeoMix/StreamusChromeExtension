@@ -59,6 +59,16 @@
             this.ui.title.focus().val(this.ui.title.val());
         },
 
+        onValidationFailed: function() {
+            var titleValid = this.model.get('titleValid');
+
+            if (!titleValid) {
+                this.ui.title.focus();
+            } else {
+                this.ui.dataSource.focus();
+            }
+        },
+
         createPlaylist: function() {
             var trimmedTitle = this._getTrimmedTitle();
 

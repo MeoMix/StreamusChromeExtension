@@ -151,6 +151,8 @@
                 }
 
                 this._hide();
+            } else {
+                this.contentView.triggerMethod('ValidationFailed');
             }
         },
 

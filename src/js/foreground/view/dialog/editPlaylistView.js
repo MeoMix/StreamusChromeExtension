@@ -36,7 +36,12 @@
         },
 
         onAttach: function() {
-            this._focusInput();
+            //  Reset val to prevent text from becoming highlighted.
+            this.ui.title.focus().val(this.ui.title.val());
+        },
+
+        onValidationFailed: function() {
+            this.ui.title.focus();
         },
 
         editPlaylist: function() {
@@ -52,11 +57,6 @@
         _onInputTitle: function() {
             this._setTitleCharacterCount();
             this._validateTitle();
-        },
-
-        _focusInput: function() {
-            //  Reset val to prevent text from becoming highlighted.
-            this.ui.title.focus().val(this.ui.title.val());
         },
 
         _validateTitle: function() {
