@@ -18,7 +18,11 @@
 
         initialize: function() {
             chrome.runtime.getPlatformInfo(this._onChromeRuntimeGetPlatformInfo.bind(this));
-            window.onerror = this._onWindowError.bind(this);
+
+            //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
+            this._onWindowError = this._onWindowError.bind(this);
+            window.addEventListener('error', this._onWindowError);
+
             this.listenTo(Streamus.channels.error.commands, 'log:error', this._logError);
             this.listenTo(Streamus.channels.error.vent, 'windowError', this._onWindowError);
         },

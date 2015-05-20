@@ -1,33 +1,21 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltipable = require('foreground/view/behavior/tooltipable');
-    var MenuItemTemplate = require('text!template/simpleMenu/menuItem.html');
+    var SimpleMenuItemTemplate = require('text!template/simpleMenu/simpleMenuItem.html');
 
     var SimpleMenuItemView = Marionette.LayoutView.extend({
         className: function() {
             //  TODO: What is listItem--selectable getting us that --clickable is not?
             var className = 'listItem listItem--small listItem--selectable listItem--clickable';
             className += this.model.get('disabled') ? ' is-disabled' : '';
+            className += this.model.get('fixed') ? ' u-bordered--top' : '';
+
             return className;
         },
-        template: _.template(MenuItemTemplate),
-
-        attributes: function() {
-            return {
-                'data-ui': 'tooltipable',
-                'data-tooltip-text': this.model.get('tooltipText')
-            };
-        },
+        template: _.template(SimpleMenuItemTemplate),
 
         events: {
             'click': '_onClick'
-        },
-
-        behaviors: {
-            Tooltipable: {
-                behaviorClass: Tooltipable
-            }
         },
 
         onRender: function() {
@@ -38,17 +26,15 @@
             var enabled = !this.model.get('disabled');
 
             if (enabled) {
-                //  TODO: I think I need to make a distinction between menu items which have click events and those which have values that need to be propagated.
-                this.model.get('onClick')();
+                this.model.get('onClick').call(this.model, this.model);
 
-                this.model.set('active', true);
-                this.triggerMethod('click:simpleMenuItem', {
+                this.triggerMethod('click:item', {
                     view: this,
                     model: this.model
                 });
             }
 
-            //  Return false to prevent the view from closing which emulates how native, disabled contextMenu views work when clicked.
+            //  Return false to prevent the view from closing which emulates how native, disabled menu item views work when clicked.
             return enabled;
         },
 

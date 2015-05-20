@@ -2,9 +2,10 @@
     'use strict';
 
     var Tooltipable = require('foreground/view/behavior/tooltipable');
-    var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
+    var SongsAction = require('foreground/model/song/songsAction');
     var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
     var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
+    var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
 
     var SaveStreamButtonView = Marionette.ItemView.extend({
         id: 'saveStreamButton',
@@ -42,7 +43,8 @@
 
         _onClick: function() {
             if (this.model.get('enabled')) {
-                this._showSaveSongsSimpleMenu(this.model.get('streamItems').pluck('song'));
+                var songs = this.model.get('streamItems').pluck('song');
+                this._showSaveSongsSimpleMenu(songs);
             }
         },
 
@@ -55,13 +57,14 @@
         },
 
         _showSaveSongsSimpleMenu: function(songs) {
-            var offset = this.$el.offset();
-
-            Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                songs: songs,
-                top: offset.top,
-                left: offset.left
+            var songsAction = new SongsAction({
+                songs: songs
             });
+
+            var offset = this.$el.offset();
+            var playlists = this.model.get('signInManager').get('signedInUser').get('playlists');
+
+            songsAction.showSaveMenu(offset.top, offset.left, playlists);
         }
     });
 

@@ -27,7 +27,7 @@
                 }
             });
 
-            expect(this.tooltipRegion.currentView).not.to.equal(undefined);
+            expect(this.tooltipRegion.hasView()).to.equal(true);
             expect(window.requestAnimationFrame.calledOnce).to.equal(true);
 
             window.requestAnimationFrame.restore();

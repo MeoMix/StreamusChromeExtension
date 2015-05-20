@@ -26,13 +26,13 @@
         },
 
         _hideTooltip: function() {
-            if (!_.isUndefined(this.currentView)) {
+            if (this.hasView()) {
                 this.currentView.hide();
             }
         },
 
         _updateTooltip: function(options) {
-            if (!_.isUndefined(this.currentView)) {
+            if (this.hasView()) {
                 this.currentView.model.set('text', options.text);
                 this._setTooltipViewOffset(this.currentView, options.targetBoundingClientRect);
             }

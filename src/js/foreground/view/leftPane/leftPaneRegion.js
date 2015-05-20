@@ -27,16 +27,11 @@
         },
 
         _showLeftPaneView: function() {
-            if (!this._leftPaneViewExists()) {
+            if (!this.hasView()) {
                 this.show(new LeftPaneView({
                     signInManager: Streamus.backgroundPage.signInManager
                 }));
             }
-        },
-
-        //  Returns true if LeftPaneView is currently shown in the region
-        _leftPaneViewExists: function() {
-            return !_.isUndefined(this.currentView);
         }
     });
 

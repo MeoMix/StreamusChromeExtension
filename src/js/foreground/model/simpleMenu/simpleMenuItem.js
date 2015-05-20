@@ -4,12 +4,10 @@
     var SimpleMenuItem = Backbone.Model.extend({
         defaults: {
             text: '',
-            tooltipText: '',
-            value: '',
-            selected: false,
+            value: null,
             active: false,
             disabled: false,
-            //  TODO: This is a bit odd.
+            fixed: false,
             onClick: _.noop
         }
     });

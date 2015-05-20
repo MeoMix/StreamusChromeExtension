@@ -4,7 +4,7 @@
     var SimpleMenuItems = require('foreground/collection/simpleMenu/simpleMenuItems');
     var SimpleMenu = require('foreground/model/simpleMenu/simpleMenu');
     var SimpleMenuView = require('foreground/view/simpleMenu/simpleMenuView');
-    var SimpleListItemTemplate = require('text!template/simpleMenu/simpleListItem.html');
+    var SimpleListItemTemplate = require('text!template/element/simpleListItem.html');
 
     var SimpleListItemView = Marionette.LayoutView.extend({
         className: 'simpleListItem listItem listItem--medium listItem--clickable',
@@ -32,10 +32,6 @@
             'change:value': '_onChangeValue'
         },
 
-        childEvents: {
-            'click:simpleMenuItem': '_onClickSimpleMenuItem'
-        },
-
         onRender: function() {
             this._setPrettyValue(this.model.get('value'));
         },
@@ -60,26 +56,20 @@
                     return {
                         active: this.model.get('value') === option,
                         text: chrome.i18n.getMessage(option),
-                        value: option
+                        value: option,
+                        onClick: function(model) {
+                            this.model.set('value', model.get('value'));
+                        }.bind(this)
                     };
                 }, this));
 
-                //  Since I'm building this inside of a click event and click events can close the menu I need to let the event finish before showing the menu
-                //  otherwise it'll close immediately.
-                _.defer(function() {
-                    this.showChildView('simpleMenu', new SimpleMenuView({
-                        model: new SimpleMenu({
-                            simpleMenuItems: simpleMenuItems,
-                            listItemHeight: this.$el.height()
-                        })
-                    }));
-                }.bind(this));
+                this.showChildView('simpleMenu', new SimpleMenuView({
+                    model: new SimpleMenu({
+                        simpleMenuItems: simpleMenuItems,
+                        listItemHeight: this.$el.height()
+                    })
+                }));
             }
-        },
-
-        _onClickSimpleMenuItem: function(model, eventArgs) {
-            var activeItem = eventArgs.model.get('simpleMenuItems').getActive();
-            this.model.set('value', activeItem.get('value'));
         }
     });
 

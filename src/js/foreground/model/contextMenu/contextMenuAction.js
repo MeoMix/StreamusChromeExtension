@@ -12,7 +12,7 @@
                 isContextMenu: true,
                 top: top,
                 left: left,
-                items: [{
+                simpleMenuItems: [{
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: this._copyUrl.bind(this)
                 }, {

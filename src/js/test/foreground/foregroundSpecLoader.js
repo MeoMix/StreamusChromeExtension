@@ -26,9 +26,6 @@
     //  /view/playlist/
     require('test/foreground/view/playlist/playlistSpecLoader');
 
-    //  /view/saveSongs/
-    require('test/foreground/view/saveSongs/saveSongsRegion.spec');
-
     //  /view/search/
     require('test/foreground/view/search/searchSpecLoader');
 

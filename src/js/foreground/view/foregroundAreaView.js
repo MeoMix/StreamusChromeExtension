@@ -8,7 +8,6 @@
     var LeftPaneRegion = require('foreground/view/leftPane/leftPaneRegion');
     var NotificationRegion = require('foreground/view/notification/notificationRegion');
     var PlaylistsAreaRegion = require('foreground/view/playlist/playlistsAreaRegion');
-    var SaveSongsRegion = require('foreground/view/saveSongs/saveSongsRegion');
     var SearchRegion = require('foreground/view/search/searchRegion');
     var StreamRegion = require('foreground/view/stream/streamRegion');
     var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
@@ -76,11 +75,6 @@
                     selector: '[data-region=search]',
                     regionClass: SearchRegion,
                     settings: Streamus.backgroundPage.settings
-                },
-                saveSongs: {
-                    selector: '[data-region=saveSongs]',
-                    regionClass: SaveSongsRegion,
-                    signInManager: Streamus.backgroundPage.signInManager
                 },
                 playlistsArea: {
                     selector: '[data-region=playlistsArea]',

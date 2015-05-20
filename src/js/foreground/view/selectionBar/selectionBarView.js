@@ -3,6 +3,7 @@
 
     var Tooltipable = require('foreground/view/behavior/tooltipable');
     var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
+    var SongsAction = require('foreground/model/song/songsAction');
     var SelectionBarTemplate = require('text!template/selectionBar/selectionBar.html');
     var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
 
@@ -92,14 +93,16 @@
             var canSave = this.model.get('canSave');
 
             if (canSave) {
-                var offset = this.ui.saveButton.offset();
-
-                Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                    songs: this.model.get('activeCollection').getSelectedSongs(),
-                    top: offset.top,
-                    left: offset.left
+                var songsAction = new SongsAction({
+                    songs: this.model.get('activeCollection').getSelectedSongs()
                 });
 
+                var offset = this.ui.saveButton.offset();
+                var playlists = this.model.get('signInManager').get('signedInUser').get('playlists');
+
+                songsAction.showSaveMenu(offset.top, offset.left, playlists);
+
+                //  TODO: This feels a little weird. Not 100% sure on it.
                 //  Don't deselect collections immediately when the button is clicked because more actions are needed.
                 //  If the user decides to not use the simple menu then don't de-select, either.
                 this.listenTo(Streamus.channels.simpleMenu.vent, 'clicked:item', this._onSimpleMenuClickedItem);

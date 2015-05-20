@@ -3,6 +3,7 @@
 
     var SpinnerView = require('foreground/view/element/spinnerView');
     var SearchResultsView = require('foreground/view/search/searchResultsView');
+    var SongsAction = require('foreground/model/song/songsAction');
     var SearchTemplate = require('text!template/search/search.html');
 
     var SearchView = Marionette.LayoutView.extend({
@@ -157,13 +158,14 @@
             var canSave = this._canSave();
 
             if (canSave) {
-                var offset = this.ui.saveAllButton.offset();
-
-                Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                    songs: this.collection.getSongs(),
-                    top: offset.top,
-                    left: offset.left
+                var songsAction = new SongsAction({
+                    songs: this.collection.getSongs()
                 });
+
+                var offset = this.ui.saveAllButton.offset();
+                var playlists = this.signInManager.get('signedInUser').get('playlists');
+
+                songsAction.showSaveMenu(offset.top, offset.left, playlists);
             }
         },
 

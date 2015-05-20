@@ -16,12 +16,13 @@
         },
 
         _onElementClick: function() {
-            if (!_.isUndefined(this.currentView)) {
+            if (this.hasView()) {
                 this._hideNotification();
             }
         },
 
         _showNotification: function(notificationOptions) {
+            //  TODO: Push this defer onto notificationView.
             //  It's important to defer showing notification because they're often shown via user click events.
             //  Since a click with a notification shown will cause the notification to hide -- need to wait until after click event
             //  finishes propagating before showing a notification.

@@ -2,6 +2,7 @@
     'use strict';
 
     var ListItemButton = require('foreground/view/behavior/listItemButton');
+    var SongsAction = require('foreground/model/song/songsAction');
     var SaveListItemButtonTemplate = require('text!template/listItemButton/saveListItemButton.html');
     var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
@@ -29,13 +30,14 @@
         },
 
         doOnClickAction: function() {
-            var offset = this.$el.offset();
-
-            Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                songs: [this.model],
-                top: offset.top,
-                left: offset.left
+            var songsAction = new SongsAction({
+                songs: [this.model]
             });
+
+            var offset = this.$el.offset();
+            var playlists = this.signInManager.get('signedInUser').get('playlists');
+
+            songsAction.showSaveMenu(offset.top, offset.left, playlists);
         },
 
         _onSignInManagerChangeSignedInUser: function() {

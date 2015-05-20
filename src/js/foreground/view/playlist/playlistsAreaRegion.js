@@ -28,7 +28,7 @@
         _showPlaylistsArea: function() {
             //  It's possibly that the user might want to show playlistsArea before it has been created (i.e. before Application is idle)
             //  If so, just create it now so that it can be shown.
-            if (!this._playlistsAreaViewExists()) {
+            if (!this.hasView()) {
                 var signedInUser = this.signInManager.get('signedInUser');
                 this._createPlaylistsAreaView(signedInUser.get('playlists'));
             }
@@ -38,18 +38,13 @@
 
         _hidePlaylistsArea: function() {
             //  A hide command can be emitted by the application when the user is not signed in. In this scenario, currentView doesn't exist.
-            if (this._playlistsAreaViewExists()) {
+            if (this.hasView()) {
                 this.currentView.hide();
             }
         },
 
-        //  Returns true if PlaylistsAreaView is currently shown in the region.
-        _playlistsAreaViewExists: function() {
-            return !_.isUndefined(this.currentView);
-        },
-
         _createPlaylistsAreaView: function(playlists) {
-            if (!this._playlistsAreaViewExists()) {
+            if (!this.hasView()) {
                 var playlistsAreaView = new PlaylistsAreaView({
                     playlists: playlists
                 });
@@ -63,7 +58,7 @@
             if (signedInUser !== null) {
                 this.empty();
                 this._createPlaylistsAreaView(signedInUser.get('playlists'));
-            } else if (this._playlistsAreaViewExists()) {
+            } else if (this.hasView()) {
                 this.currentView.hide();
             }
         }

@@ -74,11 +74,12 @@
             var isEmpty = this.model.get('items').isEmpty();
 
             //  TODO: Do I want tooltips for disabled?
+            //  TODO: Combine into ContextMenuAction.
             Streamus.channels.simpleMenu.commands.trigger('show:simpleMenu', {
                 isContextMenu: true,
                 top: top,
                 left: left,
-                items: [{
+                simpleMenuItems: [{
                     text: chrome.i18n.getMessage('edit'),
                     onClick: this._showEditPlaylistDialog.bind(this)
                 }, {
