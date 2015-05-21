@@ -163,7 +163,7 @@
                     index: placeholderIndex + response.minRenderIndex
                 });
 
-                //  The collection does not resort because the model's index was provided when calling addSongs 
+                //  The collection does not resort because the model's index was provided when calling addSongs
                 //  The CollectionView rendering the model is now incorrect because the collection's index does not correspond to the CollectionView's index.
                 //  Simply triggering a sort is the simplest solution as it forces the CollectionView to re-render its children.
                 this.view.collection.sort();

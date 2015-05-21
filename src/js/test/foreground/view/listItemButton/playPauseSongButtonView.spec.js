@@ -4,6 +4,7 @@
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var StreamItems = require('background/collection/streamItems');
     var Player = require('background/model/player');
+    var ListItemButton = require('foreground/model/listItemButton/listItemButton');
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
     var Song = require('background/model/song');
@@ -13,7 +14,8 @@
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.view = new PlayPauseSongButtonView({
-                model: new Song(),
+                model: new ListItemButton(),
+                song: new Song(),
                 streamItems: new StreamItems(),
                 player: new Player({
                     settings: new Settings(),

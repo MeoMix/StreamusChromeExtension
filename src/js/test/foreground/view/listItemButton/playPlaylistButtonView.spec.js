@@ -3,6 +3,7 @@
 
     var PlayPlaylistButtonView = require('foreground/view/listItemButton/playPlaylistButtonView');
     var Playlist = require('background/model/playlist');
+    var ListItemButton = require('foreground/model/listItemButton/listItemButton');
     var StreamItems = require('background/collection/streamItems');
     var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
@@ -10,7 +11,8 @@
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.view = new PlayPlaylistButtonView({
-                model: new Playlist(),
+                model: new ListItemButton(),
+                playlist: new Playlist(),
                 streamItems: new StreamItems()
             });
         });
