@@ -8,6 +8,10 @@
             implementsSlidingRender: false
         },
 
+        initialize: function() {
+            this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
+        },
+
         onAttach: function() {
             //  More info: https://github.com/noraesae/perfect-scrollbar
             //  This needs to be ran during onAttach for perfectScrollbar to do its math properly.
@@ -38,6 +42,10 @@
             if (!this.options.implementsSlidingRender) {
                 this._updateScrollbar();
             }
+        },
+
+        _onWindowResize: function() {
+            this._updateScrollbar();
         },
 
         _updateScrollbar: function() {

@@ -147,7 +147,6 @@
         },
 
         _onChangeSignInFailed: function(model, signInFailed) {
-            console.log('signInFailed');
             if (signInFailed) {
                 this._onSignInFailed();
             }

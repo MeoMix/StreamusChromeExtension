@@ -219,7 +219,6 @@
 
         _isSearching: function(searchQueued, pendingRequest) {
             var isSearching = searchQueued || pendingRequest !== null;
-            console.log('isSearching:', isSearching);
             return isSearching;
         },
 

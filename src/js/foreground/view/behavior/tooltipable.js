@@ -11,8 +11,8 @@
 
         //  Whether view's element or a descendant is showing a tooltip
         isShowingTooltip: false,
-        //  Don't show tooltips immediately on hover, wait 200ms moment to provide better UX
-        showTooltipDelay: 200,
+        //  Don't show tooltips immediately on hover, wait 250ms moment to provide better UX
+        showTooltipDelay: 250,
         mutationObserver: null,
 
         events: {
