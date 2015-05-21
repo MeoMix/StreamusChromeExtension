@@ -22,10 +22,16 @@
             }
         },
 
+        playlist: null,
+
+        initialize: function(options) {
+            this.playlist = options.playlist;
+        },
+
         onClick: function() {
             var offset = this.$el.offset();
             var playlistActions = new PlaylistActions();
-            playlistActions.showContextMenu(this.model, offset.top, offset.left);
+            playlistActions.showContextMenu(this.playlist, offset.top, offset.left);
         }
     });
 

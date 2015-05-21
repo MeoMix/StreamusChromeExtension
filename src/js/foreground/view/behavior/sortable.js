@@ -163,9 +163,9 @@
                     index: placeholderIndex + response.minRenderIndex
                 });
 
-                //  TODO: Since I provided the index that the item would be inserted at in the collection, the collection does not resort.
-                //  But, the index in the collection does not correspond to the index in the CollectionView -- that's simply the placeholderIndex. Not sure how to handle that.
-                //  I'd need to intercept the _onCollectionAdd event of Marionette, calculate the proper index, and pass bypass: true in, but not going to do that for now.
+                //  The collection does not resort because the model's index was provided when calling addSongs 
+                //  The CollectionView rendering the model is now incorrect because the collection's index does not correspond to the CollectionView's index.
+                //  Simply triggering a sort is the simplest solution as it forces the CollectionView to re-render its children.
                 this.view.collection.sort();
             }.bind(this));
             this.view.triggerMethod('GetMinRenderIndex');

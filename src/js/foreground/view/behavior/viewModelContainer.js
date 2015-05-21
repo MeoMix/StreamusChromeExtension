@@ -76,7 +76,6 @@
             var viewModel = this.view[viewModelName];
             viewModel.stopListening();
             delete viewModel._attachedToView;
-            //  TODO: Should the model itself be deleted since any event handlers it setup are non-functional? Could be misleading if still available for use.
         }
     });
 

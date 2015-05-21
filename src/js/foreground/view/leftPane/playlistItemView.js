@@ -37,22 +37,22 @@
             return {
                 PlayPauseSongButtonView: {
                     viewClass: PlayPauseSongButtonView,
-                    model: this.model.get('song'),
+                    song: this.model.get('song'),
                     streamItems: Streamus.backgroundPage.stream.get('items'),
                     player: Streamus.backgroundPage.player
                 },
                 AddSongButtonView: {
                     viewClass: AddSongButtonView,
-                    model: this.model.get('song'),
+                    song: this.model.get('song'),
                     streamItems: Streamus.backgroundPage.stream.get('items')
                 },
                 DeleteListItemButtonView: {
                     viewClass: DeleteListItemButtonView,
-                    model: this.model
+                    listItem: this.model
                 },
                 SongOptionsButtonView: {
                     viewClass: SongOptionsButtonView,
-                    model: this.model.get('song')
+                    song: this.model.get('song')
                 }
             };
         },
@@ -91,7 +91,6 @@
 
             //  Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
             if (isShowingSpinner && !this.getRegion('spinner').hasView()) {
-                //  TODO: Don't override className like this.
                 this.showChildView('spinner', new SpinnerView({
                     className: 'overlay u-marginAuto'
                 }));

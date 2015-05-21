@@ -33,22 +33,22 @@
             return {
                 PlayPauseSongButtonView: {
                     viewClass: PlayPauseSongButtonView,
-                    model: this.model.get('song'),
+                    song: this.model.get('song'),
                     streamItems: Streamus.backgroundPage.stream.get('items'),
                     player: Streamus.backgroundPage.player
                 },
                 SaveSongButtonView: {
                     viewClass: SaveSongButtonView,
-                    model: this.model.get('song'),
+                    song: this.model.get('song'),
                     signInManager: Streamus.backgroundPage.signInManager
                 },
                 DeleteListItemButtonView: {
                     viewClass: DeleteListItemButtonView,
-                    model: this.model
+                    listItem: this.model
                 },
                 SongOptionsButtonView: {
                     viewClass: SongOptionsButtonView,
-                    model: this.model.get('song')
+                    song: this.model.get('song')
                 }
             };
         },

@@ -18,7 +18,6 @@
         events: {
             'mouseenter': '_onMouseEnter',
             'mouseleave': '_onMouseLeave',
-            //  TODO: Technically these event names are incorrect.
             'mouseenter @ui.tooltipable': '_onMouseEnter',
             'mouseleave @ui.tooltipable': '_onMouseLeave',
             'mouseenter @ui.textTooltipable': '_onMouseEnter',

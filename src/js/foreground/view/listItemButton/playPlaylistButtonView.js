@@ -18,6 +18,7 @@
         },
 
         streamItems: null,
+        playlist: null,
 
         playlistItemsEvents: {
             'add:completed': '_onPlaylistItemsAddCompleted',
@@ -27,15 +28,16 @@
 
         initialize: function(options) {
             this.streamItems = options.streamItems;
-            this.bindEntityEvents(this.model.get('items'), this.playlistItemsEvents);
+            this.playlist = options.playlist;
+            this.bindEntityEvents(this.playlist.get('items'), this.playlistItemsEvents);
         },
 
         onRender: function() {
-            this._setState(this.model.get('items').isEmpty());
+            this._setState(this.playlist.get('items').isEmpty());
         },
 
         onClick: function() {
-            var songs = this.model.get('items').pluck('song');
+            var songs = this.playlist.get('items').pluck('song');
 
             this.streamItems.addSongs(songs, {
                 playOnAdd: true
@@ -56,6 +58,7 @@
 
         _setState: function(isEmpty) {
             this.$el.toggleClass('is-disabled', isEmpty);
+            this.model.set('enabled', !isEmpty);
 
             var tooltipText = isEmpty ? chrome.i18n.getMessage('playlistEmpty') : chrome.i18n.getMessage('play');
             this.$el.attr('data-tooltip-text', tooltipText);

@@ -32,7 +32,6 @@
 //  Chrome bug forces this to be awkward: https://code.google.com/p/chromium/issues/detail?id=341071
 .volumeArea-slidePanel {
     @panelWidth: 40px;
-    @transitionTime: 250ms;
     z-index: 1;
     width: @panelWidth;
     height: 0;
@@ -42,8 +41,8 @@
     pointer-events: none;
     opacity: 0;
     align-items: center;
-    transition: opacity @transitionTime @transition-easeOutSine,
-                height @transitionTime @transition-easeOutSine;
+    transition: opacity @transition-duration--slow @transition-easeOutSine,
+                height  @transition-duration--slow @transition-easeOutSine;
 
     // CSS triangle
     &:before {
@@ -66,9 +65,9 @@
         height: @rangeInputSize;
         opacity: 0;
         transition:
-            width @transitionTime @transition-easeOutSine,
-            right @transitionTime @transition-easeOutSine,
-            opacity @transitionTime @transition-easeOutSine;
+            width @transition-duration--slow @transition-easeOutSine,
+            right @transition-duration--slow @transition-easeOutSine,
+            opacity @transition-duration--slow @transition-easeOutSine;
     }
 }
 

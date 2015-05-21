@@ -89,9 +89,6 @@
         //  Handle the actual search functionality inside of a debounced function.
         //  This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
         _doDebounceSearch: _.debounce(function(trimmedQuery) {
-            //  TODO: What happens between now and when parseUrl is running? It will look like no search is being performed?
-            this.set('searchQueued', false);
-
             //  If the user typed 'a' and then hit backspace, debounce search will still be trying to run with 'a'
             //  because no future search query arrived. Prevent this.
             if (this._getTrimmedQuery() === trimmedQuery) {
@@ -112,8 +109,13 @@
                         } else {
                             this._setResultsByText(trimmedQuery);
                         }
+
+                        //  Set to false only after setting a new pendingRequest to ensure that the 'isSearching' doesn't flicker to false.
+                        this.set('searchQueued', false);
                     }.bind(this)
                 });
+            } else {
+                this.set('searchQueued', false);
             }
         }, 350),
 
@@ -128,7 +130,7 @@
         },
 
         _setResultsByPlaylist: function(playlistId) {
-            //  TODO: This is not DRY with how a Playlist loads its songs internally, how can I share the logic?
+            //  https://github.com/MeoMix/StreamusChromeExtension/issues/567
             var pendingRequest = YouTubeV3API.getPlaylistSongs({
                 playlistId: playlistId,
                 success: this._onGetPlaylistSongsSuccess.bind(this, playlistId),
@@ -216,7 +218,9 @@
         },
 
         _isSearching: function(searchQueued, pendingRequest) {
-            return searchQueued || pendingRequest !== null;
+            var isSearching = searchQueued || pendingRequest !== null;
+            console.log('isSearching:', isSearching);
+            return isSearching;
         },
 
         _onForegroundEndUnload: function() {

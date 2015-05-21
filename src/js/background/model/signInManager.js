@@ -24,7 +24,7 @@
         initialize: function() {
             this.on('change:signedInUser', this._onChangeSignedInUser);
             this.on('change:signInFailed', this._onChangeSignInFailed);
-            this.listenTo(Streamus.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
+            //this.listenTo(Streamus.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
             chrome.identity.onSignInChanged.addListener(this._onChromeIdentitySignInChanged.bind(this));
@@ -147,6 +147,7 @@
         },
 
         _onChangeSignInFailed: function(model, signInFailed) {
+            console.log('signInFailed');
             if (signInFailed) {
                 this._onSignInFailed();
             }
@@ -244,10 +245,21 @@
             switch (request.method) {
                 case 'copyPlaylist':
                     if (this._canSignIn()) {
-                        //  TODO: What if sign in fails?
-                        this.once('change:signedInUser', function() {
+                        var onSignInSuccess = function() {
                             this._handleCopyPlaylistRequest(request, sendResponse);
-                        });
+                            this.off('change:signInFailed', onSignInFailed);
+                        };
+
+                        var onSignInFailed = function() {
+                            this.off('change:signedInUser', onSignInSuccess);
+                            sendResponse({
+                                result: 'error',
+                                error: 'Failed to sign in'
+                            });
+                        };
+
+                        this.once('change:signedInUser', onSignInSuccess);
+                        this.once('change:signInFailed', onSignInFailed);
 
                         this.signInWithGoogle();
                     } else {
@@ -257,7 +269,6 @@
                     sendAsynchronousResponse = true;
                     break;
                 case 'isUserLoaded':
-                    //  TODO: Maybe this should also be able to sign in a user since I'm going to poll isUserLoaded and if nobody is signing in then why continue to poll?
                     sendResponse({
                         isUserLoaded: this.get('signedInUser') !== null
                     });
@@ -269,7 +280,7 @@
         },
 
         _handleCopyPlaylistRequest: function(request, sendResponse) {
-            //  TODO: Probably house this logic on signedInUser or on playlists?
+            //  It would be nice to handle this at a lower level, but I need the ability to sign a user in first.
             this.get('signedInUser').get('playlists').copyPlaylist({
                 playlistId: request.playlistId,
                 success: function() {
@@ -297,7 +308,7 @@
                 callback(false);
             }
         },
-        //  TODO: Just set this properties manually instead of via function.
+
         _needLinkUserId: function() {
             this.set('needLinkUserId', true);
         },

@@ -22,10 +22,16 @@
             }
         },
 
+        song: null,
+
+        initialize: function(options) {
+            this.song = options.song;
+        },
+
         onClick: function() {
             var offset = this.$el.offset();
             var songActions = new SongActions();
-            songActions.showContextMenu(this.model, offset.top, offset.left, this.player);
+            songActions.showContextMenu(this.song, offset.top, offset.left, this.player);
         }
     });
 

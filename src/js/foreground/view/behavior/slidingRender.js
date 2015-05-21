@@ -127,7 +127,6 @@
         },
 
         _setRenderedElements: function(scrollTop) {
-            //  TODO: Reduce cyclomatic complexity
             /* jshint ignore:start */
             //  Figure out the range of items currently rendered:
             var currentMinRenderIndex = this.minRenderIndex;
@@ -354,7 +353,6 @@
         },
 
         _onCollectionRemove: function(item, collection, options) {
-            //  TODO: It would be nice to find a way to not have to leverage _.defer here.
             //  Use _.defer to wait for the view to remove the element corresponding to item.
             //  _renderElementAtIndex has an off-by-one error if executed immediately.
             _.defer(function() {

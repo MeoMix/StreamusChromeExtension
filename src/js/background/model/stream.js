@@ -42,7 +42,6 @@
 
             var activeItem = this.get('items').getActiveItem();
             if (!_.isUndefined(activeItem)) {
-                //  TODO: Perhaps I could write activeItem to localStorage and convert it back from JSON to a model on initialize, but doing this for now.
                 this.set('activeItem', activeItem);
                 this.get('player').activateSong(activeItem.get('song'));
             }
@@ -159,7 +158,6 @@
 
         //  Return the previous item or null without affecting the history.
         getPrevious: function() {
-            //  TODO: Reduce cyclomatic complexity.
             /* jshint ignore:start */
             var previousStreamItem = null;
             var history = this.get('history');

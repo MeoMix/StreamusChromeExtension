@@ -22,7 +22,10 @@
             }
         },
 
-        initialize: function() {
+        playlist: null,
+
+        initialize: function(options) {
+            this.playlist = options.playlist;
             this._setState();
 
             //  Ensure that the user isn't able to destroy the model more than once.
@@ -36,11 +39,11 @@
         _deletePlaylist: function() {
             var playlistActions = new PlaylistActions();
 
-            playlistActions.deletePlaylist(this.model);
+            playlistActions.deletePlaylist(this.playlist);
         },
 
         _setState: function() {
-            var canDelete = this.model.get('canDelete');
+            var canDelete = this.playlist.get('canDelete');
 
             var tooltipText;
             if (canDelete) {
@@ -50,6 +53,7 @@
             }
 
             this.$el.toggleClass('is-disabled', !canDelete).attr('data-tooltip-text', tooltipText);
+            this.model.set('enabled', canDelete);
         }
     });
 

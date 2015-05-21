@@ -79,13 +79,11 @@
         },
 
         addSongs: function(songs, options) {
-            //  TODO: Reduce cyclomatic complexity.
             /* jshint ignore:start */
             options = _.isUndefined(options) ? {} : options;
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
             if (options.playOnAdd) {
-                //  TODO: Rethink playOnActivate to not have to use a channel since this is basically just a glorified global.
                 Streamus.channels.player.commands.trigger('playOnActivate', true);
             }
 
@@ -230,9 +228,7 @@
         //  Take each streamItem's array of related songs, pluck them all out into a collection of arrays
         //  then flatten the arrays into a single array of songs.
         _getRelatedSongs: function() {
-            //  TODO: I don't think this should be OK.
-            //  Some might not have information. This is OK. Either YouTube hasn't responded yet or responded with no information. Skip these.
-            //  Create a list of all the related songs from all of the information of stream items.
+            //  Some items may not have related information due to lack of response from YouTube or simply a lack of information.
             var relatedSongs = _.flatten(this.map(function(streamItem) {
                 return streamItem.get('relatedSongs').models;
             }));

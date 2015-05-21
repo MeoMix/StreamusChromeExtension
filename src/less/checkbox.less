@@ -1,6 +1,5 @@
 ﻿@import "color";
-
-@checkbox-duration: .28s;
+@import "transition";
 
 checkbox {
     display: flex;
@@ -15,7 +14,7 @@ checkbox {
       color: @dark--secondary;
 
       &:before {
-        -webkit-animation: checkbox-off @checkbox-duration linear forwards;
+        -webkit-animation: checkbox-off @transition-duration--slow linear forwards;
       }
     }
 
@@ -33,7 +32,7 @@ checkbox {
 
         &:before {
             color: @blue--500;
-            -webkit-animation: checkbox-on @checkbox-duration linear forwards;
+            -webkit-animation: checkbox-on @transition-duration--slow linear forwards;
         }
     }
 }
@@ -57,7 +56,7 @@ checkbox {
 .checkbox-label {
     cursor: pointer;
     flex: 1;
-    transition-duration: @checkbox-duration;
+    .transition--slow;
     transition-property: color;
     transition-timing-function: ease-out;
 }
@@ -70,7 +69,7 @@ checkbox {
     overflow: hidden;
     border: 2px solid;
     border-radius: 2px;
-    transition-duration: @checkbox-duration;
+    .transition--slow;
 
     &:before {
         position: absolute;

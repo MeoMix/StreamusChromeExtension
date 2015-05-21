@@ -34,8 +34,7 @@
         },
 
         _announceClick: function(event) {
-            //  TODO: Prefer not to check hasClass and leverage state of a model.
-            if (!this.$el.hasClass('is-disabled')) {
+            if (this.view.model.get('enabled')) {
                 this.view.triggerMethod('Click');
             }
             //  Since returning false, need to announce the event happened here since root level won't know about it.

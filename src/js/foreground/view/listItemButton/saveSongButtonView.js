@@ -19,8 +19,10 @@
         },
 
         signInManager: null,
+        song: null,
 
         initialize: function(options) {
+            this.song = options.song;
             this.signInManager = options.signInManager;
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
@@ -34,7 +36,7 @@
             var offset = this.$el.offset();
             var playlists = this.signInManager.get('signedInUser').get('playlists');
 
-            songActions.showSaveMenu(this.model, offset.top, offset.left, playlists);
+            songActions.showSaveMenu(this.song, offset.top, offset.left, playlists);
         },
 
         _onSignInManagerChangeSignedInUser: function() {
@@ -46,6 +48,7 @@
 
             var tooltipText = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('notSignedIn');
             this.$el.attr('data-tooltip-text', tooltipText).toggleClass('is-disabled', !signedIn);
+            this.model.set('enabled', signedIn);
         }
     });
 

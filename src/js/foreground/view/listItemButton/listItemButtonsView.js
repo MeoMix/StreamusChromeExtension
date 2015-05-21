@@ -1,7 +1,8 @@
-﻿define(function() {
+﻿define(function(require) {
     'use strict';
 
-    //  TODO: Can this become a CollectionView?
+    var ListItemButton = require('foreground/model/listItemButton/listItemButton');
+
     var ListItemButtonsView = Marionette.ItemView.extend({
         className: 'listItem-buttons',
         template: false,
@@ -19,7 +20,9 @@
             _.forIn(this.buttonViewOptions, function(buttonViewOption) {
                 var ViewClass = buttonViewOption.viewClass;
                 var options = _.omit(buttonViewOption, 'viewClass');
-                var buttonView = new ViewClass(options);
+                var buttonView = new ViewClass(_.extend({
+                    model: new ListItemButton()
+                }, options));
 
                 documentFragment.appendChild(buttonView.render().el);
                 buttonView.triggerMethod('show');

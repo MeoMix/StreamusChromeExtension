@@ -236,7 +236,6 @@
                         }
                     } else {
                         //  Filter out videos which have marked themselves as not able to be embedded since they won't be able to be played in Streamus.
-                        //  TODO: Notify the user that this has happened.
                         var embeddableItems = _.filter(response.items, function(item) {
                             //  Check for PT0S due to an issue in YouTube's API: https://code.google.com/p/gdata-issues/issues/detail?id=7172
                             //  Songs with 0s duration are unable to be played.
@@ -297,6 +296,5 @@
         }
     });
 
-    //  TODO: Don't return new instance even if its not stateful.
     return new YouTubeV3API();
 });

@@ -2,7 +2,7 @@
     'use strict';
 
     //var VideoView = require('foreground/view/video/videoView');
-    //  TODO: need to disable rendering of the video when not shown.
+
     var VideoRegion = Marionette.Region.extend({
         //initialize: function() {
         //    this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);

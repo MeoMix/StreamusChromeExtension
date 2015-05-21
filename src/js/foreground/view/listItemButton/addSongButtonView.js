@@ -24,7 +24,10 @@
             'reset': '_onStreamItemsReset'
         },
 
+        song: null,
+
         initialize: function(options) {
+            this.song = options.song;
             this.streamItems = options.streamItems;
             this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
         },
@@ -34,7 +37,7 @@
         },
 
         onClick: function() {
-            this.streamItems.addSongs(this.model);
+            this.streamItems.addSongs(this.song);
         },
 
         _onStreamItemsAddCompleted: function() {
@@ -50,8 +53,9 @@
         },
 
         _setState: function() {
-            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model);
+            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.song);
             this.$el.toggleClass('is-disabled', duplicatesInfo.allDuplicates);
+            this.model.set('enabled', !duplicatesInfo.allDuplicates);
 
             var tooltipText = duplicatesInfo.allDuplicates ? duplicatesInfo.message : chrome.i18n.getMessage('add');
             this.$el.attr('data-tooltip-text', tooltipText);

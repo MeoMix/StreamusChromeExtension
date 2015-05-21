@@ -44,8 +44,8 @@
             hideSearchButton: '[data-ui~=hideSearchButton]',
             showPlaylistsAreaButton: '[data-ui~=showPlaylistsAreaButton]',
             hidePlaylistsAreaButton: '[data-ui~=hidePlaylistsAreaButton]',
-            //  TODO: I don't like regions being manipulated in UI they should be stateless.
-            //  To achieve this, I'll need to make playlistTitleRegion and searchInputRegion the same region and swap views out.
+            //  I don't like regions being manipulated in UI they should be stateless.
+            //  However, this area is going to change pretty soon once the new UI gets added. So, no need to fix right now.
             playlistTitleRegion: '[data-ui~=playlistTitleRegion]',
             searchInputRegion: '[data-ui~=searchInputRegion]'
         },

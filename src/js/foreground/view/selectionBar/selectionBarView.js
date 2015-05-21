@@ -100,7 +100,6 @@
 
                 songActions.showSaveMenu(songs, offset.top, offset.left, playlists);
 
-                //  TODO: This feels a little weird. Not 100% sure on it.
                 //  Don't deselect collections immediately when the button is clicked because more actions are needed.
                 //  If the user decides to not use the simple menu then don't de-select, either.
                 this.listenTo(Streamus.channels.simpleMenu.vent, 'clicked:item', this._onSimpleMenuClickedItem);

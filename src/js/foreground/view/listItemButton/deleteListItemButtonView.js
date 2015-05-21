@@ -21,7 +21,10 @@
             'data-tooltip-text': chrome.i18n.getMessage('delete')
         },
 
-        initialize: function() {
+        listItem: null,
+
+        initialize: function(options) {
+            this.listItem = options.listItem;
             //  Ensure that the user isn't able to destroy the model more than once.
             this._deleteListItem = _.once(this._deleteListItem);
         },
@@ -31,7 +34,7 @@
         },
 
         _deleteListItem: function() {
-            this.model.destroy();
+            this.listItem.destroy();
         }
     });
 

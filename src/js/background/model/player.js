@@ -20,7 +20,6 @@ define(function(require) {
                 ready: false,
                 loading: false,
                 currentLoadAttempt: 1,
-                //  TODO: maxLoadAttempts isn't DRY with YouTubePlayer.
                 maxLoadAttempts: 10,
                 previousState: PlayerState.Unstarted,
                 state: PlayerState.Unstarted,
@@ -233,7 +232,6 @@ define(function(require) {
         _ensureInitialState: function() {
             this.set('ready', this.get('youTubePlayer').get('ready'));
             this.set('loading', this.get('youTubePlayer').get('loading'));
-            //  TODO: How will I handle currentLoadAttempt w/ 2+ APIs? If both are loading they could be on separate attempts...?
             this.set('currentLoadAttempt', this.get('youTubePlayer').get('currentLoadAttempt'));
         },
 
@@ -446,7 +444,7 @@ define(function(require) {
                     playerState = PlayerState.Buffering;
                     break;
                 case YouTubePlayerState.SongCued:
-                    //  TODO: I'm mapping SongCued to 'paused', but it shouldn't ever happen in the wild now. Remove this entirely in v0.175+ once confirmed.
+                    //  This should not occur in the wild. Remove in v0.175+ once confirmed.
                     playerState = PlayerState.Paused;
                     Streamus.channels.error.commands.trigger('log:error', new Error('Unexpected PlayerState.SongCued event.'));
                     break;

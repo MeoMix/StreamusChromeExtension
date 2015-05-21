@@ -14,7 +14,6 @@
         },
 
         initialize: function() {
-            //  TODO: There's a LOT of things to listen to here. Once Stream can tell me its nextItem I should be able to clean this up easier.
             this.listenTo(this.get('stream').get('items'), 'add remove reset change:active sort', this._setEnabled);
             this.listenTo(this.get('radioButton'), 'change:enabled', this._onRadioButtonChangeEnabled);
             this.listenTo(this.get('shuffleButton'), 'change:enabled', this._onShuffleButtonChangeEnabled);

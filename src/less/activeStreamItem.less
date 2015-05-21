@@ -5,7 +5,8 @@
 .activeStreamItem {
     height: 72px;
     padding: 8px 16px;
-    //  TODO: Would prefer to use -110% transform, but need to be able to shift StreamItems down the same amount.
+    //  https://github.com/MeoMix/StreamusChromeExtension/issues/565
+    //  Prefer using -110% transform, but need to be able to shift StreamItems down the same amount.
     //  72px is the height of activeStreamItem.
     margin-top: -72px;
     color: @dark--primary;
@@ -24,7 +25,6 @@
     }
 }
 
-//  TODO: This should be able to be generalized.
 .activeStreamItem-title {
     font-size: 17px;
     line-height: 34px;

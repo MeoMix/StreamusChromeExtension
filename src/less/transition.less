@@ -1,18 +1,12 @@
-﻿@transition-color-time: .2s;
-@transition-easeOutSine: cubic-bezier(.39,.575,.565,1);
+﻿@transition-easeOutSine: cubic-bezier(.39,.575,.565,1);
 
-.transition--veryFast {
-    transition-duration: .2s;
-}
+@transition-duration--fast: .2s;
+@transition-duration--slow: .28s;
 
 .transition--fast {
-    transition-duration: .25s;
+    transition-duration: @transition-duration--fast;
 }
 
 .transition--slow {
-    transition-duration: .35s;
-}
-
-.transition--verySlow {
-    transition-duration: .4s;
+    transition-duration: @transition-duration--slow;
 }

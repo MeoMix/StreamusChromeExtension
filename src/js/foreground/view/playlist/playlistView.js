@@ -35,21 +35,21 @@
             return {
                 PlayPlaylistButtonView: {
                     viewClass: PlayPlaylistButtonView,
-                    model: this.model,
+                    playlist: this.model,
                     streamItems: Streamus.backgroundPage.stream.get('items')
                 },
                 AddPlaylistButtonView: {
                     viewClass: AddPlaylistButtonView,
-                    model: this.model,
+                    playlist: this.model,
                     streamItems: Streamus.backgroundPage.stream.get('items')
                 },
                 DeletePlaylistButtonView: {
                     viewClass: DeletePlaylistButtonView,
-                    model: this.model
+                    playlist: this.model
                 },
                 PlaylistOptionsButtonView: {
                     viewClass: PlaylistOptionsButtonView,
-                    model: this.model
+                    playlist: this.model
                 }
             };
         },
@@ -100,7 +100,6 @@
             //  Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
             if (isShowingSpinner && !this.getRegion('spinner').hasView()) {
                 this.showChildView('spinner', new SpinnerView({
-                    //  TODO: Don't override className like this.
                     className: 'overlay u-marginAuto'
                 }));
             }

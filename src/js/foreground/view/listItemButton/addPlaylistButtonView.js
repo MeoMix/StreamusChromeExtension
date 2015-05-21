@@ -18,6 +18,7 @@
         },
 
         streamItems: null,
+        playlist: null,
 
         streamItemsEvents: {
             'add:completed': '_onStreamItemsAddCompleted',
@@ -33,8 +34,10 @@
 
         initialize: function(options) {
             this.streamItems = options.streamItems;
+            this.playlist = options.playlist;
+
             this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
-            this.bindEntityEvents(this.model.get('items'), this.playlistItemsEvents);
+            this.bindEntityEvents(this.playlist.get('items'), this.playlistItemsEvents);
         },
 
         onRender: function() {
@@ -42,7 +45,7 @@
         },
 
         onClick: function() {
-            var songs = this.model.get('items').pluck('song');
+            var songs = this.playlist.get('items').pluck('song');
             this.streamItems.addSongs(songs);
         },
 
@@ -71,11 +74,12 @@
         },
 
         _setState: function() {
-            var playlistItems = this.model.get('items');
+            var playlistItems = this.playlist.get('items');
             var empty = playlistItems.length === 0;
             var duplicatesInfo = this.streamItems.getDuplicatesInfo(playlistItems.pluck('song'));
-
-            this.$el.toggleClass('is-disabled', empty || duplicatesInfo.allDuplicates);
+            var isDisabled = empty || duplicatesInfo.allDuplicates;
+            this.$el.toggleClass('is-disabled', isDisabled);
+            this.model.set('enabled', !isDisabled);
 
             var tooltipText = chrome.i18n.getMessage('add');
 

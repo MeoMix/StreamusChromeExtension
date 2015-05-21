@@ -137,8 +137,6 @@
                 parseVideo: false
             });
 
-            //  TODO: I suspect that binding to events emitted from dataSource would be better than success/error handlers
-            //  as then I have a way to prevent running the callback when the view is destroyed.
             dataSource.parseUrl({
                 success: this._onParseUrlSuccess.bind(this, dataSource),
                 error: this._setErrorState.bind(this)

@@ -16,13 +16,12 @@
 
     Cocktail.patch(Backbone);
 
-    //  TODO: This is necessary for tests to work, but how can I make the original one reusable?
+    //  https://github.com/MeoMix/StreamusChromeExtension/issues/563
     var Application = Marionette.Application.extend({
         localDebug: true,
         testing: true,
         serverUrl: '',
 
-        //  TODO: Not sure how I am going to handle background/foreground channels.
         channels: {
             global: Backbone.Wreqr.radio.channel('global'),
             dialog: Backbone.Wreqr.radio.channel('dialog'),

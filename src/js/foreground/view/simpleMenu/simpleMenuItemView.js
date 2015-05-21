@@ -4,18 +4,16 @@
     var SimpleMenuItemTemplate = require('text!template/simpleMenu/simpleMenuItem.html');
 
     var SimpleMenuItemView = Marionette.LayoutView.extend({
-        className: function() {
-            //  TODO: What is listItem--selectable getting us that --clickable is not?
-            var className = 'listItem listItem--small listItem--selectable listItem--clickable';
-            className += this.model.get('disabled') ? ' is-disabled' : '';
-            className += this.model.get('fixed') ? ' u-bordered--top' : '';
-
-            return className;
-        },
+        className: 'listItem listItem--small listItem--selectable listItem--clickable',
         template: _.template(SimpleMenuItemTemplate),
 
         events: {
             'click': '_onClick'
+        },
+
+        initialize: function() {
+            this.$el.toggleClass('is-disabled', this.model.get('disabled'));
+            this.$el.toggleClass('u-bordered--top', this.model.get('fixed'));
         },
 
         onRender: function() {

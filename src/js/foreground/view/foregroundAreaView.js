@@ -150,7 +150,7 @@
             Streamus.channels.element.vent.trigger('contextMenu', event);
         },
 
-        _onMouseDown: function() {
+        _onMouseDown: function(event) {
             Streamus.channels.element.vent.trigger('mouseDown', event);
         },
 

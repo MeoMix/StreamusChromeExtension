@@ -150,7 +150,6 @@
 
                                     playlistItems.addSongs(song, {
                                         success: function() {
-                                            //  TODO: Prefer showing notification via playlist
                                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                                                 title: chrome.i18n.getMessage('songAdded'),
                                                 message: song.get('title')

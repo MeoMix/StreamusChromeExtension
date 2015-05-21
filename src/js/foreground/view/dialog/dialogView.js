@@ -7,7 +7,7 @@
     var DialogTemplate = require('text!template/dialog/dialog.html');
 
     var DialogView = Marionette.LayoutView.extend({
-        className: 'dialog overlay overlay--faded u-transitionable transition--veryFast',
+        className: 'dialog overlay overlay--faded u-transitionable transition--fast',
         template: _.template(DialogTemplate),
         contentView: null,
 
@@ -36,7 +36,8 @@
         mouseDownTarget: null,
 
         initialize: function() {
-            //  TODO: Don't do this. Prefer to pass in as options, but really reminders will go away in favor of undo so just remove then.
+            //  Prefer passing background models in as options, but reminders will be removed once undo is implemented.
+            //  So, no need to refactor this right now. Just remove later.
             this.settings = Streamus.backgroundPage.settings;
         },
 
@@ -66,7 +67,6 @@
 
         onSubmit: _.noop,
 
-        //  TODO: Propagate this logic throughout application. It's more complex, but it's correct UX.
         //  If the user clicks on the darkened area then close the dialog.
         //  Use onMouseDown and onMouseUp because the user can click down on the scrollbar and drag their mouse such that it is over
         //  the darkened panel. This will cause an incorrect close because they didn't click on the dark panel.
