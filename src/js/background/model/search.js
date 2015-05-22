@@ -55,7 +55,7 @@
             this.stopClearQueryTimer();
             this.set('clearQueryTimeout', setTimeout(this._clearQuery.bind(this), 10000));
         },
-        
+
         //  Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
         _hasSearchableQuery: function() {
             return this._getTrimmedQuery() !== '';
@@ -64,7 +64,7 @@
         _getTrimmedQuery: function() {
             return this.get('query').trim();
         },
-        
+
         //  Perform a search on the given query or just terminate immediately if nothing to do.
         _search: function() {
             this._clearResults();
@@ -78,20 +78,17 @@
                 this.set('searchQueued', false);
             }
         },
-        
+
         //  Set some flags indicating that a search is in progress.
         _startSearching: function() {
             this.set('searchQueued', true);
             //  Debounce a search request so that when the user stops typing the last request will run.
             this._doDebounceSearch(this._getTrimmedQuery());
         },
-        
+
         //  Handle the actual search functionality inside of a debounced function.
         //  This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
         _doDebounceSearch: _.debounce(function(trimmedQuery) {
-            //  TODO: What happens between now and when parseUrl is running? It will look like no search is being performed?
-            this.set('searchQueued', false);
-
             //  If the user typed 'a' and then hit backspace, debounce search will still be trying to run with 'a'
             //  because no future search query arrived. Prevent this.
             if (this._getTrimmedQuery() === trimmedQuery) {
@@ -106,14 +103,19 @@
 
                         //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
                         if (dataSource.isYouTubeVideo()) {
-                            this._setResultsBySong(dataSource.get('id'));
+                            this._setResultsBySong(dataSource.get('entityId'));
                         } else if (dataSource.isYouTubePlaylist()) {
-                            this._setResultsByPlaylist(dataSource.get('id'));
+                            this._setResultsByPlaylist(dataSource.get('entityId'));
                         } else {
                             this._setResultsByText(trimmedQuery);
                         }
+
+                        //  Set to false only after setting a new pendingRequest to ensure that the 'isSearching' doesn't flicker to false.
+                        this.set('searchQueued', false);
                     }.bind(this)
                 });
+            } else {
+                this.set('searchQueued', false);
             }
         }, 350),
 
@@ -128,7 +130,7 @@
         },
 
         _setResultsByPlaylist: function(playlistId) {
-            //  TODO: This is not DRY with how a Playlist loads its songs internally, how can I share the logic?
+            //  https://github.com/MeoMix/StreamusChromeExtension/issues/567
             var pendingRequest = YouTubeV3API.getPlaylistSongs({
                 playlistId: playlistId,
                 success: this._onGetPlaylistSongsSuccess.bind(this, playlistId),
@@ -183,8 +185,7 @@
                 this.set('pendingRequest', null);
             }
         },
-        
-        //  TODO: Should I be notifying the user an error happened here?
+
         _onSearchError: function() {
             this.set('pendingRequest', null);
         },
@@ -217,7 +218,8 @@
         },
 
         _isSearching: function(searchQueued, pendingRequest) {
-            return searchQueued || pendingRequest !== null;
+            var isSearching = searchQueued || pendingRequest !== null;
+            return isSearching;
         },
 
         _onForegroundEndUnload: function() {

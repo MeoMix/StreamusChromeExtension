@@ -1,17 +1,24 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var ListItemButton = require('foreground/view/behavior/listItemButton');
     var AddListItemButtonTemplate = require('text!template/listItemButton/addListItemButton.html');
     var AddIconTemplate = require('text!template/icon/addIcon_18.svg');
 
-    var AddPlaylistButtonView = ListItemButtonView.extend({
+    var AddPlaylistButtonView = Marionette.ItemView.extend({
         template: _.template(AddListItemButtonTemplate),
         templateHelpers: {
             addIcon: _.template(AddIconTemplate)()
         },
 
+        behaviors: {
+            ListItemButton: {
+                behaviorClass: ListItemButton
+            }
+        },
+
         streamItems: null,
+        playlist: null,
 
         streamItemsEvents: {
             'add:completed': '_onStreamItemsAddCompleted',
@@ -25,16 +32,21 @@
             'reset': '_onPlaylistItemsReset'
         },
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
-            this.bindEntityEvents(this.model.get('items'), this.playlistItemsEvents);
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+            this.playlist = options.playlist;
 
-            ListItemButtonView.prototype.initialize.apply(this, arguments);
+            this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
+            this.bindEntityEvents(this.playlist.get('items'), this.playlistItemsEvents);
         },
 
         onRender: function() {
             this._setState();
+        },
+
+        onClick: function() {
+            var songs = this.playlist.get('items').pluck('song');
+            this.streamItems.addSongs(songs);
         },
 
         _onPlaylistItemsAddCompleted: function() {
@@ -62,26 +74,22 @@
         },
 
         _setState: function() {
-            var playlistItems = this.model.get('items');
+            var playlistItems = this.playlist.get('items');
             var empty = playlistItems.length === 0;
             var duplicatesInfo = this.streamItems.getDuplicatesInfo(playlistItems.pluck('song'));
+            var isDisabled = empty || duplicatesInfo.allDuplicates;
+            this.$el.toggleClass('is-disabled', isDisabled);
+            this.model.set('enabled', !isDisabled);
 
-            this.$el.toggleClass('is-disabled', empty || duplicatesInfo.allDuplicates);
-
-            var title = chrome.i18n.getMessage('add');
+            var tooltipText = chrome.i18n.getMessage('add');
 
             if (empty) {
-                title = chrome.i18n.getMessage('playlistEmpty');
+                tooltipText = chrome.i18n.getMessage('playlistEmpty');
             } else if (duplicatesInfo.message !== '') {
-                title = duplicatesInfo.message;
+                tooltipText = duplicatesInfo.message;
             }
 
-            this.$el.attr('title', title);
-        },
-
-        doOnClickAction: function() {
-            var songs = this.model.get('items').pluck('song');
-            this.streamItems.addSongs(songs);
+            this.$el.attr('data-tooltip-text', tooltipText);
         }
     });
 

@@ -5,21 +5,54 @@
 
     var NotificationView = Marionette.ItemView.extend({
         id: 'notification',
-        className: 'notification panel-content panel-content--fadeInOut',
+        className: 'notification panel panel--bottom u-transitionable transition--fast u-zIndex--5',
         template: _.template(NotificationTemplate),
 
-        ui: function() {
-            return {
-                hideButton: '#' + this.id + '-hideButton'
-            };
+        hideTimeout: null,
+        hideTimeoutDelay: 3000,
+
+        initialize: function() {
+            //  Defer binding event listeners which will hide this view to ensure that events which
+            //  were responsible for showing it do not also result in hiding.
+            _.defer(function() {
+                if (!this.isDestroyed) {
+                    this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+                }
+            }.bind(this));
         },
 
-        events: {
-            'click @ui.hideButton': '_onClickHideButton'
+        onAttach: function() {
+            this._setHideTimeout();
+
+            requestAnimationFrame(function() {
+                this.$el.addClass('is-visible');
+            }.bind(this));
         },
 
-        _onClickHideButton: function() {
-            Streamus.channels.notification.commands.trigger('hide:notification');
+        onBeforeDestroy: function() {
+            this._clearHideTimeout();
+        },
+
+        _onElementClick: function() {
+            this._hide();
+        },
+
+        _hide: function() {
+            this._clearHideTimeout();
+            this.$el.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+            this.$el.removeClass('is-visible');
+        },
+
+        _onTransitionOutComplete: function() {
+            this.destroy();
+        },
+
+        _setHideTimeout: function() {
+            this.hideTimeout = setTimeout(this._hide.bind(this), this.hideTimeoutDelay);
+        },
+
+        _clearHideTimeout: function() {
+            clearTimeout(this.hideTimeout);
         }
     });
 

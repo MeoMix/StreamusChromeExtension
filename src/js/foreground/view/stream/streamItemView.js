@@ -3,20 +3,19 @@
 
     var ListItemView = require('foreground/view/listItemView');
     var ListItemMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
-    var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
+    var DeleteListItemButtonView = require('foreground/view/listItemButton/deleteListItemButtonView');
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
-    var ExtraActionsButtonView = require('foreground/view/listItemButton/extraActionsButtonView');
+    var SongOptionsButtonView = require('foreground/view/listItemButton/songOptionsButtonView');
     var StreamItemTemplate = require('text!template/stream/streamItem.html');
+    var SongActions = require('foreground/model/song/songActions');
 
     var StreamItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' stream-item listItem--medium listItem--hasButtons listItem--selectable',
         template: _.template(StreamItemTemplate),
 
         events: _.extend({}, ListItemView.prototype.events, {
-            'dblclick': '_onDblClick',
-            //  TODO: bad
-            'click .extraActions': '_showContextMenu'
+            'dblclick': '_onDblClick'
         }),
 
         modelEvents: {
@@ -30,38 +29,47 @@
             }
         }),
 
-        buttonViews: [PlayPauseSongButtonView, SaveSongButtonView, DeleteSongButtonView],
+        buttonViewOptions: function() {
+            return {
+                PlayPauseSongButtonView: {
+                    viewClass: PlayPauseSongButtonView,
+                    song: this.model.get('song'),
+                    streamItems: Streamus.backgroundPage.stream.get('items'),
+                    player: Streamus.backgroundPage.player
+                },
+                SaveSongButtonView: {
+                    viewClass: SaveSongButtonView,
+                    song: this.model.get('song'),
+                    signInManager: Streamus.backgroundPage.signInManager
+                },
+                DeleteListItemButtonView: {
+                    viewClass: DeleteListItemButtonView,
+                    listItem: this.model
+                },
+                SongOptionsButtonView: {
+                    viewClass: SongOptionsButtonView,
+                    song: this.model.get('song')
+                }
+            };
+        },
 
         player: null,
         playPauseButton: null,
 
-        initialize: function() {
-            this.player = Streamus.backgroundPage.player;
-            this.playPauseButton = Streamus.backgroundPage.playPauseButton;
+        initialize: function(options) {
+            this.player = options.player;
+            this.playPauseButton = options.playPauseButton;
         },
 
         onRender: function() {
             this._setActiveClass(this.model.get('active'));
         },
 
-        onShowExtraActions: function() {
-            this._showContextMenu();
-        },
+        showContextMenu: function(top, left) {
+            var songActions = new SongActions();
+            var song = this.model.get('song');
 
-        showContextMenu: function() {
-            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                text: chrome.i18n.getMessage('copyUrl'),
-                onClick: this._copyUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                onClick: this._copyTitleAndUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('watchOnYouTube'),
-                onClick: this._watchOnYouTube.bind(this)
-            //}, {
-            //    text: 'Show video',
-            //    onClick: this._showVideo.bind(this)
-            }]);
+            songActions.showContextMenu(song, top, left, this.player);
         },
 
         _onDblClick: function() {
@@ -69,7 +77,7 @@
                 this.playPauseButton.tryTogglePlayerState();
             } else {
                 this.player.set('playOnActivate', true);
-                this.model.save({ active: true });
+                this.model.save({active: true});
             }
         },
 
@@ -86,18 +94,6 @@
         //  render will cause the lazy-loaded image to be reset.
         _setActiveClass: function(active) {
             this.$el.toggleClass('is-active', active);
-        },
-
-        _copyUrl: function() {
-            this.model.get('song').copyUrl();
-        },
-
-        _copyTitleAndUrl: function() {
-            this.model.get('song').copyTitleAndUrl();
-        },
-
-        _watchOnYouTube: function() {
-            this.player.watchInTab(this.model.get('song'));
         },
 
         _showVideo: function() {

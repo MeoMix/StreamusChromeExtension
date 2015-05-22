@@ -2,7 +2,7 @@
 //	Options:
 //    * grunt: Lint JavaScript, LESS, and _locales
 //    * grunt build: Build a test release
-//    * grunt build --newVersion="vx.xxx": Build a release  
+//    * grunt build --newVersion="vx.xxx": Build a release
 'use strict';
 
 var _ = require('lodash');
@@ -40,7 +40,6 @@ module.exports = function(grunt) {
         jshint: {
             //  A full list of options and their defaults here: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
             options: {
-                camelcase: true,
                 immed: true,
                 latedef: true,
                 newcap: true,
@@ -51,12 +50,11 @@ module.exports = function(grunt) {
                 maxdepth: 4,
                 maxstatements: 25,
                 maxcomplexity: 10,
-                maxlen: 200,
                 //	Don't validate third-party libraries
                 ignores: ['src/js/thirdParty/**/*.js']
             },
 
-            files: ['src/js/**/*.js'],
+            files: ['src/js/**/*.js', 'Gruntfile.js']
         },
         //  Compile LESS to CSS
         less: {
@@ -205,10 +203,7 @@ module.exports = function(grunt) {
                 cwd: 'dist/',
                 src: '**/*',
                 dest: '<%= meta.releaseDirectory %>'
-            }
-        },
-        concat: {
-            //  TODO: This isn't really a concat anymore. Just a copy operation.
+            },
             //  Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
             contentScripts: {
                 files: {
@@ -226,6 +221,12 @@ module.exports = function(grunt) {
                 files: ['src/less/*'],
                 tasks: ['less']
             }
+        },
+        jscs: {
+            src: ['src/js/**/*.js', '!src/js/thirdParty/**/*.js', 'Gruntfile.js'],
+            options: {
+                config: '.jscsrc'
+            }
         }
     });
 
@@ -237,7 +238,7 @@ module.exports = function(grunt) {
             grunt.task.run('replace:updateVersion');
         }
 
-        grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'concat:contentScripts', 'less', 'imagemin', 'clean:dist');
+        grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'copy:contentScripts', 'less', 'imagemin', 'clean:dist');
 
         //  Build chrome release
         grunt.task.run('compressRelease:' + chromeReleaseDirectory);
@@ -268,7 +269,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', 'An alias task for running tests.', ['test']);
 
-    grunt.registerTask('test', 'Run tests and code-quality analysis', ['diffLocales', 'jshint', 'recess']);
+    grunt.registerTask('test', 'Run tests and code-quality analysis', ['diffLocales', 'jshint', 'recess', 'jscs']);
 
     grunt.registerTask('compressRelease', 'A synchronous wrapper around compress:release', function(releaseDirectory, sanitize) {
         grunt.config.set('meta.releaseDirectory', releaseDirectory);

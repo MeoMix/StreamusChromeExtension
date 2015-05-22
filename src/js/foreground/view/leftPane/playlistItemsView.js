@@ -12,13 +12,15 @@
     var PlaylistItemsView = Marionette.CompositeView.extend({
         id: 'playlistItems',
         className: 'list u-flex--full',
-        childViewContainer: '@ui.childContainer',
+        childViewContainer: '@ui.listItems',
         childView: PlaylistItemView,
         childViewType: ListItemType.PlaylistItem,
         childViewOptions: function() {
             return {
+                streamItems: Streamus.backgroundPage.stream.get('items'),
+                player: Streamus.backgroundPage.player,
                 type: this.childViewType,
-                parentId: this.ui.childContainer[0].id
+                parentId: this.ui.listItems[0].id
             };
         },
 
@@ -29,15 +31,13 @@
 
         template: _.template(PlaylistItemsTemplate),
 
-        ui: function() {
-            return {
-                childContainer: '#' + this.id + '-listItems'
-            };
+        ui: {
+            listItems: '[data-ui~=listItems]'
         },
 
         behaviors: {
             CollectionViewMultiSelect: {
-                behaviorClass: CollectionViewMultiSelect,
+                behaviorClass: CollectionViewMultiSelect
             },
             Scrollable: {
                 behaviorClass: Scrollable,
@@ -52,11 +52,11 @@
         },
 
         initialize: function() {
-            this.listenTo(Streamus.channels.searchArea.vent, 'showing', this._onSearchAreaShowing);
+            this.listenTo(Streamus.channels.search.vent, 'showing', this._onSearchShowing);
         },
 
-        //  Don't maintain selected results after showing SearchArea because this view won't be visible.
-        _onSearchAreaShowing: function() {
+        //  Don't maintain selected results after showing SearchView because this view won't be visible.
+        _onSearchShowing: function() {
             this.triggerMethod('DeselectCollection');
         }
     });

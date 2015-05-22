@@ -4,7 +4,7 @@
 
 .textInput {
     width: 100%;
-    //  TODO: This needs to be 7px because of 1px border-bottom, otherwise I get into odd-pixel math.
+    //  This needs to be 7px because of 1px border-bottom, otherwise I get into odd-pixel math.
     //  I need 1px border-bottom due to a bug in Chrome: http://stackoverflow.com/questions/26951053/jumpy-transition-when-only-modifying-box-shadow-looks-fine-with-box-shadow-bo
     padding: 8px 0 7px 0;
     font: inherit;
@@ -15,8 +15,8 @@
     border-left: none;
     border-bottom-width: 1px;
     outline: none;
-    transition: box-shadow @transition-color-time @transition-easeOutSine,
-                border @transition-color-time @transition-easeOutSine;
+    transition: box-shadow @transition-duration--fast @transition-easeOutSine,
+                border @transition-duration--fast @transition-easeOutSine;
 }
 
 .textInput--search {
@@ -40,7 +40,7 @@
     &::-webkit-input-placeholder {
         color: @dark--secondary;
     }
-    
+
     &:focus {
         border-bottom-color: @blue--500;
         .m-boxShadow-underline(@blue--500);

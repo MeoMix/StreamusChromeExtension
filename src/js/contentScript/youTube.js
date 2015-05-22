@@ -145,7 +145,7 @@
             this.appendStreamusActionPanel();
 
             //  Append or remove HTML dependent on whether the user is signed in (show add playlist functionality) or signed out (show sign in button)
-            chrome.runtime.sendMessage({ method: 'getSignedInState' }, function(state) {
+            chrome.runtime.sendMessage({method: 'getSignedInState'}, function(state) {
                 while (sharePanel.lastChild) {
                     sharePanel.removeChild(sharePanel.lastChild);
                 }
@@ -222,9 +222,9 @@
 
             if (contentScriptData.canEnhance) {
                 //  This code handles the fact that when you navigate from a YouTube search results list to a video
-                //  the page does not reload because they use AJAX to load the video page. 
+                //  the page does not reload because they use AJAX to load the video page.
                 var isPageLoaded = false;
-      
+
                 var observer = new MutationObserver(function(mutations) {
                     var hasPageLoadedClass = mutations[0].target.classList.contains('page-loaded');
 

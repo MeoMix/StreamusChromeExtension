@@ -2,13 +2,12 @@
     'use strict';
 
     var DataSourceType = require('common/enum/dataSourceType');
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var CreatePlaylistTemplate = require('text!template/dialog/createPlaylist.html');
 
-    var CreatePlaylistView = DialogContentView.extend({
+    var CreatePlaylistView = Marionette.LayoutView.extend({
         id: 'createPlaylist',
         template: _.template(CreatePlaylistTemplate),
-        //  TODO: Would also be nice to pull this from the DB instead, need to truncate DB column to 150.
         titleMaxLength: 150,
 
         templateHelpers: function() {
@@ -21,13 +20,11 @@
             };
         },
 
-        ui: function() {
-            return {
-                title: '#' + this.id + '-title',
-                titleCharacterCount: '#' + this.id + '-title-characterCount',
-                dataSource: '#' + this.id + '-dataSource',
-                dataSourceHint: '#' + this.id + '-dataSource-hint'
-            };
+        ui: {
+            title: '[data-ui~=title]',
+            titleCharacterCount: '[data-ui~=title-characterCount]',
+            dataSource: '[data-ui~=dataSource]',
+            dataSourceHint: '[data-ui~=dataSource-hint]'
         },
 
         events: {
@@ -35,14 +32,20 @@
             'input @ui.dataSource': '_onInputDataSource'
         },
 
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
+        },
+
         playlists: null,
         dataSourceManager: null,
         songs: [],
 
         initialize: function(options) {
-            this.songs = options && options.songs ? options.songs : this.songs;
-            this.playlists = Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists');
-            this.dataSourceManager = Streamus.backgroundPage.dataSourceManager;
+            this.playlists = options.playlists;
+            this.dataSourceManager = options.dataSourceManager;
+            this.songs = _.isUndefined(options.songs) ? this.songs : options.songs;
         },
 
         onRender: function() {
@@ -54,6 +57,16 @@
         onAttach: function() {
             //  Reset the value after focusing to focus without selecting.
             this.ui.title.focus().val(this.ui.title.val());
+        },
+
+        onValidationFailed: function() {
+            var titleValid = this.model.get('titleValid');
+
+            if (!titleValid) {
+                this.ui.title.focus();
+            } else {
+                this.ui.dataSource.focus();
+            }
         },
 
         createPlaylist: function() {
@@ -80,7 +93,7 @@
             var trimmedTitle = this._getTrimmedTitle();
             this.ui.titleCharacterCount.text(trimmedTitle.length);
         },
-        
+
         //  Throttle for typing support so I don't continuously validate while typing
         _debounceParseInput: _.debounce(function() {
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
@@ -104,7 +117,9 @@
         _validateTitle: function() {
             //  When the user submits - check to see if they provided a playlist name
             var title = this._getTrimmedTitle();
-            this.ui.title.toggleClass('is-invalid', title.length === 0 || title.length > this.titleMaxLength);
+            var isInvalid = title.length === 0 || title.length > this.titleMaxLength;
+            this.ui.title.toggleClass('is-invalid', isInvalid);
+            this.model.set('titleValid', !isInvalid);
         },
 
         _setDataSourceAsUserInput: function() {
@@ -122,8 +137,6 @@
                 parseVideo: false
             });
 
-            //  TODO: I suspect that binding to events emitted from dataSource would be better than success/error handlers
-            //  as then I have a way to prevent running the callback when the view is destroyed.
             dataSource.parseUrl({
                 success: this._onParseUrlSuccess.bind(this, dataSource),
                 error: this._setErrorState.bind(this)
@@ -144,9 +157,11 @@
         _onGetTitleSuccess: function(title) {
             if (!this.isDestroyed) {
                 this.ui.title.val(title);
+                this._setTitleCharacterCount();
                 this._validateTitle();
                 this.ui.dataSource.removeClass('is-invalid').addClass('is-valid');
                 this.ui.dataSourceHint.text(chrome.i18n.getMessage('playlistLoaded'));
+                this.model.set('dataSourceValid', true);
             }
         },
 
@@ -154,6 +169,7 @@
             if (!this.isDestroyed) {
                 this.ui.dataSourceHint.text(chrome.i18n.getMessage('errorLoadingUrl'));
                 this.ui.dataSource.removeClass('is-valid').addClass('is-invalid');
+                this.model.set('dataSourceValid', false);
             }
         },
 
@@ -161,6 +177,7 @@
             this.ui.dataSource.removeClass('is-invalid is-valid').removeData('datasource');
             this.ui.dataSourceHint.text('');
             this._setDataSourceAsUserInput();
+            this.model.set('dataSourceValid', true);
         }
     });
 

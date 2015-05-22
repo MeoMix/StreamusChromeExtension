@@ -3,12 +3,12 @@
 
     var Utility = require('common/utility');
     var ExportFileType = require('common/enum/exportFileType');
-    var RadioGroups = require('foreground/collection/radioGroups');
+    var RadioGroups = require('foreground/collection/element/radioGroups');
     var RadioGroupView = require('foreground/view/element/radioGroupView');
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var ExportPlaylistTemplate = require('text!template/dialog/exportPlaylist.html');
 
-    var ExportPlaylistView = DialogContentView.extend({
+    var ExportPlaylistView = Marionette.LayoutView.extend({
         id: 'exportPlaylist',
         template: _.template(ExportPlaylistTemplate),
 
@@ -18,17 +18,14 @@
             jsonMessage: chrome.i18n.getMessage('json')
         },
 
-        regions: function() {
-            return {
-                fileTypeRegion: '#' + this.id + '-fileTypeRegion'
-            };
+        regions: {
+            fileType: '[data-region=fileType]'
         },
 
-        ui: function() {
-            return {
-                exportCsvRadio: '#' + this.id + '-exportCsvRadio',
-                exportJsonRadio: '#' + this.id + '-exportJsonRadio'
-            };
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
         },
 
         radioGroups: null,
@@ -60,7 +57,7 @@
                 buttons: buttons
             });
 
-            this[propertyName + 'Region'].show(new RadioGroupView({
+            this.showChildView(propertyName, new RadioGroupView({
                 model: radioGroup,
                 collection: radioGroup.get('buttons')
             }));

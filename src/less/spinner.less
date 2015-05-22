@@ -1,7 +1,6 @@
 ﻿@import "color";
 
 //  Fade out other elements when the spinner is showing.
-//  TODO: This doesn't quite make sense here. Sometimes I want to fade out without the spinner showing.
 .is-showingSpinner {
     > .spinner--unclickable,
     > .spinner--unclickable * {
@@ -11,12 +10,11 @@
     > .spinner--faded {
         opacity: .1;
     }
-    
+
     > .spinner--faded--light {
         opacity: .3;
     }
-    
-    //  TODO: This needs to be re-thought.
+
     spinner {
         display: inline-block;
     }
@@ -27,7 +25,6 @@ spinner {
     display: none;
     width: 28px;
     height: 28px;
-    //  TODO: needed? Is it inline still when custom element?
     //  Fix the fact that inline elements have implicit spacing
     font-size: 0;
 }

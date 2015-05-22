@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var SelectionBar = require('foreground/model/selectionBar');
+    var SelectionBar = require('foreground/model/selectionBar/selectionBar');
     var SelectionBarView = require('foreground/view/selectionBar/selectionBarView');
 
     var SelectionBarRegion = Marionette.Region.extend({
@@ -10,7 +10,12 @@
         },
 
         _onForegroundAreaIdle: function() {
-            var selectionBar = new SelectionBar();
+            var selectionBar = new SelectionBar({
+                streamItems: Streamus.backgroundPage.stream.get('items'),
+                searchResults: Streamus.backgroundPage.search.get('results'),
+                signInManager: Streamus.backgroundPage.signInManager
+            });
+
             this.show(new SelectionBarView({
                 model: selectionBar
             }));

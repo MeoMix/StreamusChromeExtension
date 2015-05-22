@@ -11,7 +11,7 @@
         serverUrl: '',
         //  A unique identifier for this Streamus instance. Useful for telling logs apart without a signed in user.
         instanceId: '',
-        
+
         //  All the channels used for global event communication across the page
         channels: {
             tab: Backbone.Wreqr.radio.channel('tab'),

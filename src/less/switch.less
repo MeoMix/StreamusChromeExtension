@@ -1,9 +1,7 @@
 ﻿@import "color";
 @import "boxShadow";
+@import "transition";
 
-//  TODO: Standardize transition time, 0.28s vs 0.25s.
-//  I think I prefer 0.28s because it's divisible by 2 which is often relevant.
-//  Although, if that's the case, I should use perfect squares instead (.32s)
 switch {
     display: flex;
     cursor: pointer;
@@ -20,7 +18,7 @@ switch {
     width: 30px;
     height: 15px;
     border-radius: 15px;
-    transition: background 0.28s ease;
+    transition: background @transition-duration--slow ease;
 
     &.is-checked {
         //  http://www.google.com/design/spec/components/switches.html#switches-switch
@@ -52,5 +50,5 @@ switch {
     border-radius: 50%;
     content: "";
     box-shadow: @boxShadow-elevation--low;
-    transition: left 0.28s ease, background 0.28s ease;
+    transition: left @transition-duration--slow ease, background @transition-duration--slow ease;
 }

@@ -3,7 +3,7 @@
 
     var ListItemType = require('common/enum/listItemType');
     var Scrollable = require('foreground/view/behavior/scrollable');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var PlaylistView = require('foreground/view/playlist/playlistView');
     var PlaylistsTemplate = require('text!template/playlist/playlists.html');
 
@@ -13,12 +13,12 @@
         template: _.template(PlaylistsTemplate),
 
         childView: PlaylistView,
-        childViewContainer: '@ui.childContainer',
+        childViewContainer: '@ui.listItems',
         childViewType: ListItemType.Playlist,
         childViewOptions: function() {
             return {
                 type: this.childViewType,
-                parentId: this.ui.childContainer[0].id
+                parentId: this.ui.listItems[0].id
             };
         },
 
@@ -27,19 +27,17 @@
             this._renderChildren();
         },
 
-        ui: function() {
-            return {
-                childContainer: '#' + this.id + '-listItems'
-            };
+        ui: {
+            listItems: '[data-ui~=listItems]'
         },
 
         triggers: {
-            'click @ui.childContainer': 'click:childContainer'
+            'click @ui.listItems': 'click:listItems'
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             },
             Scrollable: {
                 behaviorClass: Scrollable
@@ -47,7 +45,7 @@
         },
 
         onRender: function() {
-            this.ui.childContainer.sortable(this._getSortableOptions());
+            this.ui.listItems.sortable(this._getSortableOptions());
         },
 
         _getSortableOptions: function() {

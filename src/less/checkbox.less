@@ -1,6 +1,5 @@
 ﻿@import "color";
-
-@checkbox-duration: .28s;
+@import "transition";
 
 checkbox {
     display: flex;
@@ -10,15 +9,15 @@ checkbox {
     &.is-unchecked .checkbox-icon {
       color: @dark--secondary;
     }
-  
+
     &.is-unchecking .checkbox-icon  {
       color: @dark--secondary;
-      
+
       &:before {
-        -webkit-animation: checkbox-off @checkbox-duration linear forwards;
+        -webkit-animation: checkbox-off @transition-duration--slow linear forwards;
       }
     }
-  
+
     &.is-checked .checkbox-icon {
         color: @blue--500;
 
@@ -27,13 +26,13 @@ checkbox {
             box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0 0 20px, 0 32px 0 20px, -5px 5px 0 10px, 20px -12px 0 11px;
         }
     }
-  
+
     &.is-checking .checkbox-icon {
         color: @blue--500;
-      
+
         &:before {
             color: @blue--500;
-            -webkit-animation: checkbox-on @checkbox-duration linear forwards;
+            -webkit-animation: checkbox-on @transition-duration--slow linear forwards;
         }
     }
 }
@@ -57,7 +56,7 @@ checkbox {
 .checkbox-label {
     cursor: pointer;
     flex: 1;
-    transition-duration: @checkbox-duration;
+    .transition--slow;
     transition-property: color;
     transition-timing-function: ease-out;
 }
@@ -70,8 +69,8 @@ checkbox {
     overflow: hidden;
     border: 2px solid;
     border-radius: 2px;
-    transition-duration: @checkbox-duration;
-  
+    .transition--slow;
+
     &:before {
         position: absolute;
         display: block;
@@ -100,11 +99,11 @@ checkbox {
     0% {
         box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 20px -12px 0 11px, 0 0 0 0 inset;
     }
-  
+
     33% {
       box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 20px 2px 0 11px, 0 0 0 0 inset;
     }
-  
+
     50% {
         transform: rotate(45deg);
         margin-top: -4px;
@@ -113,7 +112,7 @@ checkbox {
         height: 0;
         box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 15px 2px 0 11px, 0 0 0 0 inset;
     }
-  
+
     51% {
         transform: rotate(0deg);
         margin-top: -2px;

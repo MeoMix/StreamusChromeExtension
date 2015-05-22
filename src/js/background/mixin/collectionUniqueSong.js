@@ -63,7 +63,7 @@
 
         return preparedModel;
     },
-    
+
     //  Try to find an existing model in the collection based on the given model's song's id.
     _getExistingModel: function(model) {
         var songId = model instanceof Backbone.Model ? model.get('song').get('id') : model.song.id;
@@ -74,12 +74,12 @@
     _clone: function(model) {
         return model instanceof Backbone.Model ? model.clone() : _.clone(model);
     },
-    
+
     //  Set attributes's id or cid to the model's id or cid to prevent attributes from being added to the collection.
     _copyId: function(preparedModel, existingModel) {
         if (existingModel.has('id')) {
             if (preparedModel instanceof Backbone.Model) {
-                preparedModel.set('id', existingModel.get('id'), { silent: true });
+                preparedModel.set('id', existingModel.get('id'), {silent: true});
             } else {
                 preparedModel.id = existingModel.get('id');
             }

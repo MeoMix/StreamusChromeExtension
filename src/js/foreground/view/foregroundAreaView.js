@@ -2,18 +2,18 @@
     'use strict';
 
     var AppBarRegion = require('foreground/view/appBar/appBarRegion');
-    var ContextMenuRegion = require('foreground/view/contextMenu/contextMenuRegion');
+    var SimpleMenuRegion = require('foreground/view/simpleMenu/simpleMenuRegion');
     var DialogRegion = require('foreground/view/dialog/dialogRegion');
     var SpinnerView = require('foreground/view/element/spinnerView');
     var LeftPaneRegion = require('foreground/view/leftPane/leftPaneRegion');
     var NotificationRegion = require('foreground/view/notification/notificationRegion');
     var PlaylistsAreaRegion = require('foreground/view/playlist/playlistsAreaRegion');
-    var SaveSongsRegion = require('foreground/view/saveSongs/saveSongsRegion');
-    var SearchAreaRegion = require('foreground/view/search/searchAreaRegion');
+    var SearchRegion = require('foreground/view/search/searchRegion');
     var StreamRegion = require('foreground/view/stream/streamRegion');
     var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
     var VideoRegion = require('foreground/view/video/videoRegion');
-    var KeyboardKey = require('foreground/enum/keyboardKey');
+    var TooltipRegion = require('foreground/view/tooltip/tooltipRegion');
+    var KeyCode = require('foreground/enum/keyCode');
     var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
@@ -38,78 +38,83 @@
             'click @ui.reloadLink': '_onClickReloadLink'
         },
 
-        ui: function() {
-            return {
-                loadingMessage: '#' + this.id + '-loadingMessage',
-                loadingFailedMessage: '#' + this.id + '-loadingFailedMessage',
-                reloadLink: '.' + this.id + '-reloadLink',
-                loadAttemptMessage: '#' + this.id + '-loadAttemptMessage'
-            };
+        ui: {
+            loadingMessage: '[data-ui~=loadingMessage]',
+            loadingFailedMessage: '[data-ui~=loadingFailedMessage]',
+            reloadLink: '[data-ui~=reloadLink]',
+            loadAttemptMessage: '[data-ui~=loadAttemptMessage]'
         },
 
         regions: function() {
             return {
-                spinnerRegion: '#' + this.id + '-spinnerRegion',
-                appBarRegion: {
-                    selector: '#' + this.id + '-appBarRegion',
+                spinner: '[data-region=spinner]',
+                appBar: {
+                    selector: '[data-region=appBar]',
                     regionClass: AppBarRegion
                 },
-                dialogRegion: {
-                    selector: '#' + this.id + '-dialogRegion',
-                    regionClass: DialogRegion
+                dialog: {
+                    selector: '[data-region=dialog]',
+                    regionClass: DialogRegion,
+                    player: Streamus.backgroundPage.player,
+                    signInManager: Streamus.backgroundPage.signInManager
                 },
-                notificationRegion: {
-                    selector: '#' + this.id + '-notificationRegion',
+                notification: {
+                    selector: '[data-region=notification]',
                     regionClass: NotificationRegion
                 },
-                contextMenuRegion: {
-                    selector: '#' + this.id + '-contextMenuRegion',
-                    regionClass: ContextMenuRegion
+                simpleMenu: {
+                    selector: '[data-region=simpleMenu]',
+                    regionClass: SimpleMenuRegion
                 },
-                leftPaneRegion: {
-                    selector: '#' + this.id + '-leftPaneRegion',
-                    regionClass: LeftPaneRegion
+                leftPane: {
+                    selector: '[data-region=leftPane]',
+                    regionClass: LeftPaneRegion,
+                    settings: Streamus.backgroundPage.settings
                 },
-                searchAreaRegion: {
-                    selector: '#' + this.id + '-searchAreaRegion',
-                    regionClass: SearchAreaRegion
+                search: {
+                    selector: '[data-region=search]',
+                    regionClass: SearchRegion,
+                    settings: Streamus.backgroundPage.settings
                 },
-                saveSongsRegion: {
-                    selector: '#' + this.id + '-saveSongsRegion',
-                    regionClass: SaveSongsRegion
+                playlistsArea: {
+                    selector: '[data-region=playlistsArea]',
+                    regionClass: PlaylistsAreaRegion,
+                    signInManager: Streamus.backgroundPage.signInManager
                 },
-                playlistsAreaRegion: {
-                    selector: '#' + this.id + '-playlistsAreaRegion',
-                    regionClass: PlaylistsAreaRegion
-                },
-                streamRegion: {
-                    selector: '#' + this.id + '-streamRegion',
+                stream: {
+                    selector: '[data-region=stream]',
                     regionClass: StreamRegion
                 },
-                selectionBarRegion: {
-                    selector: '#' + this.id + '-selectionBarRegion',
+                selectionBar: {
+                    selector: '[data-region=selectionBar]',
                     regionClass: SelectionBarRegion
                 },
-                videoRegion: {
-                    selector: '#' + this.id + '-videoRegion',
+                video: {
+                    selector: '[data-region=video]',
                     regionClass: VideoRegion
+                },
+                tooltip: {
+                    selector: '[data-region=tooltip]',
+                    regionClass: TooltipRegion
                 }
             };
         },
 
         player: null,
         settings: null,
+        analyticsManager: null,
 
         playerEvents: {
             'change:loading': '_onPlayerChangeLoading',
             'change:currentLoadAttempt': '_onPlayerChangeCurrentLoadAttempt'
         },
 
-        initialize: function() {
-            this.player = Streamus.backgroundPage.player;
-            this.settings = Streamus.backgroundPage.settings;
+        initialize: function(options) {
+            this.player = options.player;
+            this.settings = options.settings;
+            this.analyticsManager = options.analyticsManager;
             this.bindEntityEvents(this.player, this.playerEvents);
-            
+
             //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
             this._onWindowUnload = this._onWindowUnload.bind(this);
             this._onWindowResize = this._onWindowResize.bind(this);
@@ -121,11 +126,10 @@
             window.addEventListener('error', this._onWindowError);
             window.addEventListener('keydown', this._onKeyDown);
 
-            Streamus.backgroundPage.analyticsManager.sendPageView('/foreground.html');
+            this.analyticsManager.sendPageView('/foreground.html');
         },
 
         onRender: function() {
-            this.showChildView('spinnerRegion', new SpinnerView());
             this._checkPlayerLoading();
 
             Streamus.channels.foregroundArea.vent.trigger('rendered');
@@ -146,7 +150,7 @@
             Streamus.channels.element.vent.trigger('contextMenu', event);
         },
 
-        _onMouseDown: function() {
+        _onMouseDown: function(event) {
             Streamus.channels.element.vent.trigger('mouseDown', event);
         },
 
@@ -175,8 +179,8 @@
         },
 
         _onKeyDown: function(event) {
-            //  If the user presses the space key without any child element focused then assume it's an intenentional request to play/pause.
-            if (event.keyCode === KeyboardKey.Space && document.activeElement === document.body) {
+            //  If the user presses space without any child element focused then assume it's an intenentional request to play/pause.
+            if (event.keyCode === KeyCode.Space && document.activeElement === document.body) {
                 Streamus.channels.playPauseButton.commands.trigger('tryToggle:playerState');
             }
         },
@@ -194,11 +198,16 @@
         },
 
         _startLoading: function() {
+            //  Prefer lazy-rendering the spinner view to not take a perf hit when not actually loading.
+            if (!this.getRegion('spinner').hasView()) {
+                this.showChildView('spinner', new SpinnerView());
+            }
+
             this.$el.addClass('is-showingSpinner');
             this.ui.loadingFailedMessage.addClass('is-hidden');
             this.ui.loadingMessage.removeClass('is-hidden');
         },
-        
+
         //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
         _stopLoading: function() {
             this.ui.loadingMessage.addClass('is-hidden');

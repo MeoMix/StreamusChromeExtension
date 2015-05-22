@@ -1,30 +1,28 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Dialog = require('foreground/model/dialog');
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var Dialog = require('foreground/model/dialog/dialog');
+    var ClearStreamView = require('foreground/view/dialog/clearStreamView');
     var DialogView = require('foreground/view/dialog/dialogView');
 
     var ClearStreamDialogView = DialogView.extend({
         id: 'clearStreamDialog',
-        stream: null,
+        streamItems: null,
 
-        initialize: function() {
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+
             this.model = new Dialog({
                 reminderProperty: 'remindClearStream'
             });
 
-            this.contentView = new DialogContentView({
-                template: _.template(chrome.i18n.getMessage('clearStreamQuestion'))
-            });
-
-            this.stream = Streamus.backgroundPage.stream;
+            this.contentView = new ClearStreamView();
 
             DialogView.prototype.initialize.apply(this, arguments);
         },
 
         onSubmit: function() {
-            this.stream.get('items').clear();
+            this.streamItems.clear();
         }
     });
 

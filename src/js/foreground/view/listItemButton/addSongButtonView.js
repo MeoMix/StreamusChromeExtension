@@ -1,14 +1,20 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var ListItemButton = require('foreground/view/behavior/listItemButton');
     var AddListItemButtonTemplate = require('text!template/listItemButton/addListItemButton.html');
     var AddIconTemplate = require('text!template/icon/addIcon_18.svg');
 
-    var AddSongButtonView = ListItemButtonView.extend({
+    var AddSongButtonView = Marionette.ItemView.extend({
         template: _.template(AddListItemButtonTemplate),
         templateHelpers: {
             addIcon: _.template(AddIconTemplate)()
+        },
+
+        behaviors: {
+            ListItemButton: {
+                behaviorClass: ListItemButton
+            }
         },
 
         streamItems: null,
@@ -18,20 +24,20 @@
             'reset': '_onStreamItemsReset'
         },
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
+        song: null,
 
-            ListItemButtonView.prototype.initialize.apply(this, arguments);
+        initialize: function(options) {
+            this.song = options.song;
+            this.streamItems = options.streamItems;
+            this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
         },
 
         onRender: function() {
             this._setState();
         },
 
-        doOnClickAction: function() {
-            var song = this.model.get('song');
-            this.streamItems.addSongs(song);
+        onClick: function() {
+            this.streamItems.addSongs(this.song);
         },
 
         _onStreamItemsAddCompleted: function() {
@@ -47,12 +53,12 @@
         },
 
         _setState: function() {
-            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('song'));
-
+            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.song);
             this.$el.toggleClass('is-disabled', duplicatesInfo.allDuplicates);
+            this.model.set('enabled', !duplicatesInfo.allDuplicates);
 
-            var title = duplicatesInfo.allDuplicates ? duplicatesInfo.message : chrome.i18n.getMessage('add');
-            this.$el.attr('title', title);
+            var tooltipText = duplicatesInfo.allDuplicates ? duplicatesInfo.message : chrome.i18n.getMessage('add');
+            this.$el.attr('data-tooltip-text', tooltipText);
         }
     });
 

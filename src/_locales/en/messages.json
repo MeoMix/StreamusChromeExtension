@@ -529,7 +529,7 @@
         "message": "About Streamus"
     },
     "applicationDetails": {
-        "message":  "Application details"
+        "message": "Application details"
     },
     "openHomepage": {
         "message": "Open homepage"
@@ -537,7 +537,10 @@
     "version": {
         "message": "Version"
     },
-    "openPatchNotes": { 
-        "message":  "Open patch notes"
+    "openPatchNotes": {
+        "message": "Open patch notes"
+    },
+    "moreOptions": { 
+        "message":  "More options"
     }
 }

@@ -13,22 +13,26 @@
     background: @dark--quinary;
 }
 
+.listItem--clickable {
+    cursor: pointer;
+}
+
 .listItem {
     //  NOTE: This is needed so that .spinner is contained properly.
     position: relative;
     display: flex;
     width: 100%;
-    transition: color @transition-color-time @transition-easeOutSine, 
-                background @transition-color-time @transition-easeOutSine,
-                opacity @transition-color-time @transition-easeOutSine;
+    transition: color @transition-duration--fast @transition-easeOutSine,
+                background @transition-duration--fast @transition-easeOutSine,
+                opacity @transition-duration--fast @transition-easeOutSine;
 
     &:hover {
         .is-hiddenOnHover {
             .is-hidden;
         }
     }
-    
-    //  TODO: Not all things should highlight.
+
+    //  https://github.com/MeoMix/StreamusChromeExtension/issues/562
     &:not(.is-disabled):not(.grouping-item):not(.simpleListItem):hover {
         background: @dark--quinary;
     }
@@ -48,14 +52,9 @@
     }
 }
 
-.listItem--clickable {
-    //  TODO: Maybe make the 'hover' state applied here?
-    cursor: pointer;
-}
-
 .listItem-spinner,
 .listItem-button {
-    transition: color @transition-color-time @transition-easeOutSine;
+    transition: color @transition-duration--fast @transition-easeOutSine;
 }
 
 .listItem--medium {
@@ -92,7 +91,6 @@
         font-size: 15px;
     }
 
-    //  TODO: Instead of using different rules for listItem-content I should introduce rows.
     .listItem-content {
         display: flex;
         padding-right: 16px;
@@ -102,11 +100,9 @@
 
     .listItem-itemCount {
         width: 30px;
-        //  NOTE: If this is an even number then the 13px font-size looks off-by-one px.
+        //  If this is an even number then the 13px font-size looks off-by-one px.
         height: 17px;
         margin: auto 0;
-        //  TODO: This is 16px, but the buttons shown only have 11px of whitespace before the icon
-        //  and 0px of space before the click target. Can I be more consistent?
         margin-left: 16px;
         font-weight: 600;
         line-height: 18px;
@@ -120,7 +116,7 @@
 .listItem-imageThumbnail {
     width: 40px;
     height: 40px;
-    background-position : 50% 50%;
+    background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 50%;
@@ -130,11 +126,11 @@
 .listItem-title {
     .u-textOverflowEllipsis;
     color: @dark--primary;
-    transition: color @transition-color-time @transition-easeOutSine;
+    transition: color @transition-duration--fast @transition-easeOutSine;
 }
 
 .listItem-details {
-    transition: color @transition-color-time @transition-easeOutSine;
+    transition: color @transition-duration--fast @transition-easeOutSine;
 }
 
 .listItem-buttonsRegion {

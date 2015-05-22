@@ -7,9 +7,8 @@
     var Cocktail = require('cocktail');
     Cocktail.patch(Backbone);
 
-    //  TODO: I really feel like I should be able to mix this in from the background page, but it throws errors. Need to debug at some point. Probably very scary..
-    //var lodashMixin = require('common/lodashMixin');
-    //_.mixin(lodashMixin);
+    var lodashMixin = require('common/lodashMixin');
+    _.mixin(lodashMixin);
 
     //  Some sensitive data is not committed to GitHub. Use an example file to help others and provide detection of incomplete setup.
     requirejs.onError = function(error) {
@@ -24,7 +23,7 @@
                     headerWritten = true;
                 }
 
-                console.warn('%cKey not found. \n Rename "' + requireModule + '.js.example" to "' + requireModule + '.js".\n Then, follow the instructions in the file.', 'color: red');
+                console.warn('%cKey not found. \n Copy "' + requireModule + '.js.example" to "' + requireModule + '.js".\n Then, follow the file\'s instructions.', 'color: red');
             }
         });
 

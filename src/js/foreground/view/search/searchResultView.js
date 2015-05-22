@@ -6,13 +6,13 @@
     var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
+    var SongOptionsButtonView = require('foreground/view/listItemButton/songOptionsButtonView');
     var SearchResultTemplate = require('text!template/search/searchResult.html');
+    var SongActions = require('foreground/model/song/songActions');
 
     var SearchResultView = ListItemView.extend({
         className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',
         template: _.template(SearchResultTemplate),
-
-        buttonViews: [PlayPauseSongButtonView, AddSongButtonView, SaveSongButtonView],
 
         events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_onDblClick'
@@ -24,25 +24,44 @@
             }
         }),
 
+        buttonViewOptions: function() {
+            return {
+                PlayPauseSongButtonView: {
+                    viewClass: PlayPauseSongButtonView,
+                    song: this.model.get('song'),
+                    streamItems: Streamus.backgroundPage.stream.get('items'),
+                    player: Streamus.backgroundPage.player
+                },
+                AddSongButtonView: {
+                    viewClass: AddSongButtonView,
+                    song: this.model.get('song'),
+                    streamItems: Streamus.backgroundPage.stream.get('items')
+                },
+                SaveSongButtonView: {
+                    viewClass: SaveSongButtonView,
+                    song: this.model.get('song'),
+                    signInManager: Streamus.backgroundPage.signInManager
+                },
+                SongOptionsButtonView: {
+                    viewClass: SongOptionsButtonView,
+                    song: this.model.get('song')
+                }
+            };
+        },
+
         streamItems: null,
         player: null,
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.player = Streamus.backgroundPage.player;
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+            this.player = options.player;
         },
 
-        showContextMenu: function() {
-            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                text: chrome.i18n.getMessage('copyUrl'),
-                onClick: this._copyUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                onClick: this._copyTitleAndUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('watchOnYouTube'),
-                onClick: this._watchOnYouTube.bind(this)
-            }]);
+        showContextMenu: function(top, left) {
+            var songActions = new SongActions();
+            var song = this.model.get('song');
+
+            songActions.showContextMenu(song, top, left, this.player);
         },
 
         _onDblClick: function() {
@@ -53,18 +72,6 @@
             this.streamItems.addSongs(this.model.get('song'), {
                 playOnAdd: true
             });
-        },
-
-        _copyUrl: function() {
-            this.model.get('song').copyUrl();
-        },
-
-        _copyTitleAndUrl: function() {
-            this.model.get('song').copyTitleAndUrl();
-        },
-
-        _watchOnYouTube: function() {
-            this.player.watchInTab(this.model.get('song'));
         }
     });
 

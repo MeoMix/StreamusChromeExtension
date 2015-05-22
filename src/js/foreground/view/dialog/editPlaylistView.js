@@ -1,13 +1,12 @@
 ﻿define(function(require) {
     'use strict';
 
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var EditPlaylistTemplate = require('text!template/dialog/editPlaylist.html');
 
-    var EditPlaylistView = DialogContentView.extend({
+    var EditPlaylistView = Marionette.LayoutView.extend({
         id: 'editPlaylist',
         template: _.template(EditPlaylistTemplate),
-        //  TODO: Not DRY w/ CreatePlaylistView -- pull from DB?
         titleMaxLength: 150,
 
         templateHelpers: function() {
@@ -17,15 +16,19 @@
             };
         },
 
-        ui: function() {
-            return {
-                title: '#' + this.id + '-title',
-                titleCharacterCount: '#' + this.id + '-title-characterCount'
-            };
+        ui: {
+            title: '[data-ui~=title]',
+            titleCharacterCount: '[data-ui~=title-characterCount]'
         },
 
         events: {
             'input @ui.title': '_onInputTitle'
+        },
+
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
         },
 
         onRender: function() {
@@ -33,12 +36,17 @@
         },
 
         onAttach: function() {
-            this._focusInput();
+            //  Reset val to prevent text from becoming highlighted.
+            this.ui.title.focus().val(this.ui.title.val());
+        },
+
+        onValidationFailed: function() {
+            this.ui.title.focus();
         },
 
         editPlaylist: function() {
             var trimmedTitle = this._getTrimmedTitle();
-            this.model.set('title', trimmedTitle);
+            this.model.get('playlist').set('title', trimmedTitle);
         },
 
         _setTitleCharacterCount: function() {
@@ -51,15 +59,12 @@
             this._validateTitle();
         },
 
-        _focusInput: function() {
-            //  Reset val to prevent text from becoming highlighted.
-            this.ui.title.focus().val(this.ui.title.val());
-        },
-
         _validateTitle: function() {
             //  When the user submits - check to see if they provided a playlist name
             var trimmedTitle = this._getTrimmedTitle();
-            this.ui.title.toggleClass('is-invalid', trimmedTitle === '');
+            var isValid = trimmedTitle !== '';
+            this.ui.title.toggleClass('is-invalid', !isValid);
+            this.model.set('valid', isValid);
         },
 
         _getTrimmedTitle: function() {

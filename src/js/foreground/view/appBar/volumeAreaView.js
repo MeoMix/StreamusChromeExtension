@@ -22,17 +22,15 @@ define(function(require) {
             };
         },
 
-        ui: function() {
-            return {
-                volumeProgress: '#' + this.id + '-volumeProgress',
-                volumeRange: '#' + this.id + '-volumeRange',
-                volumeButton: '#' + this.id + '-volumeButton',
-                slidePanel: '#' + this.id + '-slidePanel',
-                volumeIconUp: '#' + this.id + '-volumeIcon--up',
-                volumeIconDown: '#' + this.id + '-volumeIcon--down',
-                volumeIconOff: '#' + this.id + '-volumeIcon--off',
-                volumeIconMute: '#' + this.id + '-volumeIcon--mute'
-            };
+        ui: {
+            volumeProgress: '[data-ui~=volumeProgress]',
+            volumeRange: '[data-ui~=volumeRange]',
+            volumeButton: '[data-ui~=volumeButton]',
+            slidePanel: '[data-ui~=slidePanel]',
+            volumeIconUp: '[data-ui~=volumeIcon--up]',
+            volumeIconDown: '[data-ui~=volumeIcon--down]',
+            volumeIconOff: '[data-ui~=volumeIcon--off]',
+            volumeIconMute: '[data-ui~=volumeIcon--mute]'
         },
 
         events: {
@@ -43,8 +41,8 @@ define(function(require) {
 
         player: null,
 
-        initialize: function() {
-            this.player = Streamus.backgroundPage.player;
+        initialize: function(options) {
+            this.player = options.player;
 
             this.listenTo(this.player, 'change:muted', this._onPlayerChangeMuted);
             this.listenTo(this.player, 'change:volume', this._onPlayerChangeVolume);

@@ -8,6 +8,10 @@
             implementsSlidingRender: false
         },
 
+        initialize: function() {
+            this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
+        },
+
         onAttach: function() {
             //  More info: https://github.com/noraesae/perfect-scrollbar
             //  This needs to be ran during onAttach for perfectScrollbar to do its math properly.
@@ -24,7 +28,6 @@
             this._updateScrollbar();
         },
 
-        //  TODO: This wouldn't be necessary (and bad) if I calculate the height of the view before sliding it out and use transforms.
         onListHeightUpdated: function() {
             requestAnimationFrame(this._updateScrollbar.bind(this));
         },
@@ -39,6 +42,10 @@
             if (!this.options.implementsSlidingRender) {
                 this._updateScrollbar();
             }
+        },
+
+        _onWindowResize: function() {
+            this._updateScrollbar();
         },
 
         _updateScrollbar: function() {

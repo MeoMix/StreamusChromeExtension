@@ -1,26 +1,26 @@
-﻿<div id='volumeArea-volumeButton' class='volumeArea-volumeButton button button--icon--primary button--icon button--large'>
-    <span id="volumeArea-volumeIcon--up">
+﻿<div data-ui='volumeButton' class='volumeArea-volumeButton button button--icon--primary button--icon button--large'>
+    <span data-ui='volumeIcon--up'>
         <%= volumeUpIcon %>
     </span>
-    
-    <span id="volumeArea-volumeIcon--down">
+
+    <span data-ui='volumeIcon--down'>
         <%= volumeDownIcon %>
     </span>
-    
-    <span id="volumeArea-volumeIcon--off">
+
+    <span data-ui='volumeIcon--off'>
         <%= volumeOffIcon %>
     </span>
-    
-    <span id="volumeArea-volumeIcon--mute">
+
+    <span data-ui='volumeIcon--mute'>
         <%= volumeMuteIcon %>
     </span>
 </div>
 
-<div id='volumeArea-slidePanel' class='volumeArea-slidePanel panel appBar-panel'>
+<div data-ui='slidePanel' class='volumeArea-slidePanel panel appBar-panel'>
     <div class='volumeArea-slidePanel-content panel-content panel-content--uncolored flexColumn'>
         <div class='rangeInput-wrapper rangeInput-wrapper--vertical'>
-            <div id='volumeArea-volumeProgress' class='rangeInput-progress' style="height: <%= volume %>%"></div>
-            <input id='volumeArea-volumeRange' class='rangeInput u-clickable' type='range' value="<%= volume %>" />
+            <div data-ui='volumeProgress' class='rangeInput-progress' style="height: <%= volume %>%"></div>
+            <input data-ui='volumeRange' class='rangeInput u-clickable' type='range' value="<%= volume %>" />
         </div>
     </div>
 </div>

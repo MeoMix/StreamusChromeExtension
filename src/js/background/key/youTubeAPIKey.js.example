@@ -1,7 +1,7 @@
 ﻿define(function() {
     //  Google API's Simple API Access Key.
     //  Production key is omitted from GitHub for security.
-    
+
     //  You are encouraged to generate your own key here: https://code.google.com/apis/console/
     //  You may also attempt to use this testing key, but it may be revoked at any time: AIzaSyDBCJuq0aey3bL3K6C0l4mKzT_y8zy9Msw
 

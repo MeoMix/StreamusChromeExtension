@@ -1,25 +1,25 @@
-﻿<div id='<%= viewId %>-activeStreamItemRegion'></div>
+﻿<div data-region='activeStreamItem' class='flexColumn-bugFix'></div>
 
 <div class='instruction-wrapper'>
-    <div id='<%= viewId %>-emptyMessage' class='instruction'>
+    <div data-ui='emptyMessage' class='instruction'>
         <div class='instruction-header'>
             <%= emptyMessage %>
         </div>
         <div class='instruction-content'>
-            <%= whyNotAddASongFromAPlaylistOrMessage %> <span id='<%= viewId %>-showSearchLink' class='u-link u-lowercase'><%= searchForSongsMessage %></span>?
+            <%= whyNotAddASongFromAPlaylistOrMessage %> <span data-ui='showSearchLink' class='u-link u-lowercase'><%= searchForSongsMessage %></span>?
         </div>
     </div>
 
-    <div id='<%= viewId %>-streamItemsRegion' class='flexColumn'></div>
+    <div data-region='streamItems' class='flexColumn'></div>
 </div>
 
-<div class='contentBar contentBar--bottom u-bordered--top'>
+<div class='contentBar contentBar--bottom u-bordered--top flexColumn-bugFix'>
     <div class='flexRow'>
-        <div id='<%= viewId %>-shuffleButtonRegion'></div>
-        <div id='<%= viewId %>-repeatButtonRegion'></div>
-        <div id='<%= viewId %>-radioButtonRegion'></div>
+        <div data-region='shuffleButton'></div>
+        <div data-region='repeatButton'></div>
+        <div data-region='radioButton'></div>
     </div>
 
-    <div id='<%= viewId %>-saveStreamButtonRegion'></div>
-    <div id='<%= viewId %>-clearStreamButtonRegion'></div>
+    <div data-region='saveStreamButton'></div>
+    <div data-region='clearStreamButton'></div>
 </div>

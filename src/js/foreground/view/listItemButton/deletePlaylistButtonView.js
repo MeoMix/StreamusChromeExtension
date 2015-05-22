@@ -1,49 +1,59 @@
 ﻿define(function(require) {
     'use strict';
 
-    var PlaylistAction = require('foreground/model/playlistAction');
-    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var PlaylistActions = require('foreground/model/playlist/playlistActions');
+    var ListItemButton = require('foreground/view/behavior/listItemButton');
     var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
     var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
 
-    var DeletePlaylistButtonView = ListItemButtonView.extend({
+    var DeletePlaylistButtonView = Marionette.ItemView.extend({
         template: _.template(DeleteListItemButtonTemplate),
         templateHelpers: {
             deleteIcon: _.template(DeleteIconTemplate)()
         },
 
         attributes: {
-            title: chrome.i18n.getMessage('delete')
+            'data-tooltip-text': chrome.i18n.getMessage('delete')
         },
 
-        initialize: function() {
+        behaviors: {
+            ListItemButton: {
+                behaviorClass: ListItemButton
+            }
+        },
+
+        playlist: null,
+
+        initialize: function(options) {
+            this.playlist = options.playlist;
             this._setState();
 
-            ListItemButtonView.prototype.initialize.apply(this, arguments);
-
             //  Ensure that the user isn't able to destroy the model more than once.
-            this.doOnClickAction = _.once(this.doOnClickAction);
+            this._deletePlaylist = _.once(this._deletePlaylist);
         },
 
-        doOnClickAction: function() {
-            var playlistAction = new PlaylistAction({
-                playlist: this.model
-            });
+        onClick: function() {
+            this._deletePlaylist();
+        },
 
-            playlistAction.deletePlaylist();
+        _deletePlaylist: function() {
+            var playlistActions = new PlaylistActions();
+
+            playlistActions.deletePlaylist(this.playlist);
         },
 
         _setState: function() {
-            var canDelete = this.model.get('canDelete');
+            var canDelete = this.playlist.get('canDelete');
 
-            var title;
+            var tooltipText;
             if (canDelete) {
-                title = chrome.i18n.getMessage('delete');
+                tooltipText = chrome.i18n.getMessage('delete');
             } else {
-                title = chrome.i18n.getMessage('cantDeleteLastPlaylist');
+                tooltipText = chrome.i18n.getMessage('cantDeleteLastPlaylist');
             }
 
-            this.$el.toggleClass('is-disabled', !canDelete).attr('title', title);
+            this.$el.toggleClass('is-disabled', !canDelete).attr('data-tooltip-text', tooltipText);
+            this.model.set('enabled', canDelete);
         }
     });
 

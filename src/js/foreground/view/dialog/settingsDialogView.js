@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Dialog = require('foreground/model/dialog');
+    var Dialog = require('foreground/model/dialog/dialog');
     var DialogView = require('foreground/view/dialog/dialogView');
     var SettingsView = require('foreground/view/dialog/settingsView');
 
@@ -14,7 +14,8 @@
             });
 
             this.contentView = new SettingsView({
-                model: Streamus.backgroundPage.settings
+                model: Streamus.backgroundPage.settings,
+                signInManager: Streamus.backgroundPage.signInManager
             });
 
             DialogView.prototype.initialize.apply(this, arguments);

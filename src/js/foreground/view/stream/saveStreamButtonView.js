@@ -1,20 +1,26 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
-    var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
+    var SongActions = require('foreground/model/song/songActions');
+    var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
     var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
+    var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
 
     var SaveStreamButtonView = Marionette.ItemView.extend({
         id: 'saveStreamButton',
-        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium',
         template: _.template(SaveStreamButtonTemplate),
         templateHelpers: {
             saveIcon: _.template(SaveIconTemplate)()
         },
 
+        attributes: {
+            'data-ui': 'tooltipable'
+        },
+
         events: {
-            'click': '_onClick',
+            'click': '_onClick'
         },
 
         modelEvents: {
@@ -22,8 +28,12 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
+            },
+            ViewModelContainer: {
+                behaviorClass: ViewModelContainer,
+                viewModelNames: ['model']
             }
         },
 
@@ -33,7 +43,8 @@
 
         _onClick: function() {
             if (this.model.get('enabled')) {
-                this._showSaveSongsSimpleMenu(this.model.get('streamItems').pluck('song'));
+                var songs = this.model.get('streamItems').pluck('song');
+                this._showSaveSongsSimpleMenu(songs);
             }
         },
 
@@ -42,17 +53,15 @@
         },
 
         _setState: function(enabled, stateMessage) {
-            this.$el.toggleClass('is-disabled', !enabled).attr('title', stateMessage);
+            this.$el.toggleClass('is-disabled', !enabled).attr('data-tooltip-text', stateMessage);
         },
 
         _showSaveSongsSimpleMenu: function(songs) {
+            var songActions = new SongActions();
             var offset = this.$el.offset();
+            var playlists = this.model.get('signInManager').get('signedInUser').get('playlists');
 
-            Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                songs: songs,
-                top: offset.top,
-                left: offset.left
-            });
+            songActions.showSaveMenu(songs, offset.top, offset.left, playlists);
         }
     });
 

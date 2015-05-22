@@ -22,10 +22,10 @@ define(function(require) {
             if (currentIndex !== index) {
                 moveResult.direction = currentIndex < index ? Direction.Down : Direction.Up;
                 var sequence = this.getSequenceFromIndexDuringMove(index, moveResult.direction);
-                model.save({ sequence: sequence }, { patch: true });
+                model.save({sequence: sequence}, {patch: true});
 
                 //  Collections with a comparator will not automatically re-sort if you later change model attributes
-                this.sort({ silent: options.silent });
+                this.sort({silent: options.silent});
                 moveResult.moved = true;
             }
 
@@ -58,7 +58,7 @@ define(function(require) {
             return sequence;
         },
 
-        //  Return what sequence number would be necessary to be at the given index   
+        //  Return what sequence number would be necessary to be at the given index
         //  If skippedModelId is given then it will be skipped (useful when moving an item already in collection)
         getSequenceFromIndex: function(index) {
             var sequence;

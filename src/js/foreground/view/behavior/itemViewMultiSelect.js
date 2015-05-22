@@ -1,12 +1,12 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Checkbox = require('foreground/model/checkbox');
+    var Checkbox = require('foreground/model/element/checkbox');
     var CheckboxView = require('foreground/view/element/checkboxView');
 
     var ItemViewMultiSelect = Marionette.Behavior.extend({
         ui: {
-            leftContent: '.listItem-leftContent'
+            leftContent: '[data-ui~=leftContent]'
         },
 
         events: {
@@ -25,13 +25,12 @@
 
         initialize: function() {
             this.checkbox = new Checkbox({
-                //  TODO: I cannot access this.view.model in initialize from a behavior. https://github.com/marionettejs/backbone.marionette/issues/1579
+                // this.view.model can't be accessed in initialize from a behavior. https://github.com/marionettejs/backbone.marionette/issues/1579
                 checked: this.view.options.model.get('selected')
             });
         },
 
         onRender: function() {
-            this.$el.addClass('js-listItem--multiSelect');
             this._setSelectedClass(this.view.model.get('selected'));
         },
 
@@ -41,7 +40,7 @@
                 model: this.view.model
             });
         },
-        
+
         //  Don't propagate dblClick event up to the list item because that will run an action on the item.
         _onDblClickLeftContent: function() {
             //  Since returning false, need to announce the event happened here since root level won't know about it.
@@ -57,7 +56,7 @@
                 this.ui.leftContent.addClass('is-showingCheckbox');
                 this.ui.leftContent.removeClass('is-showingThumbnail');
 
-                this.view.showChildView('checkboxRegion', new CheckboxView({
+                this.view.showChildView('checkbox', new CheckboxView({
                     model: this.checkbox
                 }));
             }
@@ -69,8 +68,7 @@
             if (!this.view.model.get('selected')) {
                 this.ui.leftContent.removeClass('is-showingCheckbox');
                 this.ui.leftContent.addClass('is-showingThumbnail');
-
-                this.view.checkboxRegion.empty();
+                this.view.getRegion('checkbox').empty();
             }
         },
 
@@ -87,7 +85,7 @@
                 this.ui.leftContent.toggleClass('is-showingThumbnail', !selected);
 
                 if (selected) {
-                    this.view.showChildView('checkboxRegion', new CheckboxView({
+                    this.view.showChildView('checkbox', new CheckboxView({
                         model: this.checkbox
                     }));
                 }

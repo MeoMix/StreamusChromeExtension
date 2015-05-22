@@ -20,11 +20,9 @@
 
         initialize: function() {
             chrome.omnibox.setDefaultSuggestion({
-                //  TODO: Inform user that @add will cause add to happen.
                 description: chrome.i18n.getMessage('pressEnterToPlay')
             });
 
-            //  User has started a keyword input session by typing the extension's keyword. This is guaranteed to be sent exactly once per input session, and before any onInputChanged events.
             chrome.omnibox.onInputChanged.addListener(this._onChromeOmniboxInputChanged.bind(this));
             chrome.omnibox.onInputEntered.addListener(this._onChromeOmniboxInputEntered.bind(this));
         },

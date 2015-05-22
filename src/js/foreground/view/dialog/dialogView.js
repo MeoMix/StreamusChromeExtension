@@ -1,43 +1,31 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Checkbox = require('foreground/model/checkbox');
+    var Checkbox = require('foreground/model/element/checkbox');
     var CheckboxView = require('foreground/view/element/checkboxView');
+    var KeyCode = require('foreground/enum/keyCode');
     var DialogTemplate = require('text!template/dialog/dialog.html');
 
     var DialogView = Marionette.LayoutView.extend({
-        className: 'dialog overlay overlay--faded u-transitionable transition--veryFast',
+        className: 'dialog overlay overlay--faded u-transitionable transition--fast',
         template: _.template(DialogTemplate),
-        templateHelpers: function() {
-            return {
-                viewId: this.id
-            };
-        },
-
         contentView: null,
 
-        regions: function() {
-            return {
-                reminderRegion: '#' + this.id + '-reminderRegion',
-                contentRegion: '#' + this.id + '-contentRegion'
-            };
+        regions: {
+            reminder: '[data-region=reminder]',
+            content: '[data-region=content]'
         },
 
-        ui: function() {
-            return {
-                panel: '#' + this.id + '-panel',
-                submitButton: '#' + this.id + '-submitButton',
-                cancelButton: '#' + this.id + '-cancelButton',
-                reminderCheckbox: '#' + this.id + '-reminderCheckbox',
-                closeButton: '#' + this.id + '-closeButton',
-                submittable: '.js-submittable'
-            };
+        ui: {
+            panel: '[data-ui~=panel]',
+            submitButton: '[data-ui~=submitButton]',
+            cancelButton: '[data-ui~=cancelButton]',
+            submittable: '[data-ui~=submittable]'
         },
 
         events: {
             'mousedown': '_onMouseDown',
             'mouseup': '_onMouseUp',
-            'click @ui.closeButton': '_onClickCloseButton',
             'click @ui.cancelButton': '_onClickCancelButton',
             'click @ui.submitButton': '_onClickSubmitButton',
             'keypress @ui.submittable': '_onKeyPressSubmittable'
@@ -48,11 +36,13 @@
         mouseDownTarget: null,
 
         initialize: function() {
+            //  Prefer passing background models in as options, but reminders will be removed once undo is implemented.
+            //  So, no need to refactor this right now. Just remove later.
             this.settings = Streamus.backgroundPage.settings;
         },
 
         onRender: function() {
-            this.showChildView('contentRegion', this.contentView);
+            this.showChildView('content', this.contentView);
 
             if (this.model.hasReminder()) {
                 this._showReminder();
@@ -62,7 +52,7 @@
         onAttach: function() {
             requestAnimationFrame(this._transitionIn.bind(this));
         },
-        
+
         //  Unless a dialog specifically implements reminderProperty it is assumed that reminder is enabled and the dialog will be shown when asked.
         isReminderEnabled: function() {
             var isReminderEnabled = true;
@@ -77,7 +67,6 @@
 
         onSubmit: _.noop,
 
-        //  TODO: Propagate this logic throughout application. It's more complex, but it's correct UX.
         //  If the user clicks on the darkened area then close the dialog.
         //  Use onMouseDown and onMouseUp because the user can click down on the scrollbar and drag their mouse such that it is over
         //  the darkened panel. This will cause an incorrect close because they didn't click on the dark panel.
@@ -93,10 +82,6 @@
             this.mouseDownTarget = null;
         },
 
-        _onClickCloseButton: function() {
-            this._hide();
-        },
-
         _onClickCancelButton: function() {
             this._hide();
         },
@@ -104,10 +89,10 @@
         _onClickSubmitButton: function() {
             this._submit();
         },
-        
+
         //  If the enter key is pressed on a js-submittable element, treat as if user pressed OK button.
         _onKeyPressSubmittable: function(event) {
-            if (event.which === 13) {
+            if (event.which === KeyCode.Enter) {
                 this._submit();
             }
         },
@@ -146,8 +131,7 @@
                 iconOnLeft: true
             });
 
-            this.showChildView('reminderRegion', new CheckboxView({
-                id: this.id + '-reminderCheckbox',
+            this.showChildView('reminder', new CheckboxView({
                 model: this.reminderCheckbox
             }));
         },
@@ -167,17 +151,24 @@
                 }
 
                 this._hide();
+            } else {
+                this.contentView.triggerMethod('ValidationFailed');
             }
         },
 
         _isValid: function() {
-            //  TODO: Derive this from dialog's ViewModel state instead of asking the DOM.
-            //  Don't use UI here because is-invalid is appended dynamically and so I can't rely on the cache.
-            return this.$el.find('.js-submittable.is-invalid').length === 0;
+            var isValid = true;
+
+            var contentViewModel = this.contentView.model;
+            if (!_.isUndefined(contentViewModel)) {
+                isValid = contentViewModel.has('valid') ? contentViewModel.get('valid') : true;
+            }
+
+            return isValid;
         },
 
         _hide: function() {
-            //  TODO: This is just a patch for now. Some dialogs you don't want to run onSubmit for but you also don't want to always be reminded.
+            //  Some dialogs you don't want to run obSubmit logic for when closing, but also don't always want to be reminded.
             if (this.model.get('alwaysSaveReminder')) {
                 this._saveReminderState();
             }

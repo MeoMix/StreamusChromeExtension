@@ -12,18 +12,18 @@
 
         regions: function(options) {
             return {
-                youTubePlayerRegion: {
-                    el: '#' + this.id + '-youTubePlayerRegion',
+                youTubePlayer: {
+                    el: '[data-region=youTubePlayer]',
                     regionClass: YouTubePlayerRegion,
                     youTubePlayer: options.model.get('youTubePlayer')
                 },
-                clipboardRegion: {
-                    el: '#' + this.id + '-clipboardRegion',
+                clipboard: {
+                    el: '[data-region=clipboard]',
                     regionClass: ClipboardRegion
                 }
             };
         },
-        
+
         initialize: function() {
             this.model.get('analyticsManager').sendPageView('/background.html');
         },

@@ -21,7 +21,7 @@
             this._decorate();
         },
 
-        _onMouseEnter: function () {
+        _onMouseEnter: function() {
             this._decorate();
         },
 
@@ -30,15 +30,7 @@
             //  So, only run it once the user could potentially need to do so.
             if (!this.isDecorated) {
                 this.isDecorated = true;
-
-                this.ui.childContainer.sortable(this._getSortableOptions());
-
-                this.$el.scroll(_.throttle(function() {
-                    //  Any function which is throttled can potentially be ran after the view is destroyed.
-                    if (!this.view.isDestroyed) {
-                        this.ui.childContainer.sortable('refresh');
-                    }
-                }.bind(this), 20));
+                this.ui.listItems.sortable(this._getSortableOptions());
             }
         },
 
@@ -88,7 +80,7 @@
 
             $('.' + this.placeholderClass).toggleClass('is-hidden', placeholderAdjacent);
 
-            this.ui.childContainer.sortable('refresh');
+            this.ui.listItems.sortable('refresh');
 
             //  Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
             this.view.triggerMethod('UpdateScrollbar');
@@ -109,17 +101,17 @@
                 return item.get('song');
             });
 
-            this.ui.childContainer.addClass(this.isDraggingClass).data({
+            this.ui.listItems.addClass(this.isDraggingClass).data({
                 draggedSongs: draggedSongs
             });
 
             this._overrideSortableItem(ui);
         },
-        
+
         //  Placeholder stops being accessible once beforeStop finishes, so store its index here for use later.
         _beforeStop: function(event, ui) {
             //  Subtract one from placeholderIndex when parentNode exists because jQuery UI moves the HTML element above the placeholder.
-            this.ui.childContainer.data({
+            this.ui.listItems.data({
                 placeholderIndex: ui.placeholder.index() - 1
             });
         },
@@ -127,20 +119,23 @@
         _stop: function(event, ui) {
             var isParentNodeLost = ui.item[0].parentNode === null;
 
-            //  TODO: Check collection isImmutable instead of ListItemType.
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
-            var allowMove = ui.item.data('type') !== ListItemType.SearchResult && this.ui.childContainer.is(':hover');
+            var allowMove = ui.item.data('type') !== ListItemType.SearchResult && this.ui.listItems.is(':hover');
             if (allowMove) {
                 this.view.once('GetMinRenderIndexResponse', function(response) {
-                    var dropIndex = this.ui.childContainer.data('placeholderIndex') + response.minRenderIndex;
+                    var dropIndex = this.ui.listItems.data('placeholderIndex') + response.minRenderIndex;
                     this._moveItems(this.view.collection.selected(), dropIndex, isParentNodeLost);
                     this._cleanup();
                 }.bind(this));
                 this.view.triggerMethod('GetMinRenderIndex');
             } else {
                 //  _.defer allows for jQuery UI to finish interacting with the element. Without this, CSS animations do not run.
-                _.defer(this._cleanup.bind(this));
+                _.defer(function() {
+                    if (!this.view.isDestroyed) {
+                        this._cleanup();
+                    }
+                }.bind(this));
             }
 
             //  Return false from stop to prevent jQuery UI from moving HTML for us - only need to prevent during copies and not during moves.
@@ -149,7 +144,7 @@
         },
 
         _cleanup: function() {
-            this.ui.childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
+            this.ui.listItems.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
             Streamus.channels.element.vent.trigger('drop');
         },
 
@@ -168,9 +163,9 @@
                     index: placeholderIndex + response.minRenderIndex
                 });
 
-                //  TODO: Since I provided the index that the item would be inserted at in the collection, the collection does not resort.
-                //  But, the index in the collection does not correspond to the index in the CollectionView -- that's simply the placeholderIndex. Not sure how to handle that.
-                //  I'd need to intercept the _onCollectionAdd event of Marionette, calculate the proper index, and pass bypass: true in, but not going to do that for now.
+                //  The collection does not resort because the model's index was provided when calling addSongs
+                //  The CollectionView rendering the model is now incorrect because the collection's index does not correspond to the CollectionView's index.
+                //  Simply triggering a sort is the simplest solution as it forces the CollectionView to re-render its children.
                 this.view.collection.sort();
             }.bind(this));
             this.view.triggerMethod('GetMinRenderIndex');
@@ -236,15 +231,14 @@
                 }
 
                 itemsHandled++;
-            }, this);            
-            
+            }, this);
+
             if (moved) {
                 //  If a move happened call sort without silent so that views can update accordingly.
                 this.view.collection.sort();
-                //  TODO: Trigger an event which causes the scrollbar to update instead.
                 //  Need to update the scrollbar because if the drag-and-drop placeholder pushed scrollTop beyond its normal limits
                 //  then the scrollbar is not representing the correct height after the placeholder is removed.
-                this.view._behaviors[1]._updateScrollbar();
+                this.view.triggerMethod('UpdateScrollbar');
             }
         },
 
@@ -274,7 +268,7 @@
                 .toggleClass('is-warnDroppable', warnDroppable)
                 .html(placeholderTextElement);
         },
-        
+
         //  Override jQuery UI's sortableItem to allow a dragged item to scroll another sortable collection.
         //  Need to re-call method on start to ensure that dragging still works inside normal parent collection, too.
         // http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example

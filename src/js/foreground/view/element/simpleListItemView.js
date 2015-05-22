@@ -1,37 +1,27 @@
-﻿//  TODO: I'd like to figure out better naming conventions for this.
-define(function(require) {
+﻿define(function(require) {
     'use strict';
 
-    var SimpleMenuItems = require('foreground/collection/simpleMenuItems');
-    var SimpleMenu = require('foreground/model/simpleMenu');
-    var SimpleMenuView = require('foreground/view/element/simpleMenuView');
+    var SimpleMenuItems = require('foreground/collection/simpleMenu/simpleMenuItems');
+    var SimpleMenu = require('foreground/model/simpleMenu/simpleMenu');
+    var SimpleMenuView = require('foreground/view/simpleMenu/simpleMenuView');
     var SimpleListItemTemplate = require('text!template/element/simpleListItem.html');
 
     var SimpleListItemView = Marionette.LayoutView.extend({
-        //id: function () {
-        //    return _.uniqueId('simpleListItem_');
-        //},
         className: 'simpleListItem listItem listItem--medium listItem--clickable',
         template: _.template(SimpleListItemTemplate),
 
         templateHelpers: function() {
             return {
-                title: chrome.i18n.getMessage(this.model.get('labelKey')),
-                viewId: 'simpleListItem'
+                title: chrome.i18n.getMessage(this.model.get('labelKey'))
             };
         },
 
-        regions: function() {
-            return {
-                //  TODO: This isn't a unique identifier.
-                simpleMenuRegion: '#' + 'simpleListItem' + '-simpleMenuRegion'
-            };
+        regions: {
+            simpleMenu: '[data-region=simpleMenu]'
         },
 
-        ui: function() {
-            return {
-                prettyValue: '#' + 'simpleListItem' + '-prettyValue'
-            };
+        ui: {
+            prettyValue: '[data-ui~=prettyValue]'
         },
 
         events: {
@@ -40,10 +30,6 @@ define(function(require) {
 
         modelEvents: {
             'change:value': '_onChangeValue'
-        },
-
-        childEvents: {
-            'click:simpleMenuItem': '_onClickSimpleMenuItem'
         },
 
         onRender: function() {
@@ -64,31 +50,26 @@ define(function(require) {
 
         _openSimpleMenu: function() {
             //  If the list item is clicked while the menu is open do not re-open it.
-            if (_.isUndefined(this.getChildView('simpleMenuRegion'))) {
+            if (_.isUndefined(this.getChildView('simpleMenu'))) {
                 var options = this.model.get('options');
                 var simpleMenuItems = new SimpleMenuItems(_.map(options, function(option) {
                     return {
                         active: this.model.get('value') === option,
                         text: chrome.i18n.getMessage(option),
-                        value: option
+                        value: option,
+                        onClick: function(model) {
+                            this.model.set('value', model.get('value'));
+                        }.bind(this)
                     };
                 }, this));
 
-                //  Since I'm building this inside of a click event and click events can close the menu I need to let the event finish before showing the menu
-                //  otherwise it'll close immediately.
-                _.defer(function() {
-                    this.showChildView('simpleMenuRegion', new SimpleMenuView({
+                this.showChildView('simpleMenu', new SimpleMenuView({
+                    model: new SimpleMenu({
                         simpleMenuItems: simpleMenuItems,
-                        model: new SimpleMenu(),
                         listItemHeight: this.$el.height()
-                    }));
-                }.bind(this));
+                    })
+                }));
             }
-        },
-
-        _onClickSimpleMenuItem: function(model, eventArgs) {
-            var activeItem = eventArgs.collection.getActive();
-            this.model.set('value', activeItem.get('value'));
         }
     });
 

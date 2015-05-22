@@ -26,7 +26,7 @@ define(function(require) {
                 error: this._onLoadError.bind(this)
             });
         },
-        
+
         //  The googlePlusId associated with this account is already linked with another account. Merge them together and re-load as one user.
         mergeByGooglePlusId: function() {
             $.ajax({
@@ -50,7 +50,7 @@ define(function(require) {
                 this._loadByUserId(userId);
             }
         },
-        
+
         //  A user is linked to a Google account if their GooglePlusId is not empty.
         linkedToGoogle: function() {
             return this.get('googlePlusId') !== '';
@@ -67,7 +67,7 @@ define(function(require) {
                 error: this._onLoadError.bind(this)
             });
         },
-        
+
         //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
         _create: function() {
             this.save({
@@ -78,7 +78,7 @@ define(function(require) {
                 error: this._onLoadError.bind(this)
             });
         },
-        
+
         //  Loads user data by ID from the server, writes the ID to client-side storage locations
         //  for future loading and then announces that the user has been loaded.
         _loadByUserId: function(userId) {
@@ -89,7 +89,7 @@ define(function(require) {
                 error: this._onLoadError.bind(this)
             });
         },
-        
+
         //  Set playlists as a Backbone.Collection from the JSON received from the server.
         _ensurePlaylistsCollection: function() {
             var playlists = this.get('playlists');
@@ -131,7 +131,7 @@ define(function(require) {
         _setLanguage: function() {
             var language = chrome.i18n.getUILanguage();
             if (this.get('language') !== language) {
-                this.save({ language: language }, { patch: true });
+                this.save({language: language}, {patch: true});
             }
         }
     });

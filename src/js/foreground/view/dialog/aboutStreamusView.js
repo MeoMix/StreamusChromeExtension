@@ -1,10 +1,10 @@
 ﻿define(function(require) {
     'use strict';
 
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var AboutStreamusTemplate = require('text!template/dialog/aboutStreamus.html');
 
-    var AboutStreamusView = DialogContentView.extend({
+    var AboutStreamusView = Marionette.LayoutView.extend({
         id: 'aboutStreamus',
         template: _.template(AboutStreamusTemplate),
 
@@ -17,8 +17,8 @@
         },
 
         ui: {
-            openHomepage: '.openHomepage',
-            openPatchNotes: '.openPatchNotes'
+            openHomepage: '[data-ui~=openHomepage]',
+            openPatchNotes: '[data-ui~=openPatchNotes]'
         },
 
         events: {
@@ -26,16 +26,22 @@
             'click @ui.openPatchNotes': '_onClickOpenPatchNotes'
         },
 
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
+        },
+
         tabManager: null,
 
-        initialize: function() {
-            this.tabManager = Streamus.backgroundPage.tabManager;
+        initialize: function(options) {
+            this.tabManager = options.tabManager;
         },
 
         _onClickOpenHomepage: function() {
-            /* jshint camelcase: false */
+            //  jscs:disable requireCamelCaseOrUpperCaseIdentifiers
             var homepageUrl = chrome.app.getDetails().homepage_url;
-            /* jshint camelcase: true */
+            //  jscs:enable requireCamelCaseOrUpperCaseIdentifiers
             this.tabManager.showWebsite(homepageUrl);
         },
 

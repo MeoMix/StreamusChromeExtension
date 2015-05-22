@@ -6,6 +6,7 @@ define(function(require) {
     var ShareCode = require('background/model/shareCode');
     var YouTubeV3API = require('background/model/youTubeV3API');
     var ListItemType = require('common/enum/listItemType');
+    var EntityType = require('background/enum/entityType');
 
     //  Playlist holds a collection of PlaylistItems as well as properties pertaining to a playlist.
     //  Provides methods to work with PlaylistItems such as getting, removing, updating, etc..
@@ -24,7 +25,7 @@ define(function(require) {
             //  Only allowed to delete a playlist if more than 1 exists.
             canDelete: false
         },
-            
+
         //  Convert data which is sent from the server back to a proper Backbone.Model.
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
         parse: function(playlistDto) {
@@ -60,7 +61,8 @@ define(function(require) {
             $.ajax({
                 url: Streamus.serverUrl + 'ShareCode/GetShareCode',
                 data: {
-                    playlistId: this.get('id')
+                    id: this.get('id'),
+                    entityType: EntityType.Playlist
                 },
                 success: function(shareCodeJson) {
                     var shareCode = new ShareCode(shareCodeJson);
@@ -69,11 +71,11 @@ define(function(require) {
                 error: options.error
             });
         },
-        
+
         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
         loadDataSource: function() {
             YouTubeV3API.getPlaylistSongs({
-                playlistId: this.get('dataSource').get('id'),
+                playlistId: this.get('dataSource').get('entityId'),
                 success: this._onGetPlaylistSongsSuccess.bind(this)
             });
         },
@@ -95,7 +97,7 @@ define(function(require) {
             } else {
                 //  Request next batch of data by iteration once addItems has succeeded.
                 YouTubeV3API.getPlaylistSongs({
-                    playlistId: this.get('dataSource').get('id'),
+                    playlistId: this.get('dataSource').get('entityId'),
                     pageToken: nextPageToken,
                     success: this._onGetPlaylistSongsSuccess.bind(this)
                 });
@@ -108,7 +110,7 @@ define(function(require) {
                 title: title
             });
 
-            this.save({ title: title }, { patch: true });
+            this.save({title: title}, {patch: true});
         },
 
         _onChangeActive: function(model, active) {
@@ -123,7 +125,7 @@ define(function(require) {
                 this.get('items').deselectAll();
             }
         },
-        
+
         //  Notify all open YouTube tabs that a playlist has been renamed.
         _emitYouTubeTabUpdateEvent: function(data) {
             Streamus.channels.tab.commands.trigger('notify:youTube', {

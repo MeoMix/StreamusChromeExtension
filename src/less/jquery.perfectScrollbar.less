@@ -1,4 +1,5 @@
 ﻿@import "color";
+@import "transition";
 
 .ps-container {
     &:hover .ps-scrollbar-y {
@@ -17,7 +18,7 @@
 .ps-scrollbar-y,
 .ps-scrollbar-y-rail {
     position: absolute;
-    transition: background-color .14s ease-out, width .14s ease-out;
+    transition: background-color @transition-duration--fast ease-out, width @transition-duration--fast ease-out;
 }
 
 .ps-scrollbar-y-rail {

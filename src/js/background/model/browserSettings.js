@@ -18,7 +18,7 @@
                 origins: ['*://*.pro.beatport.com/*']
             }
         },
-        
+
         //  Don't save permission objects because they can't change
         blacklist: ['enhanceYouTubePermission', 'enhanceBeatportPermission'],
         toJSON: function() {
@@ -59,10 +59,10 @@
         _onChangeEnhanceBeatport: function(model, enhanceBeatport) {
             this._handleEnhanceChangeRequest(enhanceBeatport, 'beatport', 'enhanceBeatport');
         },
-        
+
         _handleEnhanceChangeRequest: function(enhance, tabName, permissionName) {
             var permission = this.get(permissionName + 'Permission');
-            
+
             //  If the user wants to enhance a website they need to have granted permission
             if (enhance) {
                 chrome.permissions.contains(permission, this._onChromePermissionContainsResponse.bind(this, permission, permissionName, tabName));
@@ -72,7 +72,7 @@
                 chrome.permissions.remove(permission);
             }
         },
-        
+
         _onChromePermissionContainsResponse: function(permission, permissionName, tabName, hasPermission) {
             //  If permission is granted then perform the enhance logic by notifying open tabs.
             //  Otherwise, request permission and, if given, do the same thing. If not granted, disable the permission.
@@ -88,7 +88,7 @@
                 }.bind(this));
             }
         },
-        
+
         _ensurePermission: function(permissionName) {
             //  Disable setting if permission has not been granted.
             if (this.get(permissionName)) {
@@ -100,7 +100,7 @@
                 }.bind(this));
             }
         },
-        
+
         _notifyTab: function(tabType, enhance) {
             Streamus.channels.tab.commands.trigger('notify:' + tabType, {
                 action: 'toggleContentScript',

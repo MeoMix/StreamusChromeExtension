@@ -1,16 +1,20 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var ShuffleButtonTemplate = require('text!template/stream/shuffleButton.html');
     var ShuffleIconTemplate = require('text!template/icon/shuffleIcon_18.svg');
 
     var ShuffleButtonView = Marionette.ItemView.extend({
         id: 'shuffleButton',
-        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium',
         template: _.template(ShuffleButtonTemplate),
         templateHelpers: {
             shuffleIcon: _.template(ShuffleIconTemplate)()
+        },
+
+        attributes: {
+            'data-ui': 'tooltipable'
         },
 
         events: {
@@ -22,8 +26,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -40,7 +44,7 @@
         },
 
         _setState: function(enabled, stateMessage) {
-            this.$el.toggleClass('is-enabled', enabled).attr('title', stateMessage);
+            this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
         }
     });
 

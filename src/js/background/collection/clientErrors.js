@@ -8,7 +8,7 @@
         url: function() {
             return Streamus.serverUrl + 'ClientError/';
         },
-        //  Don't allow duplicate ClientErrors by stack + lineNumber. 
+        //  Don't allow duplicate ClientErrors by stack + lineNumber.
         add: function(addedClientError) {
             var isDuplicate = this.any(function(clientError) {
                 var lineNumberDuplicate = clientError.get('lineNumber') === addedClientError.get('lineNumber');

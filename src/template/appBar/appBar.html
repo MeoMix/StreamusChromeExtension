@@ -1,36 +1,36 @@
 ﻿<div class='contentBar contentBar--top contentBar--elevated'>
     <div class='appBar-content appBar-content--left'>
-        <div id='appBar-showPlaylistsAreaButton' class='contentBar-navButton button button--icon button--icon--primary button--large js-tooltipable'>
+        <div data-ui='showPlaylistsAreaButton tooltipable' class='contentBar-navButton button button--icon button--icon--primary button--large'>
             <%= menuIcon %>
         </div>
-        
-        <div id='appBar-hidePlaylistsAreaButton' class='contentBar-navButton button button--icon button--icon--primary button--large is-hidden'>
+
+        <div data-ui='hidePlaylistsAreaButton' class='contentBar-navButton button button--icon button--icon--primary button--large is-hidden'>
             <%= menuIcon %>
         </div>
-        
-        <div id='appBar-playlistTitleRegion' class='flexRow'></div>
-        
-        <div id='appBar-searchInputRegion' class='flexRow is-hidden'>
-            <input id='appBar-searchInput' class='textInput textInput--search' type='text' placeholder='<%= searchMessage %>' value='<%= searchQuery %>' autofocus>
+
+        <div data-ui='playlistTitleRegion' data-region='playlistTitle' class='flexRow'></div>
+
+        <div data-ui='searchInputRegion' data-region='searchInput' class='flexRow is-hidden'>
+            <input data-ui='searchInput' class='textInput textInput--search' type='text' placeholder='<%= searchMessage %>' value='<%= searchQuery %>' autofocus>
         </div>
-        
-        <div id='appBar-showSearchButton' class='button button--icon button--icon--primary button--large'>
+
+        <div data-ui='showSearchButton'  class='button button--icon button--icon--primary button--large'>
             <%= searchIcon %>
         </div>
-            
-        <div id='appBar-hideSearchButton' class='button button--icon button--icon--primary button--large is-hidden'>
+
+        <div data-ui='hideSearchButton' class='button button--icon button--icon--primary button--large is-hidden'>
             <%= closeIcon %>
         </div>
     </div>
     <div class='appBar-content appBar-content--right'>
-        <div id='appBar-volumeAreaRegion'></div>
-        
+        <div data-region='volumeArea'></div>
+
         <div class='appBar-controls'>
-            <div id="appBar-previousButtonRegion"></div>
-            <div id="appBar-playPauseButtonRegion"></div>
-            <div id="appBar-nextButtonRegion"></div>
+            <div data-region='previousButton'></div>
+            <div data-region='playPauseButton'></div>
+            <div data-region='nextButton'></div>
         </div>
 
-        <div id='appBar-adminMenuAreaRegion'></div>
+        <div data-region='adminMenuArea'></div>
     </div>
 </div>

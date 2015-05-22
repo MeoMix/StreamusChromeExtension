@@ -3,7 +3,7 @@
 
     var PlayerState = require('common/enum/playerState');
     var Utility = require('common/utility');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var TimeAreaTemplate = require('text!template/stream/timeArea.html');
 
     var TimeAreaView = Marionette.ItemView.extend({
@@ -13,18 +13,15 @@
         templateHelpers: function() {
             return {
                 totalTimeMessage: chrome.i18n.getMessage('totalTime'),
-                //  TODO: I don't want totalTime written to localStorage which means I exclude it from the JSON serialization, but I need it in my template..
                 totalTime: this.model.get('totalTime'),
                 prettyTotalTime: Utility.prettyPrintTime(this.model.get('totalTime'))
             };
         },
 
-        ui: function() {
-            return {
-                timeProgress: '#' + this.id + '-timeProgress',
-                timeRange: '#' + this.id + '-timeRange',
-                elapsedTimeLabel: '#' + this.id + '-elapsedTimeLabel'
-            };
+        ui: {
+            timeProgress: '[data-ui~=timeProgress]',
+            timeRange: '[data-ui~=timeRange]',
+            elapsedTimeLabel: '[data-ui~=elapsedTimeLabel]'
         },
 
         events: {
@@ -36,8 +33,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -49,22 +46,22 @@
             'change:state': '_onPlayerChangeState'
         },
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.player = Streamus.backgroundPage.player;
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+            this.player = options.player;
 
             this.bindEntityEvents(this.player, this.playerEvents);
         },
 
         onRender: function() {
             this._setCurrentTime(this.player.get('currentTime'));
-            this._setElapsedTimeLabelTitle(this.model.get('showRemainingTime'));
+            this._setElapsedTimeLabelTooltipText(this.model.get('showRemainingTime'));
         },
 
         _onInputTimeRange: function() {
             this._updateTimeProgress();
         },
-        
+
         //  Allow the user to manual time change by click or scroll.
         _onWheelTimeRange: function(event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
@@ -110,14 +107,14 @@
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
             var state = this.player.get('state');
 
-            if (state === PlayerState.Playing || state === PlayerState.Paused || state === PlayerState.SongCued) {
+            if (state === PlayerState.Playing || state === PlayerState.Paused) {
                 this.model.set('seeking', false);
             }
         },
 
         _seekToCurrentTime: function() {
             //  Bind to progressBar mouse-up to support dragging as well as clicking.
-            //  I don't want to send a message until drag ends, so mouseup works nicely. 
+            //  I don't want to send a message until drag ends, so mouseup works nicely.
             var currentTime = parseInt(this.ui.timeRange.val());
             this.player.seekTo(currentTime);
         },
@@ -127,14 +124,14 @@
             //  Toggle showRemainingTime and then read the new state and apply it.
             this.model.save('showRemainingTime', !showRemainingTime);
 
-            this._setElapsedTimeLabelTitle(!showRemainingTime);
+            this._setElapsedTimeLabelTooltipText(!showRemainingTime);
 
             this._updateTimeProgress();
         },
 
-        _setElapsedTimeLabelTitle: function(showRemainingTime) {
-            var title = chrome.i18n.getMessage(showRemainingTime ? 'remainingTime' : 'elapsedTime');
-            this.ui.elapsedTimeLabel.attr('title', title);
+        _setElapsedTimeLabelTooltipText: function(showRemainingTime) {
+            var tooltipText = chrome.i18n.getMessage(showRemainingTime ? 'remainingTime' : 'elapsedTime');
+            this.ui.elapsedTimeLabel.attr('data-tooltip-text', tooltipText);
         },
 
         _setCurrentTime: function(currentTime) {

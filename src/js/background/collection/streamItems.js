@@ -33,7 +33,7 @@
         },
 
         getActiveItem: function() {
-            return this.findWhere({ active: true });
+            return this.findWhere({active: true});
         },
 
         getActiveSongId: function() {
@@ -48,7 +48,7 @@
         },
 
         notPlayedRecently: function() {
-            return this.where({ playedRecently: false });
+            return this.where({playedRecently: false});
         },
 
         getBySong: function(song) {
@@ -79,13 +79,11 @@
         },
 
         addSongs: function(songs, options) {
-            //  TODO: reduce cyclomatic complexity.
             /* jshint ignore:start */
             options = _.isUndefined(options) ? {} : options;
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
             if (options.playOnAdd) {
-                //  TODO: This is hacky... re-think playOnActivate to not have to use a channel since this is basically just a glorified global.
                 Streamus.channels.player.commands.trigger('playOnActivate', true);
             }
 
@@ -111,18 +109,17 @@
                     index++;
                 }
             }, this);
-            
+
             if (createdStreamItems.length > 0) {
-                //  Emit a custom event signaling items have been added. 
+                //  Emit a custom event signaling items have been added.
                 //  Useful for not responding to add until all items have been added.
                 this.trigger('add:completed', this);
             }
 
             if (options.playOnAdd || options.markFirstActive) {
                 if (createdStreamItems.length > 0) {
-                    createdStreamItems[0].save({ active: true });
+                    createdStreamItems[0].save({active: true});
                 } else {
-                    //  TODO: I need to notify the user that this fallback happened.
                     var songToActivate = this.getBySong(songs[0]);
 
                     if (_.isUndefined(songToActivate)) {
@@ -132,7 +129,7 @@
                     if (songToActivate.get('active')) {
                         songToActivate.trigger('change:active', songToActivate, true);
                     } else {
-                        songToActivate.save({ active: true });
+                        songToActivate.save({active: true});
                     }
                 }
             }
@@ -144,7 +141,7 @@
         _onAdd: function(model) {
             //  Ensure a streamItem is always active
             if (_.isUndefined(this.getActiveItem())) {
-                model.save({ active: true });
+                model.save({active: true});
             }
         },
 
@@ -168,7 +165,7 @@
                 this._ensureAllNotPlayedRecentlyExcept(model);
             }
         },
-        
+
         //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
         _onChromeRuntimeMessage: function(request) {
             switch (request.method) {
@@ -223,7 +220,7 @@
             this.each(function(streamItem) {
                 //  Be sure to check if it is active before saving to avoid hammering localStorage.
                 if (streamItem !== changedStreamItem && streamItem.get('active')) {
-                    streamItem.save({ active: false });
+                    streamItem.save({active: false});
                 }
             });
         },
@@ -231,9 +228,7 @@
         //  Take each streamItem's array of related songs, pluck them all out into a collection of arrays
         //  then flatten the arrays into a single array of songs.
         _getRelatedSongs: function() {
-            //  TODO: I don't think this should be OK.
-            //  Some might not have information. This is OK. Either YouTube hasn't responded yet or responded with no information. Skip these.
-            //  Create a list of all the related songs from all of the information of stream items.
+            //  Some items may not have related information due to lack of response from YouTube or simply a lack of information.
             var relatedSongs = _.flatten(this.map(function(streamItem) {
                 return streamItem.get('relatedSongs').models;
             }));
@@ -254,10 +249,11 @@
             var tempFilteredRelatedSongs = _.filter(relatedSongs, function(relatedSong) {
                 //  assuming things >8m are playlists.
                 var isJustOneSong = relatedSong.get('duration') < 480;
-                //  TODO: I need better detection than this -- this filters out other things with the word live in it.
-                var isNotLive = relatedSong.get('title').toLowerCase().indexOf('live') === -1;
+                var lowerCaseSongTitle = relatedSong.get('title').toLowerCase();
+                var isNotLive = lowerCaseSongTitle.indexOf('live') === -1;
+                var isNotParody = lowerCaseSongTitle.indexOf('parody') === -1;
 
-                return isJustOneSong && isNotLive;
+                return isJustOneSong && isNotLive && isNotParody;
             });
 
             if (tempFilteredRelatedSongs.length !== 0) {
@@ -266,14 +262,14 @@
 
             return relatedSongs;
         },
-        
+
         //  When all streamItems have been played recently, reset to not having been played recently.
         //  Allows for de-prioritization of played streamItems during shuffling.
         _ensureAllNotPlayedRecentlyExcept: function(model) {
-            if (this.where({ playedRecently: true }).length === this.length) {
+            if (this.where({playedRecently: true}).length === this.length) {
                 this.each(function(streamItem) {
                     if (streamItem !== model) {
-                        streamItem.save({ playedRecently: false });
+                        streamItem.save({playedRecently: false});
                     }
                 });
             }
@@ -281,8 +277,9 @@
 
         _onChromeCommandsCommand: function(command) {
             //  Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
-            var streamItemsCommands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl, ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
-  
+            var streamItemsCommands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl,
+                ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
+
             if (_.contains(streamItemsCommands, command)) {
                 if (this.length === 0) {
                     Streamus.channels.notification.commands.trigger('show:notification', {

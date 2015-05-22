@@ -1,8 +1,9 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Dialog = require('foreground/model/dialog');
+    var Dialog = require('foreground/model/dialog/dialog');
     var EditPlaylistView = require('foreground/view/dialog/editPlaylistView');
+    var EditPlaylist = require('foreground/model/dialog/editPlaylist');
     var DialogView = require('foreground/view/dialog/dialogView');
 
     var EditPlaylistDialogView = DialogView.extend({
@@ -14,7 +15,9 @@
             });
 
             this.contentView = new EditPlaylistView({
-                model: options.playlist
+                model: new EditPlaylist({
+                    playlist: options.playlist
+                })
             });
 
             DialogView.prototype.initialize.apply(this, arguments);

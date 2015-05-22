@@ -2,7 +2,7 @@
     'use strict';
 
     //var VideoView = require('foreground/view/video/videoView');
-    //  TODO: need to disable rendering of the video when not shown.
+
     var VideoRegion = Marionette.Region.extend({
         //initialize: function() {
         //    this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
@@ -10,7 +10,7 @@
         //},
 
         //_onForegroundAreaIdle: function() {
-        //    //  If the video view isn't going to be shown right off the bat then it's OK to defer loading until idle so that 
+        //    //  If the video view isn't going to be shown right off the bat then it's OK to defer loading until idle so that
         //    //  the initial load time of the application isn't impacted.
         //    //if (!this.settings.get('openToSearch')) {
         //        this._createVideoView();
@@ -19,7 +19,7 @@
 
         //_createVideoView: function() {
         //    var videoView = new VideoView({
-        //        //  TODO: model?
+        //        player: Streamus.backgroundPage.player
         //    });
 
         //    this.show(videoView);

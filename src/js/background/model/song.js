@@ -14,28 +14,17 @@
             //  Duration in seconds for the length of the given song.
             duration: -1,
             type: SongType.None,
-                
+
             //  These are calculated:
             prettyDuration: '',
             url: '',
             cleanTitle: ''
-        },
-        
-        //  TODO: Needed?
-        //  Song is never saved to the server -- it gets flattened into a PlaylistItem
-        sync: function() {
-            return false;
         },
 
         initialize: function() {
             this._setPrettyDuration(this.get('duration'));
             this._setCleanTitle(this.get('title'));
             this._setUrl(this.get('id'));
-
-            //  TODO: Why can song values even change?
-            this.on('change:duration', this._onChangeDuration);
-            this.on('change:title', this._onChangeTitle);
-            this.on('change:id', this._onChangeId);
         },
 
         copyUrl: function() {
@@ -56,23 +45,11 @@
             });
         },
 
-        _onChangeId: function(model, id) {
-            this._setUrl(id);
-        },
-
-        _onChangeTitle: function(model, title) {
-            this._setCleanTitle(title);
-        },
-
-        _onChangeDuration: function(model, duration) {
-            this._setPrettyDuration(duration);
-        },
-        
         //  Calculate this value pre-emptively because when rendering I don't want to incur inefficiency
         _setPrettyDuration: function(duration) {
             this.set('prettyDuration', Utility.prettyPrintTime(duration));
         },
-        
+
         //  Useful for comparisons and other searching.
         _setCleanTitle: function(title) {
             this.set('cleanTitle', Utility.cleanTitle(title));

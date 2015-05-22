@@ -3,6 +3,12 @@
     color: rgb(15,157,88) !important;
 }
 
+.streamusButton > svg {
+    fill: rgb(15, 157, 88);
+}
+
 .streamusButton:hover {
     text-shadow: 0 0 15px rgba(15,157,88,0.6) !important;
+    -webkit-filter: drop-shadow(0 0 7px rgba(15,157,88,0.6)) !important;
+    filter: drop-shadow(0 0 7px rgba(15,157,88,0.6)) !important;
 }

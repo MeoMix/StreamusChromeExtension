@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var MediaSourceWrapper = require('foreground/model/mediaSourceWrapper');
+    var MediaSourceWrapper = require('foreground/model/video/mediaSourceWrapper');
     var PlayerState = require('common/enum/playerState');
 
     var VideoView = Marionette.ItemView.extend({
@@ -21,9 +21,9 @@
             'receive:currentTimeHighPrecision': '_onPlayerReceiveCurrentTimeHighPrecision'
         },
 
-        initialize: function() {
+        initialize: function(options) {
+            this.player = options.player;
             this.mediaSourceWrapper = new MediaSourceWrapper();
-            this.player = Streamus.backgroundPage.player;
 
             this.bindEntityEvents(this.player, this.playerEvents);
             this.bindEntityEvents(this.mediaSourceWrapper, this.mediaSourceWrapperEvents);
@@ -85,7 +85,7 @@
 
         _requestCurrentTimeUpdate: function() {
             //  It's important to specifically ask the player for the currentTime because this will give 100% accurate result.
-            //  Otherwise, can only get within ~200ms by responding to the 'timeupdate' event of the other video. 
+            //  Otherwise, can only get within ~200ms by responding to the 'timeupdate' event of the other video.
             this.player.requestCurrentTimeHighPrecision();
         },
 

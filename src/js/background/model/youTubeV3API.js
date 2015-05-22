@@ -28,7 +28,7 @@
                 complete: options.complete
             });
         },
-        
+
         //  Performs a search of YouTube with the provided text and returns a list of playable songs (<= max-results)
         //  Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
         search: function(options) {
@@ -216,7 +216,7 @@
                 }
             };
         },
-        
+
         //  Converts a list of YouTube song ids into actual video information by querying YouTube with the list of ids.
         getSongs: function(options) {
             return this._doRequest(YouTubeServiceType.Videos, {
@@ -236,9 +236,10 @@
                         }
                     } else {
                         //  Filter out videos which have marked themselves as not able to be embedded since they won't be able to be played in Streamus.
-                        //  TODO: Notify the user that this has happened.
                         var embeddableItems = _.filter(response.items, function(item) {
-                            return item.status.embeddable;
+                            //  Check for PT0S due to an issue in YouTube's API: https://code.google.com/p/gdata-issues/issues/detail?id=7172
+                            //  Songs with 0s duration are unable to be played.
+                            return item.status.embeddable && item.contentDetails.duration !== 'PT0S';
                         });
 
                         var songs = this._itemListToSongs(embeddableItems);
@@ -295,6 +296,5 @@
         }
     });
 
-    //  TODO: Don't return new instance even if its not stateful.
     return new YouTubeV3API();
 });

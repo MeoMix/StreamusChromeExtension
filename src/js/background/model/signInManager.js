@@ -24,6 +24,7 @@
         initialize: function() {
             this.on('change:signedInUser', this._onChangeSignedInUser);
             this.on('change:signInFailed', this._onChangeSignInFailed);
+            this.listenTo(Streamus.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
             chrome.identity.onSignInChanged.addListener(this._onChromeIdentitySignInChanged.bind(this));
@@ -61,7 +62,7 @@
                         signedInUser.mergeByGooglePlusId();
                     } else {
                         //  Otherwise, no account -- safe to patch in a save and use this account as the main one.
-                        signedInUser.save({ googlePlusId: profileUserInfo.id }, { patch: true });
+                        signedInUser.save({googlePlusId: profileUserInfo.id}, {patch: true});
                     }
                 }.bind(this));
             }.bind(this));
@@ -71,6 +72,10 @@
 
         isSignedIn: function() {
             return this.get('signedInUser') !== null;
+        },
+
+        _onBackgroundAreaRendered: function() {
+            this.signInWithGoogle();
         },
 
         _signIn: function(googlePlusId) {
@@ -110,7 +115,7 @@
                         if (signedInUser !== null && !signedInUser.linkedToGoogle()) {
                             this._setSignedInUser(signedInUser);
                         } else {
-                            //  But, if the signed in user is already linked to Google -- then it's OK to swap it out with other data because it won't be lost, just need to sign in with that account.
+                            //  If user already linked to Google then it is OK to swap data because no information will be lost.
                             signingInUser.tryloadByUserId();
                         }
                     }
@@ -129,7 +134,6 @@
             chrome.identity.getProfileUserInfo(this._onGetProfileUserInfo.bind(this));
         },
 
-        //  TODO: It feels weird that this explicitly calls signIn - what if I want to get their info without signing in?
         //  https://developer.chrome.com/extensions/identity#method-getProfileUserInfo
         _onGetProfileUserInfo: function(profileUserInfo) {
             this._signIn(profileUserInfo.id);
@@ -221,7 +225,7 @@
             }
         },
 
-        _onChromeRuntimeMessage: function (request, sender, sendResponse) {
+        _onChromeRuntimeMessage: function(request, sender, sendResponse) {
             switch (request.method) {
                 case 'getSignedInState':
                     sendResponse({
@@ -233,17 +237,28 @@
                     break;
             }
         },
-        
-        _onChromeRuntimeMessageExternal: function (request, sender, sendResponse) {
+
+        _onChromeRuntimeMessageExternal: function(request, sender, sendResponse) {
             var sendAsynchronousResponse = false;
 
             switch (request.method) {
                 case 'copyPlaylist':
                     if (this._canSignIn()) {
-                        //  TODO: What if sign in fails?
-                        this.once('change:signedInUser', function () {
+                        var onSignInSuccess = function() {
                             this._handleCopyPlaylistRequest(request, sendResponse);
-                        });
+                            this.off('change:signInFailed', onSignInFailed);
+                        };
+
+                        var onSignInFailed = function() {
+                            this.off('change:signedInUser', onSignInSuccess);
+                            sendResponse({
+                                result: 'error',
+                                error: 'Failed to sign in'
+                            });
+                        };
+
+                        this.once('change:signedInUser', onSignInSuccess);
+                        this.once('change:signInFailed', onSignInFailed);
 
                         this.signInWithGoogle();
                     } else {
@@ -253,7 +268,6 @@
                     sendAsynchronousResponse = true;
                     break;
                 case 'isUserLoaded':
-                    //  TODO: Maybe this should also be able to sign in a user since I'm going to poll isUserLoaded and if nobody is signing in then why continue to poll?
                     sendResponse({
                         isUserLoaded: this.get('signedInUser') !== null
                     });
@@ -264,8 +278,8 @@
             return sendAsynchronousResponse;
         },
 
-        _handleCopyPlaylistRequest: function (request, sendResponse) {
-            //  TODO: Probably house this logic on signedInUser or on playlists?
+        _handleCopyPlaylistRequest: function(request, sendResponse) {
+            //  It would be nice to handle this at a lower level, but I need the ability to sign a user in first.
             this.get('signedInUser').get('playlists').copyPlaylist({
                 playlistId: request.playlistId,
                 success: function() {
@@ -293,7 +307,7 @@
                 callback(false);
             }
         },
-        //  TODO: Just set this properties manually instead of via function.
+
         _needLinkUserId: function() {
             this.set('needLinkUserId', true);
         },

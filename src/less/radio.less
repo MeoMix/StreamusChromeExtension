@@ -1,4 +1,5 @@
 ﻿@import "color";
+@import "transition";
 
 radio-group {
     outline: none;
@@ -39,13 +40,13 @@ radio-button {
 .radio-off {
     border: solid 2px;
     border-color: @dark--secondary;
-    transition: border-color ease 0.28s;
+    transition: border-color ease @transition-duration--slow;
 }
 
 .radio-on {
     background-color: @green--500;
     transform: scale(0);
-    transition: transform ease 0.28s;
+    transition: transform ease @transition-duration--slow;
 }
 
 .radio-label {

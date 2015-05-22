@@ -83,7 +83,7 @@
                 }
             }.bind(this));
         },
-        
+
         //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
         messageTabs: function(urlPatterns, message) {
             _.each(urlPatterns, function(urlPattern) {
@@ -104,11 +104,10 @@
         },
 
         _highlightTabs: function(highlightInfo) {
-            //  TODO: The callback will be optional once Google resolves https://code.google.com/p/chromium/issues/detail?id=417564
             chrome.tabs.highlight(highlightInfo, _.noop);
         },
 
-        _onChromeCommandsCommand: function (command) {
+        _onChromeCommandsCommand: function(command) {
             if (command === ChromeCommand.OpenInTab) {
                 this.showStreamusTab();
             }

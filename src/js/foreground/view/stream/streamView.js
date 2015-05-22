@@ -1,8 +1,8 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ClearStreamButton = require('foreground/model/clearStreamButton');
-    var SaveStreamButton = require('foreground/model/saveStreamButton');
+    var ClearStreamButton = require('foreground/model/stream/clearStreamButton');
+    var SaveStreamButton = require('foreground/model/stream/saveStreamButton');
     var ActiveStreamItemView = require('foreground/view/stream/activeStreamItemView');
     var ClearStreamButtonView = require('foreground/view/stream/clearStreamButtonView');
     var RadioButtonView = require('foreground/view/stream/radioButtonView');
@@ -17,32 +17,25 @@
         className: 'flexColumn',
         template: _.template(StreamTemplate),
 
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                emptyMessage: chrome.i18n.getMessage('streamEmpty'),
-                searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
-                whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr')
-            };
+        templateHelpers: {
+            emptyMessage: chrome.i18n.getMessage('streamEmpty'),
+            searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
+            whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr')
         },
 
-        regions: function() {
-            return {
-                clearStreamButtonRegion: '#' + this.id + '-clearStreamButtonRegion',
-                radioButtonRegion: '#' + this.id + '-radioButtonRegion',
-                repeatButtonRegion: '#' + this.id + '-repeatButtonRegion',
-                saveStreamButtonRegion: '#' + this.id + '-saveStreamButtonRegion',
-                shuffleButtonRegion: '#' + this.id + '-shuffleButtonRegion',
-                activeStreamItemRegion: '#' + this.id + '-activeStreamItemRegion',
-                streamItemsRegion: '#' + this.id + '-streamItemsRegion'
-            };
+        regions: {
+            clearStreamButton: '[data-region=clearStreamButton]',
+            radioButton: '[data-region=radioButton]',
+            repeatButton: '[data-region=repeatButton]',
+            saveStreamButton: '[data-region=saveStreamButton]',
+            shuffleButton: '[data-region=shuffleButton]',
+            activeStreamItem: '[data-region=activeStreamItem]',
+            streamItems: '[data-region=streamItems]'
         },
 
-        ui: function() {
-            return {
-                emptyMessage: '#' + this.id + '-emptyMessage',
-                showSearchLink: '#' + this.id + '-showSearchLink'
-            };
+        ui: {
+            emptyMessage: '[data-ui~=emptyMessage]',
+            showSearchLink: '[data-ui~=showSearchLink]'
         },
 
         events: {
@@ -66,29 +59,29 @@
         onRender: function() {
             this._setState(this.model.get('items').isEmpty());
 
-            this.showChildView('streamItemsRegion', new StreamItemsView({
+            this.showChildView('streamItems', new StreamItemsView({
                 collection: this.model.get('items')
             }));
 
-            this.showChildView('shuffleButtonRegion', new ShuffleButtonView({
+            this.showChildView('shuffleButton', new ShuffleButtonView({
                 model: Streamus.backgroundPage.shuffleButton
             }));
 
-            this.showChildView('repeatButtonRegion',new RepeatButtonView({
+            this.showChildView('repeatButton', new RepeatButtonView({
                 model: Streamus.backgroundPage.repeatButton
             }));
 
-            this.showChildView('radioButtonRegion',new RadioButtonView({
+            this.showChildView('radioButton', new RadioButtonView({
                 model: Streamus.backgroundPage.radioButton
             }));
 
-            this.showChildView('clearStreamButtonRegion',new ClearStreamButtonView({
+            this.showChildView('clearStreamButton', new ClearStreamButtonView({
                 model: new ClearStreamButton({
                     streamItems: this.model.get('items')
                 })
             }));
 
-            this.showChildView('saveStreamButtonRegion', new SaveStreamButtonView({
+            this.showChildView('saveStreamButton', new SaveStreamButtonView({
                 model: new SaveStreamButton({
                     streamItems: this.model.get('items'),
                     signInManager: Streamus.backgroundPage.signInManager
@@ -107,7 +100,7 @@
 
         _onChangeActiveItem: function(model, activeItem) {
             if (activeItem === null) {
-                this.getChildView('activeStreamItemRegion').hide();
+                this.getChildView('activeStreamItem').hide();
             } else {
                 //  If there was already an activeItem shown then do not need to transition in the new view because one is already fully visible.
                 var instant = model.previous('activeItem') !== null;
@@ -126,19 +119,20 @@
         _onStreamItemsReset: function(collection) {
             this._setState(collection.isEmpty());
         },
-        
+
         //  Hide the empty message if there is anything in the collection
         _setState: function(collectionEmpty) {
             this.ui.emptyMessage.toggleClass('is-hidden', !collectionEmpty);
         },
 
         _showSearch: function() {
-            Streamus.channels.searchArea.commands.trigger('show:search');
+            Streamus.channels.search.commands.trigger('show:search');
         },
 
         _showActiveStreamItem: function(activeStreamItem, instant) {
-            this.showChildView('activeStreamItemRegion', new ActiveStreamItemView({
+            this.showChildView('activeStreamItem', new ActiveStreamItemView({
                 model: activeStreamItem,
+                player: Streamus.backgroundPage.player,
                 instant: instant
             }));
         }

@@ -7,7 +7,7 @@
     var videoInfoList = [];
 
     //  Intercept XMLHttpRequest for YouTube's iframe and send a copy of video data outside the iframe.
-    //  This allows for the video to be re-rendered on another page as efficiently as possible. 
+    //  This allows for the video to be re-rendered on another page as efficiently as possible.
     (function(open) {
         XMLHttpRequest.prototype.open = function() {
             this.addEventListener('load', function() {
