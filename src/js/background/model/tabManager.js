@@ -5,9 +5,12 @@
 
     var TabManager = Backbone.Model.extend({
         defaults: function() {
+            var isOpera = navigator.userAgent.indexOf(' OPR/') >= 0;
+            var keyboardShortcutsUrl = isOpera ? 'opera://settings/configureCommands' : 'chrome://extensions/configureCommands';
+
             return {
                 streamusForegroundUrl: 'chrome-extension://' + chrome.runtime.id + '/foreground.html',
-                keyboardShortcutsUrl: 'chrome://extensions/configureCommands',
+                keyboardShortcutsUrl: keyboardShortcutsUrl,
                 youTubeUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
                 beatportUrlPatterns: ['*://*.beatport.com/*']
             };
