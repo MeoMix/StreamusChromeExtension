@@ -34,7 +34,6 @@ define(function() {
             'backbone.marionette': 'thirdParty/backbone.marionette',
             'cocktail': 'thirdParty/cocktail',
             'jquery': 'thirdParty/jquery',
-            'jquery.perfectScrollbar': 'thirdParty/jquery.perfectScrollbar',
             'jquery-ui': 'thirdParty/jquery-ui',
             'lodash': 'thirdParty/lodash',
             'text': 'thirdParty/text'

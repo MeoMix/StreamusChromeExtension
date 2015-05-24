@@ -112,13 +112,13 @@
     //  Converts an ISO8061 format (i.e: PT1H3M52S) to numeric representation in seconds.
     iso8061DurationToSeconds: function(isoDuration) {
         var hoursMatch = isoDuration.match(/(\d+)H/);
-        var hours = parseInt(hoursMatch ? hoursMatch[1] : 0);
+        var hours = parseInt(hoursMatch ? hoursMatch[1] : 0, 10);
 
         var minutesMatch = isoDuration.match(/(\d+)M/);
-        var minutes = parseInt(minutesMatch ? minutesMatch[1] : 0);
+        var minutes = parseInt(minutesMatch ? minutesMatch[1] : 0, 10);
 
         var secondsMatch = isoDuration.match(/(\d+)S/);
-        var seconds = parseInt(secondsMatch ? secondsMatch[1] : 0);
+        var seconds = parseInt(secondsMatch ? secondsMatch[1] : 0, 10);
 
         var secondsDuration = seconds + (60 * minutes) + (60 * 60 * hours);
         return secondsDuration;

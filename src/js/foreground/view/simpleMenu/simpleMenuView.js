@@ -113,7 +113,7 @@
                 var offsetData = this.getChildView('simpleMenuItems').getActiveItemOffsetData();
                 //  Center the offset over the listItem using logic outlined in Material guidelines
                 //  http://www.google.com/design/spec/components/menus.html#menus-simple-menus
-                var paddingTop = parseInt(this.ui.panelContent.css('padding-top'));
+                var paddingTop = parseInt(this.ui.panelContent.css('padding-top'), 10);
                 var centering = (listItemHeight - offsetData.itemHeight) / 2 - paddingTop;
                 var topOffset = offsetData.itemOffset + centering;
 

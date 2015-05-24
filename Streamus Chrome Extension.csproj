@@ -448,7 +448,6 @@
     <Content Include="src\js\thirdParty\backbone.localStorage.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
-    <Content Include="src\js\thirdParty\jquery.perfectScrollbar.js" />
     <Content Include="src\js\thirdParty\jquery-ui.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
     <Content Include="src\js\thirdParty\require.js" />
@@ -556,7 +555,6 @@
     <Content Include="src\less\transition.less" />
     <Content Include="src\less\overlay.less" />
     <Content Include="src\less\radio.less" />
-    <Content Include="src\less\jquery.perfectScrollbar.less" />
     <Content Include="src\less\switch.less" />
     <Content Include="src\less\checkbox.less" />
     <Content Include="src\less\spinner.less" />
@@ -571,6 +569,7 @@
     <Content Include="src\_locales\ko\messages.json" />
     <Content Include="src\_locales\ro\messages.json" />
     <Content Include="src\_locales\pt_BR\messages.json" />
+    <Content Include="src\less\scrollbar.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

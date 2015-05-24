@@ -7,7 +7,6 @@
 
     require('backbone.marionette');
     require('backbone.localStorage');
-    require('jquery.perfectScrollbar');
     require('jquery-ui');
 
     //  Finally, load the application which will initialize the foreground:

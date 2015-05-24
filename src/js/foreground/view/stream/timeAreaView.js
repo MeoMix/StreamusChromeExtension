@@ -65,7 +65,7 @@
         //  Allow the user to manual time change by click or scroll.
         _onWheelTimeRange: function(event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
-            var currentTime = parseInt(this.ui.timeRange.val());
+            var currentTime = parseInt(this.ui.timeRange.val(), 10);
 
             this._setCurrentTime(currentTime + delta);
 
@@ -115,7 +115,7 @@
         _seekToCurrentTime: function() {
             //  Bind to progressBar mouse-up to support dragging as well as clicking.
             //  I don't want to send a message until drag ends, so mouseup works nicely.
-            var currentTime = parseInt(this.ui.timeRange.val());
+            var currentTime = parseInt(this.ui.timeRange.val(), 10);
             this.player.seekTo(currentTime);
         },
 
@@ -152,8 +152,8 @@
         //  This is an important distinction because when the user is dragging the progress bar -- the player won't be updating -- but progress bar
         //  values need to be re-rendered.
         _updateTimeProgress: function() {
-            var currentTime = parseInt(this.ui.timeRange.val());
-            var totalTime = parseInt(this.ui.timeRange.prop('max'));
+            var currentTime = parseInt(this.ui.timeRange.val(), 10);
+            var totalTime = parseInt(this.ui.timeRange.prop('max'), 10);
 
             //  Don't divide by 0.
             var progressPercent = totalTime === 0 ? 0 : currentTime * 100 / totalTime;

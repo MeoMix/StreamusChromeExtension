@@ -72,7 +72,7 @@ define(function(require) {
         },
 
         _setVolume: function() {
-            var volume = parseInt(this.ui.volumeRange.val());
+            var volume = parseInt(this.ui.volumeRange.val(), 10);
             this.player.setVolume(volume);
         },
 
@@ -91,7 +91,7 @@ define(function(require) {
 
         //  Adjust volume when user scrolls wheel while hovering over volume.
         _scrollVolume: function(delta) {
-            var volume = parseInt(this.ui.volumeRange.val()) + (delta * 3);
+            var volume = parseInt(this.ui.volumeRange.val(), 10) + (delta * 3);
 
             if (volume > 100) {
                 volume = 100;
