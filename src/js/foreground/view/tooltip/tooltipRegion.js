@@ -67,8 +67,9 @@
             var adjustedTopOffset = utility.flipInvertOffset(targetOffset.top, tooltipHeight, window.innerHeight, targetHeight, adjustY * 2);
 
             var adjustedOffset = {
-                top: adjustedTopOffset,
-                left: adjustedLeftOffset
+                //  Be sure to round the values because sub-pixel positioning of a tooltip can cause blur.
+                top: Math.round(adjustedTopOffset),
+                left: Math.round(adjustedLeftOffset)
             };
 
             return adjustedOffset;
