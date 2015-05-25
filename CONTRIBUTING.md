@@ -1,10 +1,10 @@
-﻿﻿# JavaScript Coding Conventions Guide
+## JavaScript Coding Conventions Guide
 
 This is not intended to be a comprehensive list. If a situation is not described in this guide, use common best practices such as the [Google JavaScript Style Guide](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml). 
 
 ## Coding Style
 
-- No tabs. Four spaces.
+- No tabs. Two spaces.
 - No trailing whitespace.
 - Attempt to keep lines fewer than 120 characters.
 - Always use semicolons and don't rely on implicit insertion.
