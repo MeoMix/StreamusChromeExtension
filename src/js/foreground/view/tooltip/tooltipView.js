@@ -13,7 +13,7 @@
 
         //  Move the tooltip's location to a spot on the page and fade it in
         showAtOffset: function(offset) {
-            this.$el.css(offset);
+            this.$el.css('transform', 'translate(' + offset.left + 'px, ' + offset.top + 'px)');
             this.$el.addClass('is-visible');
         },
 

@@ -64,7 +64,7 @@
 
         //  Allow the user to manual time change by click or scroll.
         _onWheelTimeRange: function(event) {
-            var delta = event.originalEvent.wheelDeltaY / 120;
+            var delta = event.originalEvent.deltaY / -100;
             var currentTime = parseInt(this.ui.timeRange.val(), 10);
 
             this._setCurrentTime(currentTime + delta);

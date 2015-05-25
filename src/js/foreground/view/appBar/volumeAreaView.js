@@ -67,7 +67,7 @@ define(function(require) {
         },
 
         _onWheel: function(event) {
-            var delta = event.originalEvent.wheelDeltaY / 120;
+            var delta = event.originalEvent.deltaY / -100;
             this._scrollVolume(delta);
         },
 

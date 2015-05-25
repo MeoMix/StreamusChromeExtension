@@ -17,9 +17,7 @@
     var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
-        id: 'foregroundArea',
         el: '#foregroundArea',
-        className: 'flexColumn u-fullHeight',
         template: _.template(ForegroundAreaTemplate),
 
         templateHelpers: function() {
@@ -115,6 +113,9 @@
             this.analyticsManager = options.analyticsManager;
             this.bindEntityEvents(this.player, this.playerEvents);
 
+            this.listenTo(Streamus.channels.scrollbar.vent, 'mouseDown', this._onScrollbarMouseDown);
+            this.listenTo(Streamus.channels.scrollbar.vent, 'mouseUp', this._onScrollbarMouseUp);
+
             //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
             this._onWindowUnload = this._onWindowUnload.bind(this);
             this._onWindowResize = this._onWindowResize.bind(this);
@@ -183,6 +184,14 @@
             if (event.keyCode === KeyCode.Space && document.activeElement === document.body) {
                 Streamus.channels.playPauseButton.commands.trigger('tryToggle:playerState');
             }
+        },
+
+        _onScrollbarMouseDown: function() {
+            this.$el.addClass('is-clickingScrollbar');
+        },
+
+        _onScrollbarMouseUp: function() {
+            this.$el.removeClass('is-clickingScrollbar');
         },
 
         _onPlayerChangeLoading: function(model, loading) {

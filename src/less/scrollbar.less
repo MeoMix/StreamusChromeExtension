@@ -1,37 +1,14 @@
 ﻿@import "color";
 @import "transition";
 
-/*.scrollbar-track {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 8px;
-  border-left: 1px solid black;
-}
-
-.scrollbar-thumb {
-  background-color: red;
-  width: 8px;
-  height: 50px;
-  top: 0;
-  right: 0;
-  position: absolute;
-}*/
-
 .scrollbar-container {
+    position: relative;
+    overflow: hidden;
+
     &:hover .scrollbar-thumb {
         background-color: @dark--tertiary;
     }
-
-    /*&.is-mousedown {
-        pointer-events: none;
-    }*/
 }
-
-/*.ps-active-y .ps-scrollbar-y-rail {
-    display: block;
-}*/
 
 .scrollbar-track,
 .scrollbar-thumb {

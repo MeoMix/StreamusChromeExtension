@@ -12,6 +12,7 @@
             this.listenTo(Streamus.channels.tooltip.commands, 'update:tooltip', this._updateTooltip);
         },
 
+        //  TODO: It would be better for performance to just move an empty view around rather than constantly append/remove elements.
         _showTooltip: function(options) {
             var tooltipView = new TooltipView({
                 model: new Tooltip({

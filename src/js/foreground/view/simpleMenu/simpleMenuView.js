@@ -80,6 +80,7 @@
         },
 
         _onElementClick: function(event) {
+            console.log('element click:', event.currentTarget, event.target, this.getRegion('simpleMenuItems').el);
             //  These targets can show up when dragging the scrollbar and it's weird to close when interacting with scrollbar.
             if (event.target !== this.getRegion('simpleMenuItems').el) {
                 this.hide();
