@@ -137,7 +137,7 @@
 
         _onForegroundEndUnload: function() {
             this._clearForegroundUnloadTimeout();
-        },   
+        },
 
         //  Allow external websites to ping the extension to find out whether the extension is installed or not
         _onChromeRuntimeMessageExternal: function(request, sender, sendResponse) {
