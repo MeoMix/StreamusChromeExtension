@@ -2,6 +2,21 @@
 
 This is not intended to be a comprehensive list. If a situation is not described in this guide, use common best practices such as the [Google JavaScript Style Guide](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml). 
 
+## Coding Style
+
+- Follow all the most popular JavaScript coding conventions outlined here: http://sideeffect.kr/popularconvention#javascript
+    - No tabs. Four spaces.
+    - Single quotes. Double quotes are OK only when nested within single quotes.
+    - Functions are followed by no space. Example: `function foo(){ ... }` rather than `function foo (){ ... }`
+    - Argument definitions are followed by no spaces. Example: `function foo(a, b, c){ ... }` rather than `function foo( a, b, c, ){ ... }`
+    - A single space will always and should only follow semi-colons when defining object literals. Example: `{ foo: 1 }` rather than `{ foo : 1 }` or `{ foo:1 }`
+    - A single space will always follow conditional statements. Example: `if (true) { ... } ` rather than `if(true){ ... }`
+    - Never declare multiple variables with a single `var` statement. Example: `var a = null; var b = null;` rather than `var a, b = null;`    
+
+- No trailing whitespace.
+- Attempt to keep lines fewer than 120 characters. Currently the linter is set to 180, but I would like to lower it.
+- Always throw errors, not strings. Example: `throw new Error('Bad thing happened');` rather than `throw 'Bad thing happened';`
+
 ## Code Comments
 
 - Comments should explain "why" not "what".
@@ -10,18 +25,13 @@ This is not intended to be a comprehensive list. If a situation is not described
 - Backbone/Marionette method overrides should not have summary comments. For instance, `onRender` does not need a comment explaining that it is called when the view is rendered.
 - Hacks, workarounds, uncommon patterns, etc. should have an explanation of why they are necessary. Provide links for copy/pasted code source(s).
 - Use proper sentences.
-- Marionette and Backbone modules should be organized into the following sections, denoted by comments:
-    - Marionette/Backbone Properties/Methods
-    - Public Properties/Methods
-    - Mixin Properties/Methods
-    - Private Properties/Methods
 
 ## Variable Names
 
 ### General Variable Names
 
 - Variable names must not be [reserved words or identifiers](http://www.javascripter.net/faq/reserved.htm).
-- Method names must not be reserved Backbone/Marionette names, unless the intent is to override the method. Examples: `_onCollectionAdd`, `_onCollectionRemove`, and `_ensureElement`.
+- Method names must not be reserved Backbone/Marionette names, unless the intent is to override the method. Common method names collisions are: `_onCollectionAdd`, `_onCollectionRemove`, and `_ensureElement`.
 - Variable names should use camel-casing. Example: `coffeeMug`.
 - Only constructors and constants should begin with an upper-case letter. Example: `CoffeePot`.
 - Function names should describe the intent of the function, not how the function is called. Example: `makeCoffee` instead of `pushStartButton`.
@@ -47,68 +57,50 @@ This is not intended to be a comprehensive list. If a situation is not described
 
 - Only define one module per file.
 - Properties and methods should be private unless they need to be accessed by an external module.
-- Use Underscore/Lo-Dash functions instead of custom loops.  
-- Do not leave commented-out code.
+- Prefer Lo-Dash methods over native implementations except when working inside content scripts (which do not have access to Lo-Dash).
+- Do not commit blocks of commented-out code.
+- Do not commit `console` statements nor `TODO` statements. Create GitHub issues for TODO statements and reference the issue at the given location.
 
 ### Backbone/Marionette Code Organization
 
 - Backbone/Marionette modules should be organized in the following order:
     1. Backbone/Marionette properties.
-    2. Backbone/Marionette methods, in the order in which they are called.
-    3. Public properties.
-    4. Public methods, in the order in which they are called.
-    5. Mixin properties.
-    6. Mixin methods.
-    7. Private properties.
-    8. Private methods, in the order in which they are called.
+    2. Custom properties.
+    3. Backbone/Marionette methods, in the order in which they are called.
+    4. Public methods.
+    5. Private event handlers.
+    6. Private methods.
 - Event handlers named according to their event/object should not contain functional code. They should call methods named according to their function.
     - Example: `onDrinkCoffee` should call `typeMuchCode` and then `crash`, rather than having the contents of those methods within `onDrinkCoffee` itself.
 - Custom instance-scope variables should be initialized in `initialize()` (or a custom method called from `initialize`).
+- Do not reference a view's options outside of `initialize`
 - Backbone model attributes should be defined in `defaults`. Use a function instead of object for `defaults` if the properties are non-primitive types.
-- Use Marionette Behaviors instead of mixins/inheritance for Marionette views.
-- Keep Marionette templates as simple as possible.  
+- Prefer Marionette Behaviors instead of mixins/inheritance for Marionette views.
+- Keep Marionette templates as simple as possible. Never call a function from a template - mix the value into the template via `templateHelpers`
 
 ## Event Handling
 
 - UI events should not directly affect view state. Instead, they should affect Backbone model state, which triggers changes to the view state.
 - Use Marionette's `events`, `modelEvents`, and `collectionEvents`.
-- Always use Backbone `listenTo()` instead of `on()` except in the case of a model listening to itself.
-- Listeners should be defined in `initialize`.
-- `$.on()` should have an associated `$.off()` in a destructor.
+- Leverage `bindEntityEvents` when binding several events to a non-model/non-collection object.
+- Prefer using Backbone's `listenTo()` instead of `on()`. Models and collections may use `on()` when listening to their own events.
+- Use `addEventListener` when binding to `window`.
+- Prefer declaring event bindings in `initialize` whenever it is practical.
+- `$.on()` and `addEventListener` should have a associated `$.off()` and `removeEventListener` calls in destructors such as `onBeforeDestroy`.
 - Custom events and triggers should be avoided if possible. There is probably a Backbone/Marionette event that suits your needs.
 
-## Tests
+## Misc
 
-- Write tests for:
-    - Common modules (anything used by more than one module).
-    - Public methods, but not for private methods.
-    - All expected custom functionality.
-- Don't write tests for:
-    - Marionette Views. Views change too often to write tests for, and non-view-specific logic should be in a Backbone model.
-    - Functionality that you didn't implement (such as library functionality).
-- Write both positive and negative tests (i.e. ensure a method works as expected and does not work when it shouldn't).
-- Tests should not contain unnecessary abstractions-- it is okay to be repetitive.  
-- Use [Chai's Behavioral Driven Development style assertions](http://chaijs.com/api/bdd/).
-- Separate tests using `describe` blocks.
-- Write `// act` above the line that is executing the code which is under test (to differentiate it from code that arranges the test).
-- Write one assertion per test.
-
-## Random Things
-
-- Don't leave a trailing comma. Example: `{ a, }` should be: `{ a }`.
 - Don't use `parseInt` without radix. Example: `parseInt(x)` should be `parseInt(x, 10)` or `_.parseInt(x)`.
-- Throw errors if required arguments are not defined or set to an acceptable value.
-- Do use `_.isUndefined` and/or `_.isNull` (and understand the difference).
-- Use objects as enumerations to define constants.
-- Avoid magic values, use named constants instead.
-- Do not rely on DOM state-- use Backbone models for state instead.
+- Use `_.isUndefined` and/or `_.isNull` (and understand the difference).
+- Use objects as enumerations to define constants. Enumeration values should be strings, not integers, for readability.
+- Avoid magic numbers. Assign the numbers to named variables.
+- Never use the DOM's state for code flow. Store the state of the DOM in models and/or properties.
 - `setter` methods should not return a value.
 - `getter` methods should not change any state.
+- Always oblige JSCS, JSHint, and Recess. If you disagree with a coding style rule then talk to @MeoMix.
 
-## Working on Existing Code
+## More to write about:
 
-- Turn off auto-formatting on-save in your editor.
-- Use the same tabs/space format as the existing file.
-- Don't change existing code unless it is necessary or it can be considered within the scope of your current issue.
-- Leave whitespace untouched.
-- Don't add unrelated code to an existing method. Make a new method and call it from the appropriate event handler.
+- LESS/CSS style guidelines, inspired by: https://medium.com/@fat/mediums-css-is-actually-pretty-fucking-good-b8e2a6c78b06
+- Example View/Models
