@@ -1,21 +1,85 @@
-﻿# JavaScript Coding Conventions Guide
+﻿﻿# JavaScript Coding Conventions Guide
 
 This is not intended to be a comprehensive list. If a situation is not described in this guide, use common best practices such as the [Google JavaScript Style Guide](https://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml). 
 
 ## Coding Style
 
-- Follow all the most popular JavaScript coding conventions outlined here: http://sideeffect.kr/popularconvention#javascript
-    - No tabs. Four spaces.
-    - Single quotes. Double quotes are OK only when nested within single quotes.
-    - Functions are followed by no space. Example: `function foo(){ ... }` rather than `function foo (){ ... }`
-    - Argument definitions are followed by no spaces. Example: `function foo(a, b, c){ ... }` rather than `function foo( a, b, c, ){ ... }`
-    - A single space will always and should only follow semi-colons when defining object literals. Example: `{ foo: 1 }` rather than `{ foo : 1 }` or `{ foo:1 }`
-    - A single space will always follow conditional statements. Example: `if (true) { ... } ` rather than `if(true){ ... }`
-    - Never declare multiple variables with a single `var` statement. Example: `var a = null; var b = null;` rather than `var a, b = null;`    
-
+- No tabs. Four spaces.
 - No trailing whitespace.
 - Attempt to keep lines fewer than 120 characters. Currently the linter is set to 180, but I would like to lower it.
-- Always throw errors, not strings. Example: `throw new Error('Bad thing happened');` rather than `throw 'Bad thing happened';`
+- Single quotes. Double quotes are OK only when nested within single quotes.
+```
+# good
+var foo = 'Hello, world.';
+var bar = 'Hello, "world."';
+# bad
+var foo = "Hello, world.";
+```
+- Functions are followed by no space.
+```
+# good
+function foo() {
+    ...
+}
+# bad
+function foo () {
+    ...
+}
+```
+- Argument definitions are followed by no spaces.
+```
+# good
+function foo(a, b, c) {
+    ...
+}
+# bad
+function foo( a, b, c, ) {
+    ...
+}
+```
+- A single space will always and should only follow semi-colons when defining object literals.
+```
+# good
+var foo = {
+    bar: 1
+}
+# bad
+var foo = {
+    bar : 1
+}
+var foo = {
+    bar:1
+}
+```
+- A single space will always follow conditional statements.
+```
+# good
+if (true) {
+   ...
+}
+# bad
+if(true) {
+   ...
+}
+if(true){
+   ...
+}
+```
+- Never declare multiple variables with a single `var` statement.
+```
+# good
+var foo = null;
+var bar = null;
+# bad
+var foo, bar = null;
+```
+- Always throw errors, not strings.
+```
+# good
+throw new Error('foo');
+# bad
+throw 'foo';
+```
 
 ## Code Comments
 
