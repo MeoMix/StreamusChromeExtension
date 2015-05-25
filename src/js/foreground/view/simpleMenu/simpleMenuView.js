@@ -25,8 +25,8 @@
         },
 
         initialize: function() {
-            //  Defer binding event listeners which will hide this view to ensure that events which
-            //  were responsible for showing it do not also result in hiding.
+            // Defer binding event listeners which will hide this view to ensure that events which
+            // were responsible for showing it do not also result in hiding.
             _.defer(function() {
                 if (!this.isDestroyed) {
                     this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
@@ -57,7 +57,7 @@
                 this._setPosition(this.model.get('repositionData'));
             }
 
-            //  This needs to be ran on the parent because _centerActive has a dependency on simpleMenuItems scrollTop which is set here.
+            // This needs to be ran on the parent because _centerActive has a dependency on simpleMenuItems scrollTop which is set here.
             this.getChildView('simpleMenuItems').ensureActiveIsVisible();
             this._centerActive(this.model.get('listItemHeight'));
 
@@ -81,7 +81,7 @@
 
         _onElementClick: function(event) {
             console.log('element click:', event.currentTarget, event.target, this.getRegion('simpleMenuItems').el);
-            //  These targets can show up when dragging the scrollbar and it's weird to close when interacting with scrollbar.
+            // These targets can show up when dragging the scrollbar and it's weird to close when interacting with scrollbar.
             if (event.target !== this.getRegion('simpleMenuItems').el) {
                 this.hide();
             }
@@ -91,7 +91,7 @@
             this.hide();
         },
 
-        //  If a context menu click occurs and this menu is a context menu, hide it.
+        // If a context menu click occurs and this menu is a context menu, hide it.
         _onElementContextMenu: function() {
             this.hide();
         },
@@ -106,14 +106,14 @@
             });
         },
 
-        //  This should also take into account overflow. If overflow would happen, abandon trying to perfectly center and keep the menu within the viewport.
-        //  https://github.com/MeoMix/StreamusChromeExtension/issues/566
-        //  When showing this view over a ListItem, center the view's active item over the ListItem.
+        // This should also take into account overflow. If overflow would happen, abandon trying to perfectly center and keep the menu within the viewport.
+        // https://github.com/MeoMix/StreamusChromeExtension/issues/566
+        // When showing this view over a ListItem, center the view's active item over the ListItem.
         _centerActive: function(listItemHeight) {
             if (listItemHeight > 0) {
                 var offsetData = this.getChildView('simpleMenuItems').getActiveItemOffsetData();
-                //  Center the offset over the listItem using logic outlined in Material guidelines
-                //  http://www.google.com/design/spec/components/menus.html#menus-simple-menus
+                // Center the offset over the listItem using logic outlined in Material guidelines
+                // http://www.google.com/design/spec/components/menus.html#menus-simple-menus
                 var paddingTop = parseInt(this.ui.panelContent.css('padding-top'), 10);
                 var centering = (listItemHeight - offsetData.itemHeight) / 2 - paddingTop;
                 var topOffset = offsetData.itemOffset + centering;

@@ -15,7 +15,7 @@
             }
         },
 
-        //  Adjust the scrollTop of the view to ensure that the active item is shown.
+        // Adjust the scrollTop of the view to ensure that the active item is shown.
         ensureActiveIsVisible: function() {
             var activeItem = this.collection.getActive();
 
@@ -24,7 +24,7 @@
                     return child.model === activeItem;
                 });
 
-                //  Center element in list if possible.
+                // Center element in list if possible.
                 var offsetTop = activeView.el.offsetTop;
                 var centerHeight = activeView.$el.height() / 2;
                 var center = offsetTop - (this.$el.innerHeight() / 2) + centerHeight;
@@ -32,11 +32,11 @@
             }
         },
 
-        //  Return information indicating the position of the active model's view in the collection
+        // Return information indicating the position of the active model's view in the collection
         getActiveItemOffsetData: function() {
             var activeItemIndex = this.collection.indexOf(this.collection.getActive());
             var itemHeight = this.children.first().$el.height();
-            //  Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
+            // Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
             var activeItemOffset = activeItemIndex * -itemHeight + this.el.scrollTop;
 
             return {

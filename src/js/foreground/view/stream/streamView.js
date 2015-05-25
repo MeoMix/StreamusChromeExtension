@@ -102,7 +102,7 @@
             if (_.isNull(activeItem)) {
                 this.getChildView('activeStreamItem').hide();
             } else {
-                //  If there was already an activeItem shown then do not need to transition in the new view because one is already fully visible.
+                // If there was already an activeItem shown then do not need to transition in the new view because one is already fully visible.
                 var isInstant = !_.isNull(model.previous('activeItem'));
                 this._showActiveStreamItem(activeItem, isInstant);
             }
@@ -120,7 +120,7 @@
             this._setState(collection.isEmpty());
         },
 
-        //  Hide the empty message if there is anything in the collection
+        // Hide the empty message if there is anything in the collection
         _setState: function(collectionEmpty) {
             this.ui.emptyMessage.toggleClass('is-hidden', !collectionEmpty);
         },

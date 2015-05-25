@@ -76,7 +76,7 @@
             }));
         },
 
-        //  onVisible is triggered when the element begins to transition into the viewport.
+        // onVisible is triggered when the element begins to transition into the viewport.
         onVisible: function() {
             this.model.stopClearQueryTimer();
         },
@@ -134,7 +134,7 @@
             this._setButtonStates();
         },
 
-        //  Searches youtube for song results based on the given text.
+        // Searches youtube for song results based on the given text.
         _search: function(options) {
             this.model.set('query', options.query);
         },
@@ -178,26 +178,26 @@
             return !isEmpty;
         },
 
-        //  Set the visibility of any visible text messages.
+        // Set the visibility of any visible text messages.
         _toggleInstructions: function() {
             var hasSearchResults = this.collection.length > 0;
 
-            //  Hide the search message when there is no search in progress
-            //  If the search is in progress and the first 50 results have already been returned, also hide the message.
+            // Hide the search message when there is no search in progress
+            // If the search is in progress and the first 50 results have already been returned, also hide the message.
             var searching = this.model.get('searching');
 
-            //  Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
+            // Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
             if (searching && !this.getRegion('spinner').hasView()) {
                 this.showChildView('spinner', new SpinnerView());
             }
 
             this.ui.searchingMessage.toggleClass('is-hidden', !searching || hasSearchResults);
 
-            //  Hide the type to search message once user has typed something.
+            // Hide the type to search message once user has typed something.
             var hasSearchQuery = this.model.hasQuery();
             this.ui.typeToSearchMessage.toggleClass('is-hidden', hasSearchQuery);
 
-            //  Only show no results when all other options are exhausted and user has interacted.
+            // Only show no results when all other options are exhausted and user has interacted.
             var hideNoResults = hasSearchResults || searching || !hasSearchQuery;
             this.ui.noResultsMessage.toggleClass('is-hidden', hideNoResults);
         }

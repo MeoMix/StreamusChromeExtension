@@ -28,7 +28,7 @@
             this.playlist = options.playlist;
             this._setState();
 
-            //  Ensure that the user isn't able to destroy the model more than once.
+            // Ensure that the user isn't able to destroy the model more than once.
             this._deletePlaylist = _.once(this._deletePlaylist);
         },
 

@@ -100,8 +100,8 @@
 
                 songActions.showSaveMenu(songs, offset.top, offset.left, playlists);
 
-                //  Don't deselect collections immediately when the button is clicked because more actions are needed.
-                //  If the user decides to not use the simple menu then don't de-select, either.
+                // Don't deselect collections immediately when the button is clicked because more actions are needed.
+                // If the user decides to not use the simple menu then don't de-select, either.
                 this.listenTo(Streamus.channels.simpleMenu.vent, 'clicked:item', this._onSimpleMenuClickedItem);
                 this.listenTo(Streamus.channels.simpleMenu.vent, 'hidden', this._onSimpleMenuHidden);
             }
@@ -151,16 +151,16 @@
             this._setDeleteButtonState(this.model.get('canDelete'), activeCollection);
         },
 
-        //  Update the text which shows how many songs are currently selected
+        // Update the text which shows how many songs are currently selected
         _setSelectionCountText: function(selectedCount) {
             var selectionCountText = chrome.i18n.getMessage('collectionSelected', [selectedCount, chrome.i18n.getMessage(selectedCount === 1 ? 'song' : 'songs')]);
             this.ui.selectionCountText.html(selectionCountText);
 
-            //  The tooltip might transition between 'cant add song' and 'cant add songs' depending on # of selections.
+            // The tooltip might transition between 'cant add song' and 'cant add songs' depending on # of selections.
             this._setAddButtonState(this.model.get('canAdd'), this.model.get('activeCollection'));
         },
 
-        //  Set buttons to disabled when transitioning the view out as well as handle specific scenarios for each button
+        // Set buttons to disabled when transitioning the view out as well as handle specific scenarios for each button
         _setButtonStates: function(activeCollection) {
             this._setPlayButtonState(this.model.get('canPlay'));
             this._setSaveButtonState(this.model.get('canSave'));
@@ -179,7 +179,7 @@
         },
 
         _setDeleteButtonState: function(canDelete, activeCollection) {
-            //  Delete is disabled if the user is selecting search results
+            // Delete is disabled if the user is selecting search results
             var tooltipText = '';
 
             if (!canDelete && !_.isNull(activeCollection)) {
@@ -190,8 +190,8 @@
         },
 
         _setAddButtonState: function(canAdd, activeCollection) {
-            //  Add is disabled if all selected songs are already in the stream.
-            //  A warning tooltip is shown if some of the selected songs are already in the stream.
+            // Add is disabled if all selected songs are already in the stream.
+            // A warning tooltip is shown if some of the selected songs are already in the stream.
             var tooltipText = '';
 
             if (!_.isNull(activeCollection)) {

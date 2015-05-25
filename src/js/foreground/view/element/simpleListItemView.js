@@ -49,7 +49,7 @@
         },
 
         _openSimpleMenu: function() {
-            //  If the list item is clicked while the menu is open do not re-open it.
+            // If the list item is clicked while the menu is open do not re-open it.
             if (_.isUndefined(this.getChildView('simpleMenu'))) {
                 var options = this.model.get('options');
                 var simpleMenuItems = new SimpleMenuItems(_.map(options, function(option) {

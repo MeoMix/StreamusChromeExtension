@@ -122,7 +122,7 @@
 
             target.setAttribute('data-tooltip-text', 'foo');
 
-            //  Let the mutation observer fire.
+            // Let the mutation observer fire.
             _.defer(function() {
                 expect(this.tooltipable._updateTooltip.calledOnce).to.equal(true);
                 this.tooltipable._updateTooltip.restore();

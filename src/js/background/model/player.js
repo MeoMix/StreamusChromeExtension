@@ -12,11 +12,11 @@ define(function(require) {
 
         defaults: function() {
             return {
-                //  Need to set the ID for Backbone.LocalStorage
+                // Need to set the ID for Backbone.LocalStorage
                 id: 'Player',
-                //  Returns the elapsed time of the currently loaded song. Returns 0 if no song is playing
+                // Returns the elapsed time of the currently loaded song. Returns 0 if no song is playing
                 currentTime: 0,
-                //  API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
+                // API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
                 ready: false,
                 loading: false,
                 currentLoadAttempt: 1,
@@ -24,12 +24,12 @@ define(function(require) {
                 previousState: PlayerState.Unstarted,
                 state: PlayerState.Unstarted,
                 seeking: false,
-                //  This will be set after the player is ready and can communicate its true value.
-                //  Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
+                // This will be set after the player is ready and can communicate its true value.
+                // Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
                 volume: 50,
                 maxVolume: 100,
                 minVolume: 0,
-                //  This will be set after the player is ready and can communicate its true value.
+                // This will be set after the player is ready and can communicate its true value.
                 muted: false,
                 loadedSong: null,
                 playImmediately: false,
@@ -39,8 +39,8 @@ define(function(require) {
                 bufferType: '',
                 cueing: false,
 
-                //  Suffix alarm with unique identifier to prevent running after browser closed & re-opened.
-                //  http://stackoverflow.com/questions/14101569/chrome-extension-alarms-go-off-when-chrome-is-reopened-after-time-runs-out
+                // Suffix alarm with unique identifier to prevent running after browser closed & re-opened.
+                // http://stackoverflow.com/questions/14101569/chrome-extension-alarms-go-off-when-chrome-is-reopened-after-time-runs-out
                 refreshAlarmName: 'refreshAlarm_' + _.now(),
 
                 settings: null,
@@ -48,13 +48,13 @@ define(function(require) {
             };
         },
 
-        //  Don't want to save everything to localStorage -- only variables which need to be persisted.
+        // Don't want to save everything to localStorage -- only variables which need to be persisted.
         whitelist: ['muted', 'volume'],
         toJSON: function() {
             return this.pick(this.whitelist);
         },
 
-        //  Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
+        // Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
         initialize: function() {
             this.on('change:volume', this._onChangeVolume);
             this.on('change:muted', this._onChangeMuted);
@@ -87,8 +87,8 @@ define(function(require) {
                 var videoOptions = {
                     videoId: song.get('id'),
                     startSeconds: startSeconds,
-                    //  The variable is called suggestedQuality because the widget may not have be able to fulfill the request.
-                    //  If it cannot, it will set its quality to the level most near suggested quality.
+                    // The variable is called suggestedQuality because the widget may not have be able to fulfill the request.
+                    // If it cannot, it will set its quality to the level most near suggested quality.
                     suggestedQuality: this._getYouTubeQuality(this.get('settings').get('songQuality'))
                 };
 
@@ -103,8 +103,8 @@ define(function(require) {
 
                 this.set({
                     loadedSong: song,
-                    //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
-                    //  but until the song actually loads -- current time isn't set.
+                    // It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
+                    // but until the song actually loads -- current time isn't set.
                     currentTime: startSeconds,
                     playOnActivate: false,
                     songToActivate: null
@@ -166,9 +166,9 @@ define(function(require) {
 
         seekTo: function(timeInSeconds) {
             if (this.get('ready')) {
-                //  There's an issue in YouTube's API which makes this code necessary.
-                //  If the user calls seekTo to the end of the song then the state of the player gets put into 'ended'
-                //  That's OK, but then calling seekTo to the middle of the song will cause the song to move to the 'playing' state instead of 'paused'
+                // There's an issue in YouTube's API which makes this code necessary.
+                // If the user calls seekTo to the end of the song then the state of the player gets put into 'ended'
+                // That's OK, but then calling seekTo to the middle of the song will cause the song to move to the 'playing' state instead of 'paused'
                 if (timeInSeconds === this.get('loadedSong').get('duration')) {
                     this.activateSong(this.get('loadedSong'), timeInSeconds);
                 } else {
@@ -207,20 +207,20 @@ define(function(require) {
 
         isPausable: function() {
             var state = this.get('state');
-            //  If the player is playing then it's obvious that it can be paused.
+            // If the player is playing then it's obvious that it can be paused.
             var isPausable = state === PlayerState.Playing;
 
-            //  However, if the player is buffering, then it's not so simple. The player might be buffering and paused/unstarted.
+            // However, if the player is buffering, then it's not so simple. The player might be buffering and paused/unstarted.
             if (state === PlayerState.Buffering) {
                 var previousState = this.get('previousState');
 
-                //  When seeking it's even more complicated. The seek might result in the player beginning playback, or remaining paused.
+                // When seeking it's even more complicated. The seek might result in the player beginning playback, or remaining paused.
                 var wasPlaying = previousState === PlayerState.Playing || previousState === PlayerState.Buffering;
 
                 if (this.get('seeking') && !wasPlaying) {
                     isPausable = false;
                 } else {
-                    //  If the player is 'cueuing' a song then the user doesn't expect to see a flicker of buffering. Only when loading/playing.
+                    // If the player is 'cueuing' a song then the user doesn't expect to see a flicker of buffering. Only when loading/playing.
                     isPausable = !this.get('cueing');
                 }
             }
@@ -228,20 +228,20 @@ define(function(require) {
             return isPausable;
         },
 
-        //  Ensure that the initial state of the player properly reflects the state of its APIs
+        // Ensure that the initial state of the player properly reflects the state of its APIs
         _ensureInitialState: function() {
             this.set('ready', this.get('youTubePlayer').get('ready'));
             this.set('loading', this.get('youTubePlayer').get('loading'));
             this.set('currentLoadAttempt', this.get('youTubePlayer').get('currentLoadAttempt'));
         },
 
-        //  Attempt to set playback quality to songQuality or highest possible.
+        // Attempt to set playback quality to songQuality or highest possible.
         _onChangeSongQuality: function(model, songQuality) {
             var youTubeQuality = this._getYouTubeQuality(songQuality);
             this.get('youTubePlayer').setPlaybackQuality(youTubeQuality);
         },
 
-        //  Update the volume whenever the UI modifies the volume property.
+        // Update the volume whenever the UI modifies the volume property.
         _onChangeVolume: function(model, volume) {
             if (this.get('ready')) {
                 this.get('youTubePlayer').setVolume(volume);
@@ -268,18 +268,18 @@ define(function(require) {
 
         _onChangeReady: function(model, ready) {
             if (ready) {
-                //  Load from Backbone.LocalStorage
+                // Load from Backbone.LocalStorage
                 this.fetch();
-                //  These values need to be set explicitly because the 'change' event handler won't fire if localStorage value is the same as default.
+                // These values need to be set explicitly because the 'change' event handler won't fire if localStorage value is the same as default.
                 this.get('youTubePlayer').setVolume(this.get('volume'));
                 this.get('youTubePlayer').setMuted(this.get('muted'));
 
-                //  If an 'activateSong' command came in while the player was not ready, fulfill it now.
+                // If an 'activateSong' command came in while the player was not ready, fulfill it now.
                 var songToActivate = this.get('songToActivate');
                 if (!_.isNull(songToActivate)) {
                     this.activateSong(songToActivate);
                 } else {
-                    //  Otherwise, ensure that the currently active song is loaded into its respective API player.
+                    // Otherwise, ensure that the currently active song is loaded into its respective API player.
                     this.refresh();
                 }
             } else {
@@ -288,8 +288,8 @@ define(function(require) {
         },
 
         _onChangeLoading: function(model, loading) {
-            //  Ensure player doesn't start playing a song when recovering from a bad state after a long period of time.
-            //  It is OK to start playback again when recovering initially, but not OK if recovering hours later.
+            // Ensure player doesn't start playing a song when recovering from a bad state after a long period of time.
+            // It is OK to start playback again when recovering initially, but not OK if recovering hours later.
             if (!loading && !this.get('ready')) {
                 var loadedSong = this.get('loadedSong');
                 var state = _.isNull(loadedSong) ? PlayerState.Unstarted : PlayerState.Paused;
@@ -305,7 +305,7 @@ define(function(require) {
         },
 
         _onYouTubeIFrameMessage: function(message) {
-            //  It's better to be told when time updates rather than poll YouTube's API for the currentTime.
+            // It's better to be told when time updates rather than poll YouTube's API for the currentTime.
             if (!_.isUndefined(message.currentTime)) {
                 this.set({
                     currentTimeHighPrecision: message.currentTime,
@@ -314,8 +314,8 @@ define(function(require) {
             }
 
             if (!_.isUndefined(message.currentTimeHighPrecision)) {
-                //  Event listeners may need to know the absolute currentTime. They have no idea if it is current or not.
-                //  If it is current, still notify them.
+                // Event listeners may need to know the absolute currentTime. They have no idea if it is current or not.
+                // If it is current, still notify them.
                 this.trigger('receive:currentTimeHighPrecision', this, message);
             }
 
@@ -340,7 +340,7 @@ define(function(require) {
         },
 
         _onChromeAlarmsAlarm: function(alarm) {
-            //  Check the alarm name because closing the browser will not clear an alarm, but new alarm name is generated on open.
+            // Check the alarm name because closing the browser will not clear an alarm, but new alarm name is generated on open.
             if (alarm.name === this.get('refreshAlarmName')) {
                 this.refresh();
             }
@@ -368,13 +368,13 @@ define(function(require) {
             this.set('currentLoadAttempt', currentLoadAttempt);
         },
 
-        //  Emit errors so the foreground so can notify the user.
+        // Emit errors so the foreground so can notify the user.
         _onYouTubePlayerError: function(model, error) {
             this.trigger('youTubeError', this, error);
         },
 
         _onWindowMessage: function(message) {
-            //  When receiving a message of buffer data from YouTube's API, store it.
+            // When receiving a message of buffer data from YouTube's API, store it.
             if (message.data && message.data.buffer) {
                 this.get('buffers').push(message.data.buffer);
                 this.set('bufferType', message.data.bufferType);
@@ -385,7 +385,7 @@ define(function(require) {
             if (!this.get('refreshAlarmCreated')) {
                 this.set('refreshAlarmCreated', true);
                 chrome.alarms.create(this.get('refreshAlarmName'), {
-                    //  Wait 6 hours
+                    // Wait 6 hours
                     delayInMinutes: 360.0
                 });
             }
@@ -402,7 +402,7 @@ define(function(require) {
             this.set('playOnActivate', playOnActivate);
         },
 
-        //  Maps a SongQuality enumeration value to the corresponding YouTubeQuality enumeration value.
+        // Maps a SongQuality enumeration value to the corresponding YouTubeQuality enumeration value.
         _getYouTubeQuality: function(songQuality) {
             var youTubeQuality = YouTubeQuality.Default;
 
@@ -424,7 +424,7 @@ define(function(require) {
             return youTubeQuality;
         },
 
-        //  Maps a YouTubePlayerState enumeration value to the corresponding PlayerState enumeration value.
+        // Maps a YouTubePlayerState enumeration value to the corresponding PlayerState enumeration value.
         _getPlayerState: function(youTubePlayerState) {
             var playerState;
 
@@ -445,7 +445,7 @@ define(function(require) {
                     playerState = PlayerState.Buffering;
                     break;
                 case YouTubePlayerState.SongCued:
-                    //  This should not occur in the wild. Remove in v0.175+ once confirmed.
+                    // This should not occur in the wild. Remove in v0.175+ once confirmed.
                     playerState = PlayerState.Paused;
                     Streamus.channels.error.commands.trigger('log:error', new Error('Unexpected PlayerState.SongCued event.'));
                     break;
@@ -456,19 +456,19 @@ define(function(require) {
             return playerState;
         },
 
-        //  Some video information is stored on YouTubePlayer for a per-video basis
-        //  This information should be discarded whenever the video changes.
+        // Some video information is stored on YouTubePlayer for a per-video basis
+        // This information should be discarded whenever the video changes.
         _resetMetaData: function() {
             this.get('buffers').length = 0;
-            //  NOTE: It's technically possible to squeeze a bit of extra performance out of MediaSource by not clearing bufferType here.
-            //  Instead, one could keep track of the 'lastKnownBufferType' and only call addSourceBuffer when the bufferType changes.
-            //  HOWEVER, knowledge of a video's bufferType arrives after the 'loadedVideoId' event fires. This leads to complications where a
-            //  MediaSource attempts to use one bufferType for a video only to find out that the bufferType is incorrect a moment later.
-            //  So, I'm clearing the bufferType every time the video changes to prevent this confusion, but at the cost of a small perf. hit.
+            // NOTE: It's technically possible to squeeze a bit of extra performance out of MediaSource by not clearing bufferType here.
+            // Instead, one could keep track of the 'lastKnownBufferType' and only call addSourceBuffer when the bufferType changes.
+            // HOWEVER, knowledge of a video's bufferType arrives after the 'loadedVideoId' event fires. This leads to complications where a
+            // MediaSource attempts to use one bufferType for a video only to find out that the bufferType is incorrect a moment later.
+            // So, I'm clearing the bufferType every time the video changes to prevent this confusion, but at the cost of a small perf. hit.
             this.set('bufferType', '');
         },
 
-        //  Send a message to YouTube's iframe to figure out what the current time is of the video element inside of the iframe.
+        // Send a message to YouTube's iframe to figure out what the current time is of the video element inside of the iframe.
         requestCurrentTimeHighPrecision: function() {
             var iframePort = this.get('iframePort');
             if (!_.isNull(iframePort)) {

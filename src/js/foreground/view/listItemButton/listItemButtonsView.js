@@ -12,7 +12,7 @@
             this.buttonViewOptions = _.result(options || {}, 'buttonViewOptions');
         },
 
-        //  Render a collection of button views to keep things DRY between various types of list-items:
+        // Render a collection of button views to keep things DRY between various types of list-items:
         onRender: function() {
             var documentFragment = document.createDocumentFragment();
             this.shownButtonViews = [];

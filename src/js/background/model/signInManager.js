@@ -3,7 +3,7 @@
 
     var User = require('background/model/user');
 
-    //  Wait 30 seconds before allowing signing in attempts. Prevents spamming the server with sign-in requests.
+    // Wait 30 seconds before allowing signing in attempts. Prevents spamming the server with sign-in requests.
     var SIGN_IN_FAILURE_WAIT_TIME = 30;
 
     var SignInManager = Backbone.Model.extend({
@@ -13,7 +13,7 @@
             signInRetryTimer: SIGN_IN_FAILURE_WAIT_TIME,
             signInRetryTimerInterval: null,
 
-            //  When chrome.identity.onSignInChanged runs with signedIn: true -- need to store the user who is about to be signed in momentarily.
+            // When chrome.identity.onSignInChanged runs with signedIn: true -- need to store the user who is about to be signed in momentarily.
             signingInUser: null,
             signedInUser: null,
 
@@ -57,11 +57,11 @@
                 signedInUser.set('googlePlusId', profileUserInfo.id);
 
                 signedInUser.hasLinkedGoogleAccount(function(hasLinkedGoogleAccount) {
-                    //  If the account is already know to the database -- merge this account with it and then load existing account w/ merged data.
+                    // If the account is already know to the database -- merge this account with it and then load existing account w/ merged data.
                     if (hasLinkedGoogleAccount) {
                         signedInUser.mergeByGooglePlusId();
                     } else {
-                        //  Otherwise, no account -- safe to patch in a save and use this account as the main one.
+                        // Otherwise, no account -- safe to patch in a save and use this account as the main one.
                         signedInUser.save({googlePlusId: profileUserInfo.id}, {patch: true});
                     }
                 }.bind(this));
@@ -69,7 +69,7 @@
 
             this.set('needLinkUserId', false);
         },
-        //  TODO: Use this throughout? Or remove?
+        // TODO: Use this throughout? Or remove?
         isSignedIn: function() {
             return this.has('signedInUser');
         },
@@ -90,32 +90,32 @@
             if (this._supportsGoogleSignIn() && !signingInUser.linkedToGoogle()) {
                 this._needGoogleSignIn();
             } else {
-                //  If the user signs out and then signs back in without restarting Streamus then shouldn't promtp them to sign in.
+                // If the user signs out and then signs back in without restarting Streamus then shouldn't promtp them to sign in.
                 this.set('needGoogleSignIn', false);
             }
 
             this.listenTo(signingInUser, 'loadSuccess', this._onSignInSuccess.bind(this, signingInUser));
             this.listenTo(signingInUser, 'loadError', this._onSignInError.bind(this, signingInUser));
 
-            //  If the account doesn't have a Google+ ID -- try logging in by localStorage ID.
+            // If the account doesn't have a Google+ ID -- try logging in by localStorage ID.
             if (!signingInUser.linkedToGoogle()) {
                 signingInUser.tryloadByUserId();
             } else {
-                //  If the account does have a Google+ ID -- the account might be known to the database or it might not, check.
+                // If the account does have a Google+ ID -- the account might be known to the database or it might not, check.
                 signingInUser.hasLinkedGoogleAccount(function(hasLinkedGoogleAccount) {
-                    //  If the account is known to the database -- load it.
+                    // If the account is known to the database -- load it.
                     if (hasLinkedGoogleAccount) {
                         signingInUser.loadByGooglePlusId();
                     } else {
-                        //  Otherwise, consider the fact that there might be existing account data which could be lost if sign-in occurs.
+                        // Otherwise, consider the fact that there might be existing account data which could be lost if sign-in occurs.
                         var signedInUser = this.get('signedInUser');
 
-                        //  If the signed in account is not linked to Google then information will be lost if the user account is loaded.
-                        //  So, mark that user data needs to be linked instead of overwriting.
+                        // If the signed in account is not linked to Google then information will be lost if the user account is loaded.
+                        // So, mark that user data needs to be linked instead of overwriting.
                         if (!_.isNull(signedInUser) && !signedInUser.linkedToGoogle()) {
                             this._setSignedInUser(signedInUser);
                         } else {
-                            //  If user already linked to Google then it is OK to swap data because no information will be lost.
+                            // If user already linked to Google then it is OK to swap data because no information will be lost.
                             signingInUser.tryloadByUserId();
                         }
                     }
@@ -123,9 +123,9 @@
             }
         },
 
-        //  getProfileUserInfo is only supported in Chrome v37 for Win/Macs currently.
+        // getProfileUserInfo is only supported in Chrome v37 for Win/Macs currently.
         _supportsGoogleSignIn: function() {
-            //  chrome.identity.getProfileUserInfo is defined in Opera, but throws an error if called. I've reported the issue to them.
+            // chrome.identity.getProfileUserInfo is defined in Opera, but throws an error if called. I've reported the issue to them.
             var isOpera = navigator.userAgent.indexOf(' OPR/') >= 0;
             return !_.isUndefined(chrome.identity.getProfileUserInfo) && !isOpera;
         },
@@ -134,13 +134,13 @@
             chrome.identity.getProfileUserInfo(this._onGetProfileUserInfo.bind(this));
         },
 
-        //  https://developer.chrome.com/extensions/identity#method-getProfileUserInfo
+        // https://developer.chrome.com/extensions/identity#method-getProfileUserInfo
         _onGetProfileUserInfo: function(profileUserInfo) {
             this._signIn(profileUserInfo.id);
         },
 
         _onChangeSignedInUser: function(model, signedInUser) {
-            //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
+            // Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: _.isNull(signedInUser) ? 'signed-out' : 'signed-in'
             });
@@ -173,13 +173,13 @@
         },
 
         _canSignIn: function() {
-            //  Signing in is only allowed if no user is currently signed in, not in the process of being signed in and if not waiting for signInFailure timer.
+            // Signing in is only allowed if no user is currently signed in, not in the process of being signed in and if not waiting for signInFailure timer.
             var signedInUser = this.get('signedInUser');
             var canSignIn = _.isNull(signedInUser) && !this.get('signingIn') && !this.get('signInFailed');
             return canSignIn;
         },
 
-        //  https://developer.chrome.com/extensions/identity#event-onSignInChanged
+        // https://developer.chrome.com/extensions/identity#event-onSignInChanged
         _onChromeIdentitySignInChanged: function(account, signedIn) {
             if (signedIn) {
                 this._signIn(account.id);
@@ -207,7 +207,7 @@
             this.set('signedInUser', signingInUser);
             this.set('signingInUser', null);
 
-            //  Announce that user has signedIn so managers can use it to fetch data.
+            // Announce that user has signedIn so managers can use it to fetch data.
             this.set('signingIn', false);
 
             this._shouldLinkUserId(function(shouldLinkUserId) {
@@ -217,8 +217,8 @@
             }.bind(this));
         },
 
-        //  When the active Chrome user signs out, check to see if it's linked to the current Streamus user.
-        //  If so, unload the current Streamus user and re-create as a non-chrome user.
+        // When the active Chrome user signs out, check to see if it's linked to the current Streamus user.
+        // If so, unload the current Streamus user and re-create as a non-chrome user.
         _onChromeSignedOut: function(googlePlusId) {
             if (googlePlusId === this.get('signedInUser').get('googlePlusId')) {
                 this.signOut();
@@ -275,12 +275,12 @@
                     break;
             }
 
-            //  sendResponse becomes invalid after returning you return true to indicate a response will be sent asynchronously.
+            // sendResponse becomes invalid after returning you return true to indicate a response will be sent asynchronously.
             return sendAsynchronousResponse;
         },
 
         _handleCopyPlaylistRequest: function(request, sendResponse) {
-            //  It would be nice to handle this at a lower level, but I need the ability to sign a user in first.
+            // It would be nice to handle this at a lower level, but I need the ability to sign a user in first.
             this.get('signedInUser').get('playlists').copyPlaylist({
                 playlistId: request.playlistId,
                 success: function() {

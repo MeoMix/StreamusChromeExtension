@@ -19,7 +19,7 @@
         initialize: function() {
             chrome.runtime.getPlatformInfo(this._onChromeRuntimeGetPlatformInfo.bind(this));
 
-            //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
+            // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
             this._onWindowError = this._onWindowError.bind(this);
             window.addEventListener('error', this._onWindowError);
 
@@ -27,7 +27,7 @@
             this.listenTo(Streamus.channels.error.vent, 'windowError', this._onWindowError);
         },
 
-        //  Only log client errors to the database in a deploy environment, not when debugging locally.
+        // Only log client errors to the database in a deploy environment, not when debugging locally.
         _warnDebugEnabled: function(message) {
             console.warn('Debugging enabled; Message:' + message);
         },

@@ -70,7 +70,7 @@
 
         _isPausable: function() {
             var activeSongId = this.streamItems.getActiveSongId();
-            //  The pause icon is visible only if the player is playing/buffering and the song is this song's song.
+            // The pause icon is visible only if the player is playing/buffering and the song is this song's song.
             var songId = this.song.get('id');
             var isPlayerPausable = this.player.isPausable();
             var isPausable = activeSongId === songId && isPlayerPausable;
@@ -79,7 +79,7 @@
         },
 
         _playSong: function() {
-            //  If there's only one song to be played - check if it's already in the stream.
+            // If there's only one song to be played - check if it's already in the stream.
             var streamItem = this.streamItems.getBySong(this.song);
 
             if (_.isUndefined(streamItem)) {

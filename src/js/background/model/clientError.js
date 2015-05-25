@@ -18,7 +18,7 @@
             };
         },
 
-        //  Don't save error because stack is a better representation of error.
+        // Don't save error because stack is a better representation of error.
         blacklist: ['error'],
         toJSON: function() {
             return this.omit(this.blacklist);
@@ -30,12 +30,12 @@
             this._setStack();
         },
 
-        //  The first part of the message just tells me an error was thrown, no need to know that.
+        // The first part of the message just tells me an error was thrown, no need to know that.
         _cleanMessage: function() {
             this.set('message', this.get('message').replace('Uncaught Error: ', '').replace('Uncaught TypeError: ', ''));
         },
 
-        //  The first part of the URL is always the same and not very interesting. Drop it off.
+        // The first part of the URL is always the same and not very interesting. Drop it off.
         _dropUrlPrefix: function() {
             this.set('url', this.get('url').replace('chrome-extension://' + chrome.runtime.id + '/', ''));
         },
@@ -45,7 +45,7 @@
             var error = this.get('error');
 
             if (error) {
-                //  If just throw is called without creating an Error then error.stack will be undefined and just the text should be relied upon.
+                // If just throw is called without creating an Error then error.stack will be undefined and just the text should be relied upon.
                 if (_.isUndefined(error.stack)) {
                     stack = error;
                 } else {

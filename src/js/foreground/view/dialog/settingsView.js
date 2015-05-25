@@ -69,8 +69,8 @@
             this._showCheckbox('remindClearStream');
             this._showCheckbox('remindDeletePlaylist');
 
-            //  Once some states have been fulfilled there is no need to allow their reminders to be toggled because
-            //  the dialogs which correspond to the reminders will not be shown.
+            // Once some states have been fulfilled there is no need to allow their reminders to be toggled because
+            // the dialogs which correspond to the reminders will not be shown.
             if (this.signInManager.get('needLinkUserId')) {
                 this._showCheckbox('remindLinkAccount');
             }
@@ -135,7 +135,7 @@
         },
 
         _showSwitch: function(propertyName, labelKey) {
-            //  switch is a reserved keyword so suffix with model.
+            // switch is a reserved keyword so suffix with model.
             var switchModel = this.switches.add({
                 labelText: chrome.i18n.getMessage(_.isUndefined(labelKey) ? propertyName : labelKey),
                 checked: this.model.get(propertyName),

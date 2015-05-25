@@ -45,12 +45,12 @@
             };
         },
 
-        //  Construct a basic Song object fit for general testing.
+        // Construct a basic Song object fit for general testing.
         buildSong: function(idOverride) {
             return new Song(this.getRawSong(idOverride));
         },
 
-        //  Construct a basic PlaylistItem object fit for general testing.
+        // Construct a basic PlaylistItem object fit for general testing.
         buildPlaylistItem: function() {
             var song = this.buildSong();
 

@@ -1,10 +1,10 @@
 ﻿define(function(require) {
     'use strict';
 
-    //  /collection/
+    // /collection/
     require('test/background/collection/searchResults.spec');
 
-    //  /model/
+    // /model/
     require('test/background/model/clientErrorManager.spec');
     require('test/background/model/dataSource.spec');
     require('test/background/model/playlistItem.spec');

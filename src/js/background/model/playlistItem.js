@@ -17,9 +17,9 @@
         },
 
         parse: function(playlistItemDto) {
-            //  Patch requests do not return information.
+            // Patch requests do not return information.
             if (!_.isUndefined(playlistItemDto)) {
-                //  Convert C# Guid.Empty into BackboneJS null
+                // Convert C# Guid.Empty into BackboneJS null
                 for (var key in playlistItemDto) {
                     if (playlistItemDto.hasOwnProperty(key) && playlistItemDto[key] === '00000000-0000-0000-0000-000000000000') {
                         playlistItemDto[key] = null;
@@ -35,7 +35,7 @@
         },
 
         toJSON: function() {
-            //  Backbone Model's toJSON doesn't automatically send cid across, but I want it for re-mapping collections after server saves.
+            // Backbone Model's toJSON doesn't automatically send cid across, but I want it for re-mapping collections after server saves.
             var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
             json.cid = this.cid;
             return json;
@@ -48,9 +48,9 @@
         _ensureSongModel: function() {
             var song = this.get('song');
 
-            //  Need to convert song object to Backbone.Model
+            // Need to convert song object to Backbone.Model
             if (!(song instanceof Backbone.Model)) {
-                //  Silent because song is just being properly set.
+                // Silent because song is just being properly set.
                 this.set('song', new Song(song), {silent: true});
             }
         }

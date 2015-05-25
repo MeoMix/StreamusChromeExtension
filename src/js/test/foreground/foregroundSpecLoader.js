@@ -1,47 +1,47 @@
 ﻿define(function(require) {
     'use strict';
 
-    //  /view/
-    //  /view/appBar/
+    // /view/
+    // /view/appBar/
     require('test/foreground/view/appBar/appBarSpecLoader');
 
-    //  /view/behavior/
+    // /view/behavior/
     require('test/foreground/view/behavior/behaviorSpecLoader');
 
-    //  /view/dialog/
+    // /view/dialog/
     require('test/foreground/view/dialog/dialogSpecLoader');
 
-    //  /view/element/
+    // /view/element/
     require('test/foreground/view/element/elementSpecLoader');
 
-    //  /view/leftPane/
+    // /view/leftPane/
     require('test/foreground/view/leftPane/leftPaneSpecLoader');
 
-    //  /view/listItemButton/
+    // /view/listItemButton/
     require('test/foreground/view/listItemButton/listItemButtonSpecLoader');
 
-    //  /view/notification/
+    // /view/notification/
     require('test/foreground/view/notification/notificationSpecLoader');
 
-    //  /view/playlist/
+    // /view/playlist/
     require('test/foreground/view/playlist/playlistSpecLoader');
 
-    //  /view/search/
+    // /view/search/
     require('test/foreground/view/search/searchSpecLoader');
 
-    //  /view/selectionBar/
+    // /view/selectionBar/
     require('test/foreground/view/selectionBar/selectionBarSpecLoader');
 
-    //  /view/simpleMenu/
+    // /view/simpleMenu/
     require('test/foreground/view/simpleMenu/simpleMenuSpecLoader');
 
-    //  /view/stream/
+    // /view/stream/
     require('test/foreground/view/stream/streamSpecLoader');
 
-    //  /view/tooltip/
+    // /view/tooltip/
     require('test/foreground/view/tooltip/tooltipSpecLoader');
 
-    //  /view/video/
+    // /view/video/
     require('test/foreground/view/video/videoSpecLoader');
 
     require('test/foreground/view/foregroundAreaView.spec');

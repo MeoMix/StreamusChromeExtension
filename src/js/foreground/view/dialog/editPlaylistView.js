@@ -36,7 +36,7 @@
         },
 
         onAttach: function() {
-            //  Reset val to prevent text from becoming highlighted.
+            // Reset val to prevent text from becoming highlighted.
             this.ui.title.focus().val(this.ui.title.val());
         },
 
@@ -60,7 +60,7 @@
         },
 
         _validateTitle: function() {
-            //  When the user submits - check to see if they provided a playlist name
+            // When the user submits - check to see if they provided a playlist name
             var trimmedTitle = this._getTrimmedTitle();
             var isValid = trimmedTitle !== '';
             this.ui.title.toggleClass('is-invalid', !isValid);

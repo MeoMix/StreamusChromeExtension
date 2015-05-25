@@ -32,7 +32,7 @@
                 });
             }
 
-            //  Return false to prevent the view from closing which emulates how native, disabled menu item views work when clicked.
+            // Return false to prevent the view from closing which emulates how native, disabled menu item views work when clicked.
             return enabled;
         },
 

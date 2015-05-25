@@ -3,7 +3,7 @@
 
     var SelectionBar = Backbone.Model.extend({
         defaults: {
-            //  A reference to the collection which currently has selected models. Only one collection can have selected models at a time.
+            // A reference to the collection which currently has selected models. Only one collection can have selected models at a time.
             activeCollection: null,
             selectedCount: 0,
             canAdd: false,
@@ -36,7 +36,7 @@
             var activeCollection = this.get('activeCollection');
             this._setState(activeCollection, signInManager.get('signedInUser'));
 
-            //  If user is currently signed in then listen to their activePlaylist's selection events.
+            // If user is currently signed in then listen to their activePlaylist's selection events.
             if (!_.isNull(signedInUser)) {
                 this._setUserBindings(signedInUser, true);
             }
@@ -58,7 +58,7 @@
             var activeCollection = this.get('activeCollection');
             this._setState(activeCollection, signedInUser);
 
-            //  Bind/unbind listeners as appropriate whenver the signedInUser changes.
+            // Bind/unbind listeners as appropriate whenver the signedInUser changes.
             if (_.isNull(signedInUser)) {
                 this._setUserBindings(model.previous('signedInUser'), false);
             } else {
@@ -66,20 +66,20 @@
             }
         },
 
-        //  Keep track of which multi-select collection is currently holding selected items
+        // Keep track of which multi-select collection is currently holding selected items
         _onMultiSelectCollectionChangeSelected: function(model, selected) {
             this._setActiveCollection(model.collection, selected);
             this._setSelectedCount();
             this._setCanAddState(this.get('activeCollection'));
         },
 
-        //  If a selected model is removed from a collection then a 'change:selected' event does not fire.
+        // If a selected model is removed from a collection then a 'change:selected' event does not fire.
         _onMultiSelectCollectionRemove: function(model, collection) {
             this._setActiveCollection(collection, false);
             this._setSelectedCount();
         },
 
-        //  Bind/unbind listeners as appropriate whenever the active playlist changes.
+        // Bind/unbind listeners as appropriate whenever the active playlist changes.
         _onPlaylistsChangeActive: function(model, active) {
             if (active) {
                 Marionette.bindEntityEvents(this, model.get('items'), this.multiSelectCollectionEvents);
@@ -106,7 +106,7 @@
 
             this.set('canPlay', activeCollectionExists);
             this.set('canSave', activeCollectionExists && isSignedIn);
-            //  Some collections, such as search results, contain models which should not be deleted.
+            // Some collections, such as search results, contain models which should not be deleted.
             this.set('canDelete', activeCollectionExists && !activeCollection.isImmutable);
 
             this._setCanAddState(activeCollection);
@@ -124,15 +124,15 @@
             this.set('canAdd', canAdd);
         },
 
-        //  Keep track of which collection currently has selected songs by handling selection & deselection events.
+        // Keep track of which collection currently has selected songs by handling selection & deselection events.
         _setActiveCollection: function(collection, isSelecting) {
             var hasSelectedItems = collection.selected().length > 0;
 
             if (hasSelectedItems) {
-                //  isSelecting is necessary because if one collection has 2 models selected and the user then selects a model in a different collection
-                //  the first collection will de-select one of its models after the second collection has selected one of its own.
-                //  This results in two collections both having selected models and the activeCollection is incorrect.
-                //  By checking isSelecting we know that one collection is not the active collection - it's just in the process of de-selecting all of its models.
+                // isSelecting is necessary because if one collection has 2 models selected and the user then selects a model in a different collection
+                // the first collection will de-select one of its models after the second collection has selected one of its own.
+                // This results in two collections both having selected models and the activeCollection is incorrect.
+                // By checking isSelecting we know that one collection is not the active collection - it's just in the process of de-selecting all of its models.
                 if (isSelecting) {
                     this.set('activeCollection', collection);
                 }
@@ -141,15 +141,15 @@
             }
         },
 
-        //  Update the number of songs which are currently selected
+        // Update the number of songs which are currently selected
         _setSelectedCount: function() {
             var activeCollection = this.get('activeCollection');
             var songCount = _.isNull(activeCollection) ? 0 : activeCollection.selected().length;
             this.set('selectedCount', songCount);
         },
 
-        //  Bind or unbind entity events to a user's playlists and activePlaylist's items.
-        //  Useful for when a user is signing in/out.
+        // Bind or unbind entity events to a user's playlists and activePlaylist's items.
+        // Useful for when a user is signing in/out.
         _setUserBindings: function(user, isBinding) {
             var bindingAction = isBinding ? Marionette.bindEntityEvents : Marionette.unbindEntityEvents;
 

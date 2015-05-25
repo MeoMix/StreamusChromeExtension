@@ -41,11 +41,11 @@
             });
         },
 
-        //  Don't propagate dblClick event up to the list item because that will run an action on the item.
+        // Don't propagate dblClick event up to the list item because that will run an action on the item.
         _onDblClickLeftContent: function() {
-            //  Since returning false, need to announce the event happened here since root level won't know about it.
+            // Since returning false, need to announce the event happened here since root level won't know about it.
             Streamus.channels.element.vent.trigger('click', event);
-            //  Don't allow to bubble up since handling click at this level.
+            // Don't allow to bubble up since handling click at this level.
             return false;
         },
 

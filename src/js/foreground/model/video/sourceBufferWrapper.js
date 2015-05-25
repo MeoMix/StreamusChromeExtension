@@ -6,14 +6,14 @@
             return {
                 sourceBuffer: null,
                 appendedBufferCount: 0,
-                //  Buffered data which has already been leveraged by YouTube is cached on the background page and re-used as needed.
+                // Buffered data which has already been leveraged by YouTube is cached on the background page and re-used as needed.
                 bufferCache: []
             };
         },
 
         initialize: function() {
-            //  IMPORTANT: Prefer binding like this rather than using .bind(this) inline because bind will return a new function.
-            //  This will break unobserve because it expects to be given a reference to the original function.
+            // IMPORTANT: Prefer binding like this rather than using .bind(this) inline because bind will return a new function.
+            // This will break unobserve because it expects to be given a reference to the original function.
             this._onObserveBufferCacheChange = this._onObserveBufferCacheChange.bind(this);
             this._onUpdate = this._onUpdate.bind(this);
             this._onWindowUnload = this._onWindowUnload.bind(this);
@@ -21,7 +21,7 @@
             this.on('change:sourceBuffer', this._onChangeSourceBuffer);
         },
 
-        //  Called only before removing all references to the model - prevents memory leaks
+        // Called only before removing all references to the model - prevents memory leaks
         cleanup: function() {
             window.removeEventListener('unload', this._onWindowUnload);
             this.set('sourceBuffer', null);
@@ -39,38 +39,38 @@
             }
         },
 
-        //  _onUpdate will run whenever sourceBuffer has updated itself and is ready to accept more data.
+        // _onUpdate will run whenever sourceBuffer has updated itself and is ready to accept more data.
         _onUpdate: function() {
             this._loadNextBuffer();
         },
 
         _onWindowUnload: function() {
-            //  It's important to call unobserve on bufferCache because bufferCache originates from the background page.
-            //  Without this, a memory leak is formed and _onObserveBufferCacheChange can fire without an existing foreground page.
+            // It's important to call unobserve on bufferCache because bufferCache originates from the background page.
+            // Without this, a memory leak is formed and _onObserveBufferCacheChange can fire without an existing foreground page.
             Array.unobserve(this.get('bufferCache'), this._onObserveBufferCacheChange);
         },
 
-        //  This callback will run whenever the bufferCache Array announces that changes have been made to it.
-        //  The only announcement expected is for elements to be added or removed from it. When buffers are added they can be utilized.
+        // This callback will run whenever the bufferCache Array announces that changes have been made to it.
+        // The only announcement expected is for elements to be added or removed from it. When buffers are added they can be utilized.
         _onObserveBufferCacheChange: function() {
             Array.unobserve(this.get('bufferCache'), this._onObserveBufferCacheChange);
             this._loadNextBuffer();
         },
 
-        //  Listen for a given sourceBuffer's update events and attempt to populate the buffer with data if available.
+        // Listen for a given sourceBuffer's update events and attempt to populate the buffer with data if available.
         _startMonitoringSourceBuffer: function(sourceBuffer) {
             sourceBuffer.addEventListener('update', this._onUpdate);
             this._loadNextBuffer();
         },
 
-        //  Stop listening for a given sourceBuffer's update events and also cancel any async requests for data which may be in progress.
+        // Stop listening for a given sourceBuffer's update events and also cancel any async requests for data which may be in progress.
         _stopMonitoringSourceBuffer: function(sourceBuffer) {
             sourceBuffer.removeEventListener('update', this._onUpdate);
             Array.unobserve(this.get('bufferCache'), this._onObserveBufferCacheChange);
         },
 
-        //  Attempt to retrieve the next buffer of data which should be rendered. If no additional data exists, or hasn't been received,
-        //  return nothing.
+        // Attempt to retrieve the next buffer of data which should be rendered. If no additional data exists, or hasn't been received,
+        // return nothing.
         _getNextBuffer: function() {
             var nextBuffer = null;
             var bufferCache = this.get('bufferCache');
@@ -83,11 +83,11 @@
             return nextBuffer;
         },
 
-        //  Make an attempt at appending buffer data, or, if no data is ready, setup an intent to append buffer data in the future.
+        // Make an attempt at appending buffer data, or, if no data is ready, setup an intent to append buffer data in the future.
         _loadNextBuffer: function() {
             var nextBuffer = this._getNextBuffer();
 
-            //  If more data has been loaded then go ahead and append it. Otherwise, wait for the data to come in.
+            // If more data has been loaded then go ahead and append it. Otherwise, wait for the data to come in.
             if (_.isNull(nextBuffer)) {
                 Array.observe(this.get('bufferCache'), this._onObserveBufferCacheChange);
             } else {
@@ -95,12 +95,12 @@
             }
         },
 
-        //  Append data to the buffer and keep track of how many buffers have been loaded so that
-        //  the buffer chunks are loaded in the correct order.
+        // Append data to the buffer and keep track of how many buffers have been loaded so that
+        // the buffer chunks are loaded in the correct order.
         _appendBuffer: function(buffer) {
             var sourceBuffer = this.get('sourceBuffer');
 
-            //  sourceBuffer could be processing data and will throw an error if given more
+            // sourceBuffer could be processing data and will throw an error if given more
             if (!sourceBuffer.updating) {
                 sourceBuffer.appendBuffer(buffer);
                 this.set('appendedBufferCount', this.get('appendedBufferCount') + 1);

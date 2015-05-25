@@ -56,8 +56,8 @@
         _showTab: function(urlPattern, url) {
             var queryInfo = {
                 url: urlPattern,
-                //  It's possible for a tab to be open in another window.
-                //  Instead of bringing that window to the foreground -- just assume tab isn't visible.
+                // It's possible for a tab to be open in another window.
+                // Instead of bringing that window to the foreground -- just assume tab isn't visible.
                 currentWindow: true
             };
 
@@ -68,7 +68,7 @@
                     });
 
                     if (!anyTabHighlighted) {
-                        //  Just use the first tab if none are highlighted -- all tabs which match the URL pattern are the same.
+                        // Just use the first tab if none are highlighted -- all tabs which match the URL pattern are the same.
                         var firstTabDetails = tabDetailsList[0];
 
                         var highlightInfo = {
@@ -80,14 +80,14 @@
                     }
                 } else {
                     chrome.tabs.create({
-                        //  If a specific URL is provided then use it, otherwise assume the URL pattern is the URL.
+                        // If a specific URL is provided then use it, otherwise assume the URL pattern is the URL.
                         url: url || urlPattern
                     });
                 }
             }.bind(this));
         },
 
-        //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
+        // This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
         messageTabs: function(urlPatterns, message) {
             _.each(urlPatterns, function(urlPattern) {
                 var queryInfo = {

@@ -29,15 +29,15 @@
             this._showDialogIfUpdateAvailable();
         },
 
-        //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
-        //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
+        // Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
+        // http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
         _showDialogIfUpdateAvailable: function() {
-            //  Calling requestUpdateCheck will cause onUpdateAvailable to trigger if an update is available.
+            // Calling requestUpdateCheck will cause onUpdateAvailable to trigger if an update is available.
             chrome.runtime.requestUpdateCheck(_.noop);
         },
 
-        //  If SignInManager indicates that sign-in state has changed and necessitates asking the user to link their account to Google, do so.
-        //  This might happen while the foreground UI isn't open (most likely, in fact), so need to check state upon foreground UI opening.
+        // If SignInManager indicates that sign-in state has changed and necessitates asking the user to link their account to Google, do so.
+        // This might happen while the foreground UI isn't open (most likely, in fact), so need to check state upon foreground UI opening.
         _showDialogIfNeedLinkUserId: function() {
             if (this.signInManager.get('needLinkUserId')) {
                 this._showLinkUserIdDialog();
@@ -50,7 +50,7 @@
             }
         },
 
-        //  Notify user that they should restart Streamus because an update has been downloaded.
+        // Notify user that they should restart Streamus because an update has been downloaded.
         _onChromeRuntimeUpdateAvailable: function() {
             this._showDialog(UpdateStreamusDialogView);
         },
@@ -67,7 +67,7 @@
             }
         },
 
-        //  Ask the user to confirm linking their Google+ ID to the currently signed in Chrome account.
+        // Ask the user to confirm linking their Google+ ID to the currently signed in Chrome account.
         _showLinkUserIdDialog: function() {
             this._showDialog(LinkUserIdDialogView, {
                 signInManager: Streamus.backgroundPage.signInManager
@@ -83,7 +83,7 @@
         _showDialog: function(DialogView, options) {
             var dialogView = new DialogView(options);
 
-            //  Sometimes checkbox reminders are in place which would indicate the view's onSubmit event should run immediately.
+            // Sometimes checkbox reminders are in place which would indicate the view's onSubmit event should run immediately.
             var reminderEnabled = dialogView.isReminderEnabled();
 
             if (reminderEnabled) {
@@ -97,7 +97,7 @@
             this._showYouTubeErrorDialog(youTubeError);
         },
 
-        //  Notify user that YouTube's API has emitted an error
+        // Notify user that YouTube's API has emitted an error
         _showYouTubeErrorDialog: function(youTubeError) {
             var text = chrome.i18n.getMessage('errorEncountered');
 

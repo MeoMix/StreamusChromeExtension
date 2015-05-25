@@ -3,8 +3,8 @@
 
     var Scrollable = Marionette.Behavior.extend({
         defaults: {
-            //  The SlidingRender behavior modifies CollectionView functionality drastically.
-            //  It will trigger OnUpdateScrollbar events when it needs the scrollbar updated.
+            // The SlidingRender behavior modifies CollectionView functionality drastically.
+            // It will trigger OnUpdateScrollbar events when it needs the scrollbar updated.
             implementsSlidingRender: false,
             minThumbHeight: 48
         },
@@ -32,7 +32,7 @@
         initialize: function() {
             this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
 
-            //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
+            // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
             this._onWindowMouseMove = this._onWindowMouseMove.bind(this);
             this._onWindowMouseUp = this._onWindowMouseUp.bind(this);
         },
@@ -71,7 +71,7 @@
             this._setWindowEventListeners(false);
         },
 
-        //  Move the list up/down as the user scrolls the mouse wheel.
+        // Move the list up/down as the user scrolls the mouse wheel.
         _onWheel: function(event) {
             var deltaY = event.originalEvent.deltaY;
             var listScrollTop = this.currentListScrollTop + deltaY;
@@ -80,32 +80,32 @@
         },
 
         _onTrackMouseDown: function(event) {
-            //  Doesn't make sense to run this logic on right-click.
+            // Doesn't make sense to run this logic on right-click.
             if (event.button === 0) {
                 this.isMouseDownOnTrack = true;
                 Streamus.channels.scrollbar.vent.trigger('mouseDown');
 
-                //  Snap the thumb to the mouse's position, but only do so if the mouse isn't clicking the thumb.
+                // Snap the thumb to the mouse's position, but only do so if the mouse isn't clicking the thumb.
                 if (event.target !== this.ui.thumb[0]) {
                     var containerScrollTop = event.offsetY - this.thumbHeight / 2;
                     this._scrollContainer(containerScrollTop);
                 }
 
-                //  Start keeping track of mouse movements to be able to adjust the thumb position as the mouse moves.
+                // Start keeping track of mouse movements to be able to adjust the thumb position as the mouse moves.
                 this.mouseDownContainerScrollTop = this.currentContainerScrollTop;
                 this._setWindowEventListeners(true);
             }
 
-            //  Normal scrollbars don't allow events to propagate outside of them.
+            // Normal scrollbars don't allow events to propagate outside of them.
             event.stopPropagation();
             event.preventDefault();
         },
 
         _onClick: function(event) {
-            //  Stifle the click event if the mouse was over the scrollbar and then released while over the parent element.
-            //  Since scrollbar interactions shouldn't cause events - no click should happen when releasing the mouse after dragging.
+            // Stifle the click event if the mouse was over the scrollbar and then released while over the parent element.
+            // Since scrollbar interactions shouldn't cause events - no click should happen when releasing the mouse after dragging.
             if (this.isMouseDownOnTrack) {
-                //  Normal scrollbars don't allow events to propagate outside of them.
+                // Normal scrollbars don't allow events to propagate outside of them.
                 event.stopPropagation();
                 event.preventDefault();
             }
@@ -114,11 +114,11 @@
         },
 
         _onWindowMouseMove: function(event) {
-            //  No action is needed when moving the mouse along the X axis
+            // No action is needed when moving the mouse along the X axis
             if (event.movementY !== 0) {
                 this.totalMouseMovementY += event.movementY;
-                //  Derive new scrollTop from initial + total movement rather than currentScrollTop + movement.
-                //  If the user drags their mouse outside the container then current + movement will not equal initial + total movement.
+                // Derive new scrollTop from initial + total movement rather than currentScrollTop + movement.
+                // If the user drags their mouse outside the container then current + movement will not equal initial + total movement.
                 var containerScrollTop = this.mouseDownContainerScrollTop + this.totalMouseMovementY;
                 this._scrollContainer(containerScrollTop);
             }
@@ -134,8 +134,8 @@
             this._update();
         },
 
-        //  A view which implements the Scrollable behavior needs to be given a couple of DOM elements which
-        //  will be used for scrolling their parent element.
+        // A view which implements the Scrollable behavior needs to be given a couple of DOM elements which
+        // will be used for scrolling their parent element.
         _appendScrollbarElements: function() {
             var scrollbarTrack = document.createElement('div');
             scrollbarTrack.classList.add('scrollbar-track');
@@ -152,11 +152,11 @@
         },
 
         _update: function() {
-            //  When the CollectionView is first initializing _update can fire before scrollbar has been initialized.
+            // When the CollectionView is first initializing _update can fire before scrollbar has been initialized.
             if (this.view._isShown) {
                 if (this.currentListScrollTop > 0) {
-                    //  Reset the track's transform back to 0 so that offsetHeight and scrollHeight aren't impacted.
-                    //  The transform value will be fixed once scrollContainer is called.
+                    // Reset the track's transform back to 0 so that offsetHeight and scrollHeight aren't impacted.
+                    // The transform value will be fixed once scrollContainer is called.
                     this.ui.track[0].style.transform = 'translateY(0px)';
                 }
 
@@ -166,45 +166,45 @@
             }
         },
 
-        //  Add (temporarily) or remove mouse-monitoring events to the window.
+        // Add (temporarily) or remove mouse-monitoring events to the window.
         _setWindowEventListeners: function(isAdding) {
             var action = isAdding ? window.addEventListener : window.removeEventListener;
             action('mousemove', this._onWindowMouseMove);
             action('mouseup', this._onWindowMouseUp);
         },
 
-        //  Whether the list's content is overflowing.
+        // Whether the list's content is overflowing.
         _getIsOverflowing: function() {
             return this.contentHeight > this.containerHeight;
         },
 
-        //  Read from values from the DOM and keep them cached to avoid performance penalties on checking repeatedly.
+        // Read from values from the DOM and keep them cached to avoid performance penalties on checking repeatedly.
         _cacheElementState: function() {
             this.containerHeight = this.el.offsetHeight;
             this.contentHeight = this.el.scrollHeight;
             this.thumbHeight = this._getThumbHeight(this.containerHeight, this.contentHeight);
         },
 
-        //  Calculate the size of the thumb. It should accurately represent the ratio of containerHeight to contentHeight.
+        // Calculate the size of the thumb. It should accurately represent the ratio of containerHeight to contentHeight.
         _getThumbHeight: function(containerHeight, contentHeight) {
             var thumbHeight = containerHeight * containerHeight / contentHeight;
             thumbHeight = Math.max(thumbHeight, this.options.minThumbHeight);
             return thumbHeight;
         },
 
-        //  Update the thumb size and trackbar state to reflect the cache's current state.
+        // Update the thumb size and trackbar state to reflect the cache's current state.
         _updateElementState: function() {
             this.ui.thumb.height(this.thumbHeight);
             this._toggleHiddenState();
         },
 
-        //  Don't show the scrollbar track if the list is not overflowing.
+        // Don't show the scrollbar track if the list is not overflowing.
         _toggleHiddenState: function() {
             var isOverflowing = this._getIsOverflowing();
             this.ui.track.toggleClass('is-hidden', !isOverflowing);
         },
 
-        //  Converts a scrollTop value for the container to a scrollTop value for the list.
+        // Converts a scrollTop value for the container to a scrollTop value for the list.
         _getListScrollTop: function(containerScrollTop) {
             var listScrollTop = 0;
             var isOverflowing = this._getIsOverflowing();
@@ -216,7 +216,7 @@
             return listScrollTop;
         },
 
-        //  Converts a scrollTop value for the list to a scrollTop value for the container.
+        // Converts a scrollTop value for the list to a scrollTop value for the container.
         _getContainerScrollTop: function(listScrollTop) {
             var containerScrollTop = 0;
             var isOverflowing = this._getIsOverflowing();
@@ -228,9 +228,9 @@
             return containerScrollTop;
         },
 
-        //  Adjusts the scrollTop of the list and the container so that they reflect a given containerScrollTop value.
+        // Adjusts the scrollTop of the list and the container so that they reflect a given containerScrollTop value.
         _scrollContainer: function(containerScrollTop) {
-            //  Only allow the thumb to move down until it touches the base of the container.
+            // Only allow the thumb to move down until it touches the base of the container.
             var maxContainerScrollTop = this.containerHeight - this.thumbHeight;
             containerScrollTop = this._ensureMinMax(containerScrollTop, 0, maxContainerScrollTop);
             var listScrollTop = this._getListScrollTop(containerScrollTop);
@@ -238,9 +238,9 @@
             this._updateScrollTop(listScrollTop, containerScrollTop);
         },
 
-        //  Adjusts the scrollTop of the list and the container so that they reflect a given listScrollTop value.
+        // Adjusts the scrollTop of the list and the container so that they reflect a given listScrollTop value.
         _scrollList: function(listScrollTop) {
-            //  Only allow the list to move down until the last of its content is fully visible.
+            // Only allow the list to move down until the last of its content is fully visible.
             var maxListScrollTop = this.contentHeight - this.containerHeight;
             listScrollTop = this._ensureMinMax(listScrollTop, 0, maxListScrollTop);
             var containerScrollTop = this._getContainerScrollTop(listScrollTop);
@@ -248,7 +248,7 @@
             this._updateScrollTop(listScrollTop, containerScrollTop);
         },
 
-        //  Update the track, thumb, and list positions to reflect given values and cache the newly represented values.
+        // Update the track, thumb, and list positions to reflect given values and cache the newly represented values.
         _updateScrollTop: function(listScrollTop, containerScrollTop) {
             this.el.scrollTop = listScrollTop;
             this.ui.track[0].style.transform = 'translateY(' + listScrollTop + 'px)';
@@ -258,7 +258,7 @@
             this.currentContainerScrollTop = containerScrollTop;
         },
 
-        //  Takes a given value and ensures that it falls within minimum/maximum values.
+        // Takes a given value and ensures that it falls within minimum/maximum values.
         _ensureMinMax: function(value, min, max) {
             value = Math.max(min, value);
             value = Math.min(value, max);

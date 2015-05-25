@@ -39,9 +39,9 @@
         },
 
         _onClickOpenHomepage: function() {
-            //  jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+            // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
             var homepageUrl = chrome.app.getDetails().homepage_url;
-            //  jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+            // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
             this.tabManager.showWebsite(homepageUrl);
         },
 

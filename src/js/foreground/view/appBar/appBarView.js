@@ -44,8 +44,8 @@
             hideSearchButton: '[data-ui~=hideSearchButton]',
             showPlaylistsAreaButton: '[data-ui~=showPlaylistsAreaButton]',
             hidePlaylistsAreaButton: '[data-ui~=hidePlaylistsAreaButton]',
-            //  I don't like regions being manipulated in UI they should be stateless.
-            //  However, this area is going to change pretty soon once the new UI gets added. So, no need to fix right now.
+            // I don't like regions being manipulated in UI they should be stateless.
+            // However, this area is going to change pretty soon once the new UI gets added. So, no need to fix right now.
             playlistTitleRegion: '[data-ui~=playlistTitleRegion]',
             searchInputRegion: '[data-ui~=searchInputRegion]'
         },
@@ -59,7 +59,7 @@
         },
 
         behaviors: {
-            //  Needed for the 'not signed in' message on nav button.
+            // Needed for the 'not signed in' message on nav button.
             Tooltipable: {
                 behaviorClass: Tooltipable
             }
@@ -123,7 +123,7 @@
             var selectionEnd = searchInputElement.selectionEnd;
             this.ui.searchInput.val(query);
 
-            //  Preserve the selection range which is lost after modifying val
+            // Preserve the selection range which is lost after modifying val
             searchInputElement.setSelectionRange(selectionStart, selectionEnd);
         },
 
@@ -215,14 +215,14 @@
             this.ui.showPlaylistsAreaButton.toggleClass('is-disabled', !isButtonEnabled).attr('data-tooltip-text', tooltipText);
         },
 
-        //  Can't show the navigation drawer if the user isn't logged in because playlists aren't loaded.
+        // Can't show the navigation drawer if the user isn't logged in because playlists aren't loaded.
         _isShowPlaylistsAreaButtonEnabled: function() {
             return this.signInManager.has('signedInUser');
         },
 
         _focusSearchInput: function() {
-            //  Reset val after focusing to prevent selecting the text while maintaining focus.
-            //  This needs to be ran after makign the region visible because you can't focus an element which isn't visible.
+            // Reset val after focusing to prevent selecting the text while maintaining focus.
+            // This needs to be ran after makign the region visible because you can't focus an element which isn't visible.
             this.ui.searchInput.focus().val(this.ui.searchInput.val());
         }
     });

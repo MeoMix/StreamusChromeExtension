@@ -8,7 +8,7 @@
         localStorage: new Backbone.LocalStorage('Settings'),
 
         defaults: {
-            //  Need to set the ID for Backbone.LocalStorage
+            // Need to set the ID for Backbone.LocalStorage
             id: 'Settings',
             songQuality: SongQuality.Auto,
             remindClearStream: true,
@@ -22,7 +22,7 @@
         },
 
         initialize: function() {
-            //  Load from Backbone.LocalStorage
+            // Load from Backbone.LocalStorage
             this.fetch();
         }
     });

@@ -14,7 +14,7 @@
                 return;
             }
 
-            //  This function will be called when the API is fully loaded. Needs to be exposed globally so YouTube can call it.
+            // This function will be called when the API is fully loaded. Needs to be exposed globally so YouTube can call it.
             window.onYouTubeIframeAPIReady = this._onYouTubeIframeAPIReady.bind(this);
 
             this._loadIframeAPI();
@@ -25,10 +25,10 @@
             this.set('ready', true);
         },
 
-        //  This code is from https://www.youtube.com/iframe_api. I pull it in locally as to not need to relax content_security_policy.
+        // This code is from https://www.youtube.com/iframe_api. I pull it in locally as to not need to relax content_security_policy.
         _loadIframeAPI: function() {
             /* jshint ignore:start */
-            //  jscs:disable
+            // jscs:disable
             if (!window['YT']) {
                 window.YT = {
                     loading: 0,
@@ -38,7 +38,7 @@
 
             if (!window['YTConfig']) {
                 window.YTConfig = {
-                    //  NOTE: I modified this from http to https because extensions do not care much for http.
+                    // NOTE: I modified this from http to https because extensions do not care much for http.
                     'host': 'https://www.youtube.com'
                 };
             }
@@ -78,8 +78,8 @@
             /* jshint ignore:end */
         },
 
-        //  This code is from https://s.ytimg.com/yts/jsbin/www-widgetapi-vflBfDu58/www-widgetapi.js. I pull it in locally as to not need to relax content_security_policy.
-        //  NOTE: I have patched a bug in this code. It is documented here: https://code.google.com/p/gdata-issues/issues/detail?id=6402
+        // This code is from https://s.ytimg.com/yts/jsbin/www-widgetapi-vflBfDu58/www-widgetapi.js. I pull it in locally as to not need to relax content_security_policy.
+        // NOTE: I have patched a bug in this code. It is documented here: https://code.google.com/p/gdata-issues/issues/detail?id=6402
         _loadWidgetAPI: function() {
             /* jshint ignore:start */
             var g, h = window;
@@ -1505,7 +1505,7 @@
             Wb && Wb();
 
             /* jshint ignore:end */
-            //  jscs:disable
+            // jscs:disable
         }
     });
 

@@ -53,7 +53,7 @@
         },
 
         _setState: function(state, stateMessage) {
-            //  The button is considered enabled if it is anything but off.
+            // The button is considered enabled if it is anything but off.
             var enabled = state !== RepeatButtonState.Off;
 
             this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);

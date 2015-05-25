@@ -15,7 +15,7 @@
 
     Cocktail.patch(Backbone);
 
-    //  https://github.com/MeoMix/StreamusChromeExtension/issues/563
+    // https://github.com/MeoMix/StreamusChromeExtension/issues/563
     var Application = Marionette.Application.extend({
         localDebug: true,
         testing: true,
@@ -39,7 +39,7 @@
             tooltip: Backbone.Wreqr.radio.channel('tooltip'),
             scrollbar: Backbone.Wreqr.radio.channel('scrollbar'),
 
-            //  BACKGROUND:
+            // BACKGROUND:
             tab: Backbone.Wreqr.radio.channel('tab'),
             error: Backbone.Wreqr.radio.channel('error'),
             backgroundNotification: Backbone.Wreqr.radio.channel('backgroundNotification'),
@@ -77,7 +77,7 @@
         },
 
         _runTests: function() {
-            //  Finally, load the tests:
+            // Finally, load the tests:
             require(['test/test'], function() {
                 window.mocha.run();
             });

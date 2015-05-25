@@ -91,7 +91,7 @@
         },
 
         _onElementClick: function(event) {
-            //  If the user clicks anywhere on the page except for this menu button -- hide the menu.
+            // If the user clicks anywhere on the page except for this menu button -- hide the menu.
             if ($(event.target).closest(this.ui.menuButton.selector).length === 0) {
                 this.model.set('menuShown', false);
             }

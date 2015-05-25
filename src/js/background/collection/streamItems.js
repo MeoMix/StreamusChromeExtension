@@ -22,12 +22,12 @@
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
 
-            //  Load any existing StreamItems from local storage
+            // Load any existing StreamItems from local storage
             this.fetch();
         },
 
         clear: function() {
-            //  Reset and clear instead of going through this.set() as a performance optimization
+            // Reset and clear instead of going through this.set() as a performance optimization
             this.reset();
             this.localStorage._clear();
         },
@@ -97,12 +97,12 @@
                     sequence: this.getSequenceFromIndex(index)
                 });
 
-                //  Provide the index that the item will be placed at because allowing re-sorting the collection is expensive.
+                // Provide the index that the item will be placed at because allowing re-sorting the collection is expensive.
                 this.add(streamItem, {
                     at: index
                 });
 
-                //  If the item was added successfully to the collection (not duplicate) then allow for it to be created.
+                // If the item was added successfully to the collection (not duplicate) then allow for it to be created.
                 if (!_.isUndefined(streamItem.collection)) {
                     streamItem.save();
                     createdStreamItems.push(streamItem);
@@ -111,8 +111,8 @@
             }, this);
 
             if (createdStreamItems.length > 0) {
-                //  Emit a custom event signaling items have been added.
-                //  Useful for not responding to add until all items have been added.
+                // Emit a custom event signaling items have been added.
+                // Useful for not responding to add until all items have been added.
                 this.trigger('add:completed', this);
             }
 
@@ -139,22 +139,22 @@
         },
 
         _onAdd: function(model) {
-            //  Ensure a streamItem is always active
+            // Ensure a streamItem is always active
             if (_.isUndefined(this.getActiveItem())) {
                 model.save({active: true});
             }
         },
 
         _onRemove: function(model) {
-            //  Destroy the model so that Backbone.LocalStorage keeps localStorage up-to-date.
+            // Destroy the model so that Backbone.LocalStorage keeps localStorage up-to-date.
             model.destroy();
 
-            //  The item removed could've been the last one not played recently. Need to ensure that this isn't the case so there are always valid shuffle targets.
+            // The item removed could've been the last one not played recently. Need to ensure that this isn't the case so there are always valid shuffle targets.
             this._ensureAllNotPlayedRecentlyExcept();
         },
 
         _onChangeActive: function(model, active) {
-            //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
+            // Ensure only one streamItem is active at a time by deactivating all other active streamItems.
             if (active) {
                 this._deactivateAllExcept(model);
             }
@@ -166,7 +166,7 @@
             }
         },
 
-        //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
+        // Beatport can send messages to add stream items and play directly if user has clicked on a button.
         _onChromeRuntimeMessage: function(request) {
             switch (request.method) {
                 case 'searchAndStreamByQuery':
@@ -218,22 +218,22 @@
 
         _deactivateAllExcept: function(changedStreamItem) {
             this.each(function(streamItem) {
-                //  Be sure to check if it is active before saving to avoid hammering localStorage.
+                // Be sure to check if it is active before saving to avoid hammering localStorage.
                 if (streamItem !== changedStreamItem && streamItem.get('active')) {
                     streamItem.save({active: false});
                 }
             });
         },
 
-        //  Take each streamItem's array of related songs, pluck them all out into a collection of arrays
-        //  then flatten the arrays into a single array of songs.
+        // Take each streamItem's array of related songs, pluck them all out into a collection of arrays
+        // then flatten the arrays into a single array of songs.
         _getRelatedSongs: function() {
-            //  Some items may not have related information due to lack of response from YouTube or simply a lack of information.
+            // Some items may not have related information due to lack of response from YouTube or simply a lack of information.
             var relatedSongs = _.flatten(this.map(function(streamItem) {
                 return streamItem.get('relatedSongs').models;
             }));
 
-            //  Don't add any songs that are already in the stream.
+            // Don't add any songs that are already in the stream.
             relatedSongs = _.filter(relatedSongs, function(relatedSong) {
                 var alreadyExistingItem = this.find(function(streamItem) {
                     var sameSongId = streamItem.get('song').get('id') === relatedSong.get('id');
@@ -247,7 +247,7 @@
 
             // Try to filter out 'playlist' songs, but if they all get filtered out then back out of this assumption.
             var tempFilteredRelatedSongs = _.filter(relatedSongs, function(relatedSong) {
-                //  assuming things >8m are playlists.
+                // assuming things >8m are playlists.
                 var isJustOneSong = relatedSong.get('duration') < 480;
                 var lowerCaseSongTitle = relatedSong.get('title').toLowerCase();
                 var isNotLive = lowerCaseSongTitle.indexOf('live') === -1;
@@ -263,8 +263,8 @@
             return relatedSongs;
         },
 
-        //  When all streamItems have been played recently, reset to not having been played recently.
-        //  Allows for de-prioritization of played streamItems during shuffling.
+        // When all streamItems have been played recently, reset to not having been played recently.
+        // Allows for de-prioritization of played streamItems during shuffling.
         _ensureAllNotPlayedRecentlyExcept: function(model) {
             if (this.where({playedRecently: true}).length === this.length) {
                 this.each(function(streamItem) {
@@ -276,7 +276,7 @@
         },
 
         _onChromeCommandsCommand: function(command) {
-            //  Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
+            // Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
             var streamItemsCommands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl,
                 ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
 

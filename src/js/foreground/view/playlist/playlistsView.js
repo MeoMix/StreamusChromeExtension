@@ -22,7 +22,7 @@
             };
         },
 
-        //  Overwrite resortView to only render children as expected
+        // Overwrite resortView to only render children as expected
         resortView: function() {
             this._renderChildren();
         },
@@ -65,7 +65,7 @@
             Streamus.channels.element.vent.trigger('drag');
         },
 
-        //  Whenever a playlist is moved visually -- update corresponding model with new information.
+        // Whenever a playlist is moved visually -- update corresponding model with new information.
         _onSortableUpdate: function(event, ui) {
             this.collection.moveToIndex(ui.item.data('id'), ui.item.index());
         }

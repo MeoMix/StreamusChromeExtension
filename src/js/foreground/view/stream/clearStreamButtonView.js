@@ -58,7 +58,7 @@
         _showClearStreamDialog: function() {
             var streamItems = this.model.get('streamItems');
 
-            //  When deleting only a single StreamItem it is not necessary to show a dialog because it's not a very dangerous action.
+            // When deleting only a single StreamItem it is not necessary to show a dialog because it's not a very dangerous action.
             if (streamItems.length === 1) {
                 streamItems.clear();
             } else {

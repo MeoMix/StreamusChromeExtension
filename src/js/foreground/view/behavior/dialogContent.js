@@ -11,7 +11,7 @@
         },
 
         onRender: function() {
-            //  Prefer to do this in initialize, but $el isn't available to Behavior until after view's initialize.
+            // Prefer to do this in initialize, but $el isn't available to Behavior until after view's initialize.
             this.$el.addClass('dialog-content');
         }
     });

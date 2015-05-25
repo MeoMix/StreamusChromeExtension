@@ -3,11 +3,11 @@
 
     var DesktopNotificationDuration = require('common/enum/desktopNotificationDuration');
 
-    //  Use the chrome.notifications API to create rich notifications using templates and show these notifications to users in the system tray.
-    //  Availability: Stable since Chrome 28, but getPermissionLevel since Chrome 32
-    //  Permissions: "notifications"
-    //  Note: This API is currently available on ChromeOS, Windows, and Mac.
-    //  URL: https://developer.chrome.com/extensions/notifications
+    // Use the chrome.notifications API to create rich notifications using templates and show these notifications to users in the system tray.
+    // Availability: Stable since Chrome 28, but getPermissionLevel since Chrome 32
+    // Permissions: "notifications"
+    // Note: This API is currently available on ChromeOS, Windows, and Mac.
+    // URL: https://developer.chrome.com/extensions/notifications
     var ChromeNotificationsManager = Backbone.Model.extend({
         defaults: {
             shownNotificationId: '',
@@ -16,9 +16,9 @@
                 type: 'basic',
                 title: '',
                 message: '',
-                //  iconUrl is required -- if none given, default to Streamus' icon.
+                // iconUrl is required -- if none given, default to Streamus' icon.
                 iconUrl: 'img/streamus_icon128.png',
-                //  Priority 0 is a 7-second notification by default and priority 1-2 allows for 25 seconds
+                // Priority 0 is a 7-second notification by default and priority 1-2 allows for 25 seconds
                 priority: 1
             },
             tabManager: null,
@@ -27,12 +27,12 @@
 
         initialize: function() {
             this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._showNotification);
-            //  Background notifications will only show up via desktop notification, normal notification commands will be rendered in the UI if it is open.
+            // Background notifications will only show up via desktop notification, normal notification commands will be rendered in the UI if it is open.
             this.listenTo(Streamus.channels.backgroundNotification.commands, 'show:notification', this._showNotification);
         },
 
         _showNotification: function(notificationOptions) {
-            //  Pass along the notification to the foreground if it's open. Otherwise, use desktop notifications to notify the user.
+            // Pass along the notification to the foreground if it's open. Otherwise, use desktop notifications to notify the user.
             this._isForegroundActive(this._onIsForegroundActiveResponse.bind(this, notificationOptions));
         },
 
@@ -60,7 +60,7 @@
             this._clearCloseNotificationTimeout();
 
             var notificationOptions = _.extend({}, this.get('defaultNotificationOptions'), options);
-            //  Calling create with a notificationId will cause the existing notification to be cleared.
+            // Calling create with a notificationId will cause the existing notification to be cleared.
             chrome.notifications.create(this.get('shownNotificationId'), notificationOptions, this._onNotificationCreate.bind(this));
 
             this._setCloseNotificationTimeout();
@@ -109,7 +109,7 @@
             }
         },
 
-        //  Converts the DesktopNotificationDuration enum into milliseconds for use in setTimeout.
+        // Converts the DesktopNotificationDuration enum into milliseconds for use in setTimeout.
         _getNotificationDuration: function(desktopNotificationDuration) {
             var notificationDuration;
 

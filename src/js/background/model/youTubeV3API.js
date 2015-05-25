@@ -8,12 +8,12 @@
     var Utility = require('common/utility');
 
     var YouTubeV3API = Backbone.Model.extend({
-        //  Performs a search and then grabs the first item and returns its title
-        //  Expects options: { title: string, success: function, error: function }
+        // Performs a search and then grabs the first item and returns its title
+        // Expects options: { title: string, success: function, error: function }
         getSongByTitle: function(options) {
             return this.search({
                 text: options.title,
-                //  Expect to find a playable song within the first 10 -- don't need the default 50 items
+                // Expect to find a playable song within the first 10 -- don't need the default 50 items
                 maxResults: 10,
                 success: function(searchResponse) {
                     if (searchResponse.songs.length === 0) {
@@ -29,8 +29,8 @@
             });
         },
 
-        //  Performs a search of YouTube with the provided text and returns a list of playable songs (<= max-results)
-        //  Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
+        // Performs a search of YouTube with the provided text and returns a list of playable songs (<= max-results)
+        // Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
         search: function(options) {
             var activeJqXHR = this._doRequest(YouTubeServiceType.Search, {
                 success: function(response) {
@@ -67,7 +67,7 @@
                 pageToken: options.pageToken || '',
                 q: options.text.trim(),
                 fields: 'nextPageToken, items/id/videoId',
-                //  I don't think it's a good idea to filter out results based on safeSearch for music.
+                // I don't think it's a good idea to filter out results based on safeSearch for music.
                 safeSearch: 'none',
                 videoEmbeddable: 'true'
             });
@@ -119,7 +119,7 @@
             });
         },
 
-        //  Returns the results of a request for a segment of a channel, playlist, or other dataSource.
+        // Returns the results of a request for a segment of a channel, playlist, or other dataSource.
         getPlaylistSongs: function(options) {
             var activeJqXHR = this._doRequest(YouTubeServiceType.PlaylistItems, {
                 success: function(response) {
@@ -170,7 +170,7 @@
         getRelatedSongs: function(options) {
             var activeJqXHR = this._doRequest(YouTubeServiceType.Search, {
                 success: function(response) {
-                    //  It is possible to receive no response if a song was removed from YouTube but is still known to Streamus.
+                    // It is possible to receive no response if a song was removed from YouTube but is still known to Streamus.
                     if (!response) {
                         throw new Error('No response for: ' + JSON.stringify(options));
                     }
@@ -201,7 +201,7 @@
                 part: 'id',
                 relatedToVideoId: options.songId,
                 maxResults: options.maxResults || 5,
-                //  If the relatedToVideoId parameter has been supplied, type must be video.
+                // If the relatedToVideoId parameter has been supplied, type must be video.
                 type: 'video',
                 fields: 'items/id/videoId',
                 videoEmbeddable: 'true'
@@ -217,7 +217,7 @@
             };
         },
 
-        //  Converts a list of YouTube song ids into actual video information by querying YouTube with the list of ids.
+        // Converts a list of YouTube song ids into actual video information by querying YouTube with the list of ids.
         getSongs: function(options) {
             return this._doRequest(YouTubeServiceType.Videos, {
                 success: function(response) {
@@ -235,10 +235,10 @@
                             options.error(errorMessage);
                         }
                     } else {
-                        //  Filter out videos which have marked themselves as not able to be embedded since they won't be able to be played in Streamus.
+                        // Filter out videos which have marked themselves as not able to be embedded since they won't be able to be played in Streamus.
                         var embeddableItems = _.filter(response.items, function(item) {
-                            //  Check for PT0S due to an issue in YouTube's API: https://code.google.com/p/gdata-issues/issues/detail?id=7172
-                            //  Songs with 0s duration are unable to be played.
+                            // Check for PT0S due to an issue in YouTube's API: https://code.google.com/p/gdata-issues/issues/detail?id=7172
+                            // Songs with 0s duration are unable to be played.
                             return item.status.embeddable && item.contentDetails.duration !== 'PT0S';
                         });
 

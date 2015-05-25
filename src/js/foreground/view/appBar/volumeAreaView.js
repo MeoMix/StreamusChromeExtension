@@ -50,8 +50,8 @@ define(function(require) {
 
         onRender: function() {
             var volume = this.player.get('volume');
-            //  NOTE: Don't call setVolumeProgress during onRender because it causes a document repaint to set the height.
-            //  Set the value in the template instead (which is always faster, but harder to maintain without two-way data-binding plugin.
+            // NOTE: Don't call setVolumeProgress during onRender because it causes a document repaint to set the height.
+            // Set the value in the template instead (which is always faster, but harder to maintain without two-way data-binding plugin.
             //this._setVolumeProgress(volume);
 
             var muted = this.player.get('muted');
@@ -76,7 +76,7 @@ define(function(require) {
             this.player.setVolume(volume);
         },
 
-        //  NOTE: This function is (relatively) expensive. Don't call it during onRender -- instead just set the values in the template.
+        // NOTE: This function is (relatively) expensive. Don't call it during onRender -- instead just set the values in the template.
         _setVolumeProgress: function(volume) {
             this.ui.volumeRange.val(volume);
             this.ui.volumeProgress.height(volume + '%');
@@ -89,7 +89,7 @@ define(function(require) {
             this.ui.volumeIconMute.toggleClass('is-hidden', !muted);
         },
 
-        //  Adjust volume when user scrolls wheel while hovering over volume.
+        // Adjust volume when user scrolls wheel while hovering over volume.
         _scrollVolume: function(delta) {
             var volume = parseInt(this.ui.volumeRange.val(), 10) + (delta * 3);
 

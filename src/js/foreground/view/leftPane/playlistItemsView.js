@@ -24,7 +24,7 @@
             };
         },
 
-        //  Overwrite resortView to only render children as expected
+        // Overwrite resortView to only render children as expected
         resortView: function() {
             this._renderChildren();
         },
@@ -55,7 +55,7 @@
             this.listenTo(Streamus.channels.search.vent, 'showing', this._onSearchShowing);
         },
 
-        //  Don't maintain selected results after showing SearchView because this view won't be visible.
+        // Don't maintain selected results after showing SearchView because this view won't be visible.
         _onSearchShowing: function() {
             this.triggerMethod('DeselectCollection');
         }

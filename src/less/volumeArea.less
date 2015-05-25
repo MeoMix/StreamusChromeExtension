@@ -3,8 +3,8 @@
 @import "transition";
 
 .volumeArea {
-    //  This fixes the fact that there's a small gap between the 48px button click target
-    //  and the slidePanel. If the user's mouse goes over that area then the slidePanel collapses.
+    // This fixes the fact that there's a small gap between the 48px button click target
+    // and the slidePanel. If the user's mouse goes over that area then the slidePanel collapses.
     padding: 4px 0;
 }
 
@@ -29,7 +29,7 @@
     }
 }
 
-//  Chrome bug forces this to be awkward: https://code.google.com/p/chromium/issues/detail?id=341071
+// Chrome bug forces this to be awkward: https://code.google.com/p/chromium/issues/detail?id=341071
 .volumeArea-slidePanel {
     @panelWidth: 40px;
     z-index: 1;
@@ -37,7 +37,7 @@
     height: 0;
     margin-right: 4px;
     margin-left: 4px;
-    //  Prevent hover events from firing on children when it isn't visible.
+    // Prevent hover events from firing on children when it isn't visible.
     pointer-events: none;
     opacity: 0;
     align-items: center;
@@ -59,7 +59,7 @@
     }
 
     .rangeInput {
-        //  These values need to be explicitly set because element has been rotated so can't rely on width/height: 100%
+        // These values need to be explicitly set because element has been rotated so can't rely on width/height: 100%
         right: 0;
         width: 0;
         height: @rangeInputSize;

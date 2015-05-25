@@ -3,15 +3,15 @@
 
     var Tooltipable = Marionette.Behavior.extend({
         ui: {
-            //  Children which need tooltips and do not need to take into account text overflowing.
+            // Children which need tooltips and do not need to take into account text overflowing.
             tooltipable: '[data-ui~=tooltipable]',
-            //  Children which need tooltips, but also need to take into account overflowing.
+            // Children which need tooltips, but also need to take into account overflowing.
             textTooltipable: '[data-ui~=textTooltipable]'
         },
 
-        //  Whether view's element or a descendant is showing a tooltip
+        // Whether view's element or a descendant is showing a tooltip
         isShowingTooltip: false,
-        //  Don't show tooltips immediately on hover, wait 250ms moment to provide better UX
+        // Don't show tooltips immediately on hover, wait 250ms moment to provide better UX
         showTooltipDelay: 250,
         mutationObserver: null,
 
@@ -37,8 +37,8 @@
             this._hideTooltip();
         },
 
-        //  Begin the process of showing a tooltip on a given target by ensuring the target wants a tooltip
-        //  Some parent views can implement the Tooltipable behavior for children without themselves needing a tooltip
+        // Begin the process of showing a tooltip on a given target by ensuring the target wants a tooltip
+        // Some parent views can implement the Tooltipable behavior for children without themselves needing a tooltip
         _ensureHovered: function(target) {
             var $target = $(target);
 
@@ -54,7 +54,7 @@
 
         _hideTooltip: function() {
             if (this.isShowingTooltip) {
-                //  Disconnect the event listener to prevent memory leaks
+                // Disconnect the event listener to prevent memory leaks
                 this.mutationObserver.disconnect();
                 this.mutationObserver = null;
                 Streamus.channels.tooltip.commands.trigger('hide:tooltip');
@@ -62,8 +62,8 @@
             }
         },
 
-        //  Once a small delay has finished, confirm that the tooltip needs to be shown
-        //  If it does need to be shown, show it and listen for potential changes to the tooltip's text
+        // Once a small delay has finished, confirm that the tooltip needs to be shown
+        // If it does need to be shown, show it and listen for potential changes to the tooltip's text
         _onShowTooltipTimeout: function(target, text) {
             var needShowTooltip = this._needShowTooltip(target);
 
@@ -74,8 +74,8 @@
             }
         },
 
-        //  Create a mutation observer which watches the target for changes to its tooltip-text data attribute.
-        //  If that attribute changes then refresh the tooltip to reflect the new text.
+        // Create a mutation observer which watches the target for changes to its tooltip-text data attribute.
+        // If that attribute changes then refresh the tooltip to reflect the new text.
         _watchTooltipText: function(target, boundingClientRect) {
             var mutationObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
@@ -94,16 +94,16 @@
         },
 
         _needShowTooltip: function(target) {
-            //  If the user is still hovering the element after the delay then go ahead and confirm the tooltip should be shown.
+            // If the user is still hovering the element after the delay then go ahead and confirm the tooltip should be shown.
             var showTooltip = $(target).data('is-hovered') || false;
 
             if (showTooltip) {
-                //  Some elements only want to show a tooltip if their text can't all be seen
+                // Some elements only want to show a tooltip if their text can't all be seen
                 var uiDataAttribute = target.dataset.ui;
                 var checkOverflow = !_.isUndefined(uiDataAttribute) && uiDataAttribute.indexOf('textTooltipable') !== -1;
 
                 if (checkOverflow) {
-                    //  If offsetWidth is less than scrollWidth then text is being clipped.
+                    // If offsetWidth is less than scrollWidth then text is being clipped.
                     showTooltip = target.offsetWidth < target.scrollWidth;
                 }
             }
@@ -111,7 +111,7 @@
             return showTooltip;
         },
 
-        //  Notify the Tooltip Region that a tooltip should be shown at the given location with the given text.
+        // Notify the Tooltip Region that a tooltip should be shown at the given location with the given text.
         _showTooltip: function(boundingClientRect, text) {
             Streamus.channels.tooltip.commands.trigger('show:tooltip', {
                 targetBoundingClientRect: boundingClientRect,
@@ -120,7 +120,7 @@
             this.isShowingTooltip = true;
         },
 
-        //  Tell the current visible tooltip to update its text instead of re-showing it which would cause it to flicker.
+        // Tell the current visible tooltip to update its text instead of re-showing it which would cause it to flicker.
         _updateTooltip: function(boundingClientRect, text) {
             Streamus.channels.tooltip.commands.trigger('update:tooltip', {
                 targetBoundingClientRect: boundingClientRect,

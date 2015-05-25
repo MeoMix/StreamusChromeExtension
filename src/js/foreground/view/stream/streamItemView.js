@@ -82,7 +82,7 @@
         },
 
         _onChangeId: function(model, id) {
-            //  I'm not 100% positive I need to set both here, but .data() is cached in jQuery and .attr() is on the view, so seems good to keep both up to date.
+            // I'm not 100% positive I need to set both here, but .data() is cached in jQuery and .attr() is on the view, so seems good to keep both up to date.
             this.$el.data('id', id).attr('id', id);
         },
 
@@ -90,8 +90,8 @@
             this._setActiveClass(active);
         },
 
-        //  Force the view to reflect the model's active class. It's important to do this here, and not through render always, because
-        //  render will cause the lazy-loaded image to be reset.
+        // Force the view to reflect the model's active class. It's important to do this here, and not through render always, because
+        // render will cause the lazy-loaded image to be reset.
         _setActiveClass: function(active) {
             this.$el.toggleClass('is-active', active);
         },

@@ -5,8 +5,8 @@
 
     var RadioGroup = Backbone.Model.extend({
         defaults: {
-            //  Often times a radio group has a 1:1 relationship with a model property.
-            //  Linking that property to its radio group allows working with a collection of radio groups more easily.
+            // Often times a radio group has a 1:1 relationship with a model property.
+            // Linking that property to its radio group allows working with a collection of radio groups more easily.
             property: '',
             buttons: null
         },
@@ -18,9 +18,9 @@
         _ensureButtonsCollection: function() {
             var buttons = this.get('buttons');
 
-            //  Need to convert buttons array to Backbone.Collection
+            // Need to convert buttons array to Backbone.Collection
             if (!(buttons instanceof Backbone.Collection)) {
-                //  Silent because buttons is just being properly set.
+                // Silent because buttons is just being properly set.
                 this.set('buttons', new RadioButtons(buttons, {
                     silent: true
                 }));

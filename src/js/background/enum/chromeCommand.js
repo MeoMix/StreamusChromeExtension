@@ -1,4 +1,4 @@
-﻿//  These values are synced with manifest.json's commands declaration.
+﻿// These values are synced with manifest.json's commands declaration.
 define({
     ShowSongDetails: 'showSongDetails',
     SaveSong: 'saveSong',

@@ -1,5 +1,5 @@
 ﻿define({
-    //  Takes a time in seconds and converts it to something human-readable in the format of H:mm:ss or mm:ss.
+    // Takes a time in seconds and converts it to something human-readable in the format of H:mm:ss or mm:ss.
     prettyPrintTime: function(timeInSeconds) {
         if (isNaN(timeInSeconds)) {
             timeInSeconds = 0;
@@ -11,7 +11,7 @@
         var minutes = Math.floor(remainingSeconds / 60);
         remainingSeconds = remainingSeconds % 60;
 
-        //  Ensure two-digits for small numbers
+        // Ensure two-digits for small numbers
         if (minutes < 10) {
             minutes = '0' + minutes;
         }
@@ -29,14 +29,14 @@
         return timeString;
     },
 
-    //  Similar to prettyPrintTime, but incorporates "days" "hours" "minutes" into the end result instead of just using numbers.
+    // Similar to prettyPrintTime, but incorporates "days" "hours" "minutes" into the end result instead of just using numbers.
     prettyPrintTimeWithWords: function(timeInSeconds) {
         var prettyTime;
         var timeInMinutes = Math.floor(timeInSeconds / 60);
         var oneDayInMinutes = 1440;
         var oneHourInMinutes = 60;
 
-        //  Print the total duration of content in minutes unless there is 3+ hours or 3+ days then just print hours/days.
+        // Print the total duration of content in minutes unless there is 3+ hours or 3+ days then just print hours/days.
         if (timeInMinutes === 1) {
             prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minute');
         } else if (timeInMinutes > oneDayInMinutes * 3) {
@@ -50,7 +50,7 @@
         return prettyTime;
     },
 
-    //  Inspired by the Chrome Last.fm Scrobbler extension by David Sabata (https://github.com/david-sabata/Chrome-Last.fm-Scrobbler)
+    // Inspired by the Chrome Last.fm Scrobbler extension by David Sabata (https://github.com/david-sabata/Chrome-Last.fm-Scrobbler)
     cleanTitle: function(title) {
         title = title.trim();
         title = title.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
@@ -76,13 +76,13 @@
         return title;
     },
 
-    //  http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+    // http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
     escapeRegExp: function(string) {
         var escapedString = string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
         return escapedString;
     },
 
-    //  http://stackoverflow.com/questions/8847766/how-to-convert-json-to-csv-format-and-store-in-a-variable
+    // http://stackoverflow.com/questions/8847766/how-to-convert-json-to-csv-format-and-store-in-a-variable
     jsonToCsv: function(json) {
         var array = typeof json != 'object' ? JSON.parse(json) : json;
         var str = '';
@@ -109,7 +109,7 @@
         return str;
     },
 
-    //  Converts an ISO8061 format (i.e: PT1H3M52S) to numeric representation in seconds.
+    // Converts an ISO8061 format (i.e: PT1H3M52S) to numeric representation in seconds.
     iso8061DurationToSeconds: function(isoDuration) {
         var hoursMatch = isoDuration.match(/(\d+)H/);
         var hours = parseInt(hoursMatch ? hoursMatch[1] : 0, 10);
@@ -124,13 +124,13 @@
         return secondsDuration;
     },
 
-    //  Determines if a given elementLength will fit inside of a containerLength.
-    //  If it overflows out of containerLength then shift it such that it does not overflow.
+    // Determines if a given elementLength will fit inside of a containerLength.
+    // If it overflows out of containerLength then shift it such that it does not overflow.
     shiftOffset: function(offset, elementLength, containerLength) {
         var adjustedOffset = offset;
         var overflow = offset + elementLength - containerLength;
 
-        //  Shift the element based such that it stays within the container
+        // Shift the element based such that it stays within the container
         if (offset < 0) {
             adjustedOffset -= offset;
         } else if (overflow > 0) {
@@ -140,9 +140,9 @@
         return adjustedOffset;
     },
 
-    //  Determines if a given elementLength at a given offset will fit inside a containerLength.
-    //  If it overflows out of containerLength then flip it over a given targetLength.
-    //  targetLength and adjust are both optional.
+    // Determines if a given elementLength at a given offset will fit inside a containerLength.
+    // If it overflows out of containerLength then flip it over a given targetLength.
+    // targetLength and adjust are both optional.
     flipInvertOffset: function(offset, elementLength, containerLength, targetLength, adjust) {
         targetLength = targetLength || 0;
         adjust = adjust || 0;
@@ -152,10 +152,10 @@
         var flipInvertAmount = elementLength + targetLength + adjust;
 
         if (offset < 0) {
-            //  Move element from above target to below target.
+            // Move element from above target to below target.
             adjustedOffset += flipInvertAmount;
         } else if (overflow > 0) {
-            //  Move element from below target to above target.
+            // Move element from below target to above target.
             adjustedOffset -= flipInvertAmount;
         }
 

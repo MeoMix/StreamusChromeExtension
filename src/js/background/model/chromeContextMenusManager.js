@@ -185,12 +185,12 @@
         },
 
         _createSaveContextMenu: function(contextMenuOptions) {
-            //  Create a sub menu item to hold playlists
+            // Create a sub menu item to hold playlists
             var saveContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': chrome.i18n.getMessage('save')
             }));
 
-            //  Create menu items for each playlist
+            // Create menu items for each playlist
             this.get('signInManager').get('signedInUser').get('playlists').each(function(playlist) {
                 this._createPlaylistContextMenu(contextMenuOptions, saveContextMenuId, playlist);
             }.bind(this));
@@ -198,7 +198,7 @@
             return saveContextMenuId;
         },
 
-        //  Whenever a playlist context menu is clicked -- add the related song to that playlist.
+        // Whenever a playlist context menu is clicked -- add the related song to that playlist.
         _createPlaylistContextMenu: function(contextMenuOptions, parentId, playlist) {
             var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': playlist.get('title'),
@@ -206,7 +206,7 @@
                 'onclick': this._onClickSaveContextMenu.bind(this, playlist)
             }));
 
-            //  Update context menu items whenever the playlist's data changes (renamed or deleted)
+            // Update context menu items whenever the playlist's data changes (renamed or deleted)
             this.listenTo(playlist, 'change:title', function() {
                 chrome.contextMenus.update(playlistContextMenuId, {
                     'title': playlist.get('title')

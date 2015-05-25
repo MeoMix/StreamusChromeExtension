@@ -25,7 +25,7 @@
 
         initialize: function(options) {
             this.listItem = options.listItem;
-            //  Ensure that the user isn't able to destroy the model more than once.
+            // Ensure that the user isn't able to destroy the model more than once.
             this._deleteListItem = _.once(this._deleteListItem);
         },
 

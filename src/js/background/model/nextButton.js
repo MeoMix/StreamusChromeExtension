@@ -23,7 +23,7 @@
             this._setEnabled();
         },
 
-        //  Prevent spamming by only allowing a next click once every 100ms.
+        // Prevent spamming by only allowing a next click once every 100ms.
         tryActivateNextStreamItem: _.debounce(function() {
             var activatedNextItem = false;
 
@@ -71,13 +71,13 @@
                 var repeatButtonState = this.get('repeatButton').get('state');
 
                 if (shuffleEnabled && streamItems.length > 1) {
-                    //  You can skip with shuffle enabled if there are multiple items to shuffle between.
+                    // You can skip with shuffle enabled if there are multiple items to shuffle between.
                     enabled = true;
                 } else if (radioEnabled || repeatButtonState !== RepeatButtonState.Off) {
-                    //  You can always continue if radio is enabled or if repeating is enabled
+                    // You can always continue if radio is enabled or if repeating is enabled
                     enabled = true;
                 } else {
-                    //  Enable only if there are more items to skip to.
+                    // Enable only if there are more items to skip to.
                     var activeItemIndex = streamItems.indexOf(streamItems.getActiveItem());
 
                     if (activeItemIndex + 1 !== streamItems.length) {

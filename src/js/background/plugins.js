@@ -10,7 +10,7 @@
     var lodashMixin = require('common/lodashMixin');
     _.mixin(lodashMixin);
 
-    //  Some sensitive data is not committed to GitHub. Use an example file to help others and provide detection of incomplete setup.
+    // Some sensitive data is not committed to GitHub. Use an example file to help others and provide detection of incomplete setup.
     requirejs.onError = function(error) {
         var headerWritten = false;
         console.error('error:', error);
@@ -32,6 +32,6 @@
         }
     };
 
-    //  Finally, load the application:
+    // Finally, load the application:
     require(['background/application']);
 });

@@ -20,7 +20,7 @@
             this._toggleEnabled(streamItems.isEmpty());
         },
 
-        //  Only allow changing once every 100ms to preent spamming.
+        // Only allow changing once every 100ms to preent spamming.
         tryTogglePlayerState: _.debounce(function() {
             if (this.get('enabled')) {
                 this.get('player').toggleState();

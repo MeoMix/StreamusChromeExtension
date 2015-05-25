@@ -38,12 +38,12 @@
                     sequence: this.getSequenceFromIndex(index)
                 });
 
-                //  Provide the index that the item will be placed at because allowing re-sorting the collection is expensive.
+                // Provide the index that the item will be placed at because allowing re-sorting the collection is expensive.
                 this.add(playlistItem, {
                     at: index
                 });
 
-                //  If the item was added successfully to the collection (not duplicate) then allow for it to be created.
+                // If the item was added successfully to the collection (not duplicate) then allow for it to be created.
                 if (!_.isUndefined(playlistItem.collection)) {
                     itemsToCreate.push(playlistItem);
                     index++;
@@ -51,13 +51,13 @@
             }, this);
 
             if (itemsToCreate.length > 0) {
-                //  Emit a custom event signaling items have been added.
-                //  Useful for not responding to add until all items have been added.
+                // Emit a custom event signaling items have been added.
+                // Useful for not responding to add until all items have been added.
                 this.trigger('add:completed', this);
             }
 
             if (itemsToCreate.length === 1) {
-                //  Default to Backbone if only creating 1 item.
+                // Default to Backbone if only creating 1 item.
                 itemsToCreate[0].save({}, {
                     success: options.success,
                     error: options.error
@@ -95,17 +95,17 @@
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(itemsToCreate),
                 success: function(createdItems) {
-                    //  For each of the createdItems, remap properties back to the old items.
+                    // For each of the createdItems, remap properties back to the old items.
                     _.each(createdItems, function(createdItem) {
-                        //  Remap items based on their client id.
+                        // Remap items based on their client id.
                         var matchingNewItem = this.find(function(newItem) {
                             return newItem.cid === createdItem.cid;
                         });
 
-                        //  Call parse to emulate going through the Model's save logic.
+                        // Call parse to emulate going through the Model's save logic.
                         var parsedNewItem = matchingNewItem.parse(createdItem);
 
-                        //  Call set to move attributes from parsedCreatedItem to matchingItemToCreate.
+                        // Call set to move attributes from parsedCreatedItem to matchingItemToCreate.
                         matchingNewItem.set(parsedNewItem);
                     }, this);
 

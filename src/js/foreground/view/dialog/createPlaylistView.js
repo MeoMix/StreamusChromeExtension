@@ -15,7 +15,7 @@
                 titleMessage: chrome.i18n.getMessage('title'),
                 playlistUrlMessage: chrome.i18n.getMessage('playlistUrl'),
                 titleMaxLength: this.titleMaxLength,
-                //  If the playlist is not already being created with songs then allow for importing of songs.
+                // If the playlist is not already being created with songs then allow for importing of songs.
                 showDataSource: this.songs.length === 0
             };
         },
@@ -55,7 +55,7 @@
         },
 
         onAttach: function() {
-            //  Reset the value after focusing to focus without selecting.
+            // Reset the value after focusing to focus without selecting.
             this.ui.title.focus().val(this.ui.title.val());
         },
 
@@ -94,9 +94,9 @@
             this.ui.titleCharacterCount.text(trimmedTitle.length);
         },
 
-        //  Throttle for typing support so I don't continuously validate while typing
+        // Throttle for typing support so I don't continuously validate while typing
         _debounceParseInput: _.debounce(function() {
-            //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
+            // Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
             setTimeout(this._parseInput.bind(this));
         }, 100),
 
@@ -115,7 +115,7 @@
         },
 
         _validateTitle: function() {
-            //  When the user submits - check to see if they provided a playlist name
+            // When the user submits - check to see if they provided a playlist name
             var title = this._getTrimmedTitle();
             var isInvalid = title.length === 0 || title.length > this.titleMaxLength;
             this.ui.title.toggleClass('is-invalid', isInvalid);
@@ -131,7 +131,7 @@
         },
 
         _setDataSourceViaUrl: function(url) {
-            //  Check validity of URL and represent validity via invalid class.
+            // Check validity of URL and represent validity via invalid class.
             var dataSource = this.dataSourceManager.getDataSource({
                 url: url,
                 parseVideo: false

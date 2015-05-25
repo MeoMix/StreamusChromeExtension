@@ -36,8 +36,8 @@
         mouseDownTarget: null,
 
         initialize: function() {
-            //  Prefer passing background models in as options, but reminders will be removed once undo is implemented.
-            //  So, no need to refactor this right now. Just remove later.
+            // Prefer passing background models in as options, but reminders will be removed once undo is implemented.
+            // So, no need to refactor this right now. Just remove later.
             this.settings = Streamus.backgroundPage.settings;
         },
 
@@ -53,7 +53,7 @@
             requestAnimationFrame(this._transitionIn.bind(this));
         },
 
-        //  Unless a dialog specifically implements reminderProperty it is assumed that reminder is enabled and the dialog will be shown when asked.
+        // Unless a dialog specifically implements reminderProperty it is assumed that reminder is enabled and the dialog will be shown when asked.
         isReminderEnabled: function() {
             var isReminderEnabled = true;
 
@@ -67,9 +67,9 @@
 
         onSubmit: _.noop,
 
-        //  If the user clicks on the darkened area then close the dialog.
-        //  Use onMouseDown and onMouseUp because the user can click down on the scrollbar and drag their mouse such that it is over
-        //  the darkened panel. This will cause an incorrect close because they didn't click on the dark panel.
+        // If the user clicks on the darkened area then close the dialog.
+        // Use onMouseDown and onMouseUp because the user can click down on the scrollbar and drag their mouse such that it is over
+        // the darkened panel. This will cause an incorrect close because they didn't click on the dark panel.
         _onMouseDown: function(event) {
             this.mouseDownTarget = event.target;
         },
@@ -90,7 +90,7 @@
             this._submit();
         },
 
-        //  If the enter key is pressed on a js-submittable element, treat as if user pressed OK button.
+        // If the enter key is pressed on a js-submittable element, treat as if user pressed OK button.
         _onKeyPressSubmittable: function(event) {
             if (event.which === KeyCode.Enter) {
                 this._submit();
@@ -102,7 +102,7 @@
                 this.$el.addClass('is-visible');
                 this.ui.panel.addClass('is-visible');
 
-                //  This hook is useful because _transitionIn is called via requestAnimationFrame. So, when onShow finishes, the view isn't fully visible yet.
+                // This hook is useful because _transitionIn is called via requestAnimationFrame. So, when onShow finishes, the view isn't fully visible yet.
                 this.triggerMethod('visible');
             }
         },
@@ -113,9 +113,9 @@
             this.ui.panel.removeClass('is-visible');
         },
 
-        //  Destroy the view only after it has transitioned out fully otherwise it will disappear without a transition.
+        // Destroy the view only after it has transitioned out fully otherwise it will disappear without a transition.
         _onTransitionOutComplete: function(event) {
-            //  webkitTransition bubbles so check the event target to ensure webkitTransitionEnd is running for this element and not a child's transition.
+            // webkitTransition bubbles so check the event target to ensure webkitTransitionEnd is running for this element and not a child's transition.
             if (event.target === event.currentTarget) {
                 this.destroy();
             }
@@ -125,7 +125,7 @@
             this.reminderCheckbox = new Checkbox({
                 primary: false,
                 labelText: this.model.get('reminderText'),
-                //  Since a dialog will only ever be shown if reminder is needed it is safe to assume true.
+                // Since a dialog will only ever be shown if reminder is needed it is safe to assume true.
                 checked: true,
                 property: this.model.get('reminderProperty'),
                 iconOnLeft: true
@@ -168,7 +168,7 @@
         },
 
         _hide: function() {
-            //  Some dialogs you don't want to run obSubmit logic for when closing, but also don't always want to be reminded.
+            // Some dialogs you don't want to run obSubmit logic for when closing, but also don't always want to be reminded.
             if (this.model.get('alwaysSaveReminder')) {
                 this._saveReminderState();
             }

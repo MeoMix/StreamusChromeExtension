@@ -19,8 +19,8 @@
         },
 
         _onForegroundAreaIdle: function() {
-            //  If search is being shown immediately then its OK to defer loading to improve initial
-            //  load performance.
+            // If search is being shown immediately then its OK to defer loading to improve initial
+            // load performance.
             if (this.settings.get('openToSearch')) {
                 this._showLeftPaneView();
             }

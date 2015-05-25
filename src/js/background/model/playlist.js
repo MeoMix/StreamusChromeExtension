@@ -8,37 +8,37 @@ define(function(require) {
     var ListItemType = require('common/enum/listItemType');
     var EntityType = require('background/enum/entityType');
 
-    //  Playlist holds a collection of PlaylistItems as well as properties pertaining to a playlist.
-    //  Provides methods to work with PlaylistItems such as getting, removing, updating, etc..
+    // Playlist holds a collection of PlaylistItems as well as properties pertaining to a playlist.
+    // Provides methods to work with PlaylistItems such as getting, removing, updating, etc..
     var Playlist = Backbone.Model.extend({
         defaults: {
             id: null,
             userId: null,
             title: '',
-            //  This is set to a PlaylistItemsCollection once the playlist has an ID.
+            // This is set to a PlaylistItemsCollection once the playlist has an ID.
             items: null,
             dataSource: null,
             dataSourceLoaded: false,
             active: false,
             sequence: -1,
             listItemType: ListItemType.Playlist,
-            //  Only allowed to delete a playlist if more than 1 exists.
+            // Only allowed to delete a playlist if more than 1 exists.
             canDelete: false
         },
 
-        //  Convert data which is sent from the server back to a proper Backbone.Model.
-        //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
+        // Convert data which is sent from the server back to a proper Backbone.Model.
+        // Need to recreate submodels as Backbone.Models else they will just be regular Objects.
         parse: function(playlistDto) {
-            //  Patch requests do not return information.
+            // Patch requests do not return information.
             if (!_.isUndefined(playlistDto)) {
-                //  Convert C# Guid.Empty into BackboneJS null
+                // Convert C# Guid.Empty into BackboneJS null
                 for (var key in playlistDto) {
                     if (playlistDto.hasOwnProperty(key) && playlistDto[key] === '00000000-0000-0000-0000-000000000000') {
                         playlistDto[key] = null;
                     }
                 }
 
-                //  Reset will load the server's response into items as a Backbone.Collection
+                // Reset will load the server's response into items as a Backbone.Collection
                 this.get('items').reset(playlistDto.items);
                 this.get('items').playlistId = playlistDto.id;
 
@@ -72,7 +72,7 @@ define(function(require) {
             });
         },
 
-        //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
+        // Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
         loadDataSource: function() {
             YouTubeV3API.getPlaylistSongs({
                 playlistId: this.get('dataSource').get('entityId'),
@@ -85,7 +85,7 @@ define(function(require) {
         },
 
         _onGetPlaylistSongsSuccess: function(response) {
-            //  Periodicially send bursts of packets to the server and trigger visual update.
+            // Periodicially send bursts of packets to the server and trigger visual update.
             this.get('items').addSongs(response.songs, {
                 success: this._onAddSongsByDataSourceSuccess.bind(this, response.nextPageToken)
             });
@@ -95,7 +95,7 @@ define(function(require) {
             if (_.isUndefined(nextPageToken)) {
                 this.set('dataSourceLoaded', true);
             } else {
-                //  Request next batch of data by iteration once addItems has succeeded.
+                // Request next batch of data by iteration once addItems has succeeded.
                 YouTubeV3API.getPlaylistSongs({
                     playlistId: this.get('dataSource').get('entityId'),
                     pageToken: nextPageToken,
@@ -126,7 +126,7 @@ define(function(require) {
             }
         },
 
-        //  Notify all open YouTube tabs that a playlist has been renamed.
+        // Notify all open YouTube tabs that a playlist has been renamed.
         _emitYouTubeTabUpdateEvent: function(data) {
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Updated,
@@ -173,9 +173,9 @@ define(function(require) {
         _ensureItemsCollection: function() {
             var items = this.get('items');
 
-            //  Need to convert items array to Backbone.Collection
+            // Need to convert items array to Backbone.Collection
             if (!(items instanceof Backbone.Collection)) {
-                //  Silent because items is just being properly set.
+                // Silent because items is just being properly set.
                 this.set('items', new PlaylistItems(items, {
                     playlistId: this.get('id')
                 }), {

@@ -6,7 +6,7 @@
     var YouTubeV3API = require('background/model/youTubeV3API');
     var Utility = require('common/utility');
 
-    //  Displays streamus search suggestions and allows instant playing in the stream
+    // Displays streamus search suggestions and allows instant playing in the stream
     var ChromeOmniboxManager = Backbone.Model.extend({
         defaults: function() {
             return {
@@ -28,17 +28,17 @@
         },
 
         _onChromeOmniboxInputChanged: function(text, suggest) {
-            //  Clear suggestedSongs
+            // Clear suggestedSongs
             this.get('suggestedSongs').reset();
 
             var searchText = text.trim();
 
-            //  Clear suggestions if there is no text.
+            // Clear suggestions if there is no text.
             if (searchText === '') {
                 this.set('modifiers', []);
                 suggest([]);
             } else {
-                //  Do not display results if searchText was modified while searching, abort old request.
+                // Do not display results if searchText was modified while searching, abort old request.
                 var previousSearchRequest = this.get('searchRequest');
 
                 if (!_.isNull(previousSearchRequest)) {
@@ -52,7 +52,7 @@
 
                 var searchRequest = YouTubeV3API.search({
                     text: searchText,
-                    //  Omnibox can only show 5 results
+                    // Omnibox can only show 5 results
                     maxResults: 5,
                     success: this._onSearchResponse.bind(this, suggest, searchText)
                 });
@@ -62,13 +62,13 @@
         },
 
         _onChromeOmniboxInputEntered: function(text) {
-            //  Find the cached song data by url
+            // Find the cached song data by url
             var pickedSong = this.get('suggestedSongs').find(function(song) {
                 return song.get('url') === text;
             });
 
-            //  If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
-            //  take the best suggestion related to their text.
+            // If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
+            // take the best suggestion related to their text.
             if (_.isUndefined(pickedSong)) {
                 pickedSong = this.get('suggestedSongs').first();
             }

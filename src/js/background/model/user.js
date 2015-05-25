@@ -27,7 +27,7 @@ define(function(require) {
             });
         },
 
-        //  The googlePlusId associated with this account is already linked with another account. Merge them together and re-load as one user.
+        // The googlePlusId associated with this account is already linked with another account. Merge them together and re-load as one user.
         mergeByGooglePlusId: function() {
             $.ajax({
                 type: 'POST',
@@ -51,7 +51,7 @@ define(function(require) {
             }
         },
 
-        //  A user is linked to a Google account if their GooglePlusId is not empty.
+        // A user is linked to a Google account if their GooglePlusId is not empty.
         linkedToGoogle: function() {
             return this.get('googlePlusId') !== '';
         },
@@ -68,10 +68,10 @@ define(function(require) {
             });
         },
 
-        //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
+        // No stored ID found at any client storage spot. Create a new user and use the returned user object.
         _create: function() {
             this.save({
-                //  Save the language here upon creation because the user is clearly unknown and it'll save a PATCH request by knowing language on creation.
+                // Save the language here upon creation because the user is clearly unknown and it'll save a PATCH request by knowing language on creation.
                 language: chrome.i18n.getUILanguage()
             }, {
                 success: this._onLoadSuccess.bind(this),
@@ -79,8 +79,8 @@ define(function(require) {
             });
         },
 
-        //  Loads user data by ID from the server, writes the ID to client-side storage locations
-        //  for future loading and then announces that the user has been loaded.
+        // Loads user data by ID from the server, writes the ID to client-side storage locations
+        // for future loading and then announces that the user has been loaded.
         _loadByUserId: function(userId) {
             this.set('id', userId);
 
@@ -90,20 +90,20 @@ define(function(require) {
             });
         },
 
-        //  Set playlists as a Backbone.Collection from the JSON received from the server.
+        // Set playlists as a Backbone.Collection from the JSON received from the server.
         _ensurePlaylistsCollection: function() {
             var playlists = this.get('playlists');
 
-            //  Need to convert playlists array to Backbone.Collection
+            // Need to convert playlists array to Backbone.Collection
             if (!(playlists instanceof Backbone.Collection)) {
-                //  Silent because playlists is just being properly set.
+                // Silent because playlists is just being properly set.
                 this.set('playlists', new Playlists([], {
                     userId: this.get('id')
                 }), {
                     silent: true
                 });
 
-                //  Call reset afterward because I want to run _onReset logic which isn't ran when passing models into initial constructor.
+                // Call reset afterward because I want to run _onReset logic which isn't ran when passing models into initial constructor.
                 this.get('playlists').reset(playlists);
             }
         },

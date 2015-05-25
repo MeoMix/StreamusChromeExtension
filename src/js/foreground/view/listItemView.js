@@ -9,13 +9,13 @@
         className: 'listItem listItem--clickable',
 
         attributes: function() {
-            //  Store the clientId on the view until the model has been saved successfully.
+            // Store the clientId on the view until the model has been saved successfully.
             var id = this.model.isNew() ? this.model.cid : this.model.get('id');
 
             return {
                 'data-id': id,
                 'data-type': this.options.type,
-                //  When a view is unloaded by slidingRender logic it loses track of its parent. This is able to be used to get a reference to it.
+                // When a view is unloaded by slidingRender logic it loses track of its parent. This is able to be used to get a reference to it.
                 'data-parentid': this.options.parentId
             };
         },
@@ -40,7 +40,7 @@
 
         _onContextMenu: function(event) {
             event.preventDefault();
-            //  Show the element just slightly offset as to not break onHover effects.
+            // Show the element just slightly offset as to not break onHover effects.
             this.showContextMenu(event.pageY, event.pageX + 1);
         },
 

@@ -9,8 +9,8 @@
                 id: _.uniqueId('searchResult_'),
                 selected: false,
                 title: '',
-                //  Whether the item was the first to be selected or one of many.
-                //  Important for proper shift+click functionality.
+                // Whether the item was the first to be selected or one of many.
+                // Important for proper shift+click functionality.
                 firstSelected: false,
                 listItemType: ListItemType.SearchResult,
                 song: null

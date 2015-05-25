@@ -62,9 +62,9 @@
             this.ui.signInRetryTimer.text(signInRetryTimer);
         },
 
-        //  Set the visibility of any visible text messages.
+        // Set the visibility of any visible text messages.
         _toggleBigText: function(signingIn, signInFailed) {
-            //  Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
+            // Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
             if (signingIn && !this.getRegion('spinner').hasView()) {
                 this.showChildView('spinner', new SpinnerView());
             }

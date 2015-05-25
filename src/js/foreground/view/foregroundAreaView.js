@@ -116,7 +116,7 @@
             this.listenTo(Streamus.channels.scrollbar.vent, 'mouseDown', this._onScrollbarMouseDown);
             this.listenTo(Streamus.channels.scrollbar.vent, 'mouseUp', this._onScrollbarMouseUp);
 
-            //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
+            // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
             this._onWindowUnload = this._onWindowUnload.bind(this);
             this._onWindowResize = this._onWindowResize.bind(this);
             this._onWindowError = this._onWindowError.bind(this);
@@ -135,14 +135,14 @@
 
             Streamus.channels.foregroundArea.vent.trigger('rendered');
 
-            //  After announcing that the foregroundArea has rendered successfully, wait a moment for other views to respond.
-            //  Then, announce that the foregroundArea is now an 'idle' state to allow for non-critical components to render themselves.
+            // After announcing that the foregroundArea has rendered successfully, wait a moment for other views to respond.
+            // Then, announce that the foregroundArea is now an 'idle' state to allow for non-critical components to render themselves.
             setTimeout(function() {
                 Streamus.channels.foregroundArea.vent.trigger('idle');
             }.bind(this), 250);
         },
 
-        //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
+        // Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
         _onClick: function(event) {
             Streamus.channels.element.vent.trigger('click', event);
         },
@@ -166,7 +166,7 @@
             });
         },
 
-        //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
+        // Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
         _onWindowUnload: function() {
             Streamus.channels.foreground.vent.trigger('beginUnload');
             Streamus.backgroundChannels.foreground.vent.trigger('beginUnload');
@@ -180,7 +180,7 @@
         },
 
         _onKeyDown: function(event) {
-            //  If the user presses space without any child element focused then assume it's an intenentional request to play/pause.
+            // If the user presses space without any child element focused then assume it's an intenentional request to play/pause.
             if (event.keyCode === KeyCode.Space && document.activeElement === document.body) {
                 Streamus.channels.playPauseButton.commands.trigger('tryToggle:playerState');
             }
@@ -207,7 +207,7 @@
         },
 
         _startLoading: function() {
-            //  Prefer lazy-rendering the spinner view to not take a perf hit when not actually loading.
+            // Prefer lazy-rendering the spinner view to not take a perf hit when not actually loading.
             if (!this.getRegion('spinner').hasView()) {
                 this.showChildView('spinner', new SpinnerView());
             }
@@ -217,7 +217,7 @@
             this.ui.loadingMessage.removeClass('is-hidden');
         },
 
-        //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
+        // Set the foreground's view state to indicate that user interactions are OK once the player is ready.
         _stopLoading: function() {
             this.ui.loadingMessage.addClass('is-hidden');
 

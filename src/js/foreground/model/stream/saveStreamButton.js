@@ -56,7 +56,7 @@
             this._setEnabled(this.get('signInManager').isSignedIn(), this.get('streamItems').isEmpty());
         },
 
-        //  Since models don't cascade clean-up their listenTo event handlers I need to do this manually when the foreground unloads.
+        // Since models don't cascade clean-up their listenTo event handlers I need to do this manually when the foreground unloads.
         _onForegroundBeginUnload: function() {
             this.stopListening();
         }

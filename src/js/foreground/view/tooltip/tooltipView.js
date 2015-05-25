@@ -11,13 +11,13 @@
             'change:text': '_onChangeText'
         },
 
-        //  Move the tooltip's location to a spot on the page and fade it in
+        // Move the tooltip's location to a spot on the page and fade it in
         showAtOffset: function(offset) {
             this.$el.css('transform', 'translate(' + offset.left + 'px, ' + offset.top + 'px)');
             this.$el.addClass('is-visible');
         },
 
-        //  Fade out the tooltip and then destroy it once completely hidden
+        // Fade out the tooltip and then destroy it once completely hidden
         hide: function() {
             this.$el.one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-visible');

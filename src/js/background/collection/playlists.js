@@ -32,7 +32,7 @@
             return this.findWhere({active: true});
         },
 
-        //  Expects options: { playlistId, success, error };
+        // Expects options: { playlistId, success, error };
         copyPlaylist: function(options) {
             $.ajax({
                 type: 'POST',
@@ -42,7 +42,7 @@
                     userId: this.userId
                 },
                 success: function(playlistDto) {
-                    //  Add and convert back from JSON to Backbone object.
+                    // Add and convert back from JSON to Backbone object.
                     var playlist = this.add(playlistDto);
                     playlist.set('active', true);
                     options.success(playlist);
@@ -63,12 +63,12 @@
             this.create({
                 title: playlistTitle,
                 userId: this.userId,
-                //  Playlists are always added at the end
+                // Playlists are always added at the end
                 sequence: this.getSequenceFromIndex(this.length),
                 items: playlistItems
             }, {
                 success: function(playlist) {
-                    //  It's important to call set instead of providing value in create in order to de-activate other active playlist.
+                    // It's important to call set instead of providing value in create in order to de-activate other active playlist.
                     playlist.set('active', true);
                 },
                 error: function(model) {
@@ -81,14 +81,14 @@
             this.create({
                 title: playlistTitle,
                 userId: this.userId,
-                //  Playlists are always added at the end
+                // Playlists are always added at the end
                 sequence: this.getSequenceFromIndex(this.length),
                 dataSource: dataSource,
-                //  If a playlist is being created with a YouTube Playlist URL then that URL will need to be imported into the playlist.
+                // If a playlist is being created with a YouTube Playlist URL then that URL will need to be imported into the playlist.
                 dataSourceLoaded: !dataSource.isYouTubePlaylist()
             }, {
                 success: function(playlist) {
-                    //  It's important to call set instead of providing value in create in order to de-activate other active playlist.
+                    // It's important to call set instead of providing value in create in order to de-activate other active playlist.
                     playlist.set('active', true);
 
                     if (!playlist.get('dataSourceLoaded')) {
@@ -110,16 +110,16 @@
         },
 
         _setCanDelete: function(canDelete) {
-            //  Playlists can only be deleted if there's >1 playlist existing because I don't want to leave the user with 0 playlists.
+            // Playlists can only be deleted if there's >1 playlist existing because I don't want to leave the user with 0 playlists.
             this.invoke('set', 'canDelete', canDelete);
         },
 
         _onReset: function() {
-            //  Ensure there is an always active playlist by trying to load from localstorage
+            // Ensure there is an always active playlist by trying to load from localstorage
             if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
                 var activePlaylistId = localStorage.getItem('activePlaylistId');
 
-                //  Be sure to always have an active playlist if there is one available.
+                // Be sure to always have an active playlist if there is one available.
                 var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
                 playlistToSetActive.set('active', true);
             }
@@ -172,7 +172,7 @@
                     break;
             }
 
-            //  sendResponse becomes invalid after returning you return true to indicate a response will be sent asynchronously.
+            // sendResponse becomes invalid after returning you return true to indicate a response will be sent asynchronously.
             return sendAsynchronousResponse;
         },
 
@@ -187,7 +187,7 @@
         },
 
         _onChangeActive: function(changedPlaylist, active) {
-            //  Ensure only one playlist is active at a time by de-activating all other active playlists.
+            // Ensure only one playlist is active at a time by de-activating all other active playlists.
             if (active) {
                 this._deactivateAllExcept(changedPlaylist);
                 localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
@@ -195,8 +195,8 @@
         },
 
         _onAdd: function(addedPlaylist, collection, options) {
-            //  Add events fire before the playlist is successfully saved to the server so that the UI can show a saving indicator.
-            //  This means that addedPlaylist's ID might not be set yet. If that's the case, wait until successful save before relying on it.
+            // Add events fire before the playlist is successfully saved to the server so that the UI can show a saving indicator.
+            // This means that addedPlaylist's ID might not be set yet. If that's the case, wait until successful save before relying on it.
             if (addedPlaylist.isNew()) {
                 this.listenToOnce(addedPlaylist, 'createError', function() {
                     this.stopListening(addedPlaylist, 'change:id');
@@ -212,7 +212,7 @@
         },
 
         _onCreateSuccess: function(addedPlaylist) {
-            //  Notify all open YouTube tabs that a playlist has been added.
+            // Notify all open YouTube tabs that a playlist has been added.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Added,
                 type: ListItemType.Playlist,
@@ -231,12 +231,12 @@
             this._setCanDelete(this.length > 1);
         },
 
-        //  Whenever a playlist is removed, if it was selected, select the next playlist.
+        // Whenever a playlist is removed, if it was selected, select the next playlist.
         _onRemove: function(removedPlaylist, collection, options) {
             if (removedPlaylist.get('active')) {
-                //  Clear local storage of the active playlist if it gets removed.
+                // Clear local storage of the active playlist if it gets removed.
                 localStorage.setItem('activePlaylistId', null);
-                //  If the index of the item removed was the last one in the list, activate previous.
+                // If the index of the item removed was the last one in the list, activate previous.
                 var index = options.index === this.length ? options.index - 1 : options.index;
                 this._activateByIndex(index);
             }
@@ -245,7 +245,7 @@
                 this._setCanDelete(false);
             }
 
-            //  Notify all open YouTube tabs that a playlist has been added.
+            // Notify all open YouTube tabs that a playlist has been added.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Removed,
                 type: ListItemType.Playlist,

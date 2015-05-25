@@ -30,7 +30,7 @@
             chrome.browserAction.onClicked.addListener(this._onChromeBrowserActionClicked.bind(this));
         },
 
-        //  This event handler will only run when browserAction's popup is string.empty.
+        // This event handler will only run when browserAction's popup is string.empty.
         _onChromeBrowserActionClicked: function() {
             this.get('tabManager').showStreamusTab();
         },
@@ -60,7 +60,7 @@
             this._setPopup(openInTab);
         },
 
-        //  Disable the popup when opening in a tab so the foreground doesn't flicker as the tab is opening.
+        // Disable the popup when opening in a tab so the foreground doesn't flicker as the tab is opening.
         _setPopup: function(openInTab) {
             chrome.browserAction.setPopup({
                 popup: openInTab ? '' : 'foreground.html'
@@ -95,10 +95,10 @@
             return playerStateMessage;
         },
 
-        //  Set the Streamus icon color and bar count based on the volume level, mutedness and player state.
-        //  RED: Player is muted.
-        //  GREEN: Player is playing (buffering counts as playing)
-        //  Yellow: Player is paused/unstarted
+        // Set the Streamus icon color and bar count based on the volume level, mutedness and player state.
+        // RED: Player is muted.
+        // GREEN: Player is playing (buffering counts as playing)
+        // Yellow: Player is paused/unstarted
         _setIcon: function(playerState, isMuted, volume) {
             var iconColor = this._getIconColor(playerState, isMuted);
             var iconBarCount = this._getIconBarCount(volume);

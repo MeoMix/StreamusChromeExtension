@@ -22,12 +22,12 @@
             this._toggleEnabled();
         },
 
-        //  Prevent spamming by only allowing a previous click once every 100ms.
+        // Prevent spamming by only allowing a previous click once every 100ms.
         tryDoTimeBasedPrevious: _.debounce(function() {
             var enabled = this.get('enabled');
 
             if (enabled) {
-                //  Restart when clicking 'previous' if too much time has passed
+                // Restart when clicking 'previous' if too much time has passed
                 if (this._songHasBeenPlaying()) {
                     this.get('player').seekTo(0);
                 } else {
@@ -69,9 +69,9 @@
             this.set('enabled', enabled);
         },
 
-        //  Consider the active song 'playing' after a few (3) seconds. After this amount of time
-        //  clicking 'previous' will skip to the front of the song rather than skipping to the previous
-        //  song in the stream
+        // Consider the active song 'playing' after a few (3) seconds. After this amount of time
+        // clicking 'previous' will skip to the front of the song rather than skipping to the previous
+        // song in the stream
         _songHasBeenPlaying: function() {
             return this.get('player').get('currentTime') > 3;
         }

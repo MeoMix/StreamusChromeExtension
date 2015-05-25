@@ -26,8 +26,8 @@
         },
 
         _onForegroundAreaIdle: function() {
-            //  If the search view isn't going to be shown right off the bat then it's OK to defer loading until idle so that
-            //  the initial load time of the application isn't impacted.
+            // If the search view isn't going to be shown right off the bat then it's OK to defer loading until idle so that
+            // the initial load time of the application isn't impacted.
             if (!this.settings.get('openToSearch')) {
                 this._createSearchView();
             }
@@ -48,15 +48,15 @@
         },
 
         _showSearch: function(options) {
-            //  It's technially possible for the user to request search to be shown before the view has been created.
-            //  If the Application hasn't entered 'idle' state yet and the user moves fast then they can get here.
+            // It's technially possible for the user to request search to be shown before the view has been created.
+            // If the Application hasn't entered 'idle' state yet and the user moves fast then they can get here.
             if (!this.hasView()) {
                 this._createSearchView();
             }
 
             Streamus.channels.search.vent.trigger('showing');
 
-            //  If the view should be visible when UI first loads then do not transition.
+            // If the view should be visible when UI first loads then do not transition.
             if (options && options.instant) {
                 this.$el.addClass('is-instant');
             }

@@ -85,11 +85,11 @@
             this._setShowingSpinnerClass();
         },
 
-        //  If the playlistItem hasn't been successfully saved to the server -- show a spinner over the UI.
+        // If the playlistItem hasn't been successfully saved to the server -- show a spinner over the UI.
         _setShowingSpinnerClass: function() {
             var isShowingSpinner = this.model.isNew();
 
-            //  Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
+            // Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
             if (isShowingSpinner && !this.getRegion('spinner').hasView()) {
                 this.showChildView('spinner', new SpinnerView({
                     className: 'overlay u-marginAuto'
@@ -100,7 +100,7 @@
         },
 
         _setDataId: function(id) {
-            //  I'm not 100% positive I need to set both here, but .data() is cached in jQuery and .attr() is on the view, so seems good to keep both up to date.
+            // I'm not 100% positive I need to set both here, but .data() is cached in jQuery and .attr() is on the view, so seems good to keep both up to date.
             this.$el.data('id', id).attr('id', id);
         },
 

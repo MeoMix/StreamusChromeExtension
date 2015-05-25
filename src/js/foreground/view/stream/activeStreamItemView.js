@@ -51,7 +51,7 @@
         },
 
         onAttach: function() {
-            //  If the view is shown instantly then there is no transition to wait for, so announce shown immediately.
+            // If the view is shown instantly then there is no transition to wait for, so announce shown immediately.
             if (this.instant) {
                 this.$el.addClass('is-visible');
                 Streamus.channels.activeStreamItemArea.vent.trigger('visible');
@@ -93,7 +93,7 @@
 
         _onContextMenu: function(event) {
             event.preventDefault();
-            //  Show the element just slightly offset as to not break onHover effects.
+            // Show the element just slightly offset as to not break onHover effects.
             this.showContextMenu(event.pageY, event.pageX + 1);
         }
     });

@@ -25,13 +25,13 @@
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
         },
 
-        //  The foreground has to be able to call this whenever a view opens.
+        // The foreground has to be able to call this whenever a view opens.
         stopClearQueryTimer: function() {
             clearTimeout(this.get('clearQueryTimeout'));
             this.set('clearQueryTimeout', null);
         },
 
-        //  Whether anything has been typed into the query at all -- regardless of whether that is just whitespace or not.
+        // Whether anything has been typed into the query at all -- regardless of whether that is just whitespace or not.
         hasQuery: function() {
             return this.get('query') !== '';
         },
@@ -51,12 +51,12 @@
         },
 
         _startClearQueryTimer: function() {
-            //  Safe-guard against multiple setTimeouts, just incase.
+            // Safe-guard against multiple setTimeouts, just incase.
             this.stopClearQueryTimer();
             this.set('clearQueryTimeout', setTimeout(this._clearQuery.bind(this), 10000));
         },
 
-        //  Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
+        // Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
         _hasSearchableQuery: function() {
             return this._getTrimmedQuery() !== '';
         },
@@ -65,7 +65,7 @@
             return this.get('query').trim();
         },
 
-        //  Perform a search on the given query or just terminate immediately if nothing to do.
+        // Perform a search on the given query or just terminate immediately if nothing to do.
         _search: function() {
             this._clearResults();
             this._abortPendingRequest();
@@ -73,26 +73,26 @@
             if (this._hasSearchableQuery()) {
                 this._startSearching();
             } else {
-                //  This isn't 100% necessary, but since we know that no search is going to happen, set searchQueued to false for a snappier UI response.
-                //  Rather than waiting for _doDebounceSearch to run and then do nothing.
+                // This isn't 100% necessary, but since we know that no search is going to happen, set searchQueued to false for a snappier UI response.
+                // Rather than waiting for _doDebounceSearch to run and then do nothing.
                 this.set('searchQueued', false);
             }
         },
 
-        //  Set some flags indicating that a search is in progress.
+        // Set some flags indicating that a search is in progress.
         _startSearching: function() {
             this.set('searchQueued', true);
-            //  Debounce a search request so that when the user stops typing the last request will run.
+            // Debounce a search request so that when the user stops typing the last request will run.
             this._doDebounceSearch(this._getTrimmedQuery());
         },
 
-        //  Handle the actual search functionality inside of a debounced function.
-        //  This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
+        // Handle the actual search functionality inside of a debounced function.
+        // This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
         _doDebounceSearch: _.debounce(function(trimmedQuery) {
-            //  If the user typed 'a' and then hit backspace, debounce search will still be trying to run with 'a'
-            //  because no future search query arrived. Prevent this.
+            // If the user typed 'a' and then hit backspace, debounce search will still be trying to run with 'a'
+            // because no future search query arrived. Prevent this.
             if (this._getTrimmedQuery() === trimmedQuery) {
-                //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
+                // If the user is just typing in whatever -- search for it, otherwise handle special data sources.
                 var dataSource = new DataSource({
                     url: trimmedQuery
                 });
@@ -101,7 +101,7 @@
                     success: function() {
                         this._abortPendingRequest();
 
-                        //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
+                        // If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
                         if (dataSource.isYouTubeVideo()) {
                             this._setResultsBySong(dataSource.get('entityId'));
                         } else if (dataSource.isYouTubePlaylist()) {
@@ -110,7 +110,7 @@
                             this._setResultsByText(trimmedQuery);
                         }
 
-                        //  Set to false only after setting a new pendingRequest to ensure that the 'isSearching' doesn't flicker to false.
+                        // Set to false only after setting a new pendingRequest to ensure that the 'isSearching' doesn't flicker to false.
                         this.set('searchQueued', false);
                     }.bind(this)
                 });
@@ -130,7 +130,7 @@
         },
 
         _setResultsByPlaylist: function(playlistId) {
-            //  https://github.com/MeoMix/StreamusChromeExtension/issues/567
+            // https://github.com/MeoMix/StreamusChromeExtension/issues/567
             var pendingRequest = YouTubeV3API.getPlaylistSongs({
                 playlistId: playlistId,
                 success: this._onGetPlaylistSongsSuccess.bind(this, playlistId),
@@ -196,7 +196,7 @@
         },
 
         _clearResults: function() {
-            //  Might as well not trigger excess reset events if they can be avoided.
+            // Might as well not trigger excess reset events if they can be avoided.
             var results = this.get('results');
 
             if (results.length > 0) {
@@ -223,7 +223,7 @@
         },
 
         _onForegroundEndUnload: function() {
-            //  Remember search query for a bit just in case user closes and re-opens immediately.
+            // Remember search query for a bit just in case user closes and re-opens immediately.
             this._startClearQueryTimer();
         }
     });

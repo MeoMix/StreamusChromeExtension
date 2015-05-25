@@ -52,7 +52,7 @@
                 localStorage.setItem('userId', USER_ID);
                 this.user.tryloadByUserId();
                 expect(this.user._loadByUserId.calledOnce).to.equal(true);
-                //  AJAX will be called twice if there's no language set.
+                // AJAX will be called twice if there's no language set.
                 expect($.ajax.calledOnce).to.equal(true);
                 ensureUserState.call(this, this.user);
             });
@@ -69,7 +69,7 @@
                 localStorage.setItem('userId', USER_ID);
                 this.user.tryloadByUserId();
                 expect(this.user._loadByUserId.calledOnce).to.equal(true);
-                //  AJAX will be called twice if there's no language set.
+                // AJAX will be called twice if there's no language set.
                 expect($.ajax.calledTwice).to.equal(true);
                 ensureUserState.call(this, this.user);
             });
@@ -100,7 +100,7 @@
                 it('should fetch the user from the database by GooglePlus ID', function() {
                     localStorage.removeItem('userId');
                     this.user.loadByGooglePlusId();
-                    //  Once for fetchByGoogleId which returns null and then again to create a new account which is tied to the Google account.
+                    // Once for fetchByGoogleId which returns null and then again to create a new account which is tied to the Google account.
                     expect($.ajax.calledOnce).to.equal(true);
                     expect(this.user._onLoadSuccess.calledOnce).to.equal(true);
                     ensureUserState.call(this, this.user);

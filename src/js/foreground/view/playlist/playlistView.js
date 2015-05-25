@@ -97,7 +97,7 @@
             var saving = this.model.isNew();
             var isShowingSpinner = loading || saving;
 
-            //  Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
+            // Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
             if (isShowingSpinner && !this.getRegion('spinner').hasView()) {
                 this.showChildView('spinner', new SpinnerView({
                     className: 'overlay u-marginAuto'
@@ -124,7 +124,7 @@
         },
 
         _setItemCount: function(itemCount) {
-            //  Format the number if it is too large.
+            // Format the number if it is too large.
             if (itemCount >= 1000) {
                 itemCount = Math.floor(itemCount / 1000) + 'K';
             }

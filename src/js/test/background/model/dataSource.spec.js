@@ -176,9 +176,9 @@
             expect((new DataSource())._parseYouTubeSongIdFromUrl('http://youtu.be/3sg6KCayu0E')).to.equal('3sg6KCayu0E');
             expect((new DataSource())._parseYouTubeSongIdFromUrl('http://www.youtube.com/watch?feature=youtu.be&v=aKpLrmQsS_M')).to.equal('aKpLrmQsS_M');
             expect((new DataSource())._parseYouTubeSongIdFromUrl('http://www.youtube.com/watch?feature=player_embedded&v=MKS8Jn_3bnA')).to.equal('MKS8Jn_3bnA');
-            //  10 digit URL is not valid:
+            // 10 digit URL is not valid:
             expect((new DataSource())._parseYouTubeSongIdFromUrl('http://youtu.be/3sg6KCau0E')).to.equal('');
-            //  12 digit URL is not valid
+            // 12 digit URL is not valid
             expect((new DataSource())._parseYouTubeSongIdFromUrl('http://youtu.be/3sg6KaaCau0E')).to.equal('');
         });
 

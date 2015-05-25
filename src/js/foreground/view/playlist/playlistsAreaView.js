@@ -68,7 +68,7 @@
             Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView);
         },
 
-        //  Whenever a playlist is clicked it will become active and the menu should hide itself.
+        // Whenever a playlist is clicked it will become active and the menu should hide itself.
         _onClickListItems: function() {
             this.hide();
         }

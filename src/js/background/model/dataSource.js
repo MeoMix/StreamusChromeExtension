@@ -8,17 +8,17 @@
     var DataSource = Backbone.Model.extend({
         defaults: {
             type: DataSourceType.None,
-            //  Valid song ID can appear in a playlist URL so provide the ability to only pull out a playlist URL
+            // Valid song ID can appear in a playlist URL so provide the ability to only pull out a playlist URL
             parseVideo: true,
-            //  The songId, playlistId, channelId etc..
+            // The songId, playlistId, channelId etc..
             entityId: '',
             title: '',
             url: ''
         },
 
-        //  Take the URL given to the dataSource and parse it for relevant information.
-        //  If the URL is for a Playlist -- just get the title and set the ID. If it's a Channel,
-        //  need to fetch the Channel's Uploads playlist first.
+        // Take the URL given to the dataSource and parse it for relevant information.
+        // If the URL is for a Playlist -- just get the title and set the ID. If it's a Channel,
+        // need to fetch the Channel's Uploads playlist first.
         parseUrl: function(options) {
             var url = this.get('url');
             if (url === '') {
@@ -27,7 +27,7 @@
 
             var entityId;
 
-            //  URLs could have both video id + playlist id. Use a flag to determine whether video id is important
+            // URLs could have both video id + playlist id. Use a flag to determine whether video id is important
             if (this.get('parseVideo')) {
                 entityId = this._parseYouTubeSongIdFromUrl(url);
 
@@ -42,7 +42,7 @@
                 }
             }
 
-            //  Try to find a playlist id if no video id was found.
+            // Try to find a playlist id if no video id was found.
             entityId = this._parseIdFromUrlWithIdentifiers(url, ['list=', 'p=']);
 
             if (entityId !== '') {
@@ -55,7 +55,7 @@
                 return;
             }
 
-            //  Try to find channel id if still nothing found.
+            // Try to find channel id if still nothing found.
             entityId = this._parseIdFromUrlWithIdentifiers(url, ['/user/', '/channel/']);
 
             if (entityId !== '') {
@@ -80,7 +80,7 @@
 
                 YouTubeV3API.getChannelUploadsPlaylistId(channelUploadOptions);
             } else {
-                //  Callback with nothing set.
+                // Callback with nothing set.
                 options.success();
             }
         },
@@ -105,7 +105,7 @@
             });
         },
 
-        //  These dataSourceTypes require going out to a server and collecting a list of information in order to be created.
+        // These dataSourceTypes require going out to a server and collecting a list of information in order to be created.
         isYouTubePlaylist: function() {
             return this.get('type') === DataSourceType.YouTubePlaylist;
         },
@@ -114,9 +114,9 @@
             return this.get('type') === DataSourceType.YouTubeVideo;
         },
 
-        //  Expects options: { success: function, error: function }
+        // Expects options: { success: function, error: function }
         getTitle: function(options) {
-            //  If the title has already been fetched from the URL -- return the cached one.
+            // If the title has already been fetched from the URL -- return the cached one.
             if (this.get('title') !== '') {
                 options.success(this.get('title'));
                 return;
@@ -133,7 +133,7 @@
             });
         },
 
-        //  Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
+        // Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
         _parseYouTubeSongIdFromUrl: function(url) {
             var songId = '';
 
@@ -145,7 +145,7 @@
             return songId;
         },
 
-        //  Find a YouTube Channel or Playlist ID by looking through the URL for the given identifier.
+        // Find a YouTube Channel or Playlist ID by looking through the URL for the given identifier.
         _parseIdFromUrlWithIdentifiers: function(url, identifiers) {
             var id = '';
 

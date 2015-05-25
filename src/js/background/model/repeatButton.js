@@ -8,13 +8,13 @@
         localStorage: new Backbone.LocalStorage('RepeatButton'),
 
         defaults: {
-            //  Need to set the ID for Backbone.LocalStorage
+            // Need to set the ID for Backbone.LocalStorage
             id: 'RepeatButton',
             state: RepeatButtonState.Off
         },
 
         initialize: function() {
-            //  Load from Backbone.LocalStorage
+            // Load from Backbone.LocalStorage
             this.fetch();
 
             chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));

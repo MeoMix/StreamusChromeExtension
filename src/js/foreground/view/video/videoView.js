@@ -28,7 +28,7 @@
             this.bindEntityEvents(this.player, this.playerEvents);
             this.bindEntityEvents(this.mediaSourceWrapper, this.mediaSourceWrapperEvents);
 
-            //  Bind pre-emptively to preserve the function reference. Allows for calling removeEventListener if needed.
+            // Bind pre-emptively to preserve the function reference. Allows for calling removeEventListener if needed.
             this._onWindowUnload = this._onWindowUnload.bind(this);
             window.addEventListener('unload', this._onWindowUnload);
 
@@ -60,7 +60,7 @@
             this.stopListening();
         },
 
-        //  Whenever a video is created its time/state might not be synced with an existing video.
+        // Whenever a video is created its time/state might not be synced with an existing video.
         _ensureInitialState: function(playerState, playerBufferType) {
             this.mediaSourceWrapper.set('bufferType', playerBufferType);
             this._requestCurrentTimeUpdate();
@@ -73,8 +73,8 @@
         },
 
         _play: function() {
-            //  It's important to call syncCurrentTime when beginning playback because there's a slight delay between
-            //  when the video in the background begins playback and the foreground video.
+            // It's important to call syncCurrentTime when beginning playback because there's a slight delay between
+            // when the video in the background begins playback and the foreground video.
             this._requestCurrentTimeUpdate();
             this.el.play();
         },
@@ -84,14 +84,14 @@
         },
 
         _requestCurrentTimeUpdate: function() {
-            //  It's important to specifically ask the player for the currentTime because this will give 100% accurate result.
-            //  Otherwise, can only get within ~200ms by responding to the 'timeupdate' event of the other video.
+            // It's important to specifically ask the player for the currentTime because this will give 100% accurate result.
+            // Otherwise, can only get within ~200ms by responding to the 'timeupdate' event of the other video.
             this.player.requestCurrentTimeHighPrecision();
         },
 
         _setCurrentTime: function(playerState, currentTimeHighPrecision, timestamp) {
-            //  If the player is playing then currentTimeHighPrecision will be slightly out-of-sync due to the time it takes to request
-            //  the information. So, subtract an offset of the time it took to receive the message.
+            // If the player is playing then currentTimeHighPrecision will be slightly out-of-sync due to the time it takes to request
+            // the information. So, subtract an offset of the time it took to receive the message.
             if (playerState === PlayerState.Playing) {
                 var offset = Date.now() - timestamp;
                 currentTimeHighPrecision -= offset * 0.001;

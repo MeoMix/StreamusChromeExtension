@@ -17,12 +17,12 @@
                     text: chrome.i18n.getMessage('edit'),
                     onClick: this._showEditPlaylistDialog.bind(this, playlist)
                 }, {
-                    //  No point in sharing an empty playlist.
+                    // No point in sharing an empty playlist.
                     disabled: isEmpty,
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: this._copyPlaylistUrl.bind(this, playlist)
                 }, {
-                    //  No point in exporting an empty playlist.
+                    // No point in exporting an empty playlist.
                     disabled: isEmpty,
                     text: chrome.i18n.getMessage('export'),
                     onClick: this._showExportPlaylistDialog.bind(this, playlist)
@@ -31,7 +31,7 @@
         },
 
         deletePlaylist: function(playlist) {
-            //  No need to notify if the playlist is empty.
+            // No need to notify if the playlist is empty.
             if (playlist.get('items').length === 0) {
                 playlist.destroy();
             } else {

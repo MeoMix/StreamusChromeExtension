@@ -53,7 +53,7 @@
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
             chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
 
-            //  It's a good idea to create this as soon as possible so that all commands to log errors can be captured.
+            // It's a good idea to create this as soon as possible so that all commands to log errors can be captured.
             var clientErrorManager = new ClientErrorManager({
                 signInManager: this.get('signInManager')
             });
@@ -137,9 +137,9 @@
 
         _onForegroundEndUnload: function() {
             this._clearForegroundUnloadTimeout();
-        },
+        },   
 
-        //  Allow external websites to ping the extension to find out whether the extension is installed or not
+        // Allow external websites to ping the extension to find out whether the extension is installed or not
         _onChromeRuntimeMessageExternal: function(request, sender, sendResponse) {
             if (request.message === 'isInstalled') {
                 sendResponse({
@@ -154,7 +154,7 @@
         },
 
         _exposeProperties: function() {
-            //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+            // Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
             window.analyticsManager = this.get('analyticsManager');
             window.browserSettings = this.get('browserSettings');
             window.tabManager = this.get('tabManager');

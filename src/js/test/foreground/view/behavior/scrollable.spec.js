@@ -39,7 +39,7 @@
         it('should setup properly after the view has been attached', function() {
             document.body.appendChild(this.documentFragment);
 
-            //  Let the DOM acknowledge the new element.
+            // Let the DOM acknowledge the new element.
             requestAnimationFrame(function() {
                 this.documentFragment.appendChild(this.view.render().el);
                 this.view.triggerMethod('show');
