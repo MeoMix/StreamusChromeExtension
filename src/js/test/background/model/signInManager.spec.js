@@ -94,13 +94,13 @@
           sinon.stub($, 'ajax')
               // Return null because instantiating a new user (doesn't exist in database when trying to find by GooglePlusId
               .onFirstCall().yieldsTo('success', null)
-                        .onSecondCall().yieldsTo('success', {
-                          id: USER_ID,
-                          googlePlusId: GOOGLE_PLUS_ID,
-                          playlists: [{
-                            active: false
-                          }]
-                        });
+              .onSecondCall().yieldsTo('success', {
+                id: USER_ID,
+                googlePlusId: GOOGLE_PLUS_ID,
+                playlists: [{
+                  active: false
+                }]
+              });
         });
 
         it('should be created as a new user and should be linked to Google Chrome account', function() {
@@ -121,13 +121,13 @@
               // Return nothing because Google ID hasn't been linked to user yet.
               .onFirstCall().yieldsTo('success', null)
               // Return the user by localStorage ID but still unlinked to Google Plus
-                        .onSecondCall().yieldsTo('success', {
-                          id: USER_ID,
-                          googlePlusId: '',
-                          playlists: [{
-                            active: false
-                          }]
-                        });
+              .onSecondCall().yieldsTo('success', {
+                id: USER_ID,
+                googlePlusId: '',
+                playlists: [{
+                  active: false
+                }]
+              });
         });
 
         it('user data should be preserved and should show a dialog to consider linking account to Google Chrome', function() {
@@ -179,19 +179,19 @@
         describe('when new user is not linked to Google', function() {
           beforeEach(function() {
             sinon.stub($, 'ajax')
-                // Return false on first AJAX request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID isn't linked to an existing account
+                // Return false on first call to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID isn't linked to an existing account
                 .onFirstCall().yieldsTo('success', false)
-                // Return new user data on second AJAX request to _create because can't link to the already signed in user since they've already got an account.
-                            .onSecondCall().yieldsTo('success', {
-                              id: NEW_USER_ID,
-                              googlePlusId: NEW_GOOGLE_PLUS_ID,
-                              playlists: [{
-                                active: false
-                              }]
-                            });
+                // Return new user data on second call to _create because can't link to the signed in user since they already have an account.
+                .onSecondCall().yieldsTo('success', {
+                  id: NEW_USER_ID,
+                  googlePlusId: NEW_GOOGLE_PLUS_ID,
+                  playlists: [{
+                    active: false
+                  }]
+                });
           });
 
-          // Since the new user can't be linked to the old user's data, but the new user already has a Google+ ID, use that Google+ ID in creating their account.
+          // Use the new ID when creating the account because the new user can't be linked to the old user's data.
           it('should create a new account and and link that account to the new user\'s account', function() {
             this.signInManager._onChromeIdentitySignInChanged({
               id: NEW_GOOGLE_PLUS_ID,
@@ -209,13 +209,13 @@
                 // Return true on first AJAX request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID is linked to an existing account
                 .onFirstCall().yieldsTo('success', true)
                 // Account is already linked to an Google ID in the DB, return user data:
-                            .onSecondCall().yieldsTo('success', {
-                              id: NEW_USER_ID,
-                              googlePlusId: NEW_GOOGLE_PLUS_ID,
-                              playlists: [{
-                                active: false
-                              }]
-                            });
+                .onSecondCall().yieldsTo('success', {
+                  id: NEW_USER_ID,
+                  googlePlusId: NEW_GOOGLE_PLUS_ID,
+                  playlists: [{
+                    active: false
+                  }]
+                });
           });
 
           it('should swap to new account - old data is preserved in DB', function() {
@@ -254,7 +254,7 @@
               email: ''
             }, true);
 
-            // Dialog the user to confirm that the account they just signed in with is the one they want to use to link to the currently existing data.
+            // Prompt to confirm the newly signed in account should be linked to existing user data.
             expect(this.signInManager._needLinkUserId.calledOnce).to.equal(true);
           });
 
@@ -291,7 +291,7 @@
         describe('when new user is already linked to Google', function() {
           beforeEach(function() {
             sinon.stub($, 'ajax')
-                // Return true on first AJAX request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID is linked to an existing account
+                // Return true on first request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID is linked to an existing account
                 .onFirstCall().yieldsTo('success', true);
           });
 
@@ -301,7 +301,7 @@
               email: ''
             }, true);
 
-            // Don't show a dialog the user to link accounts because we've just swapped to their new account, no linking necessary.
+            // Don't prompt to link accounts because they just swapped to their new account.
             expect(this.signInManager._needLinkUserId.calledOnce).to.equal(false);
           });
         });

@@ -29,7 +29,7 @@
 
       // URLs could have both video id + playlist id. Use a flag to determine whether video id is important
       if (this.get('parseVideo')) {
-        entityId = this._parseYouTubeSongIdFromUrl(url);
+        entityId = this._getYouTubeSongId(url);
 
         if (entityId !== '') {
           this.set({
@@ -134,7 +134,7 @@
     },
 
     // Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
-    _parseYouTubeSongIdFromUrl: function(url) {
+    _getYouTubeSongId: function(url) {
       var songId = '';
 
       var match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);

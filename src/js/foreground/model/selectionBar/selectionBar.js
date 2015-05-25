@@ -129,10 +129,10 @@
       var hasSelectedItems = collection.selected().length > 0;
 
       if (hasSelectedItems) {
-        // isSelecting is necessary because if one collection has 2 models selected and the user then selects a model in a different collection
-        // the first collection will de-select one of its models after the second collection has selected one of its own.
+        // isSelecting is needed because if one collection has two models selected and another collection's model is selected
+        // then the first collection will de-select one of its models after the second collection has selected one of its own.
         // This results in two collections both having selected models and the activeCollection is incorrect.
-        // By checking isSelecting we know that one collection is not the active collection - it's just in the process of de-selecting all of its models.
+        // isSelecting lets us know that one of those collections is not the active collection.
         if (isSelecting) {
           this.set('activeCollection', collection);
         }

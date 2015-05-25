@@ -172,8 +172,8 @@
       this.set('signInFailed', false);
     },
 
+    //  Returns false if the sign-in process is in progress or a user is already signed in.
     _canSignIn: function() {
-      // Signing in is only allowed if no user is currently signed in, not in the process of being signed in and if not waiting for signInFailure timer.
       var signedInUser = this.get('signedInUser');
       var canSignIn = _.isNull(signedInUser) && !this.get('signingIn') && !this.get('signInFailed');
       return canSignIn;

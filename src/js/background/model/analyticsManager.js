@@ -6,9 +6,9 @@
       module: null
     },
 
-    // The Google Analytics code has been slightly modified to work within the extension environment.
-    // See this link for more information regarding GA and Chrome Extensions: https://developer.chrome.com/extensions/tut_analytics
-    // See this link for more information regarduing Universal Analytics: https://developers.google.com/analytics/devguides/collection/analyticsjs/
+    // The default GA code has been modified to work within the extension environment.
+    // More information regarding GA and extensions: https://developer.chrome.com/extensions/tut_analytics
+    // More information regarding UA: https://developers.google.com/analytics/devguides/collection/analyticsjs/
     initialize: function() {
       // Setup temporary Google Analytics objects.
       window.GoogleAnalyticsObject = 'ga';
@@ -18,7 +18,7 @@
       window.ga.l = 1 * new Date();
 
       window.ga('create', 'UA-32334126-1', 'auto');
-      // Bug: UA doesn't work out of the box with Chrome extensions.
+      // UA doesn't work out of the box with Chrome extensions.
       // https://code.google.com/p/analytics-issues/issues/detail?id=312
       // http://stackoverflow.com/questions/16135000/how-do-you-integrate-universal-analytics-in-to-chrome-extensions
       window.ga('set', 'checkProtocolTask', function() {

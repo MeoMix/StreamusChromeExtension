@@ -56,7 +56,7 @@
       return query;
     }.bind(this);
 
-    //  Pass enable: true in to enable Streamus icons. Pass enable: false in to disable Streamus icons and revert back to original Beatport functionality.
+    //  Toggle Streamus functionality and CSS injection.
     this.toggleStreamusIcons = function(enable) {
       //  Work within a container because bucket-items are scattered throughout Beatport pages.
       //  Use class*= selector to keep query generic enough to be used across all Beatport pages.

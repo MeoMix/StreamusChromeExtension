@@ -153,7 +153,8 @@
 
     // Update the text which shows how many songs are currently selected
     _setSelectionCountText: function(selectedCount) {
-      var selectionCountText = chrome.i18n.getMessage('collectionSelected', [selectedCount, chrome.i18n.getMessage(selectedCount === 1 ? 'song' : 'songs')]);
+      var songsMessage = chrome.i18n.getMessage(selectedCount === 1 ? 'song' : 'songs');
+      var selectionCountText = chrome.i18n.getMessage('collectionSelected', [selectedCount, songsMessage]);
       this.ui.selectionCountText.html(selectionCountText);
 
       // The tooltip might transition between 'cant add song' and 'cant add songs' depending on # of selections.

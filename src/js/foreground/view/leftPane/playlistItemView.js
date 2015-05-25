@@ -100,7 +100,7 @@
     },
 
     _setDataId: function(id) {
-      // I'm not 100% positive I need to set both here, but .data() is cached in jQuery and .attr() is on the view, so seems good to keep both up to date.
+      //  TODO: Set only data-id or attr-id.
       this.$el.data('id', id).attr('id', id);
     },
 

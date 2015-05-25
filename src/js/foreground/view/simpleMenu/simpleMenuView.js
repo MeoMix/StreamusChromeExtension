@@ -106,7 +106,7 @@
       });
     },
 
-    // This should also take into account overflow. If overflow would happen, abandon trying to perfectly center and keep the menu within the viewport.
+    // This needs to take into account overflow. If overflowing, abandon trying to center and keep within the viewport.
     // https://github.com/MeoMix/StreamusChromeExtension/issues/566
     // When showing this view over a ListItem, center the view's active item over the ListItem.
     _centerActive: function(listItemHeight) {

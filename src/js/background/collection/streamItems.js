@@ -149,7 +149,8 @@
       // Destroy the model so that Backbone.LocalStorage keeps localStorage up-to-date.
       model.destroy();
 
-      // The item removed could've been the last one not played recently. Need to ensure that this isn't the case so there are always valid shuffle targets.
+      // Ensure there are always valid shuffle targets.
+      // If the removed item was the last remaining valid shuffle target then the valid targets need to be updated.
       this._ensureAllNotPlayedRecentlyExcept();
     },
 

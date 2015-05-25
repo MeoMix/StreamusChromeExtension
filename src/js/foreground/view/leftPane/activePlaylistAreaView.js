@@ -136,7 +136,11 @@
       this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
 
       var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
-      this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('data-tooltip-text', isEmpty ? '' : duplicatesInfo.message);
+      var isDisabled = isEmpty || duplicatesInfo.allDuplicates;
+      this.ui.addAllButton.toggleClass('is-disabled', isDisabled);
+
+      var tooltipText = isEmpty ? '' : duplicatesInfo.message;
+      this.ui.addAllButton.attr('data-tooltip-text', tooltipText);
     },
 
     _canPlay: function() {
@@ -146,7 +150,8 @@
 
     _canAdd: function() {
       var isEmpty = this.model.get('items').isEmpty();
-      var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
+      var songs = this.model.get('items').pluck('song');
+      var duplicatesInfo = this.streamItems.getDuplicatesInfo(songs);
 
       return !isEmpty && !duplicatesInfo.allDuplicates;
     },

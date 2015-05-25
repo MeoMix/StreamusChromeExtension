@@ -82,7 +82,8 @@
 
       this.ui.listItems.sortable('refresh');
 
-      // Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
+      // Removing the placeholder modifies the container's height.
+      // Notify the scrollbar to update because of this height change.
       this.view.triggerMethod('UpdateScrollbar');
     },
 
@@ -149,9 +150,9 @@
     },
 
     _receive: function(event, ui) {
-      // If the parentNode does not exist then slidingRender has removed the HTML element which means the HTML element is not above the placeholder and I need to +1.
-      // This only applies for receiving and not for sorting elements within the parent list, so don't do this logic in onBeforeStop because it's not clear
-      // if sort or receive is happening.
+      // If the parentNode does not exist then slidingRender has removed the element. This means the placeholder's index is off-by-one.
+      // This only applies for receiving and not for sorting elements within the parent list.
+      // Do not run this logic in onBeforeStop because it's unclear whether the action is sort or receive.
       var placeholderIndex = ui.sender.data('placeholderIndex');
 
       if (_.isNull(ui.item[0].parentNode)) {
@@ -175,12 +176,14 @@
       this._overrideSortableItem(ui);
       this._decoratePlaceholder(ui);
 
-      // Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
+      // Removing the placeholder modifies the container's height.
+      // Notify the scrollbar to update because of this height change.
       this.view.triggerMethod('UpdateScrollbar');
     },
 
     _out: function() {
-      // Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
+      // Removing the placeholder modifies the container's height.
+      // Notify the scrollbar to update because of this height change.
       this.view.triggerMethod('UpdateScrollbar');
     },
 

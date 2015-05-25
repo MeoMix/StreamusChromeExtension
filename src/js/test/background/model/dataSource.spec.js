@@ -171,15 +171,16 @@
       expect(dataSource.isYouTubePlaylist()).to.equal(false);
     });
 
-    it('Should be able to parse a YouTube song id from a variety of URL patterns', function() {
-      expect((new DataSource())._parseYouTubeSongIdFromUrl('http://www.youtube.com/watch?v=6od4WeaWDcs')).to.equal('6od4WeaWDcs');
-      expect((new DataSource())._parseYouTubeSongIdFromUrl('http://youtu.be/3sg6KCayu0E')).to.equal('3sg6KCayu0E');
-      expect((new DataSource())._parseYouTubeSongIdFromUrl('http://www.youtube.com/watch?feature=youtu.be&v=aKpLrmQsS_M')).to.equal('aKpLrmQsS_M');
-      expect((new DataSource())._parseYouTubeSongIdFromUrl('http://www.youtube.com/watch?feature=player_embedded&v=MKS8Jn_3bnA')).to.equal('MKS8Jn_3bnA');
+    it('Should be able to get a YouTube song id from a variety of URL patterns', function() {
+      var dataSource = new DataSource();
+      expect(dataSource._getYouTubeSongId('http://www.youtube.com/watch?v=6od4WeaWDcs')).to.equal('6od4WeaWDcs');
+      expect(dataSource._getYouTubeSongId('http://youtu.be/3sg6KCayu0E')).to.equal('3sg6KCayu0E');
+      expect(dataSource._getYouTubeSongId('http://www.youtube.com/watch?feature=youtu.be&v=aKpLrmQsS_M')).to.equal('aKpLrmQsS_M');
+      expect(dataSource._getYouTubeSongId('http://www.youtube.com/watch?feature=player_embedded&v=MKS8Jn_3bnA')).to.equal('MKS8Jn_3bnA');
       // 10 digit URL is not valid:
-      expect((new DataSource())._parseYouTubeSongIdFromUrl('http://youtu.be/3sg6KCau0E')).to.equal('');
+      expect(dataSource._getYouTubeSongId('http://youtu.be/3sg6KCau0E')).to.equal('');
       // 12 digit URL is not valid
-      expect((new DataSource())._parseYouTubeSongIdFromUrl('http://youtu.be/3sg6KaaCau0E')).to.equal('');
+      expect(dataSource._getYouTubeSongId('http://youtu.be/3sg6KaaCau0E')).to.equal('');
     });
 
     describe('when parsing YouTube Channel URLs', function() {

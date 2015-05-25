@@ -2,8 +2,9 @@
   'use strict';
 
   // Provides event handler unbinding of models given to the implementing view.
-  // For instance, if a view's model sets up event handlers then those will memory leak if the view is destroyed and no references to the model remain.
-  // If you know that a given model's lifetime is scoped to its view then you can safely setup event handlers in the model if the view implements this Behavior.
+  // If a view's model has bound event listeners and the view is destroyed then those event listeners
+  // become a memory leak if no references to the model remain.
+  // If a model's lifetime is scoped to its view then it can safely bind event listeners if the view implements this Behavior.
   // Example:
   // ViewModelContainer: {
   //         behaviorClass: ViewModelContainer,

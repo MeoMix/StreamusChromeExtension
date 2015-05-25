@@ -1,8 +1,8 @@
 ﻿/*jslint node: true*/
-//	Options:
-//    * grunt: Lint JavaScript, LESS, and _locales
-//    * grunt build: Build a test release
-//    * grunt build --newVersion="vx.xxx": Build a release
+// Options:
+// * grunt: Lint JavaScript, LESS, and _locales
+// * grunt build: Build a test release
+// * grunt build --newVersion="vx.xxx": Build a release
 'use strict';
 
 var _ = require('lodash');
@@ -11,9 +11,11 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-  //  Setup environment variables before initializing config so that initConfig can use the variables.
+  // Setup environment variables before initializing config so that initConfig can use the variables.
   var versionParameter = grunt.option('newVersion');
-  //  Strip out v because need to pass a string to grunt or else trailing zeros get dropped (i.e. can't provide --newVersion=0.170, interpreted as 0.17)
+  // TODO: Auto-increment version rather than requiring it be provided.
+  // Strip out v because need to pass a string to grunt or else trailing zeros get dropped
+  // For example, --newVersion=0.170 would be interpreted as 0.17
   var version = _.isUndefined(versionParameter) ? 'Debug' : versionParameter.replace('v', '');
   var isDebug = !versionParameter;
   var baseReleaseDirectory = 'release/Streamus v' + version;
@@ -24,10 +26,10 @@ module.exports = function(grunt) {
     //	Read project settings from package.json in order to be able to reference the properties with grunt.
     pkg: grunt.file.readJSON('package.json'),
     meta: {
-      //  Set this value dynamically to inform other packages where to write information.
+      // Set this value dynamically to inform other packages where to write information.
       releaseDirectory: ''
     },
-    //  Compress image sizes and move to dist folder
+    // Compress image sizes and move to dist folder
     imagemin: {
       files: {
         expand: true,
@@ -38,7 +40,7 @@ module.exports = function(grunt) {
     },
     //	Improve code quality by applying a code-quality check with jshint
     jshint: {
-      //  A full list of options and their defaults here: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
+      // A full list of options and their defaults here: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
       options: {
         immed: true,
         latedef: true,
@@ -56,7 +58,7 @@ module.exports = function(grunt) {
 
       files: ['src/js/**/*.js', 'Gruntfile.js']
     },
-    //  Compile LESS to CSS
+    // Compile LESS to CSS
     less: {
       options: {
         ieCompat: false,
@@ -74,8 +76,8 @@ module.exports = function(grunt) {
         ext: '.css'
       }
     },
-    //  Ensure LESS code-quality by comparing it against Twitter's ruleset.
-    //  Using a slightly modified version which has support for modern browser properties
+    // Ensure LESS code-quality by comparing it against Twitter's ruleset.
+    // Using a slightly modified version which has support for modern browser properties
     recess: {
       foreground: {
         src: 'src/less/foreground.less',
@@ -87,24 +89,24 @@ module.exports = function(grunt) {
     },
     requirejs: {
       production: {
-        //  All r.js options can be found here: https://github.com/jrburke/r.js/blob/master/build/example.build.js
+        // All r.js options can be found here: https://github.com/jrburke/r.js/blob/master/build/example.build.js
         options: {
           appDir: 'src',
           mainConfigFile: 'src/js/common/requireConfig.js',
           dir: 'dist/',
-          //  Skip optimizing because there's no load benefit for an extension and it makes error debugging hard.
+          // Skip optimizing because there's no load benefit for an extension and it makes error debugging hard.
           optimize: 'none',
           optimizeCss: 'none',
-          //  Inlines the text for any text! dependencies, to avoid the separate
-          //  async XMLHttpRequest calls to load those dependencies.
+          // Inlines the text for any text! dependencies, to avoid the separate
+          // async XMLHttpRequest calls to load those dependencies.
           inlineText: true,
           useStrict: true,
           stubModules: ['text'],
           findNestedDependencies: true,
-          //  Don't leave a copy of the file if it has been concatenated into a larger one.
+          // Don't leave a copy of the file if it has been concatenated into a larger one.
           removeCombined: true,
-          //  List the modules that will be optimized. All their immediate and deep
-          //  dependencies will be included in the module's file when the build is done
+          // List the modules that will be optimized. All their immediate and deep
+          // dependencies will be included in the module's file when the build is done
           modules: [{
             name: 'background/main',
             insertRequire: ['background/main']
@@ -117,7 +119,7 @@ module.exports = function(grunt) {
       }
     },
     replace: {
-      //  Update the version in manifest.json and package.json with the provided version
+      // Update the version in manifest.json and package.json with the provided version
       updateVersion: {
         src: ['src/manifest.json', 'package.json'],
         overwrite: true,
@@ -126,7 +128,7 @@ module.exports = function(grunt) {
           to: '"version": "' + version + '"'
         }]
       },
-      //  Not all Chrome permissions supported on other browsers (Opera). Remove them from manifest.json when building a release.
+      // Not all Chrome permissions supported on other browsers (Opera). Remove them from manifest.json when building a release.
       invalidPermissions: {
         src: ['<%= meta.releaseDirectory %>/manifest.json'],
         overwrite: true,
@@ -138,7 +140,7 @@ module.exports = function(grunt) {
           to: ''
         }]
       },
-      //  Ensure that the localDebug flag is not set to true when building a release.
+      // Ensure that the localDebug flag is not set to true when building a release.
       localDebug: {
         src: ['dist/js/background/background.js'],
         overwrite: true,
@@ -148,19 +150,20 @@ module.exports = function(grunt) {
           to: 'localDebug: false'
         }]
       },
-      //  Remove development key and comments from manifest for deployment
+      // Remove development key and comments from manifest for deployment
       transformManifest: {
         src: ['dist/manifest.json'],
         overwrite: true,
         replacements: [{
-          //  Remove manifest key because it can't be uploaded to the web store, but it's helpful to have in debugging to keep the extension ID stable.
+          // Remove manifest key because it can't be uploaded to the web store.
+          // The key is helpful for debugging because it keeps the extension ID stable.
           from: /"key".*/,
           to: function(match) {
-            //  Don't remove key when testing because server will throw CORS errors.
+            // Don't remove key when testing because server will throw CORS errors.
             return isDebug ? match : '';
           }
         }, {
-          //  Remove comments because they can't be uploaded to the web store.
+          // Remove comments because they can't be uploaded to the web store.
           from: /\/\/ .*/ig,
           to: ''
         }]
@@ -180,7 +183,7 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      //  Remove all non-English translations from the _locales folder (in Opera) because translation requirements are stricter than what I'm willing to fulfill.
+      // Remove all non-English translations from Opera because their translation requirements are too strict.
       locales: {
         files: [{
           expand: true,
@@ -188,7 +191,7 @@ module.exports = function(grunt) {
           src: ['*', '!en']
         }]
       },
-      //  Cleanup the dist folder of files which don't need to be pushed to production.
+      // Cleanup the dist folder of files which don't need to be pushed to production.
       dist: {
         files: [{
           expand: true,
@@ -204,7 +207,7 @@ module.exports = function(grunt) {
         src: '**/*',
         dest: '<%= meta.releaseDirectory %>'
       },
-      //  Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
+      // Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
       contentScripts: {
         files: {
           'dist/js/contentScript/beatport.js': ['src/js/contentScript/beatport.js'],
@@ -225,14 +228,13 @@ module.exports = function(grunt) {
     jscs: {
       src: ['src/js/**/*.js', '!src/js/thirdParty/**/*.js', 'Gruntfile.js'],
       options: {
-        config: '.jscsrc',
-        fix: true
+        config: '.jscsrc'
       }
     }
   });
 
   grunt.registerTask('build', 'Build release and place .zip files in /release directory.', function() {
-    //  Ensure tests pass before performing any sort of bundling.
+    // Ensure tests pass before performing any sort of bundling.
     grunt.task.run('test');
 
     if (!isDebug) {
@@ -241,13 +243,13 @@ module.exports = function(grunt) {
 
     grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'copy:contentScripts', 'less', 'imagemin', 'clean:dist');
 
-    //  Build chrome release
+    // Build chrome release
     grunt.task.run('compressRelease:' + chromeReleaseDirectory);
-    //  Build opera release
+    // Build opera release
     grunt.task.run('compressRelease:' + operaReleaseDirectory + ':sanitize=true');
   });
 
-  grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function() {
+  grunt.registerTask('diffLocales', 'Ensure that non-English translations are in-sync with the English translation', function() {
     var englishJson = grunt.file.readJSON('src/_locales/en/messages.json');
     var englishKeys = _.keys(englishJson);
 

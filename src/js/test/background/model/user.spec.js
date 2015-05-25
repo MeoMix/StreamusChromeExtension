@@ -39,7 +39,7 @@
         ensureUserState.call(this, this.user);
       });
 
-      it('should use _loadByUserId if a user id is in localStorage and not send a PATCH request to update language if language is current', function() {
+      it('should use _loadByUserId if an id is in localStorage and not update language if already current', function() {
         sinon.stub($, 'ajax').yieldsTo('success', {
           id: USER_ID,
           googlePlusId: GOOGLE_PLUS_ID,
