@@ -23,8 +23,7 @@
     "grunt-text-replace": "^0.4.0",
     "grunt-usemin": "^3.0.0",
     "load-grunt-tasks": "^3.1.0",
-    "lodash": "^3.3.0",
-    "pre-commit": "^1.0.7"
+    "lodash": "^3.3.0"
   },
   "main": "Gruntfile.js",
   "scripts": {
