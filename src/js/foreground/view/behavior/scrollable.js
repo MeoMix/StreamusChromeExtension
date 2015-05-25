@@ -104,7 +104,7 @@
 
         _onClick: function(event) {
             //  Stifle the click event if the mouse was over the scrollbar and then released while over the parent element.
-            //  Since scrollbar interactions shouldn't cause events - no click should happen when releasing the mouse after dragging. 
+            //  Since scrollbar interactions shouldn't cause events - no click should happen when releasing the mouse after dragging.
             if (this.isMouseDown) {
                 //  Normal scrollbars don't allow events to propagate outside of them.
                 event.stopPropagation();

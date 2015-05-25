@@ -3,7 +3,7 @@
 
     var Scrollable = require('foreground/view/behavior/scrollable');
 
-    describe('Scrollable', function() {
+    xdescribe('Scrollable', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
 

@@ -37,6 +37,7 @@
             video: Backbone.Wreqr.radio.channel('video'),
             playPauseButton: Backbone.Wreqr.radio.channel('playPauseButton'),
             tooltip: Backbone.Wreqr.radio.channel('tooltip'),
+            scrollbar: Backbone.Wreqr.radio.channel('scrollbar'),
 
             //  BACKGROUND:
             tab: Backbone.Wreqr.radio.channel('tab'),
