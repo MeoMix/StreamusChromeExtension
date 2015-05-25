@@ -1,5 +1,5 @@
 {
     "preset": "google",
-    "maximumLineLength": 150,
+    "maximumLineLength": 140,
     "requireLineFeedAtFileEnd": null
 }

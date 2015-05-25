@@ -7,8 +7,8 @@
   // If a model's lifetime is scoped to its view then it can safely bind event listeners if the view implements this Behavior.
   // Example:
   // ViewModelContainer: {
-  //         behaviorClass: ViewModelContainer,
-  //         viewModelNames: ['model']
+  //   behaviorClass: ViewModelContainer,
+  //   viewModelNames: ['model']
   // }
   var ViewModelContainer = Marionette.Behavior.extend({
     viewModelNames: null,

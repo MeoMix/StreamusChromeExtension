@@ -27,12 +27,17 @@
         this.relatedSongsManager.getRelatedSongs(request);
       }, this);
 
-      expect(this.relatedSongsManager.get('requestOptionsQueue').length).to.equal(requests.length - this.relatedSongsManager.get('maxRequestCount'));
-      expect(this.relatedSongsManager.get('currentRequestCount')).to.equal(this.relatedSongsManager.get('maxRequestCount'));
+      var maxRequestCount = this.relatedSongsManager.get('maxRequestCount');
+      var requestOptionsQueue = this.relatedSongsManager.get('requestOptionsQueue');
+      expect(requestOptionsQueue.length).to.equal(requests.length - maxRequestCount);
+
+      var currentRequestCount = this.relatedSongsManager.get('currentRequestCount');
+      expect(currentRequestCount).to.equal(maxRequestCount);
     });
 
     it('should not be able to request when currentRequestCount is equal to maxRequestCount', function() {
-      this.relatedSongsManager.set('currentRequestCount', this.relatedSongsManager.get('maxRequestCount'));
+      var maxRequestCount = this.relatedSongsManager.get('maxRequestCount');
+      this.relatedSongsManager.set('currentRequestCount', maxRequestCount);
       expect(this.relatedSongsManager._canRequest()).to.equal(false);
     });
   });

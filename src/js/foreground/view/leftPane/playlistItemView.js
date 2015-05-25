@@ -100,7 +100,7 @@
     },
 
     _setDataId: function(id) {
-      //  TODO: Set only data-id or attr-id.
+      // TODO: Set only data-id or attr-id.
       this.$el.data('id', id).attr('id', id);
     },
 

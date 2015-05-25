@@ -25,12 +25,17 @@
       this._setYouTubeLinks();
       this._setYouTubePages();
 
-      this.listenTo(this.get('browserSettings'), 'change:showTextSelectionContextMenu', this._onBrowserSettingsChangeShowTextSelectionContextMenu);
-      this.listenTo(this.get('browserSettings'), 'change:showYouTubeLinkContextMenu', this._onBrowserSettingsChangeShowYouTubeLinkContextMenu);
-      this.listenTo(this.get('browserSettings'), 'change:showYouTubePageContextMenu', this._onBrowserSettingsChangeShowYouTubePageContextMenu);
-      this.listenTo(this.get('signInManager'), 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
+      var browserSettings = this.get('browserSettings');
+      this.listenTo(browserSettings, {
+        'change:showTextSelectionContextMenu': this._onBrowserSettingsChangeShowTextSelectionContextMenu,
+        'change:showYouTubeLinkContextMenu': this._onBrowserSettingsChangeShowYouTubeLinkContextMenu,
+        'change:showYouTubePageContextMenu': this._onBrowserSettingsChangeShowYouTubePageContextMenu
+      });
 
-      var signedInUser = this.get('signInManager').get('signedInUser');
+      var signInManager = this.get('signInManager');
+      this.listenTo(signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
+
+      var signedInUser = signInManager.get('signedInUser');
       if (!_.isNull(signedInUser)) {
         this.listenTo(signedInUser.get('playlists'), 'add', this._onPlaylistsAdd);
       }

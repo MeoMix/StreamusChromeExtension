@@ -148,9 +148,9 @@
     },
 
     // Repaints the progress bar's filled-in amount based on the % of time elapsed for current song.
-    // Keep separate from render because render is based on the player's values and updateProgress is based on the progress bar's values.
-    // This is an important distinction because when the user is dragging the progress bar -- the player won't be updating -- but progress bar
-    // values need to be re-rendered.
+    // Keep separate from render because a distinction is needed between the player's time and the
+    // progress bar's time. The player's time should not update when the progress bar's time is
+    // being dragged by the user, but the progress bar's values do need to update.
     _updateTimeProgress: function() {
       var currentTime = parseInt(this.ui.timeRange.val(), 10);
       var totalTime = parseInt(this.ui.timeRange.prop('max'), 10);

@@ -5,7 +5,7 @@
     this.pageLoadObserver = null;
 
     function onTrackPlayButtonClick(event) {
-      //  Prevent Beatport from playing the track.
+      // Prevent Beatport from playing the track.
       event.stopPropagation();
 
       chrome.runtime.sendMessage({
@@ -15,13 +15,13 @@
     }
 
     function onPlayAllButtonClick(event) {
-      //  Prevent Beatport from playing all tracks.
+      // Prevent Beatport from playing all tracks.
       event.stopPropagation();
 
       var container = document.querySelector('.bucket[class*=tracks]');
       var streamusButtons = container.querySelectorAll('.bucket-items .bucket-item .streamusButton');
 
-      //  Grab all the stored queries from playTrack buttons.
+      // Grab all the stored queries from playTrack buttons.
       var queries = [];
       for (var index = 0; index < streamusButtons.length; index++) {
         queries.push(streamusButtons[index].dataset.streamusQuery);
@@ -33,10 +33,10 @@
       });
     }
 
-    //  Take a given track element and parse its children for information needed to query YouTube for corresponding song.
+    // Take a given track element and parse its children for information needed to query YouTube for corresponding song.
     this.getQueryFromTrack = function(track) {
-      //  Figure out the information needed to find a song on YouTube.
-      //  Query will look like "primaryTitle remix artist1 artist2"
+      // Figure out the information needed to find a song on YouTube.
+      // Query will look like "primaryTitle remix artist1 artist2"
       var primaryTitle = track.querySelector('[class*=track-primary-title]').textContent;
       var remix = track.querySelector('[class*=track-remixed]').textContent;
 
@@ -47,7 +47,7 @@
       }
 
       var query = primaryTitle;
-      //  Original Mix can mess up YouTube queries since songs won't always have that value.
+      // Original Mix can mess up YouTube queries since songs won't always have that value.
       if (remix !== 'Original Mix') {
         query = ' ' + remix;
       }
@@ -56,10 +56,10 @@
       return query;
     }.bind(this);
 
-    //  Toggle Streamus functionality and CSS injection.
+    // Toggle Streamus functionality and CSS injection.
     this.toggleStreamusIcons = function(enable) {
-      //  Work within a container because bucket-items are scattered throughout Beatport pages.
-      //  Use class*= selector to keep query generic enough to be used across all Beatport pages.
+      // Work within a container because bucket-items are scattered throughout Beatport pages.
+      // Use class*= selector to keep query generic enough to be used across all Beatport pages.
       var container = document.querySelector('.bucket[class*=tracks]');
       var tracks = container.querySelectorAll('.bucket-items .bucket-item');
 
@@ -70,7 +70,7 @@
         if (enable) {
           var query = this.getQueryFromTrack(track);
 
-          //  Decorate button to indicate it is Streamus-ified, cache query on the button so playAll can read it.
+          // Decorate button to indicate it is Streamus-ified, cache query on the button so playAll can read it.
           button.classList.add('streamusButton');
           button.dataset.streamusQuery = query;
           button.addEventListener('click', onTrackPlayButtonClick);
@@ -81,8 +81,8 @@
         }
       }
 
-      //  The play all button isn't necessarily within our tracks container depending on the page.
-      //  For instance, Top 100 has it outside the container where as Top 10 has it within the container.
+      // The play all button isn't necessarily within our tracks container depending on the page.
+      // For instance, Top 100 has it outside the container where as Top 10 has it within the container.
       var playAllButton = document.querySelector('.playable-play-all');
 
       if (enable) {
@@ -94,8 +94,8 @@
       }
     }.bind(this);
 
-    //  When the user clicks a link on Beatport - the page doesn't reload since Beatport is a single-page application.
-    //  So, watch for a loading class being added and then removed. The new page is loaded once the class has been removed.
+    // When the user clicks a link on Beatport - the page doesn't reload since Beatport is a single-page application.
+    // So, watch for a loading class being added and then removed. The new page is loaded once the class has been removed.
     this.toggleObservePageLoad = function(enable) {
       if (enable) {
         this.pageLoadObserver = new MutationObserver(function(mutations) {
@@ -122,7 +122,7 @@
       this.toggleObservePageLoad(enable);
     }.bind(this);
 
-    //  Find out whether Streamus settings are configured to allow modifying Beatport's HTML.
+    // Find out whether Streamus settings are configured to allow modifying Beatport's HTML.
     this.getContentScriptData = function() {
       chrome.runtime.sendMessage({
         method: 'getBeatportContentScriptData'
@@ -136,7 +136,7 @@
     }.bind(this);
 
     this.getContentScriptData();
-    //  Listen for Streamus settings changing and toggle content script code.
+    // Listen for Streamus settings changing and toggle content script code.
     chrome.runtime.onMessage.addListener(this.onChromeRuntimeMessage);
   };
 

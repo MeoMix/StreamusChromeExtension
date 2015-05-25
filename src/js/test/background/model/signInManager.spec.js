@@ -61,9 +61,9 @@
         expect(chrome.identity.getProfileUserInfo.calledTwice).to.equal(true);
         expect(signInManager.get('signedInUser')).not.to.equal(null);
         expect(signInManager._onSignInSuccess.calledOnce).to.equal(true);
-        // Since the user isn't signed into Google Chrome we should show a dialog them to login so their data can be persisted across PCs.
+        // Show a login dialog because user isn't signed into Chrome
         expect(signInManager._needGoogleSignIn.calledOnce).to.equal(true);
-        // Since the user isn't signed into Google Chrome, we should NOT show a dialog them to link their data because there's no ID to link to yet.
+        // Do not show a dialog to link account data because there's no ID to link.
         expect(signInManager._needLinkUserId.calledOnce).to.equal(false);
       }
     });
@@ -179,9 +179,9 @@
         describe('when new user is not linked to Google', function() {
           beforeEach(function() {
             sinon.stub($, 'ajax')
-                // Return false on first call to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID isn't linked to an existing account
+                // Return false on call to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID isn't linked to an existing account
                 .onFirstCall().yieldsTo('success', false)
-                // Return new user data on second call to _create because can't link to the signed in user since they already have an account.
+                // Return new user data on call to _create because signed in user already has an account / can't link.
                 .onSecondCall().yieldsTo('success', {
                   id: NEW_USER_ID,
                   googlePlusId: NEW_GOOGLE_PLUS_ID,
@@ -244,7 +244,7 @@
         describe('when new user\'s account is not linked to Google', function() {
           beforeEach(function() {
             sinon.stub($, 'ajax')
-                // Return false on first AJAX request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID isn't linked to an existing account
+                // Return false on first request to because NEW_GOOGE_PLUS_ID isn't linked to an existing account
                 .onFirstCall().yieldsTo('success', false);
           });
 
@@ -370,7 +370,7 @@
             email: ''
           }, false);
 
-          // Sign out is not called because the Google ID of the account signing out doesn't match the signedInUser's ID (because it is unlinked)
+          // Sign out is not called because the signing out account ID doesn't match signedInUser's ID (because it is unlinked)
           expect(this.signInManager.signOut.calledOnce).to.equal(false);
         });
       });

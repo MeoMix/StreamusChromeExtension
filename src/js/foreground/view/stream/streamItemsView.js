@@ -66,7 +66,8 @@
     },
 
     _onActiveStreamItemAreaBeforeVisible: function() {
-      // listItems's height isn't updated until ItemViews inside it are rendered which is just after the ActiveStreamItemArea is about to be visible.
+      // TODO: Check this. Still feels really weird.
+      // Height isn't updated until children are rendered.
       setTimeout(function() {
         // If the content isn't going to have a scrollbar later then add a class to ensure that
         // a scrollbar doesn't shown for a second as the content transitions in.

@@ -8,8 +8,12 @@
   describe('DataSource', function() {
     var expectDataSource = function(dataSource, expectations) {
       expectations = expectations || {};
-      expect(dataSource.get('entityId')).to.equal(expectations.entityId === undefined ? dataSource.defaults.entityId : expectations.entityId);
-      expect(dataSource.get('type')).to.equal(expectations.type === undefined ? dataSource.defaults.type : expectations.type);
+
+      var expectedEntityId = _.isUndefined(expectations.entityId) ? dataSource.defaults.entityId : expectations.entityId;
+      expect(dataSource.get('entityId')).to.equal(expectedEntityId);
+
+      var expectedType = _.isUndefined(expectations.type) ? dataSource.defaults.type : expectations.type;
+      expect(dataSource.get('type')).to.equal(expectedType);
     };
 
     it('Should initialize properly', function() {

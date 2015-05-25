@@ -53,7 +53,7 @@
       requestAnimationFrame(this._transitionIn.bind(this));
     },
 
-    // Unless a dialog specifically implements reminderProperty it is assumed that reminder is enabled and the dialog will be shown when asked.
+    // Assume reminder is enabled (dialog will be shown) if reminderProperty is not impemented.
     isReminderEnabled: function() {
       var isReminderEnabled = true;
 
@@ -102,7 +102,8 @@
         this.$el.addClass('is-visible');
         this.ui.panel.addClass('is-visible');
 
-        // This hook is useful because _transitionIn is called via requestAnimationFrame. So, when onShow finishes, the view isn't fully visible yet.
+        // This hook is useful because _transitionIn is called via requestAnimationFrame.
+        // This means that the view is not fully visible when the 'onShow' event fires.
         this.triggerMethod('visible');
       }
     },
@@ -115,7 +116,7 @@
 
     // Destroy the view only after it has transitioned out fully otherwise it will disappear without a transition.
     _onTransitionOutComplete: function(event) {
-      // webkitTransition bubbles so check the event target to ensure webkitTransitionEnd is running for this element and not a child's transition.
+      // Event can bubble so check the target to ensure event is not running for a child's transition.
       if (event.target === event.currentTarget) {
         this.destroy();
       }

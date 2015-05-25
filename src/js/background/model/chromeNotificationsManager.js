@@ -27,7 +27,8 @@
 
     initialize: function() {
       this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._showNotification);
-      // Background notifications will only show up via desktop notification, normal notification commands will be rendered in the UI if it is open.
+      // Background notification commands will only show desktop notifications.
+      // Normal notification commands will show in the UI if open.
       this.listenTo(Streamus.channels.backgroundNotification.commands, 'show:notification', this._showNotification);
     },
 

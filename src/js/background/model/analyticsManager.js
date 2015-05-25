@@ -21,8 +21,7 @@
       // UA doesn't work out of the box with Chrome extensions.
       // https://code.google.com/p/analytics-issues/issues/detail?id=312
       // http://stackoverflow.com/questions/16135000/how-do-you-integrate-universal-analytics-in-to-chrome-extensions
-      window.ga('set', 'checkProtocolTask', function() {
-            });
+      window.ga('set', 'checkProtocolTask', _.noop);
       window.ga('require', 'displayfeatures');
       window.ga('require', 'linkid', 'linkid.js');
 

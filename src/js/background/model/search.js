@@ -56,7 +56,7 @@
       this.set('clearQueryTimeout', setTimeout(this._clearQuery.bind(this), 10000));
     },
 
-    // Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
+    // Only search on valid queries. Different from hasQuery because want to show no search results on invalid query.
     _hasSearchableQuery: function() {
       return this._getTrimmedQuery() !== '';
     },
@@ -73,8 +73,7 @@
       if (this._hasSearchableQuery()) {
         this._startSearching();
       } else {
-        // This isn't 100% necessary, but since we know that no search is going to happen, set searchQueued to false for a snappier UI response.
-        // Rather than waiting for _doDebounceSearch to run and then do nothing.
+        // Set searchQueued to false for a snappy UI response since it's known that no search will occur
         this.set('searchQueued', false);
       }
     },

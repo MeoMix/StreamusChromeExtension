@@ -2,7 +2,7 @@
   'use strict';
 
   function YouTubeContentScript() {
-    //  Cached DOM nodes
+    // Cached DOM nodes
     var watch8SecondaryActions = null;
     var watchActionPanels = null;
     var addButtonWrapper = null;
@@ -12,7 +12,7 @@
     var sharePanelPlaylistSelect = null;
     var playlistSelect = null;
 
-    //  Data passed from the extension to the content script.
+    // Data passed from the extension to the content script.
     var contentScriptData = {
       canEnhance: false,
       SyncActionType: null
@@ -34,7 +34,7 @@
       sharePanel.appendChild(signInButton);
     }.bind(this);
 
-    //  This content can only be shown once the user is signed in because it is dependent on the user's information.
+    // This content can only be shown once the user is signed in because it is dependent on the user's information.
     this.appendAddPlaylistContent = function() {
       sharePanelPlaylistSelect = document.createElement('div');
       sharePanelPlaylistSelect.id = 'share-panel-playlist-select';
@@ -91,7 +91,7 @@
     }.bind(this);
 
     this.removeHtml = function() {
-      //  Hide the panel if it is active before removing code.
+      // Hide the panel if it is active before removing code.
       if (watchActionPanels.style.display !== 'none') {
         addButton.click();
       }
@@ -144,7 +144,7 @@
       this.appendAddToStreamusButton();
       this.appendStreamusActionPanel();
 
-      //  Append or remove HTML dependent on whether the user is signed in (show add playlist functionality) or signed out (show sign in button)
+      // Show 'add playlist' HTML if user is signed in otherwise show a sign in button
       chrome.runtime.sendMessage({method: 'getSignedInState'}, function(state) {
         while (sharePanel.lastChild) {
           sharePanel.removeChild(sharePanel.lastChild);
@@ -168,14 +168,14 @@
     }.bind(this);
 
     this.onChromeRuntimeMessage = function(message) {
-      //  TODO: Reduce cyclomatic complexity.
+      // TODO: Reduce cyclomatic complexity.
       /* jshint ignore:start */
       if (message.action) {
         this[message.action](message.value);
       }
 
       if (message.event && contentScriptData.canEnhance) {
-        //  TODO: It's really minor, but if a playlist changes its index in the collection then this select won't properly update.
+        // TODO: It's really minor, but if a playlist changes its index in the collection then this select won't properly update.
         switch (message.event) {
           case contentScriptData.SyncActionType.Added:
             var addedOption = document.createElement('option');
@@ -221,8 +221,8 @@
       contentScriptData = youTubeContentScriptData;
 
       if (contentScriptData.canEnhance) {
-        //  This code handles the fact that when you navigate from a YouTube search results list to a video
-        //  the page does not reload because they use AJAX to load the video page.
+        // This code handles the fact that when you navigate from a YouTube search results list to a video
+        // the page does not reload because they use AJAX to load the video page.
         var isPageLoaded = false;
 
         var observer = new MutationObserver(function(mutations) {

@@ -93,7 +93,8 @@
         model.set('selected', isBetweenBelow || isBetweenAbove);
       });
 
-      // Holding the shift key is a bit of a special case. User expects the first item highlighted to be the 'firstSelected' and not the clicked.
+      // Holding the shift key is a special case.
+      // The first item highlighted should be 'firstSelected' rather than the clicked.
       collection.at(firstSelectedIndex).set('firstSelected', true);
     }
   });

@@ -109,12 +109,12 @@
 
             nextItem = addedSongs[0];
           } else if (!_.isUndefined(removedActiveItemIndex)) {
-            // If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
-            // This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
+            // Pause on the last active item if there's nothing to skip to during a delete.
+            // Apply after checking 'radioEnabled' because it's OK to skip to new 'radio' song during delete.
             items.last().save({active: true});
             this.get('player').pause();
           } else {
-            // Otherwise, activate the first item in the playlist and then pause the player because playlist looping shouldn't continue.
+            // Pause on first item in list because playlist looping should stop.
             items.first().save({active: true});
             this.get('player').pause();
           }
@@ -249,7 +249,8 @@
       // the Stream is still in a valid state when an event comes in. The user could've removed songs after an event started to arrive.
       if (!this.get('items').isEmpty()) {
         var previousState = this.get('player').get('previousState');
-        // If the user seeks to the end of a song then YouTube will trigger an 'Ended' event, but skipping to the next song does not make sense.
+        // YouTube triggers an 'Ended' event when seeking to the end of a song.
+        // Skipping to the next song when not playing is undesired.
         var wasPlaying = previousState === PlayerState.Playing || previousState === PlayerState.Buffering;
 
         if (state === PlayerState.Ended && wasPlaying) {
@@ -267,18 +268,7 @@
     },
 
     _onPlayerYouTubeError: function(model, youTubeError) {
-      if (this.get('items').length > 0) {
-          //model.set('playOnActivate', false);
-          //var nextItem = this.activateNext();
-
-          //if (_.isNull(nextItem)) {
-          //   model.set('playOnActivate', false);
-
-          //   // YouTube's API does not emit an error if the cue'd video has already emitted an error.
-          //   // So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
-          //   //model.activateSong(this.get('items').getActiveItem().get('song'));
-          //}
-      } else {
+      if (this.get('items').length === 0) {
         var error = new Error('Error ' + youTubeError + ' happened while StreamItems was empty.');
         Streamus.channels.error.commands.trigger('log:error', error);
       }

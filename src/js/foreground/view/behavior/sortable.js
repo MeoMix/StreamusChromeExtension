@@ -165,7 +165,7 @@
         });
 
         // The collection does not resort because the model's index was provided when calling addSongs
-        // The CollectionView rendering the model is now incorrect because the collection's index does not correspond to the CollectionView's index.
+        // The CollectionView's state is incorrect because the collection's index does not correspond to the view's child's index.
         // Simply triggering a sort is the simplest solution as it forces the CollectionView to re-render its children.
         this.view.collection.sort();
       }.bind(this));
@@ -219,7 +219,8 @@
           }
         }
 
-        // Pass silent: true to moveToIndex because we might be looping over many items in which case I don't want to refresh the view repeatedly.
+        // TODO: Is this needed in BB 1.2 w/ update event?
+        // Pass silent: true to prevent repeatedly refreshing the view.
         var moveResult = this.view.collection.moveToIndex(dropInfo.itemId, index, {
           silent: true
         });

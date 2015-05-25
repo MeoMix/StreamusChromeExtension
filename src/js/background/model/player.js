@@ -167,8 +167,8 @@ define(function(require) {
     seekTo: function(timeInSeconds) {
       if (this.get('ready')) {
         // There's an issue in YouTube's API which makes this code necessary.
-        // If the user calls seekTo to the end of the song then the state of the player gets put into 'ended'
-        // That's OK, but then calling seekTo to the middle of the song will cause the song to move to the 'playing' state instead of 'paused'
+        // If the user calls seekTo to the end of the song then the player gets put into the 'ended' state.
+        // If seekTo is called from the 'ended' state YouTube will play the song rather than keep it paused.
         if (timeInSeconds === this.get('loadedSong').get('duration')) {
           this.activateSong(this.get('loadedSong'), timeInSeconds);
         } else {
@@ -270,7 +270,7 @@ define(function(require) {
       if (ready) {
         // Load from Backbone.LocalStorage
         this.fetch();
-        // These values need to be set explicitly because the 'change' event handler won't fire if localStorage value is the same as default.
+        // Set these values explicitly because 'change' event won't fire if localStorage value is the same as default.
         this.get('youTubePlayer').setVolume(this.get('volume'));
         this.get('youTubePlayer').setMuted(this.get('muted'));
 

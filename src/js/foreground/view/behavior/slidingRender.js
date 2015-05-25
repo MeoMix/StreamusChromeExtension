@@ -285,8 +285,10 @@
     },
 
     _getMaxRenderIndex: function(scrollTop) {
+      var childrenScrolledPast = scrollTop / this.childViewHeight;
+      var childrenInViewport = this.viewportHeight / this.childViewHeight;
       // Subtract 1 to make math 'inclusive' instead of 'exclusive'
-      var maxRenderIndex = Math.ceil((scrollTop / this.childViewHeight) + (this.viewportHeight / this.childViewHeight)) - 1 + this.threshold;
+      var maxRenderIndex = Math.ceil(childrenScrolledPast + childrenInViewport) - 1 + this.threshold;
 
       return maxRenderIndex;
     },

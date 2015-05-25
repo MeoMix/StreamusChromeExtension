@@ -172,7 +172,7 @@
       this.set('signInFailed', false);
     },
 
-    //  Returns false if the sign-in process is in progress or a user is already signed in.
+    // Returns false if the sign-in process is in progress or a user is already signed in.
     _canSignIn: function() {
       var signedInUser = this.get('signedInUser');
       var canSignIn = _.isNull(signedInUser) && !this.get('signingIn') && !this.get('signInFailed');
