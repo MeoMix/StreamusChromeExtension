@@ -26,10 +26,10 @@
       this._cleanupViewModels(this.viewModelNames);
     },
 
-    // Ensure that the models declared as targets are valid.
-    // They must exist and they must not be attached to another view. The reason for the view check is because
-    // if a model is attached to two views and one view is destroyed while the other remains then the second view will be in a broken state
-    // due to its model not responding to events.
+    // Ensure that the models declared as targets are valid by confirm that they exist
+    // and are not attached to other views. If a model is attached to two views and one
+    // view is destroyed while the other remains then the second view won't work properly
+    // because its model won't have any event handlers configured.
     _ensureViewModels: function(viewModelNames) {
       if (_.isNull(viewModelNames) || _.isUndefined(viewModelNames) || viewModelNames.length === 0) {
         throw new Error('ViewModelContainer expects viewModelNames to exist');

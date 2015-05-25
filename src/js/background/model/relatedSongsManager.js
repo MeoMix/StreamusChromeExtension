@@ -3,8 +3,7 @@
 
   var YouTubeV3API = require('background/model/youTubeV3API');
 
-  // Ensures that the network is not flooded with AJAX requests when issuing a bulk amount of getRelatedSongs requests.
-  // This can most commonly happen when inserting a playlist into the stream as each stream item needs to retrieve its related songs.
+  // Ensure that the network is not flooded with requests when issuing several getRelatedSongs requests.
   var RelatedSongsManager = Backbone.Model.extend({
     defaults: function() {
       return {

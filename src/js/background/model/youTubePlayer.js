@@ -32,14 +32,15 @@
       this.on('change:loading', this._onChangeLoading);
     },
 
-    // Preload is used to indicate that an attempt to load YouTube's API is hopefully going to come soon. However, if the iframe
-    // holding YouTube's API fails to load then load will not be called. If the iframe does load successfully then load will be called.
+    // Preload is used to indicate that an attempt to load YouTube's API is expected soon.
+    // If YouTube's iframe fails to load then load will not be called.
+    // If the iframe does load successfully then load will be called.
     preload: function() {
       if (!this.get('loading')) {
         // Ensure the widget is null for debugging purposes.
-        // Being able to tell the difference between a widget API method failing and the widget itself not being ready is important.
+        // Being able to tell if the widget's method failed vs widget itself not being ready is important.
         youTubePlayerWidget = null;
-        // It is important to set loading after ready because having the player be both 'loading' and 'ready' does not make sense.
+        // Set loading after ready because having the player be both 'loading' and 'ready' does not make sense.
         this.set('ready', false);
         this.set('loading', true);
       }
@@ -120,7 +121,7 @@
     },
 
     _onYouTubePlayerReady: function() {
-      // It's important to set ready to true before loading to false otherwise it looks like YouTubePlayer failed to load properly.
+      // Set ready to true before setting loading to false otherwise it looks like youTubePlayer failed to load properly.
       this.set('ready', true);
       this.set('loading', false);
     },
@@ -132,9 +133,10 @@
 
     // Emit errors so the foreground so can notify the user.
     _onYouTubePlayerError: function(error) {
-      // YouTube's API emits a 'ReallyBad' error when it really wants to emit an 'NoPlayEmbedded2' error due to content restrictions.
-      // This only happens if I have the Referer set to a YouTube domain, though. Otherwise, it gives the correct error message.
-      // If the error is really bad then attempt to recover rather than reflecting the error throughout the program.
+      // YouTube's API emits a 'ReallyBad' error due to content restrictions, but only because Referer
+      // has been modified. The API would normally emit a 'NoPlayEmbedded2' error.
+      // 'ReallyBad' might also mean that the user's Internet went out.
+      // Try to recover from an Internet outage by reloading the API.
       if (error.data === YouTubePlayerError.ReallyBad) {
         this.preload();
       } else {

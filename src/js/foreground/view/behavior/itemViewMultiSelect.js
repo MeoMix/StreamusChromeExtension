@@ -25,7 +25,8 @@
 
     initialize: function() {
       this.checkbox = new Checkbox({
-        // this.view.model can't be accessed in initialize from a behavior. https://github.com/marionettejs/backbone.marionette/issues/1579
+        // this.view.model can't be accessed in initialize from a behavior.
+        // https://github.com/marionettejs/backbone.marionette/issues/1579
         checked: this.view.options.model.get('selected')
       });
     },

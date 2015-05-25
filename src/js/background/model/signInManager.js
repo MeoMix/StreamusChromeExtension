@@ -12,11 +12,8 @@
       signInFailed: false,
       signInRetryTimer: SIGN_IN_FAILURE_WAIT_TIME,
       signInRetryTimerInterval: null,
-
-      // When chrome.identity.onSignInChanged runs with signedIn: true -- need to store the user who is about to be signed in momentarily.
       signingInUser: null,
       signedInUser: null,
-
       needLinkUserId: false,
       needGoogleSignIn: false
     },
@@ -57,7 +54,8 @@
         signedInUser.set('googlePlusId', profileUserInfo.id);
 
         signedInUser.hasLinkedGoogleAccount(function(hasLinkedGoogleAccount) {
-          // If the account is already know to the database -- merge this account with it and then load existing account w/ merged data.
+          // Merge a previously known account with the existing data to prevent data loss.
+          // Only happens if Streamus is used on two PCs before Chrome is signed in.
           if (hasLinkedGoogleAccount) {
             signedInUser.mergeByGooglePlusId();
           } else {

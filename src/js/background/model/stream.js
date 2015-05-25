@@ -63,7 +63,7 @@
       var items = this.get('items');
       var currentActiveItem = items.getActiveItem();
 
-      // If removedActiveItemIndex is provided, RepeatButtonState.RepeatSong doesn't matter because the StreamItem was just deleted.
+      // If removedActiveItemIndex is provided, RepeatSong doesn't matter because the song was deleted.
       if (_.isUndefined(removedActiveItemIndex) && repeatButtonState === RepeatButtonState.RepeatSong) {
         nextItem = currentActiveItem;
         nextItem.trigger('change:active', nextItem, true);
@@ -93,7 +93,8 @@
           if (repeatButtonState === RepeatButtonState.RepeatAll) {
             nextItem = items.first();
 
-            // Looped back to the front but that item was already active (only 1 in playlist during a skip), resend activated trigger.
+            // If there's only 1 item in the stream during a skip then the index will loop back to the front.
+            // Need to re-send the 'active' trigger to refresh the UI.
             if (nextItem.get('active')) {
               nextItem.trigger('change:active', nextItem, true);
             } else {
@@ -143,7 +144,7 @@
     activatePrevious: function() {
       var previousStreamItem = this.getPrevious();
 
-      // When repeating a song -- it'll already be active, but still need to trigger a change:active event so program will respond.
+      // Repeated songs are already active. Trigger a 'change:active' event to keep the UI up-to-date.
       if (previousStreamItem.get('active')) {
         previousStreamItem.trigger('change:active', previousStreamItem, true);
       } else {
@@ -245,8 +246,9 @@
     },
 
     _onPlayerChangeState: function(model, state) {
-      // Since the player's state is dependent on asynchronous actions it's important to ensure that
-      // the Stream is still in a valid state when an event comes in. The user could've removed songs after an event started to arrive.
+      // It's important to ensure that the Stream is still in a valid state when the player change's state
+      // because the player's methods are asynchronous.
+      // The user could've removed a song from the stream after the player emitted an event.
       if (!this.get('items').isEmpty()) {
         var previousState = this.get('player').get('previousState');
         // YouTube triggers an 'Ended' event when seeking to the end of a song.
@@ -283,8 +285,9 @@
       this.get('player').stop();
     },
 
-    // When StreamItems are added or loaded from localStorage, they might not have relatedSongs. This can happen for a number of reasons.
-    // If the JSON in localStorage is out of date, if a network request failed, etc. So, try loading relatedSongs again if not found.
+    // Items fetched from localStorage may not have their relatedSongs loaded.
+    // This can happen for various reasons: The JSON in localStorage is out of date,
+    // an XHR to YouTube failed, etc. So, try loading relatedSongs if missing.
     _ensureHasRelatedSongs: function(streamItem) {
       if (streamItem.get('relatedSongs').length === 0) {
         this.get('relatedSongsManager').getRelatedSongs({

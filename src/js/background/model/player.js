@@ -24,12 +24,12 @@ define(function(require) {
         previousState: PlayerState.Unstarted,
         state: PlayerState.Unstarted,
         seeking: false,
-        // This will be set after the player is ready and can communicate its true value.
-        // Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
+        // Default to 50 to ensure sound is audible but not blasting.
+        // Volume will be changed by YouTube's API if the API loads properly.
         volume: 50,
         maxVolume: 100,
         minVolume: 0,
-        // This will be set after the player is ready and can communicate its true value.
+        // Muted will be changed by YouTube's API if the API loads properly.
         muted: false,
         loadedSong: null,
         playImmediately: false,
@@ -220,7 +220,7 @@ define(function(require) {
         if (this.get('seeking') && !wasPlaying) {
           isPausable = false;
         } else {
-          // If the player is 'cueuing' a song then the user doesn't expect to see a flicker of buffering. Only when loading/playing.
+          // Don't flicker the buffering indicator if the player is cueing a song.
           isPausable = !this.get('cueing');
         }
       }
@@ -460,11 +460,12 @@ define(function(require) {
     // This information should be discarded whenever the video changes.
     _resetMetaData: function() {
       this.get('buffers').length = 0;
-      // NOTE: It's technically possible to squeeze a bit of extra performance out of MediaSource by not clearing bufferType here.
-      // Instead, one could keep track of the 'lastKnownBufferType' and only call addSourceBuffer when the bufferType changes.
-      // HOWEVER, knowledge of a video's bufferType arrives after the 'loadedVideoId' event fires. This leads to complications where a
-      // MediaSource attempts to use one bufferType for a video only to find out that the bufferType is incorrect a moment later.
-      // So, I'm clearing the bufferType every time the video changes to prevent this confusion, but at the cost of a small perf. hit.
+      // It's possible to squeeze extra performance out of MediaSource by not clearing bufferType here.
+      // One could keep track of 'lastKnownBufferType' and only call addSourceBuffer when bufferType changes.
+      // However, knowledge of a video's bufferType arrives after the 'loadedVideoId' event fires.
+      // This leads to complications where a MediaSource attempts to use one bufferType only to find out that
+      // the bufferType is incorrect a moment later.
+      // Clearing the bufferType every time the video changes prevents this confusion.
       this.set('bufferType', '');
     },
 

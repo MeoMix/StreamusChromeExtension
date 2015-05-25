@@ -36,7 +36,8 @@
     getActiveItemOffsetData: function() {
       var activeItemIndex = this.collection.indexOf(this.collection.getActive());
       var itemHeight = this.children.first().$el.height();
-      // Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
+      // Account for the fact that the view could be scrolling to show the child.
+      // An offset derived just by index would be insufficient.
       var activeItemOffset = activeItemIndex * -itemHeight + this.el.scrollTop;
 
       return {

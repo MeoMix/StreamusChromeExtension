@@ -195,8 +195,8 @@
     },
 
     _onAdd: function(addedPlaylist, collection, options) {
-      // Add events fire before the playlist is successfully saved to the server so that the UI can show a saving indicator.
-      // This means that addedPlaylist's ID might not be set yet. If that's the case, wait until successful save before relying on it.
+      // Add events fire while the playlist is savings so that the UI can show a saving indicator.
+      // Wait until the playlist has successfully saved before announcing it was created.
       if (addedPlaylist.isNew()) {
         this.listenToOnce(addedPlaylist, 'createError', function() {
           this.stopListening(addedPlaylist, 'change:id');

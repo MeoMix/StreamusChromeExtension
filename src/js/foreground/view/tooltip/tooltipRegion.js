@@ -56,15 +56,12 @@
       var adjustY = 8;
       var targetHeight = boundingClientRect.height;
       var targetWidth = boundingClientRect.width;
-      var targetOffset = {
-        top: boundingClientRect.top + targetHeight + adjustY,
-        left: boundingClientRect.left + targetWidth / 2 - tooltipWidth / 2
-      };
+      var offsetTop = boundingClientRect.top + targetHeight + adjustY;
+      var offsetLeft = boundingClientRect.left + targetWidth / 2 - tooltipWidth / 2;
 
-      var adjustedLeftOffset = utility.shiftOffset(targetOffset.left, tooltipWidth, window.innerWidth);
-      // Double the adjust value because it has already been added once to topOffset before taking into account adjustments.
-      // So, need to double it when inverting to counter-act the existing amount.
-      var adjustedTopOffset = utility.flipInvertOffset(targetOffset.top, tooltipHeight, window.innerHeight, targetHeight, adjustY * 2);
+      var adjustedLeftOffset = utility.shiftOffset(offsetLeft, tooltipWidth, window.innerWidth);
+      // Double adjust to counter-act the fact that it has already been added once to offsetTop.
+      var adjustedTopOffset = utility.flipInvertOffset(offsetTop, tooltipHeight, window.innerHeight, targetHeight, adjustY * 2);
 
       var adjustedOffset = {
         // Be sure to round the values because sub-pixel positioning of a tooltip can cause blur.

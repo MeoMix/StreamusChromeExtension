@@ -36,8 +36,7 @@
       chrome.runtime.requestUpdateCheck(_.noop);
     },
 
-    // If SignInManager indicates that sign-in state has changed and necessitates asking the user to link their account to Google, do so.
-    // This might happen while the foreground UI isn't open (most likely, in fact), so need to check state upon foreground UI opening.
+    // If needed, show a dialog prompting the user to link their G+ account ID to their Streamus user.
     _showDialogIfNeedLinkUserId: function() {
       if (this.signInManager.get('needLinkUserId')) {
         this._showLinkUserIdDialog();

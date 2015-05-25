@@ -128,7 +128,7 @@ module.exports = function(grunt) {
           to: '"version": "' + version + '"'
         }]
       },
-      // Not all Chrome permissions supported on other browsers (Opera). Remove them from manifest.json when building a release.
+      // Remove Chrome permissions not supported on other browsers.
       invalidPermissions: {
         src: ['<%= meta.releaseDirectory %>/manifest.json'],
         overwrite: true,
@@ -145,13 +145,13 @@ module.exports = function(grunt) {
         src: ['dist/js/background/background.js'],
         overwrite: true,
         replacements: [{
-          //	Find the line that looks like: "localDebug: true" and set it to false. Local debugging is for development only.
+          // Local debugging is for development only.
           from: 'localDebug: true',
           to: 'localDebug: false'
         }]
       },
       // Remove development key and comments from manifest for deployment
-      transformManifest: {
+      manifest: {
         src: ['dist/manifest.json'],
         overwrite: true,
         replacements: [{
@@ -170,7 +170,8 @@ module.exports = function(grunt) {
       }
     },
     compress: {
-      //	Zip up browser-specific folders which are ready for release. The .zip file is then uploaded to the appropriate store
+      //	Zip browser-specific folders which are ready for release.
+      //  Each zip file can then be uploaded to their respective web store.
       release: {
         options: {
           archive: '<%= meta.releaseDirectory %>Streamus v' + version + '.zip'
@@ -233,7 +234,8 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', 'Build release and place .zip files in /release directory.', function() {
+  //  Build release and place .zip files in the release directory
+  grunt.registerTask('build', function() {
     // Ensure tests pass before performing any sort of bundling.
     grunt.task.run('test');
 
@@ -241,7 +243,7 @@ module.exports = function(grunt) {
       grunt.task.run('replace:updateVersion');
     }
 
-    grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'copy:contentScripts', 'less', 'imagemin', 'clean:dist');
+    grunt.task.run('requirejs', 'replace:manifest', 'replace:localDebug', 'copy:contentScripts', 'less', 'imagemin', 'clean:dist');
 
     // Build chrome release
     grunt.task.run('compressRelease:' + chromeReleaseDirectory);
@@ -249,7 +251,8 @@ module.exports = function(grunt) {
     grunt.task.run('compressRelease:' + operaReleaseDirectory + ':sanitize=true');
   });
 
-  grunt.registerTask('diffLocales', 'Ensure that non-English translations are in-sync with the English translation', function() {
+  // Ensure that non-English translations are in-sync with the English translation
+  grunt.registerTask('diffLocales', function() {
     var englishJson = grunt.file.readJSON('src/_locales/en/messages.json');
     var englishKeys = _.keys(englishJson);
 
@@ -270,11 +273,12 @@ module.exports = function(grunt) {
     });
   });
 
-  grunt.registerTask('default', 'An alias task for running tests.', ['test']);
+  // Run linters and enforce code-quality standards
+  grunt.registerTask('default', ['test']);
+  grunt.registerTask('test', ['diffLocales', 'jshint', 'recess', 'jscs']);
 
-  grunt.registerTask('test', 'Run tests and code-quality analysis', ['diffLocales', 'jshint', 'recess', 'jscs']);
-
-  grunt.registerTask('compressRelease', 'A synchronous wrapper around compress:release', function(releaseDirectory, sanitize) {
+  // A synchronous wrapper for compress:release
+  grunt.registerTask('compressRelease', function(releaseDirectory, sanitize) {
     grunt.config.set('meta.releaseDirectory', releaseDirectory);
     grunt.task.run('copy:release');
 

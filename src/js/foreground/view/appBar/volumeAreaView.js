@@ -50,10 +50,6 @@ define(function(require) {
 
     onRender: function() {
       var volume = this.player.get('volume');
-      // NOTE: Don't call setVolumeProgress during onRender because it causes a document repaint to set the height.
-      // Set the value in the template instead (which is always faster, but harder to maintain without two-way data-binding plugin.
-      //this._setVolumeProgress(volume);
-
       var muted = this.player.get('muted');
       this._setVolumeIcon(volume, muted);
     },
@@ -76,7 +72,9 @@ define(function(require) {
       this.player.setVolume(volume);
     },
 
-    // NOTE: This function is (relatively) expensive. Don't call it during onRender -- instead just set the values in the template.
+    // TODO: Why does calling this in onRender matter? volumeAreaView shouldn't be part of the DOM yet?
+    // _setVolumeProgress causes DOM repaints and is thus (relatively) expensive.
+    // Prefer setting appropriate values in the template rather than calling this in onRender.
     _setVolumeProgress: function(volume) {
       this.ui.volumeRange.val(volume);
       this.ui.volumeProgress.height(volume + '%');

@@ -100,7 +100,7 @@
         it('should fetch the user from the database by GooglePlus ID', function() {
           localStorage.removeItem('userId');
           this.user.loadByGooglePlusId();
-          // Once for fetchByGoogleId which returns null and then again to create a new account which is tied to the Google account.
+
           expect($.ajax.calledOnce).to.equal(true);
           expect(this.user._onLoadSuccess.calledOnce).to.equal(true);
           ensureUserState.call(this, this.user);

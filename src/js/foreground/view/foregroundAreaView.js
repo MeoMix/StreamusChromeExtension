@@ -142,7 +142,6 @@
       }.bind(this), 250);
     },
 
-    // Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
     _onClick: function(event) {
       Streamus.channels.element.vent.trigger('click', event);
     },
@@ -166,7 +165,8 @@
       });
     },
 
-    // Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
+    // Destroy the foreground to unbind event listeners from background models and collections.
+    // Streamus will leak memory if these events aren't cleaned up.
     _onWindowUnload: function() {
       Streamus.channels.foreground.vent.trigger('beginUnload');
       Streamus.backgroundChannels.foreground.vent.trigger('beginUnload');

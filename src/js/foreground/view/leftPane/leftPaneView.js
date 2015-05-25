@@ -60,8 +60,8 @@
     },
 
     _showSignInContent: function() {
-      // Don't continously generate the signIn view if it's already visible because the view itself is trying to update its state
-      // and if you rip out the view while it's trying to update -- Marionette will throw errors saying elements don't have events/methods.
+      // Don't repeatedly render the signIn view if it's already visible.
+      // Marionette will error if the view is removed while it's trying to update itself.
       if (!(this.getChildView('content') instanceof SignInView)) {
         // Otherwise, allow the user to sign in by showing a link to sign in.
         this.showChildView('content', new SignInView({

@@ -69,7 +69,7 @@
       this._setRenderedElements(this.el.scrollTop);
     },
 
-    // Whenever the viewport height is changed -- adjust the items which are currently rendered to match
+    // Update which views are rendered whenever the viewport's height is changed.
     _setViewportHeight: function() {
       this.viewportHeight = this.$el.height();
 
@@ -83,7 +83,7 @@
       this.maxRenderIndex = newMaxRenderIndex;
       if (indexDifference > 0) {
         // Unload N Items.
-        // Only remove items if need be -- collection's length might be so small that the viewport's height isn't affecting rendered count.
+        // Only remove items if the collection's length is causing the view to overflow.
         if (this.view.collection.length > currentMaxRenderIndex) {
           this._removeItemsByIndex(currentMaxRenderIndex, indexDifference);
         }
@@ -168,7 +168,7 @@
       if (itemsToAdd.length > 0 || itemsToRemove.length > 0) {
         // When drag-and-dropping an item to the end of a SlidingRender-enabled CollectionView, the
         // drag-and-drop behavior will push the scrollTop to a length which is greater than the collection's length.
-        // This causes rendering issues - so, safeguard against this happening and simply do not attempt to re-render in this scenario.
+        // Safeguard against this happening by not attempting to re-render.
         if (maxRenderIndex < this.view.collection.length + this.threshold) {
           this.minRenderIndex = minRenderIndex;
           this.maxRenderIndex = maxRenderIndex;
@@ -221,7 +221,8 @@
       // then the rendered items will push up the height of the element by minRenderIndex * childViewHeight.
       var height = (this.view.collection.length - this.minRenderIndex) * this.childViewHeight;
 
-      // Keep height set to at least the viewport height to allow for proper drag-and-drop target - can't drop if height is too small.
+      // Keep height set to atleast viewportHeight to allow for proper drag-and-drop.
+      // Can't drop on a target if the target's height is too small.
       if (height < this.viewportHeight) {
         height = this.viewportHeight;
       }
@@ -293,7 +294,7 @@
       return maxRenderIndex;
     },
 
-    // Returns true if an childView at the given index would not be fully visible -- part of it rendering out of the top of the viewport.
+    // Indicate whether the view at the given index is overflowing the top of the viewport.
     _indexOverflowsTop: function(index) {
       var position = index * this.childViewHeight;
       var scrollPosition = this.el.scrollTop;
@@ -390,12 +391,12 @@
 
       // Subtract 1 from collection.length because, for instance, if our collection has 8 items in it
       // and min-max is 0-7, the 8th item in the collection has an index of 7.
-      // Use a > comparator not >= because we only want to run this logic when the viewport is overfilled and not just enough to be filled.
+      // Use > not >= because this logic should only run when the viewport is overflowing.
       var viewportOverfull = collection.length - 1 > this.maxRenderIndex;
 
       // If a view has been rendered and it pushes another view outside of maxRenderIndex, remove that view.
       if (indexWithinRenderRange && viewportOverfull) {
-        // Adding one because I want to grab the item which is outside maxRenderIndex. maxRenderIndex is inclusive.
+        // Add one in order to grab the item which is outside maxRenderIndex. maxRenderIndex is inclusive.
         this._removeItemsByIndex(this.maxRenderIndex + 1, 1);
       }
     },

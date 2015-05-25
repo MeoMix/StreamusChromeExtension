@@ -102,7 +102,7 @@
       if (_.isNull(activeItem)) {
         this.getChildView('activeStreamItem').hide();
       } else {
-        // If there was already an activeItem shown then do not need to transition in the new view because one is already fully visible.
+        // If an active item was already shown then no transition is needed because the view is visible.
         var isInstant = !_.isNull(model.previous('activeItem'));
         this._showActiveStreamItem(activeItem, isInstant);
       }

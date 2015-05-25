@@ -69,16 +69,18 @@
     },
 
     _change: function(event, ui) {
-      var placeholderAdjacent = false;
+      var isPlaceholderAdjacent = false;
       // When dragging an element up/down its own list -- hide the sortable helper around the element being dragged.
       var draggedItems = this.view.collection.selected();
       // Only disallow moving to adjacent location if dragging one item because that'd be a no-op.
       if (draggedItems.length === 1) {
         var draggedModelId = draggedItems[0].get('id');
-        placeholderAdjacent = ui.placeholder.next().data('id') === draggedModelId || ui.placeholder.prev().data('id') === draggedModelId;
+        var isNextModel = ui.placeholder.next().data('id') === draggedModelId;
+        var isPreviousModel = ui.placeholder.prev().data('id') === draggedModelId
+        isPlaceholderAdjacent = isNextModel || isPreviousModel;
       }
 
-      $('.' + this.placeholderClass).toggleClass('is-hidden', placeholderAdjacent);
+      $('.' + this.placeholderClass).toggleClass('is-hidden', isPlaceholderAdjacent);
 
       this.ui.listItems.sortable('refresh');
 
@@ -139,7 +141,7 @@
         }.bind(this));
       }
 
-      // Return false from stop to prevent jQuery UI from moving HTML for us - only need to prevent during copies and not during moves.
+      // Return false to prevent jQuery UI from moving HTML.
       var removeHtmlElement = allowMove || isParentNodeLost;
       return removeHtmlElement;
     },
@@ -150,7 +152,8 @@
     },
 
     _receive: function(event, ui) {
-      // If the parentNode does not exist then slidingRender has removed the element. This means the placeholder's index is off-by-one.
+      // If the parentNode does not exist then slidingRender has removed the element.
+      // If the element has been removed then the placeholder's index is off-by-one.
       // This only applies for receiving and not for sorting elements within the parent list.
       // Do not run this logic in onBeforeStop because it's unclear whether the action is sort or receive.
       var placeholderIndex = ui.sender.data('placeholderIndex');
@@ -209,11 +212,12 @@
           index += 1;
         }
 
-        // Moving items below the drop index causes indices to shift with each move, but this is not the case with above the index.
+        // Moving items below the drop index causes indices to shift with each move.
         if (aboveDropIndex) {
-          // So, the target index should be incremented to put the item an appropriate number of slots past dropIndex.
+          // Increment the target index to put the item an appropriate number of slots past dropIndex.
           index += itemsHandled;
-          // However, each item moved below the index doesn't count - except for the one placed AT the drop index, thus subtract one.
+          // Each item moved below the index doesn't count.
+          // Subtract one to account for the item placed at dropIndex.
           if (itemsHandledBelowOrAtDropIndex > 0) {
             index -= (itemsHandledBelowOrAtDropIndex - 1);
           }
@@ -281,7 +285,7 @@
       var sortableItem = ui.item.data('sortableItem');
 
       // If the item being sorted has been unloaded by slidingRender behavior then sortableItem will be unavailable.
-      // In this scenario, fall back to the more expensive query of getting a reference to the sortable instance via its parent's ID.
+      // If unavailable, query the DOM for a reference to the sortable by its id.
       if (_.isUndefined(sortableItem)) {
         sortableItem = $('#' + ui.item.data('parentid')).sortable('instance');
       }

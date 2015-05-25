@@ -57,20 +57,20 @@
       this._loadNextBuffer();
     },
 
-    // Listen for a given sourceBuffer's update events and attempt to populate the buffer with data if available.
+    // Listen for sourceBuffer update events and attempt to populate the buffer with data if available.
     _startMonitoringSourceBuffer: function(sourceBuffer) {
       sourceBuffer.addEventListener('update', this._onUpdate);
       this._loadNextBuffer();
     },
 
-    // Stop listening for a given sourceBuffer's update events and also cancel any async requests for data which may be in progress.
+    // Stop listening for sourceBuffer update events and cancel any async requests for data which may be in progress.
     _stopMonitoringSourceBuffer: function(sourceBuffer) {
       sourceBuffer.removeEventListener('update', this._onUpdate);
       Array.unobserve(this.get('bufferCache'), this._onObserveBufferCacheChange);
     },
 
-    // Attempt to retrieve the next buffer of data which should be rendered. If no additional data exists, or hasn't been received,
-    // return nothing.
+    // Attempt to get the next buffer of data to render.
+    // Return null if no data exists or the data has yet to be received.
     _getNextBuffer: function() {
       var nextBuffer = null;
       var bufferCache = this.get('bufferCache');

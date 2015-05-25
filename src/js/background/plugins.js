@@ -16,11 +16,12 @@
     var headerWritten = false;
     console.error('error:', error);
 
+    var consoleWarningStyle = 'color: rgb(66,133,244); font-size: 18px; font-weight: bold;';
     error.requireModules.forEach(function(requireModule) {
       if (requireModule.indexOf('background/key/') !== -1) {
         if (!headerWritten) {
-          console.warn('%c ATTENTION! Additional configuration is required', 'color: rgb(66,133,244); font-size: 18px; font-weight: bold;');
-          console.warn('%c -----------------------------------------------', 'color: rgb(66,133,244); font-size: 18px; font-weight: bold;');
+          console.warn('%c ATTENTION! Additional configuration is required', consoleWarningStyle);
+          console.warn('%c -----------------------------------------------', consoleWarningStyle);
           headerWritten = true;
         }
 
@@ -30,7 +31,7 @@
     });
 
     if (headerWritten) {
-      console.warn('%c -----------------------------------------------', 'color: rgb(66,133,244); font-size: 18px; font-weight: bold;');
+      console.warn('%c -----------------------------------------------', consoleWarningStyle);
     }
   };
 

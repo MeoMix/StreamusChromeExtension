@@ -68,7 +68,7 @@
 
       // Opera does not default to using the HTML5 player because of lack of MSE support.
       // Modify user's preferences being sent to YouTube to imply that the user wants HTML5 only
-      // This will cause preferences to go from looking like PREF=al=en&f1=50000000&f5=30; to PREF=al=en&f1=50000000&f5=30&f2=40000000;
+      // Cookie preferences will change from: PREF=al=en&f1=50000000&f5=30 to: PREF=al=en&f1=50000000&f5=30&f2=40000000
       var isOpera = navigator.userAgent.indexOf(' OPR/') >= 0;
       if (isOpera) {
         var html5PrefValue = 'f2=40000000';

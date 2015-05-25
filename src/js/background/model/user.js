@@ -27,7 +27,8 @@ define(function(require) {
       });
     },
 
-    // The googlePlusId associated with this account is already linked with another account. Merge them together and re-load as one user.
+    // The googlePlusId associated with this account is already linked with another account.
+    // Consolidate the two accounts and reload as a single user.
     mergeByGooglePlusId: function() {
       $.ajax({
         type: 'POST',

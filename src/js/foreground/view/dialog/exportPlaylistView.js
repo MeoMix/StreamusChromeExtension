@@ -75,8 +75,13 @@
 
     _export: function() {
       var downloadableElement = document.createElement('a');
-      downloadableElement.setAttribute('href', 'data:' + this._getMimeType() + ';charset=utf-8,' + encodeURIComponent(this._getFileText()));
-      downloadableElement.setAttribute('download', this._getFileName());
+
+      var mimeType = this._getMimeType();
+      var encodedFileText = encodeURIComponent(this._getFileText());
+      downloadableElement.setAttribute('href', 'data:' + mimeType + ';charset=utf-8,' + encodedFileText);
+
+      var fileName = this._getFileName();
+      downloadableElement.setAttribute('download', fileName);
       downloadableElement.click();
 
       Streamus.channels.notification.commands.trigger('show:notification', {

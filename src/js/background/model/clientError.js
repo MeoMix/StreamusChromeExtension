@@ -45,7 +45,7 @@
       var error = this.get('error');
 
       if (error) {
-        // If just throw is called without creating an Error then error.stack will be undefined and just the text should be relied upon.
+        // Guard against throw being called without an Error object.
         if (_.isUndefined(error.stack)) {
           stack = error;
         } else {

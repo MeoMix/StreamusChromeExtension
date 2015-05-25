@@ -1,8 +1,8 @@
 ﻿define(function(require) {
   'use strict';
 
-  // Overwrite lodash here in addition to in its AMD module factory to ensure all lo-dash calls reference the background's instance.
-  // This is important to prevent memory leaks due to the coupling of background + foreground pages.
+  // Overwrite Lo-Dash here to ensure all calls reference the background's Lo-Dash instance.
+  // Re-using the Lo-Dash instance prevents memory leaks due to idCounter id collisions.
   window._ = chrome.extension.getBackgroundPage()._;
 
   require('backbone.marionette');

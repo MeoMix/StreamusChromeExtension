@@ -206,7 +206,7 @@
         describe('when new user is already linked to Google', function() {
           beforeEach(function() {
             sinon.stub($, 'ajax')
-                // Return true on first AJAX request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID is linked to an existing account
+                // Return true from hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID is linked to an existing account
                 .onFirstCall().yieldsTo('success', true)
                 // Account is already linked to an Google ID in the DB, return user data:
                 .onSecondCall().yieldsTo('success', {
@@ -291,7 +291,7 @@
         describe('when new user is already linked to Google', function() {
           beforeEach(function() {
             sinon.stub($, 'ajax')
-                // Return true on first request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID is linked to an existing account
+                // Return true from hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID is linked to an existing account
                 .onFirstCall().yieldsTo('success', true);
           });
 

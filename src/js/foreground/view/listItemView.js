@@ -15,7 +15,7 @@
       return {
         'data-id': id,
         'data-type': this.options.type,
-        // When a view is unloaded by slidingRender logic it loses track of its parent. This is able to be used to get a reference to it.
+        // Children unloaded by slidingRender lose track of their parent DOM node.
         'data-parentid': this.options.parentId
       };
     },

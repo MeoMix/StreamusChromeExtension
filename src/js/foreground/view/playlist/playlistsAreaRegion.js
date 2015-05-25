@@ -26,8 +26,8 @@
     },
 
     _showPlaylistsArea: function() {
-      // It's possibly that the user might want to show playlistsArea before it has been created (i.e. before Application is idle)
-      // If so, just create it now so that it can be shown.
+      // It's possible that the user might want to show playlistsArea before the application's idle event.
+      // If this happens, create the view immediately so that it can be shown.
       if (!this.hasView()) {
         var signedInUser = this.signInManager.get('signedInUser');
         this._createPlaylistsAreaView(signedInUser.get('playlists'));
@@ -37,7 +37,7 @@
     },
 
     _hidePlaylistsArea: function() {
-      // A hide command can be emitted by the application when the user is not signed in. In this scenario, currentView doesn't exist.
+      // A hide command can be emitted by the application when the user is not signed in.
       if (this.hasView()) {
         this.currentView.hide();
       }
