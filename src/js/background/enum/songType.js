@@ -1,4 +1,4 @@
 ﻿define({
-    None: 'none',
-    YouTube: 'youTube'
+  None: 'none',
+  YouTube: 'youTube'
 });

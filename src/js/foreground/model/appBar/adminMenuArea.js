@@ -1,11 +1,11 @@
 ﻿define(function() {
-    'use strict';
+  'use strict';
 
-    var AdminMenuArea = Backbone.Model.extend({
-        defaults: {
-            menuShown: false
-        }
-    });
+  var AdminMenuArea = Backbone.Model.extend({
+    defaults: {
+      menuShown: false
+    }
+  });
 
-    return AdminMenuArea;
+  return AdminMenuArea;
 });

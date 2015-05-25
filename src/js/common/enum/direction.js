@@ -1,5 +1,5 @@
 ﻿define({
-    None: 'none',
-    Down: 'down',
-    Up: 'up'
+  None: 'none',
+  Down: 'down',
+  Up: 'up'
 });

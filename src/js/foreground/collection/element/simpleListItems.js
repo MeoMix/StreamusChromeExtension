@@ -1,11 +1,11 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var SimpleListItem = require('foreground/model/element/simpleListItem');
+  var SimpleListItem = require('foreground/model/element/simpleListItem');
 
-    var SimpleListItems = Backbone.Collection.extend({
-        model: SimpleListItem
-    });
+  var SimpleListItems = Backbone.Collection.extend({
+    model: SimpleListItem
+  });
 
-    return SimpleListItems;
+  return SimpleListItems;
 });

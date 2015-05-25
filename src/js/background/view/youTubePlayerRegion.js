@@ -1,47 +1,47 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var YouTubePlayerView = require('background/view/youTubePlayerView');
+  var YouTubePlayerView = require('background/view/youTubePlayerView');
 
-    var YouTubePlayerRegion = Marionette.Region.extend({
-        youTubePlayer: null,
+  var YouTubePlayerRegion = Marionette.Region.extend({
+    youTubePlayer: null,
 
-        initialize: function(options) {
-            this.youTubePlayer = options.youTubePlayer;
+    initialize: function(options) {
+      this.youTubePlayer = options.youTubePlayer;
 
-            this.listenTo(Streamus.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
-            this.listenTo(this.youTubePlayer, 'change:loading', this._onYouTubePlayerChangeLoading);
-            this.listenTo(this.youTubePlayer, 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
-        },
+      this.listenTo(Streamus.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
+      this.listenTo(this.youTubePlayer, 'change:loading', this._onYouTubePlayerChangeLoading);
+      this.listenTo(this.youTubePlayer, 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
+    },
 
-        _onBackgroundAreaRendered: function() {
-            if (this.youTubePlayer.get('loading')) {
-                this._showYouTubePlayerView();
-            } else {
-                this.youTubePlayer.preload();
-            }
-        },
+    _onBackgroundAreaRendered: function() {
+      if (this.youTubePlayer.get('loading')) {
+        this._showYouTubePlayerView();
+      } else {
+        this.youTubePlayer.preload();
+      }
+    },
 
-        _showYouTubePlayerView: function() {
-            var youTubePlayerView = new YouTubePlayerView({
-                model: this.youTubePlayer
-            });
+    _showYouTubePlayerView: function() {
+      var youTubePlayerView = new YouTubePlayerView({
+        model: this.youTubePlayer
+      });
 
-            this.show(youTubePlayerView);
-        },
+      this.show(youTubePlayerView);
+    },
 
-        _onYouTubePlayerChangeLoading: function(model, loading) {
-            if (loading) {
-                this._showYouTubePlayerView();
-            }
-        },
+    _onYouTubePlayerChangeLoading: function(model, loading) {
+      if (loading) {
+        this._showYouTubePlayerView();
+      }
+    },
 
-        _onYouTubePlayerChangeCurrentLoadAttempt: function(model) {
-            if (model.get('loading')) {
-                this._showYouTubePlayerView();
-            }
-        }
-    });
+    _onYouTubePlayerChangeCurrentLoadAttempt: function(model) {
+      if (model.get('loading')) {
+        this._showYouTubePlayerView();
+      }
+    }
+  });
 
-    return YouTubePlayerRegion;
+  return YouTubePlayerRegion;
 });

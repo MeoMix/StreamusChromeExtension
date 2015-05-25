@@ -1,11 +1,11 @@
 ﻿define(function() {
-    'use strict';
+  'use strict';
 
-    var Notification = Backbone.Model.extend({
-        defaults: {
-            message: ''
-        }
-    });
+  var Notification = Backbone.Model.extend({
+    defaults: {
+      message: ''
+    }
+  });
 
-    return Notification;
+  return Notification;
 });

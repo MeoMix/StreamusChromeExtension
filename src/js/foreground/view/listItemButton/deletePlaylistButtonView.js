@@ -1,61 +1,61 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var PlaylistActions = require('foreground/model/playlist/playlistActions');
-    var ListItemButton = require('foreground/view/behavior/listItemButton');
-    var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
-    var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
+  var PlaylistActions = require('foreground/model/playlist/playlistActions');
+  var ListItemButton = require('foreground/view/behavior/listItemButton');
+  var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
+  var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
 
-    var DeletePlaylistButtonView = Marionette.ItemView.extend({
-        template: _.template(DeleteListItemButtonTemplate),
-        templateHelpers: {
-            deleteIcon: _.template(DeleteIconTemplate)()
-        },
+  var DeletePlaylistButtonView = Marionette.ItemView.extend({
+    template: _.template(DeleteListItemButtonTemplate),
+    templateHelpers: {
+      deleteIcon: _.template(DeleteIconTemplate)()
+    },
 
-        attributes: {
-            'data-tooltip-text': chrome.i18n.getMessage('delete')
-        },
+    attributes: {
+      'data-tooltip-text': chrome.i18n.getMessage('delete')
+    },
 
-        behaviors: {
-            ListItemButton: {
-                behaviorClass: ListItemButton
-            }
-        },
+    behaviors: {
+      ListItemButton: {
+        behaviorClass: ListItemButton
+      }
+    },
 
-        playlist: null,
+    playlist: null,
 
-        initialize: function(options) {
-            this.playlist = options.playlist;
-            this._setState();
+    initialize: function(options) {
+      this.playlist = options.playlist;
+      this._setState();
 
-            // Ensure that the user isn't able to destroy the model more than once.
-            this._deletePlaylist = _.once(this._deletePlaylist);
-        },
+      // Ensure that the user isn't able to destroy the model more than once.
+      this._deletePlaylist = _.once(this._deletePlaylist);
+    },
 
-        onClick: function() {
-            this._deletePlaylist();
-        },
+    onClick: function() {
+      this._deletePlaylist();
+    },
 
-        _deletePlaylist: function() {
-            var playlistActions = new PlaylistActions();
+    _deletePlaylist: function() {
+      var playlistActions = new PlaylistActions();
 
-            playlistActions.deletePlaylist(this.playlist);
-        },
+      playlistActions.deletePlaylist(this.playlist);
+    },
 
-        _setState: function() {
-            var canDelete = this.playlist.get('canDelete');
+    _setState: function() {
+      var canDelete = this.playlist.get('canDelete');
 
-            var tooltipText;
-            if (canDelete) {
-                tooltipText = chrome.i18n.getMessage('delete');
-            } else {
-                tooltipText = chrome.i18n.getMessage('cantDeleteLastPlaylist');
-            }
+      var tooltipText;
+      if (canDelete) {
+        tooltipText = chrome.i18n.getMessage('delete');
+      } else {
+        tooltipText = chrome.i18n.getMessage('cantDeleteLastPlaylist');
+      }
 
-            this.$el.toggleClass('is-disabled', !canDelete).attr('data-tooltip-text', tooltipText);
-            this.model.set('enabled', canDelete);
-        }
-    });
+      this.$el.toggleClass('is-disabled', !canDelete).attr('data-tooltip-text', tooltipText);
+      this.model.set('enabled', canDelete);
+    }
+  });
 
-    return DeletePlaylistButtonView;
+  return DeletePlaylistButtonView;
 });

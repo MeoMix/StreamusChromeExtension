@@ -1,5 +1,5 @@
 ﻿define({
-    Off: 'off',
-    RepeatSong: 'repeatSong',
-    RepeatAll: 'repeatAll'
+  Off: 'off',
+  RepeatSong: 'repeatSong',
+  RepeatAll: 'repeatAll'
 });

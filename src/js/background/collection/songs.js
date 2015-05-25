@@ -1,11 +1,11 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var Song = require('background/model/song');
+  var Song = require('background/model/song');
 
-    var Songs = Backbone.Collection.extend({
-        model: Song
-    });
+  var Songs = Backbone.Collection.extend({
+    model: Song
+  });
 
-    return Songs;
+  return Songs;
 });

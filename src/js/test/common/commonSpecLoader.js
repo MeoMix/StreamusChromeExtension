@@ -1,5 +1,5 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    require('test/common/utility.spec');
+  require('test/common/utility.spec');
 });

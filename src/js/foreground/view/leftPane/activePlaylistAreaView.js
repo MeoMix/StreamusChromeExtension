@@ -1,160 +1,160 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var Tooltipable = require('foreground/view/behavior/tooltipable');
-    var PlaylistItemsView = require('foreground/view/leftPane/playlistItemsView');
-    var ActivePlaylistAreaTemplate = require('text!template/leftPane/activePlaylistArea.html');
+  var Tooltipable = require('foreground/view/behavior/tooltipable');
+  var PlaylistItemsView = require('foreground/view/leftPane/playlistItemsView');
+  var ActivePlaylistAreaTemplate = require('text!template/leftPane/activePlaylistArea.html');
 
-    var ActivePlaylistAreaView = Marionette.LayoutView.extend({
-        id: 'activePlaylistArea',
-        className: 'flexColumn',
-        template: _.template(ActivePlaylistAreaTemplate),
+  var ActivePlaylistAreaView = Marionette.LayoutView.extend({
+    id: 'activePlaylistArea',
+    className: 'flexColumn',
+    template: _.template(ActivePlaylistAreaTemplate),
 
-        templateHelpers: {
-            addAllMessage: chrome.i18n.getMessage('addAll'),
-            playAllMessage: chrome.i18n.getMessage('playAll'),
-            playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
-            showSearchMessage: chrome.i18n.getMessage('showSearch'),
-            searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
-            wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
-        },
+    templateHelpers: {
+      addAllMessage: chrome.i18n.getMessage('addAll'),
+      playAllMessage: chrome.i18n.getMessage('playAll'),
+      playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
+      showSearchMessage: chrome.i18n.getMessage('showSearch'),
+      searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
+      wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
+    },
 
-        regions: {
-            playlistItems: '[data-region=playlistItems]'
-        },
+    regions: {
+      playlistItems: '[data-region=playlistItems]'
+    },
 
-        ui: {
-            playlistEmptyMessage: '[data-ui~=playlistEmptyMessage]',
-            showSearchLink: '[data-ui~=showSearchLink]',
-            playlistDetails: '[data-ui~=playlistDetails]',
-            playAllButton: '[data-ui~=playAllButton]',
-            addAllButton: '[data-ui~=addAllButton]'
-        },
+    ui: {
+      playlistEmptyMessage: '[data-ui~=playlistEmptyMessage]',
+      showSearchLink: '[data-ui~=showSearchLink]',
+      playlistDetails: '[data-ui~=playlistDetails]',
+      playAllButton: '[data-ui~=playAllButton]',
+      addAllButton: '[data-ui~=addAllButton]'
+    },
 
-        events: {
-            'click @ui.showSearchLink': '_onClickShowSearchLink',
-            'click @ui.addAllButton': '_onClickAddAllButton',
-            'click @ui.playAllButton': '_onClickPlayAllButton'
-        },
+    events: {
+      'click @ui.showSearchLink': '_onClickShowSearchLink',
+      'click @ui.addAllButton': '_onClickAddAllButton',
+      'click @ui.playAllButton': '_onClickPlayAllButton'
+    },
 
-        behaviors: {
-            Tooltipable: {
-                behaviorClass: Tooltipable
-            }
-        },
+    behaviors: {
+      Tooltipable: {
+        behaviorClass: Tooltipable
+      }
+    },
 
-        streamItems: null,
+    streamItems: null,
 
-        streamItemsEvents: {
-            'add:completed': '_onStreamItemsAddCompleted',
-            'remove': '_onStreamItemsRemove',
-            'reset': '_onStreamItemsReset'
-        },
+    streamItemsEvents: {
+      'add:completed': '_onStreamItemsAddCompleted',
+      'remove': '_onStreamItemsRemove',
+      'reset': '_onStreamItemsReset'
+    },
 
-        playlistItemsEvents: {
-            'add:completed': '_onPlaylistItemsAddCompleted',
-            'remove': '_onPlaylistItemsRemove',
-            'reset': '_onPlaylistItemsReset'
-        },
+    playlistItemsEvents: {
+      'add:completed': '_onPlaylistItemsAddCompleted',
+      'remove': '_onPlaylistItemsRemove',
+      'reset': '_onPlaylistItemsReset'
+    },
 
-        initialize: function(options) {
-            this.streamItems = options.streamItems;
-            this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
+    initialize: function(options) {
+      this.streamItems = options.streamItems;
+      this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
 
-            var playlistItems = this.model.get('items');
-            this.bindEntityEvents(playlistItems, this.playlistItemsEvents);
-        },
+      var playlistItems = this.model.get('items');
+      this.bindEntityEvents(playlistItems, this.playlistItemsEvents);
+    },
 
-        onRender: function() {
-            this._toggleButtons();
-            this._updatePlaylistDetails(this.model.get('items').getDisplayInfo());
-            this._toggleInstructions(this.model.get('items').isEmpty());
+    onRender: function() {
+      this._toggleButtons();
+      this._updatePlaylistDetails(this.model.get('items').getDisplayInfo());
+      this._toggleInstructions(this.model.get('items').isEmpty());
 
-            this.showChildView('playlistItems', new PlaylistItemsView({
-                collection: this.model.get('items')
-            }));
-        },
+      this.showChildView('playlistItems', new PlaylistItemsView({
+        collection: this.model.get('items')
+      }));
+    },
 
-        _onClickShowSearchLink: function() {
-            Streamus.channels.search.commands.trigger('show:search');
-        },
+    _onClickShowSearchLink: function() {
+      Streamus.channels.search.commands.trigger('show:search');
+    },
 
-        _onClickAddAllButton: function() {
-            if (this._canAdd()) {
-                var songs = this.model.get('items').pluck('song');
+    _onClickAddAllButton: function() {
+      if (this._canAdd()) {
+        var songs = this.model.get('items').pluck('song');
 
-                this.streamItems.addSongs(songs);
-            }
-        },
+        this.streamItems.addSongs(songs);
+      }
+    },
 
-        _onClickPlayAllButton: function() {
-            if (this._canPlay()) {
-                var songs = this.model.get('items').pluck('song');
+    _onClickPlayAllButton: function() {
+      if (this._canPlay()) {
+        var songs = this.model.get('items').pluck('song');
 
-                this.streamItems.addSongs(songs, {
-                    playOnAdd: true
-                });
-            }
-        },
+        this.streamItems.addSongs(songs, {
+          playOnAdd: true
+        });
+      }
+    },
 
-        _onStreamItemsAddCompleted: function() {
-            this._toggleButtons();
-        },
+    _onStreamItemsAddCompleted: function() {
+      this._toggleButtons();
+    },
 
-        _onStreamItemsRemove: function() {
-            this._toggleButtons();
-        },
+    _onStreamItemsRemove: function() {
+      this._toggleButtons();
+    },
 
-        _onStreamItemsReset: function() {
-            this._toggleButtons();
-        },
+    _onStreamItemsReset: function() {
+      this._toggleButtons();
+    },
 
-        _onPlaylistItemsAddCompleted: function(collection) {
-            this._toggleButtons();
-            this._updatePlaylistDetails(collection.getDisplayInfo());
-            this._toggleInstructions(false);
-        },
+    _onPlaylistItemsAddCompleted: function(collection) {
+      this._toggleButtons();
+      this._updatePlaylistDetails(collection.getDisplayInfo());
+      this._toggleInstructions(false);
+    },
 
-        _onPlaylistItemsRemove: function(model, collection) {
-            this._toggleButtons();
-            this._updatePlaylistDetails(collection.getDisplayInfo());
-            this._toggleInstructions(collection.isEmpty());
-        },
+    _onPlaylistItemsRemove: function(model, collection) {
+      this._toggleButtons();
+      this._updatePlaylistDetails(collection.getDisplayInfo());
+      this._toggleInstructions(collection.isEmpty());
+    },
 
-        _onPlaylistItemsReset: function(collection) {
-            this._toggleButtons();
-            this._updatePlaylistDetails(collection.getDisplayInfo());
-            this._toggleInstructions(collection.isEmpty());
-        },
+    _onPlaylistItemsReset: function(collection) {
+      this._toggleButtons();
+      this._updatePlaylistDetails(collection.getDisplayInfo());
+      this._toggleInstructions(collection.isEmpty());
+    },
 
-        _toggleInstructions: function(collectionEmpty) {
-            this.ui.playlistEmptyMessage.toggleClass('is-hidden', !collectionEmpty);
-        },
+    _toggleInstructions: function(collectionEmpty) {
+      this.ui.playlistEmptyMessage.toggleClass('is-hidden', !collectionEmpty);
+    },
 
-        _toggleButtons: function() {
-            var isEmpty = this.model.get('items').isEmpty();
-            this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
+    _toggleButtons: function() {
+      var isEmpty = this.model.get('items').isEmpty();
+      this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
 
-            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
-            this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('data-tooltip-text', isEmpty ? '' : duplicatesInfo.message);
-        },
+      var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
+      this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('data-tooltip-text', isEmpty ? '' : duplicatesInfo.message);
+    },
 
-        _canPlay: function() {
-            var isEmpty = this.model.get('items').isEmpty();
-            return !isEmpty;
-        },
+    _canPlay: function() {
+      var isEmpty = this.model.get('items').isEmpty();
+      return !isEmpty;
+    },
 
-        _canAdd: function() {
-            var isEmpty = this.model.get('items').isEmpty();
-            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
+    _canAdd: function() {
+      var isEmpty = this.model.get('items').isEmpty();
+      var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
 
-            return !isEmpty && !duplicatesInfo.allDuplicates;
-        },
+      return !isEmpty && !duplicatesInfo.allDuplicates;
+    },
 
-        _updatePlaylistDetails: function(displayInfo) {
-            this.ui.playlistDetails.text(displayInfo).attr('data-tooltip-text', displayInfo);
-        }
-    });
+    _updatePlaylistDetails: function(displayInfo) {
+      this.ui.playlistDetails.text(displayInfo).attr('data-tooltip-text', displayInfo);
+    }
+  });
 
-    return ActivePlaylistAreaView;
+  return ActivePlaylistAreaView;
 });

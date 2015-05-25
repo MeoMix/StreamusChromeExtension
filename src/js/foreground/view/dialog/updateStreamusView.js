@@ -1,17 +1,17 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var DialogContent = require('foreground/view/behavior/dialogContent');
+  var DialogContent = require('foreground/view/behavior/dialogContent');
 
-    var UpdateStreamusView = Marionette.LayoutView.extend({
-        template: _.template(chrome.i18n.getMessage('anUpdateIsAvailable')),
+  var UpdateStreamusView = Marionette.LayoutView.extend({
+    template: _.template(chrome.i18n.getMessage('anUpdateIsAvailable')),
 
-        behaviors: {
-            DialogContent: {
-                behaviorClass: DialogContent
-            }
-        }
-    });
+    behaviors: {
+      DialogContent: {
+        behaviorClass: DialogContent
+      }
+    }
+  });
 
-    return UpdateStreamusView;
+  return UpdateStreamusView;
 });

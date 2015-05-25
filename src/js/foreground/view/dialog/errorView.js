@@ -1,28 +1,28 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var DialogContent = require('foreground/view/behavior/dialogContent');
+  var DialogContent = require('foreground/view/behavior/dialogContent');
 
-    var ErrorView = Marionette.LayoutView.extend({
-        template: _.template('<%= text %>'),
-        templateHelpers: function() {
-            return {
-                text: this.text
-            };
-        },
+  var ErrorView = Marionette.LayoutView.extend({
+    template: _.template('<%= text %>'),
+    templateHelpers: function() {
+      return {
+        text: this.text
+      };
+    },
 
-        behaviors: {
-            DialogContent: {
-                behaviorClass: DialogContent
-            }
-        },
+    behaviors: {
+      DialogContent: {
+        behaviorClass: DialogContent
+      }
+    },
 
-        text: '',
+    text: '',
 
-        initialize: function(options) {
-            this.text = options.text;
-        }
-    });
+    initialize: function(options) {
+      this.text = options.text;
+    }
+  });
 
-    return ErrorView;
+  return ErrorView;
 });

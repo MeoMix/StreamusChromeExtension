@@ -1,5 +1,5 @@
 ﻿define({
-    Highres: 'highres',
-    Default: 'default',
-    Small: 'small'
+  Highres: 'highres',
+  Default: 'default',
+  Small: 'small'
 });

@@ -18,37 +18,37 @@
 //});
 
 define(function() {
-    'use strict';
+  'use strict';
 
-    require.config({
-        baseUrl: 'js/',
-        enforceDefine: true,
+  require.config({
+    baseUrl: 'js/',
+    enforceDefine: true,
 
-        paths: {
-            // Paths:
-            'template': '../template',
+    paths: {
+      // Paths:
+      'template': '../template',
 
-            // Third Party:
-            'backbone': 'thirdParty/backbone',
-            'backbone.localStorage': 'thirdParty/backbone.localStorage',
-            'backbone.marionette': 'thirdParty/backbone.marionette',
-            'cocktail': 'thirdParty/cocktail',
-            'jquery': 'thirdParty/jquery',
-            'jquery-ui': 'thirdParty/jquery-ui',
-            'lodash': 'thirdParty/lodash',
-            'text': 'thirdParty/text'
-        },
+      // Third Party:
+      'backbone': 'thirdParty/backbone',
+      'backbone.localStorage': 'thirdParty/backbone.localStorage',
+      'backbone.marionette': 'thirdParty/backbone.marionette',
+      'cocktail': 'thirdParty/cocktail',
+      'jquery': 'thirdParty/jquery',
+      'jquery-ui': 'thirdParty/jquery-ui',
+      'lodash': 'thirdParty/lodash',
+      'text': 'thirdParty/text'
+    },
 
-        shim: {
-            'https://www.google-analytics.com/analytics.js': {
-                exports: 'window.ga'
-            }
-        },
+    shim: {
+      'https://www.google-analytics.com/analytics.js': {
+        exports: 'window.ga'
+      }
+    },
 
-        map: {
-            '*': {
-                'underscore': 'lodash'
-            }
-        }
-    });
+    map: {
+      '*': {
+        'underscore': 'lodash'
+      }
+    }
+  });
 });

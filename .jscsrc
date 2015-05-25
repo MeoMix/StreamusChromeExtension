@@ -1,6 +1,5 @@
 {
     "preset": "google",
     "maximumLineLength": 180,
-    "requireLineFeedAtFileEnd": null,
-    "validateIndentation": 4
+    "requireLineFeedAtFileEnd": null
 }
