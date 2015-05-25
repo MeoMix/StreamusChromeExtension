@@ -16,7 +16,7 @@
         containerHeight: 0,
         contentHeight: 0,
         thumbHeight: 0,
-        isMouseDown: false,
+        isMouseDownOnTrack: false,
 
         ui: {
             track: '[data-ui~=track]',
@@ -24,13 +24,15 @@
         },
 
         events: {
+            'click': '_onClick',
             'wheel': '_onWheel',
-            'mousedown @ui.track': '_onTrackMouseDown',
-            'click': '_onClick'
+            'mousedown @ui.track': '_onTrackMouseDown'
         },
 
         initialize: function() {
             this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
+
+            //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
             this._onWindowMouseMove = this._onWindowMouseMove.bind(this);
             this._onWindowMouseUp = this._onWindowMouseUp.bind(this);
         },
@@ -66,8 +68,7 @@
         },
 
         onBeforeDestroy: function() {
-            window.removeEventListener('mousemove', this._onWindowMouseMove);
-            window.removeEventListener('mouseup', this._onWindowMouseUp);
+            this._setWindowEventListeners(false);
         },
 
         //  Move the list up/down as the user scrolls the mouse wheel.
@@ -81,8 +82,7 @@
         _onTrackMouseDown: function(event) {
             //  Doesn't make sense to run this logic on right-click.
             if (event.button === 0) {
-                console.log('true');
-                this.isMouseDown = true;
+                this.isMouseDownOnTrack = true;
                 Streamus.channels.scrollbar.vent.trigger('mouseDown');
 
                 //  Snap the thumb to the mouse's position, but only do so if the mouse isn't clicking the thumb.
@@ -93,8 +93,7 @@
 
                 //  Start keeping track of mouse movements to be able to adjust the thumb position as the mouse moves.
                 this.mouseDownContainerScrollTop = this.currentContainerScrollTop;
-                window.addEventListener('mousemove', this._onWindowMouseMove);
-                window.addEventListener('mouseup', this._onWindowMouseUp);
+                this._setWindowEventListeners(true);
             }
 
             //  Normal scrollbars don't allow events to propagate outside of them.
@@ -105,11 +104,13 @@
         _onClick: function(event) {
             //  Stifle the click event if the mouse was over the scrollbar and then released while over the parent element.
             //  Since scrollbar interactions shouldn't cause events - no click should happen when releasing the mouse after dragging.
-            if (this.isMouseDown) {
+            if (this.isMouseDownOnTrack) {
                 //  Normal scrollbars don't allow events to propagate outside of them.
                 event.stopPropagation();
                 event.preventDefault();
             }
+
+            this.isMouseDownOnTrack = false;
         },
 
         _onWindowMouseMove: function(event) {
@@ -126,13 +127,7 @@
         _onWindowMouseUp: function() {
             Streamus.channels.scrollbar.vent.trigger('mouseUp');
             this.totalMouseMovementY = 0;
-            window.removeEventListener('mousemove', this._onWindowMouseMove);
-            window.removeEventListener('mouseup', this._onWindowMouseUp);
-
-            //  Set isMouseDown back to false only after the click event has completed.
-            _.defer(function() {
-                this.isMouseDown = false;
-            }.bind(this));
+            this._setWindowEventListeners(false);
         },
 
         _onWindowResize: function() {
@@ -169,6 +164,13 @@
                 this._updateElementState();
                 this._scrollList(this.currentListScrollTop);
             }
+        },
+
+        //  Add (temporarily) or remove mouse-monitoring events to the window.
+        _setWindowEventListeners: function(isAdding) {
+            var action = isAdding ? window.addEventListener : window.removeEventListener;
+            action('mousemove', this._onWindowMouseMove);
+            action('mouseup', this._onWindowMouseUp);
         },
 
         //  Whether the list's content is overflowing.
@@ -260,6 +262,7 @@
         _ensureMinMax: function(value, min, max) {
             value = Math.max(min, value);
             value = Math.min(value, max);
+
             return value;
         }
     });
