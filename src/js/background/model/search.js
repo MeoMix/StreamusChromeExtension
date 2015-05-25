@@ -207,7 +207,7 @@
         _abortPendingRequest: function() {
             var pendingRequest = this.get('pendingRequest');
 
-            if (pendingRequest !== null) {
+            if (!_.isNull(pendingRequest)) {
                 pendingRequest.abort();
                 this.set('pendingRequest', null);
             }
@@ -218,7 +218,7 @@
         },
 
         _isSearching: function(searchQueued, pendingRequest) {
-            var isSearching = searchQueued || pendingRequest !== null;
+            var isSearching = searchQueued || !_.isNull(pendingRequest);
             return isSearching;
         },
 

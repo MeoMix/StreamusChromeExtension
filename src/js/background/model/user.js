@@ -44,7 +44,7 @@ define(function(require) {
         tryloadByUserId: function() {
             var userId = localStorage.getItem('userId');
 
-            if (userId === null) {
+            if (_.isNull(userId)) {
                 this._create();
             } else {
                 this._loadByUserId(userId);
@@ -109,7 +109,7 @@ define(function(require) {
         },
 
         _onLoadByGooglePlusIdSuccess: function(userDto) {
-            if (userDto === null) {
+            if (_.isNull(userDto)) {
                 throw new Error('UserDTO should always be returned here.');
             }
 

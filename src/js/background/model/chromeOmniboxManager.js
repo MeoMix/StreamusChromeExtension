@@ -41,7 +41,7 @@
                 //  Do not display results if searchText was modified while searching, abort old request.
                 var previousSearchRequest = this.get('searchRequest');
 
-                if (previousSearchRequest !== null) {
+                if (!_.isNull(previousSearchRequest)) {
                     previousSearchRequest.abort();
                     this.set('searchRequest', null);
                 }

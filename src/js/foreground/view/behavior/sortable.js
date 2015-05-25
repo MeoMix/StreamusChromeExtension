@@ -117,7 +117,7 @@
         },
 
         _stop: function(event, ui) {
-            var isParentNodeLost = ui.item[0].parentNode === null;
+            var isParentNodeLost = _.isNull(ui.item[0].parentNode);
 
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
@@ -154,7 +154,7 @@
             //  if sort or receive is happening.
             var placeholderIndex = ui.sender.data('placeholderIndex');
 
-            if (ui.item[0].parentNode === null) {
+            if (_.isNull(ui.item[0].parentNode)) {
                 placeholderIndex += 1;
             }
 

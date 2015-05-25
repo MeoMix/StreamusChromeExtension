@@ -81,7 +81,7 @@
             this.listenTo(Streamus.channels.search.vent, 'showing', this._onSearchShowing);
 
             var signedInUser = this.signInManager.get('signedInUser');
-            if (signedInUser !== null) {
+            if (!_.isNull(signedInUser)) {
                 this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);
             }
         },
@@ -90,7 +90,7 @@
             var signedInUser = this.signInManager.get('signedInUser');
             this._setShowPlaylistsAreaButtonState(signedInUser);
 
-            if (signedInUser !== null) {
+            if (!_.isNull(signedInUser)) {
                 this._setPlaylistTitleRegion(signedInUser);
             }
 
@@ -128,7 +128,7 @@
         },
 
         _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
-            if (signedInUser === null) {
+            if (_.isNull(signedInUser)) {
                 this.stopListening(model.previous('signedInUser').get('playlists'));
                 this.playlistTitleRegion.empty();
             } else {
@@ -208,7 +208,7 @@
         },
 
         _setShowPlaylistsAreaButtonState: function(signedInUser) {
-            var signedOut = signedInUser === null;
+            var signedOut = _.isNull(signedInUser);
             var tooltipText = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
 
             var isButtonEnabled = this._isShowPlaylistsAreaButtonEnabled();
@@ -217,7 +217,7 @@
 
         //  Can't show the navigation drawer if the user isn't logged in because playlists aren't loaded.
         _isShowPlaylistsAreaButtonEnabled: function() {
-            return this.signInManager.get('signedInUser') !== null;
+            return this.signInManager.has('signedInUser');
         },
 
         _focusSearchInput: function() {

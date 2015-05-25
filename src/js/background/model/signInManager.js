@@ -41,7 +41,7 @@
         },
 
         signOut: function() {
-            if (this.get('signedInUser') !== null) {
+            if (this.has('signedInUser')) {
                 localStorage.removeItem('userId');
                 this.set('signedInUser', null);
             }
@@ -69,9 +69,9 @@
 
             this.set('needLinkUserId', false);
         },
-
+        //  TODO: Use this throughout? Or remove?
         isSignedIn: function() {
-            return this.get('signedInUser') !== null;
+            return this.has('signedInUser');
         },
 
         _onBackgroundAreaRendered: function() {
@@ -112,7 +112,7 @@
 
                         //  If the signed in account is not linked to Google then information will be lost if the user account is loaded.
                         //  So, mark that user data needs to be linked instead of overwriting.
-                        if (signedInUser !== null && !signedInUser.linkedToGoogle()) {
+                        if (!_.isNull(signedInUser) && !signedInUser.linkedToGoogle()) {
                             this._setSignedInUser(signedInUser);
                         } else {
                             //  If user already linked to Google then it is OK to swap data because no information will be lost.
@@ -142,7 +142,7 @@
         _onChangeSignedInUser: function(model, signedInUser) {
             //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
-                event: signedInUser !== null ? 'signed-in' : 'signed-out'
+                event: _.isNull(signedInUser) ? 'signed-out' : 'signed-in'
             });
         },
 
@@ -174,7 +174,8 @@
 
         _canSignIn: function() {
             //  Signing in is only allowed if no user is currently signed in, not in the process of being signed in and if not waiting for signInFailure timer.
-            var canSignIn = this.get('signedInUser') === null && !this.get('signingIn') && !this.get('signInFailed');
+            var signedInUser = this.get('signedInUser');
+            var canSignIn = _.isNull(signedInUser) && !this.get('signingIn') && !this.get('signInFailed');
             return canSignIn;
         },
 
@@ -229,7 +230,7 @@
             switch (request.method) {
                 case 'getSignedInState':
                     sendResponse({
-                        signedIn: this.get('signedInUser') !== null
+                        signedIn: this.has('signedInUser')
                     });
                     break;
                 case 'signIn':
@@ -269,7 +270,7 @@
                     break;
                 case 'isUserLoaded':
                     sendResponse({
-                        isUserLoaded: this.get('signedInUser') !== null
+                        isUserLoaded: this.has('signedInUser')
                     });
                     break;
             }

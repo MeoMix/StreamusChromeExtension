@@ -173,7 +173,7 @@
         },
 
         _setSaveButtonState: function(canSave) {
-            var signedIn = this.model.get('signInManager').get('signedInUser') !== null;
+            var signedIn = this.model.get('signInManager').has('signedInUser');
             var tooltipText = signedIn ? '' : chrome.i18n.getMessage('notSignedIn');
             this.ui.saveButton.toggleClass('is-disabled', !canSave).attr('data-tooltip-text', tooltipText);
         },
@@ -182,7 +182,7 @@
             //  Delete is disabled if the user is selecting search results
             var tooltipText = '';
 
-            if (!canDelete && activeCollection !== null) {
+            if (!canDelete && !_.isNull(activeCollection)) {
                 tooltipText = chrome.i18n.getMessage('collectionCantBeDeleted', [activeCollection.userFriendlyName]);
             }
 
@@ -194,7 +194,7 @@
             //  A warning tooltip is shown if some of the selected songs are already in the stream.
             var tooltipText = '';
 
-            if (activeCollection !== null) {
+            if (!_.isNull(activeCollection)) {
                 var selectedSongs = activeCollection.getSelectedSongs();
                 var duplicatesInfo = this.model.get('streamItems').getDuplicatesInfo(selectedSongs);
                 tooltipText = duplicatesInfo.message;

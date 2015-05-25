@@ -20,7 +20,7 @@
         //  Caching the view allows for a snappier response when animating.
         _onForegroundAreaIdle: function() {
             var signedInUser = this.signInManager.get('signedInUser');
-            if (signedInUser !== null) {
+            if (!_.isNull(signedInUser)) {
                 this._createPlaylistsAreaView(signedInUser.get('playlists'));
             }
         },

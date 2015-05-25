@@ -125,7 +125,7 @@
             }
 
             //  Push the last active item into history when going forward:
-            if (nextItem !== null && !_.isUndefined(currentActiveItem)) {
+            if (!_.isNull(nextItem) && !_.isUndefined(currentActiveItem)) {
                 //  If the last item (sequentially) is removed and it was active, the previous item is activated.
                 //  This can cause a duplicate to be added to history if you just came from that item.
                 var history = this.get('history');
@@ -168,7 +168,7 @@
             }
 
             //  If nothing found by history -- rely on settings
-            if (previousStreamItem === null) {
+            if (_.isNull(previousStreamItem)) {
                 var shuffleEnabled = this.get('shuffleButton').get('enabled');
                 var repeatButtonState = this.get('repeatButton').get('state');
 
@@ -256,7 +256,7 @@
                     model.set('playOnActivate', true);
                     var nextItem = this.activateNext();
 
-                    if (nextItem === null) {
+                    if (_.isNull(nextItem)) {
                         model.set('playOnActivate', false);
                     }
                 } else if (state === PlayerState.Playing) {
@@ -271,7 +271,7 @@
                 //model.set('playOnActivate', false);
                 //var nextItem = this.activateNext();
 
-                //if (nextItem === null) {
+                //if (_.isNull(nextItem)) {
                 //    model.set('playOnActivate', false);
 
                 //    //  YouTube's API does not emit an error if the cue'd video has already emitted an error.

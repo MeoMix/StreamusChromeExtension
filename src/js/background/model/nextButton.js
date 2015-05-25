@@ -29,7 +29,7 @@
 
             if (this.get('enabled')) {
                 var nextItem = this.get('stream').activateNext();
-                activatedNextItem = nextItem !== null;
+                activatedNextItem = !_.isNull(nextItem);
             }
 
             return activatedNextItem;

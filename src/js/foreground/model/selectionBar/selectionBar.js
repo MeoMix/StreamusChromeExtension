@@ -37,7 +37,7 @@
             this._setState(activeCollection, signInManager.get('signedInUser'));
 
             //  If user is currently signed in then listen to their activePlaylist's selection events.
-            if (signedInUser !== null) {
+            if (!_.isNull(signedInUser)) {
                 this._setUserBindings(signedInUser, true);
             }
 
@@ -59,7 +59,7 @@
             this._setState(activeCollection, signedInUser);
 
             //  Bind/unbind listeners as appropriate whenver the signedInUser changes.
-            if (signedInUser === null) {
+            if (_.isNull(signedInUser)) {
                 this._setUserBindings(model.previous('signedInUser'), false);
             } else {
                 this._setUserBindings(signedInUser, true);
@@ -101,8 +101,8 @@
         },
 
         _setState: function(activeCollection, signedInUser) {
-            var activeCollectionExists = activeCollection !== null;
-            var isSignedIn = signedInUser !== null;
+            var activeCollectionExists = !_.isNull(activeCollection);
+            var isSignedIn = !_.isNull(signedInUser);
 
             this.set('canPlay', activeCollectionExists);
             this.set('canSave', activeCollectionExists && isSignedIn);
@@ -113,7 +113,7 @@
         },
 
         _setCanAddState: function(activeCollection) {
-            var canAdd = activeCollection !== null;
+            var canAdd = !_.isNull(activeCollection);
 
             if (canAdd) {
                 var selectedSongs = activeCollection.getSelectedSongs();
@@ -144,7 +144,7 @@
         //  Update the number of songs which are currently selected
         _setSelectedCount: function() {
             var activeCollection = this.get('activeCollection');
-            var songCount = activeCollection === null ? 0 : activeCollection.selected().length;
+            var songCount = _.isNull(activeCollection) ? 0 : activeCollection.selected().length;
             this.set('selectedCount', songCount);
         },
 

@@ -200,7 +200,7 @@ define(function(require) {
             this._clearRefreshAlarm();
 
             var loadedSong = this.get('loadedSong');
-            if (loadedSong !== null) {
+            if (!_.isNull(loadedSong)) {
                 this.activateSong(loadedSong, this.get('currentTime'));
             }
         },
@@ -276,7 +276,7 @@ define(function(require) {
 
                 //  If an 'activateSong' command came in while the player was not ready, fulfill it now.
                 var songToActivate = this.get('songToActivate');
-                if (songToActivate !== null) {
+                if (!_.isNull(songToActivate)) {
                     this.activateSong(songToActivate);
                 } else {
                     //  Otherwise, ensure that the currently active song is loaded into its respective API player.
@@ -291,7 +291,8 @@ define(function(require) {
             //  Ensure player doesn't start playing a song when recovering from a bad state after a long period of time.
             //  It is OK to start playback again when recovering initially, but not OK if recovering hours later.
             if (!loading && !this.get('ready')) {
-                var state = this.get('loadedSong') === null ? PlayerState.Unstarted : PlayerState.Paused;
+                var loadedSong = this.get('loadedSong');
+                var state = _.isNull(loadedSong) ? PlayerState.Unstarted : PlayerState.Paused;
                 this.set('state', state);
             }
         },
@@ -470,7 +471,7 @@ define(function(require) {
         //  Send a message to YouTube's iframe to figure out what the current time is of the video element inside of the iframe.
         requestCurrentTimeHighPrecision: function() {
             var iframePort = this.get('iframePort');
-            if (iframePort !== null) {
+            if (!_.isNull(iframePort)) {
                 iframePort.postMessage('getCurrentTimeHighPrecision');
             }
         }

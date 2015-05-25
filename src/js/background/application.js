@@ -42,7 +42,7 @@
         _setInstanceId: function() {
             var instanceId = localStorage.getItem('instanceId');
 
-            if (instanceId === null) {
+            if (_.isNull(instanceId)) {
                 instanceId = 'instance_' + _.now();
                 localStorage.setItem('instanceId', instanceId);
             }

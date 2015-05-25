@@ -59,7 +59,7 @@
                 operatingSystem: this.get('platformInfo').os,
                 architecture: this.get('platformInfo').arch,
                 error: error,
-                userId: signedInUser === null ? '' : signedInUser.get('id')
+                userId: _.isNull(signedInUser) ? '' : signedInUser.get('id')
             });
         }
     });

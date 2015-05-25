@@ -118,7 +118,7 @@
         },
 
         _onForegroundStarted: function() {
-            if (this.get('foregroundUnloadTimeout') !== null) {
+            if (this.has('foregroundUnloadTimeout')) {
                 Streamus.channels.error.commands.trigger('log:error', new Error('Foreground was re-opened before timeout exceeded!'));
             }
 

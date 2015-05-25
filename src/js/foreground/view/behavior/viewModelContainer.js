@@ -30,7 +30,7 @@
         //  if a model is attached to two views and one view is destroyed while the other remains then the second view will be in a broken state
         //  due to its model not responding to events.
         _ensureViewModels: function(viewModelNames) {
-            if (viewModelNames === null || _.isUndefined(viewModelNames) || viewModelNames.length === 0) {
+            if (_.isNull(viewModelNames) || _.isUndefined(viewModelNames) || viewModelNames.length === 0) {
                 throw new Error('ViewModelContainer expects viewModelNames to exist');
             } else {
                 _.each(viewModelNames, function(viewModelName) {
@@ -44,7 +44,7 @@
         _ensureViewReferencesViewModel: function(viewModelName) {
             var viewModel = this.view[viewModelName];
 
-            if (viewModel === null || _.isUndefined(viewModel)) {
+            if (_.isNull(viewModel) || _.isUndefined(viewModel)) {
                 throw new Error('ViewModelContainer expects viewModel ' + viewModelName + ' to be a property of the view');
             }
         },

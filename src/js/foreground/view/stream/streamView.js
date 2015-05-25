@@ -89,7 +89,7 @@
             }));
 
             var activeItem = this.model.get('activeItem');
-            if (activeItem !== null) {
+            if (!_.isNull(activeItem)) {
                 this._showActiveStreamItem(activeItem, true);
             }
         },
@@ -99,12 +99,12 @@
         },
 
         _onChangeActiveItem: function(model, activeItem) {
-            if (activeItem === null) {
+            if (_.isNull(activeItem)) {
                 this.getChildView('activeStreamItem').hide();
             } else {
                 //  If there was already an activeItem shown then do not need to transition in the new view because one is already fully visible.
-                var instant = model.previous('activeItem') !== null;
-                this._showActiveStreamItem(activeItem, instant);
+                var isInstant = !_.isNull(model.previous('activeItem'));
+                this._showActiveStreamItem(activeItem, isInstant);
             }
         },
 

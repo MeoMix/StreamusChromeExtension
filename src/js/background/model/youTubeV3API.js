@@ -75,7 +75,7 @@
             return {
                 promise: activeJqXHR,
                 abort: function() {
-                    if (activeJqXHR !== null) {
+                    if (!_.isNull(activeJqXHR)) {
                         activeJqXHR.abort();
                     }
                 }
@@ -160,7 +160,7 @@
             return {
                 promise: activeJqXHR,
                 abort: function() {
-                    if (activeJqXHR !== null) {
+                    if (!_.isNull(activeJqXHR)) {
                         activeJqXHR.abort();
                     }
                 }
@@ -210,7 +210,7 @@
             return {
                 promise: activeJqXHR,
                 abort: function() {
-                    if (activeJqXHR !== null) {
+                    if (!_.isNull(activeJqXHR)) {
                         activeJqXHR.abort();
                     }
                 }

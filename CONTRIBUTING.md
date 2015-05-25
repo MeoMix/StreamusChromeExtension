@@ -6,7 +6,8 @@ This is not intended to be a comprehensive list. If a situation is not described
 
 - No tabs. Four spaces.
 - No trailing whitespace.
-- Attempt to keep lines fewer than 120 characters. Currently the linter is set to 180, but I would like to lower it.
+- Attempt to keep lines fewer than 120 characters.
+- Always use semicolons and don't rely on implicit insertion.
 - Single quotes. Double quotes are OK only when nested within single quotes.
 ```
 # good
@@ -96,7 +97,7 @@ throw 'foo';
 
 - Variable names must not be [reserved words or identifiers](http://www.javascripter.net/faq/reserved.htm).
 - Method names must not be reserved Backbone/Marionette names, unless the intent is to override the method. Common method names collisions are: `_onCollectionAdd`, `_onCollectionRemove`, and `_ensureElement`.
-- Variable names should use camel-casing. Example: `coffeeMug`.
+- Variable names should use camel-casing. Example: `coffeeMug`. 
 - Only constructors and constants should begin with an upper-case letter. Example: `CoffeePot`.
 - Function names should describe the intent of the function, not how the function is called. Example: `makeCoffee` instead of `pushStartButton`.
 - Private properties/methods should be prefixed with `_`. Example: `_brewCoffee`.
@@ -162,6 +163,7 @@ throw 'foo';
 - Never use the DOM's state for code flow. Store the state of the DOM in models and/or properties.
 - `setter` methods should not return a value.
 - `getter` methods should not change any state.
+- Globals should never be used except when explicitly needed for interfacing with third-party libraries.
 - Always oblige JSCS, JSHint, and Recess. If you disagree with a coding style rule then talk to @MeoMix.
 
 ## More to write about:

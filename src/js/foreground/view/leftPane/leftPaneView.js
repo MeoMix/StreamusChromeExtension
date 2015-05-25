@@ -21,7 +21,7 @@
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
 
             var signedInUser = this.signInManager.get('signedInUser');
-            if (signedInUser !== null) {
+            if (!_.isNull(signedInUser)) {
                 this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);
             }
         },
@@ -32,7 +32,7 @@
         },
 
         _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
-            if (signedInUser === null) {
+            if (_.isNull(signedInUser)) {
                 this.stopListening(model.previous('signedInUser').get('playlists'));
             } else {
                 this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);
@@ -42,11 +42,11 @@
         },
 
         _updateRegions: function(signedInUser) {
-            if (signedInUser !== null) {
+            if (_.isNull(signedInUser)) {
+                this._showSignInContent();
+            } else {
                 var activePlaylist = signedInUser.get('playlists').getActivePlaylist();
                 this._showActivePlaylistContent(activePlaylist);
-            } else {
-                this._showSignInContent();
             }
         },
 

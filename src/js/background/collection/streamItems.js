@@ -71,7 +71,7 @@
             var relatedSongs = this._getRelatedSongs();
             var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)] || null;
 
-            if (relatedSong === null) {
+            if (_.isNull(relatedSong)) {
                 throw new Error('No related song found:' + JSON.stringify(this));
             }
 

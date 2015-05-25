@@ -31,7 +31,7 @@
             this.listenTo(this.get('signInManager'), 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
 
             var signedInUser = this.get('signInManager').get('signedInUser');
-            if (signedInUser !== null) {
+            if (!_.isNull(signedInUser)) {
                 this.listenTo(signedInUser.get('playlists'), 'add', this._onPlaylistsAdd);
             }
         },
@@ -59,7 +59,7 @@
         },
 
         _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
-            if (signedInUser === null) {
+            if (_.isNull(signedInUser)) {
                 this.stopListening(model.previous('signedInUser').get('playlists'));
 
                 this._removeContextMenu('youTubeLinkSaveId');
@@ -107,7 +107,7 @@
             this.set('youTubeLinkPlayId', this._createPlayContextMenu(contextMenuOptions));
             this.set('youTubeLinkAddId', this._createAddContextMenu(contextMenuOptions));
 
-            if (this.get('signInManager').get('signedInUser') !== null) {
+            if (this.get('signInManager').has('signedInUser')) {
                 this.set('youTubeLinkSaveId', this._createSaveContextMenu(contextMenuOptions));
             }
         },
@@ -118,7 +118,7 @@
             this.set('youTubePagePlayId', this._createPlayContextMenu(contextMenuOptions));
             this.set('youTubePageAddId', this._createAddContextMenu(contextMenuOptions));
 
-            if (this.get('signInManager').get('signedInUser') !== null) {
+            if (this.get('signInManager').has('signedInUser')) {
                 this.set('youTubePageSaveId', this._createSaveContextMenu(contextMenuOptions));
             }
         },

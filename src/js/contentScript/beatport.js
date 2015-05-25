@@ -111,7 +111,7 @@
                     attributeFilter: ['class']
                 });
             } else {
-                if (this.pageLoadObserver !== null) {
+                if (!_.isNull(this.pageLoadObserver)) {
                     this.pageLoadObserver.disconnect();
                 }
             }

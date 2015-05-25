@@ -68,7 +68,9 @@
         //  Creating a buffer mostly consists of setting the objectURL of the source.
         //  Once that is set, the source will transition to the 'open' state and the buffer will become usable.
         _createBuffer: function() {
-            if (this.get('sourceBufferWrapper') === null) {
+            if (this.has('sourceBufferWrapper')) {
+                console.error('sourceBufferWrapper already created');
+            } else {
                 this.set({
                     sourceBufferWrapper: new SourceBufferWrapper({
                         bufferCache: Streamus.backgroundPage.player.get('buffers')
@@ -76,8 +78,6 @@
                     //  Recreate objectURL whenever sourceBufferWrapper is modified or video won't start properly.
                     objectURL: window.URL.createObjectURL(this.get('mediaSource'))
                 });
-            } else {
-                console.error('sourceBufferWrapper already created');
             }
         },
 
@@ -86,12 +86,12 @@
         _destroyBuffer: function() {
             var sourceBufferWrapper = this.get('sourceBufferWrapper');
 
-            if (sourceBufferWrapper !== null) {
+            if (_.isNull(sourceBufferWrapper)) {
+                console.error('sourceBuffer already destroyed');
+            } else {
                 this.get('mediaSource').removeSourceBuffer(sourceBufferWrapper.get('sourceBuffer'));
                 //  Setting objectURL to null will cause _onSourceClose to fire because the video element's src is cleared.
                 this.set('objectURL', null);
-            } else {
-                console.error('sourceBuffer already destroyed');
             }
         },
 
@@ -105,7 +105,7 @@
         _detachBuffer: function() {
             var sourceBufferWrapper = this.get('sourceBufferWrapper');
 
-            if (sourceBufferWrapper !== null) {
+            if (!_.isNull(sourceBufferWrapper)) {
                 sourceBufferWrapper.cleanup();
                 this.set('sourceBufferWrapper', null);
             }

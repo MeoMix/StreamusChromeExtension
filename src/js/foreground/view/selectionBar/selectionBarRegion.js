@@ -20,12 +20,12 @@
                 model: selectionBar
             }));
 
-            this._setIsVisible(selectionBar.get('activeCollection') !== null);
+            this._setIsVisible(selectionBar.has('activeCollection'));
             this.listenTo(selectionBar, 'change:activeCollection', this._onSelectionBarChangeActiveCollection);
         },
 
         _onSelectionBarChangeActiveCollection: function(model, activeCollection) {
-            this._setIsVisible(activeCollection !== null);
+            this._setIsVisible(!_.isNull(activeCollection));
         },
 
         _setIsVisible: function(isVisible) {

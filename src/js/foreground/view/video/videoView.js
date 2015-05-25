@@ -68,7 +68,7 @@
         },
 
         _setVideoSrc: function(objectURL) {
-            var videoSrc = objectURL === null ? '' : objectURL;
+            var videoSrc = _.isNull(objectURL) ? '' : objectURL;
             this.el.src = videoSrc;
         },
 

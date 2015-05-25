@@ -166,7 +166,7 @@
         },
 
         _canSave: function() {
-            var signedIn = this.signInManager.get('signedInUser') !== null;
+            var signedIn = this.signInManager.has('signedInUser');
             var isEmpty = this.collection.isEmpty();
 
             return signedIn && !isEmpty;

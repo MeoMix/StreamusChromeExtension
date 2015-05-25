@@ -28,10 +28,10 @@
         },
 
         _onChangeSourceBuffer: function(model, sourceBuffer) {
-            if (sourceBuffer === null) {
+            if (_.isNull(sourceBuffer)) {
                 var previousSourceBuffer = this.previous('sourceBuffer');
 
-                if (previousSourceBuffer !== null) {
+                if (!_.isNull(previousSourceBuffer)) {
                     this._stopMonitoringSourceBuffer(previousSourceBuffer);
                 }
             } else {
@@ -88,7 +88,7 @@
             var nextBuffer = this._getNextBuffer();
 
             //  If more data has been loaded then go ahead and append it. Otherwise, wait for the data to come in.
-            if (nextBuffer === null) {
+            if (_.isNull(nextBuffer)) {
                 Array.observe(this.get('bufferCache'), this._onObserveBufferCacheChange);
             } else {
                 this._appendBuffer(nextBuffer);

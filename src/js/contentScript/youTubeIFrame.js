@@ -76,7 +76,7 @@
             //  Respond with that value, but also include a timestamp to account for the time it takes to send the postMessage.
             this.port.onMessage.addListener(function(message) {
                 if (message === 'getCurrentTimeHighPrecision') {
-                    var currentTime = this.videoStream === null ? 0 : this.videoStream.currentTime;
+                    var currentTime = _.isNull(this.videoStream) ? 0 : this.videoStream.currentTime;
 
                     this.port.postMessage({
                         timestamp: Date.now(),
