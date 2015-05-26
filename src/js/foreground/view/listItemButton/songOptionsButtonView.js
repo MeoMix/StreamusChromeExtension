@@ -23,9 +23,11 @@
     },
 
     song: null,
+    player: null,
 
     initialize: function(options) {
       this.song = options.song;
+      this.player = options.player;
     },
 
     onClick: function() {

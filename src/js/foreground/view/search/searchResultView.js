@@ -44,7 +44,8 @@
         },
         SongOptionsButtonView: {
           viewClass: SongOptionsButtonView,
-          song: this.model.get('song')
+          song: this.model.get('song'),
+          player: this.player
         }
       };
     },
