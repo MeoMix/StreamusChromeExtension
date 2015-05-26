@@ -44,6 +44,7 @@
       // Allow N items to be rendered initially where N is how many items need to cover the viewport.
       this._setViewportHeight();
       this._tryScrollToActiveItem();
+      // Can I declare this in an events hash instead?
       // Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
       this.el.addEventListener('scroll', _.throttleFramerate(requestAnimationFrame, this._onScroll.bind(this)));
       this.view.triggerMethod('UpdateScrollbar');
@@ -337,6 +338,7 @@
         }
 
         this.el.scrollTop = scrollTop;
+        this.view.triggerMethod('UpdateScrollbar');
       }
     },
 

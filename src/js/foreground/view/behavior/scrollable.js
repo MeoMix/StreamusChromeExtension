@@ -48,11 +48,12 @@
     },
 
     onUpdateScrollbar: function() {
+      this.currentListScrollTop = this.el.scrollTop;
       this._update();
     },
 
     onListHeightUpdated: function() {
-      requestAnimationFrame(this._update.bind(this));
+      this._update();
     },
 
     onAddChild: function() {
@@ -71,6 +72,7 @@
       this._setWindowEventListeners(false);
     },
 
+    // TODO: Do I want to use _.throttleFramerate here?
     // Move the list up/down as the user scrolls the mouse wheel.
     _onWheel: function(event) {
       var deltaY = event.originalEvent.deltaY;
