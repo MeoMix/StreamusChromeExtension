@@ -13,9 +13,12 @@
 
     initialize: function() {
       var player = this.get('player');
-      this.listenTo(player, 'change:muted', this._onPlayerChangeMuted);
-      this.listenTo(player, 'change:state', this._onPlayerChangeState);
-      this.listenTo(player, 'change:volume', this._onPlayerChangeVolume);
+
+      this.listenTo(player, {
+        'change:muted': this._onPlayerChangeMuted,
+        'change:state': this._onPlayerChangeState,
+        'change:volume': this._onPlayerChangeVolume
+      });
 
       var streamItems = this.get('streamItems');
       this.listenTo(streamItems, 'change:active', this._onStreamItemsChangeActive);
@@ -24,7 +27,7 @@
       this.listenTo(settings, 'change:openInTab', this._onSettingsChangeOpenInTab);
 
       this._setTitle(streamItems.getActiveItem(), player.get('state'), player.get('volume'));
-      this._setIcon(player.get('state'), player.get('muted'), player.get('volume'));
+      this._setIcon(player.get('muted'), player.get('volume'));
       this._setPopup(settings.get('openInTab'));
 
       chrome.browserAction.onClicked.addListener(this._onChromeBrowserActionClicked.bind(this));
@@ -36,16 +39,16 @@
     },
 
     _onPlayerChangeMuted: function(model, muted) {
-      this._setIcon(model.get('state'), muted, model.get('volume'));
+      this._setIcon(muted, model.get('volume'));
     },
 
     _onPlayerChangeState: function(model, state) {
-      this._setIcon(state, model.get('muted'), model.get('volume'));
+      this._setIcon(model.get('muted'), model.get('volume'));
       this._setTitle(this.get('streamItems').getActiveItem(), state, model.get('volume'));
     },
 
     _onPlayerChangeVolume: function(model, volume) {
-      this._setIcon(model.get('state'), model.get('muted'), volume);
+      this._setIcon(model.get('muted'), volume);
       this._setTitle(this.get('streamItems').getActiveItem(), model.get('state'), volume);
     },
 
@@ -99,8 +102,8 @@
     // RED: Player is muted.
     // GREEN: Player is playing (buffering counts as playing)
     // Yellow: Player is paused/unstarted
-    _setIcon: function(playerState, isMuted, volume) {
-      var iconColor = this._getIconColor(playerState, isMuted);
+    _setIcon: function(isMuted, volume) {
+      var iconColor = this._getIconColor(isMuted);
       var iconBarCount = this._getIconBarCount(volume);
       var iconBasePath = '../../img/' + iconColor + '_' + iconBarCount + 'bar_';
 
@@ -112,12 +115,12 @@
       });
     },
 
-    _getIconColor: function(playerState, isMuted) {
+    _getIconColor: function(isMuted) {
       var iconColor = 'yellow';
 
       if (isMuted) {
         iconColor = 'red';
-      } else if (playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
+      } else if (this.get('player').isPausable()) {
         iconColor = 'green';
       }
 

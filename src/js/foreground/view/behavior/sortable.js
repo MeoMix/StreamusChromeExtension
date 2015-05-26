@@ -76,7 +76,7 @@
       if (draggedItems.length === 1) {
         var draggedModelId = draggedItems[0].get('id');
         var isNextModel = ui.placeholder.next().data('id') === draggedModelId;
-        var isPreviousModel = ui.placeholder.prev().data('id') === draggedModelId
+        var isPreviousModel = ui.placeholder.prev().data('id') === draggedModelId;
         isPlaceholderAdjacent = isNextModel || isPreviousModel;
       }
 
