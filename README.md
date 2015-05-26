@@ -33,7 +33,7 @@ Streamus' CSS is compiled via [LESS](http://lesscss.org/). As such, you need to 
 
 This command will parse all currently existing .less files and transform them into .css. Then, it will begin to watch for modifications to those files and automatically re-compiled into .css.
 
-<img src='http://i.imgur.com/bzEn7Ny.png' />
+<img src='http://i.imgur.com/5VGgBs1.png' />
 
 <h3>API keys</h3>
 You will need to modify the example key files located in the [/js/background/key/](https://github.com/MeoMix/StreamusChromeExtension/tree/Development/src/js/background/key) directory. Copy `youTubeAPIKey.js.example`, rename it to `youTubeAPIKey.js` and replace the example API key with your own. Production keys are not committed to GitHub. The example key provided should not be relied upon for anything other than testing and it may be revoked without warning. You are strongly encouraged to generate your own key.
