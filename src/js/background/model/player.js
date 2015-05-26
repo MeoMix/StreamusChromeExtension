@@ -80,7 +80,6 @@ define(function(require) {
 
     activateSong: function(song, timeInSeconds) {
       if (this.get('ready')) {
-        var playerState = this.get('state');
         var playOnActivate = this.get('playOnActivate');
         var startSeconds = timeInSeconds || 0;
 
