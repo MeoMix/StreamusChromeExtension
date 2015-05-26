@@ -94,7 +94,7 @@ define(function(require) {
 
         this._resetMetaData();
 
-        if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
+        if (playOnActivate || this.isPausable()) {
           this.get('youTubePlayer').loadVideoById(videoOptions);
         } else {
           this.set('cueing', true);
