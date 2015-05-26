@@ -32,7 +32,9 @@
 
     // The first part of the message just tells me an error was thrown, no need to know that.
     _cleanMessage: function() {
-      this.set('message', this.get('message').replace('Uncaught Error: ', '').replace('Uncaught TypeError: ', ''));
+      var message = this.get('message');
+      var cleanMessage = message.replace('Uncaught Error: ', '').replace('Uncaught TypeError: ', '');
+      this.set('message', cleanMessage);
     },
 
     // The first part of the URL is always the same and not very interesting. Drop it off.
@@ -44,7 +46,7 @@
       var stack = '';
       var error = this.get('error');
 
-      if (error) {
+      if (!_.isNull(error)) {
         // Guard against throw being called without an Error object.
         if (_.isUndefined(error.stack)) {
           stack = error;

@@ -175,8 +175,8 @@
       Streamus.backgroundChannels.foreground.vent.trigger('endUnload');
     },
 
-    _onWindowError: function(message, url, lineNumber, columnNumber, error) {
-      Streamus.backgroundChannels.error.vent.trigger('windowError', message, url, lineNumber, columnNumber, error);
+    _onWindowError: function(event) {
+      Streamus.backgroundChannels.error.vent.trigger('windowError', event);
     },
 
     _onKeyDown: function(event) {

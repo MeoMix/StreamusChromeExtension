@@ -130,8 +130,14 @@
     }.bind(this);
 
     // If YouTube errors out for any reason - record the error so that it can be communicated to the extension.
-    this.onWindowError = function(message) {
-      this.errors.push(message);
+    this.onWindowError = function(event) {
+      this.errors.push({
+        message: event.message,
+        url: event.filename,
+        lineNumber: event.lineno,
+        columnNumber: event.colno,
+        error: event.error
+      });
     }.bind(this);
 
     // Initialization code:

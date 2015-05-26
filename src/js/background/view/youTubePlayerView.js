@@ -10,18 +10,16 @@
     // loaded is set to true when the iframes contentWindow is ready
     loaded: false,
 
-    attributes: function() {
-      return {
-        name: 'youtube-player',
-        frameborder: 0,
-        allowfullscreen: 1,
-        title: 'YouTube player',
-        width: 640,
-        height: 360,
-        // Pass streamus=1 to uniquely identify the URL at design time. This allows for manifest.json to target just this URL.
-        // manifest.json cannot receive variables so it's not possible to match on chrome.runtime.id
-        src: 'https://www.youtube.com/embed/J1Ol6M0d9sg?streamus=1&enablejsapi=1&origin=chrome-extension://' + chrome.runtime.id
-      };
+    attributes: {
+      name: 'youtube-player',
+      frameborder: 0,
+      allowfullscreen: 1,
+      title: 'YouTube player',
+      width: 640,
+      height: 360,
+      // Pass streamus=1 to uniquely identify the URL at design time. This allows for manifest.json to target just this URL.
+      // manifest.json cannot receive variables so it's not possible to match on chrome.runtime.id
+      src: 'https://www.youtube.com/embed/J1Ol6M0d9sg?streamus=1&enablejsapi=1&origin=chrome-extension://' + chrome.runtime.id
     },
 
     events: {

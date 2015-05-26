@@ -36,8 +36,8 @@
       this.set('platformInfo', platformInfo);
     },
 
-    _onWindowError: function(message, url, lineNumber, columnNumber, error) {
-      this._createClientError(message, url, lineNumber, error);
+    _onWindowError: function(event) {
+      this._createClientError(event.message, event.filename, event.lineno, event.error);
     },
 
     _logError: function(error) {
