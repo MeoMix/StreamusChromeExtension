@@ -7,9 +7,9 @@
 
   var TooltipRegion = Marionette.Region.extend({
     initialize: function() {
-      this.listenTo(Streamus.channels.tooltip.commands, 'show:tooltip', this._showTooltip);
-      this.listenTo(Streamus.channels.tooltip.commands, 'hide:tooltip', this._hideTooltip);
-      this.listenTo(Streamus.channels.tooltip.commands, 'update:tooltip', this._updateTooltip);
+      this.listenTo(StreamusFG.channels.tooltip.commands, 'show:tooltip', this._showTooltip);
+      this.listenTo(StreamusFG.channels.tooltip.commands, 'hide:tooltip', this._hideTooltip);
+      this.listenTo(StreamusFG.channels.tooltip.commands, 'update:tooltip', this._updateTooltip);
     },
 
     // TODO: It would be better for performance to just move an empty view around rather than constantly append/remove elements.

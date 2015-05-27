@@ -23,8 +23,8 @@
       this._onWindowError = this._onWindowError.bind(this);
       window.addEventListener('error', this._onWindowError);
 
-      this.listenTo(Streamus.channels.error.commands, 'log:error', this._logError);
-      this.listenTo(Streamus.channels.error.vent, 'windowError', this._onWindowError);
+      this.listenTo(StreamusBG.channels.error.commands, 'log:error', this._logError);
+      this.listenTo(StreamusBG.channels.error.vent, 'windowError', this._onWindowError);
     },
 
     // Only log client errors to the database in a deploy environment, not when debugging locally.
@@ -45,7 +45,7 @@
     },
 
     _createClientError: function(message, url, lineNumber, error) {
-      if (Streamus.localDebug && !Streamus.testing) {
+      if (StreamusBG.localDebug && !StreamusBG.testing) {
         this._warnDebugEnabled(message);
         return;
       }

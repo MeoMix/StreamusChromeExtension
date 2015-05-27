@@ -57,7 +57,7 @@
         // Disconnect the event listener to prevent memory leaks
         this.mutationObserver.disconnect();
         this.mutationObserver = null;
-        Streamus.channels.tooltip.commands.trigger('hide:tooltip');
+        StreamusFG.channels.tooltip.commands.trigger('hide:tooltip');
         this.isShowingTooltip = false;
       }
     },
@@ -113,7 +113,7 @@
 
     // Notify the Tooltip Region that a tooltip should be shown at the given location with the given text.
     _showTooltip: function(boundingClientRect, text) {
-      Streamus.channels.tooltip.commands.trigger('show:tooltip', {
+      StreamusFG.channels.tooltip.commands.trigger('show:tooltip', {
         targetBoundingClientRect: boundingClientRect,
         text: text
       });
@@ -122,7 +122,7 @@
 
     // Tell the current visible tooltip to update its text instead of re-showing it which would cause it to flicker.
     _updateTooltip: function(boundingClientRect, text) {
-      Streamus.channels.tooltip.commands.trigger('update:tooltip', {
+      StreamusFG.channels.tooltip.commands.trigger('update:tooltip', {
         targetBoundingClientRect: boundingClientRect,
         text: text
       });

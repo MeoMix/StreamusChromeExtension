@@ -59,7 +59,7 @@ define(function(require) {
 
     getShareCode: function(options) {
       $.ajax({
-        url: Streamus.serverUrl + 'ShareCode/GetShareCode',
+        url: StreamusBG.serverUrl + 'ShareCode/GetShareCode',
         data: {
           id: this.get('id'),
           entityType: EntityType.Playlist
@@ -128,7 +128,7 @@ define(function(require) {
 
     // Notify all open YouTube tabs that a playlist has been renamed.
     _emitYouTubeTabUpdateEvent: function(data) {
-      Streamus.channels.tab.commands.trigger('notify:youTube', {
+      StreamusBG.channels.tab.commands.trigger('notify:youTube', {
         event: SyncActionType.Updated,
         type: ListItemType.Playlist,
         data: data
@@ -137,9 +137,9 @@ define(function(require) {
 
     _setActivePlaylistListeners: function(active) {
       if (active) {
-        this.listenTo(Streamus.channels.activePlaylist.commands, 'save:song', this._saveSong);
+        this.listenTo(StreamusBG.channels.activePlaylist.commands, 'save:song', this._saveSong);
       } else {
-        this.stopListening(Streamus.channels.activePlaylist.commands);
+        this.stopListening(StreamusBG.channels.activePlaylist.commands);
       }
     },
 
@@ -147,7 +147,7 @@ define(function(require) {
       var duplicatesInfo = this.get('items').getDuplicatesInfo(song);
 
       if (duplicatesInfo.allDuplicates) {
-        Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+        StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
           title: duplicatesInfo.message
         });
       } else {
@@ -159,13 +159,13 @@ define(function(require) {
     },
 
     _onSaveSongsSuccess: function(savedSong) {
-      Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
         title: chrome.i18n.getMessage('songSavedToPlaylist', [savedSong.get('title'), this.get('title')])
       });
     },
 
     _onSaveSongsError: function() {
-      Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
         title: chrome.i18n.getMessage('errorEncountered')
       });
     },

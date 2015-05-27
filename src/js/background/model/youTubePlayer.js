@@ -28,7 +28,7 @@
 
     initialize: function() {
       this.listenTo(this.get('api'), 'change:ready', this._onApiChangeReady);
-      this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted);
+      this.listenTo(StreamusBG.channels.foreground.vent, 'started', this._onForegroundStarted);
       this.on('change:loading', this._onChangeLoading);
     },
 

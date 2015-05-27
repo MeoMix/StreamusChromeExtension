@@ -62,7 +62,7 @@
     },
 
     _onClickClearButton: function() {
-      Streamus.channels.listItem.commands.trigger('deselect:collection');
+      StreamusFG.channels.listItem.commands.trigger('deselect:collection');
     },
 
     _onClickPlayButton: function() {
@@ -74,7 +74,7 @@
           playOnAdd: true
         });
 
-        Streamus.channels.listItem.commands.trigger('deselect:collection');
+        StreamusFG.channels.listItem.commands.trigger('deselect:collection');
       }
     },
 
@@ -85,7 +85,7 @@
         var selectedSongs = this.model.get('activeCollection').getSelectedSongs();
         this.model.get('streamItems').addSongs(selectedSongs);
 
-        Streamus.channels.listItem.commands.trigger('deselect:collection');
+        StreamusFG.channels.listItem.commands.trigger('deselect:collection');
       }
     },
 
@@ -102,8 +102,8 @@
 
         // Don't deselect collections immediately when the button is clicked because more actions are needed.
         // If the user decides to not use the simple menu then don't de-select, either.
-        this.listenTo(Streamus.channels.simpleMenu.vent, 'clicked:item', this._onSimpleMenuClickedItem);
-        this.listenTo(Streamus.channels.simpleMenu.vent, 'hidden', this._onSimpleMenuHidden);
+        this.listenTo(StreamusFG.channels.simpleMenu.vent, 'clicked:item', this._onSimpleMenuClickedItem);
+        this.listenTo(StreamusFG.channels.simpleMenu.vent, 'hidden', this._onSimpleMenuHidden);
       }
     },
 
@@ -114,16 +114,16 @@
         var selectedModels = this.model.get('activeCollection').selected();
         _.invoke(selectedModels, 'destroy');
 
-        Streamus.channels.listItem.commands.trigger('deselect:collection');
+        StreamusFG.channels.listItem.commands.trigger('deselect:collection');
       }
     },
 
     _onSimpleMenuClickedItem: function() {
-      Streamus.channels.listItem.commands.trigger('deselect:collection');
+      StreamusFG.channels.listItem.commands.trigger('deselect:collection');
     },
 
     _onSimpleMenuHidden: function() {
-      this.stopListening(Streamus.channels.simpleMenu.vent);
+      this.stopListening(StreamusFG.channels.simpleMenu.vent);
     },
 
     _onChangeCanAdd: function(model, canAdd) {

@@ -6,14 +6,14 @@
 
   var SelectionBarRegion = Marionette.Region.extend({
     initialize: function() {
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
     },
 
     _onForegroundAreaIdle: function() {
       var selectionBar = new SelectionBar({
-        streamItems: Streamus.backgroundPage.stream.get('items'),
-        searchResults: Streamus.backgroundPage.search.get('results'),
-        signInManager: Streamus.backgroundPage.signInManager
+        streamItems: StreamusFG.backgroundPage.stream.get('items'),
+        searchResults: StreamusFG.backgroundPage.search.get('results'),
+        signInManager: StreamusFG.backgroundPage.signInManager
       });
 
       this.show(new SelectionBarView({

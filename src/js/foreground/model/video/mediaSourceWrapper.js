@@ -73,7 +73,7 @@
       } else {
         this.set({
           sourceBufferWrapper: new SourceBufferWrapper({
-            bufferCache: Streamus.backgroundPage.player.get('buffers')
+            bufferCache: StreamusFG.backgroundPage.player.get('buffers')
           }),
           // Recreate objectURL whenever sourceBufferWrapper is modified or video won't start properly.
           objectURL: window.URL.createObjectURL(this.get('mediaSource'))

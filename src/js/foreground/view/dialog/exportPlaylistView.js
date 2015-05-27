@@ -84,7 +84,7 @@
       downloadableElement.setAttribute('download', fileName);
       downloadableElement.click();
 
-      Streamus.channels.notification.commands.trigger('show:notification', {
+      StreamusFG.channels.notification.commands.trigger('show:notification', {
         message: chrome.i18n.getMessage('playlistExported')
       });
     },

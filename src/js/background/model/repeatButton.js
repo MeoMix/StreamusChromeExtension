@@ -63,7 +63,7 @@
       if (command === ChromeCommand.ToggleRepeat) {
         this.toggleRepeatState();
 
-        Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+        StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
           message: this.getStateMessage()
         });
       }

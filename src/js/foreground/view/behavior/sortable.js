@@ -14,7 +14,7 @@
     },
 
     initialize: function() {
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
     },
 
     _onForegroundAreaIdle: function() {
@@ -90,7 +90,7 @@
     },
 
     _start: function(event, ui) {
-      Streamus.channels.element.vent.trigger('drag');
+      StreamusFG.channels.element.vent.trigger('drag');
       this.view.triggerMethod('ItemDragged', {
         item: this.view.collection.get(ui.item.data('id')),
         shiftKey: event.shiftKey
@@ -148,7 +148,7 @@
 
     _cleanup: function() {
       this.ui.listItems.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
-      Streamus.channels.element.vent.trigger('drop');
+      StreamusFG.channels.element.vent.trigger('drop');
     },
 
     _receive: function(event, ui) {

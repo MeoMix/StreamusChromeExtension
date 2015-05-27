@@ -9,7 +9,7 @@
     showContextMenu: function(playlist, top, left) {
       var isEmpty = playlist.get('items').isEmpty();
 
-      Streamus.channels.simpleMenu.commands.trigger('show:simpleMenu', {
+      StreamusFG.channels.simpleMenu.commands.trigger('show:simpleMenu', {
         isContextMenu: true,
         top: top,
         left: left,
@@ -49,31 +49,31 @@
     _onGetShareCodeSuccess: function(shareCode) {
       shareCode.copyUrl();
 
-      Streamus.channels.notification.commands.trigger('show:notification', {
+      StreamusFG.channels.notification.commands.trigger('show:notification', {
         message: chrome.i18n.getMessage('urlCopied')
       });
     },
 
     _onGetShareCodeError: function() {
-      Streamus.channels.notification.commands.trigger('show:notification', {
+      StreamusFG.channels.notification.commands.trigger('show:notification', {
         message: chrome.i18n.getMessage('copyFailed')
       });
     },
 
     _showDeletePlaylistDialog: function(playlist) {
-      Streamus.channels.dialog.commands.trigger('show:dialog', DeletePlaylistDialogView, {
+      StreamusFG.channels.dialog.commands.trigger('show:dialog', DeletePlaylistDialogView, {
         playlist: playlist
       });
     },
 
     _showEditPlaylistDialog: function(playlist) {
-      Streamus.channels.dialog.commands.trigger('show:dialog', EditPlaylistDialogView, {
+      StreamusFG.channels.dialog.commands.trigger('show:dialog', EditPlaylistDialogView, {
         playlist: playlist
       });
     },
 
     _showExportPlaylistDialog: function(playlist) {
-      Streamus.channels.dialog.commands.trigger('show:dialog', ExportPlaylistDialogView, {
+      StreamusFG.channels.dialog.commands.trigger('show:dialog', ExportPlaylistDialogView, {
         playlist: playlist
       });
     }

@@ -45,8 +45,8 @@
         model: new TimeArea({
           totalTime: this.model.get('song').get('duration')
         }),
-        streamItems: Streamus.backgroundPage.stream.get('items'),
-        player: Streamus.backgroundPage.player
+        streamItems: StreamusFG.backgroundPage.stream.get('items'),
+        player: StreamusFG.backgroundPage.player
       }));
     },
 
@@ -54,13 +54,13 @@
       // If the view is shown instantly then there is no transition to wait for, so announce shown immediately.
       if (this.instant) {
         this.$el.addClass('is-visible');
-        Streamus.channels.activeStreamItemArea.vent.trigger('visible');
+        StreamusFG.channels.activeStreamItemArea.vent.trigger('visible');
       } else {
         requestAnimationFrame(function() {
           this.$el.addClass('is-visible');
         }.bind(this));
 
-        Streamus.channels.activeStreamItemArea.vent.trigger('beforeVisible');
+        StreamusFG.channels.activeStreamItemArea.vent.trigger('beforeVisible');
       }
     },
 
@@ -79,14 +79,14 @@
     _onTransitionInComplete: function(event) {
       if (event.target === event.currentTarget) {
         this.$el.off('webkitTransitionEnd');
-        Streamus.channels.activeStreamItemArea.vent.trigger('visible');
+        StreamusFG.channels.activeStreamItemArea.vent.trigger('visible');
       }
     },
 
     _onTransitionOutComplete: function(event) {
       if (event.target === event.currentTarget) {
         this.$el.off('webkitTransitionEnd');
-        Streamus.channels.activeStreamItemArea.vent.trigger('hidden');
+        StreamusFG.channels.activeStreamItemArea.vent.trigger('hidden');
         this.destroy();
       }
     },

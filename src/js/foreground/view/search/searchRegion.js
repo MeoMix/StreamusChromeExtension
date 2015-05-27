@@ -9,10 +9,10 @@
     initialize: function(options) {
       this.settings = options.settings;
 
-      this.listenTo(Streamus.channels.search.commands, 'show:search', this._showSearch);
-      this.listenTo(Streamus.channels.search.commands, 'hide:search', this._hideSearch);
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+      this.listenTo(StreamusFG.channels.search.commands, 'show:search', this._showSearch);
+      this.listenTo(StreamusFG.channels.search.commands, 'hide:search', this._hideSearch);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
     },
 
     _onForegroundAreaRendered: function() {
@@ -36,10 +36,10 @@
     _createSearchView: function() {
       if (!this.hasView()) {
         var searchView = new SearchView({
-          model: Streamus.backgroundPage.search,
-          collection: Streamus.backgroundPage.search.get('results'),
-          streamItems: Streamus.backgroundPage.stream.get('items'),
-          signInManager: Streamus.backgroundPage.signInManager
+          model: StreamusFG.backgroundPage.search,
+          collection: StreamusFG.backgroundPage.search.get('results'),
+          streamItems: StreamusFG.backgroundPage.stream.get('items'),
+          signInManager: StreamusFG.backgroundPage.signInManager
         });
 
         this.show(searchView);
@@ -54,7 +54,7 @@
         this._createSearchView();
       }
 
-      Streamus.channels.search.vent.trigger('showing');
+      StreamusFG.channels.search.vent.trigger('showing');
 
       // If the view should be visible when UI first loads then do not transition.
       if (options && options.instant) {
@@ -66,7 +66,7 @@
     },
 
     _hideSearch: function() {
-      Streamus.channels.search.vent.trigger('hiding');
+      StreamusFG.channels.search.vent.trigger('hiding');
       this.$el.removeClass('is-instant is-visible');
     }
   });

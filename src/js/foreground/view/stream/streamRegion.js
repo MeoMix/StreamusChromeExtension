@@ -5,12 +5,12 @@
 
   var StreamRegion = Marionette.Region.extend({
     initialize: function() {
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
     },
 
     _onForegroundAreaRendered: function() {
       this.show(new StreamView({
-        model: Streamus.backgroundPage.stream
+        model: StreamusFG.backgroundPage.stream
       }));
     }
   });

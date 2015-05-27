@@ -30,7 +30,7 @@
     },
 
     initialize: function() {
-      this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
+      this.listenTo(StreamusFG.channels.window.vent, 'resize', this._onWindowResize);
 
       // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
       this._onWindowMouseMove = this._onWindowMouseMove.bind(this);
@@ -85,7 +85,7 @@
       // Doesn't make sense to run this logic on right-click.
       if (event.button === 0) {
         this.isMouseDownOnTrack = true;
-        Streamus.channels.scrollbar.vent.trigger('mouseDown');
+        StreamusFG.channels.scrollbar.vent.trigger('mouseDown');
 
         // Snap the thumb to the mouse's position, but only do so if the mouse isn't clicking the thumb.
         if (event.target !== this.ui.thumb[0]) {
@@ -127,7 +127,7 @@
     },
 
     _onWindowMouseUp: function() {
-      Streamus.channels.scrollbar.vent.trigger('mouseUp');
+      StreamusFG.channels.scrollbar.vent.trigger('mouseUp');
       this.totalMouseMovementY = 0;
       this._setWindowEventListeners(false);
     },

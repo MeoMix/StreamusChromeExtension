@@ -16,25 +16,31 @@
     var headerWritten = false;
     console.error('error:', error);
 
-    var consoleWarningStyle = 'color: rgb(66,133,244); font-size: 18px; font-weight: bold;';
-    error.requireModules.forEach(function(requireModule) {
-      if (requireModule.indexOf('background/key/') !== -1) {
-        if (!headerWritten) {
-          console.warn('%c ATTENTION! Additional configuration is required', consoleWarningStyle);
-          console.warn('%c -----------------------------------------------', consoleWarningStyle);
-          headerWritten = true;
+    if (!_.isNull(error.requireModules)) {
+      var consoleWarningStyle = 'color: rgb(66,133,244); font-size: 18px; font-weight: bold;';
+      error.requireModules.forEach(function(requireModule) {
+        if (requireModule.indexOf('background/key/') !== -1) {
+          if (!headerWritten) {
+            console.warn('%c ATTENTION! Additional configuration is required', consoleWarningStyle);
+            console.warn('%c -----------------------------------------------', consoleWarningStyle);
+            headerWritten = true;
+          }
+
+          console.warn('%cKey not found. \n Copy "' + requireModule + '.js.example" to "' + requireModule + '.js".', 'color: red');
+          console.warn('%cThen, follow the file\'s instructions.', 'color:red ');
         }
+      });
 
-        console.warn('%cKey not found. \n Copy "' + requireModule + '.js.example" to "' + requireModule + '.js".', 'color: red');
-        console.warn('%cThen, follow the file\'s instructions.', 'color:red ');
+      if (headerWritten) {
+        console.warn('%c -----------------------------------------------', consoleWarningStyle);
       }
-    });
-
-    if (headerWritten) {
-      console.warn('%c -----------------------------------------------', consoleWarningStyle);
     }
   };
 
   // Finally, load the application:
-  require(['background/application']);
+  require(['background/application'], function(Application) {
+    var streamusBG = new Application();
+    window.StreamusBG = streamusBG;
+    streamusBG.start();
+  });
 });

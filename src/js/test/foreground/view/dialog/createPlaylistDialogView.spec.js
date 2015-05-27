@@ -2,12 +2,15 @@
   'use strict';
 
   var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
+  var Playlists = require('background/collection/playlists');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
   describe('CreatePlaylistDialogView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
-      this.view = new CreatePlaylistDialogView();
+      this.view = new CreatePlaylistDialogView({
+        playlists: new Playlists()
+      });
     });
 
     afterEach(function() {

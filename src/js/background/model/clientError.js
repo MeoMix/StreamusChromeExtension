@@ -4,7 +4,7 @@
   var ClientError = Backbone.Model.extend({
     defaults: function() {
       return {
-        instanceId: Streamus.instanceId,
+        instanceId: StreamusBG.instanceId,
         message: '',
         lineNumber: -1,
         url: '',

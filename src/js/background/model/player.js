@@ -68,7 +68,7 @@ define(function(require) {
       this.listenTo(this.get('youTubePlayer'), 'youTubeError', this._onYouTubePlayerError);
       this.listenTo(this.get('youTubePlayer'), 'change:loading', this._onYouTubePlayerChangeLoading);
       this.listenTo(this.get('youTubePlayer'), 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
-      this.listenTo(Streamus.channels.player.commands, 'playOnActivate', this._playOnActivate);
+      this.listenTo(StreamusBG.channels.player.commands, 'playOnActivate', this._playOnActivate);
 
       //window.addEventListener('message', this._onWindowMessage.bind(this));
       chrome.runtime.onConnect.addListener(this._onChromeRuntimeConnect.bind(this));
@@ -320,7 +320,7 @@ define(function(require) {
 
       if (!_.isUndefined(message.error)) {
         var error = new Error(message.error);
-        Streamus.channels.error.commands.trigger('log:error', error);
+        StreamusBG.channels.error.commands.trigger('log:error', error);
       }
 
       if (!_.isUndefined(message.seeking)) {
@@ -446,7 +446,7 @@ define(function(require) {
         case YouTubePlayerState.SongCued:
           // This should not occur in the wild. Remove in v0.175+ once confirmed.
           playerState = PlayerState.Paused;
-          Streamus.channels.error.commands.trigger('log:error', new Error('Unexpected PlayerState.SongCued event.'));
+          StreamusBG.channels.error.commands.trigger('log:error', new Error('Unexpected PlayerState.SongCued event.'));
           break;
         default:
           throw new Error('Unmapped YouTubePlayerState:' + youTubePlayerState);

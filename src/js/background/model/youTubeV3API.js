@@ -170,7 +170,7 @@
     getRelatedSongs: function(options) {
       var activeJqXHR = this._doRequest(YouTubeServiceType.Search, {
         success: function(response) {
-          // It is possible to receive no response if a song was removed from YouTube but is still known to Streamus.
+          // It is possible to receive no response if a song was removed from YouTube but is still known to StreamusBG.
           if (!response) {
             throw new Error('No response for: ' + JSON.stringify(options));
           }
@@ -236,7 +236,7 @@
             }
           } else {
             var playableItems = _.filter(response.items, function(item) {
-              // Filter out songs are not able to be embedded since they are unable to be played in Streamus.
+              // Filter out songs are not able to be embedded since they are unable to be played in StreamusBG.
               var isEmbeddable = item.status.embeddable;
 
               // Songs with 0s duration are unable to be played and YouTube's API

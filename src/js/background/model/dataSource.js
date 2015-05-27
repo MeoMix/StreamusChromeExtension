@@ -92,7 +92,7 @@
             songId: this.get('entityId'),
             success: options.success,
             error: function() {
-              Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+              StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
                 title: chrome.i18n.getMessage('failedToFindSong')
               });
 

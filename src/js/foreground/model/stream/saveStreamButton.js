@@ -17,7 +17,7 @@
       var signInManager = this.get('signInManager');
       this.listenTo(signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
 
-      this.listenTo(Streamus.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload);
+      this.listenTo(StreamusFG.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload);
 
       this._setEnabled(signInManager.isSignedIn(), streamItems.isEmpty());
     },

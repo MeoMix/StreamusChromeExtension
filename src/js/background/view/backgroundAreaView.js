@@ -29,7 +29,7 @@
     },
 
     onRender: function() {
-      Streamus.channels.backgroundArea.vent.trigger('rendered');
+      StreamusBG.channels.backgroundArea.vent.trigger('rendered');
     }
   });
 

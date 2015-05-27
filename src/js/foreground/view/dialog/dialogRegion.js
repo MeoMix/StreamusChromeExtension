@@ -15,8 +15,8 @@
       this.player = options.player;
       this.signInManager = options.signInManager;
 
-      this.listenTo(Streamus.channels.dialog.commands, 'show:dialog', this._showDialog);
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+      this.listenTo(StreamusFG.channels.dialog.commands, 'show:dialog', this._showDialog);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
       this.listenTo(this.player, 'youTubeError', this._onPlayerYouTubeError);
       this.listenTo(this.signInManager, 'change:needLinkUserId', this._onSignInManagerChangeNeedLinkUserId);
       this.listenTo(this.signInManager, 'change:needGoogleSignIn', this._onSignInManagerChangeNeedGoogleSignIn);
@@ -69,13 +69,13 @@
     // Ask the user to confirm linking their Google+ ID to the currently signed in Chrome account.
     _showLinkUserIdDialog: function() {
       this._showDialog(LinkUserIdDialogView, {
-        signInManager: Streamus.backgroundPage.signInManager
+        signInManager: StreamusFG.backgroundPage.signInManager
       });
     },
 
     _showGoogleSignInDialog: function() {
       this._showDialog(GoogleSignInDialogView, {
-        signInManager: Streamus.backgroundPage.signInManager
+        signInManager: StreamusFG.backgroundPage.signInManager
       });
     },
 
@@ -112,7 +112,7 @@
       }
 
       this._showDialog(ErrorDialogView, {
-        player: Streamus.backgroundPage.player,
+        player: StreamusFG.backgroundPage.player,
         text: text,
         error: youTubeError
       });

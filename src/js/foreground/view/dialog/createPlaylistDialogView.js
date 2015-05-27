@@ -16,9 +16,9 @@
 
       this.contentView = new CreatePlaylistView({
         model: new CreatePlaylist(),
-        dataSourceManager: Streamus.backgroundPage.dataSourceManager,
-        playlists: Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists'),
-        songs: options && options.songs ? options.songs : []
+        dataSourceManager: StreamusFG.backgroundPage.dataSourceManager,
+        playlists: options.playlists,
+        songs: _.isUndefined(options.songs) ? [] : options.songs
       });
 
       DialogView.prototype.initialize.apply(this, arguments);

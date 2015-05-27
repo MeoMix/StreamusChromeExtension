@@ -14,7 +14,7 @@
       });
 
       this.contentView = new BrowserSettingsView({
-        model: Streamus.backgroundPage.browserSettings
+        model: StreamusFG.backgroundPage.browserSettings
       });
 
       DialogView.prototype.initialize.apply(this, arguments);

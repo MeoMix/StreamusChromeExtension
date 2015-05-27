@@ -17,8 +17,8 @@
     },
 
     initialize: function() {
-      this.listenTo(Streamus.channels.tab.commands, 'notify:youTube', this._notifyYouTube);
-      this.listenTo(Streamus.channels.tab.commands, 'notify:beatport', this._notifyBeatport);
+      this.listenTo(StreamusBG.channels.tab.commands, 'notify:youTube', this._notifyYouTube);
+      this.listenTo(StreamusBG.channels.tab.commands, 'notify:beatport', this._notifyBeatport);
       chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
     },
 

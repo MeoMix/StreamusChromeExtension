@@ -10,5 +10,14 @@
   require('jquery-ui');
 
   // Finally, load the application which will initialize the foreground:
-  require(['foreground/application']);
+  require(['foreground/application'], function(Application) {
+    var backgroundPage = chrome.extension.getBackgroundPage();
+
+    var streamusFG = new Application({
+      backgroundProperties: backgroundPage.StreamusBG.getExposedProperties(),
+      backgroundChannels: backgroundPage.StreamusBG.getExposedChannels()
+    });
+    window.StreamusFG = streamusFG;
+    streamusFG.start();
+  });
 });

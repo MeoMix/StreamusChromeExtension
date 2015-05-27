@@ -231,6 +231,15 @@ module.exports = function(grunt) {
       options: {
         config: '.jscsrc'
       }
+    },
+    mocha: {
+      tests: {
+        options: {
+          log: true,
+          run: false
+        },
+        src: ['src/test.html']
+      }
     }
   });
 
@@ -275,7 +284,7 @@ module.exports = function(grunt) {
 
   // Run linters and enforce code-quality standards
   grunt.registerTask('default', ['test']);
-  grunt.registerTask('test', ['diffLocales', 'jshint', 'recess', 'jscs']);
+  grunt.registerTask('test', ['diffLocales', 'jshint', 'recess', 'jscs', 'mocha']);
 
   // A synchronous wrapper for compress:release
   grunt.registerTask('compressRelease', function(releaseDirectory, sanitize) {

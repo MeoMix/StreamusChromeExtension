@@ -7,7 +7,7 @@
   var YouTubePlayer = require('background/model/youTubePlayer');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
-  describe('VideoView', function() {
+  xdescribe('VideoView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
       this.view = new VideoView({

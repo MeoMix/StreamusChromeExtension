@@ -35,7 +35,7 @@
       if (command === ChromeCommand.ToggleRadio) {
         this.toggleEnabled();
 
-        Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+        StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
           message: this.getStateMessage()
         });
       }

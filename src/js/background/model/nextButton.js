@@ -40,7 +40,7 @@
         var activatedStreamItem = this.tryActivateNextStreamItem();
 
         if (!activatedStreamItem) {
-          Streamus.channels.notification.commands.trigger('show:notification', {
+          StreamusBG.channels.notification.commands.trigger('show:notification', {
             title: chrome.i18n.getMessage('keyboardCommandFailure'),
             message: chrome.i18n.getMessage('cantSkipToNextSong')
           });

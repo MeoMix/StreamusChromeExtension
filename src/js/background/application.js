@@ -11,6 +11,7 @@
     serverUrl: '',
     // A unique identifier for this Streamus instance. Useful for telling logs apart without a signed in user.
     instanceId: '',
+    backgroundArea: null,
 
     // All the channels used for global event communication across the page
     channels: {
@@ -31,7 +32,26 @@
       this.on('start', this._onStart);
     },
 
+    getExposedChannels: function() {
+      return {
+        error: this.channels.error,
+        notification: this.channels.notification,
+        foreground: this.channels.foreground
+      };
+    },
+
+    getExposedProperties: function() {
+      return this.backgroundArea.getExposedProperties();
+    },
+
+    instantiateBackgroundArea: function() {
+      if (_.isNull(this.backgroundArea)) {
+        this.backgroundArea = new BackgroundArea();
+      }
+    },
+
     _onStart: function() {
+      this.instantiateBackgroundArea();
       this._showBackgroundArea();
     },
 
@@ -52,14 +72,12 @@
 
     _showBackgroundArea: function() {
       var backgroundAreaView = new BackgroundAreaView({
-        model: new BackgroundArea()
+        model: this.backgroundArea
       });
 
       backgroundAreaView.render();
     }
   });
 
-  var streamus = new Application();
-  window.Streamus = streamus;
-  streamus.start();
+  return Application;
 });

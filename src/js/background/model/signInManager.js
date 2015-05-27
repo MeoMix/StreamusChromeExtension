@@ -21,7 +21,7 @@
     initialize: function() {
       this.on('change:signedInUser', this._onChangeSignedInUser);
       this.on('change:signInFailed', this._onChangeSignInFailed);
-      this.listenTo(Streamus.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
+      this.listenTo(StreamusBG.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
       chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
       chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
       chrome.identity.onSignInChanged.addListener(this._onChromeIdentitySignInChanged.bind(this));
@@ -52,7 +52,6 @@
 
         var signedInUser = this.get('signedInUser');
         signedInUser.set('googlePlusId', profileUserInfo.id);
-
         signedInUser.hasLinkedGoogleAccount(function(hasLinkedGoogleAccount) {
           // Merge a previously known account with the existing data to prevent data loss.
           // Only happens if Streamus is used on two PCs before Chrome is signed in.
@@ -139,7 +138,7 @@
 
     _onChangeSignedInUser: function(model, signedInUser) {
       // Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
-      Streamus.channels.tab.commands.trigger('notify:youTube', {
+      StreamusBG.channels.tab.commands.trigger('notify:youTube', {
         event: _.isNull(signedInUser) ? 'signed-out' : 'signed-in'
       });
     },

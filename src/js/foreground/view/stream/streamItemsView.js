@@ -18,8 +18,8 @@
     childViewType: ListItemType.StreamItem,
     childViewOptions: function() {
       return {
-        player: Streamus.backgroundPage.player,
-        playPauseButton: Streamus.backgroundPage.playPauseButton,
+        player: StreamusFG.backgroundPage.player,
+        playPauseButton: StreamusFG.backgroundPage.playPauseButton,
         type: this.childViewType,
         parentId: this.ui.listItems[0].id
       };
@@ -62,7 +62,7 @@
     },
 
     initialize: function() {
-      this.bindEntityEvents(Streamus.channels.activeStreamItemArea.vent, this.activeStreamItemAreaEvents);
+      this.bindEntityEvents(StreamusFG.channels.activeStreamItemArea.vent, this.activeStreamItemAreaEvents);
     },
 
     _onActiveStreamItemAreaBeforeVisible: function() {

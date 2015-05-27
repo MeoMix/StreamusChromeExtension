@@ -29,11 +29,11 @@
       // were responsible for showing it do not also result in hiding.
       _.defer(function() {
         if (!this.isDestroyed) {
-          this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
-          this.listenTo(Streamus.channels.element.vent, 'drag', this._onElementDrag);
+          this.listenTo(StreamusFG.channels.element.vent, 'click', this._onElementClick);
+          this.listenTo(StreamusFG.channels.element.vent, 'drag', this._onElementDrag);
 
           if (this.model.get('isContextMenu')) {
-            this.listenTo(Streamus.channels.element.vent, 'contextMenu', this._onElementContextMenu);
+            this.listenTo(StreamusFG.channels.element.vent, 'contextMenu', this._onElementContextMenu);
           }
         }
       }.bind(this));
@@ -65,13 +65,13 @@
     },
 
     hide: function() {
-      Streamus.channels.simpleMenu.vent.trigger('hidden');
+      StreamusFG.channels.simpleMenu.vent.trigger('hidden');
       this.ui.panelContent.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
       this.$el.removeClass('is-visible');
     },
 
     _onClickItem: function() {
-      Streamus.channels.simpleMenu.vent.trigger('clicked:item');
+      StreamusFG.channels.simpleMenu.vent.trigger('clicked:item');
       this.hide();
     },
 

@@ -81,7 +81,7 @@
       });
 
       if (!playOnAdd) {
-        Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+        StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
           title: chrome.i18n.getMessage('songAdded'),
           message: pickedSong.get('title')
         });

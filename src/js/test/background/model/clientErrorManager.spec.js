@@ -23,7 +23,7 @@
       expect(this.reportedErrors.length).to.equal(1);
     });
 
-    it('should log not log the same error message more than once', function() {
+    it('should not log the same error message more than once', function() {
       for (var i = 0; i < 5; i++) {
         this.clientErrorManager._logError(new Error('test message'));
       }

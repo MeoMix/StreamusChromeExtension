@@ -8,7 +8,7 @@
 
   var SimpleMenuRegion = Marionette.Region.extend({
     initialize: function() {
-      this.listenTo(Streamus.channels.simpleMenu.commands, 'show:simpleMenu', this._showSimpleMenu);
+      this.listenTo(StreamusFG.channels.simpleMenu.commands, 'show:simpleMenu', this._showSimpleMenu);
     },
 
     _showSimpleMenu: function(options) {

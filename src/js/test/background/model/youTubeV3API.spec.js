@@ -362,7 +362,7 @@
           songId: 'JMPYmNINxrE',
           error: function(error) {
             expect(error).not.to.equal(null);
-            expect(error).to.equal('Failed to find song JMPYmNINxrE');
+            expect(error).to.equal(chrome.i18n.getMessage('failedToFindSong') + ' ' + 'JMPYmNINxrE');
             done();
           }
         });

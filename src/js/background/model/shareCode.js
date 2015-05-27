@@ -13,7 +13,7 @@ define(function(require) {
     },
 
     urlRoot: function() {
-      return Streamus.serverUrl + 'ShareCode/';
+      return StreamusBG.serverUrl + 'ShareCode/';
     },
 
     copyUrl: function() {
@@ -22,7 +22,7 @@ define(function(require) {
       var urlFriendlyEntityTitle = this.get('urlFriendlyEntityTitle');
       var shareUrl = 'https://streamus.com/share/' + entityType + '/' + shortId + '/' + urlFriendlyEntityTitle;
 
-      Streamus.channels.clipboard.commands.trigger('copy:text', shareUrl);
+      StreamusBG.channels.clipboard.commands.trigger('copy:text', shareUrl);
     }
   });
 

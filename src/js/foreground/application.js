@@ -5,6 +5,7 @@
 
   var Application = Marionette.Application.extend({
     backgroundPage: null,
+    backgroundChannels: null,
 
     channels: {
       global: Backbone.Wreqr.radio.channel('global'),
@@ -25,42 +26,27 @@
       scrollbar: Backbone.Wreqr.radio.channel('scrollbar')
     },
 
-    backgroundChannels: null,
-
-    initialize: function() {
-      this._setBackgroundPage();
-      this._setBackgroundChannels();
+    initialize: function(options) {
+      // TODO: Fix naming.
+      this.backgroundPage = options.backgroundProperties;
+      this.backgroundChannels = options.backgroundChannels;
       this.on('start', this._onStart);
     },
 
-    _setBackgroundPage: function() {
-      this.backgroundPage = chrome.extension.getBackgroundPage();
-    },
-
-    _setBackgroundChannels: function() {
-      this.backgroundChannels = {
-        error: this.backgroundPage.Backbone.Wreqr.radio.channel('error'),
-        notification: this.backgroundPage.Backbone.Wreqr.radio.channel('notification'),
-        foreground: this.backgroundPage.Backbone.Wreqr.radio.channel('foreground')
-      };
-    },
-
     _onStart: function() {
-      Streamus.backgroundChannels.foreground.vent.trigger('started');
+      StreamusFG.backgroundChannels.foreground.vent.trigger('started');
       this._showForegroundArea();
     },
 
     _showForegroundArea: function() {
       var foregroundAreaView = new ForegroundAreaView({
-        player: Streamus.backgroundPage.player,
-        settings: Streamus.backgroundPage.settings,
-        analyticsManager: Streamus.backgroundPage.analyticsManager
+        player: StreamusFG.backgroundPage.player,
+        settings: StreamusFG.backgroundPage.settings,
+        analyticsManager: StreamusFG.backgroundPage.analyticsManager
       });
       foregroundAreaView.render();
     }
   });
 
-  var streamus = new Application();
-  window.Streamus = streamus;
-  streamus.start();
+  return Application;
 });

@@ -36,12 +36,12 @@
         PlayPlaylistButtonView: {
           viewClass: PlayPlaylistButtonView,
           playlist: this.model,
-          streamItems: Streamus.backgroundPage.stream.get('items')
+          streamItems: StreamusFG.backgroundPage.stream.get('items')
         },
         AddPlaylistButtonView: {
           viewClass: AddPlaylistButtonView,
           playlist: this.model,
-          streamItems: Streamus.backgroundPage.stream.get('items')
+          streamItems: StreamusFG.backgroundPage.stream.get('items')
         },
         DeletePlaylistButtonView: {
           viewClass: DeletePlaylistButtonView,

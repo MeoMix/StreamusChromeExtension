@@ -34,7 +34,7 @@
       this.player = options.player;
       this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
 
-      this.listenTo(Streamus.channels.playPauseButton.commands, 'tryToggle:playerState', this._tryTogglePlayerState);
+      this.listenTo(StreamusFG.channels.playPauseButton.commands, 'tryToggle:playerState', this._tryTogglePlayerState);
     },
 
     onRender: function() {

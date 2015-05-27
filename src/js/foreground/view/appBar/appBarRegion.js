@@ -5,13 +5,13 @@
 
   var AppBarRegion = Marionette.Region.extend({
     initialize: function() {
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
     },
 
     _onForegroundAreaRendered: function() {
       this.show(new AppBarView({
-        signInManager: Streamus.backgroundPage.signInManager,
-        search: Streamus.backgroundPage.search
+        signInManager: StreamusFG.backgroundPage.signInManager,
+        search: StreamusFG.backgroundPage.search
       }));
     }
   });

@@ -34,7 +34,7 @@
     initialize: function() {
       // Give the view an implementation of filter to enforce that not all children are rendered.
       this.view.filter = this._filter.bind(this);
-      this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
+      this.listenTo(StreamusFG.channels.window.vent, 'resize', this._onWindowResize);
       // It's important to set minRenderIndex before onAttach because if a view triggers ListHeightUpdated during its
       // onAttach then SlidingRender will call _setViewportHeight before minRenderIndex has been set.
       this.minRenderIndex = this._getMinRenderIndex(0);

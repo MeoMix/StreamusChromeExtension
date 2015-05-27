@@ -47,12 +47,12 @@
     },
 
     show: function() {
-      Streamus.channels.playlistsArea.vent.trigger('showing');
+      StreamusFG.channels.playlistsArea.vent.trigger('showing');
       this.ui.transitionable.addClass('is-visible');
     },
 
     hide: function() {
-      Streamus.channels.playlistsArea.vent.trigger('hiding');
+      StreamusFG.channels.playlistsArea.vent.trigger('hiding');
       this.ui.transitionable.removeClass('is-visible');
     },
 
@@ -65,7 +65,9 @@
     },
 
     _onClickCreatePlaylistButton: function() {
-      Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView);
+      StreamusFG.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
+        playlists: this.playlists
+      });
     },
 
     // Whenever a playlist is clicked it will become active and the menu should hide itself.

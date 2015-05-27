@@ -23,10 +23,10 @@
     },
 
     initialize: function() {
-      this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._showNotification);
+      this.listenTo(StreamusBG.channels.notification.commands, 'show:notification', this._showNotification);
       // Background notification commands will only show desktop notifications.
       // Normal notification commands will show in the UI if open.
-      this.listenTo(Streamus.channels.backgroundNotification.commands, 'show:notification', this._showNotification);
+      this.listenTo(StreamusBG.channels.backgroundNotification.commands, 'show:notification', this._showNotification);
     },
 
     _showNotification: function(notificationOptions) {

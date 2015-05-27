@@ -12,12 +12,12 @@ define(function(require) {
     },
 
     urlRoot: function() {
-      return Streamus.serverUrl + 'User/';
+      return StreamusBG.serverUrl + 'User/';
     },
 
     loadByGooglePlusId: function() {
       $.ajax({
-        url: Streamus.serverUrl + 'User/GetByGooglePlusId',
+        url: StreamusBG.serverUrl + 'User/GetByGooglePlusId',
         contentType: 'application/json; charset=utf-8',
         data: {
           googlePlusId: this.get('googlePlusId')
@@ -32,7 +32,7 @@ define(function(require) {
     mergeByGooglePlusId: function() {
       $.ajax({
         type: 'POST',
-        url: Streamus.serverUrl + 'User/MergeByGooglePlusId',
+        url: StreamusBG.serverUrl + 'User/MergeByGooglePlusId',
         contentType: 'application/json; charset=utf-8',
         data: {
           googlePlusId: this.get('googlePlusId')
@@ -59,7 +59,7 @@ define(function(require) {
 
     hasLinkedGoogleAccount: function(callback) {
       $.ajax({
-        url: Streamus.serverUrl + 'User/HasLinkedGoogleAccount',
+        url: StreamusBG.serverUrl + 'User/HasLinkedGoogleAccount',
         contentType: 'application/json; charset=utf-8',
         data: {
           googlePlusId: this.get('googlePlusId')

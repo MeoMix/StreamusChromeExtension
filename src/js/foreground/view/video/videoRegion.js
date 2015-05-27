@@ -5,8 +5,8 @@
 
   var VideoRegion = Marionette.Region.extend({
     initialize: function() {
-      //this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
-      //this.listenTo(Streamus.channels.video.commands, 'show:video', this._showVideo);
+      //this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+      //this.listenTo(StreamusFG.channels.video.commands, 'show:video', this._showVideo);
     },
 
     _onForegroundAreaIdle: function() {
@@ -19,7 +19,7 @@
 
     _createVideoView: function() {
       //var videoView = new VideoView({
-      //    player: Streamus.backgroundPage.player
+      //    player: StreamusFG.backgroundPage.player
       //});
 
       //this.show(videoView);

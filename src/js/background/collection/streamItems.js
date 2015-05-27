@@ -61,7 +61,7 @@
       var activeItem = this.getActiveItem();
       var activeSongId = activeItem.get('song').get('id');
 
-      Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
         iconUrl: 'https://img.youtube.com/vi/' + activeSongId + '/default.jpg',
         title: activeItem.get('title')
       });
@@ -84,7 +84,7 @@
       songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
       if (options.playOnAdd) {
-        Streamus.channels.player.commands.trigger('playOnActivate', true);
+        StreamusBG.channels.player.commands.trigger('playOnActivate', true);
       }
 
       var index = _.isUndefined(options.index) ? this.length : options.index;
@@ -283,7 +283,7 @@
 
       if (_.contains(streamItemsCommands, command)) {
         if (this.length === 0) {
-          Streamus.channels.notification.commands.trigger('show:notification', {
+          StreamusBG.channels.notification.commands.trigger('show:notification', {
             title: chrome.i18n.getMessage('keyboardCommandFailure'),
             message: chrome.i18n.getMessage('streamEmpty')
           });
@@ -302,7 +302,7 @@
               this.getActiveItem().get('song').copyTitleAndUrl();
               break;
             case ChromeCommand.SaveSong:
-              Streamus.channels.activePlaylist.commands.trigger('save:song', this.getActiveItem().get('song'));
+              StreamusBG.channels.activePlaylist.commands.trigger('save:song', this.getActiveItem().get('song'));
               break;
           }
         }

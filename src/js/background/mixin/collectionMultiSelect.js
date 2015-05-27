@@ -3,7 +3,7 @@
     this.on('change:selected', this._onChangeSelected);
     this.on('change:firstSelected', this._onChangeFirstSelected);
 
-    this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
+    this.listenTo(StreamusBG.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
   },
 
   selectAll: function() {

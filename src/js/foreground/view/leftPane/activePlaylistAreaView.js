@@ -76,7 +76,7 @@
     },
 
     _onClickShowSearchLink: function() {
-      Streamus.channels.search.commands.trigger('show:search');
+      StreamusFG.channels.search.commands.trigger('show:search');
     },
 
     _onClickAddAllButton: function() {

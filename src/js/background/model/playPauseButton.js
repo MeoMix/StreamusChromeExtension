@@ -34,7 +34,7 @@
         var didTogglePlayerState = this.tryTogglePlayerState();
 
         if (!didTogglePlayerState) {
-          Streamus.channels.notification.commands.trigger('show:notification', {
+          StreamusBG.channels.notification.commands.trigger('show:notification', {
             title: chrome.i18n.getMessage('keyboardCommandFailure'),
             message: chrome.i18n.getMessage('cantToggleSong')
           });

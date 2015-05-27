@@ -55,7 +55,7 @@
 
     initialize: function(options) {
       this.tabManager = options.tabManager;
-      this.bindEntityEvents(Streamus.channels.element.vent, this.elementEvents);
+      this.bindEntityEvents(StreamusFG.channels.element.vent, this.elementEvents);
     },
 
     _onClickMenuButton: function() {
@@ -63,11 +63,11 @@
     },
 
     _onClickSettings: function() {
-      Streamus.channels.dialog.commands.trigger('show:dialog', SettingsDialogView);
+      StreamusFG.channels.dialog.commands.trigger('show:dialog', SettingsDialogView);
     },
 
     _onClickBrowserSettings: function() {
-      Streamus.channels.dialog.commands.trigger('show:dialog', BrowserSettingsDialogView);
+      StreamusFG.channels.dialog.commands.trigger('show:dialog', BrowserSettingsDialogView);
     },
 
     _onClickKeyboardShortcuts: function() {
@@ -79,11 +79,11 @@
     },
 
     _onClickAboutStreamus: function() {
-      Streamus.channels.dialog.commands.trigger('show:dialog', AboutStreamusDialogView);
+      StreamusFG.channels.dialog.commands.trigger('show:dialog', AboutStreamusDialogView);
     },
 
     _onClickRestart: function() {
-      Streamus.backgroundPage.chrome.runtime.reload();
+      StreamusFG.backgroundPage.chrome.runtime.reload();
     },
 
     _onElementDrag: function() {

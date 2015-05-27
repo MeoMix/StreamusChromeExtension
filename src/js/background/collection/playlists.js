@@ -15,7 +15,7 @@
     mixins: [CollectionSequence],
 
     url: function() {
-      return Streamus.serverUrl + 'Playlist/';
+      return StreamusBG.serverUrl + 'Playlist/';
     },
 
     initialize: function(models, options) {
@@ -36,7 +36,7 @@
     copyPlaylist: function(options) {
       $.ajax({
         type: 'POST',
-        url: Streamus.serverUrl + 'Playlist/Copy',
+        url: StreamusBG.serverUrl + 'Playlist/Copy',
         data: {
           playlistId: options.playlistId,
           userId: this.userId
@@ -150,7 +150,7 @@
 
                   playlistItems.addSongs(song, {
                     success: function() {
-                      Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('songAdded'),
                         message: song.get('title')
                       });
@@ -177,7 +177,7 @@
     },
 
     _notifyChromeRuntimeMessageError: function(sendResponse) {
-      Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
         title: chrome.i18n.getMessage('errorEncountered')
       });
 
@@ -213,7 +213,7 @@
 
     _onCreateSuccess: function(addedPlaylist) {
       // Notify all open YouTube tabs that a playlist has been added.
-      Streamus.channels.tab.commands.trigger('notify:youTube', {
+      StreamusBG.channels.tab.commands.trigger('notify:youTube', {
         event: SyncActionType.Added,
         type: ListItemType.Playlist,
         data: {
@@ -223,7 +223,7 @@
         }
       });
 
-      Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
         title: chrome.i18n.getMessage('playlistCreated'),
         message: addedPlaylist.get('title')
       });
@@ -246,7 +246,7 @@
       }
 
       // Notify all open YouTube tabs that a playlist has been added.
-      Streamus.channels.tab.commands.trigger('notify:youTube', {
+      StreamusBG.channels.tab.commands.trigger('notify:youTube', {
         event: SyncActionType.Removed,
         type: ListItemType.Playlist,
         data: {

@@ -106,28 +106,31 @@
     });
 
     it('should be able to show a tooltip', function() {
-      sinon.stub(Streamus.channels.tooltip.commands, 'trigger');
+      sinon.stub(StreamusFG.channels.tooltip.commands, 'trigger');
       this.tooltipable._showTooltip({}, '');
 
       expect(this.tooltipable.isShowingTooltip).to.equal(true);
-      expect(Streamus.channels.tooltip.commands.trigger.calledOnce).to.equal(true);
-      expect(Streamus.channels.tooltip.commands.trigger.calledWithMatch('show:tooltip', {})).to.equal(true);
-      Streamus.channels.tooltip.commands.trigger.restore();
+      expect(StreamusFG.channels.tooltip.commands.trigger.calledOnce).to.equal(true);
+      expect(StreamusFG.channels.tooltip.commands.trigger.calledWithMatch('show:tooltip', {})).to.equal(true);
+      StreamusFG.channels.tooltip.commands.trigger.restore();
     });
 
-    it('should be able to update a tooltip', function(done) {
-      sinon.stub(this.tooltipable, '_updateTooltip');
-      var target = document.createElement('div');
-      this.tooltipable._watchTooltipText(target, {});
+    // phantomjs doesn't support MutationObserver until 2.0
+    if (_.isUndefined(window._phantom)) {
+      it('should be able to update a tooltip', function(done) {
+        sinon.stub(this.tooltipable, '_updateTooltip');
+        var target = document.createElement('div');
+        this.tooltipable._watchTooltipText(target, {});
 
-      target.setAttribute('data-tooltip-text', 'foo');
+        target.setAttribute('data-tooltip-text', 'foo');
 
-      // Let the mutation observer fire.
-      _.defer(function() {
-        expect(this.tooltipable._updateTooltip.calledOnce).to.equal(true);
-        this.tooltipable._updateTooltip.restore();
-        done();
-      }.bind(this));
-    });
+        // Let the mutation observer fire.
+        _.defer(function() {
+          expect(this.tooltipable._updateTooltip.calledOnce).to.equal(true);
+          this.tooltipable._updateTooltip.restore();
+          done();
+        }.bind(this));
+      });
+    }
   });
 });

@@ -3,10 +3,10 @@
 
   var CollectionViewMultiSelect = Marionette.Behavior.extend({
     initialize: function() {
-      this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
-      this.listenTo(Streamus.channels.element.vent, 'drop', this._onElementDrop);
-      this.listenTo(Streamus.channels.listItem.vent, 'selected', this._onListItemSelected);
-      this.listenTo(Streamus.channels.listItem.commands, 'deselect:collection', this._deselectCollection);
+      this.listenTo(StreamusFG.channels.element.vent, 'click', this._onElementClick);
+      this.listenTo(StreamusFG.channels.element.vent, 'drop', this._onElementDrop);
+      this.listenTo(StreamusFG.channels.listItem.vent, 'selected', this._onListItemSelected);
+      this.listenTo(StreamusFG.channels.listItem.commands, 'deselect:collection', this._deselectCollection);
     },
 
     // Whenever an item is dragged - ensure it is selected because click event doesn't happen
@@ -44,7 +44,7 @@
       });
 
       // Since returning false, need to announce the event happened here since root level won't know about it.
-      Streamus.channels.element.vent.trigger('click', event);
+      StreamusFG.channels.element.vent.trigger('click', event);
       // Don't allow to bubble up since handling click at this level.
       return false;
     },
@@ -68,7 +68,7 @@
         this._selectGroup(selectedIndex);
       }
 
-      Streamus.channels.listItem.vent.trigger('selected', {
+      StreamusFG.channels.listItem.vent.trigger('selected', {
         listItemType: modelToSelect.get('listItemType')
       });
     },

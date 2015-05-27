@@ -105,7 +105,7 @@
     },
 
     _notifyTab: function(tabType, enhance) {
-      Streamus.channels.tab.commands.trigger('notify:' + tabType, {
+      StreamusBG.channels.tab.commands.trigger('notify:' + tabType, {
         action: 'toggleContentScript',
         value: enhance
       });

@@ -47,11 +47,12 @@
     },
 
     initialize: function() {
-      this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted.bind(this));
-      this.listenTo(Streamus.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload.bind(this));
-      this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
+      this.listenTo(StreamusBG.channels.foreground.vent, 'started', this._onForegroundStarted.bind(this));
+      this.listenTo(StreamusBG.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload.bind(this));
+      this.listenTo(StreamusBG.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
       chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
 
+      // TODO: How can I instantiate this earlier?
       // It's a good idea to create this as soon as possible so that all commands to log errors can be captured.
       var clientErrorManager = new ClientErrorManager({
         signInManager: this.get('signInManager')
@@ -112,13 +113,31 @@
         repeatButton: this.get('repeatButton'),
         stream: stream
       }));
+    },
 
-      this._exposeProperties();
+    getExposedProperties: function() {
+      return {
+        analyticsManager: this.get('analyticsManager'),
+        browserSettings: this.get('browserSettings'),
+        dataSourceManager: this.get('dataSourceManager'),
+        nextButton: this.get('nextButton'),
+        playPauseButton: this.get('playPauseButton'),
+        previousButton: this.get('previousButton'),
+        radioButton: this.get('radioButton'),
+        repeatButton: this.get('repeatButton'),
+        settings: this.get('settings'),
+        signInManager: this.get('signInManager'),
+        stream: this.get('stream'),
+        shuffleButton: this.get('shuffleButton'),
+        search: this.get('search'),
+        tabManager: this.get('tabManager'),
+        player: this.get('player')
+      };
     },
 
     _onForegroundStarted: function() {
       if (this.has('foregroundUnloadTimeout')) {
-        Streamus.channels.error.commands.trigger('log:error', new Error('Foreground was re-opened before timeout exceeded!'));
+        StreamusBG.channels.error.commands.trigger('log:error', new Error('Foreground was re-opened before timeout exceeded!'));
       }
 
       this._clearForegroundUnloadTimeout();
@@ -130,7 +149,7 @@
     },
 
     _onForegroundUnloadTimeoutExceeded: function() {
-      Streamus.channels.error.commands.trigger('log:error', new Error('Foreground failed to unload properly!'));
+      StreamusBG.channels.error.commands.trigger('log:error', new Error('Foreground failed to unload properly!'));
       this._clearForegroundUnloadTimeout();
     },
 

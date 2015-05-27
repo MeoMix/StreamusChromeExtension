@@ -34,13 +34,13 @@
         PlayPauseSongButtonView: {
           viewClass: PlayPauseSongButtonView,
           song: this.model.get('song'),
-          streamItems: Streamus.backgroundPage.stream.get('items'),
-          player: Streamus.backgroundPage.player
+          streamItems: StreamusFG.backgroundPage.stream.get('items'),
+          player: StreamusFG.backgroundPage.player
         },
         SaveSongButtonView: {
           viewClass: SaveSongButtonView,
           song: this.model.get('song'),
-          signInManager: Streamus.backgroundPage.signInManager
+          signInManager: StreamusFG.backgroundPage.signInManager
         },
         DeleteListItemButtonView: {
           viewClass: DeleteListItemButtonView,
@@ -98,7 +98,7 @@
     },
 
     _showVideo: function() {
-      Streamus.channels.video.commands.trigger('show:video');
+      StreamusFG.channels.video.commands.trigger('show:video');
     }
   });
 

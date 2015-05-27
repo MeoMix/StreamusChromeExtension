@@ -16,7 +16,7 @@
       // were responsible for showing it do not also result in hiding.
       _.defer(function() {
         if (!this.isDestroyed) {
-          this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+          this.listenTo(StreamusFG.channels.element.vent, 'click', this._onElementClick);
         }
       }.bind(this));
     },

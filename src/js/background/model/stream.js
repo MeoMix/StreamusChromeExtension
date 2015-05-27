@@ -272,7 +272,7 @@
     _onPlayerYouTubeError: function(model, youTubeError) {
       if (this.get('items').length === 0) {
         var error = new Error('Error ' + youTubeError + ' happened while StreamItems was empty.');
-        Streamus.channels.error.commands.trigger('log:error', error);
+        StreamusBG.channels.error.commands.trigger('log:error', error);
       }
     },
 

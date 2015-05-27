@@ -18,8 +18,8 @@
     childViewType: ListItemType.SearchResult,
     childViewOptions: function() {
       return {
-        streamItems: Streamus.backgroundPage.stream.get('items'),
-        player: Streamus.backgroundPage.player,
+        streamItems: StreamusFG.backgroundPage.stream.get('items'),
+        player: StreamusFG.backgroundPage.player,
         type: this.childViewType,
         parentId: this.ui.listItems[0].id
       };
@@ -56,7 +56,7 @@
     },
 
     initialize: function() {
-      this.listenTo(Streamus.channels.search.vent, 'hiding', this._onSearchHiding);
+      this.listenTo(StreamusFG.channels.search.vent, 'hiding', this._onSearchHiding);
     },
 
     // Don't maintain selected results after closing the view because the view won't be visible.

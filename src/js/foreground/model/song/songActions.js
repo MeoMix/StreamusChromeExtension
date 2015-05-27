@@ -19,15 +19,16 @@
         };
       }, this);
 
-      Streamus.channels.simpleMenu.commands.trigger('show:simpleMenu', {
+      StreamusFG.channels.simpleMenu.commands.trigger('show:simpleMenu', {
         top: top,
         left: left,
         simpleMenuItems: simpleMenuItems,
         fixedMenuItem: {
           text: chrome.i18n.getMessage('createPlaylist'),
           onClick: function() {
-            Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
-              songs: songs
+            StreamusFG.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
+              songs: songs,
+              playlists: playlists
             });
           }.bind(this)
         }
@@ -35,7 +36,7 @@
     },
 
     showContextMenu: function(song, top, left, player) {
-      Streamus.channels.simpleMenu.commands.trigger('show:simpleMenu', {
+      StreamusFG.channels.simpleMenu.commands.trigger('show:simpleMenu', {
         isContextMenu: true,
         top: top,
         left: left,

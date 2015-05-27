@@ -55,7 +55,7 @@
         var didPrevious = this.tryDoTimeBasedPrevious();
 
         if (!didPrevious) {
-          Streamus.channels.notification.commands.trigger('show:notification', {
+          StreamusBG.channels.notification.commands.trigger('show:notification', {
             title: chrome.i18n.getMessage('keyboardCommandFailure'),
             message: chrome.i18n.getMessage('cantGoBackToPreviousSong')
           });

@@ -22,7 +22,7 @@
       this.on('change:query', this._onChangeQuery);
       this.on('change:searchQueued', this._onSearchQueued);
       this.on('change:pendingRequest', this._onChangePendingRequest);
-      this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
+      this.listenTo(StreamusBG.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
     },
 
     // The foreground has to be able to call this whenever a view opens.

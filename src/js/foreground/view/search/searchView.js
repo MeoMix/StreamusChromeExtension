@@ -64,7 +64,7 @@
       this.signInManager = options.signInManager;
 
       this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
-      this.listenTo(Streamus.channels.search.commands, 'search', this._search);
+      this.listenTo(StreamusFG.channels.search.commands, 'search', this._search);
     },
 
     onRender: function() {

@@ -7,7 +7,7 @@
     template: false,
 
     initialize: function() {
-      this.listenTo(Streamus.channels.clipboard.commands, 'copy:text', this._copyText);
+      this.listenTo(StreamusBG.channels.clipboard.commands, 'copy:text', this._copyText);
     },
 
     // http://stackoverflow.com/questions/5235719/how-to-copy-text-to-clipboard-from-a-google-chrome-extension

@@ -38,7 +38,7 @@
         this.view.triggerMethod('Click');
       }
       // Since returning false, need to announce the event happened here since root level won't know about it.
-      Streamus.channels.element.vent.trigger('click', event);
+      StreamusFG.channels.element.vent.trigger('click', event);
     }
   });
 

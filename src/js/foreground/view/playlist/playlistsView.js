@@ -62,7 +62,7 @@
     },
 
     _onSortableStart: function() {
-      Streamus.channels.element.vent.trigger('drag');
+      StreamusFG.channels.element.vent.trigger('drag');
     },
 
     // Whenever a playlist is moved visually -- update corresponding model with new information.

@@ -14,7 +14,7 @@
     mixins: [CollectionMultiSelect, CollectionSequence, CollectionUniqueSong],
 
     url: function() {
-      return Streamus.serverUrl + 'PlaylistItem/';
+      return StreamusBG.serverUrl + 'PlaylistItem/';
     },
 
     initialize: function(models, options) {
@@ -90,7 +90,7 @@
 
     _bulkCreate: function(itemsToCreate, options) {
       $.ajax({
-        url: Streamus.serverUrl + 'PlaylistItem/CreateMultiple',
+        url: StreamusBG.serverUrl + 'PlaylistItem/CreateMultiple',
         type: 'POST',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(itemsToCreate),

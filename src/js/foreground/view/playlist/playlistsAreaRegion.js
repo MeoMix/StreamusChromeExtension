@@ -9,9 +9,9 @@
     initialize: function(options) {
       this.signInManager = options.signInManager;
 
-      this.listenTo(Streamus.channels.playlistsArea.commands, 'show:playlistsArea', this._showPlaylistsArea);
-      this.listenTo(Streamus.channels.playlistsArea.commands, 'hide:playlistsArea', this._hidePlaylistsArea);
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+      this.listenTo(StreamusFG.channels.playlistsArea.commands, 'show:playlistsArea', this._showPlaylistsArea);
+      this.listenTo(StreamusFG.channels.playlistsArea.commands, 'hide:playlistsArea', this._hidePlaylistsArea);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
       this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
     },
 

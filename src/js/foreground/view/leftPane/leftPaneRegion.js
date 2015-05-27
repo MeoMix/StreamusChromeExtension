@@ -8,8 +8,8 @@
 
     initialize: function(options) {
       this.settings = options.settings;
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
-      this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
     },
 
     _onForegroundAreaRendered: function() {
@@ -29,7 +29,7 @@
     _showLeftPaneView: function() {
       if (!this.hasView()) {
         this.show(new LeftPaneView({
-          signInManager: Streamus.backgroundPage.signInManager
+          signInManager: StreamusFG.backgroundPage.signInManager
         }));
       }
     }

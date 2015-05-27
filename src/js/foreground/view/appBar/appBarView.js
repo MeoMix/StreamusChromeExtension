@@ -75,10 +75,10 @@
       this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
       this.listenTo(this.search, 'change:query', this._onSearchChangeQuery);
 
-      this.listenTo(Streamus.channels.playlistsArea.vent, 'hiding', this._onPlaylistsAreaHiding);
-      this.listenTo(Streamus.channels.playlistsArea.vent, 'showing', this._onPlaylistsAreaShowing);
-      this.listenTo(Streamus.channels.search.vent, 'hiding', this._onSearchHiding);
-      this.listenTo(Streamus.channels.search.vent, 'showing', this._onSearchShowing);
+      this.listenTo(StreamusFG.channels.playlistsArea.vent, 'hiding', this._onPlaylistsAreaHiding);
+      this.listenTo(StreamusFG.channels.playlistsArea.vent, 'showing', this._onPlaylistsAreaShowing);
+      this.listenTo(StreamusFG.channels.search.vent, 'hiding', this._onSearchHiding);
+      this.listenTo(StreamusFG.channels.search.vent, 'showing', this._onSearchShowing);
 
       var signedInUser = this.signInManager.get('signedInUser');
       if (!_.isNull(signedInUser)) {
@@ -95,25 +95,25 @@
       }
 
       this.showChildView('volumeArea', new VolumeAreaView({
-        player: Streamus.backgroundPage.player
+        player: StreamusFG.backgroundPage.player
       }));
 
       this.showChildView('adminMenuArea', new AdminMenuAreaView({
         model: new AdminMenuArea(),
-        tabManager: Streamus.backgroundPage.tabManager
+        tabManager: StreamusFG.backgroundPage.tabManager
       }));
 
       this.showChildView('previousButton', new PreviousButtonView({
-        model: Streamus.backgroundPage.previousButton
+        model: StreamusFG.backgroundPage.previousButton
       }));
 
       this.showChildView('playPauseButton', new PlayPauseButtonView({
-        model: Streamus.backgroundPage.playPauseButton,
-        player: Streamus.backgroundPage.player
+        model: StreamusFG.backgroundPage.playPauseButton,
+        player: StreamusFG.backgroundPage.player
       }));
 
       this.showChildView('nextButton', new NextButtonView({
-        model: Streamus.backgroundPage.nextButton
+        model: StreamusFG.backgroundPage.nextButton
       }));
     },
 
@@ -148,16 +148,16 @@
     },
 
     _onClickShowSearchButton: function() {
-      Streamus.channels.search.commands.trigger('show:search');
-      Streamus.channels.playlistsArea.commands.trigger('hide:playlistsArea');
+      StreamusFG.channels.search.commands.trigger('show:search');
+      StreamusFG.channels.playlistsArea.commands.trigger('hide:playlistsArea');
     },
 
     _onClickHideSearchButton: function() {
-      Streamus.channels.search.commands.trigger('hide:search');
+      StreamusFG.channels.search.commands.trigger('hide:search');
     },
 
     _onInputSearchInput: function() {
-      Streamus.channels.search.commands.trigger('search', {
+      StreamusFG.channels.search.commands.trigger('search', {
         query: this.ui.searchInput.val()
       });
     },
@@ -166,13 +166,13 @@
       var isButtonEnabled = this._isShowPlaylistsAreaButtonEnabled();
 
       if (isButtonEnabled) {
-        Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
-        Streamus.channels.search.commands.trigger('hide:search');
+        StreamusFG.channels.playlistsArea.commands.trigger('show:playlistsArea');
+        StreamusFG.channels.search.commands.trigger('hide:search');
       }
     },
 
     _onClickHidePlaylistsAreaButton: function() {
-      Streamus.channels.playlistsArea.commands.trigger('hide:playlistsArea');
+      StreamusFG.channels.playlistsArea.commands.trigger('hide:playlistsArea');
     },
 
     _onPlaylistsAreaShowing: function() {

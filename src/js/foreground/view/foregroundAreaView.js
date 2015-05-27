@@ -53,8 +53,8 @@
         dialog: {
           selector: '[data-region=dialog]',
           regionClass: DialogRegion,
-          player: Streamus.backgroundPage.player,
-          signInManager: Streamus.backgroundPage.signInManager
+          player: StreamusFG.backgroundPage.player,
+          signInManager: StreamusFG.backgroundPage.signInManager
         },
         notification: {
           selector: '[data-region=notification]',
@@ -67,17 +67,17 @@
         leftPane: {
           selector: '[data-region=leftPane]',
           regionClass: LeftPaneRegion,
-          settings: Streamus.backgroundPage.settings
+          settings: StreamusFG.backgroundPage.settings
         },
         search: {
           selector: '[data-region=search]',
           regionClass: SearchRegion,
-          settings: Streamus.backgroundPage.settings
+          settings: StreamusFG.backgroundPage.settings
         },
         playlistsArea: {
           selector: '[data-region=playlistsArea]',
           regionClass: PlaylistsAreaRegion,
-          signInManager: Streamus.backgroundPage.signInManager
+          signInManager: StreamusFG.backgroundPage.signInManager
         },
         stream: {
           selector: '[data-region=stream]',
@@ -113,8 +113,8 @@
       this.analyticsManager = options.analyticsManager;
       this.bindEntityEvents(this.player, this.playerEvents);
 
-      this.listenTo(Streamus.channels.scrollbar.vent, 'mouseDown', this._onScrollbarMouseDown);
-      this.listenTo(Streamus.channels.scrollbar.vent, 'mouseUp', this._onScrollbarMouseUp);
+      this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseDown', this._onScrollbarMouseDown);
+      this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseUp', this._onScrollbarMouseUp);
 
       // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
       this._onWindowUnload = this._onWindowUnload.bind(this);
@@ -133,25 +133,25 @@
     onRender: function() {
       this._checkPlayerLoading();
 
-      Streamus.channels.foregroundArea.vent.trigger('rendered');
+      StreamusFG.channels.foregroundArea.vent.trigger('rendered');
 
       // After announcing that the foregroundArea has rendered successfully, wait a moment for other views to respond.
       // Then, announce that the foregroundArea is now an 'idle' state to allow for non-critical components to render themselves.
       setTimeout(function() {
-        Streamus.channels.foregroundArea.vent.trigger('idle');
+        StreamusFG.channels.foregroundArea.vent.trigger('idle');
       }.bind(this), 250);
     },
 
     _onClick: function(event) {
-      Streamus.channels.element.vent.trigger('click', event);
+      StreamusFG.channels.element.vent.trigger('click', event);
     },
 
     _onContextMenu: function(event) {
-      Streamus.channels.element.vent.trigger('contextMenu', event);
+      StreamusFG.channels.element.vent.trigger('contextMenu', event);
     },
 
     _onMouseDown: function(event) {
-      Streamus.channels.element.vent.trigger('mouseDown', event);
+      StreamusFG.channels.element.vent.trigger('mouseDown', event);
     },
 
     _onClickReloadLink: function() {
@@ -159,7 +159,7 @@
     },
 
     _onWindowResize: function() {
-      Streamus.channels.window.vent.trigger('resize', {
+      StreamusFG.channels.window.vent.trigger('resize', {
         height: this.$el.height(),
         width: this.$el.width()
       });
@@ -168,21 +168,21 @@
     // Destroy the foreground to unbind event listeners from background models and collections.
     // Streamus will leak memory if these events aren't cleaned up.
     _onWindowUnload: function() {
-      Streamus.channels.foreground.vent.trigger('beginUnload');
-      Streamus.backgroundChannels.foreground.vent.trigger('beginUnload');
+      StreamusFG.channels.foreground.vent.trigger('beginUnload');
+      StreamusFG.backgroundChannels.foreground.vent.trigger('beginUnload');
       this.destroy();
-      Streamus.channels.foreground.vent.trigger('endUnload');
-      Streamus.backgroundChannels.foreground.vent.trigger('endUnload');
+      StreamusFG.channels.foreground.vent.trigger('endUnload');
+      StreamusFG.backgroundChannels.foreground.vent.trigger('endUnload');
     },
 
     _onWindowError: function(event) {
-      Streamus.backgroundChannels.error.vent.trigger('windowError', event);
+      StreamusFG.backgroundChannels.error.vent.trigger('windowError', event);
     },
 
     _onKeyDown: function(event) {
       // If the user presses space without any child element focused then assume it's an intenentional request to play/pause.
       if (event.keyCode === KeyCode.Space && document.activeElement === document.body) {
-        Streamus.channels.playPauseButton.commands.trigger('tryToggle:playerState');
+        StreamusFG.channels.playPauseButton.commands.trigger('tryToggle:playerState');
       }
     },
 
