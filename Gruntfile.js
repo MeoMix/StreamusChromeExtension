@@ -236,9 +236,20 @@ module.exports = function(grunt) {
       tests: {
         options: {
           log: true,
+          // Don't automatically inject mocha.run because requireJS deps need to load first
           run: false
         },
         src: ['src/test.html']
+      }
+    },
+    // Create the key file YouTube's API using the testing key (NOT the production key).
+    // Used mainly for Travis CI builds.
+    'file-creator': {
+      youTubeAPIKey: {
+        'src/js/background/key/youTubeAPIKey.js': function(fs, fd, done) {
+          fs.writeSync(fd, 'define(function() { return \'AIzaSyDBCJuq0aey3bL3K6C0l4mKzT_y8zy9Msw\'; });');
+          done();
+        }
       }
     }
   });
@@ -284,7 +295,7 @@ module.exports = function(grunt) {
 
   // Run linters and enforce code-quality standards
   grunt.registerTask('default', ['test']);
-  grunt.registerTask('test', ['diffLocales', 'jshint', 'recess', 'jscs', 'mocha']);
+  grunt.registerTask('test', ['jshint', 'recess', 'jscs', 'mocha']);
 
   // A synchronous wrapper for compress:release
   grunt.registerTask('compressRelease', function(releaseDirectory, sanitize) {
