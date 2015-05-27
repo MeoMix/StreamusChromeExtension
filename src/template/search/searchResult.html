@@ -1,16 +1,16 @@
 ﻿<div data-ui='leftContent' class='listItem-leftContent is-showingThumbnail'>
-    <div class='listItem-imageThumbnail' style='background-image: url("https://img.youtube.com/vi/<%= song.get("id") %>/mqdefault.jpg")' />
-    <div data-region='checkbox' class='listItem-checkboxRegion'></div>
+  <div class='listItem-imageThumbnail' style='background-image: url("https://img.youtube.com/vi/<%= song.get("id") %>/mqdefault.jpg")'/>
+  <div data-region='checkbox' class='listItem-checkboxRegion'></div>
 </div>
 
 <div class='listItem-content'>
-    <div class='listItem-title' data-ui='textTooltipable' data-tooltip-text='<%- title %>'>
-        <%= title %>
-    </div>
+  <div class='listItem-title' data-ui='textTooltipable' data-tooltip-text='<%- title %>'>
+    <%= title %>
+  </div>
 
-    <div class='listItem-details'>
-        <%= song.get('prettyDuration') %>
-    </div>
+  <div class='listItem-details'>
+    <%= song.get('prettyDuration') %>
+  </div>
 </div>
 
 <span data-region='buttons' class='listItem-buttonsRegion'></span>

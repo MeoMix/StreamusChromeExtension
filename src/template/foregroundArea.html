@@ -1,38 +1,38 @@
 ﻿<div data-ui='loadingMessage' class='instruction is-hidden is-showingSpinner'>
-    <div class='instruction-header'>
-        <%= loadingYouTubeMessage %>
-    </div>
-    <div class='instruction-content'>
-        <div data-region='spinner'></div>
-        <span data-ui='loadAttemptMessage'>
+  <div class='instruction-header'>
+    <%= loadingYouTubeMessage %>
+  </div>
+  <div class='instruction-content'>
+    <div data-region='spinner'></div>
+    <span data-ui='loadAttemptMessage'>
             <%= loadAttemptMessage %>
         </span>
-        <div>
-            <span data-ui='reloadLink' class='u-link'>
+    <div>
+      <span data-ui='reloadLink' class='u-link'>
                 <%= reloadMessage %>
             </span>
-        </div>
     </div>
+  </div>
 </div>
 
 <div data-ui='loadingFailedMessage' class='instruction is-hidden'>
-    <div class='instruction-header'>
-        <%= loadingYouTubeFailedMessage %>
-    </div>
-    <div>
-        <span data-ui='reloadLink' class='u-link'>
+  <div class='instruction-header'>
+    <%= loadingYouTubeFailedMessage %>
+  </div>
+  <div>
+    <span data-ui='reloadLink' class='u-link'>
             <%= reloadMessage %>
         </span>
-    </div>
+  </div>
 </div>
 
 <div data-region='appBar' class='u-elevated u-shadowed--low spinner--faded spinner--unclickable'></div>
 <div class='flexRow u-relative spinner--faded spinner--unclickable'>
-    <div data-region='leftPane' class='flexColumn--wide flexColumn'></div>
-    <div data-region='stream' class='flexColumn--thin flexColumn'></div>
-    <div data-region='search' class='panel panel--left column flexColumn--wide u-transitionable transition--fast flexColumn u-fullHeight'></div>
-    <div data-region='playlistsArea' class='flexColumn overlay u-zIndex--3'></div>
-    <div data-region='video' class='panel panel--left column u-transitionable transition--fast flexColumn u-fullHeight u-fullWidth'></div>
+  <div data-region='leftPane' class='flexColumn--wide flexColumn'></div>
+  <div data-region='stream' class='flexColumn--thin flexColumn'></div>
+  <div data-region='search' class='panel panel--left column flexColumn--wide u-transitionable transition--fast flexColumn u-fullHeight'></div>
+  <div data-region='playlistsArea' class='flexColumn overlay u-zIndex--3'></div>
+  <div data-region='video' class='panel panel--left column u-transitionable transition--fast flexColumn u-fullHeight u-fullWidth'></div>
 </div>
 
 <div data-region='selectionBar' class='u-shadowed--low panel panel--bottom spinner--faded spinner--unclickable transition--fast u-fullWidth'></div>
