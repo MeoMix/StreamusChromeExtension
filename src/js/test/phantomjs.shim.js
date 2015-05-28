@@ -1,6 +1,10 @@
 ﻿define(function() {
   'use strict';
 
+  if (!window.console) {
+    window.console = function() { };
+  }
+
   if (!window.MediaSource) {
     window.MediaSource = function() {
       return {

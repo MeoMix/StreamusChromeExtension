@@ -4,9 +4,6 @@
   require('backbone.marionette');
   require('backbone.localStorage');
   require('jquery-ui');
-  //require('mocha');
-  var chai = require('chai');
-  require('sinon');
   require('test/phantomjs.shim');
   require('test/chrome.mock');
 
@@ -14,26 +11,22 @@
   Cocktail.patch(Backbone);
 
   window.expect = chai.expect;
-  // You can do this in the grunt config for each mocha task, see the `options` config
-  mocha.setup({
-    ui: 'bdd',
-    ignoreLeaks: true
-  });
 
-  // Don't track
-  window.notrack = true;
-  // Protect from barfs
-  window.console = window.console || function() { };
+  // Make describe/it defined for viewing in browser
+  window.mocha.setup({
+    ui: 'bdd'
+  });
 
   // Finally, load the tests:
   require(['background/application', 'foreground/application', 'test/test'], function(BackgroundApplication, ForegroundApplication) {
-    var streamusBG = new BackgroundApplication();
-    window.StreamusBG = streamusBG;
-    streamusBG.instantiateBackgroundArea();
+    window.StreamusBG = new BackgroundApplication();
+    window.StreamusBG.instantiateBackgroundArea();
+
     window.StreamusFG = new ForegroundApplication({
-      backgroundProperties: streamusBG.getExposedProperties(),
-      backgroundChannels: streamusBG.getExposedChannels()
+      backgroundProperties: window.StreamusBG.getExposedProperties(),
+      backgroundChannels: window.StreamusBG.getExposedChannels()
     });
-    mocha.run();
+
+    window.mocha.run();
   });
 });
