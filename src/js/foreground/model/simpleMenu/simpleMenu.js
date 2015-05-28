@@ -13,7 +13,9 @@
         left: 0,
         containerHeight: 0,
         containerWidth: 0
-      }
+      },
+      offsetTop: 0,
+      offsetLeft: 0
     }
   });
 

@@ -141,6 +141,7 @@ define(function(require) {
     },
 
     stop: function() {
+      console.log('stopping');
       this.get('youTubePlayer').stop();
 
       this.set({
@@ -168,10 +169,13 @@ define(function(require) {
         // There's an issue in YouTube's API which makes this code necessary.
         // If the user calls seekTo to the end of the song then the player gets put into the 'ended' state.
         // If seekTo is called from the 'ended' state YouTube will play the song rather than keep it paused.
-        if (timeInSeconds === this.get('loadedSong').get('duration')) {
+        // If seekTo is called while YouTubePlayer is in SongCued then playback will start which is not desired.
+        // Ensure this doesn't happen -- I can't figure out how it's getting into the SongCued state.
+        var youTubePlayer = this.get('youTubePlayer');
+        if (timeInSeconds === this.get('loadedSong').get('duration') || youTubePlayer.get('state') === YouTubePlayerState.SongCued) {
           this.activateSong(this.get('loadedSong'), timeInSeconds);
         } else {
-          this.get('youTubePlayer').seekTo(timeInSeconds);
+          youTubePlayer.seekTo(timeInSeconds);
         }
       } else {
         this.set({

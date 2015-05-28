@@ -12,18 +12,15 @@
       this.listenTo(StreamusFG.channels.tooltip.commands, 'update:tooltip', this._updateTooltip);
     },
 
-    // TODO: It would be better for performance to just move an empty view around rather than constantly append/remove elements.
     _showTooltip: function(options) {
-      var tooltipView = new TooltipView({
+      this.show(new TooltipView({
         model: new Tooltip({
           text: options.text
         })
-      });
-
-      this.show(tooltipView);
+      }));
 
       // Let the DOM update so that offsetWidth and offsetHeight return correct values
-      requestAnimationFrame(this._setTooltipViewOffset.bind(this, tooltipView, options.targetBoundingClientRect));
+      requestAnimationFrame(this._setTooltipViewOffset.bind(this, this.currentView, options.targetBoundingClientRect));
     },
 
     _hideTooltip: function() {

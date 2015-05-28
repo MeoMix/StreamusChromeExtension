@@ -3,6 +3,7 @@
 
   var YouTubePlayerAPI = require('background/model/youTubePlayerAPI');
   var YouTubePlayerError = require('common/enum/youTubePlayerError');
+  var YouTubePlayerState = require('background/enum/youTubePlayerState');
 
   // This is the actual YouTube Player API widget housed within the iframe.
   var youTubePlayerWidget = null;
@@ -22,7 +23,8 @@
         maxLoadAttempts: 10,
         loadAttemptDelay: 6000,
         currentLoadAttempt: _initialLoadAttempt,
-        loadAttemptInterval: null
+        loadAttemptInterval: null,
+        pauseOnBuffer: false
       };
     },
 
@@ -104,7 +106,9 @@
       // Avoid using cueVideoById because it will set the player's state to 'SongCued'
       // 'SongCued' is similar to 'paused' but causes 'seekTo' to begin playback immediately.
       // There's no advantage to the SongCued state and has obvious drawbacks; avoid it.
+      this.set('pauseOnBuffer', true);
       youTubePlayerWidget.loadVideoById(videoOptions);
+      // Defer a pause to try and get YouTube to pause as quickly as possible, but this is a race-condition so catch ourselves with pauseOnBuffer.
       _.defer(this.pause.bind(this));
     },
 
@@ -126,9 +130,15 @@
       this.set('loading', false);
     },
 
-    _onYouTubePlayerStateChange: function(state) {
+    _onYouTubePlayerStateChange: function(event) {
+      console.log('event.data:', event.data);
+      if (this.get('pauseOnBuffer') && event.data === YouTubePlayerState.Buffering) {
+        this.set('pauseOnBuffer', false);
+        this.pause();
+      }
+
       // Pass 'this' as the first parameter to match the event signature of a Backbone.Model change event.
-      this.trigger('change:state', this, state.data);
+      this.trigger('change:state', this, event.data);
     },
 
     // Emit errors so the foreground so can notify the user.

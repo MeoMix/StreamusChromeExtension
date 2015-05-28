@@ -4,8 +4,12 @@
   var TooltipTemplate = require('text!template/tooltip/tooltip.html');
 
   var TooltipView = Marionette.ItemView.extend({
-    className: 'tooltip',
+    className: 'tooltip panel',
     template: _.template(TooltipTemplate),
+
+    ui: {
+      panelContent: '[data-ui~=panelContent]'
+    },
 
     modelEvents: {
       'change:text': '_onChangeText'
@@ -19,12 +23,12 @@
 
     // Fade out the tooltip and then destroy it once completely hidden
     hide: function() {
-      this.$el.one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+      this.ui.panelContent.one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
       this.$el.removeClass('is-visible');
     },
 
     _onChangeText: function(model, text) {
-      this.$el.text(text);
+      this.ui.panelContent.text(text);
     },
 
     _onTransitionOutComplete: function() {

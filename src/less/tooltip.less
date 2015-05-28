@@ -4,24 +4,17 @@
 @import "transition";
 
 .tooltip {
-    position: absolute;
+    // TODO: How can I handle this more appropriately?
+    .transition--fast;
+    transition-property: none !important;
+}
+
+.tooltip-content {
     max-width: 280px;
     padding: 5px 8px;
     line-height: 16px;
     color: white;
-    // Prevent pointer events on tooltips so that user can't misclick when
-    // right-clicking on a listItem that is showing its context menu.
-    pointer-events: none;
     background-color: @gray--tooltip;
-	border-radius: 2px;
-	box-shadow: @boxShadow-elevation--low;
-    opacity: 0;
-    .transition--fast;
-    transition-property: opacity;
-    transition-timing-function: @transition-easeOutSine;
-    will-change: transform, opacity;
-
-    &.is-visible {
-        opacity: 1;
-    }
+    border-radius: 2px;
+    box-shadow: @boxShadow-elevation--low;
 }

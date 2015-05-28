@@ -8,7 +8,7 @@
 
   var SimpleMenuView = Marionette.LayoutView.extend({
     id: 'simpleMenu',
-    className: 'panel menu',
+    className: 'menu panel',
     template: _.template(SimpleMenuTemplate),
 
     regions: {
@@ -99,9 +99,10 @@
       var offsetTop = utility.flipInvertOffset(positionData.top, this.$el.outerHeight(), positionData.containerHeight);
       var offsetLeft = utility.flipInvertOffset(positionData.left, this.$el.outerWidth(), positionData.containerWidth);
 
-      this.$el.offset({
-        top: offsetTop,
-        left: offsetLeft
+      this.$el.css('transform', 'translate(' + offsetLeft + 'px, ' + offsetTop + 'px)');
+      this.model.set({
+        offsetTop: offsetTop,
+        offsetLeft: offsetLeft
       });
     },
 
@@ -115,9 +116,10 @@
         // http://www.google.com/design/spec/components/menus.html#menus-simple-menus
         var paddingTop = parseInt(this.ui.panelContent.css('padding-top'), 10);
         var centering = (listItemHeight - offsetData.itemHeight) / 2 - paddingTop;
-        var topOffset = offsetData.itemOffset + centering;
+        var offsetTop = offsetData.itemOffset + centering;
 
-        this.$el.css('top', topOffset);
+        this.$el.css('transform', 'translate(' + this.model.get('offsetLeft') + 'px, ' + offsetTop + 'px)');
+        this.model.set('offsetTop:', offsetTop);
       }
     }
   });

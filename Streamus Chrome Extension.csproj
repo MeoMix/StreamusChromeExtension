@@ -111,6 +111,7 @@
     <Content Include="src\js\foreground\view\video\videoView.js" />
     <Content Include="src\js\test\background\backgroundSpecLoader.js" />
     <Content Include="src\js\test\background\collection\searchResults.spec.js" />
+    <Content Include="src\js\test\chrome.mock.js" />
     <Content Include="src\js\test\common\commonSpecLoader.js" />
     <Content Include="src\js\test\foreground\backgroundPageMock.js" />
     <Content Include="src\js\test\foreground\view\appBar\adminMenuAreaView.spec.js" />
@@ -210,6 +211,7 @@
     <Content Include="src\js\test\foreground\view\video\videoSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\video\videoView.spec.js" />
     <Content Include="src\js\test\foreground\view\viewTestUtility.js" />
+    <Content Include="src\js\test\phantomjs.shim.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />

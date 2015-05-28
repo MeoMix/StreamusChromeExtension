@@ -58,7 +58,7 @@
     },
 
     onListHeightUpdated: function() {
-      this._update();
+      requestAnimationFrame(this._update.bind(this));
     },
 
     onAddChild: function() {
