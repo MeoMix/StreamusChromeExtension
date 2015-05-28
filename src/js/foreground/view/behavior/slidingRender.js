@@ -4,6 +4,10 @@
   var Direction = require('common/enum/direction');
 
   var SlidingRender = Marionette.Behavior.extend({
+    events: {
+      'scroll': '_onScroll'
+    },
+
     collectionEvents: {
       // Generic collection method names are valid in Behaviors but not CollectionViews.
       // Marionette uses _onCollectionAdd and _onCollectionRemove internally.
@@ -38,15 +42,15 @@
       // It's important to set minRenderIndex before onAttach because if a view triggers ListHeightUpdated during its
       // onAttach then SlidingRender will call _setViewportHeight before minRenderIndex has been set.
       this.minRenderIndex = this._getMinRenderIndex(0);
+      // Provide a throttled version of _onScroll because scroll events can fire at a high rate.
+      // https://developer.mozilla.org/en-US/docs/Web/Events/scroll
+      this._onScroll = _.throttleFramerate(requestAnimationFrame, this._onScroll.bind(this));
     },
 
     onAttach: function() {
       // Allow N items to be rendered initially where N is how many items need to cover the viewport.
       this._setViewportHeight();
       this._tryScrollToActiveItem();
-      // Can I declare this in an events hash instead?
-      // Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
-      this.el.addEventListener('scroll', _.throttleFramerate(requestAnimationFrame, this._onScroll.bind(this)));
       this.view.triggerMethod('UpdateScrollbar');
     },
 

@@ -31,10 +31,12 @@
 
     initialize: function() {
       this.listenTo(StreamusFG.channels.window.vent, 'resize', this._onWindowResize);
-
       // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
       this._onWindowMouseMove = this._onWindowMouseMove.bind(this);
       this._onWindowMouseUp = this._onWindowMouseUp.bind(this);
+      // Provide a throttled version of _onWheel because wheel events can fire at a high rate.
+      // https://developer.mozilla.org/en-US/docs/Web/Events/wheel
+      this._onWheel = _.throttleFramerate(requestAnimationFrame, this._onWheel.bind(this));
     },
 
     onRender: function() {
@@ -72,7 +74,6 @@
       this._setWindowEventListeners(false);
     },
 
-    // TODO: Do I want to use _.throttleFramerate here?
     // Move the list up/down as the user scrolls the mouse wheel.
     _onWheel: function(event) {
       var deltaY = event.originalEvent.deltaY;

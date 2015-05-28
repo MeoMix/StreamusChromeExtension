@@ -118,7 +118,9 @@
 
       // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
       this._onWindowUnload = this._onWindowUnload.bind(this);
-      this._onWindowResize = this._onWindowResize.bind(this);
+      // Provide a throttled version of _onWindowResize because resize events can fire at a high rate.
+      // https://developer.mozilla.org/en-US/docs/Web/Events/resize
+      this._onWindowResize = _.throttleFramerate(requestAnimationFrame, this._onWindowResize.bind(this));
       this._onWindowError = this._onWindowError.bind(this);
       this._onKeyDown = this._onKeyDown.bind(this);
 
@@ -159,10 +161,7 @@
     },
 
     _onWindowResize: function() {
-      StreamusFG.channels.window.vent.trigger('resize', {
-        height: this.$el.height(),
-        width: this.$el.width()
-      });
+      StreamusFG.channels.window.vent.trigger('resize');
     },
 
     // Destroy the foreground to unbind event listeners from background models and collections.
