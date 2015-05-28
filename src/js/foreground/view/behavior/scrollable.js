@@ -45,8 +45,11 @@
     },
 
     onAttach: function() {
-      this.currentListScrollTop = this.el.scrollTop;
-      this._update();
+      //  SlidingRender will trigger onUpdateScrollbar once it has attached itself.
+      if (!this.options.implementsSlidingRender) {
+        this.currentListScrollTop = this.el.scrollTop;
+        this._update();
+      }
     },
 
     onUpdateScrollbar: function() {

@@ -10,6 +10,9 @@
   var Cocktail = require('cocktail');
   Cocktail.patch(Backbone);
 
+  var lodashMixin = require('common/lodashMixin');
+  _.mixin(lodashMixin);
+
   window.expect = chai.expect;
 
   // Make describe/it defined for viewing in browser
