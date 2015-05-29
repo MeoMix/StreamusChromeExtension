@@ -180,7 +180,14 @@ define(function(require) {
         if (timeInSeconds === this.get('loadedSong').get('duration') || youTubePlayer.get('state') === YouTubePlayerState.SongCued) {
           this.activateSong(this.get('loadedSong'), timeInSeconds);
         } else {
+          // currentTime won't update until 'play' happens and if refresh is needed while paused then currentTime is wrong
           this.set('currentTime', timeInSeconds);
+
+          var isSongExpired = this._getIsSongExpired();
+          if (isSongExpired) {
+            this.refresh();
+          }
+
           youTubePlayer.seekTo(timeInSeconds);
         }
       } else {
