@@ -32,17 +32,16 @@ define(function(require) {
         // Muted will be changed by YouTube's API if the API loads properly.
         muted: false,
         loadedSong: null,
-        playImmediately: false,
+        // Keep track of when the song was loaded so that if playback is attempted
+        // after it has expired then the song can be properly reloaded.
+        initialSongLoadTime: 0,
+        // 4 hours in milliseconds. I believe YouTube's cache expires in ~5.5 hours.
+        maxSongLoadTime: 14400000,
         songToActivate: null,
         iframePort: null,
         buffers: [],
         bufferType: '',
         cueing: false,
-
-        // Suffix alarm with unique identifier to prevent running after browser closed & re-opened.
-        // http://stackoverflow.com/questions/14101569/chrome-extension-alarms-go-off-when-chrome-is-reopened-after-time-runs-out
-        refreshAlarmName: 'refreshAlarm_' + _.now(),
-
         settings: null,
         youTubePlayer: null
       };
@@ -61,6 +60,7 @@ define(function(require) {
       this.on('change:ready', this._onChangeReady);
       this.on('change:loading', this._onChangeLoading);
       this.on('change:state', this._onChangeState);
+      this.on('change:loadedSong', this._onChangeLoadedSong);
 
       this.listenTo(this.get('settings'), 'change:songQuality', this._onChangeSongQuality);
       this.listenTo(this.get('youTubePlayer'), 'change:ready', this._onYouTubePlayerChangeReady);
@@ -73,8 +73,7 @@ define(function(require) {
       //window.addEventListener('message', this._onWindowMessage.bind(this));
       chrome.runtime.onConnect.addListener(this._onChromeRuntimeConnect.bind(this));
       chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
-      chrome.alarms.onAlarm.addListener(this._onChromeAlarmsAlarm.bind(this));
-
+ 
       this._ensureInitialState();
     },
 
@@ -120,7 +119,14 @@ define(function(require) {
       if (playing) {
         this.pause();
       } else {
-        this.play();
+        var isSongExpired = this._getIsSongExpired();
+
+        if (isSongExpired) {
+          this.set('playOnActivate', true);
+          this.refresh();
+        } else {
+          this.play();
+        }
       }
     },
 
@@ -141,7 +147,6 @@ define(function(require) {
     },
 
     stop: function() {
-      console.log('stopping');
       this.get('youTubePlayer').stop();
 
       this.set({
@@ -175,13 +180,11 @@ define(function(require) {
         if (timeInSeconds === this.get('loadedSong').get('duration') || youTubePlayer.get('state') === YouTubePlayerState.SongCued) {
           this.activateSong(this.get('loadedSong'), timeInSeconds);
         } else {
+          this.set('currentTime', timeInSeconds);
           youTubePlayer.seekTo(timeInSeconds);
         }
       } else {
-        this.set({
-          currentTime: timeInSeconds,
-          currentTimeHighPrecision: timeInSeconds
-        });
+        this.set('currentTime', timeInSeconds);
       }
     },
 
@@ -200,12 +203,12 @@ define(function(require) {
     },
 
     refresh: function() {
-      this._clearRefreshAlarm();
-
       var loadedSong = this.get('loadedSong');
       if (!_.isNull(loadedSong)) {
         this.activateSong(loadedSong, this.get('currentTime'));
       }
+
+      this._setInitialSongLoadTime(loadedSong);
     },
 
     isPausable: function() {
@@ -261,14 +264,6 @@ define(function(require) {
       }
     },
 
-    _onChangeState: function(model, state) {
-      if (state === PlayerState.Playing || state === PlayerState.Buffering) {
-        this._clearRefreshAlarm();
-      } else {
-        this._createRefreshAlarm();
-      }
-    },
-
     _onChangeReady: function(model, ready) {
       if (ready) {
         // Load from Backbone.LocalStorage
@@ -285,8 +280,6 @@ define(function(require) {
           // Otherwise, ensure that the currently active song is loaded into its respective API player.
           this.refresh();
         }
-      } else {
-        this._clearRefreshAlarm();
       }
     },
 
@@ -300,6 +293,10 @@ define(function(require) {
       }
     },
 
+    _onChangeLoadedSong: function(model, loadedSong) {
+      this._setInitialSongLoadTime(loadedSong);
+    },
+
     _onChromeRuntimeConnect: function(port) {
       if (port.name === 'youTubeIFrameConnectRequest') {
         this.set('iframePort', port);
@@ -311,7 +308,6 @@ define(function(require) {
       // It's better to be told when time updates rather than poll YouTube's API for the currentTime.
       if (!_.isUndefined(message.currentTime)) {
         this.set({
-          currentTimeHighPrecision: message.currentTime,
           currentTime: Math.ceil(message.currentTime)
         });
       }
@@ -339,13 +335,6 @@ define(function(require) {
       } else if (command === ChromeCommand.DecreaseVolume) {
         var decreasedVolume = this.get('volume') - 5;
         this.setVolume(decreasedVolume);
-      }
-    },
-
-    _onChromeAlarmsAlarm: function(alarm) {
-      // Check the alarm name because closing the browser will not clear an alarm, but new alarm name is generated on open.
-      if (alarm.name === this.get('refreshAlarmName')) {
-        this.refresh();
       }
     },
 
@@ -381,23 +370,6 @@ define(function(require) {
       if (message.data && message.data.buffer) {
         this.get('buffers').push(message.data.buffer);
         this.set('bufferType', message.data.bufferType);
-      }
-    },
-
-    _createRefreshAlarm: function() {
-      if (!this.get('refreshAlarmCreated')) {
-        this.set('refreshAlarmCreated', true);
-        chrome.alarms.create(this.get('refreshAlarmName'), {
-          // Wait 6 hours
-          delayInMinutes: 360.0
-        });
-      }
-    },
-
-    _clearRefreshAlarm: function() {
-      if (this.get('refreshAlarmCreated')) {
-        this.set('refreshAlarmCreated', false);
-        chrome.alarms.clear(this.get('refreshAlarmName'));
       }
     },
 
@@ -470,6 +442,21 @@ define(function(require) {
       // the bufferType is incorrect a moment later.
       // Clearing the bufferType every time the video changes prevents this confusion.
       this.set('bufferType', '');
+    },
+
+    // YouTube videos can't be loaded forever. The server's cache will become invalid and
+    // the video will fail to buffer. To work around this, reload the video when attempting to play it
+    // if it has been loaded for an excessive amount of time.
+    _getIsSongExpired: function() {
+      var songLoadTime = performance.now() - this.get('initialSongLoadTime');
+      var isSongExpired = songLoadTime > this.get('maxSongLoadTime');
+
+      return isSongExpired;
+    },
+
+    _setInitialSongLoadTime: function(loadedSong) {
+      var initialSongLoadTime = _.isNull(loadedSong) ? 0 : performance.now();
+      this.set('initialSongLoadTime', initialSongLoadTime);
     },
 
     // Send a message to YouTube's iframe to figure out what the current time is of the video element inside of the iframe.

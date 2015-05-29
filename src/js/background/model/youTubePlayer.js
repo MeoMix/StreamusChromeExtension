@@ -131,7 +131,6 @@
     },
 
     _onYouTubePlayerStateChange: function(event) {
-      console.log('event.data:', event.data);
       if (this.get('pauseOnBuffer') && event.data === YouTubePlayerState.Buffering) {
         this.set('pauseOnBuffer', false);
         this.pause();
