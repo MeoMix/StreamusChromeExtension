@@ -23,8 +23,12 @@
 
     // Fade out the tooltip and then destroy it once completely hidden
     hide: function() {
-      this.ui.panelContent.one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
-      this.$el.removeClass('is-visible');
+      if (this.isRendered) {
+        this.ui.panelContent.one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+        this.$el.removeClass('is-visible');
+      } else {
+        this.destroy();
+      }
     },
 
     _onChangeText: function(model, text) {

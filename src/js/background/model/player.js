@@ -73,7 +73,7 @@ define(function(require) {
       //window.addEventListener('message', this._onWindowMessage.bind(this));
       chrome.runtime.onConnect.addListener(this._onChromeRuntimeConnect.bind(this));
       chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
- 
+
       this._ensureInitialState();
     },
 

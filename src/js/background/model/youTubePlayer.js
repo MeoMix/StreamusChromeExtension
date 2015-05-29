@@ -108,7 +108,7 @@
       // There's no advantage to the SongCued state and has obvious drawbacks; avoid it.
       this.set('pauseOnBuffer', true);
       youTubePlayerWidget.loadVideoById(videoOptions);
-      // Defer a pause to try and get YouTube to pause as quickly as possible, but this is a race-condition so catch ourselves with pauseOnBuffer.
+      // Try to pause as quickly as possible, but this is timing dependent. So, guard with pauseOnBuffer flag.
       _.defer(this.pause.bind(this));
     },
 
