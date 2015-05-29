@@ -34,7 +34,7 @@ function foo(a, b, c) {
     ...
 }
 # bad
-function foo( a, b, c, ) {
+function foo( a, b, c ) {
     ...
 }
 ```
