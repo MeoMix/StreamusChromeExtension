@@ -146,7 +146,8 @@
 
       var containerScrollTop = 50;
       this.scrollable._scrollContainer(containerScrollTop);
-      expect(this.scrollable._updateScrollTop.calledWith(this.scrollable._getListScrollTop(containerScrollTop), containerScrollTop)).to.equal(true);
+      var listScrollTop = this.scrollable._getListScrollTop(containerScrollTop);
+      expect(this.scrollable._updateScrollTop.calledWith(listScrollTop, containerScrollTop)).to.equal(true);
 
       this.scrollable._updateScrollTop.restore();
     });
@@ -159,7 +160,8 @@
 
       var listScrollTop = 50;
       this.scrollable._scrollList(listScrollTop);
-      expect(this.scrollable._updateScrollTop.calledWith(listScrollTop, this.scrollable._getContainerScrollTop(listScrollTop))).to.equal(true);
+      var containerScrollTop = this.scrollable._getContainerScrollTop(listScrollTop);
+      expect(this.scrollable._updateScrollTop.calledWith(listScrollTop, containerScrollTop)).to.equal(true);
 
       this.scrollable._updateScrollTop.restore();
     });
