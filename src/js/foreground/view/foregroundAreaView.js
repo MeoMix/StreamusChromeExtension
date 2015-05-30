@@ -154,6 +154,11 @@
 
     _onMouseDown: function(event) {
       StreamusFG.channels.element.vent.trigger('mouseDown', event);
+
+      //  Prevent using the middle-mouse button from scrolling the page because it doesn't respect overflow: hidden
+      if (event.button === 1) {
+        event.preventDefault();
+      }
     },
 
     _onClickReloadLink: function() {
