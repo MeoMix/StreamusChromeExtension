@@ -45,7 +45,7 @@
     },
 
     _createClientError: function(message, url, lineNumber, error) {
-      if (StreamusBG.localDebug && !StreamusBG.testing) {
+      if (StreamusBG.localDebug) {
         this._warnDebugEnabled(message);
         return;
       }

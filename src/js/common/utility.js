@@ -160,5 +160,13 @@
     }
 
     return adjustedOffset;
+  },
+
+  // Takes a given value and ensures that it falls within minimum/maximum values.
+  ensureMinMax: function(value, min, max) {
+    value = Math.max(min, value);
+    value = Math.min(value, max);
+
+    return value;
   }
 });

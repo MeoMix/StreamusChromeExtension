@@ -118,5 +118,23 @@
       var adjustedOffset = Utility.flipInvertOffset(offset, elementLength, containerLength, targetLength, adjust);
       expect(adjustedOffset).to.equal(offset);
     });
+
+    it('should be able to ensure minMax outside min', function() {
+      var min = 0;
+      var ensuredValue = Utility.ensureMinMax(-10, min, 50);
+      expect(ensuredValue).to.equal(min);
+    });
+
+    it('should be able to ensure minMax outside max', function() {
+      var max = 50;
+      var ensuredValue = Utility.ensureMinMax(100, 0, max);
+      expect(ensuredValue).to.equal(max);
+    });
+
+    it('should not affect value within min/max', function() {
+      var value = 20;
+      var ensuredValue = Utility.ensureMinMax(value, 0, 50);
+      expect(ensuredValue).to.equal(value);
+    });
   });
 });

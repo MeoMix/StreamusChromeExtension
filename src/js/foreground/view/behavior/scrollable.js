@@ -1,6 +1,11 @@
-﻿define(function() {
+﻿define(function(require) {
   'use strict';
 
+  var Utility = require('common/utility');
+
+  // Gives an implementing view a custom scrollbar.
+  // Handles adjusting the scrollbar's dimensions and moving the view around based
+  // on user interactions with the DOM.
   var Scrollable = Marionette.Behavior.extend({
     defaults: {
       // The SlidingRender behavior modifies CollectionView functionality drastically.
@@ -79,12 +84,12 @@
 
     // Move the list up/down as the user scrolls the mouse wheel.
     _onWheel: function(event) {
-      var deltaY = event.originalEvent.deltaY;
-      var listScrollTop = this.currentListScrollTop + deltaY;
-
+      var listScrollTop = this.currentListScrollTop + event.originalEvent.deltaY;
       this._scrollList(listScrollTop);
     },
 
+    // Monitor changes to the user's mouse position after they begin clicking
+    // on the scrollbar's track. Adjust the scroll position based on mouse movements.
     _onTrackMouseDown: function(event) {
       // Doesn't make sense to run this logic on right-click.
       if (event.button === 0) {
@@ -193,8 +198,14 @@
 
     // Calculate the size of the thumb. It should accurately represent the ratio of containerHeight to contentHeight.
     _getThumbHeight: function(containerHeight, contentHeight) {
+      if (contentHeight === 0) {
+        throw new Error('Expected contentHeight to be a non-zero value.');
+      }
+
+      // Derive the ratio between containerHeight and contentHeight and then scale that to the container.
       var thumbHeight = containerHeight * containerHeight / contentHeight;
       thumbHeight = Math.max(thumbHeight, this.options.minThumbHeight);
+
       return thumbHeight;
     },
 
@@ -238,7 +249,7 @@
     _scrollContainer: function(containerScrollTop) {
       // Only allow the thumb to move down until it touches the base of the container.
       var maxContainerScrollTop = this.containerHeight - this.thumbHeight;
-      containerScrollTop = this._ensureMinMax(containerScrollTop, 0, maxContainerScrollTop);
+      containerScrollTop = Utility.ensureMinMax(containerScrollTop, 0, maxContainerScrollTop);
       var listScrollTop = this._getListScrollTop(containerScrollTop);
 
       this._updateScrollTop(listScrollTop, containerScrollTop);
@@ -248,7 +259,7 @@
     _scrollList: function(listScrollTop) {
       // Only allow the list to move down until the last of its content is fully visible.
       var maxListScrollTop = this.contentHeight - this.containerHeight;
-      listScrollTop = this._ensureMinMax(listScrollTop, 0, maxListScrollTop);
+      listScrollTop = Utility.ensureMinMax(listScrollTop, 0, maxListScrollTop);
       var containerScrollTop = this._getContainerScrollTop(listScrollTop);
 
       this._updateScrollTop(listScrollTop, containerScrollTop);
@@ -262,14 +273,6 @@
 
       this.currentListScrollTop = listScrollTop;
       this.currentContainerScrollTop = containerScrollTop;
-    },
-
-    // Takes a given value and ensures that it falls within minimum/maximum values.
-    _ensureMinMax: function(value, min, max) {
-      value = Math.max(min, value);
-      value = Math.min(value, max);
-
-      return value;
     }
   });
 
