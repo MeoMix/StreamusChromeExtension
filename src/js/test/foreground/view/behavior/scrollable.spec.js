@@ -49,7 +49,7 @@
       document.body.appendChild(element);
 
       // Let the DOM acknowledge the new element.
-      setTimeout(function() {
+      requestAnimationFrame(function() {
         this.view.triggerMethod('show');
         this.view.triggerMethod('attach');
 
@@ -61,7 +61,7 @@
 
         document.body.removeChild(element);
         done();
-      }.bind(this), 200);
+      }.bind(this));
     });
 
     it('should be able to append scrollbar elements to its view', function() {
