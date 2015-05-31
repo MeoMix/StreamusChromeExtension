@@ -27,11 +27,6 @@
       this.listenTo(StreamusBG.channels.error.vent, 'windowError', this._onWindowError);
     },
 
-    // Only log client errors to the database in a deploy environment, not when debugging locally.
-    _warnDebugEnabled: function(message) {
-      console.warn('Debugging enabled; Message:' + message);
-    },
-
     _onChromeRuntimeGetPlatformInfo: function(platformInfo) {
       this.set('platformInfo', platformInfo);
     },
@@ -45,22 +40,22 @@
     },
 
     _createClientError: function(message, url, lineNumber, error) {
-      if (StreamusBG.localDebug) {
-        this._warnDebugEnabled(message);
-        return;
+      console.error('Creating error: ', message);
+
+      // Only log errors to the database in production.
+      if (!StreamusBG.localDebug) {
+        var signedInUser = this.get('signInManager').get('signedInUser');
+
+        this.get('reportedErrors').create({
+          message: message,
+          url: url,
+          lineNumber: lineNumber,
+          operatingSystem: this.get('platformInfo').os,
+          architecture: this.get('platformInfo').arch,
+          error: error,
+          userId: _.isNull(signedInUser) ? '' : signedInUser.get('id')
+        });
       }
-
-      var signedInUser = this.get('signInManager').get('signedInUser');
-
-      this.get('reportedErrors').create({
-        message: message,
-        url: url,
-        lineNumber: lineNumber,
-        operatingSystem: this.get('platformInfo').os,
-        architecture: this.get('platformInfo').arch,
-        error: error,
-        userId: _.isNull(signedInUser) ? '' : signedInUser.get('id')
-      });
     }
   });
 
