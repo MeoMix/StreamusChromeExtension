@@ -1,8 +1,8 @@
 ﻿/*jslint node: true*/
 // Options:
-// * grunt: Lint JavaScript, LESS, and _locales
-// * grunt build: Build a test release
-// * grunt build --newVersion="vx.xxx": Build a release
+// * grunt: Lint JavaScript, LESS, and run tests
+// * grunt build: Build a debug release
+// * grunt build:release: Build a release / increment version
 'use strict';
 
 var _ = require('lodash');
@@ -11,23 +11,13 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
-  // Setup environment variables before initializing config so that initConfig can use the variables.
-  var versionParameter = grunt.option('newVersion');
-  // TODO: Auto-increment version rather than requiring it be provided.
-  // Strip out v because need to pass a string to grunt or else trailing zeros get dropped
-  // For example, --newVersion=0.170 would be interpreted as 0.17
-  var version = _.isUndefined(versionParameter) ? 'Debug' : versionParameter.replace('v', '');
-  var isDebug = !versionParameter;
-  var baseReleaseDirectory = 'release/Streamus v' + version;
-  var chromeReleaseDirectory = baseReleaseDirectory + '/chrome/';
-  var operaReleaseDirectory = baseReleaseDirectory + '/opera/';
-
   grunt.initConfig({
     //	Read project settings from package.json in order to be able to reference the properties with grunt.
     pkg: grunt.file.readJSON('package.json'),
     meta: {
-      // Set this value dynamically to inform other packages where to write information.
-      releaseDirectory: ''
+      // Set these values dynamically to inform packages where to write information.
+      releaseDirectory: '',
+      buildVersion: ''
     },
     // Compress image sizes and move to dist folder
     imagemin: {
@@ -119,15 +109,6 @@ module.exports = function(grunt) {
       }
     },
     replace: {
-      // Update the version in manifest.json and package.json with the provided version
-      updateVersion: {
-        src: ['src/manifest.json', 'package.json'],
-        overwrite: true,
-        replacements: [{
-          from: /"version": "\d{0,3}.\d{0,3}"/,
-          to: '"version": "' + version + '"'
-        }]
-      },
       // Remove Chrome permissions not supported on other browsers.
       invalidPermissions: {
         src: ['<%= meta.releaseDirectory %>/manifest.json'],
@@ -158,10 +139,7 @@ module.exports = function(grunt) {
           // Remove manifest key because it can't be uploaded to the web store.
           // The key is helpful for debugging because it keeps the extension ID stable.
           from: /"key".*/,
-          to: function(match) {
-            // Don't remove key when testing because server will throw CORS errors.
-            return isDebug ? match : '';
-          }
+          to: ''
         }, {
           // Remove comments because they can't be uploaded to the web store.
           from: /\/\/ .*/ig,
@@ -174,7 +152,7 @@ module.exports = function(grunt) {
       //  Each zip file can then be uploaded to their respective web store.
       release: {
         options: {
-          archive: '<%= meta.releaseDirectory %>Streamus v' + version + '.zip'
+          archive: '<%= meta.releaseDirectory %>Streamus v<%= meta.buildVersion %>.zip'
         },
         files: [{
           expand: true,
@@ -251,19 +229,40 @@ module.exports = function(grunt) {
           done();
         }
       }
+    },
+    version: {
+      project: {
+        src: ['package.json', 'src/manifest.json']
+      }
     }
   });
 
   //  Build release and place .zip files in the release directory
-  grunt.registerTask('build', function() {
+  grunt.registerTask('build', function(buildFlag) {
+    var isRelease = buildFlag === 'release';
+
     // Ensure tests pass before performing any sort of bundling.
     grunt.task.run('test');
 
-    if (!isDebug) {
-      grunt.task.run('replace:updateVersion');
+    if (isRelease) {
+      grunt.task.run('version:project:minor');
     }
 
-    grunt.task.run('requirejs', 'replace:manifest', 'replace:localDebug', 'copy:contentScripts', 'less', 'imagemin', 'clean:dist');
+    grunt.task.run('requirejs');
+
+    // Don't replace manifest key during debugging because server will throw CORS errors.
+    // No need to clean-up comments because debug version isn't uploaded
+    if (isRelease) {
+      grunt.task.run('replace:manifest');
+    }
+
+    grunt.task.run('replace:localDebug', 'copy:contentScripts', 'less', 'imagemin', 'clean:dist');
+
+    var buildVersion = isRelease ? grunt.file.readJSON('package.json').version : 'Debug';
+    grunt.config.set('meta.buildVersion', buildVersion);
+    var baseReleaseDirectory = 'release/Streamus v' + buildVersion;
+    var chromeReleaseDirectory = baseReleaseDirectory + '/chrome/';
+    var operaReleaseDirectory = baseReleaseDirectory + '/opera/';
 
     // Build chrome release
     grunt.task.run('compressRelease:' + chromeReleaseDirectory);

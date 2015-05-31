@@ -113,7 +113,6 @@
     <Content Include="src\js\test\background\collection\searchResults.spec.js" />
     <Content Include="src\js\test\chrome.mock.js" />
     <Content Include="src\js\test\common\commonSpecLoader.js" />
-    <Content Include="src\js\test\foreground\backgroundPageMock.js" />
     <Content Include="src\js\test\foreground\view\appBar\adminMenuAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarSpecLoader.js" />
