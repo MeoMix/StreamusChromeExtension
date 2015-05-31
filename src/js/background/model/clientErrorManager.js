@@ -42,20 +42,17 @@
     _createClientError: function(message, url, lineNumber, error) {
       console.error('Creating error: ', message);
 
-      // Only log errors to the database in production.
-      if (!StreamusBG.localDebug) {
-        var signedInUser = this.get('signInManager').get('signedInUser');
+      var signedInUser = this.get('signInManager').get('signedInUser');
 
-        this.get('reportedErrors').create({
-          message: message,
-          url: url,
-          lineNumber: lineNumber,
-          operatingSystem: this.get('platformInfo').os,
-          architecture: this.get('platformInfo').arch,
-          error: error,
-          userId: _.isNull(signedInUser) ? '' : signedInUser.get('id')
-        });
-      }
+      this.get('reportedErrors').create({
+        message: message,
+        url: url,
+        lineNumber: lineNumber,
+        operatingSystem: this.get('platformInfo').os,
+        architecture: this.get('platformInfo').arch,
+        error: error,
+        userId: _.isNull(signedInUser) ? '' : signedInUser.get('id')
+      });
     }
   });
 

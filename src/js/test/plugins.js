@@ -23,6 +23,7 @@
   // Finally, load the tests:
   require(['background/application', 'foreground/application', 'test/test'], function(BackgroundApplication, ForegroundApplication) {
     window.StreamusBG = new BackgroundApplication();
+    window.StreamusBG.localDebug = true;
     window.StreamusBG.instantiateBackgroundArea();
 
     window.StreamusFG = new ForegroundApplication({
