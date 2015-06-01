@@ -167,7 +167,8 @@
 
     _update: function() {
       // When the CollectionView is first initializing _update can fire before scrollbar has been initialized.
-      if (this.view._isShown) {
+      // _update can be called through requestAnimatiomFrame which gives an opening for the view to be destroyed.
+      if (!this.view.isDestroyed && this.view._isShown) {
         if (this.currentListScrollTop > 0) {
           // Reset the track's transform back to 0 so that offsetHeight and scrollHeight aren't impacted.
           // The transform value will be fixed once scrollContainer is called.

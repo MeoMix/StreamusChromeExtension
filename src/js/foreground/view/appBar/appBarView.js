@@ -130,7 +130,7 @@
     _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
       if (_.isNull(signedInUser)) {
         this.stopListening(model.previous('signedInUser').get('playlists'));
-        this.playlistTitleRegion.empty();
+        this.getRegion('playlistTitle').empty();
       } else {
         this._setPlaylistTitleRegion(signedInUser);
         this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);

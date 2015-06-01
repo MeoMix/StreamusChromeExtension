@@ -4,6 +4,7 @@
   var DataSource = require('background/model/dataSource');
   var YouTubeV3API = require('background/model/youTubeV3API');
 
+  // TODO: This doesn't update the index of playlist items on sequence change
   var ChromeContextMenusManager = Backbone.Model.extend({
     defaults: {
       textSelectionPlayId: -1,
@@ -248,7 +249,9 @@
 
     _onClickPlayContextMenu: function(onClickData) {
       var url = onClickData.linkUrl || onClickData.pageUrl;
-      var dataSource = new DataSource({url: url});
+      var dataSource = new DataSource({
+        url: url
+      });
 
       dataSource.getSong({
         success: function(song) {
@@ -261,8 +264,10 @@
 
     _onClickAddContextMenu: function(onClickData) {
       var url = onClickData.linkUrl || onClickData.pageUrl;
+      var dataSource = new DataSource({
+        url: url
+      });
 
-      var dataSource = new DataSource({url: url});
       dataSource.getSong({
         success: function(song) {
           this.get('streamItems').addSongs(song);
@@ -272,8 +277,10 @@
 
     _onClickSaveContextMenu: function(playlist, onClickData) {
       var url = onClickData.linkUrl || onClickData.pageUrl;
+      var dataSource = new DataSource({
+        url: url
+      });
 
-      var dataSource = new DataSource({url: url});
       dataSource.getSong({
         success: function(song) {
           playlist.get('items').addSongs(song);
