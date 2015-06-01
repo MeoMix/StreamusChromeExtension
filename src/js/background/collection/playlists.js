@@ -25,6 +25,7 @@
       this.on('add', this._onAdd);
       this.on('remove', this._onRemove);
       this.on('change:active', this._onChangeActive);
+      this.on('change:sequence', this._onChangeSequence);
       this.on('reset', this._onReset);
     },
 
@@ -125,6 +126,16 @@
       }
 
       this._setCanDelete(this.length > 1);
+    },
+
+    _onChangeSequence: function(model) {
+      // Let the collection adjust the model's index after its sequence changes
+      _.defer(function() {
+        model.emitYouTubeTabUpdateEvent({
+          id: model.get('id'),
+          index: this.indexOf(model)
+        });
+      }.bind(this));
     },
 
     _onChromeRuntimeMessage: function(request, sender, sendResponse) {

@@ -69,13 +69,13 @@
     // Ask the user to confirm linking their Google+ ID to the currently signed in Chrome account.
     _showLinkUserIdDialog: function() {
       this._showDialog(LinkUserIdDialogView, {
-        signInManager: StreamusFG.backgroundPage.signInManager
+        signInManager: StreamusFG.backgroundProperties.signInManager
       });
     },
 
     _showGoogleSignInDialog: function() {
       this._showDialog(GoogleSignInDialogView, {
-        signInManager: StreamusFG.backgroundPage.signInManager
+        signInManager: StreamusFG.backgroundProperties.signInManager
       });
     },
 
@@ -112,7 +112,7 @@
       }
 
       this._showDialog(ErrorDialogView, {
-        player: StreamusFG.backgroundPage.player,
+        player: StreamusFG.backgroundProperties.player,
         text: text,
         error: youTubeError
       });

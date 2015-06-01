@@ -84,6 +84,15 @@ define(function(require) {
       return this.has('dataSource') && !this.get('dataSourceLoaded');
     },
 
+    // Notify all open YouTube tabs that a playlist has been renamed.
+    emitYouTubeTabUpdateEvent: function(data) {
+      StreamusBG.channels.tab.commands.trigger('notify:youTube', {
+        event: SyncActionType.Updated,
+        type: ListItemType.Playlist,
+        data: data
+      });
+    },
+
     _onGetPlaylistSongsSuccess: function(response) {
       // Periodicially send bursts of packets to the server and trigger visual update.
       this.get('items').addSongs(response.songs, {
@@ -105,7 +114,7 @@ define(function(require) {
     },
 
     _onChangeTitle: function(model, title) {
-      this._emitYouTubeTabUpdateEvent({
+      this.emitYouTubeTabUpdateEvent({
         id: model.get('id'),
         title: title
       });
@@ -116,7 +125,7 @@ define(function(require) {
     _onChangeActive: function(model, active) {
       this._setActivePlaylistListeners(active);
 
-      this._emitYouTubeTabUpdateEvent({
+      this.emitYouTubeTabUpdateEvent({
         id: model.get('id'),
         active: active
       });
@@ -124,15 +133,6 @@ define(function(require) {
       if (!active) {
         this.get('items').deselectAll();
       }
-    },
-
-    // Notify all open YouTube tabs that a playlist has been renamed.
-    _emitYouTubeTabUpdateEvent: function(data) {
-      StreamusBG.channels.tab.commands.trigger('notify:youTube', {
-        event: SyncActionType.Updated,
-        type: ListItemType.Playlist,
-        data: data
-      });
     },
 
     _setActivePlaylistListeners: function(active) {

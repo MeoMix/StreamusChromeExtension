@@ -18,8 +18,8 @@
     childViewType: ListItemType.SearchResult,
     childViewOptions: function() {
       return {
-        streamItems: StreamusFG.backgroundPage.stream.get('items'),
-        player: StreamusFG.backgroundPage.player,
+        streamItems: StreamusFG.backgroundProperties.stream.get('items'),
+        player: StreamusFG.backgroundProperties.player,
         type: this.childViewType,
         parentId: this.ui.listItems[0].id
       };

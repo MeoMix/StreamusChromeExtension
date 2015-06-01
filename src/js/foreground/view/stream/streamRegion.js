@@ -10,7 +10,7 @@
 
     _onForegroundAreaRendered: function() {
       this.show(new StreamView({
-        model: StreamusFG.backgroundPage.stream
+        model: StreamusFG.backgroundProperties.stream
       }));
     }
   });

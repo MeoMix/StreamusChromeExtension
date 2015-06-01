@@ -53,8 +53,8 @@
         dialog: {
           selector: '[data-region=dialog]',
           regionClass: DialogRegion,
-          player: StreamusFG.backgroundPage.player,
-          signInManager: StreamusFG.backgroundPage.signInManager
+          player: StreamusFG.backgroundProperties.player,
+          signInManager: StreamusFG.backgroundProperties.signInManager
         },
         notification: {
           selector: '[data-region=notification]',
@@ -67,17 +67,17 @@
         leftPane: {
           selector: '[data-region=leftPane]',
           regionClass: LeftPaneRegion,
-          settings: StreamusFG.backgroundPage.settings
+          settings: StreamusFG.backgroundProperties.settings
         },
         search: {
           selector: '[data-region=search]',
           regionClass: SearchRegion,
-          settings: StreamusFG.backgroundPage.settings
+          settings: StreamusFG.backgroundProperties.settings
         },
         playlistsArea: {
           selector: '[data-region=playlistsArea]',
           regionClass: PlaylistsAreaRegion,
-          signInManager: StreamusFG.backgroundPage.signInManager
+          signInManager: StreamusFG.backgroundProperties.signInManager
         },
         stream: {
           selector: '[data-region=stream]',

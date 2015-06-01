@@ -55,7 +55,7 @@
       this.showChildView('content', new ActivePlaylistAreaView({
         model: activePlaylist,
         collection: activePlaylist.get('items'),
-        streamItems: StreamusFG.backgroundPage.stream.get('items')
+        streamItems: StreamusFG.backgroundProperties.stream.get('items')
       }));
     },
 

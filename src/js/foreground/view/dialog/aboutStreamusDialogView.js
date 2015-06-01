@@ -12,7 +12,7 @@
       this.model = new Dialog();
 
       this.contentView = new AboutStreamusView({
-        tabManager: StreamusFG.backgroundPage.tabManager
+        tabManager: StreamusFG.backgroundProperties.tabManager
       });
 
       DialogView.prototype.initialize.apply(this, arguments);

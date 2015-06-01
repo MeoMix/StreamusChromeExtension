@@ -34,13 +34,13 @@
         PlayPauseSongButtonView: {
           viewClass: PlayPauseSongButtonView,
           song: this.model.get('song'),
-          streamItems: StreamusFG.backgroundPage.stream.get('items'),
-          player: StreamusFG.backgroundPage.player
+          streamItems: StreamusFG.backgroundProperties.stream.get('items'),
+          player: StreamusFG.backgroundProperties.player
         },
         SaveSongButtonView: {
           viewClass: SaveSongButtonView,
           song: this.model.get('song'),
-          signInManager: StreamusFG.backgroundPage.signInManager
+          signInManager: StreamusFG.backgroundProperties.signInManager
         },
         DeleteListItemButtonView: {
           viewClass: DeleteListItemButtonView,
@@ -83,8 +83,7 @@
     },
 
     _onChangeId: function(model, id) {
-      // TODO: Set only data-id or attr-id.
-      this.$el.data('id', id).attr('id', id);
+      this.$el.attr('data-id', id);
     },
 
     _onChangeActive: function(model, active) {

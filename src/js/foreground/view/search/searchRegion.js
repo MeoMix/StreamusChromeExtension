@@ -36,10 +36,10 @@
     _createSearchView: function() {
       if (!this.hasView()) {
         var searchView = new SearchView({
-          model: StreamusFG.backgroundPage.search,
-          collection: StreamusFG.backgroundPage.search.get('results'),
-          streamItems: StreamusFG.backgroundPage.stream.get('items'),
-          signInManager: StreamusFG.backgroundPage.signInManager
+          model: StreamusFG.backgroundProperties.search,
+          collection: StreamusFG.backgroundProperties.search.get('results'),
+          streamItems: StreamusFG.backgroundProperties.stream.get('items'),
+          signInManager: StreamusFG.backgroundProperties.signInManager
         });
 
         this.show(searchView);

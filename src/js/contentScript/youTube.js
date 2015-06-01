@@ -167,39 +167,59 @@
       }
     }.bind(this);
 
+    this.addPlaylistSelectOption = function(playlistId, playlistTitle, isPlaylistActive) {
+      var addedOption = document.createElement('option');
+      addedOption.value = playlistId;
+      addedOption.innerHTML = playlistTitle;
+      playlistSelect.appendChild(addedOption);
+
+      if (isPlaylistActive) {
+        playlistSelect.options.selectedIndex = Array.prototype.indexOf.call(playlistSelect.childNodes, addedOption);
+      }
+    }.bind(this);
+
+    this.removePlaylistSelectOption = function(playlistId) {
+      playlistSelect.removeChild(playlistSelect.querySelector('option[value="' + playlistId + '"]'));
+    }.bind(this);
+
+    this.updatePlaylistSelectOption = function(playlistId, playlistTitle, playlistIndex, isPlaylistActive) {
+      var updatedOption = playlistSelect.querySelector('option[value="' + playlistId + '"]');
+
+      // Only updated properties will be patched to this event. So, check for undefined.
+      if (typeof playlistTitle !== 'undefined') {
+        updatedOption.innerHTML = message.data.title;
+      }
+
+      if (typeof playlistIndex !== 'undefined') {
+        var previousIndex = Array.prototype.slice.call(playlistSelect.children).indexOf(updatedOption);
+
+        if (previousIndex !== playlistIndex) {
+          playlistSelect.removeChild(updatedOption);
+          var nextSibling = playlistSelect.children.item(playlistIndex);
+          playlistSelect.insertBefore(updatedOption, nextSibling);
+        }
+      }
+
+      if (typeof isPlaylistActive !== 'undefined') {
+        playlistSelect.options.selectedIndex = Array.prototype.indexOf.call(playlistSelect.childNodes, updatedOption);
+      }
+    }.bind(this);
+
     this.onChromeRuntimeMessage = function(message) {
-      // TODO: Reduce cyclomatic complexity.
-      /* jshint ignore:start */
       if (message.action) {
         this[message.action](message.value);
       }
 
       if (message.event && contentScriptData.canEnhance) {
-        // TODO: It's really minor, but if a playlist changes its index in the collection then this select won't properly update.
         switch (message.event) {
           case contentScriptData.SyncActionType.Added:
-            var addedOption = document.createElement('option');
-            addedOption.value = message.data.id;
-            addedOption.innerHTML = message.data.title;
-            playlistSelect.appendChild(addedOption);
-
-            if (message.data.active) {
-              playlistSelect.options.selectedIndex = Array.prototype.indexOf.call(playlistSelect.childNodes, addedOption);
-            }
+            this.addPlaylistSelectOption(message.data.id, message.data.title, message.data.active);
             break;
           case contentScriptData.SyncActionType.Removed:
-            playlistSelect.removeChild(playlistSelect.querySelector('option[value="' + message.data.id + '"]'));
+            this.removePlaylistSelectOption(message.data.id);
             break;
           case contentScriptData.SyncActionType.Updated:
-            var updatedOption = playlistSelect.querySelector('option[value="' + message.data.id + '"]');
-
-            if (message.data.title) {
-              updatedOption.innerHTML = message.data.title;
-            }
-
-            if (message.data.active) {
-              playlistSelect.options.selectedIndex = Array.prototype.indexOf.call(playlistSelect.childNodes, updatedOption);
-            }
+            this.updatePlaylistSelectOption(message.data.id, message.data.title, message.data.index, message.data.active);
             break;
           case 'signed-in':
             while (sharePanel.lastChild) {
@@ -214,7 +234,6 @@
             break;
         }
       }
-      /* jshint ignore:end */
     }.bind(this);
 
     this.onGetYouTubeContentScriptDataResponse = function(youTubeContentScriptData) {

@@ -64,15 +64,15 @@
       }));
 
       this.showChildView('shuffleButton', new ShuffleButtonView({
-        model: StreamusFG.backgroundPage.shuffleButton
+        model: StreamusFG.backgroundProperties.shuffleButton
       }));
 
       this.showChildView('repeatButton', new RepeatButtonView({
-        model: StreamusFG.backgroundPage.repeatButton
+        model: StreamusFG.backgroundProperties.repeatButton
       }));
 
       this.showChildView('radioButton', new RadioButtonView({
-        model: StreamusFG.backgroundPage.radioButton
+        model: StreamusFG.backgroundProperties.radioButton
       }));
 
       this.showChildView('clearStreamButton', new ClearStreamButtonView({
@@ -84,7 +84,7 @@
       this.showChildView('saveStreamButton', new SaveStreamButtonView({
         model: new SaveStreamButton({
           streamItems: this.model.get('items'),
-          signInManager: StreamusFG.backgroundPage.signInManager
+          signInManager: StreamusFG.backgroundProperties.signInManager
         })
       }));
 
@@ -132,7 +132,7 @@
     _showActiveStreamItem: function(activeStreamItem, instant) {
       this.showChildView('activeStreamItem', new ActiveStreamItemView({
         model: activeStreamItem,
-        player: StreamusFG.backgroundPage.player,
+        player: StreamusFG.backgroundProperties.player,
         instant: instant
       }));
     }

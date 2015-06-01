@@ -45,8 +45,8 @@
         model: new TimeArea({
           totalTime: this.model.get('song').get('duration')
         }),
-        streamItems: StreamusFG.backgroundPage.stream.get('items'),
-        player: StreamusFG.backgroundPage.player
+        streamItems: StreamusFG.backgroundProperties.stream.get('items'),
+        player: StreamusFG.backgroundProperties.player
       }));
     },
 
@@ -59,8 +59,6 @@
         requestAnimationFrame(function() {
           this.$el.addClass('is-visible');
         }.bind(this));
-
-        StreamusFG.channels.activeStreamItemArea.vent.trigger('beforeVisible');
       }
     },
 

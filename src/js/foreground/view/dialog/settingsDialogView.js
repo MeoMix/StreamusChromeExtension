@@ -14,8 +14,8 @@
       });
 
       this.contentView = new SettingsView({
-        model: StreamusFG.backgroundPage.settings,
-        signInManager: StreamusFG.backgroundPage.signInManager
+        model: StreamusFG.backgroundProperties.settings,
+        signInManager: StreamusFG.backgroundProperties.signInManager
       });
 
       DialogView.prototype.initialize.apply(this, arguments);

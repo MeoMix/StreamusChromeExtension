@@ -66,10 +66,6 @@
 
       this.set('needLinkUserId', false);
     },
-    // TODO: Use this throughout? Or remove?
-    isSignedIn: function() {
-      return this.has('signedInUser');
-    },
 
     _onBackgroundAreaRendered: function() {
       this.signInWithGoogle();

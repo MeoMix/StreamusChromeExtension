@@ -10,7 +10,6 @@
   var lodashMixin = require('common/lodashMixin');
   _.mixin(lodashMixin);
 
-  // TODO: This code prevents proper inspection of legitimate errors. Fix it up so that it doesn't ruin normal error reporting.
   // Some sensitive data is not committed to GitHub. Use an example file to help others and provide detection of incomplete setup.
   requirejs.onError = function(error) {
     var headerWritten = false;

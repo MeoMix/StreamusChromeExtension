@@ -27,7 +27,6 @@
     },
 
     initialize: function(options) {
-      // TODO: Fix naming.
       this.backgroundPage = options.backgroundProperties;
       this.backgroundChannels = options.backgroundChannels;
       this.on('start', this._onStart);
@@ -40,9 +39,9 @@
 
     _showForegroundArea: function() {
       var foregroundAreaView = new ForegroundAreaView({
-        player: StreamusFG.backgroundPage.player,
-        settings: StreamusFG.backgroundPage.settings,
-        analyticsManager: StreamusFG.backgroundPage.analyticsManager
+        player: StreamusFG.backgroundProperties.player,
+        settings: StreamusFG.backgroundProperties.settings,
+        analyticsManager: StreamusFG.backgroundProperties.analyticsManager
       });
       foregroundAreaView.render();
     }

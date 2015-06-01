@@ -16,7 +16,7 @@
 
       this.contentView = new CreatePlaylistView({
         model: new CreatePlaylist(),
-        dataSourceManager: StreamusFG.backgroundPage.dataSourceManager,
+        dataSourceManager: StreamusFG.backgroundProperties.dataSourceManager,
         playlists: options.playlists,
         songs: _.isUndefined(options.songs) ? [] : options.songs
       });

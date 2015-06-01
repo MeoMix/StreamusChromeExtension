@@ -75,8 +75,8 @@
       // Only disallow moving to adjacent location if dragging one item because that'd be a no-op.
       if (draggedItems.length === 1) {
         var draggedModelId = draggedItems[0].get('id');
-        var isNextModel = ui.placeholder.next().data('id') === draggedModelId;
-        var isPreviousModel = ui.placeholder.prev().data('id') === draggedModelId;
+        var isNextModel = ui.placeholder.next().attr('data-id') === draggedModelId;
+        var isPreviousModel = ui.placeholder.prev().attr('data-id') === draggedModelId;
         isPlaceholderAdjacent = isNextModel || isPreviousModel;
       }
 
@@ -92,7 +92,7 @@
     _start: function(event, ui) {
       StreamusFG.channels.element.vent.trigger('drag');
       this.view.triggerMethod('ItemDragged', {
-        item: this.view.collection.get(ui.item.data('id')),
+        item: this.view.collection.get(ui.item.attr('data-id')),
         shiftKey: event.shiftKey
       });
 

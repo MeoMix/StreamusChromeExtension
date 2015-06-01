@@ -19,11 +19,11 @@
 
       this.listenTo(StreamusFG.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload);
 
-      this._setEnabled(signInManager.isSignedIn(), streamItems.isEmpty());
+      this._setEnabled(signInManager.has('signedInUser'), streamItems.isEmpty());
     },
 
     getStateMessage: function() {
-      var signedIn = this.get('signInManager').isSignedIn();
+      var signedIn = this.get('signInManager').has('signedInUser');
 
       var stateMessage;
       if (signedIn) {
@@ -41,19 +41,19 @@
     },
 
     _onStreamItemsAddCompleted: function() {
-      this._setEnabled(this.get('signInManager').isSignedIn(), false);
+      this._setEnabled(this.get('signInManager').has('signedInUser'), false);
     },
 
     _onStreamItemsRemove: function(model, collection) {
-      this._setEnabled(this.get('signInManager').isSignedIn(), collection.isEmpty());
+      this._setEnabled(this.get('signInManager').has('signedInUser'), collection.isEmpty());
     },
 
     _onStreamItemsReset: function(collection) {
-      this._setEnabled(this.get('signInManager').isSignedIn(), collection.isEmpty());
+      this._setEnabled(this.get('signInManager').has('signedInUser'), collection.isEmpty());
     },
 
     _onSignInManagerChangeSignedInUser: function() {
-      this._setEnabled(this.get('signInManager').isSignedIn(), this.get('streamItems').isEmpty());
+      this._setEnabled(this.get('signInManager').has('signedInUser'), this.get('streamItems').isEmpty());
     },
 
     // Since models don't cascade clean-up their listenTo event handlers I need to do this manually when the foreground unloads.

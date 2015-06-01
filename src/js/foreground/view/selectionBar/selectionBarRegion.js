@@ -11,9 +11,9 @@
 
     _onForegroundAreaIdle: function() {
       var selectionBar = new SelectionBar({
-        streamItems: StreamusFG.backgroundPage.stream.get('items'),
-        searchResults: StreamusFG.backgroundPage.search.get('results'),
-        signInManager: StreamusFG.backgroundPage.signInManager
+        streamItems: StreamusFG.backgroundProperties.stream.get('items'),
+        searchResults: StreamusFG.backgroundProperties.search.get('results'),
+        signInManager: StreamusFG.backgroundProperties.signInManager
       });
 
       this.show(new SelectionBarView({

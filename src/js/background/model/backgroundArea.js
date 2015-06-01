@@ -52,7 +52,6 @@
       this.listenTo(StreamusBG.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
       chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
 
-      // TODO: How can I instantiate this earlier?
       // It's a good idea to create this as soon as possible so that all commands to log errors can be captured.
       var clientErrorManager = new ClientErrorManager({
         signInManager: this.get('signInManager')

@@ -18,8 +18,8 @@
     childViewType: ListItemType.StreamItem,
     childViewOptions: function() {
       return {
-        player: StreamusFG.backgroundPage.player,
-        playPauseButton: StreamusFG.backgroundPage.playPauseButton,
+        player: StreamusFG.backgroundProperties.player,
+        playPauseButton: StreamusFG.backgroundProperties.playPauseButton,
         type: this.childViewType,
         parentId: this.ui.listItems[0].id
       };
@@ -56,7 +56,6 @@
     },
 
     activeStreamItemAreaEvents: {
-      'beforeVisible': '_onActiveStreamItemAreaBeforeVisible',
       'visible': '_onActiveStreamItemAreaVisible',
       'hidden': '_onActiveStreamItemAreaHidden'
     },
@@ -65,20 +64,7 @@
       this.bindEntityEvents(StreamusFG.channels.activeStreamItemArea.vent, this.activeStreamItemAreaEvents);
     },
 
-    _onActiveStreamItemAreaBeforeVisible: function() {
-      // TODO: Check this. Still feels really weird.
-      // Height isn't updated until children are rendered.
-      setTimeout(function() {
-        // If the content isn't going to have a scrollbar later then add a class to ensure that
-        // a scrollbar doesn't shown for a second as the content transitions in.
-        if (this.ui.listItems.height() <= this.$el.height()) {
-          this.ui.listItems.addClass('is-heightRestricted');
-        }
-      }.bind(this));
-    },
-
     _onActiveStreamItemAreaVisible: function() {
-      this.ui.listItems.removeClass('is-heightRestricted');
       this.triggerMethod('ListHeightUpdated');
     },
 

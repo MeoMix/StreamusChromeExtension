@@ -42,6 +42,7 @@
       // Provide a throttled version of _onWheel because wheel events can fire at a high rate.
       // https://developer.mozilla.org/en-US/docs/Web/Events/wheel
       this._onWheel = _.throttleFramerate(requestAnimationFrame, this._onWheel.bind(this));
+      this._throttledUpdate = _.throttleFramerate(requestAnimationFrame, this._update.bind(this));
     },
 
     onRender: function() {
@@ -66,15 +67,17 @@
       requestAnimationFrame(this._update.bind(this));
     },
 
+    // Sorting a view can trigger a massive number of add/remove children.
+    // So, it's a good idea to throttle update to allow for the bulk action to complete.
     onAddChild: function() {
       if (!this.options.implementsSlidingRender) {
-        this._update();
+        this._throttledUpdate();
       }
     },
 
     onRemoveChild: function() {
       if (!this.options.implementsSlidingRender) {
-        this._update();
+        this._throttledUpdate();
       }
     },
 
@@ -198,13 +201,19 @@
 
     // Calculate the size of the thumb. It should accurately represent the ratio of containerHeight to contentHeight.
     _getThumbHeight: function(containerHeight, contentHeight) {
-      if (contentHeight === 0) {
-        throw new Error('Expected contentHeight to be a non-zero value.');
-      }
+      var thumbHeight = 0;
 
-      // Derive the ratio between containerHeight and contentHeight and then scale that to the container.
-      var thumbHeight = containerHeight * containerHeight / contentHeight;
-      thumbHeight = Math.max(thumbHeight, this.options.minThumbHeight);
+      // When destroying a CollectionView all of the children can be removed just before the view itself is.
+      // This will result in containerHeight and contentHeight both being zero - which is OK.
+      if (containerHeight !== 0) {
+        if (contentHeight === 0) {
+          throw new Error('Expected contentHeight to be a non-zero value.');
+        }
+
+        // Derive the ratio between containerHeight and contentHeight and then scale that to the container.
+        thumbHeight = containerHeight * containerHeight / contentHeight;
+        thumbHeight = Math.max(thumbHeight, this.options.minThumbHeight);
+      }
 
       return thumbHeight;
     },

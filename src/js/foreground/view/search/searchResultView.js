@@ -29,18 +29,18 @@
         PlayPauseSongButtonView: {
           viewClass: PlayPauseSongButtonView,
           song: this.model.get('song'),
-          streamItems: StreamusFG.backgroundPage.stream.get('items'),
-          player: StreamusFG.backgroundPage.player
+          streamItems: StreamusFG.backgroundProperties.stream.get('items'),
+          player: StreamusFG.backgroundProperties.player
         },
         AddSongButtonView: {
           viewClass: AddSongButtonView,
           song: this.model.get('song'),
-          streamItems: StreamusFG.backgroundPage.stream.get('items')
+          streamItems: StreamusFG.backgroundProperties.stream.get('items')
         },
         SaveSongButtonView: {
           viewClass: SaveSongButtonView,
           song: this.model.get('song'),
-          signInManager: StreamusFG.backgroundPage.signInManager
+          signInManager: StreamusFG.backgroundProperties.signInManager
         },
         SongOptionsButtonView: {
           viewClass: SongOptionsButtonView,

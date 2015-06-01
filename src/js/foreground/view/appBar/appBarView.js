@@ -95,25 +95,25 @@
       }
 
       this.showChildView('volumeArea', new VolumeAreaView({
-        player: StreamusFG.backgroundPage.player
+        player: StreamusFG.backgroundProperties.player
       }));
 
       this.showChildView('adminMenuArea', new AdminMenuAreaView({
         model: new AdminMenuArea(),
-        tabManager: StreamusFG.backgroundPage.tabManager
+        tabManager: StreamusFG.backgroundProperties.tabManager
       }));
 
       this.showChildView('previousButton', new PreviousButtonView({
-        model: StreamusFG.backgroundPage.previousButton
+        model: StreamusFG.backgroundProperties.previousButton
       }));
 
       this.showChildView('playPauseButton', new PlayPauseButtonView({
-        model: StreamusFG.backgroundPage.playPauseButton,
-        player: StreamusFG.backgroundPage.player
+        model: StreamusFG.backgroundProperties.playPauseButton,
+        player: StreamusFG.backgroundProperties.player
       }));
 
       this.showChildView('nextButton', new NextButtonView({
-        model: StreamusFG.backgroundPage.nextButton
+        model: StreamusFG.backgroundProperties.nextButton
       }));
     },
 

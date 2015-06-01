@@ -29,7 +29,7 @@
     _showLeftPaneView: function() {
       if (!this.hasView()) {
         this.show(new LeftPaneView({
-          signInManager: StreamusFG.backgroundPage.signInManager
+          signInManager: StreamusFG.backgroundProperties.signInManager
         }));
       }
     }

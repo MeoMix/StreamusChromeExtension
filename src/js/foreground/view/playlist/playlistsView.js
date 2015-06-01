@@ -24,6 +24,7 @@
 
     // Overwrite resortView to only render children as expected
     resortView: function() {
+      console.log('rendering children');
       this._renderChildren();
     },
 
@@ -67,7 +68,7 @@
 
     // Whenever a playlist is moved visually -- update corresponding model with new information.
     _onSortableUpdate: function(event, ui) {
-      this.collection.moveToIndex(ui.item.data('id'), ui.item.index());
+      this.collection.moveToIndex(ui.item.attr('data-id'), ui.item.index());
     }
   });
 

@@ -38,7 +38,7 @@
     initialize: function() {
       // Prefer passing background models in as options, but reminders will be removed once undo is implemented.
       // So, no need to refactor this right now. Just remove later.
-      this.settings = StreamusFG.backgroundPage.settings;
+      this.settings = StreamusFG.backgroundProperties.settings;
     },
 
     onRender: function() {
