@@ -99,6 +99,10 @@
       var offsetTop = utility.flipInvertOffset(positionData.top, this.$el.outerHeight(), positionData.containerHeight);
       var offsetLeft = utility.flipInvertOffset(positionData.left, this.$el.outerWidth(), positionData.containerWidth);
 
+      // Be sure to round the values because sub-pixel positioning of view can cause blur.
+      offsetTop = Math.round(offsetTop);
+      offsetLeft = Math.round(offsetLeft);
+
       this.$el.css('transform', 'translate(' + offsetLeft + 'px, ' + offsetTop + 'px)');
       this.model.set({
         offsetTop: offsetTop,
@@ -116,7 +120,8 @@
         // http://www.google.com/design/spec/components/menus.html#menus-simple-menus
         var paddingTop = parseInt(this.ui.panelContent.css('padding-top'), 10);
         var centering = (listItemHeight - offsetData.itemHeight) / 2 - paddingTop;
-        var offsetTop = offsetData.itemOffset + centering;
+        // Be sure to round because sub-pixel positioning can cause blur.
+        var offsetTop = Math.round(offsetData.itemOffset + centering);
 
         this.$el.css('transform', 'translate(' + this.model.get('offsetLeft') + 'px, ' + offsetTop + 'px)');
         this.model.set('offsetTop:', offsetTop);
