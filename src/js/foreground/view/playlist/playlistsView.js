@@ -24,7 +24,6 @@
 
     // Overwrite resortView to only render children as expected
     resortView: function() {
-      console.log('rendering children');
       this._renderChildren();
     },
 

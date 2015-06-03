@@ -1,6 +1,6 @@
 {
   "name": "Streamus",
-  "version": "0.175.0",
+  "version": "0.176.0",
   "private": true,
   "description": "Streamus - The most popular Chrome extension YouTube music player",
   "devDependencies": {
@@ -25,6 +25,7 @@
     "grunt-text-replace": "^0.4.0",
     "grunt-usemin": "^3.0.0",
     "grunt-version": "^1.0.0",
+    "grunt-webstore-upload": "^0.8.3",
     "load-grunt-tasks": "^3.1.0",
     "lodash": "^3.3.0"
   },

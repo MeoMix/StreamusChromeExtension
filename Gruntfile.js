@@ -232,7 +232,30 @@ module.exports = function(grunt) {
     },
     version: {
       project: {
+        options: {
+          prefix: '[^\\-minimum_chrome_version]version[\'"]?\\s*[:=]\\s*[\'"]'
+        },
         src: ['package.json', 'src/manifest.json']
+      }
+    },
+    // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+    webstore_upload: {
+      // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+      accounts: {
+        'default': {
+          publish: false,
+          // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
+          client_id: '',
+          client_secret: ''
+          // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+        }
+      },
+      extensions: {
+        streamus: {
+          appID: 'jbnkffmindojffecdhbbmekbmkkfpmjd',
+          zip: 'release\\Streamus v<%= meta.buildVersion %>\\chrome\\Streamus v<%= meta.buildVersion %>.zip'
+          //zip: 'release\\Streamus v<%= meta.buildVersion %>.zip'
+        }
       }
     }
   });
@@ -257,17 +280,7 @@ module.exports = function(grunt) {
     }
 
     grunt.task.run('replace:localDebug', 'copy:contentScripts', 'less', 'imagemin', 'clean:dist');
-
-    var buildVersion = isRelease ? grunt.file.readJSON('package.json').version : 'Debug';
-    grunt.config.set('meta.buildVersion', buildVersion);
-    var baseReleaseDirectory = 'release/Streamus v' + buildVersion;
-    var chromeReleaseDirectory = baseReleaseDirectory + '/chrome/';
-    var operaReleaseDirectory = baseReleaseDirectory + '/opera/';
-
-    // Build chrome release
-    grunt.task.run('compressRelease:' + chromeReleaseDirectory);
-    // Build opera release
-    grunt.task.run('compressRelease:' + operaReleaseDirectory + ':sanitize=true');
+    grunt.task.run('buildReleases:' + isRelease);
   });
 
   // Ensure that non-English translations are in-sync with the English translation
@@ -295,6 +308,24 @@ module.exports = function(grunt) {
   // Run linters and enforce code-quality standards
   grunt.registerTask('default', ['test']);
   grunt.registerTask('test', ['jshint', 'recess', 'jscs', 'mocha']);
+
+  // Synchronous wrapper
+  grunt.registerTask('buildReleases', function(isRelease) {
+    var buildVersion = isRelease ? grunt.file.readJSON('package.json').version : 'Debug';
+    grunt.config.set('meta.buildVersion', buildVersion);
+    var baseReleaseDirectory = 'release/Streamus v' + buildVersion;
+    var chromeReleaseDirectory = baseReleaseDirectory + '/chrome/';
+    var operaReleaseDirectory = baseReleaseDirectory + '/opera/';
+
+    // Build chrome release
+    grunt.task.run('compressRelease:' + chromeReleaseDirectory);
+    // Build opera release
+    grunt.task.run('compressRelease:' + operaReleaseDirectory + ':sanitize=true');
+
+    if (isRelease) {
+      grunt.task.run('webstore_upload');
+    }
+  });
 
   // A synchronous wrapper for compress:release
   grunt.registerTask('compressRelease', function(releaseDirectory, sanitize) {
