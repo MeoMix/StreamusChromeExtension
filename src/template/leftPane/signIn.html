@@ -1,23 +1,23 @@
 ﻿<div class='instruction-wrapper'>
-    <div data-ui='signingInMessage' class='instruction is-showingSpinner'>
-        <div class='instruction-header'>
-            <%= signingInMessage %>
-        </div>
-        <div data-region='spinner'></div>
+  <div data-ui='signingInMessage' class='instruction is-showingSpinner'>
+    <div class='instruction-header'>
+      <%= signingInMessage %>
     </div>
+    <div data-region='spinner'></div>
+  </div>
 
-    <div data-ui='signInMessage' class='instruction'>
-        <div data-ui='signInLink' class='instruction-header u-link'>
-            <%= signInMessage %>
-        </div>
+  <div data-ui='signInMessage' class='instruction'>
+    <div data-ui='signInLink' class='instruction-header u-link'>
+      <%= signInMessage %>
     </div>
+  </div>
 
-    <div data-ui='signInFailedMessage' class='instruction'>
-        <div class='instruction-header'>
-            <%= signInFailedMessage %>
-        </div>
-        <div class='instruction-content'>
-            <%= pleaseWaitMessage %> <span data-ui='signInRetryTimer'><%= signInRetryTimer %></span>
-        </div>
+  <div data-ui='signInFailedMessage' class='instruction'>
+    <div class='instruction-header'>
+      <%= signInFailedMessage %>
     </div>
+    <div class='instruction-content'>
+      <%= pleaseWaitMessage %> <span data-ui='signInRetryTimer'><%= signInRetryTimer %></span>
+    </div>
+  </div>
 </div>

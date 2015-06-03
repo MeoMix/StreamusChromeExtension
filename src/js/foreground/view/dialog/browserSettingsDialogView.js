@@ -1,29 +1,29 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var Dialog = require('foreground/model/dialog/dialog');
-    var BrowserSettingsView = require('foreground/view/dialog/browserSettingsView');
-    var DialogView = require('foreground/view/dialog/dialogView');
+  var Dialog = require('foreground/model/dialog/dialog');
+  var BrowserSettingsView = require('foreground/view/dialog/browserSettingsView');
+  var DialogView = require('foreground/view/dialog/dialogView');
 
-    var BrowserSettingsDialogView = DialogView.extend({
-        id: 'browserSettingsDialog',
+  var BrowserSettingsDialogView = DialogView.extend({
+    id: 'browserSettingsDialog',
 
-        initialize: function() {
-            this.model = new Dialog({
-                submitButtonText: chrome.i18n.getMessage('save')
-            });
+    initialize: function() {
+      this.model = new Dialog({
+        submitButtonText: chrome.i18n.getMessage('save')
+      });
 
-            this.contentView = new BrowserSettingsView({
-                model: Streamus.backgroundPage.browserSettings
-            });
+      this.contentView = new BrowserSettingsView({
+        model: StreamusFG.backgroundProperties.browserSettings
+      });
 
-            DialogView.prototype.initialize.apply(this, arguments);
-        },
+      DialogView.prototype.initialize.apply(this, arguments);
+    },
 
-        onSubmit: function() {
-            this.contentView.save();
-        }
-    });
+    onSubmit: function() {
+      this.contentView.save();
+    }
+  });
 
-    return BrowserSettingsDialogView;
+  return BrowserSettingsDialogView;
 });

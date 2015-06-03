@@ -18,10 +18,32 @@ It can be installed through the [Chrome Web Store](https://chrome.google.com/web
 
 Start by cloning the development branch. All PRs should be submitted to the development branch.
 
+* For more information regarding development of Chrome extensions, see [Getting Started: Building a Chrome Extension](https://developer.chrome.com/extensions/getstarted)
+* For more information regarding Chrome extension APIs, see [Chrome Platform APIs](https://developer.chrome.com/extensions/api_index)
+
 <h3>Dependencies</h3>
 You will need to have [Node](https://nodejs.org/) installed on your system as well as [Grunt](http://gruntjs.com/). After installing Node, navigate using a terminal to the directory in which you cloned Streamus. Then, perform the following command to install dependencies:
 
     npm install
+
+<h3>Loading and editing CSS</h3>
+Streamus' CSS is compiled via [LESS](http://lesscss.org/). As such, you need to run the following command from the '/StreamusChromeExtension' directory before working with the software:
+
+    grunt less && grunt watch
+
+This command will parse all currently existing .less files and transform them into .css. Then, it will begin to watch for modifications to those files and automatically re-compiled into .css.
+
+<img src='http://i.imgur.com/5VGgBs1.png' />
+
+<h3>API keys</h3>
+You will need to modify the example key files located in the [/js/background/key/](https://github.com/MeoMix/StreamusChromeExtension/tree/Development/src/js/background/key) directory. Copy `youTubeAPIKey.js.example`, rename it to `youTubeAPIKey.js` and replace the example API key with your own. Production keys are not committed to GitHub. The example key provided should not be relied upon for anything other than testing and it may be revoked without warning. You are strongly encouraged to generate your own key.
+
+<img src='http://i.imgur.com/Oyb7KqV.png' />
+
+<h3>Server settings</h3>
+Ensure that the property 'localDebug' is set to **false** unless you have configured an instance of Streamus' server on your local machine. The localDebug property can be found at [/js/background/application.js](https://github.com/MeoMix/StreamusChromeExtension/blob/Development/src/js/background/application.js).
+
+<img src='http://i.imgur.com/S7iLhtI.png' />
 
 <h3>Loading the extension</h3>
 1. Navigate to **chrome://extensions/**
@@ -30,25 +52,6 @@ You will need to have [Node](https://nodejs.org/) installed on your system as we
 4. Select the directory **/StreamusChromeExtension/src/**
 
 <img src='http://i.imgur.com/1fckCGn.png' />
-
-<h3>Editing LESS</h3>
-Streamus' CSS is compiled via [LESS](http://lesscss.org/). As such, you need to run the following command from the '/StreamusChromeExtension' directory before modifying any LESS files:
-
-    grunt watch
-
-After this command is running all modifications to .less files will automatically be compiled into .css.
-
-<img src='http://i.imgur.com/bzEn7Ny.png' />
-
-<h3>API keys</h3>
-You will need to modify the example key files located in the [/js/background/key/](https://github.com/MeoMix/StreamusChromeExtension/tree/Development/src/js/background/key) directory. Production keys are not committed to GitHub. There is an example key provided. It should not be relied upon for anything other than testing.
-
-<img src='http://i.imgur.com/Oyb7KqV.png' />
-
-<h3>Server settings</h3>
-Ensure that the property 'localDebug' is set to **false** unless you have configured an instance of Streamus' server on your local machine. The localDebug property can be found at [/js/background/application.js](https://github.com/MeoMix/StreamusChromeExtension/blob/Development/src/js/background/application.js).
-
-<img src='http://i.imgur.com/S7iLhtI.png' />
 
 <h3>Testing</h3>
 Test cases may be ran by navigating to chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/test.html, but only after the extension package has been loaded into Google Chrome. 
@@ -70,7 +73,6 @@ Streamus uses a fair number of third-party JavaScript libraries. Introduction of
 <h3>Non-core</h3>
 * [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
 * [jQuery UI](http://jqueryui.com/)
-* [jQuery Perfect Scrollbar](http://noraesae.github.io/perfect-scrollbar/)
 
 <h3>Testing</h3>
 * [Mocha](http://visionmedia.github.io/mocha/)

@@ -1,48 +1,42 @@
 ﻿@import "color";
 @import "transition";
 
-.ps-container {
-    &:hover .ps-scrollbar-y {
+.scrollbar-container {
+    position: relative;
+    overflow: hidden;
+
+    &:hover .scrollbar-thumb {
         background-color: @dark--tertiary;
     }
-
-    &.is-mousedown {
-        pointer-events: none;
-    }
 }
 
-.ps-active-y .ps-scrollbar-y-rail {
-    display: block;
-}
-
-.ps-scrollbar-y,
-.ps-scrollbar-y-rail {
+.scrollbar-track,
+.scrollbar-thumb {
     position: absolute;
+    top: 0;
+    right: 0;
     transition: background-color @transition-duration--fast ease-out, width @transition-duration--fast ease-out;
 }
 
-.ps-scrollbar-y-rail {
-    right: 0;
-    display: none;
+.scrollbar-track {
+    height: 100%;
     width: 8px;
 
     &:hover,
     &:active {
-        .ps-scrollbar-y {
+        .scrollbar-thumb {
             width: 8px;
             background-color: @dark--tertiary;
         }
     }
 }
 
-.ps-scrollbar-y {
+.scrollbar-thumb {
     width: 6px;
     background-color: @dark--quaternary;
 }
 
-.ps-container .ps-scrollbar-y {
-    right: 0;
-
+.scrollbar-thumb {
     &.is-clicked {
         background-color: @dark--tertiary;
     }

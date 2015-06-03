@@ -1,4 +1,4 @@
 ﻿define({
-    Csv: 'csv',
-    Json: 'json'
+  Csv: 'csv',
+  Json: 'json'
 });

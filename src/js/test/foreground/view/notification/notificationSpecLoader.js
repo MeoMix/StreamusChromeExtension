@@ -1,6 +1,6 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    require('test/foreground/view/notification/notificationRegion.spec');
-    require('test/foreground/view/notification/notificationView.spec');
+  require('test/foreground/view/notification/notificationRegion.spec');
+  require('test/foreground/view/notification/notificationView.spec');
 });

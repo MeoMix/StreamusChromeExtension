@@ -111,6 +111,7 @@
     <Content Include="src\js\foreground\view\video\videoView.js" />
     <Content Include="src\js\test\background\backgroundSpecLoader.js" />
     <Content Include="src\js\test\background\collection\searchResults.spec.js" />
+    <Content Include="src\js\test\chrome.mock.js" />
     <Content Include="src\js\test\common\commonSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\appBar\adminMenuAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarRegion.spec.js" />
@@ -209,6 +210,7 @@
     <Content Include="src\js\test\foreground\view\video\videoSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\video\videoView.spec.js" />
     <Content Include="src\js\test\foreground\view\viewTestUtility.js" />
+    <Content Include="src\js\test\phantomjs.shim.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />
@@ -448,7 +450,6 @@
     <Content Include="src\js\thirdParty\backbone.localStorage.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
-    <Content Include="src\js\thirdParty\jquery.perfectScrollbar.js" />
     <Content Include="src\js\thirdParty\jquery-ui.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
     <Content Include="src\js\thirdParty\require.js" />
@@ -556,7 +557,6 @@
     <Content Include="src\less\transition.less" />
     <Content Include="src\less\overlay.less" />
     <Content Include="src\less\radio.less" />
-    <Content Include="src\less\jquery.perfectScrollbar.less" />
     <Content Include="src\less\switch.less" />
     <Content Include="src\less\checkbox.less" />
     <Content Include="src\less\spinner.less" />
@@ -571,6 +571,7 @@
     <Content Include="src\_locales\ko\messages.json" />
     <Content Include="src\_locales\ro\messages.json" />
     <Content Include="src\_locales\pt_BR\messages.json" />
+    <Content Include="src\less\scrollbar.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

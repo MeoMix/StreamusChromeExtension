@@ -1,5 +1,10 @@
+sudo: false
 language: node_js
 node_js:
-  - "0.10"
-before_install: npm install -g grunt-cli
+  - "0.12"
+before_install:
+  - npm install -g grunt-cli
+before_script:
+  - grunt 'file-creator:youTubeAPIKey'
+  - grunt 'less'
 install: npm install

@@ -1,5 +1,5 @@
 ﻿define({
-    Highest: 'highest',
-    Auto: 'auto',
-    Lowest: 'lowest'
+  Highest: 'highest',
+  Auto: 'auto',
+  Lowest: 'lowest'
 });

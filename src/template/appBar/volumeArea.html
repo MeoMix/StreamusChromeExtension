@@ -1,26 +1,26 @@
 ﻿<div data-ui='volumeButton' class='volumeArea-volumeButton button button--icon--primary button--icon button--large'>
-    <span data-ui='volumeIcon--up'>
-        <%= volumeUpIcon %>
-    </span>
+  <span data-ui='volumeIcon--up'>
+    <%= volumeUpIcon %>
+  </span>
 
-    <span data-ui='volumeIcon--down'>
-        <%= volumeDownIcon %>
-    </span>
+  <span data-ui='volumeIcon--down'>
+    <%= volumeDownIcon %>
+  </span>
 
-    <span data-ui='volumeIcon--off'>
-        <%= volumeOffIcon %>
-    </span>
+  <span data-ui='volumeIcon--off'>
+    <%= volumeOffIcon %>
+  </span>
 
-    <span data-ui='volumeIcon--mute'>
-        <%= volumeMuteIcon %>
-    </span>
+  <span data-ui='volumeIcon--mute'>
+    <%= volumeMuteIcon %>
+  </span>
 </div>
 
 <div data-ui='slidePanel' class='volumeArea-slidePanel panel appBar-panel'>
-    <div class='volumeArea-slidePanel-content panel-content panel-content--uncolored flexColumn'>
-        <div class='rangeInput-wrapper rangeInput-wrapper--vertical'>
-            <div data-ui='volumeProgress' class='rangeInput-progress' style="height: <%= volume %>%"></div>
-            <input data-ui='volumeRange' class='rangeInput u-clickable' type='range' value="<%= volume %>" />
-        </div>
+  <div class='volumeArea-slidePanel-content panel-content panel-content--uncolored flexColumn'>
+    <div class='rangeInput-wrapper rangeInput-wrapper--vertical'>
+      <div data-ui='volumeProgress' class='rangeInput-progress'></div>
+      <input data-ui='volumeRange' class='rangeInput u-clickable' type='range' />
     </div>
+  </div>
 </div>

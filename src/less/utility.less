@@ -14,16 +14,17 @@
 }
 
 .u-elevated {
-    //  This important is needed because foregroundArea-dialogRegion's panel property is overriding w/ z-index: 2
+    // This important is needed because foregroundArea-dialogRegion's panel property is overriding w/ z-index: 2
     z-index: 4 !important;
 }
 
 .u-zIndex--5 {
-    z-index: 5;
+    // Same conflict here as above w/ z-index 2
+    z-index: 5 !important;
 }
 
 .u-zIndex--6 {
-    //  Same conflict here as above w/ z-index 2
+    // Same conflict here as above w/ z-index 2
     z-index: 6 !important;
 }
 
@@ -91,17 +92,12 @@
     box-shadow: @boxShadow-elevation--low;
 }
 
-//  Utility classes which are prefixed with is- indicate that they can be added or removed via JavaScript.
-.is-heightRestricted {
-    max-height: -webkit-max-content;
-}
-
 .is-hidden {
-    //  Use important to ensure that hidden always takes precedence.
+    // Use important to ensure that hidden always takes precedence.
     display: none !important;
 }
 
-//  It's important to use a class and not the disabled attribute because tooltips stop working on disabled elements.
+// It's important to use a class and not the disabled attribute because tooltips stop working on disabled elements.
 .is-disabled {
     color: @dark--tertiary !important;
     cursor: default !important;

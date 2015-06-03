@@ -1,11 +1,11 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var Switch = require('foreground/model/element/switch');
+  var Switch = require('foreground/model/element/switch');
 
-    var Switches = Backbone.Collection.extend({
-        model: Switch
-    });
+  var Switches = Backbone.Collection.extend({
+    model: Switch
+  });
 
-    return Switches;
+  return Switches;
 });

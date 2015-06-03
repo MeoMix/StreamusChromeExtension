@@ -4,9 +4,7 @@
 @import "boxShadow";
 
 .list {
-    position: relative;
     padding: 8px 0;
-    overflow-y: hidden;
 }
 
 .listItem--selectable:hover {
@@ -18,7 +16,7 @@
 }
 
 .listItem {
-    //  NOTE: This is needed so that .spinner is contained properly.
+    // NOTE: This is needed so that .spinner is contained properly.
     position: relative;
     display: flex;
     width: 100%;
@@ -32,7 +30,7 @@
         }
     }
 
-    //  https://github.com/MeoMix/StreamusChromeExtension/issues/562
+    // https://github.com/MeoMix/StreamusChromeExtension/issues/562
     &:not(.is-disabled):not(.grouping-item):not(.simpleListItem):hover {
         background: @dark--quinary;
     }
@@ -58,7 +56,7 @@
 }
 
 .listItem--medium {
-    //  Be sure to keep childViewHeight in /behavior/slidingRender.js synced with this value.
+    // Be sure to keep childViewHeight in /behavior/slidingRender.js synced with this value.
     height: 56px;
 
     .listItem-content {
@@ -100,7 +98,7 @@
 
     .listItem-itemCount {
         width: 30px;
-        //  If this is an even number then the 13px font-size looks off-by-one px.
+        // If this is an even number then the 13px font-size looks off-by-one px.
         height: 17px;
         margin: auto 0;
         margin-left: 16px;

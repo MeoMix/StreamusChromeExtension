@@ -1,13 +1,13 @@
 ﻿define(function() {
-    'use strict';
+  'use strict';
 
-    var Tooltip = Backbone.Model.extend({
-        defaults: {
-            text: '',
-            top: 0,
-            left: 0
-        }
-    });
+  var Tooltip = Backbone.Model.extend({
+    defaults: {
+      text: '',
+      top: 0,
+      left: 0
+    }
+  });
 
-    return Tooltip;
+  return Tooltip;
 });

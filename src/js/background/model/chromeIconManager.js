@@ -1,133 +1,136 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var PlayerState = require('common/enum/playerState');
+  var PlayerState = require('common/enum/playerState');
 
-    var ChromeIconManager = Backbone.Model.extend({
-        defaults: {
-            player: null,
-            streamItems: null,
-            settings: null,
-            tabManager: null
-        },
+  var ChromeIconManager = Backbone.Model.extend({
+    defaults: {
+      player: null,
+      streamItems: null,
+      settings: null,
+      tabManager: null
+    },
 
-        initialize: function() {
-            var player = this.get('player');
-            this.listenTo(player, 'change:muted', this._onPlayerChangeMuted);
-            this.listenTo(player, 'change:state', this._onPlayerChangeState);
-            this.listenTo(player, 'change:volume', this._onPlayerChangeVolume);
+    initialize: function() {
+      var player = this.get('player');
 
-            var streamItems = this.get('streamItems');
-            this.listenTo(streamItems, 'change:active', this._onStreamItemsChangeActive);
+      this.listenTo(player, {
+        'change:muted': this._onPlayerChangeMuted,
+        'change:state': this._onPlayerChangeState,
+        'change:volume': this._onPlayerChangeVolume
+      });
 
-            var settings = this.get('settings');
-            this.listenTo(settings, 'change:openInTab', this._onSettingsChangeOpenInTab);
+      var streamItems = this.get('streamItems');
+      this.listenTo(streamItems, 'change:active', this._onStreamItemsChangeActive);
 
-            this._setTitle(streamItems.getActiveItem(), player.get('state'), player.get('volume'));
-            this._setIcon(player.get('state'), player.get('muted'), player.get('volume'));
-            this._setPopup(settings.get('openInTab'));
+      var settings = this.get('settings');
+      this.listenTo(settings, 'change:openInTab', this._onSettingsChangeOpenInTab);
 
-            chrome.browserAction.onClicked.addListener(this._onChromeBrowserActionClicked.bind(this));
-        },
+      this._setTitle(streamItems.getActiveItem(), player.get('state'), player.get('volume'));
+      this._setIcon(player.get('muted'), player.get('volume'));
+      this._setPopup(settings.get('openInTab'));
 
-        //  This event handler will only run when browserAction's popup is string.empty.
-        _onChromeBrowserActionClicked: function() {
-            this.get('tabManager').showStreamusTab();
-        },
+      chrome.browserAction.onClicked.addListener(this._onChromeBrowserActionClicked.bind(this));
+    },
 
-        _onPlayerChangeMuted: function(model, muted) {
-            this._setIcon(model.get('state'), muted, model.get('volume'));
-        },
+    // This event handler will only run when browserAction's popup is string.empty.
+    _onChromeBrowserActionClicked: function() {
+      this.get('tabManager').showStreamusTab();
+    },
 
-        _onPlayerChangeState: function(model, state) {
-            this._setIcon(state, model.get('muted'), model.get('volume'));
-            this._setTitle(this.get('streamItems').getActiveItem(), state, model.get('volume'));
-        },
+    _onPlayerChangeMuted: function(model, muted) {
+      this._setIcon(muted, model.get('volume'));
+    },
 
-        _onPlayerChangeVolume: function(model, volume) {
-            this._setIcon(model.get('state'), model.get('muted'), volume);
-            this._setTitle(this.get('streamItems').getActiveItem(), model.get('state'), volume);
-        },
+    _onPlayerChangeState: function(model, state) {
+      this._setIcon(model.get('muted'), model.get('volume'));
+      this._setTitle(this.get('streamItems').getActiveItem(), state, model.get('volume'));
+    },
 
-        _onStreamItemsChangeActive: function(model, active) {
-            if (active) {
-                var player = this.get('player');
-                this._setTitle(model, player.get('state'), player.get('volume'));
-            }
-        },
+    _onPlayerChangeVolume: function(model, volume) {
+      this._setIcon(model.get('muted'), volume);
+      this._setTitle(this.get('streamItems').getActiveItem(), model.get('state'), volume);
+    },
 
-        _onSettingsChangeOpenInTab: function(model, openInTab) {
-            this._setPopup(openInTab);
-        },
+    _onStreamItemsChangeActive: function(model, active) {
+      if (active) {
+        var player = this.get('player');
+        this._setTitle(model, player.get('state'), player.get('volume'));
+      }
+    },
 
-        //  Disable the popup when opening in a tab so the foreground doesn't flicker as the tab is opening.
-        _setPopup: function(openInTab) {
-            chrome.browserAction.setPopup({
-                popup: openInTab ? '' : 'foreground.html'
-            });
-        },
+    _onSettingsChangeOpenInTab: function(model, openInTab) {
+      this._setPopup(openInTab);
+    },
 
-        _setTitle: function(activeStreamItem, playerState, volume) {
-            var title;
-            if (_.isUndefined(activeStreamItem)) {
-                title = chrome.i18n.getMessage('streamEmpty');
-            } else {
-                var playerStateMessage = this._getPlayerStateMessage(playerState);
-                title = playerStateMessage + activeStreamItem.get('title');
-            }
+    // Disable the popup when opening in a tab so the foreground doesn't flicker as the tab is opening.
+    _setPopup: function(openInTab) {
+      chrome.browserAction.setPopup({
+        popup: openInTab ? '' : 'foreground.html'
+      });
+    },
 
-            chrome.browserAction.setTitle({
-                title: title + '\n' + chrome.i18n.getMessage('volume') + ': ' + volume + '%'
-            });
-        },
+    _setTitle: function(activeStreamItem, playerState, volume) {
+      var title;
+      if (_.isUndefined(activeStreamItem)) {
+        title = chrome.i18n.getMessage('streamEmpty');
+      } else {
+        var playerStateMessage = this._getPlayerStateMessage(playerState);
+        title = playerStateMessage + activeStreamItem.get('title');
+      }
 
-        _getPlayerStateMessage: function(playerState) {
-            var playerStateMessage;
+      chrome.browserAction.setTitle({
+        title: title + '\n' + chrome.i18n.getMessage('volume') + ': ' + volume + '%'
+      });
+    },
 
-            if (playerState === PlayerState.Playing) {
-                playerStateMessage = chrome.i18n.getMessage('playing') + ': ';
-            } else if (playerState === PlayerState.Buffering) {
-                playerStateMessage = chrome.i18n.getMessage('buffering') + ': ';
-            } else {
-                playerStateMessage = chrome.i18n.getMessage('paused') + ': ';
-            }
+    _getPlayerStateMessage: function(playerState) {
+      var playerStateMessage;
 
-            return playerStateMessage;
-        },
+      if (playerState === PlayerState.Playing) {
+        playerStateMessage = chrome.i18n.getMessage('playing') + ': ';
+      } else if (playerState === PlayerState.Buffering) {
+        playerStateMessage = chrome.i18n.getMessage('buffering') + ': ';
+      } else {
+        playerStateMessage = chrome.i18n.getMessage('paused') + ': ';
+      }
 
-        //  Set the Streamus icon color and bar count based on the volume level, mutedness and player state.
-        //  RED: Player is muted.
-        //  GREEN: Player is playing (buffering counts as playing)
-        //  Yellow: Player is paused/unstarted
-        _setIcon: function(playerState, isMuted, volume) {
-            var iconColor = this._getIconColor(playerState, isMuted);
-            var iconBarCount = this._getIconBarCount(volume);
-            var iconBasePath = '../../img/' + iconColor + '_' + iconBarCount + 'bar_';
+      return playerStateMessage;
+    },
 
-            chrome.browserAction.setIcon({
-                path: {
-                    19: iconBasePath + '19.png',
-                    38: iconBasePath + '38.png'
-                }
-            });
-        },
+    // Set the Streamus icon color and bar count based on the volume level, mutedness and player state.
+    // RED: Player is muted.
+    // GREEN: Player is playing (buffering counts as playing)
+    // Yellow: Player is paused/unstarted
+    _setIcon: function(isMuted, volume) {
+      var iconColor = this._getIconColor(isMuted);
+      var iconBarCount = this._getIconBarCount(volume);
+      var iconBasePath = '../../img/' + iconColor + '_' + iconBarCount + 'bar_';
 
-        _getIconColor: function(playerState, isMuted) {
-            var iconColor = 'yellow';
-
-            if (isMuted) {
-                iconColor = 'red';
-            } else if (playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
-                iconColor = 'green';
-            }
-
-            return iconColor;
-        },
-
-        _getIconBarCount: function(volume) {
-            return Math.ceil((volume / 25));
+      chrome.browserAction.setIcon({
+        path: {
+          19: iconBasePath + '19.png',
+          38: iconBasePath + '38.png'
         }
-    });
+      });
+    },
 
-    return ChromeIconManager;
+    _getIconColor: function(isMuted) {
+      var iconColor = 'yellow';
+
+      if (isMuted) {
+        iconColor = 'red';
+      } else if (this.get('player').isPausable()) {
+        iconColor = 'green';
+      }
+
+      return iconColor;
+    },
+
+    _getIconBarCount: function(volume) {
+      return Math.ceil((volume / 25));
+    }
+  });
+
+  return ChromeIconManager;
 });

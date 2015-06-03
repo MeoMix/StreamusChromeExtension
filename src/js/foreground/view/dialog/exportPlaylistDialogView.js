@@ -1,32 +1,32 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var ExportPlaylist = require('foreground/model/dialog/exportPlaylist');
-    var Dialog = require('foreground/model/dialog/dialog');
-    var ExportPlaylistView = require('foreground/view/dialog/exportPlaylistView');
-    var DialogView = require('foreground/view/dialog/dialogView');
+  var ExportPlaylist = require('foreground/model/dialog/exportPlaylist');
+  var Dialog = require('foreground/model/dialog/dialog');
+  var ExportPlaylistView = require('foreground/view/dialog/exportPlaylistView');
+  var DialogView = require('foreground/view/dialog/dialogView');
 
-    var ExportPlaylistDialogView = DialogView.extend({
-        id: 'exportPlaylistDialog',
+  var ExportPlaylistDialogView = DialogView.extend({
+    id: 'exportPlaylistDialog',
 
-        initialize: function(options) {
-            this.model = new Dialog({
-                submitButtonText: chrome.i18n.getMessage('export')
-            });
+    initialize: function(options) {
+      this.model = new Dialog({
+        submitButtonText: chrome.i18n.getMessage('export')
+      });
 
-            this.contentView = new ExportPlaylistView({
-                model: new ExportPlaylist({
-                    playlist: options.playlist
-                })
-            });
+      this.contentView = new ExportPlaylistView({
+        model: new ExportPlaylist({
+          playlist: options.playlist
+        })
+      });
 
-            DialogView.prototype.initialize.apply(this, arguments);
-        },
+      DialogView.prototype.initialize.apply(this, arguments);
+    },
 
-        onSubmit: function() {
-            this.contentView.saveAndExport();
-        }
-    });
+    onSubmit: function() {
+      this.contentView.saveAndExport();
+    }
+  });
 
-    return ExportPlaylistDialogView;
+  return ExportPlaylistDialogView;
 });

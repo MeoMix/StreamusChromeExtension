@@ -1,15 +1,23 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    //  Overwrite lodash here in addition to in its AMD module factory to ensure all lo-dash calls reference the background's instance.
-    //  This is important to prevent memory leaks due to the coupling of background + foreground pages.
-    window._ = chrome.extension.getBackgroundPage()._;
+  // Overwrite Lo-Dash here to ensure all calls reference the background's Lo-Dash instance.
+  // Re-using the Lo-Dash instance prevents memory leaks due to idCounter id collisions.
+  window._ = chrome.extension.getBackgroundPage()._;
 
-    require('backbone.marionette');
-    require('backbone.localStorage');
-    require('jquery.perfectScrollbar');
-    require('jquery-ui');
+  require('backbone.marionette');
+  require('backbone.localStorage');
+  require('jquery-ui');
 
-    //  Finally, load the application which will initialize the foreground:
-    require(['foreground/application']);
+  // Finally, load the application which will initialize the foreground:
+  require(['foreground/application'], function(Application) {
+    var backgroundPage = chrome.extension.getBackgroundPage();
+
+    var streamusFG = new Application({
+      backgroundProperties: backgroundPage.StreamusBG.getExposedProperties(),
+      backgroundChannels: backgroundPage.StreamusBG.getExposedChannels()
+    });
+    window.StreamusFG = streamusFG;
+    streamusFG.start();
+  });
 });

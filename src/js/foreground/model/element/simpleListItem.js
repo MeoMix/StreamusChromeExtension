@@ -1,16 +1,16 @@
 ﻿define(function() {
-    'use strict';
+  'use strict';
 
-    var SimpleListItem = Backbone.Model.extend({
-        defaults: function() {
-            return {
-                property: '',
-                labelKey: '',
-                value: '',
-                options: []
-            };
-        }
-    });
+  var SimpleListItem = Backbone.Model.extend({
+    defaults: function() {
+      return {
+        property: '',
+        labelKey: '',
+        value: '',
+        options: []
+      };
+    }
+  });
 
-    return SimpleListItem;
+  return SimpleListItem;
 });

@@ -6764,10 +6764,11 @@
         // define as an anonymous module so, through path mapping, it can be
         // referenced as the "underscore" module
         define(function () {
-            if (chrome.extension.getBackgroundPage().window === window) {
+            var backgroundPage = chrome.extension.getBackgroundPage();
+            if (!backgroundPage || backgroundPage.window === window) {
                 return _;
             } else {
-                return chrome.extension.getBackgroundPage().window._;
+                return backgroundPage.window._;
             }
         });
     }

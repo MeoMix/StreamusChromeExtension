@@ -1,17 +1,17 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var DialogContent = require('foreground/view/behavior/dialogContent');
+  var DialogContent = require('foreground/view/behavior/dialogContent');
 
-    var LinkUserIdView = Marionette.LayoutView.extend({
-        template: _.template(chrome.i18n.getMessage('linkAccountsMessage')),
+  var LinkUserIdView = Marionette.LayoutView.extend({
+    template: _.template(chrome.i18n.getMessage('linkAccountsMessage')),
 
-        behaviors: {
-            DialogContent: {
-                behaviorClass: DialogContent
-            }
-        }
-    });
+    behaviors: {
+      DialogContent: {
+        behaviorClass: DialogContent
+      }
+    }
+  });
 
-    return LinkUserIdView;
+  return LinkUserIdView;
 });

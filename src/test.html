@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>
-            Streamus Tests
-        </title>
+  <head>
+    <title>
+      Streamus Tests
+    </title>
 
-        <link href='css/test/mocha.css' rel='stylesheet'>
-    </head>
-    <body>
-        <div id='mocha'></div>
-        <div id='messages'></div>
-        <div id='fixtures'></div>
-
-        <!--Load RequireJS and then go to js/foreground/main to start-->
-        <script data-main='js/test/main' src='js/thirdParty/require.js'></script>
-    </body>
+    <link href='css/test/mocha.css' rel='stylesheet'>
+    <link href='css/foreground.css' rel='stylesheet'>
+  </head>
+  <body>
+    <div id='mocha'></div>
+    <!-- Mocha does not run successfully via grunt mocha when loaded via AMD -->
+    <script src='js/thirdParty/test/mocha.js'></script>
+    <script src='js/thirdParty/test/chai.js'></script>
+    <script src='js/thirdParty/test/sinon.js'></script>
+    <!--Load RequireJS and then go to js/foreground/main to start-->
+    <script data-main='js/test/main' src='js/thirdParty/require.js'></script>
+  </body>
 </html>

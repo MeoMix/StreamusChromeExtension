@@ -1,232 +1,231 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var SearchResults = require('background/collection/searchResults');
-    var DataSource = require('background/model/dataSource');
-    var YouTubeV3API = require('background/model/youTubeV3API');
+  var SearchResults = require('background/collection/searchResults');
+  var DataSource = require('background/model/dataSource');
+  var YouTubeV3API = require('background/model/youTubeV3API');
 
-    var Search = Backbone.Model.extend({
-        defaults: function() {
-            return {
-                results: new SearchResults(),
-                maxSearchResults: 200,
-                query: '',
-                searching: false,
-                searchQueued: false,
-                pendingRequest: null,
-                clearQueryTimeout: null
-            };
-        },
+  var Search = Backbone.Model.extend({
+    defaults: function() {
+      return {
+        results: new SearchResults(),
+        maxSearchResults: 200,
+        query: '',
+        searching: false,
+        searchQueued: false,
+        pendingRequest: null,
+        clearQueryTimeout: null
+      };
+    },
 
-        initialize: function() {
-            this.on('change:query', this._onChangeQuery);
-            this.on('change:searchQueued', this._onSearchQueued);
-            this.on('change:pendingRequest', this._onChangePendingRequest);
-            this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
-        },
+    initialize: function() {
+      this.on('change:query', this._onChangeQuery);
+      this.on('change:searchQueued', this._onSearchQueued);
+      this.on('change:pendingRequest', this._onChangePendingRequest);
+      this.listenTo(StreamusBG.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
+    },
 
-        //  The foreground has to be able to call this whenever a view opens.
-        stopClearQueryTimer: function() {
-            clearTimeout(this.get('clearQueryTimeout'));
-            this.set('clearQueryTimeout', null);
-        },
+    // The foreground has to be able to call this whenever a view opens.
+    stopClearQueryTimer: function() {
+      clearTimeout(this.get('clearQueryTimeout'));
+      this.set('clearQueryTimeout', null);
+    },
 
-        //  Whether anything has been typed into the query at all -- regardless of whether that is just whitespace or not.
-        hasQuery: function() {
-            return this.get('query') !== '';
-        },
+    // Whether anything has been typed into the query at all -- regardless of whether that is just whitespace or not.
+    hasQuery: function() {
+      return this.get('query') !== '';
+    },
 
-        _onChangeQuery: function() {
-            this._search();
-        },
+    _onChangeQuery: function() {
+      this._search();
+    },
 
-        _onChangePendingRequest: function(model, pendingRequest) {
-            var isSearching = this._isSearching(this.get('searchQueued'), pendingRequest);
-            this.set('searching', isSearching);
-        },
+    _onChangePendingRequest: function(model, pendingRequest) {
+      var isSearching = this._isSearching(this.get('searchQueued'), pendingRequest);
+      this.set('searching', isSearching);
+    },
 
-        _onSearchQueued: function(model, searchQueued) {
-            var isSearching = this._isSearching(searchQueued, this.get('pendingRequest'));
-            this.set('searching', isSearching);
-        },
+    _onSearchQueued: function(model, searchQueued) {
+      var isSearching = this._isSearching(searchQueued, this.get('pendingRequest'));
+      this.set('searching', isSearching);
+    },
 
-        _startClearQueryTimer: function() {
-            //  Safe-guard against multiple setTimeouts, just incase.
-            this.stopClearQueryTimer();
-            this.set('clearQueryTimeout', setTimeout(this._clearQuery.bind(this), 10000));
-        },
+    _startClearQueryTimer: function() {
+      // Safe-guard against multiple setTimeouts, just incase.
+      this.stopClearQueryTimer();
+      this.set('clearQueryTimeout', setTimeout(this._clearQuery.bind(this), 10000));
+    },
 
-        //  Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
-        _hasSearchableQuery: function() {
-            return this._getTrimmedQuery() !== '';
-        },
+    // Only search on valid queries. Different from hasQuery because want to show no search results on invalid query.
+    _hasSearchableQuery: function() {
+      return this._getTrimmedQuery() !== '';
+    },
 
-        _getTrimmedQuery: function() {
-            return this.get('query').trim();
-        },
+    _getTrimmedQuery: function() {
+      return this.get('query').trim();
+    },
 
-        //  Perform a search on the given query or just terminate immediately if nothing to do.
-        _search: function() {
-            this._clearResults();
+    // Perform a search on the given query or just terminate immediately if nothing to do.
+    _search: function() {
+      this._clearResults();
+      this._abortPendingRequest();
+
+      if (this._hasSearchableQuery()) {
+        this._startSearching();
+      } else {
+        // Set searchQueued to false for a snappy UI response since it's known that no search will occur
+        this.set('searchQueued', false);
+      }
+    },
+
+    // Set some flags indicating that a search is in progress.
+    _startSearching: function() {
+      this.set('searchQueued', true);
+      // Debounce a search request so that when the user stops typing the last request will run.
+      this._doDebounceSearch(this._getTrimmedQuery());
+    },
+
+    // Handle the actual search functionality inside of a debounced function.
+    // This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
+    _doDebounceSearch: _.debounce(function(trimmedQuery) {
+      // If the user typed 'a' and then hit backspace, debounce search will still be trying to run with 'a'
+      // because no future search query arrived. Prevent this.
+      if (this._getTrimmedQuery() === trimmedQuery) {
+        // If the user is just typing in whatever -- search for it, otherwise handle special data sources.
+        var dataSource = new DataSource({
+          url: trimmedQuery
+        });
+
+        dataSource.parseUrl({
+          success: function() {
             this._abortPendingRequest();
 
-            if (this._hasSearchableQuery()) {
-                this._startSearching();
+            // If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
+            if (dataSource.isYouTubeVideo()) {
+              this._setResultsBySong(dataSource.get('entityId'));
+            } else if (dataSource.isYouTubePlaylist()) {
+              this._setResultsByPlaylist(dataSource.get('entityId'));
             } else {
-                //  This isn't 100% necessary, but since we know that no search is going to happen, set searchQueued to false for a snappier UI response.
-                //  Rather than waiting for _doDebounceSearch to run and then do nothing.
-                this.set('searchQueued', false);
+              this._setResultsByText(trimmedQuery);
             }
-        },
 
-        //  Set some flags indicating that a search is in progress.
-        _startSearching: function() {
-            this.set('searchQueued', true);
-            //  Debounce a search request so that when the user stops typing the last request will run.
-            this._doDebounceSearch(this._getTrimmedQuery());
-        },
+            // Set to false only after setting a new pendingRequest to ensure that the 'isSearching' doesn't flicker to false.
+            this.set('searchQueued', false);
+          }.bind(this)
+        });
+      } else {
+        this.set('searchQueued', false);
+      }
+    }, 350),
 
-        //  Handle the actual search functionality inside of a debounced function.
-        //  This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
-        _doDebounceSearch: _.debounce(function(trimmedQuery) {
-            //  If the user typed 'a' and then hit backspace, debounce search will still be trying to run with 'a'
-            //  because no future search query arrived. Prevent this.
-            if (this._getTrimmedQuery() === trimmedQuery) {
-                //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
-                var dataSource = new DataSource({
-                    url: trimmedQuery
-                });
+    _setResultsBySong: function(songId) {
+      var pendingRequest = YouTubeV3API.getSong({
+        songId: songId,
+        success: this._trySetResults.bind(this),
+        error: this._onSearchError.bind(this)
+      });
 
-                dataSource.parseUrl({
-                    success: function() {
-                        this._abortPendingRequest();
+      this.set('pendingRequest', pendingRequest);
+    },
 
-                        //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
-                        if (dataSource.isYouTubeVideo()) {
-                            this._setResultsBySong(dataSource.get('entityId'));
-                        } else if (dataSource.isYouTubePlaylist()) {
-                            this._setResultsByPlaylist(dataSource.get('entityId'));
-                        } else {
-                            this._setResultsByText(trimmedQuery);
-                        }
+    _setResultsByPlaylist: function(playlistId) {
+      // https://github.com/MeoMix/StreamusChromeExtension/issues/567
+      var pendingRequest = YouTubeV3API.getPlaylistSongs({
+        playlistId: playlistId,
+        success: this._onGetPlaylistSongsSuccess.bind(this, playlistId),
+        error: this._onSearchError.bind(this)
+      });
 
-                        //  Set to false only after setting a new pendingRequest to ensure that the 'isSearching' doesn't flicker to false.
-                        this.set('searchQueued', false);
-                    }.bind(this)
-                });
-            } else {
-                this.set('searchQueued', false);
-            }
-        }, 350),
+      this.set('pendingRequest', pendingRequest);
+    },
 
-        _setResultsBySong: function(songId) {
-            var pendingRequest = YouTubeV3API.getSong({
-                songId: songId,
-                success: this._trySetResults.bind(this),
-                error: this._onSearchError.bind(this)
-            });
+    _setResultsByText: function(trimmedQuery) {
+      var pendingRequest = YouTubeV3API.search({
+        text: trimmedQuery,
+        success: this._onSearchSuccess.bind(this, trimmedQuery),
+        error: this._onSearchError.bind(this)
+      });
 
-            this.set('pendingRequest', pendingRequest);
-        },
+      this.set('pendingRequest', pendingRequest);
+    },
 
-        _setResultsByPlaylist: function(playlistId) {
-            //  https://github.com/MeoMix/StreamusChromeExtension/issues/567
-            var pendingRequest = YouTubeV3API.getPlaylistSongs({
-                playlistId: playlistId,
-                success: this._onGetPlaylistSongsSuccess.bind(this, playlistId),
-                error: this._onSearchError.bind(this)
-            });
+    _onGetPlaylistSongsSuccess: function(playlistId, response) {
+      this.get('results').addSongs(response.songs);
 
-            this.set('pendingRequest', pendingRequest);
-        },
+      if (!_.isUndefined(response.nextPageToken)) {
+        var pendingRequest = YouTubeV3API.getPlaylistSongs({
+          playlistId: playlistId,
+          pageToken: response.nextPageToken,
+          success: this._onGetPlaylistSongsSuccess.bind(this, playlistId),
+          error: this._onSearchError.bind(this)
+        });
 
-        _setResultsByText: function(trimmedQuery) {
-            var pendingRequest = YouTubeV3API.search({
-                text: trimmedQuery,
-                success: this._onSearchSuccess.bind(this, trimmedQuery),
-                error: this._onSearchError.bind(this)
-            });
+        this.set('pendingRequest', pendingRequest);
+      } else {
+        this.set('pendingRequest', null);
+      }
+    },
 
-            this.set('pendingRequest', pendingRequest);
-        },
+    _onSearchSuccess: function(trimmedQuery, response) {
+      this.get('results').addSongs(response.songs);
 
-        _onGetPlaylistSongsSuccess: function(playlistId, response) {
-            this.get('results').addSongs(response.songs);
+      var continueSearching = !_.isUndefined(response.nextPageToken) && this.get('results').length < this.get('maxSearchResults');
 
-            if (!_.isUndefined(response.nextPageToken)) {
-                var pendingRequest = YouTubeV3API.getPlaylistSongs({
-                    playlistId: playlistId,
-                    pageToken: response.nextPageToken,
-                    success: this._onGetPlaylistSongsSuccess.bind(this, playlistId),
-                    error: this._onSearchError.bind(this)
-                });
+      if (continueSearching) {
+        var pendingRequest = YouTubeV3API.search({
+          text: trimmedQuery,
+          pageToken: response.nextPageToken,
+          success: this._onSearchSuccess.bind(this, trimmedQuery),
+          error: this._onSearchError.bind(this)
+        });
 
-                this.set('pendingRequest', pendingRequest);
-            } else {
-                this.set('pendingRequest', null);
-            }
-        },
+        this.set('pendingRequest', pendingRequest);
+      } else {
+        this.set('pendingRequest', null);
+      }
+    },
 
-        _onSearchSuccess: function(trimmedQuery, response) {
-            this.get('results').addSongs(response.songs);
+    _onSearchError: function() {
+      this.set('pendingRequest', null);
+    },
 
-            var continueSearching = !_.isUndefined(response.nextPageToken) && this.get('results').length < this.get('maxSearchResults');
+    _trySetResults: function(songs) {
+      this.get('results').resetSongs(songs);
+      this.set('pendingRequest', null);
+    },
 
-            if (continueSearching) {
-                var pendingRequest = YouTubeV3API.search({
-                    text: trimmedQuery,
-                    pageToken: response.nextPageToken,
-                    success: this._onSearchSuccess.bind(this, trimmedQuery),
-                    error: this._onSearchError.bind(this)
-                });
+    _clearResults: function() {
+      // Might as well not trigger excess reset events if they can be avoided.
+      var results = this.get('results');
 
-                this.set('pendingRequest', pendingRequest);
-            } else {
-                this.set('pendingRequest', null);
-            }
-        },
+      if (results.length > 0) {
+        results.reset();
+      }
+    },
 
-        _onSearchError: function() {
-            this.set('pendingRequest', null);
-        },
+    _abortPendingRequest: function() {
+      var pendingRequest = this.get('pendingRequest');
 
-        _trySetResults: function(songs) {
-            this.get('results').resetSongs(songs);
-            this.set('pendingRequest', null);
-        },
+      if (!_.isNull(pendingRequest)) {
+        pendingRequest.abort();
+        this.set('pendingRequest', null);
+      }
+    },
 
-        _clearResults: function() {
-            //  Might as well not trigger excess reset events if they can be avoided.
-            var results = this.get('results');
+    _clearQuery: function() {
+      this.set('query', '');
+    },
 
-            if (results.length > 0) {
-                results.reset();
-            }
-        },
+    _isSearching: function(searchQueued, pendingRequest) {
+      var isSearching = searchQueued || !_.isNull(pendingRequest);
+      return isSearching;
+    },
 
-        _abortPendingRequest: function() {
-            var pendingRequest = this.get('pendingRequest');
+    _onForegroundEndUnload: function() {
+      // Remember search query for a bit just in case user closes and re-opens immediately.
+      this._startClearQueryTimer();
+    }
+  });
 
-            if (pendingRequest !== null) {
-                pendingRequest.abort();
-                this.set('pendingRequest', null);
-            }
-        },
-
-        _clearQuery: function() {
-            this.set('query', '');
-        },
-
-        _isSearching: function(searchQueued, pendingRequest) {
-            var isSearching = searchQueued || pendingRequest !== null;
-            return isSearching;
-        },
-
-        _onForegroundEndUnload: function() {
-            //  Remember search query for a bit just in case user closes and re-opens immediately.
-            this._startClearQueryTimer();
-        }
-    });
-
-    return Search;
+  return Search;
 });

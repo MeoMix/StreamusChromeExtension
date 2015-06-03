@@ -1,12 +1,12 @@
 ﻿define(function() {
-    'use strict';
+  'use strict';
 
-    var EditPlaylist = Backbone.Model.extend({
-        defaults: {
-            playlist: null,
-            valid: true
-        }
-    });
+  var EditPlaylist = Backbone.Model.extend({
+    defaults: {
+      playlist: null,
+      valid: true
+    }
+  });
 
-    return EditPlaylist;
+  return EditPlaylist;
 });

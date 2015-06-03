@@ -3,7 +3,9 @@
 @import "utility";
 
 .menu {
-    .transition--fast
+    // TODO: How can I handle this more appropriately?
+    .transition--fast;
+    transition-property: none !important;
 }
 
 .menu-items {
@@ -12,8 +14,8 @@
     border-radius: 2px;
 }
 
+// The maximum height of a simple menu should be one or more rows less than the view height.
+// This ensures a tappable area outside of the simple menu with which to dismiss the menu.
 .menu-simpleItems {
-    position: relative;
-    max-height: 132px;
-    overflow: hidden;
+    max-height: 308px;
 }

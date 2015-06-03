@@ -4,20 +4,20 @@
 
 .instruction-wrapper {
     .flexColumn;
-    //  Contain the position: absolute instructions
+    // Contain the position: absolute instructions
     position: relative;
     cursor: default;
 }
 
 .instruction {
-    //  position: absolute so that .list near instructions isn't bumped down to support drag-and-drop behavior
+    // position: absolute so that .list near instructions isn't bumped down to support drag-and-drop behavior
     position: absolute;
     top: 33%;
-    //  Position over .list (which is relative due to perfectScrollbar) to enable clicking hyperlinks in instruction.
+    // Position over .list (which is relative due to scrollable behavior) to enable clicking hyperlinks in instruction.
     z-index: 1;
-    //  Width: 100% so that text-align: center works properly with position: absolute
+    // Width: 100% so that text-align: center works properly with position: absolute
     width: 100%;
-    //  Keep all instruction heights the same so that they stay aligned to each-other.
+    // Keep all instruction heights the same so that they stay aligned to each-other.
     height: 60px;
     padding: 0 16px;
     color: @dark--primary;

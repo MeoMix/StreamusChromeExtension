@@ -1,11 +1,11 @@
 ﻿<section class='grouping'>
-    <input type='text' data-ui='title submittable' class='textInput textInput--basic' placeholder='<%= titleMessage %>' maxlength=<%= titleMaxLength %>>
-    <div class="textInput-hint textInput-characterCounter">
-        <span data-ui="title-characterCount">0</span> / <%= titleMaxLength %>
-    </div>
+  <input type='text' data-ui='title submittable' class='textInput textInput--basic' placeholder='<%= titleMessage %>' maxlength='<%= titleMaxLength %>'>
+  <div class='textInput-hint textInput-characterCounter'>
+    <span data-ui='title-characterCount'>0</span> / <%= titleMaxLength %>
+  </div>
 </section>
 
 <section class='grouping <%= showDataSource ? "" : "is-hidden" %>'>
-    <input type='text' data-ui='dataSource submittable' class='textInput textInput--basic' placeholder='<%= playlistUrlMessage %>'>
-    <div data-ui="dataSource-hint" class="textInput-hint"></div>
+  <input type='text' data-ui='dataSource submittable' class='textInput textInput--basic' placeholder='<%= playlistUrlMessage %>'>
+  <div data-ui='dataSource-hint' class='textInput-hint'></div>
 </section>

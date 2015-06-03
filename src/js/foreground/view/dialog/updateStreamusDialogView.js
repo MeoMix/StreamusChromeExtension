@@ -1,27 +1,27 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var Dialog = require('foreground/model/dialog/dialog');
-    var UpdateStreamusView = require('foreground/view/dialog/updateStreamusView');
-    var DialogView = require('foreground/view/dialog/dialogView');
+  var Dialog = require('foreground/model/dialog/dialog');
+  var UpdateStreamusView = require('foreground/view/dialog/updateStreamusView');
+  var DialogView = require('foreground/view/dialog/dialogView');
 
-    var UpdateStreamusDialogView = DialogView.extend({
-        id: 'updateStreamusDialog',
+  var UpdateStreamusDialogView = DialogView.extend({
+    id: 'updateStreamusDialog',
 
-        initialize: function() {
-            this.model = new Dialog({
-                submitButtonText: chrome.i18n.getMessage('update')
-            });
+    initialize: function() {
+      this.model = new Dialog({
+        submitButtonText: chrome.i18n.getMessage('update')
+      });
 
-            this.contentView = new UpdateStreamusView();
+      this.contentView = new UpdateStreamusView();
 
-            DialogView.prototype.initialize.apply(this, arguments);
-        },
+      DialogView.prototype.initialize.apply(this, arguments);
+    },
 
-        onSubmit: function() {
-            chrome.runtime.reload();
-        }
-    });
+    onSubmit: function() {
+      chrome.runtime.reload();
+    }
+  });
 
-    return UpdateStreamusDialogView;
+  return UpdateStreamusDialogView;
 });

@@ -1,16 +1,16 @@
 ﻿define(function() {
-    'use strict';
+  'use strict';
 
-    var SimpleMenuItem = Backbone.Model.extend({
-        defaults: {
-            text: '',
-            value: null,
-            active: false,
-            disabled: false,
-            fixed: false,
-            onClick: _.noop
-        }
-    });
+  var SimpleMenuItem = Backbone.Model.extend({
+    defaults: {
+      text: '',
+      value: null,
+      active: false,
+      disabled: false,
+      fixed: false,
+      onClick: _.noop
+    }
+  });
 
-    return SimpleMenuItem;
+  return SimpleMenuItem;
 });

@@ -1,78 +1,80 @@
 ﻿define(function(require) {
-    'use strict';
+  'use strict';
 
-    var PlaylistsView = require('foreground/view/playlist/playlistsView');
-    var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
-    var PlaylistsAreaTemplate = require('text!template/playlist/playlistsArea.html');
+  var PlaylistsView = require('foreground/view/playlist/playlistsView');
+  var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
+  var PlaylistsAreaTemplate = require('text!template/playlist/playlistsArea.html');
 
-    var PlaylistsAreaView = Marionette.LayoutView.extend({
-        id: 'playlistsArea',
-        className: 'flexColumn',
-        template: _.template(PlaylistsAreaTemplate),
-        templateHelpers: {
-            createPlaylist: chrome.i18n.getMessage('createPlaylist')
-        },
+  var PlaylistsAreaView = Marionette.LayoutView.extend({
+    id: 'playlistsArea',
+    className: 'flexColumn',
+    template: _.template(PlaylistsAreaTemplate),
+    templateHelpers: {
+      createPlaylist: chrome.i18n.getMessage('createPlaylist')
+    },
 
-        regions: {
-            playlists: '[data-region=playlists]'
-        },
+    regions: {
+      playlists: '[data-region=playlists]'
+    },
 
-        ui: {
-            transitionable: '[data-ui~=transitionable]',
-            overlay: '[data-ui~=overlay]',
-            panel: '[data-ui~=panel]',
-            createPlaylistButton: '[data-ui~=createPlaylistButton]'
-        },
+    ui: {
+      transitionable: '[data-ui~=transitionable]',
+      overlay: '[data-ui~=overlay]',
+      panel: '[data-ui~=panel]',
+      createPlaylistButton: '[data-ui~=createPlaylistButton]'
+    },
 
-        events: {
-            'click @ui.overlay': '_onClickOverlay',
-            'click @ui.hideButton': '_onClickHideButton',
-            'click @ui.createPlaylistButton': '_onClickCreatePlaylistButton'
-        },
+    events: {
+      'click @ui.overlay': '_onClickOverlay',
+      'click @ui.hideButton': '_onClickHideButton',
+      'click @ui.createPlaylistButton': '_onClickCreatePlaylistButton'
+    },
 
-        childEvents: {
-            'click:listItems': '_onClickListItems'
-        },
+    childEvents: {
+      'click:listItems': '_onClickListItems'
+    },
 
-        playlists: null,
+    playlists: null,
 
-        initialize: function(options) {
-            this.playlists = options.playlists;
-        },
+    initialize: function(options) {
+      this.playlists = options.playlists;
+    },
 
-        onRender: function() {
-            this.showChildView('playlists', new PlaylistsView({
-                collection: this.playlists
-            }));
-        },
+    onRender: function() {
+      this.showChildView('playlists', new PlaylistsView({
+        collection: this.playlists
+      }));
+    },
 
-        show: function() {
-            Streamus.channels.playlistsArea.vent.trigger('showing');
-            this.ui.transitionable.addClass('is-visible');
-        },
+    show: function() {
+      StreamusFG.channels.playlistsArea.vent.trigger('showing');
+      this.ui.transitionable.addClass('is-visible');
+    },
 
-        hide: function() {
-            Streamus.channels.playlistsArea.vent.trigger('hiding');
-            this.ui.transitionable.removeClass('is-visible');
-        },
+    hide: function() {
+      StreamusFG.channels.playlistsArea.vent.trigger('hiding');
+      this.ui.transitionable.removeClass('is-visible');
+    },
 
-        _onClickHideButton: function() {
-            this.hide();
-        },
+    _onClickHideButton: function() {
+      this.hide();
+    },
 
-        _onClickOverlay: function() {
-            this.hide();
-        },
+    _onClickOverlay: function() {
+      this.hide();
+    },
 
-        _onClickCreatePlaylistButton: function() {
-            Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView);
-        },
+    _onClickCreatePlaylistButton: function() {
+      StreamusFG.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
+        playlists: this.playlists
+      });
+    },
 
-        //  Whenever a playlist is clicked it will become active and the menu should hide itself.
-        _onClickListItems: function() {
-            this.hide();
-        }
-    });
+    // Whenever a playlist is clicked it will become active and the menu should hide itself.
+    _onClickListItems: function() {
+      this.hide();
+    }
+  });
 
-    return PlaylistsAreaView;
+  return PlaylistsAreaView;
 });
