@@ -2,6 +2,8 @@
   'use strict';
 
   // /collection/
+  require('test/background/collection/clientErrors.spec');
+  require('test/background/collection/playlistItems.spec');
   require('test/background/collection/searchResults.spec');
 
   // /model/

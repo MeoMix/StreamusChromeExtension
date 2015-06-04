@@ -80,7 +80,7 @@
 
     _playSong: function() {
       // If there's only one song to be played - check if it's already in the stream.
-      var streamItem = this.streamItems.getBySong(this.song);
+      var streamItem = this.streamItems.getBySongId(this.song.get('id'));
 
       if (_.isUndefined(streamItem)) {
         this.streamItems.addSongs(this.song, {

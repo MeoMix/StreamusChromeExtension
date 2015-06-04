@@ -11,7 +11,6 @@
   var Playlists = Backbone.Collection.extend({
     model: Playlist,
     userId: null,
-
     mixins: [CollectionSequence],
 
     url: function() {
@@ -30,7 +29,9 @@
     },
 
     getActivePlaylist: function() {
-      return this.findWhere({active: true});
+      return this.findWhere({
+        active: true
+      });
     },
 
     // Expects options: { playlistId, success, error };
@@ -187,16 +188,6 @@
       return sendAsynchronousResponse;
     },
 
-    _notifyChromeRuntimeMessageError: function(sendResponse) {
-      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
-        title: chrome.i18n.getMessage('errorEncountered')
-      });
-
-      sendResponse({
-        result: 'error'
-      });
-    },
-
     _onChangeActive: function(changedPlaylist, active) {
       // Ensure only one playlist is active at a time by de-activating all other active playlists.
       if (active) {
@@ -249,7 +240,7 @@
         localStorage.setItem('activePlaylistId', null);
         // If the index of the item removed was the last one in the list, activate previous.
         var index = options.index === this.length ? options.index - 1 : options.index;
-        this._activateByIndex(index);
+        this.at(index).set('active', true);
       }
 
       if (this.length === 1) {
@@ -266,8 +257,14 @@
       });
     },
 
-    _activateByIndex: function(index) {
-      this.at(index).set('active', true);
+    _notifyChromeRuntimeMessageError: function(sendResponse) {
+      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
+        title: chrome.i18n.getMessage('errorEncountered')
+      });
+
+      sendResponse({
+        result: 'error'
+      });
     }
   });
 

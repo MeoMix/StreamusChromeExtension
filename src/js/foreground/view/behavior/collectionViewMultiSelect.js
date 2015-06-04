@@ -78,11 +78,11 @@
       var collection = this.view.collection;
 
       // If the first item is being selected with shift held -- firstSelectedIndex isn't used and selection goes from the top.
-      if (collection.selected().length > 1) {
-        var firstSelected = collection.firstSelected();
+      if (collection.getSelectedModels().length > 1) {
+        var firstSelectedModel = collection.getFirstSelectedModel();
 
         // Get the search result which was selected first and go from its index.
-        firstSelectedIndex = collection.indexOf(firstSelected);
+        firstSelectedIndex = collection.indexOf(firstSelectedModel);
       }
 
       // Select all items between the selected item and the firstSelected item.

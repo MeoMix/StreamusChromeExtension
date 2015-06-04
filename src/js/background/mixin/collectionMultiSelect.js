@@ -6,46 +6,39 @@
     this.listenTo(StreamusBG.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
   },
 
-  selectAll: function() {
-    this.invoke('set', 'selected', true);
-  },
-
-  // Just a nicer naming for deselectAll
   deselectAll: function() {
-    this.deselectAllExcept(null);
-  },
-
-  // This takes cid not id because it works for models which aren't persisted to the server.
-  deselectAllExcept: function(selectedModel) {
-    var selected = this.selected();
-
-    _.each(selected, function(model) {
-      if (model !== selectedModel) {
-        model.set('selected', false);
-      }
-    });
+    this.invoke('set', 'selected', false);
   },
 
   // Return a list of selected models.
-  selected: function() {
-    return this.where({selected: true});
+  getSelectedModels: function() {
+    var selectedModels = this.where({
+      selected: true
+    });
+
+    return selectedModels;
   },
 
   // Returns the model which was first selected (or selected last if ctrl was pressed)
-  firstSelected: function() {
-    return this.findWhere({firstSelected: true});
+  getFirstSelectedModel: function() {
+    var firstSelectedModel = this.findWhere({
+      firstSelected: true
+    });
+
+    return firstSelectedModel;
   },
 
-  // Returns the underlying Songs of the collection.
+  // Returns an array of Song models underlying the selected models in the collection.
   getSelectedSongs: function() {
-    return _.map(this.selected(), function(selectedItem) {
-      return selectedItem.get('song');
-    });
+    var selectedModels = this.getSelectedModels();
+    var selectedSongs = _.invoke(selectedModels, 'get', 'song');
+
+    return selectedSongs;
   },
 
   _onChangeSelected: function(model, selected) {
     // Whenever only one model is selected -- it becomes the first one to be selected.
-    var selectedModels = this.selected();
+    var selectedModels = this.getSelectedModels();
 
     if (selectedModels.length === 1) {
       selectedModels[0].set('firstSelected', true);

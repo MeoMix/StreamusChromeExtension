@@ -93,7 +93,8 @@
       var canAdd = this._canPlayOrAdd();
 
       if (canAdd) {
-        this.streamItems.addSongs(this.collection.getSongs());
+        var songs = this.collection.pluck('song');
+        this.streamItems.addSongs(songs);
       }
     },
 
@@ -101,7 +102,8 @@
       var canPlay = this._canPlayOrAdd();
 
       if (canPlay) {
-        this.streamItems.addSongs(this.collection.getSongs(), {
+        var songs = this.collection.pluck('song');
+        this.streamItems.addSongs(songs, {
           playOnAdd: true
         });
       }
@@ -157,7 +159,7 @@
 
       if (canSave) {
         var songActions = new SongActions();
-        var songs = this.collection.getSongs();
+        var songs = this.collection.pluck('song');
         var offset = this.ui.saveAllButton.offset();
         var playlists = this.signInManager.get('signedInUser').get('playlists');
 

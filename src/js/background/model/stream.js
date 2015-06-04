@@ -68,7 +68,7 @@
         nextItem = currentActiveItem;
         nextItem.trigger('change:active', nextItem, true);
       } else if (shuffleEnabled) {
-        var eligibleItems = items.notPlayedRecently();
+        var eligibleItems = items.getNotPlayedRecently();
 
         // All songs will be played recently if there's only one item because it just finished playing.
         if (eligibleItems.length > 0) {
@@ -178,7 +178,7 @@
           previousStreamItem = items.getActiveItem() || null;
         } else if (shuffleEnabled) {
           // If shuffle is enabled and there's nothing in history -- grab a random song which hasn't been played recently.
-          previousStreamItem = _.sample(items.notPlayedRecently()) || null;
+          previousStreamItem = _.sample(items.getNotPlayedRecently()) || null;
         } else {
           // Activate the previous item by index. Potentially loop around to the back.
           var activeItemIndex = items.indexOf(items.getActiveItem());
