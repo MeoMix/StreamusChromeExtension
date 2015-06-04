@@ -127,7 +127,7 @@
 
     // Keep track of which collection currently has selected songs by handling selection & deselection events.
     _setActiveCollection: function(collection, isSelecting) {
-      var hasSelectedItems = collection.selected().length > 0;
+      var hasSelectedItems = collection.getSelectedModels().length > 0;
 
       if (hasSelectedItems) {
         // isSelecting is needed because if one collection has two models selected and another collection's model is selected
@@ -145,7 +145,7 @@
     // Update the number of songs which are currently selected
     _setSelectedCount: function() {
       var activeCollection = this.get('activeCollection');
-      var songCount = _.isNull(activeCollection) ? 0 : activeCollection.selected().length;
+      var songCount = _.isNull(activeCollection) ? 0 : activeCollection.getSelectedModels().length;
       this.set('selectedCount', songCount);
     },
 

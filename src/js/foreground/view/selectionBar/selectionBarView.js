@@ -111,7 +111,7 @@
       var canDelete = this.model.get('canDelete');
 
       if (canDelete) {
-        var selectedModels = this.model.get('activeCollection').selected();
+        var selectedModels = this.model.get('activeCollection').getSelectedModels();
         _.invoke(selectedModels, 'destroy');
 
         StreamusFG.channels.listItem.commands.trigger('deselect:collection');

@@ -41,7 +41,7 @@
         id: id,
         title: 'YouTube Developers Live: Embedded Web Player Customization',
         author: 'Google Developers',
-        duration: '1344'
+        duration: 1344
       };
     },
 

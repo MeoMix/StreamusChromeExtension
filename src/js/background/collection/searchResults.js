@@ -13,7 +13,7 @@
 
     addSongs: function(songs) {
       if (songs.length > 0) {
-        var searchResults = this._songsAsSearchResults(songs);
+        var searchResults = this._mapSongsAsSearchResults(songs);
         this.add(searchResults);
 
         // Emit a custom event signaling items have been added.
@@ -22,36 +22,29 @@
       }
     },
 
-    // Returns an array of Song models corresponding to the current collection of SearchResults
-    getSongs: function() {
-      return this.map(function(model) {
-        return model.get('song');
-      });
-    },
-
     // Reset the collection with SearchResults derived from a collection, array, or individual Song
     resetSongs: function(songs) {
-      var searchResults = this._songsAsSearchResults(songs);
+      var searchResults = this._mapSongsAsSearchResults(songs);
       this.reset(searchResults);
     },
 
     // Takes a collection, array, or individual Song model and returns an array of SearchResult models
-    _songsAsSearchResults: function(songs) {
+    _mapSongsAsSearchResults: function(songs) {
       var searchResults = [];
 
       if (songs instanceof Backbone.Collection) {
-        searchResults = songs.map(this._songAsSearchResult.bind(this));
+        searchResults = songs.map(this._mapSongAsSearchResult.bind(this));
       } else if (_.isArray(songs)) {
-        searchResults = _.map(songs, this._songAsSearchResult.bind(this));
+        searchResults = _.map(songs, this._mapSongAsSearchResult.bind(this));
       } else {
-        searchResults.push(this._songAsSearchResult(songs));
+        searchResults.push(this._mapSongAsSearchResult(songs));
       }
 
       return searchResults;
     },
 
     // Takes an individual Song model and returns a SearchResult model
-    _songAsSearchResult: function(song) {
+    _mapSongAsSearchResult: function(song) {
       return new SearchResult({
         song: song,
         title: song.get('title')

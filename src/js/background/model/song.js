@@ -27,6 +27,19 @@
       this._setUrl(this.get('id'));
     },
 
+    // Certain songs are not desireable when using radio mode.
+    // If a song is too long, or a parody, or live then it's not great to random into.
+    isDesireableSong: function() {
+      // Duration greater than 8 minutes (480 seconds) is assumed to be multiple songs
+      var isNotTooLong = this.get('duration') < 480;
+      var lowerCaseSongTitle = this.get('title').toLowerCase();
+      var isNotLive = lowerCaseSongTitle.indexOf('live') === -1;
+      var isNotParody = lowerCaseSongTitle.indexOf('parody') === -1;
+
+      var isDesireableSong = isNotTooLong && isNotLive && isNotParody;
+      return isDesireableSong;
+    },
+
     copyUrl: function() {
       var url = this.get('url');
       StreamusBG.channels.clipboard.commands.trigger('copy:text', url);
@@ -43,6 +56,15 @@
       StreamusBG.channels.notification.commands.trigger('show:notification', {
         message: chrome.i18n.getMessage('urlCopied')
       });
+    },
+
+    // Return whether the given song is thought to be the same as the current.
+    isSameSong: function(song) {
+      var isMatchingId = song.get('id') === this.get('id');
+      var isMatchingCleanTitle = song.get('cleanTitle') === this.get('cleanTitle');
+      var isSameSong = isMatchingId || isMatchingCleanTitle;
+
+      return isSameSong;
     },
 
     // Calculate this value pre-emptively because when rendering I don't want to incur inefficiency

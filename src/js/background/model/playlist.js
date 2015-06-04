@@ -130,6 +130,7 @@ define(function(require) {
         active: active
       });
 
+      // An inactive playlist should not have active children
       if (!active) {
         this.get('items').deselectAll();
       }

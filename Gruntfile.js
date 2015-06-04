@@ -207,7 +207,8 @@ module.exports = function(grunt) {
     jscs: {
       src: ['src/js/**/*.js', '!src/js/thirdParty/**/*.js', 'Gruntfile.js'],
       options: {
-        config: '.jscsrc'
+        config: '.jscsrc',
+        fix: true
       }
     },
     mocha: {
@@ -238,23 +239,16 @@ module.exports = function(grunt) {
         src: ['package.json', 'src/manifest.json']
       }
     },
-    // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-    webstore_upload: {
-      // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+    'webstore-upload': {
       accounts: {
         'default': {
-          publish: false,
-          // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-          client_id: '',
-          client_secret: ''
-          // jscs:enable requireCamelCaseOrUpperCaseIdentifiers
+          publish: false
         }
       },
       extensions: {
         streamus: {
           appID: 'jbnkffmindojffecdhbbmekbmkkfpmjd',
-          zip: 'release\\Streamus v<%= meta.buildVersion %>\\chrome\\Streamus v<%= meta.buildVersion %>.zip'
-          //zip: 'release\\Streamus v<%= meta.buildVersion %>.zip'
+          zip: 'release/Streamus v<%= meta.buildVersion %>/chrome/Streamus v<%= meta.buildVersion %>.zip'
         }
       }
     }
