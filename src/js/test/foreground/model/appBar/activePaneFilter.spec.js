@@ -3,6 +3,8 @@
 
   var ActivePaneFilter = require('foreground/model/appBar/activePaneFilter');
   var SignInManager = require('background/model/signInManager');
+  var User = require('background/model/user');
+  var Playlists = require('background/collection/playlists');
   var ActivePlaylistManager = require('background/model/activePlaylistManager');
 
   describe('ActivePaneFilter', function() {
@@ -26,10 +28,15 @@
 
       it('should set isEnabled to true if signedInUser exists', function() {
         var signInManager = new SignInManager();
-        signInManager.set('signedInUser', {});
+        signInManager.set('signedInUser', new User({
+          playlists: new Playlists([{}])
+        }));
 
         var activePaneFilter = new ActivePaneFilter({
-          signInManager: signInManager
+          signInManager: signInManager,
+          activePlaylistManager: new ActivePlaylistManager({
+            signInManager: signInManager
+          })
         });
 
         expect(activePaneFilter.get('isEnabled')).to.equal(true);

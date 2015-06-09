@@ -4,7 +4,10 @@
   // /collection/
   require('test/background/collection/clientErrors.spec');
   require('test/background/collection/playlistItems.spec');
+  require('test/background/collection/playlists.spec');
   require('test/background/collection/searchResults.spec');
+  require('test/background/collection/songs.spec');
+  require('test/background/collection/streamItems.spec');
 
   // /model/
   require('test/background/model/activePlaylistManager.spec');

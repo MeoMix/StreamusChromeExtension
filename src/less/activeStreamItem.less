@@ -9,7 +9,6 @@
     // 72px is the height of activeStreamItem.
     margin-top: -72px;
     color: @dark--primary;
-    box-shadow: @boxShadow-divider--bottom;
     .transition--fast;
     transition-property: margin;
     transition-timing-function: @transition-easeOutSine;
@@ -28,7 +27,7 @@
 
 .activeStreamItem-title {
     font-size: 17px;
-    line-height: 30px;
+    line-height: 28px;
 }
 
 .activeStreamItem-playbackControls {
@@ -44,11 +43,8 @@
     padding-right: 4px;
 }
 
-.activeStreamItem-itemContent {
-    flex: 1;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 12px;
-    flex-direction: column;
-    display: flex;
+.activeStreamItem-content {
+  padding-left: 16px;
+  padding-right: 8px;
+  padding-top: 12px;
 }

@@ -14,5 +14,6 @@
   require('test/foreground/view/stream/streamItemView.spec');
   require('test/foreground/view/stream/streamRegion.spec');
   require('test/foreground/view/stream/streamView.spec');
-  require('test/foreground/view/stream/timeAreaView.spec');
+  require('test/foreground/view/stream/timeLabelAreaView.spec');
+  require('test/foreground/view/stream/timeSliderView.spec');
 });

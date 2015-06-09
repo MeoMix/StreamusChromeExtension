@@ -19,7 +19,6 @@
 
     initialize: function(models, options) {
       this.userId = options ? options.userId : this.userId;
-      this._setCanDelete(models.length > 1);
 
       chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
       this.on('add', this._onAdd);

@@ -76,6 +76,7 @@
     <Content Include="src\js\background\enum\entityType.js" />
     <Content Include="src\js\background\model\activePlaylistManager.js" />
     <Content Include="src\js\background\model\analyticsManager.js" />
+    <Content Include="src\js\background\model\videoButton.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
     <Content Include="src\js\common\lodashMixin.js" />
     <Content Include="src\js\contentScript\interceptor.js" />
@@ -85,6 +86,8 @@
     <Content Include="src\js\foreground\model\dialog\editPlaylist.js" />
     <Content Include="src\js\foreground\model\listItemButton\listItemButton.js" />
     <Content Include="src\js\foreground\model\song\songActions.js" />
+    <Content Include="src\js\foreground\model\stream\timeLabelArea.js" />
+    <Content Include="src\js\foreground\model\stream\timeSlider.js" />
     <Content Include="src\js\foreground\model\video\mediaSourceWrapper.js" />
     <Content Include="src\js\foreground\model\video\sourceBufferWrapper.js" />
     <Content Include="src\js\foreground\enum\keyCode.js" />
@@ -111,6 +114,9 @@
     <Content Include="src\js\foreground\view\leftPane\playlistItemView.js" />
     <Content Include="src\js\foreground\view\leftPane\signInView.js" />
     <Content Include="src\js\foreground\view\listItemButton\songOptionsButtonView.js" />
+    <Content Include="src\js\foreground\view\stream\timeLabelAreaView.js" />
+    <Content Include="src\js\foreground\view\stream\timeSliderView.js" />
+    <Content Include="src\js\foreground\view\stream\videoButtonView.js" />
     <Content Include="src\js\foreground\view\tooltip\tooltipRegion.js" />
     <Content Include="src\js\foreground\view\tooltip\tooltipView.js" />
     <Content Include="src\js\foreground\view\video\videoRegion.js" />
@@ -131,7 +137,6 @@
     <Content Include="src\js\test\foreground\view\appBar\appBarSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\nextButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\appBar\playlistTitleView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\playPauseButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\previousButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\volumeAreaView.spec.js" />
@@ -230,6 +235,7 @@
     <Content Include="src\template\activePane\activePane.html" />
     <Content Include="src\template\appBar\activePaneFilter.html" />
     <Content Include="src\template\dialog\aboutStreamus.html" />
+    <Content Include="src\template\icon\videoIcon_18.svg" />
     <Content Include="src\template\simpleMenu\simpleMenuItem.html" />
     <Content Include="src\template\icon\closeIcon_24.svg" />
     <Content Include="src\template\icon\deleteIcon_18.svg" />
@@ -412,7 +418,6 @@
     <Content Include="src\js\foreground\view\listItemButton\deleteListItemButtonView.js" />
     <Content Include="src\js\foreground\view\dialog\updateStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\listItemButton\saveSongButtonView.js" />
-    <Content Include="src\js\foreground\view\appBar\playlistTitleView.js" />
     <Content Include="src\js\foreground\view\listItemButton\playPauseSongButtonView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistsAreaView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistView.js" />
@@ -426,7 +431,6 @@
     <Content Include="src\js\foreground\view\dialog\dialogView.js" />
     <Content Include="src\js\foreground\view\stream\streamItemView.js" />
     <Content Include="src\js\foreground\view\stream\streamView.js" />
-    <Content Include="src\js\foreground\view\stream\timeAreaView.js" />
     <Content Include="src\js\foreground\view\appBar\volumeAreaView.js" />
     <Content Include="src\js\foreground\view\search\searchResultsView.js" />
     <Content Include="src\js\foreground\view\search\searchResultView.js" />
@@ -540,7 +544,6 @@
     <Content Include="src\template\leftPane\signIn.html" />
     <Content Include="src\template\stream\stream.html" />
     <Content Include="src\template\stream\streamItems.html" />
-    <Content Include="src\template\stream\timeArea.html" />
     <Content Include="src\template\search\searchResult.html" />
     <Content Include="src\template\search\search.html" />
     <Content Include="src\template\appBar\volumeArea.html" />
@@ -552,6 +555,9 @@
     <Content Include="src\js\test\test.js" />
     <Content Include="src\js\test\testUtility.js" />
     <Content Include="src\template\search\searchResults.html" />
+    <Content Include="src\template\stream\timeLabelArea.html" />
+    <Content Include="src\template\stream\timeSlider.html" />
+    <Content Include="src\template\stream\videoButton.html" />
     <Content Include="src\template\tooltip\tooltip.html" />
     <Content Include="src\test.html" />
     <Content Include="package.json" />

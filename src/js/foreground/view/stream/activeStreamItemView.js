@@ -1,9 +1,11 @@
 ﻿define(function(require) {
   'use strict';
 
-  var TimeArea = require('foreground/model/stream/timeArea');
+  var TimeLabelArea = require('foreground/model/stream/timeLabelArea');
+  var TimeSlider = require('foreground/model/stream/timeSlider');
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var TimeAreaView = require('foreground/view/stream/timeAreaView');
+  var TimeSliderView = require('foreground/view/stream/timeSliderView');
+  var TimeLabelAreaView = require('foreground/view/stream/timeLabelAreaView');
   var RadioButtonView = require('foreground/view/stream/radioButtonView');
   var RepeatButtonView = require('foreground/view/stream/repeatButtonView');
   var ShuffleButtonView = require('foreground/view/stream/shuffleButtonView');
@@ -20,7 +22,8 @@
     template: _.template(ActiveStreamItemTemplate),
 
     regions: {
-      timeArea: '[data-region=timeArea]',
+      timeLabelArea: '[data-region=timeLabelArea]',
+      timeSlider: '[data-region=timeSlider]',
       radioButton: '[data-region=radioButton]',
       repeatButton: '[data-region=repeatButton]',
       shuffleButton: '[data-region=shuffleButton]',
@@ -55,10 +58,19 @@
         this.$el.on('webkitTransitionEnd', this._onTransitionInComplete.bind(this));
       }
 
-      this.showChildView('timeArea', new TimeAreaView({
-        model: new TimeArea({
+      var timeSlider = new TimeSlider();
+
+      this.showChildView('timeSlider', new TimeSliderView({
+        model: timeSlider,
+        streamItems: StreamusFG.backgroundProperties.stream.get('items'),
+        player: StreamusFG.backgroundProperties.player
+      }));
+
+      this.showChildView('timeLabelArea', new TimeLabelAreaView({
+        model: new TimeLabelArea({
           totalTime: this.model.get('song').get('duration')
         }),
+        timeSlider: timeSlider,
         streamItems: StreamusFG.backgroundProperties.stream.get('items'),
         player: StreamusFG.backgroundProperties.player
       }));

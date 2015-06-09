@@ -1,19 +1,19 @@
 ﻿define(function(require) {
   'use strict';
 
-  var TimeAreaView = require('foreground/view/stream/timeAreaView');
-  var TimeArea = require('foreground/model/stream/timeArea');
+  var TimeSliderView = require('foreground/view/stream/timeSliderView');
+  var TimeSlider = require('foreground/model/stream/timeSlider');
   var StreamItems = require('background/collection/streamItems');
   var Player = require('background/model/player');
   var Settings = require('background/model/settings');
   var YouTubePlayer = require('background/model/youTubePlayer');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
-  describe('TimeAreaView', function() {
+  describe('TimeSliderView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
-      this.view = new TimeAreaView({
-        model: new TimeArea(),
+      this.view = new TimeSliderView({
+        model: new TimeSlider(),
         streamItems: new StreamItems(),
         player: new Player({
           settings: new Settings(),

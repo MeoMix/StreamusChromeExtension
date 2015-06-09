@@ -4,15 +4,14 @@
   var PlayerState = require('common/enum/playerState');
   var Utility = require('common/utility');
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var TimeAreaTemplate = require('text!template/stream/timeArea.html');
+  var TimeSliderTemplate = require('text!template/stream/timeSlider.html');
 
-  var TimeAreaView = Marionette.ItemView.extend({
-    id: 'timeArea',
-    className: 'timeArea',
-    template: _.template(TimeAreaTemplate),
+  var TimeSliderView = Marionette.ItemView.extend({
+    id: 'timeSlider',
+    className: 'timeSlider',
+    template: _.template(TimeSliderTemplate),
     templateHelpers: function() {
       return {
-        totalTimeMessage: chrome.i18n.getMessage('totalTime'),
         totalTime: this.model.get('totalTime'),
         prettyTotalTime: Utility.prettyPrintTime(this.model.get('totalTime'))
       };
@@ -20,16 +19,14 @@
 
     ui: {
       timeProgress: '[data-ui~=timeProgress]',
-      timeRange: '[data-ui~=timeRange]',
-      elapsedTimeLabel: '[data-ui~=elapsedTimeLabel]'
+      timeRange: '[data-ui~=timeRange]'
     },
 
     events: {
       'input @ui.timeRange': '_onInputTimeRange',
       'wheel @ui.timeRange': '_onWheelTimeRange',
       'mousedown @ui.timeRange': '_onMouseDownTimeRange',
-      'mouseup @ui.timeRange': '_onMouseUpTimeRange',
-      'click @ui.elapsedTimeLabel': '_onClickElapsedTimeLabel'
+      'mouseup @ui.timeRange': '_onMouseUpTimeRange'
     },
 
     behaviors: {
@@ -55,7 +52,6 @@
 
     onRender: function() {
       this._setCurrentTime(this.player.get('currentTime'));
-      this._setElapsedTimeLabelTooltipText(this.model.get('showRemainingTime'));
     },
 
     _onInputTimeRange: function() {
@@ -87,10 +83,6 @@
       }
     },
 
-    _onClickElapsedTimeLabel: function() {
-      this._toggleShowRemainingTime();
-    },
-
     _onPlayerChangeState: function() {
       this._stopSeeking();
     },
@@ -119,21 +111,6 @@
       this.player.seekTo(currentTime);
     },
 
-    _toggleShowRemainingTime: function() {
-      var showRemainingTime = this.model.get('showRemainingTime');
-      // Toggle showRemainingTime and then read the new state and apply it.
-      this.model.save('showRemainingTime', !showRemainingTime);
-
-      this._setElapsedTimeLabelTooltipText(!showRemainingTime);
-
-      this._updateTimeProgress();
-    },
-
-    _setElapsedTimeLabelTooltipText: function(showRemainingTime) {
-      var tooltipText = chrome.i18n.getMessage(showRemainingTime ? 'remainingTime' : 'elapsedTime');
-      this.ui.elapsedTimeLabel.attr('data-tooltip-text', tooltipText);
-    },
-
     _setCurrentTime: function(currentTime) {
       this.ui.timeRange.val(currentTime);
       this._updateTimeProgress();
@@ -158,16 +135,8 @@
       // Don't divide by 0.
       var progressPercent = totalTime === 0 ? 0 : currentTime * 100 / totalTime;
       this.ui.timeProgress.width(progressPercent + '%');
-
-      if (this.model.get('showRemainingTime')) {
-        // Calculate the remaining time from the current time and show that instead.
-        var remainingTime = totalTime - currentTime;
-        this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(remainingTime));
-      } else {
-        this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(currentTime));
-      }
     }
   });
 
-  return TimeAreaView;
+  return TimeSliderView;
 });

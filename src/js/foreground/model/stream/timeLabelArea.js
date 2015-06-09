@@ -1,12 +1,12 @@
 ﻿define(function() {
   'use strict';
 
-  var TimeArea = Backbone.Model.extend({
-    localStorage: new Backbone.LocalStorage('TimeArea'),
+  var TimeLabelArea = Backbone.Model.extend({
+    localStorage: new Backbone.LocalStorage('TimeLabelArea'),
 
     defaults: {
       // Need to set the ID for Backbone.LocalStorage
-      id: 'TimeArea',
+      id: 'TimeLabelArea',
       showRemainingTime: false,
       seeking: false,
       totalTime: ''
@@ -24,5 +24,5 @@
     }
   });
 
-  return TimeArea;
+  return TimeLabelArea;
 });
