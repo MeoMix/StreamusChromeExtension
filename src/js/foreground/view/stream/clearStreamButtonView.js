@@ -5,14 +5,13 @@
   var ClearStreamDialogView = require('foreground/view/dialog/clearStreamDialogView');
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
   var ClearStreamButtonTemplate = require('text!template/stream/clearStreamButton.html');
-  var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
 
   var ClearStreamButtonView = Marionette.ItemView.extend({
     id: 'clearStreamButton',
-    className: 'button button--icon button--icon--secondary button--medium',
+    className: 'button button--flat',
     template: _.template(ClearStreamButtonTemplate),
     templateHelpers: {
-      deleteIcon: _.template(DeleteIconTemplate)()
+      deleteAllMessage: chrome.i18n.getMessage('deleteAll')
     },
 
     attributes: {

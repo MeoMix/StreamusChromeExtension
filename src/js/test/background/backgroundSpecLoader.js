@@ -7,6 +7,7 @@
   require('test/background/collection/searchResults.spec');
 
   // /model/
+  require('test/background/model/activePlaylistManager.spec');
   require('test/background/model/clientErrorManager.spec');
   require('test/background/model/dataSource.spec');
   require('test/background/model/playlistItem.spec');

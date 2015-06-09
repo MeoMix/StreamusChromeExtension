@@ -19,6 +19,7 @@
 
     initialize: function(models, options) {
       this.userId = options ? options.userId : this.userId;
+      this._setCanDelete(models.length > 1);
 
       chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
       this.on('add', this._onAdd);
@@ -103,6 +104,18 @@
       });
     },
 
+    loadStoredState: function() {
+      var activePlaylistId = localStorage.getItem('activePlaylistId');
+      var playlist = this.get(activePlaylistId);
+
+      // Safer to check if playlist is undefined rather than activePlaylistId is null.
+      if (!_.isUndefined(playlist)) {
+        playlist.set('active', true);
+      }
+
+      this._setCanDelete(this.length > 1);
+    },
+
     _deactivateAllExcept: function(changedPlaylist) {
       this.each(function(playlist) {
         if (playlist !== changedPlaylist) {
@@ -117,15 +130,6 @@
     },
 
     _onReset: function() {
-      // Ensure there is an always active playlist by trying to load from localstorage
-      if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
-        var activePlaylistId = localStorage.getItem('activePlaylistId');
-
-        // Be sure to always have an active playlist if there is one available.
-        var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
-        playlistToSetActive.set('active', true);
-      }
-
       this._setCanDelete(this.length > 1);
     },
 
@@ -193,6 +197,11 @@
       if (active) {
         this._deactivateAllExcept(changedPlaylist);
         localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
+      } else {
+        var activePlaylist = this.getActivePlaylist();
+        if (_.isUndefined(activePlaylist)) {
+          localStorage.removeItem('activePlaylistId');
+        }
       }
     },
 
@@ -237,7 +246,7 @@
     _onRemove: function(removedPlaylist, collection, options) {
       if (removedPlaylist.get('active')) {
         // Clear local storage of the active playlist if it gets removed.
-        localStorage.setItem('activePlaylistId', null);
+        localStorage.removeItem('activePlaylistId');
         // If the index of the item removed was the last one in the list, activate previous.
         var index = options.index === this.length ? options.index - 1 : options.index;
         this.at(index).set('active', true);

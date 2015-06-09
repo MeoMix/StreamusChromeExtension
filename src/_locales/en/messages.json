@@ -540,7 +540,19 @@
     "openPatchNotes": {
         "message": "Open patch notes"
     },
-    "moreOptions": { 
-        "message":  "More options"
+    "moreOptions": {
+        "message": "More options"
+    },
+    "nowPlaying": {
+        "message": "Now playing"
+    },
+    "videoOn": {
+        "message": "Video on"
+    },
+    "videoOff": {
+        "message": "Video off"
+    },
+    "deleteAll": { 
+        "message":  "Delete all"
     }
 }

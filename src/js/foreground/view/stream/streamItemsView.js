@@ -12,7 +12,7 @@
 
   var StreamItemsView = Marionette.CompositeView.extend({
     id: 'streamItems',
-    className: 'list u-flex--full u-bordered--left',
+    className: 'list u-flex--full',
     childViewContainer: '@ui.listItems',
     childView: StreamItemView,
     childViewType: ListItemType.StreamItem,

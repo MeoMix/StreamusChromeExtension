@@ -5,7 +5,7 @@
   var CollectionSequence = require('background/mixin/collectionSequence');
   var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
   var PlaylistItem = require('background/model/playlistItem');
-  var Utility = require('common/utility');
+  var Songs = require('background/collection/songs');
 
   var PlaylistItems = Backbone.Collection.extend({
     model: PlaylistItem,
@@ -35,7 +35,7 @@
         var addedPlaylistItem = this._tryAddSongAtIndex(song, index);
 
         // If the item was added successfully to the collection (not duplicate) then allow for it to be created.
-        if (addedPlaylistItem !== null) {
+        if (!_.isNull(addedPlaylistItem)) {
           itemsToCreate.push(addedPlaylistItem);
           index++;
         }
@@ -59,27 +59,10 @@
       }
     },
 
-    // Return a string similiar to '15 songs, 4 hours' influenced by
-    // the collection's length and sum of song durations.
     getDisplayInfo: function() {
-      var totalItemsDuration = this._getTotalDuration();
-      var prettyTimeWithWords = Utility.prettyPrintTimeWithWords(totalItemsDuration);
-
-      var songs = this.pluck('song');
-      var songString = chrome.i18n.getMessage(songs.length === 1 ? 'song' : 'songs');
-
-      var displayInfo = songs.length + ' ' + songString + ', ' + prettyTimeWithWords;
+      var songs = new Songs(this.pluck('song'));
+      var displayInfo = songs.getDisplayInfo();
       return displayInfo;
-    },
-
-    // Returns the sum of the durations of all songs in the collection (in seconds)
-    _getTotalDuration: function() {
-      var songDurations = _.invoke(this.pluck('song'), 'get', 'duration');
-      var totalDuration = _.reduce(songDurations, function(memo, songDuration) {
-        return memo + parseInt(songDuration, 10);
-      }, 0);
-
-      return totalDuration;
     },
 
     _tryAddSongAtIndex: function(song, index) {

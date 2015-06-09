@@ -2,14 +2,19 @@
 
 .timeArea {
     display: flex;
-    align-items: center;
+    flex-direction: column;
 }
 
 .timeArea-label {
-    width: 40px;
-    font-size: 15px;
+    /*width: 40px;*/
+    font-size: 13px;
     line-height: 22px;
     color: @dark--secondary;
     // Even though these labels are text, I don't think it's reasonable to show highlighting over them when clicked.
     -webkit-user-select: none;
+    margin-right: 4px;
+}
+
+.timeArea-timeSlider {
+    margin-top: 4px;
 }

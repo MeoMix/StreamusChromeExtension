@@ -1,7 +1,7 @@
 ﻿@import "color";
 
 @rangeInputSize: 4px;
-@rangeInputMargin: 10px;
+
 
 .rangeInput-wrapper {
     position: relative;
@@ -11,7 +11,6 @@
 
 .rangeInput-wrapper--horizontal {
     height: @rangeInputSize;
-    margin: 0 @rangeInputMargin;
 
     .rangeInput-progress {
         height: 100%;
@@ -26,7 +25,6 @@
 
 .rangeInput-wrapper--vertical {
     width: @rangeInputSize;
-    margin: @rangeInputMargin 0;
     transform: rotate(180deg);
 
     .rangeInput-progress {

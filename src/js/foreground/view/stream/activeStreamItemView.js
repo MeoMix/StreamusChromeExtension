@@ -4,16 +4,30 @@
   var TimeArea = require('foreground/model/stream/timeArea');
   var Tooltipable = require('foreground/view/behavior/tooltipable');
   var TimeAreaView = require('foreground/view/stream/timeAreaView');
+  var RadioButtonView = require('foreground/view/stream/radioButtonView');
+  var RepeatButtonView = require('foreground/view/stream/repeatButtonView');
+  var ShuffleButtonView = require('foreground/view/stream/shuffleButtonView');
+  var VideoButtonView = require('foreground/view/stream/videoButtonView');
+  var NextButtonView = require('foreground/view/stream/nextButtonView');
+  var PlayPauseButtonView = require('foreground/view/stream/playPauseButtonView');
+  var PreviousButtonView = require('foreground/view/stream/previousButtonView');
   var ActiveStreamItemTemplate = require('text!template/stream/activeStreamItem.html');
   var SongActions = require('foreground/model/song/songActions');
 
   var ActiveStreamItemView = Marionette.LayoutView.extend({
     id: 'activeStreamItem',
-    className: 'activeStreamItem',
+    className: 'activeStreamItem u-shadowed--low',
     template: _.template(ActiveStreamItemTemplate),
 
     regions: {
-      timeArea: '[data-region=timeArea]'
+      timeArea: '[data-region=timeArea]',
+      radioButton: '[data-region=radioButton]',
+      repeatButton: '[data-region=repeatButton]',
+      shuffleButton: '[data-region=shuffleButton]',
+      videoButton: '[data-region=videoButton]',
+      previousButton: '[data-region=previousButton]',
+      playPauseButton: '[data-region=playPauseButton]',
+      nextButton: '[data-region=nextButton]'
     },
 
     events: {
@@ -47,6 +61,35 @@
         }),
         streamItems: StreamusFG.backgroundProperties.stream.get('items'),
         player: StreamusFG.backgroundProperties.player
+      }));
+
+      this.showChildView('shuffleButton', new ShuffleButtonView({
+        model: StreamusFG.backgroundProperties.shuffleButton
+      }));
+
+      this.showChildView('repeatButton', new RepeatButtonView({
+        model: StreamusFG.backgroundProperties.repeatButton
+      }));
+
+      this.showChildView('radioButton', new RadioButtonView({
+        model: StreamusFG.backgroundProperties.radioButton
+      }));
+
+      this.showChildView('videoButton', new VideoButtonView({
+        model: StreamusFG.backgroundProperties.videoButton
+      }));
+
+      this.showChildView('previousButton', new PreviousButtonView({
+        model: StreamusFG.backgroundProperties.previousButton
+      }));
+
+      this.showChildView('playPauseButton', new PlayPauseButtonView({
+        model: StreamusFG.backgroundProperties.playPauseButton,
+        player: StreamusFG.backgroundProperties.player
+      }));
+
+      this.showChildView('nextButton', new NextButtonView({
+        model: StreamusFG.backgroundProperties.nextButton
       }));
     },
 

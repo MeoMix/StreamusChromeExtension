@@ -3,6 +3,9 @@
 
   require('test/foreground/view/stream/activeStreamItemView.spec');
   require('test/foreground/view/stream/clearStreamButtonView.spec');
+  require('test/foreground/view/stream/nextButtonView.spec');
+  require('test/foreground/view/stream/playPauseButtonView.spec');
+  require('test/foreground/view/stream/previousButtonView.spec');
   require('test/foreground/view/stream/radioButtonView.spec');
   require('test/foreground/view/stream/repeatButtonView.spec');
   require('test/foreground/view/stream/saveStreamButtonView.spec');

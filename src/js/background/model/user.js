@@ -98,14 +98,13 @@ define(function(require) {
       // Need to convert playlists array to Backbone.Collection
       if (!(playlists instanceof Backbone.Collection)) {
         // Silent because playlists is just being properly set.
-        this.set('playlists', new Playlists([], {
+        this.set('playlists', new Playlists(playlists, {
           userId: this.get('id')
         }), {
           silent: true
         });
 
-        // Call reset afterward because I want to run _onReset logic which isn't ran when passing models into initial constructor.
-        this.get('playlists').reset(playlists);
+        this.get('playlists').loadStoredState();
       }
     },
 

@@ -22,6 +22,8 @@
   var RadioButton = require('background/model/radioButton');
   var RepeatButton = require('background/model/repeatButton');
   var ShuffleButton = require('background/model/shuffleButton');
+  var VideoButton = require('background/model/videoButton');
+  var ActivePlaylistManager = require('background/model/activePlaylistManager');
 
   var BackgroundArea = Backbone.Model.extend({
     defaults: function() {
@@ -32,6 +34,7 @@
         radioButton: new RadioButton(),
         shuffleButton: new ShuffleButton(),
         repeatButton: new RepeatButton(),
+        videoButton: new VideoButton(),
         search: new Search(),
         tabManager: new TabManager(),
         signInManager: new SignInManager(),
@@ -112,10 +115,15 @@
         repeatButton: this.get('repeatButton'),
         stream: stream
       }));
+
+      this.set('activePlaylistManager', new ActivePlaylistManager({
+        signInManager: this.get('signInManager')
+      }));
     },
 
     getExposedProperties: function() {
       return {
+        activePlaylistManager: this.get('activePlaylistManager'),
         analyticsManager: this.get('analyticsManager'),
         browserSettings: this.get('browserSettings'),
         dataSourceManager: this.get('dataSourceManager'),
@@ -130,7 +138,8 @@
         shuffleButton: this.get('shuffleButton'),
         search: this.get('search'),
         tabManager: this.get('tabManager'),
-        player: this.get('player')
+        player: this.get('player'),
+        videoButton: this.get('videoButton')
       };
     },
 
@@ -168,25 +177,6 @@
     _clearForegroundUnloadTimeout: function() {
       clearTimeout(this.get('foregroundUnloadTimeout'));
       this.set('foregroundUnloadTimeout', null);
-    },
-
-    _exposeProperties: function() {
-      // Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-      window.analyticsManager = this.get('analyticsManager');
-      window.browserSettings = this.get('browserSettings');
-      window.tabManager = this.get('tabManager');
-      window.signInManager = this.get('signInManager');
-      window.settings = this.get('settings');
-      window.stream = this.get('stream');
-      window.nextButton = this.get('nextButton');
-      window.playPauseButton = this.get('playPauseButton');
-      window.previousButton = this.get('previousButton');
-      window.radioButton = this.get('radioButton');
-      window.repeatButton = this.get('repeatButton');
-      window.shuffleButton = this.get('shuffleButton');
-      window.search = this.get('search');
-      window.player = this.get('player');
-      window.dataSourceManager = this.get('dataSourceManager');
     }
   });
 

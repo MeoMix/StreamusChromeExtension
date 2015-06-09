@@ -1,5 +1,20 @@
-﻿<div class='activeStreamItem-title u-textOverflowEllipsis text' data-ui='textTooltipable' data-tooltip-text='<%- title %>'>
-  <%- title %>
+﻿<div class='activeStreamItem-itemContent'>
+  <div class='activeStreamItem-title u-textOverflowEllipsis text' data-ui='textTooltipable' data-tooltip-text='<%- title %>'>
+    <%- title %>
+  </div>
+
+  <div data-region='timeArea'></div>
 </div>
 
-<div data-region='timeArea'></div>
+<div class='activeStreamItem-streamControls'>
+  <div data-region='videoButton'></div>
+  <div data-region='radioButton'></div>
+  <div data-region='shuffleButton'></div>
+  <div data-region='repeatButton'></div>
+</div>
+
+<div class='activeStreamItem-playbackControls'>
+  <div data-region='previousButton'></div>
+  <div data-region='playPauseButton'></div>
+  <div data-region='nextButton'></div>
+</div>

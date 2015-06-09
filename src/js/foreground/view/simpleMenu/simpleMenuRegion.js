@@ -13,13 +13,7 @@
 
     _showSimpleMenu: function(options) {
       var simpleMenuItems = new SimpleMenuItems(options.simpleMenuItems);
-
-      var fixedMenuItem = null;
-      if (!_.isUndefined(options.fixedMenuItem)) {
-        fixedMenuItem = new SimpleMenuItem(_.extend({
-          fixed: true
-        }, options.fixedMenuItem));
-      }
+      var fixedMenuItem = _.isUndefined(options.fixedMenuItem) ? null : new SimpleMenuItem(options.fixedMenuItem);
 
       this.show(new SimpleMenuView({
         model: new SimpleMenu({

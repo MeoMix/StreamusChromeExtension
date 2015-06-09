@@ -55,7 +55,7 @@
 
     // Don't allow this view to be shown if the user is not signed in.
     _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
-      if (signedInUser !== null) {
+      if (!_.isNull(signedInUser)) {
         this.empty();
         this._createPlaylistsAreaView(signedInUser.get('playlists'));
       } else if (this.hasView()) {

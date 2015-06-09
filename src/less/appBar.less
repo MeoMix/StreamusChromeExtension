@@ -6,7 +6,7 @@
     margin-top: 4px;
 }
 
-.appBar-content {
+/*.appBar-content {
     display: flex;
     align-items: center;
 }
@@ -17,10 +17,19 @@
 
 .appBar-content--right {
     width: (@columnWidth--thin * 1%);
+    justify-content: flex-end;
+}*/
+
+.appBar-search {
+    background-color: rgba(255,255,255,.15);
+    border-radius: 2px;
+    padding-left: 4px;
+
+    &:hover {
+        background: rgba(255,255,255,.25);
+    }
 }
 
-.appBar-controls {
-    display: flex;
-    flex: 1;
-    justify-content: center;
+.appBar-searchIcon {
+    padding: 0 8px;
 }

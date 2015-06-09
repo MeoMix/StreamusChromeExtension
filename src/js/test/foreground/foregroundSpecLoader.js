@@ -1,7 +1,14 @@
 ﻿define(function(require) {
   'use strict';
 
+  // /model/
+  // /model/appBar/
+  require('test/foreground/model/appBar/activePaneFilter.spec');
+
   // /view/
+  // /view/activePane/
+  require('test/foreground/view/activePane/activePaneSpecLoader');
+
   // /view/appBar/
   require('test/foreground/view/appBar/appBarSpecLoader');
 

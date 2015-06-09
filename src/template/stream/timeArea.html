@@ -1,10 +1,14 @@
-﻿<div data-ui='elapsedTimeLabel tooltipable' class='timeArea-label text is-clickable'></div>
-
-<div class='rangeInput-wrapper rangeInput-wrapper--horizontal'>
-  <div data-ui='timeProgress' class='rangeInput-progress'></div>
-  <input data-ui='timeRange' class='rangeInput u-clickable' type='range' max='<%= totalTime %>'>
+﻿<div class='flexRow'>
+  <div data-ui='elapsedTimeLabel tooltipable' class='timeArea-label text is-clickable'></div>
+  <div class='timeArea-label text'>/</div>
+  <div data-ui='tooltipable' class='timeArea-label text' data-tooltip-text='<%- totalTimeMessage %>'>
+    <%= prettyTotalTime %>
+  </div>
 </div>
 
-<div data-ui='tooltipable' class='timeArea-label text u-textAlignRight' data-tooltip-text='<%- totalTimeMessage %>'>
-  <%= prettyTotalTime %>
+<div class='flexRow timeArea-timeSlider'>
+  <div class='rangeInput-wrapper rangeInput-wrapper--horizontal'>
+    <div data-ui='timeProgress' class='rangeInput-progress'></div>
+    <input data-ui='timeRange' class='rangeInput u-clickable' type='range' max='<%= totalTime %>'>
+  </div>
 </div>

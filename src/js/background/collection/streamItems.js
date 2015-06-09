@@ -6,6 +6,7 @@
   var CollectionSequence = require('background/mixin/collectionSequence');
   var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
   var StreamItem = require('background/model/streamItem');
+  var Songs = require('background/collection/songs');
   var YouTubeV3API = require('background/model/youTubeV3API');
 
   var StreamItems = Backbone.Collection.extend({
@@ -103,7 +104,7 @@
         var addedStreamItem = this._tryAddSongAtIndex(song, index);
 
         // If the item was added successfully to the collection (not duplicate) then allow for it to be created.
-        if (addedStreamItem !== null) {
+        if (!_.isNull(addedStreamItem)) {
           addedStreamItem.save();
           createdStreamItems.push(addedStreamItem);
           index++;
@@ -128,6 +129,12 @@
       }
 
       return createdStreamItems;
+    },
+
+    getDisplayInfo: function() {
+      var songs = new Songs(this.pluck('song'));
+      var displayInfo = songs.getDisplayInfo();
+      return displayInfo;
     },
 
     // Find a model by its song's id and mark it active.

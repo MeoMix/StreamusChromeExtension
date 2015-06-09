@@ -1,15 +1,14 @@
 ﻿define(function(require) {
   'use strict';
 
+  var ActivePaneRegion = require('foreground/view/activePane/activePaneregion');
   var AppBarRegion = require('foreground/view/appBar/appBarRegion');
   var SimpleMenuRegion = require('foreground/view/simpleMenu/simpleMenuRegion');
   var DialogRegion = require('foreground/view/dialog/dialogRegion');
   var SpinnerView = require('foreground/view/element/spinnerView');
-  var LeftPaneRegion = require('foreground/view/leftPane/leftPaneRegion');
   var NotificationRegion = require('foreground/view/notification/notificationRegion');
   var PlaylistsAreaRegion = require('foreground/view/playlist/playlistsAreaRegion');
   var SearchRegion = require('foreground/view/search/searchRegion');
-  var StreamRegion = require('foreground/view/stream/streamRegion');
   var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
   var VideoRegion = require('foreground/view/video/videoRegion');
   var TooltipRegion = require('foreground/view/tooltip/tooltipRegion');
@@ -64,11 +63,6 @@
           selector: '[data-region=simpleMenu]',
           regionClass: SimpleMenuRegion
         },
-        leftPane: {
-          selector: '[data-region=leftPane]',
-          regionClass: LeftPaneRegion,
-          settings: StreamusFG.backgroundProperties.settings
-        },
         search: {
           selector: '[data-region=search]',
           regionClass: SearchRegion,
@@ -79,9 +73,9 @@
           regionClass: PlaylistsAreaRegion,
           signInManager: StreamusFG.backgroundProperties.signInManager
         },
-        stream: {
-          selector: '[data-region=stream]',
-          regionClass: StreamRegion
+        activePane: {
+          selector: '[data-region=activePane]',
+          regionClass: ActivePaneRegion
         },
         selectionBar: {
           selector: '[data-region=selectionBar]',

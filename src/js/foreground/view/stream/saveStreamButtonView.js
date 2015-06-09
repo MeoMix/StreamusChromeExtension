@@ -4,15 +4,14 @@
   var Tooltipable = require('foreground/view/behavior/tooltipable');
   var SongActions = require('foreground/model/song/songActions');
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
-  var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
   var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
 
   var SaveStreamButtonView = Marionette.ItemView.extend({
     id: 'saveStreamButton',
-    className: 'button button--icon button--icon--secondary button--medium',
+    className: 'button button--flat',
     template: _.template(SaveStreamButtonTemplate),
     templateHelpers: {
-      saveIcon: _.template(SaveIconTemplate)()
+      saveAllMessage: chrome.i18n.getMessage('saveAll')
     },
 
     attributes: {
