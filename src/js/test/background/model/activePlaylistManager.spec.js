@@ -31,7 +31,7 @@
     describe('_setState', function() {
       it('should set isShowingStream to true if signedInUser does not exist', function() {
         this.activePlaylistManager._setActivePlaylist(null);
-        expect(this.activePlaylistManager.get('activePlaylist')).to.equal(null);;
+        expect(this.activePlaylistManager.get('activePlaylist')).to.equal(null);
       });
 
       it('should set isShowingStream to null if signedInUser exists, but does not contain an active playlist', function() {
