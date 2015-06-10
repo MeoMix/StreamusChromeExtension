@@ -124,7 +124,10 @@
     <Content Include="src\js\test\background\backgroundSpecLoader.js" />
     <Content Include="src\js\test\background\collection\clientErrors.spec.js" />
     <Content Include="src\js\test\background\collection\playlistItems.spec.js" />
+    <Content Include="src\js\test\background\collection\playlists.spec.js" />
     <Content Include="src\js\test\background\collection\searchResults.spec.js" />
+    <Content Include="src\js\test\background\collection\songs.spec.js" />
+    <Content Include="src\js\test\background\collection\streamItems.spec.js" />
     <Content Include="src\js\test\chrome.mock.js" />
     <Content Include="src\js\test\common\commonSpecLoader.js" />
     <Content Include="src\js\test\background\model\activePlaylistManager.spec.js" />
@@ -220,7 +223,8 @@
     <Content Include="src\js\test\foreground\view\stream\streamRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\stream\streamView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\timeAreaView.spec.js" />
+    <Content Include="src\js\test\foreground\view\stream\timeLabelAreaView.spec.js" />
+    <Content Include="src\js\test\foreground\view\stream\timeSliderView.spec.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipView.spec.js" />
@@ -352,7 +356,6 @@
     <Content Include="src\js\foreground\model\simpleMenu\simpleMenu.js" />
     <Content Include="src\js\foreground\model\simpleMenu\simpleMenuItem.js" />
     <Content Include="src\js\foreground\model\element\switch.js" />
-    <Content Include="src\js\foreground\model\stream\timeArea.js" />
     <Content Include="src\js\foreground\view\appBar\appBarRegion.js" />
     <Content Include="src\js\foreground\view\appBar\appBarView.js" />
     <Content Include="src\js\foreground\view\behavior\itemViewMultiSelect.js" />
@@ -595,6 +598,8 @@
     <Content Include="src\_locales\ro\messages.json" />
     <Content Include="src\_locales\pt_BR\messages.json" />
     <Content Include="src\less\scrollbar.less" />
+    <Content Include="src\_locales\ru\messages.json" />
+    <Content Include="src\_locales\uk\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

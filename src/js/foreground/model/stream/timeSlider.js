@@ -3,9 +3,8 @@
 
   var TimeRange = Backbone.Model.extend({
     defaults: {
-      // isSeeking?
-      // maxVal
-      // val
+      currentTime: 0,
+      isBeingDragged: false
     }
   });
 

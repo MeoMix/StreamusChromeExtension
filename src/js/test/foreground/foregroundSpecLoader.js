@@ -5,6 +5,10 @@
   // /model/appBar/
   require('test/foreground/model/appBar/activePaneFilter.spec');
 
+  // /model/stream/
+  require('test/foreground/model/stream/timeLabelArea.spec');
+  require('test/foreground/model/stream/timeSlider.spec');
+
   // /view/
   // /view/activePane/
   require('test/foreground/view/activePane/activePaneSpecLoader');

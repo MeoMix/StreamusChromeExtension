@@ -7,20 +7,17 @@
     defaults: {
       // Need to set the ID for Backbone.LocalStorage
       id: 'TimeLabelArea',
-      showRemainingTime: false,
-      seeking: false,
-      totalTime: ''
-    },
-
-    // Don't want to save everything to localStorage -- only variables which need to be persisted.
-    whitelist: ['showRemainingTime'],
-    toJSON: function() {
-      return this.pick(this.whitelist);
+      showRemainingTime: false
     },
 
     initialize: function() {
       // Load from Backbone.LocalStorage
       this.fetch();
+    },
+
+    toggleShowRemainingTime: function() {
+      var showRemainingTime = this.get('showRemainingTime');
+      this.save('showRemainingTime', !showRemainingTime);
     }
   });
 

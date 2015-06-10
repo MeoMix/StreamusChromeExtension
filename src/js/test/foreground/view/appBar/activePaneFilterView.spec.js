@@ -1,6 +1,6 @@
 ﻿define(function(require) {
   'use strict';
-  
+
   var ActivePaneFilterView = require('foreground/view/appBar/activePaneFilterView');
   var ActivePaneFilter = require('foreground/model/appBar/activePaneFilter');
   var SignInManager = require('background/model/signInManager');

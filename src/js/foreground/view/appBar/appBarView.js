@@ -142,15 +142,15 @@
     },
 
     _onSearchShowing: function() {
-      this.ui.showSearchButton.addClass('is-hidden');
-      this.ui.hideSearchButton.removeClass('is-hidden');
+      //this.ui.showSearchButton.addClass('is-hidden');
+      //this.ui.hideSearchButton.removeClass('is-hidden');
 
       this._focusSearchInput();
     },
 
     _onSearchHiding: function() {
-      this.ui.showSearchButton.removeClass('is-hidden');
-      this.ui.hideSearchButton.addClass('is-hidden');
+      //this.ui.showSearchButton.removeClass('is-hidden');
+      //this.ui.hideSearchButton.addClass('is-hidden');
     },
 
     _setShowPlaylistsAreaButtonState: function(signedInUser) {
