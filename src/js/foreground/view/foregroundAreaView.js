@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var ActivePaneRegion = require('foreground/view/activePane/activePaneregion');
+  var ActivePaneRegion = require('foreground/view/activePane/activePaneRegion');
   var AppBarRegion = require('foreground/view/appBar/appBarRegion');
   var SimpleMenuRegion = require('foreground/view/simpleMenu/simpleMenuRegion');
   var DialogRegion = require('foreground/view/dialog/dialogRegion');
