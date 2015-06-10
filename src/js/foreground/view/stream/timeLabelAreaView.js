@@ -61,7 +61,7 @@
     },
 
     _onChangeShowRemainingTime: function(model, showRemainingTime) {
-      this._setElapsedTimeLabelTooltipText(!showRemainingTime);
+      this._setElapsedTimeLabelTooltipText(showRemainingTime);
       this._setElapsedTimeLabelText(this.timeSlider.get('currentTime'));
     },
 
@@ -89,6 +89,7 @@
       var showRemainingTime = this.model.get('showRemainingTime');
       var totalTime = this._getTotalTime(this.player.get('loadedSong'));
       var elapsedTime = this._getElapsedTime(currentTime, totalTime, showRemainingTime);
+
       this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(elapsedTime));
     },
 

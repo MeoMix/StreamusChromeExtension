@@ -5,7 +5,14 @@
 
   describe('TimeSlider', function() {
     beforeEach(function() {
-      this.TimeSlider = new TimeSlider();
+      this.timeSlider = new TimeSlider();
+    });
+
+    describe('incrementCurrentTime', function() {
+      it('should be able to add a value to its current time', function() {
+        var incrementedTime = this.timeSlider.incrementCurrentTime(1);
+        expect(incrementedTime).to.equal(1);
+      });
     });
   });
 });

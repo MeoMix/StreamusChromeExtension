@@ -26,8 +26,7 @@
 
     player: null,
     playerEvents: {
-      'change:currentTime': '_onPlayerChangeCurrentTime',
-      'change:state': '_onPlayerChangeState'
+      'change:currentTime': '_onPlayerChangeCurrentTime'
     },
 
     initialize: function(options) {
@@ -38,7 +37,7 @@
     onRender: function() {
       var totalTime = this._getTotalTime(this.player.get('loadedSong'));
       this._setTotalTime(totalTime);
-      this._setCurrentTime(this.player.get('currentTime'));
+      this._setTimeProgress(this.player.get('currentTime'));
     },
 
     _onInputTimeRange: function() {
@@ -49,16 +48,14 @@
     // Allow the user to manual time change by click or scroll.
     _onWheelTimeRange: function(event) {
       var delta = event.originalEvent.deltaY / -100;
-      var currentTime = this.model.get('currentTime');
-      var newTime = currentTime + delta;
-      this.model.set('currentTime', currentTime + delta);
-      this.player.seekTo(newTime);
+      var incrementedTime = this.model.incrementCurrentTime(delta);
+      this.player.seekTo(incrementedTime);
     },
 
     _onMouseDownTimeRange: function(event) {
       // 1 is primary mouse button, usually left
       if (event.which === 1) {
-        this._startDragging();
+        this.model.set('isBeingDragged', true);
       }
     },
 
@@ -66,37 +63,24 @@
       // 1 is primary mouse button, usually left
       // It's important to check isBeingDragged here because onMouseUp can run even if onMouseDown did not fire.
       if (event.which === 1 && this.model.get('isBeingDragged')) {
+        this.model.set('isBeingDragged', false);
         this.player.seekTo(this.model.get('currentTime'));
       }
     },
 
     _onChangeCurrentTime: function(model, currentTime) {
-      this._updateTimeProgress(currentTime);
-    },
-
-    _onPlayerChangeState: function() {
-      this._stopDragging();
+      this._setTimeProgress(currentTime);
     },
 
     _onPlayerChangeCurrentTime: function(model, currentTime) {
       var isBeingDragged = this.model.get('isBeingDragged');
+      var isPlayerSeeking = this.player.get('seeking');
       // If the time changes while user is dragging it then do not update the view because user's input should override it.
-      if (!isBeingDragged) {
-        this._setCurrentTime(currentTime);
-      }
-    },
-
-    _startDragging: function() {
-      this.model.set('isBeingDragged', true);
-    },
-
-    // TODO: Re-evaluate this logic. Feels weird.
-    _stopDragging: function() {
-      // Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
-      var state = this.player.get('state');
-
-      if (state === PlayerState.Playing || state === PlayerState.Paused) {
-        this.model.set('isBeingDragged', false);
+      // There's also a point in time where the user has stopped dragging, and the player is responding to the seekTo request,
+      // but it has not yet fulfilled the seek. During this time, if the player's time changes, the currentTime will stutter
+      // back to the previous value. Prevent this by checking if the player is currently seeking.
+      if (!isBeingDragged && !isPlayerSeeking) {
+        this.model.set('currentTime', currentTime);
       }
     },
 
@@ -104,16 +88,13 @@
       this.ui.timeRange.attr('max', totalTime);
     },
 
-    _setCurrentTime: function(currentTime) {
-      this.ui.timeRange.val(currentTime);
-      this._updateTimeProgress(currentTime);
-    },
-
     // Repaints the progress bar's filled-in amount based on the % of time elapsed for current song.
     // Keep separate from render because a distinction is needed between the player's time and the
     // progress bar's time. The player's time should not update when the progress bar's time is
     // being dragged by the user, but the progress bar's values do need to update.
-    _updateTimeProgress: function(currentTime) {
+    _setTimeProgress: function(currentTime) {
+      this.ui.timeRange.val(currentTime);
+
       var totalTime = this._getTotalTime(this.player.get('loadedSong'));
       var progressPercent = this._getProgressPercent(currentTime, totalTime);
       this.ui.timeProgress.width(progressPercent + '%');

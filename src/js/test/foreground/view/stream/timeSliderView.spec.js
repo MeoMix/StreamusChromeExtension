@@ -54,45 +54,21 @@
       });
     });
 
-    xdescribe('_onInputTimeRange', function() {
-
-    });
-
-    xdescribe('_onWheelTimeRange', function() {
-
-    });
-
-    xdescribe('_onMouseDownTimeRange', function() {
-
-    });
-
-    xdescribe('_startDragging', function() {
-
-    });
-
-    xdescribe('_stopDragging', function() {
-
-    });
-
     describe('_onPlayerChangeCurrentTime', function() {
-      beforeEach(function() {
-        sinon.stub(this.view, '_setCurrentTime');
-      });
-
-      afterEach(function() {
-        this.view._setCurrentTime.restore();
-      });
-
-      it('should call _setCurrentTime if the model is not being dragged', function() {
+      it('should set the models currentTime property if not being dragged', function() {
         this.view.model.set('isBeingDragged', false);
+        sinon.stub(this.view.model, 'set');
         this.view._onPlayerChangeCurrentTime();
-        expect(this.view._setCurrentTime.called).to.equal(true);
+        expect(this.view.model.set.calledOnce).to.equal(true);
+        this.view.model.set.restore();
       });
 
-      it('should not call _setCurrentTime if the model is being dragged', function() {
+      it('should not set the models currentTime property if it is being dragged', function() {
         this.view.model.set('isBeingDragged', true);
+        sinon.stub(this.view.model, 'set');
         this.view._onPlayerChangeCurrentTime();
-        expect(this.view._setCurrentTime.called).to.equal(false);
+        expect(this.view.model.set.called).to.equal(false);
+        this.view.model.set.restore();
       });
     });
 
@@ -101,21 +77,57 @@
         this.view.render();
       });
 
-      describe('_updateTimeProgress', function() {
+      describe('_onInputTimeRange', function() {
+        it('should set the model to the currentTime', function() {
+          sinon.stub(this.view.model, 'set');
+          this.view._onInputTimeRange();
+          expect(this.view.model.set.calledOnce).to.equal(true);
+          this.view.model.set.restore();
+        });
+      });
+
+      describe('_onWheelTimeRange', function() {
+        it('should tell the model to increment its currentTime', function() {
+          sinon.stub(this.view.model, 'incrementCurrentTime');
+          sinon.stub(this.view.player, 'seekTo');
+
+          this.view._onWheelTimeRange({
+            originalEvent: {
+              deltaY: -100
+            }
+          });
+
+          expect(this.view.model.incrementCurrentTime.calledOnce).to.equal(true);
+          expect(this.view.model.incrementCurrentTime.calledWith(1)).to.equal(true);
+
+          this.view.model.incrementCurrentTime.restore();
+          this.view.player.seekTo.restore();
+        });
+
+        it('should tell the player to seek to the incremented time', function() {
+          sinon.stub(this.view.player, 'seekTo');
+          this.view._onWheelTimeRange({
+            originalEvent: {
+              deltaY: -100
+            }
+          });
+
+          expect(this.view.player.seekTo.calledOnce).to.equal(true);
+          expect(this.view.player.seekTo.calledWith(1)).to.equal(true);
+
+          this.view.player.seekTo.restore();
+        });
+      });
+
+      describe('_setTimeProgress', function() {
         it('should not error when called', function() {
-          this.view._updateTimeProgress(0);
+          this.view._setTimeProgress(0);
         });
       });
 
       describe('_setTotalTime', function() {
         it('should not error when called', function() {
           this.view._setTotalTime(0);
-        });
-      });
-
-      describe('_setCurrentTime', function() {
-        it('should not error when called', function() {
-          this.view._setCurrentTime(0);
         });
       });
     });

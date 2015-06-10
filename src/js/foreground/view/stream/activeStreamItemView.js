@@ -58,7 +58,9 @@
         this.$el.on('webkitTransitionEnd', this._onTransitionInComplete.bind(this));
       }
 
-      var timeSlider = new TimeSlider();
+      var timeSlider = new TimeSlider({
+        currentTime: this.player.get('currentTime')
+    });
 
       this.showChildView('timeSlider', new TimeSliderView({
         model: timeSlider,
