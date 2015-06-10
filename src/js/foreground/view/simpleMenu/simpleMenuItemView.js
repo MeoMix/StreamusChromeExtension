@@ -49,7 +49,7 @@
     _setFixedPositionClass: function(fixedPosition) {
       if (fixedPosition === FixedPosition.Top) {
         this.$el.addClass('u-bordered--bottom');
-      } else if(fixedPosition === FixedPosition.Bottom) {
+      } else if (fixedPosition === FixedPosition.Bottom) {
         this.$el.addClass('u-bordered--top');
       }
     }

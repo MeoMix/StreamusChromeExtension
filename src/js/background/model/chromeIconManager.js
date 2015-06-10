@@ -102,7 +102,8 @@
     // RED: Player is muted.
     // GREEN: Player is playing (buffering counts as playing)
     // Yellow: Player is paused/unstarted
-    // Debounce because setIcon acts inappropriately when called quickly and repeatedly: https://code.google.com/p/chromium/issues/detail?id=383714
+    // Debounce because setIcon acts inappropriately when called quickly and repeatedly.
+    // https://code.google.com/p/chromium/issues/detail?id=383714
     _setIcon: _.debounce(function(isMuted, volume) {
       var iconColor = this._getIconColor(isMuted);
       var iconBarCount = this._getIconBarCount(volume);

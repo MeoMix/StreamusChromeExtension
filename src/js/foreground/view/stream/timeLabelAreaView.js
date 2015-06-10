@@ -81,7 +81,7 @@
       this.ui.elapsedTimeLabel.attr('data-tooltip-text', tooltipText);
     },
 
-    // Update the value of elapsedTimeLabel to the timeSlider's current time or 
+    // Update the value of elapsedTimeLabel to the timeSlider's current time or
     // the difference between the total time and the current time.
     // This value is not guaranteed to reflect the player's current time as the user could be
     // dragging the time slider which will cause the label to represent a different value.

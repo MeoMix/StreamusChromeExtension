@@ -60,7 +60,7 @@
 
       var timeSlider = new TimeSlider({
         currentTime: this.player.get('currentTime')
-    });
+      });
 
       this.showChildView('timeSlider', new TimeSliderView({
         model: timeSlider,
