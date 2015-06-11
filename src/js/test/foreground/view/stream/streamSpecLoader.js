@@ -1,7 +1,6 @@
 ﻿define(function(require) {
   'use strict';
 
-  require('test/foreground/view/stream/activeStreamItemView.spec');
   require('test/foreground/view/stream/clearStreamButtonView.spec');
   require('test/foreground/view/stream/nextButtonView.spec');
   require('test/foreground/view/stream/playPauseButtonView.spec');
@@ -10,6 +9,7 @@
   require('test/foreground/view/stream/repeatButtonView.spec');
   require('test/foreground/view/stream/saveStreamButtonView.spec');
   require('test/foreground/view/stream/shuffleButtonView.spec');
+  require('test/foreground/view/stream/streamControlBarView.spec');
   require('test/foreground/view/stream/streamItemsView.spec');
   require('test/foreground/view/stream/streamItemView.spec');
   require('test/foreground/view/stream/streamRegion.spec');

@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var PlayerState = require('common/enum/playerState');
+  var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
   var TimeSliderTemplate = require('text!template/stream/timeSlider.html');
 
   var TimeSliderView = Marionette.ItemView.extend({
@@ -13,6 +13,13 @@
       timeRange: '[data-ui~=timeRange]'
     },
 
+    behaviors: {
+      ViewModelContainer: {
+        behaviorClass: ViewModelContainer,
+        viewModelNames: ['model']
+      }
+    },
+
     events: {
       'input @ui.timeRange': '_onInputTimeRange',
       'wheel @ui.timeRange': '_onWheelTimeRange',
@@ -21,12 +28,14 @@
     },
 
     modelEvents: {
-      'change:currentTime': '_onChangeCurrentTime'
+      'change:currentTime': '_onChangeCurrentTime',
+      'change:isEnabled': '_onChangeIsEnabled'
     },
 
     player: null,
     playerEvents: {
-      'change:currentTime': '_onPlayerChangeCurrentTime'
+      'change:currentTime': '_onPlayerChangeCurrentTime',
+      'change:loadedSong': '_onPlayerChangeLoadedSong'
     },
 
     initialize: function(options) {
@@ -35,26 +44,32 @@
     },
 
     onRender: function() {
-      var totalTime = this._getTotalTime(this.player.get('loadedSong'));
+      this._setEnabledState(this.model.get('isEnabled'));
+      var loadedSong = this.player.get('loadedSong');
+      var totalTime = this._getTotalTime(loadedSong);
       this._setTotalTime(totalTime);
       this._setTimeProgress(this.player.get('currentTime'));
     },
 
     _onInputTimeRange: function() {
-      var currentTime = parseInt(this.ui.timeRange.val(), 10);
-      this.model.set('currentTime', currentTime);
+      if (this.model.get('isEnabled')) {
+        var currentTime = parseInt(this.ui.timeRange.val(), 10);
+        this.model.set('currentTime', currentTime);
+      }
     },
 
     // Allow the user to manual time change by click or scroll.
     _onWheelTimeRange: function(event) {
-      var delta = event.originalEvent.deltaY / -100;
-      var incrementedTime = this.model.incrementCurrentTime(delta);
-      this.player.seekTo(incrementedTime);
+      if (this.model.get('isEnabled')) {
+        var delta = event.originalEvent.deltaY / -100;
+        var incrementedTime = this.model.incrementCurrentTime(delta);
+        this.player.seekTo(incrementedTime);
+      }
     },
 
     _onMouseDownTimeRange: function(event) {
       // 1 is primary mouse button, usually left
-      if (event.which === 1) {
+      if (this.model.get('isEnabled') && event.which === 1) {
         this.model.set('isBeingDragged', true);
       }
     },
@@ -62,7 +77,7 @@
     _onMouseUpTimeRange: function(event) {
       // 1 is primary mouse button, usually left
       // It's important to check isBeingDragged here because onMouseUp can run even if onMouseDown did not fire.
-      if (event.which === 1 && this.model.get('isBeingDragged')) {
+      if (this.model.get('isEnabled') && event.which === 1 && this.model.get('isBeingDragged')) {
         this.model.set('isBeingDragged', false);
         this.player.seekTo(this.model.get('currentTime'));
       }
@@ -70,6 +85,16 @@
 
     _onChangeCurrentTime: function(model, currentTime) {
       this._setTimeProgress(currentTime);
+    },
+
+    _onChangeIsEnabled: function(model, isEnabled) {
+      this._setEnabledState(isEnabled);
+    },
+
+    _onPlayerChangeLoadedSong: function(model, loadedSong) {
+      var totalTime = this._getTotalTime(loadedSong);
+      this._setTotalTime(totalTime);
+      this._setEnabledState(loadedSong);
     },
 
     _onPlayerChangeCurrentTime: function(model, currentTime) {
@@ -115,6 +140,10 @@
     _getTotalTime: function(loadedSong) {
       var totalTime = _.isNull(loadedSong) ? 0 : loadedSong.get('duration');
       return totalTime;
+    },
+
+    _setEnabledState: function(isEnabled) {
+      this.ui.timeRange.toggleClass('is-disabled', !isEnabled);
     }
   });
 

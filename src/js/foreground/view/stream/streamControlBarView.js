@@ -13,13 +13,13 @@
   var NextButtonView = require('foreground/view/stream/nextButtonView');
   var PlayPauseButtonView = require('foreground/view/stream/playPauseButtonView');
   var PreviousButtonView = require('foreground/view/stream/previousButtonView');
-  var ActiveStreamItemTemplate = require('text!template/stream/activeStreamItem.html');
+  var StreamControlBarTemplate = require('text!template/stream/streamControlBar.html');
   var SongActions = require('foreground/model/song/songActions');
 
-  var ActiveStreamItemView = Marionette.LayoutView.extend({
-    id: 'activeStreamItem',
-    className: 'activeStreamItem u-shadowed--low',
-    template: _.template(ActiveStreamItemTemplate),
+  var StreamControlBarView = Marionette.LayoutView.extend({
+    id: 'streamControlBar',
+    className: 'streamControlBar u-shadowed--low',
+    template: _.template(StreamControlBarTemplate),
 
     regions: {
       timeLabelArea: '[data-region=timeLabelArea]',
@@ -33,8 +33,16 @@
       nextButton: '[data-region=nextButton]'
     },
 
+    ui: {
+      title: '[data-ui~=title]'
+    },
+
     events: {
       'contextmenu': '_onContextMenu'
+    },
+
+    modelEvents: {
+      'change:activeStreamItem': '_onChangeActiveStreamItem'
     },
 
     behaviors: {
@@ -43,23 +51,23 @@
       }
     },
 
-    instant: false,
     player: null,
+    playerEvents: {
+      'change:loadedSong': '_onPlayerChangeLoadedSong'
+    },
 
     initialize: function(options) {
-      this.instant = options.instant;
       this.player = options.player;
+      this.bindEntityEvents(this.player, this.playerEvents);
     },
 
     onRender: function() {
-      if (this.instant) {
-        this.$el.addClass('is-instant');
-      } else {
-        this.$el.on('webkitTransitionEnd', this._onTransitionInComplete.bind(this));
-      }
+      var loadedSong = this.player.get('loadedSong');
+      this._setTitle(loadedSong);
 
       var timeSlider = new TimeSlider({
-        currentTime: this.player.get('currentTime')
+        currentTime: this.player.get('currentTime'),
+        player: StreamusFG.backgroundProperties.player
       });
 
       this.showChildView('timeSlider', new TimeSliderView({
@@ -68,9 +76,10 @@
         player: StreamusFG.backgroundProperties.player
       }));
 
+      var totalTime = _.isNull(loadedSong) ? 0 : loadedSong.get('duration');
       this.showChildView('timeLabelArea', new TimeLabelAreaView({
         model: new TimeLabelArea({
-          totalTime: this.model.get('song').get('duration')
+          totalTime: totalTime
         }),
         timeSlider: timeSlider,
         streamItems: StreamusFG.backgroundProperties.stream.get('items'),
@@ -107,51 +116,35 @@
       }));
     },
 
-    onAttach: function() {
-      // If the view is shown instantly then there is no transition to wait for, so announce shown immediately.
-      if (this.instant) {
-        this.$el.addClass('is-visible');
-        StreamusFG.channels.activeStreamItemArea.vent.trigger('visible');
-      } else {
-        requestAnimationFrame(function() {
-          this.$el.addClass('is-visible');
-        }.bind(this));
-      }
-    },
-
-    hide: function() {
-      this.$el.on('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
-      this.$el.removeClass('is-instant is-visible');
-    },
-
-    showContextMenu: function(top, left) {
-      var songActions = new SongActions();
-      var song = this.model.get('song');
-
-      songActions.showContextMenu(song, top, left, this.player);
-    },
-
-    _onTransitionInComplete: function(event) {
-      if (event.target === event.currentTarget) {
-        this.$el.off('webkitTransitionEnd');
-        StreamusFG.channels.activeStreamItemArea.vent.trigger('visible');
-      }
-    },
-
-    _onTransitionOutComplete: function(event) {
-      if (event.target === event.currentTarget) {
-        this.$el.off('webkitTransitionEnd');
-        StreamusFG.channels.activeStreamItemArea.vent.trigger('hidden');
-        this.destroy();
-      }
+    _onPlayerChangeLoadedSong: function(model, loadedSong) {
+      this._setTitle(loadedSong);
     },
 
     _onContextMenu: function(event) {
       event.preventDefault();
       // Show the element just slightly offset as to not break onHover effects.
-      this.showContextMenu(event.pageY, event.pageX + 1);
+      this._showContextMenu(event.pageY, event.pageX + 1);
+    },
+
+    _showContextMenu: function(top, left) {
+      var loadedSong = this.player.get('loadedSong');
+
+      if (!_.isNull(loadedSong)) {
+        var songActions = new SongActions();
+        songActions.showContextMenu(loadedSong, top, left, this.player);
+      }
+    },
+
+    _setTitle: function(loadedSong) {
+      var title = chrome.i18n.getMessage('streamEmpty');
+
+      if (!_.isNull(loadedSong)) {
+        title = loadedSong.get('title');
+      }
+
+      this.ui.title.text(title).attr('data-tooltip-text', title);
     }
   });
 
-  return ActiveStreamItemView;
+  return StreamControlBarView;
 });

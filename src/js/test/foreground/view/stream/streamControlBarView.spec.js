@@ -1,18 +1,16 @@
 ﻿define(function(require) {
   'use strict';
 
-  var ActiveStreamItemView = require('foreground/view/stream/activeStreamItemView');
-  var StreamItem = require('background/model/streamItem');
+  var StreamControlBarView = require('foreground/view/stream/streamControlBarView');
   var Player = require('background/model/player');
   var Settings = require('background/model/settings');
   var YouTubePlayer = require('background/model/youTubePlayer');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
-  describe('ActiveStreamItemView', function() {
+  describe('StreamControlBarView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
-      this.view = new ActiveStreamItemView({
-        model: new StreamItem(),
+      this.view = new StreamControlBarView({
         player: new Player({
           settings: new Settings(),
           youTubePlayer: new YouTubePlayer()

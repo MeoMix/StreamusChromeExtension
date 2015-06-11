@@ -13,13 +13,19 @@
   describe('TimeSliderView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
+
+      var player = new Player({
+        settings: new Settings(),
+        youTubePlayer: new YouTubePlayer()
+      });
+
       this.view = new TimeSliderView({
-        model: new TimeSlider(),
+        model: new TimeSlider({
+          currentTime: player.get('currentTime'),
+          player: player
+        }),
         streamItems: new StreamItems(),
-        player: new Player({
-          settings: new Settings(),
-          youTubePlayer: new YouTubePlayer()
-        })
+        player: player
       });
     });
 
@@ -78,16 +84,43 @@
       });
 
       describe('_onInputTimeRange', function() {
-        it('should set the model to the currentTime', function() {
+        it('should set the model to the currentTime if the model is enabled', function() {
+          this.view.model.set('isEnabled', true);
           sinon.stub(this.view.model, 'set');
           this.view._onInputTimeRange();
           expect(this.view.model.set.calledOnce).to.equal(true);
           this.view.model.set.restore();
         });
+
+        it('should not set the model to the currentTime if the model is disabled', function() {
+          this.view.model.set('isEnabled', false);
+          sinon.stub(this.view.model, 'set');
+          this.view._onInputTimeRange();
+          expect(this.view.model.set.calledOnce).to.equal(false);
+          this.view.model.set.restore();
+        });
       });
 
       describe('_onWheelTimeRange', function() {
+        it('should do nothing if the model is not enabled', function() {
+          this.view.model.set('isEnabled', false);
+
+          sinon.stub(this.view.model, 'incrementCurrentTime');
+
+          this.view._onWheelTimeRange({
+            originalEvent: {
+              deltaY: -100
+            }
+          });
+
+          expect(this.view.model.incrementCurrentTime.called).to.equal(false);
+
+          this.view.model.incrementCurrentTime.restore();
+        });
+
         it('should tell the model to increment its currentTime', function() {
+          this.view.model.set('isEnabled', true);
+
           sinon.stub(this.view.model, 'incrementCurrentTime');
           sinon.stub(this.view.player, 'seekTo');
 
@@ -105,6 +138,7 @@
         });
 
         it('should tell the player to seek to the incremented time', function() {
+          this.view.model.set('isEnabled', true);
           sinon.stub(this.view.player, 'seekTo');
           this.view._onWheelTimeRange({
             originalEvent: {

@@ -68,6 +68,13 @@
     _onPlayerChangeLoadedSong: function(model, loadedSong) {
       var totalTime = this._getTotalTime(loadedSong);
       this._setTotalTimeLabelText(totalTime);
+
+      // Since there's no loaded song the label could not possibly be anything other than 0.
+      // This is important if remaining time is being shown and timeSlider's currentTime is 0 since
+      // changing the loadedSong to null won't trigger a change event on timerSlider's currentTime
+      if (_.isNull(loadedSong)) {
+        this._setElapsedTimeLabelText(0);
+      }
     },
 
     _getTotalTime: function(loadedSong) {

@@ -2,10 +2,33 @@
   'use strict';
 
   var TimeSlider = require('foreground/model/stream/timeSlider');
+  var Player = require('background/model/player');
+  var Settings = require('background/model/settings');
+  var YouTubePlayer = require('background/model/youTubePlayer');
 
   describe('TimeSlider', function() {
     beforeEach(function() {
-      this.timeSlider = new TimeSlider();
+      var player = new Player({
+        settings: new Settings(),
+        youTubePlayer: new YouTubePlayer()
+      });
+
+      this.timeSlider = new TimeSlider({
+        currentTime: player.get('currentTime'),
+        player: player
+      });
+    });
+
+    describe('_setEnabledState', function() {
+      it('should set isEnabled to true if a loaded song exists', function() {
+        this.timeSlider._setEnabledState({});
+        expect(this.timeSlider.get('isEnabled')).to.equal(true);
+      });
+
+      it('should set isEnabled to false if a loaded song does not exist', function() {
+        this.timeSlider._setEnabledState(null);
+        expect(this.timeSlider.get('isEnabled')).to.equal(false);
+      });
     });
 
     describe('incrementCurrentTime', function() {

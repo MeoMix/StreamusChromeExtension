@@ -33,6 +33,7 @@
       this.localStorage._clear();
     },
 
+    // TODO: Maybe these should return null instead for consistency?
     getActiveItem: function() {
       return this.findWhere({
         active: true

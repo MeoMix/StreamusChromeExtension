@@ -14,14 +14,20 @@
   describe('TimeLabelAreaView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
+
+      var player = new Player({
+        settings: new Settings(),
+        youTubePlayer: new YouTubePlayer()
+      });
+
       this.view = new TimeLabelAreaView({
         model: new TimeLabelArea(),
         streamItems: new StreamItems(),
-        timeSlider: new TimeSlider(),
-        player: new Player({
-          settings: new Settings(),
-          youTubePlayer: new YouTubePlayer()
-        })
+        timeSlider: new TimeSlider({
+          currentTime: player.get('currentTime'),
+          player: player
+        }),
+        player: player
       });
     });
 
