@@ -122,7 +122,7 @@
 
       var totalTime = this._getTotalTime(this.player.get('loadedSong'));
       var progressPercent = this._getProgressPercent(currentTime, totalTime);
-      this.ui.timeProgress.width(progressPercent + '%');
+      this.ui.timeProgress.css('transform', 'scaleX(' + progressPercent / 100 + ')');
     },
 
     // Returns a % value out of 100 for how much time has elapsed.

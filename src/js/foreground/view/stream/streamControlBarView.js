@@ -18,7 +18,7 @@
 
   var StreamControlBarView = Marionette.LayoutView.extend({
     id: 'streamControlBar',
-    className: 'streamControlBar u-shadowed--low',
+    className: 'streamControlBar',
     template: _.template(StreamControlBarTemplate),
 
     regions: {

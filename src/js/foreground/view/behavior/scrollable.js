@@ -168,7 +168,7 @@
         if (this.currentListScrollTop > 0) {
           // Reset the track's transform back to 0 so that offsetHeight and scrollHeight aren't impacted.
           // The transform value will be fixed once scrollContainer is called.
-          this.ui.track[0].style.transform = 'translateY(0px)';
+          this.ui.track.css('transform', 'translateY(0)');
         }
 
         this._cacheElementState();
@@ -217,7 +217,7 @@
 
     // Update the thumb size and trackbar state to reflect the cache's current state.
     _updateElementState: function() {
-      this.ui.thumb.height(this.thumbHeight);
+      this.ui.thumb.css('transform', 'translateY(' + this.currentContainerScrollTop + 'px) scaleY(' + this.thumbHeight + ')');
       this._toggleHiddenState();
     },
 
@@ -274,8 +274,8 @@
     // Update the track, thumb, and list positions to reflect given values and cache the newly represented values.
     _updateScrollTop: function(listScrollTop, containerScrollTop) {
       this.el.scrollTop = listScrollTop;
-      this.ui.track[0].style.transform = 'translateY(' + listScrollTop + 'px)';
-      this.ui.thumb[0].style.transform = 'translateY(' + containerScrollTop + 'px)';
+      this.ui.track.css('transform', 'translateY(' + listScrollTop + 'px)');
+      this.ui.thumb.css('transform', 'translateY(' + containerScrollTop + 'px) scaleY(' + this.thumbHeight + ')');
 
       this.currentListScrollTop = listScrollTop;
       this.currentContainerScrollTop = containerScrollTop;
