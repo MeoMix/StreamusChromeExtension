@@ -53,23 +53,6 @@
       Tooltipable: {
         behaviorClass: Tooltipable
       }
-    },
-
-    activeStreamItemAreaEvents: {
-      'visible': '_onActiveStreamItemAreaVisible',
-      'hidden': '_onActiveStreamItemAreaHidden'
-    },
-
-    initialize: function() {
-      this.bindEntityEvents(StreamusFG.channels.activeStreamItemArea.vent, this.activeStreamItemAreaEvents);
-    },
-
-    _onActiveStreamItemAreaVisible: function() {
-      this.triggerMethod('ListHeightUpdated');
-    },
-
-    _onActiveStreamItemAreaHidden: function() {
-      this.triggerMethod('ListHeightUpdated');
     }
   });
 

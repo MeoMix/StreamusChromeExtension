@@ -63,10 +63,6 @@
       this._update();
     },
 
-    onListHeightUpdated: function() {
-      requestAnimationFrame(this._update.bind(this));
-    },
-
     // Sorting a view can trigger a massive number of add/remove children.
     // So, it's a good idea to throttle update to allow for the bulk action to complete.
     onAddChild: function() {
