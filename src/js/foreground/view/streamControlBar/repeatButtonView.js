@@ -3,7 +3,7 @@
 
   var RepeatButtonState = require('common/enum/repeatButtonState');
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var RepeatButtonTemplate = require('text!template/stream/repeatButton.html');
+  var RepeatButtonTemplate = require('text!template/streamControlBar/repeatButton.html');
   var RepeatIconTemplate = require('text!template/icon/repeatIcon_18.svg');
   var RepeatOneIconTemplate = require('text!template/icon/repeatOneIcon_18.svg');
 

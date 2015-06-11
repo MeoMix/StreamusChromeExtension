@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var StreamControlBarView = require('foreground/view/stream/streamControlBarView');
+  var StreamControlBarView = require('foreground/view/streamControlBar/streamControlBarView');
   var Player = require('background/model/player');
   var Settings = require('background/model/settings');
   var YouTubePlayer = require('background/model/youTubePlayer');

@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var PlayPauseButtonView = require('foreground/view/stream/playPauseButtonView');
+  var PlayPauseButtonView = require('foreground/view/streamControlBar/playPauseButtonView');
   var PlayPauseButton = require('background/model/playPauseButton');
   var Player = require('background/model/player');
   var Settings = require('background/model/settings');

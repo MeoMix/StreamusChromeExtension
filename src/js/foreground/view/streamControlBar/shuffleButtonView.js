@@ -2,7 +2,7 @@
   'use strict';
 
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var ShuffleButtonTemplate = require('text!template/stream/shuffleButton.html');
+  var ShuffleButtonTemplate = require('text!template/streamControlBar/shuffleButton.html');
   var ShuffleIconTemplate = require('text!template/icon/shuffleIcon_18.svg');
 
   var ShuffleButtonView = Marionette.ItemView.extend({

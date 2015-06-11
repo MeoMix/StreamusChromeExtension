@@ -2,15 +2,15 @@
   'use strict';
 
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var VideoButtonTemplate = require('text!template/stream/videoButton.html');
-  var VideoIconTemplate = require('text!template/icon/videoIcon_18.svg');
+  var RadioButtonTemplate = require('text!template/streamControlBar/radioButton.html');
+  var RadioIconTemplate = require('text!template/icon/radioIcon_18.svg');
 
-  var VideoButtonView = Marionette.ItemView.extend({
-    id: 'videoButton',
+  var RadioButtonView = Marionette.ItemView.extend({
+    id: 'radioButton',
     className: 'button button--icon button--icon--secondary button--medium',
-    template: _.template(VideoButtonTemplate),
+    template: _.template(RadioButtonTemplate),
     templateHelpers: {
-      videoIcon: _.template(VideoIconTemplate)()
+      radioIcon: _.template(RadioIconTemplate)()
     },
 
     attributes: {
@@ -48,5 +48,5 @@
     }
   });
 
-  return VideoButtonView;
+  return RadioButtonView;
 });

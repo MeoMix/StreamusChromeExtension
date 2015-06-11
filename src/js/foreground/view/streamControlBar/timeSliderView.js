@@ -2,7 +2,7 @@
   'use strict';
 
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
-  var TimeSliderTemplate = require('text!template/stream/timeSlider.html');
+  var TimeSliderTemplate = require('text!template/streamControlBar/timeSlider.html');
 
   var TimeSliderView = Marionette.ItemView.extend({
     id: 'timeSlider',

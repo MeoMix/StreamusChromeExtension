@@ -4,6 +4,7 @@
   var ActivePaneRegion = require('foreground/view/activePane/activePaneRegion');
   var AppBarRegion = require('foreground/view/appBar/appBarRegion');
   var SimpleMenuRegion = require('foreground/view/simpleMenu/simpleMenuRegion');
+  var StreamControlBarRegion = require('foreground/view/streamControlBar/streamControlBarRegion');
   var DialogRegion = require('foreground/view/dialog/dialogRegion');
   var SpinnerView = require('foreground/view/element/spinnerView');
   var NotificationRegion = require('foreground/view/notification/notificationRegion');
@@ -88,6 +89,10 @@
         tooltip: {
           selector: '[data-region=tooltip]',
           regionClass: TooltipRegion
+        },
+        streamControlBar: {
+          selector: '[data-region=streamControlBar]',
+          regionClass: StreamControlBarRegion
         }
       };
     },

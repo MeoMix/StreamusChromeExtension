@@ -1,19 +1,19 @@
 ﻿define(function(require) {
   'use strict';
 
-  var TimeLabelArea = require('foreground/model/stream/timeLabelArea');
-  var TimeSlider = require('foreground/model/stream/timeSlider');
+  var TimeLabelArea = require('foreground/model/streamControlBar/timeLabelArea');
+  var TimeSlider = require('foreground/model/streamControlBar/timeSlider');
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var TimeSliderView = require('foreground/view/stream/timeSliderView');
-  var TimeLabelAreaView = require('foreground/view/stream/timeLabelAreaView');
-  var RadioButtonView = require('foreground/view/stream/radioButtonView');
-  var RepeatButtonView = require('foreground/view/stream/repeatButtonView');
-  var ShuffleButtonView = require('foreground/view/stream/shuffleButtonView');
-  var VideoButtonView = require('foreground/view/stream/videoButtonView');
-  var NextButtonView = require('foreground/view/stream/nextButtonView');
-  var PlayPauseButtonView = require('foreground/view/stream/playPauseButtonView');
-  var PreviousButtonView = require('foreground/view/stream/previousButtonView');
-  var StreamControlBarTemplate = require('text!template/stream/streamControlBar.html');
+  var TimeSliderView = require('foreground/view/streamControlBar/timeSliderView');
+  var TimeLabelAreaView = require('foreground/view/streamControlBar/timeLabelAreaView');
+  var RadioButtonView = require('foreground/view/streamControlBar/radioButtonView');
+  var RepeatButtonView = require('foreground/view/streamControlBar/repeatButtonView');
+  var ShuffleButtonView = require('foreground/view/streamControlBar/shuffleButtonView');
+  var VideoButtonView = require('foreground/view/streamControlBar/videoButtonView');
+  var NextButtonView = require('foreground/view/streamControlBar/nextButtonView');
+  var PlayPauseButtonView = require('foreground/view/streamControlBar/playPauseButtonView');
+  var PreviousButtonView = require('foreground/view/streamControlBar/previousButtonView');
+  var StreamControlBarTemplate = require('text!template/streamControlBar/streamControlBar.html');
   var SongActions = require('foreground/model/song/songActions');
 
   var StreamControlBarView = Marionette.LayoutView.extend({

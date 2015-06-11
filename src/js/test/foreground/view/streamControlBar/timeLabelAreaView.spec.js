@@ -1,9 +1,9 @@
 ﻿define(function(require) {
   'use strict';
 
-  var TimeLabelAreaView = require('foreground/view/stream/timeLabelAreaView');
-  var TimeLabelArea = require('foreground/model/stream/timeLabelArea');
-  var TimeSlider = require('foreground/model/stream/timeSlider');
+  var TimeLabelAreaView = require('foreground/view/streamControlBar/timeLabelAreaView');
+  var TimeLabelArea = require('foreground/model/streamControlBar/timeLabelArea');
+  var TimeSlider = require('foreground/model/streamControlBar/timeSlider');
   var StreamItems = require('background/collection/streamItems');
   var Player = require('background/model/player');
   var Settings = require('background/model/settings');

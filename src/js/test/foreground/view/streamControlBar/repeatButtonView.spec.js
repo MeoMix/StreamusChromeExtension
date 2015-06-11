@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var RepeatButtonView = require('foreground/view/stream/repeatButtonView');
+  var RepeatButtonView = require('foreground/view/streamControlBar/repeatButtonView');
   var RepeatButton = require('background/model/repeatButton');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 

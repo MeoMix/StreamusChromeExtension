@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var ShuffleButtonView = require('foreground/view/stream/shuffleButtonView');
+  var ShuffleButtonView = require('foreground/view/streamControlBar/shuffleButtonView');
   var ShuffleButton = require('background/model/shuffleButton');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 

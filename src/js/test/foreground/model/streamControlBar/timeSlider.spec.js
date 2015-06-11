@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var TimeSlider = require('foreground/model/stream/timeSlider');
+  var TimeSlider = require('foreground/model/streamControlBar/timeSlider');
   var Player = require('background/model/player');
   var Settings = require('background/model/settings');
   var YouTubePlayer = require('background/model/youTubePlayer');

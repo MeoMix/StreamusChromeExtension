@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var PlayPauseButtonTemplate = require('text!template/stream/playPauseButton.html');
+  var PlayPauseButtonTemplate = require('text!template/streamControlBar/playPauseButton.html');
   var PauseIconTemplate = require('text!template/icon/pauseIcon_30.svg');
   var PlayIconTemplate = require('text!template/icon/playIcon_30.svg');
 

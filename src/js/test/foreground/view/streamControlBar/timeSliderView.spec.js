@@ -1,8 +1,8 @@
 ﻿define(function(require) {
   'use strict';
 
-  var TimeSliderView = require('foreground/view/stream/timeSliderView');
-  var TimeSlider = require('foreground/model/stream/timeSlider');
+  var TimeSliderView = require('foreground/view/streamControlBar/timeSliderView');
+  var TimeSlider = require('foreground/model/streamControlBar/timeSlider');
   var StreamItems = require('background/collection/streamItems');
   var Player = require('background/model/player');
   var Settings = require('background/model/settings');

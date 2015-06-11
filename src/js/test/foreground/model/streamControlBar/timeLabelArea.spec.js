@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var TimeLabelArea = require('foreground/model/stream/timeLabelArea');
+  var TimeLabelArea = require('foreground/model/streamControlBar/timeLabelArea');
 
   describe('TimeLabelArea', function() {
     beforeEach(function() {

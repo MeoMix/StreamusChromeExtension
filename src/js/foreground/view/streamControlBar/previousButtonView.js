@@ -1,15 +1,15 @@
 ﻿define(function(require) {
   'use strict';
 
-  var NextButtonTemplate = require('text!template/stream/nextButton.html');
-  var NextIconTemplate = require('text!template/icon/nextIcon_24.svg');
+  var PreviousButtonTemplate = require('text!template/streamControlBar/previousButton.html');
+  var PreviousIconTemplate = require('text!template/icon/previousIcon_24.svg');
 
-  var NextButtonView = Marionette.ItemView.extend({
-    id: 'nextButton',
+  var PreviousButton = Marionette.ItemView.extend({
+    id: 'previousButton',
     className: 'button button--icon button--icon--primary button--large',
-    template: _.template(NextButtonTemplate),
+    template: _.template(PreviousButtonTemplate),
     templateHelpers: {
-      nextIcon: _.template(NextIconTemplate)()
+      previousIcon: _.template(PreviousIconTemplate)()
     },
 
     events: {
@@ -25,7 +25,7 @@
     },
 
     _onClick: function() {
-      this.model.tryActivateNextStreamItem();
+      this.model.tryDoTimeBasedPrevious();
     },
 
     _onChangeEnabled: function(model, enabled) {
@@ -37,5 +37,5 @@
     }
   });
 
-  return NextButtonView;
+  return PreviousButton;
 });

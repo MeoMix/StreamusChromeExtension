@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var PreviousButtonView = require('foreground/view/stream/previousButtonView');
+  var PreviousButtonView = require('foreground/view/streamControlBar/previousButtonView');
   var PreviousButton = require('background/model/previousButton');
   var Stream = require('background/model/stream');
   var Player = require('background/model/player');

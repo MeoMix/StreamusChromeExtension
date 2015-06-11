@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var RadioButtonView = require('foreground/view/stream/radioButtonView');
+  var RadioButtonView = require('foreground/view/streamControlBar/radioButtonView');
   var RadioButton = require('background/model/radioButton');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 

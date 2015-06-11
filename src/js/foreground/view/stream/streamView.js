@@ -3,7 +3,6 @@
 
   var ClearStreamButton = require('foreground/model/stream/clearStreamButton');
   var SaveStreamButton = require('foreground/model/stream/saveStreamButton');
-  var StreamControlBarView = require('foreground/view/stream/streamControlBarView');
   var ClearStreamButtonView = require('foreground/view/stream/clearStreamButtonView');
   var SaveStreamButtonView = require('foreground/view/stream/saveStreamButtonView');
   var StreamItemsView = require('foreground/view/stream/streamItemsView');
@@ -23,7 +22,6 @@
     regions: {
       clearStreamButton: '[data-region=clearStreamButton]',
       saveStreamButton: '[data-region=saveStreamButton]',
-      streamControlBar: '[data-region=streamControlBar]',
       streamItems: '[data-region=streamItems]'
     },
 
@@ -66,10 +64,6 @@
           streamItems: this.model.get('items'),
           signInManager: StreamusFG.backgroundProperties.signInManager
         })
-      }));
-
-      this.showChildView('streamControlBar', new StreamControlBarView({
-        player: StreamusFG.backgroundProperties.player
       }));
     },
 

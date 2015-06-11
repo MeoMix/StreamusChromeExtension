@@ -3,7 +3,7 @@
 
   var Utility = require('common/utility');
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var TimeLabelAreaTemplate = require('text!template/stream/timeLabelArea.html');
+  var TimeLabelAreaTemplate = require('text!template/streamControlBar/timeLabelArea.html');
 
   var TimeLabelArea = Marionette.LayoutView.extend({
     id: 'timeLabelArea',
