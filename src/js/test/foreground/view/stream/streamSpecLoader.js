@@ -5,6 +5,5 @@
   require('test/foreground/view/stream/saveStreamButtonView.spec');
   require('test/foreground/view/stream/streamItemsView.spec');
   require('test/foreground/view/stream/streamItemView.spec');
-  require('test/foreground/view/stream/streamRegion.spec');
   require('test/foreground/view/stream/streamView.spec');
 });

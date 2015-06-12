@@ -16,6 +16,7 @@
     },
 
     ui: {
+      // TODO: I don't like regions being part of the UI like this.
       streamRegion: '[data-ui~=streamRegion]',
       activePlaylistAreaRegion: '[data-ui~=activePlaylistAreaRegion]'
     },
