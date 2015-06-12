@@ -37,6 +37,11 @@
 
     _onClick: function() {
       this.model.toggleEnabled();
+      if (this.model.get('enabled')) {
+        this._showVideo();
+      } else {
+        this._hideVideo();
+      }
     },
 
     _onChangeEnabled: function(model, enabled) {
@@ -45,6 +50,14 @@
 
     _setState: function(enabled, stateMessage) {
       this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
+    },
+    
+    _showVideo: function() {
+      StreamusFG.channels.video.commands.trigger('show:video');
+    },
+    
+    _hideVideo: function() {
+      StreamusFG.channels.video.commands.trigger('hide:video');
     }
   });
 

@@ -1,29 +1,33 @@
 ﻿define(function(require) {
   'use strict';
 
-  //var VideoView = require('foreground/view/video/videoView');
+  var VideoView = require('foreground/view/video/videoView');
 
   var VideoRegion = Marionette.Region.extend({
     initialize: function() {
-      //this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
-      //this.listenTo(StreamusFG.channels.video.commands, 'show:video', this._showVideo);
+      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+      this.listenTo(StreamusFG.channels.video.commands, 'show:video', this._showVideo);
     },
 
     _onForegroundAreaIdle: function() {
       // If the video view isn't going to be shown right off the bat then it's OK to defer loading until idle so that
       // the initial load time of the application isn't impacted.
-      if (!this.settings.get('openToSearch')) {
+      if (!StreamusFG.backgroundProperties.settings.get('openToSearch')) {
         this._createVideoView();
       }
     },
 
     _createVideoView: function() {
-      //var videoView = new VideoView({
-      //    player: StreamusFG.backgroundProperties.player
-      //});
-
-      //this.show(videoView);
-      //this.listenTo(videoView, 'hide:video', this._hideVideo);
+      var videoView = new VideoView({
+          player: StreamusFG.backgroundProperties.player
+      });   
+  
+      this.show(videoView);
+      this.listenTo(StreamusFG.channels.video.commands, 'hide:video', this._hideVideo);
+      
+      if (StreamusFG.backgroundProperties.videoButton.get('enabled')) {
+        this._showVideo({instant: true});
+      }
     },
 
     _showVideo: function(options) {
