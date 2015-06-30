@@ -39,7 +39,7 @@
         "message": "Копирай адреса на песента"
     },
     "copySongTitleAndUrl": {
-        "message": "Копирай заклавието и адреса на песента"
+        "message": "Копирай заглавието и адреса на песента"
     },
     "save": {
         "message": "Запази"
@@ -427,7 +427,7 @@
         "message": "Списъкът е запазен успешно."
     },
     "playing": {
-        "message": "Пуснат"
+        "message": "Свири в момента"
     },
     "buffering": {
         "message": "Буфериране..."
@@ -496,7 +496,7 @@
         }
     },
     "desktopNotifications": {
-        "message": "Desktop известия"
+        "message": "Известия на работния плот"
     },
     "showNotifications": {
         "message": "Показвай известия"
