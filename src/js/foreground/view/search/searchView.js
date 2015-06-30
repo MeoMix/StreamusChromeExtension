@@ -117,8 +117,7 @@
       this._toggleInstructions();
     },
 
-    _onChangeQuery: function (model, query) {
-      
+    _onChangeQuery: function() {
       this._toggleInstructions();
     },
 

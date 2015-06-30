@@ -13,7 +13,7 @@
       var ChildView = null;
       var paneType = model.get('paneType');
 
-      switch(paneType) {
+      switch (paneType) {
         case PaneType.Stream:
           ChildView = StreamView;
           break;

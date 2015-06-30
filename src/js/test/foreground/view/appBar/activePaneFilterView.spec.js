@@ -35,6 +35,10 @@
     });
 
     describe('when clicked', function() {
+      beforeEach(function() {
+        this.view.render();
+      });
+
       it('should do nothing if disabled', function() {
         this.view.model.set('isEnabled', false);
         sinon.stub(this.view, '_showPaneFilterMenu');

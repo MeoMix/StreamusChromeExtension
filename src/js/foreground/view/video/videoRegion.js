@@ -10,21 +10,17 @@
     },
 
     _onForegroundAreaRendered: function() {
-      // If the video view isn't going to be shown right off the bat then it's OK to defer loading until idle so that
-      // the initial load time of the application isn't impacted.
-      if (!StreamusFG.backgroundProperties.settings.get('openToSearch')) {
-        this._createVideoView();
-      }
+      this._createVideoView();
     },
 
     _createVideoView: function() {
       var videoView = new VideoView({
-          player: StreamusFG.backgroundProperties.player
-      });   
-  
+        player: StreamusFG.backgroundProperties.player
+      });
+
       this.show(videoView);
       this.listenTo(StreamusFG.channels.video.commands, 'hide:video', this._hideVideo);
-      
+
       if (StreamusFG.backgroundProperties.videoButton.get('enabled')) {
         this._showVideo({
           instant: true

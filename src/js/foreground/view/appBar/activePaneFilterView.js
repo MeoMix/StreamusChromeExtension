@@ -31,8 +31,8 @@
       'change:title': '_onChangeTitle',
       'change:isEnabled': '_onChangeIsEnabled'
     },
-    
-    onRender: function () {
+
+    onRender: function() {
       this._setState(this.model.get('isEnabled'));
     },
 
@@ -76,8 +76,8 @@
     _onChangeTitle: function(model, title) {
       this._setTitle(title);
     },
-    
-    _onChangeIsEnabled: function (model, isEnabled) {
+
+    _onChangeIsEnabled: function(model, isEnabled) {
       this._setState(isEnabled);
     },
 
@@ -109,7 +109,7 @@
         activePlaylist.set('active', false);
       }
     },
-    
+
     // Set the 'enabled' state of view based on its model.
     _setState: function(isEnabled) {
       this.$el.toggleClass('is-enabled', isEnabled);

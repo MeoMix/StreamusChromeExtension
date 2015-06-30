@@ -105,17 +105,17 @@
       this._setShowPlaylistsAreaButtonState(signedInUser);
     },
 
-    _onInputSearchInput: function () {
+    _onInputSearchInput: function() {
       // TODO: This is weird. Fix.
       StreamusFG.channels.search.commands.trigger('show:search');
       StreamusFG.channels.search.commands.trigger('search', {
         query: this.ui.searchInput.val()
       });
     },
-    
-    _onBlurSearchInput: function () {
+
+    _onBlurSearchInput: function() {
       var searchInputValue = this.ui.searchInput.val();
-      
+
       if (searchInputValue.trim().length === 0) {
         StreamusFG.channels.search.commands.trigger('hide:search');
       }
