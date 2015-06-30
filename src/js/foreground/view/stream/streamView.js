@@ -27,12 +27,12 @@
 
     ui: {
       emptyMessage: '[data-ui~=emptyMessage]',
-      showSearchLink: '[data-ui~=showSearchLink]',
+      focusSearchInputLink: '[data-ui~=focusSearchInputLink]',
       streamDetails: '[data-ui~=streamDetails]'
     },
 
     events: {
-      'click @ui.showSearchLink': '_onClickShowSearchLink'
+      'click @ui.focusSearchInputLink': '_onClickFocusSearchInputLink'
     },
 
     streamItemsEvents: {
@@ -67,8 +67,8 @@
       }));
     },
 
-    _onClickShowSearchLink: function() {
-      this._showSearch();
+    _onClickFocusSearchInputLink: function() {
+      StreamusFG.channels.search.commands.trigger('focus:searchInput');
     },
 
     _onStreamItemsAddCompleted: function(collection) {
@@ -89,10 +89,6 @@
     // Hide the empty message if there is anything in the collection
     _setState: function(collectionEmpty) {
       this.ui.emptyMessage.toggleClass('is-hidden', !collectionEmpty);
-    },
-
-    _showSearch: function() {
-      StreamusFG.channels.search.commands.trigger('show:search');
     },
 
     _updateStreamDetails: function(displayInfo) {

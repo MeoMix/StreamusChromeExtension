@@ -114,9 +114,6 @@
     <Content Include="src\js\foreground\view\leftPane\playlistItemView.js" />
     <Content Include="src\js\foreground\view\leftPane\signInView.js" />
     <Content Include="src\js\foreground\view\listItemButton\songOptionsButtonView.js" />
-    <Content Include="src\js\foreground\view\stream\timeLabelAreaView.js" />
-    <Content Include="src\js\foreground\view\stream\timeSliderView.js" />
-    <Content Include="src\js\foreground\view\stream\videoButtonView.js" />
     <Content Include="src\js\foreground\view\tooltip\tooltipRegion.js" />
     <Content Include="src\js\foreground\view\tooltip\tooltipView.js" />
     <Content Include="src\js\foreground\view\video\videoRegion.js" />
@@ -379,15 +376,8 @@
     <Content Include="src\js\foreground\view\dialog\browserSettingsDialogView.js" />
     <Content Include="src\js\foreground\view\selectionBar\selectionBarRegion.js" />
     <Content Include="src\js\foreground\view\selectionBar\selectionBarView.js" />
-    <Content Include="src\js\foreground\view\stream\activeStreamItemView.js" />
     <Content Include="src\js\foreground\view\stream\clearStreamButtonView.js" />
-    <Content Include="src\js\foreground\view\stream\nextButtonView.js" />
-    <Content Include="src\js\foreground\view\stream\playPauseButtonView.js" />
-    <Content Include="src\js\foreground\view\stream\previousButtonView.js" />
-    <Content Include="src\js\foreground\view\stream\radioButtonView.js" />
-    <Content Include="src\js\foreground\view\stream\repeatButtonView.js" />
     <Content Include="src\js\foreground\view\stream\saveStreamButtonView.js" />
-    <Content Include="src\js\foreground\view\stream\shuffleButtonView.js" />
     <Content Include="src\js\foreground\view\stream\streamItemsView.js" />
     <Content Include="src\js\foreground\view\search\searchRegion.js" />
     <Content Include="src\js\foreground\view\notification\notificationRegion.js" />
@@ -398,7 +388,6 @@
     <Content Include="src\js\foreground\view\dialog\linkUserIdDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\dialogRegion.js" />
     <Content Include="src\js\foreground\view\appBar\adminMenuAreaView.js" />
-    <Content Include="src\js\foreground\view\stream\streamRegion.js" />
     <Content Include="src\js\foreground\view\dialog\settingsView.js" />
     <Content Include="src\js\common\enum\dataSourceType.js" />
     <Content Include="src\js\background\enum\youTubePlayerState.js" />
@@ -496,7 +485,6 @@
     <Content Include="src\less\adminMenuArea.less" />
     <Content Include="src\less\boxShadow.less" />
     <Content Include="src\less\appBar.less" />
-    <Content Include="src\less\activeStreamItem.less" />
     <Content Include="src\less\flexRow.less" />
     <Content Include="src\less\activePaneFilter.less" />
     <None Include="src\less\foreground.less" />
@@ -533,15 +521,8 @@
     <Content Include="src\template\playlist\playlist.html" />
     <Content Include="src\template\leftPane\playlistItem.html" />
     <Content Include="src\template\selectionBar\selectionBar.html" />
-    <Content Include="src\template\stream\activeStreamItem.html" />
     <Content Include="src\template\stream\clearStreamButton.html" />
-    <Content Include="src\template\stream\nextButton.html" />
-    <Content Include="src\template\stream\playPauseButton.html" />
-    <Content Include="src\template\stream\previousButton.html" />
-    <Content Include="src\template\stream\radioButton.html" />
-    <Content Include="src\template\stream\repeatButton.html" />
     <Content Include="src\template\stream\saveStreamButton.html" />
-    <Content Include="src\template\stream\shuffleButton.html" />
     <Content Include="src\template\stream\streamItem.html" />
     <Content Include="src\template\dialog\settings.html" />
     <Content Include="src\template\leftPane\signIn.html" />
@@ -558,9 +539,6 @@
     <Content Include="src\js\test\test.js" />
     <Content Include="src\js\test\testUtility.js" />
     <Content Include="src\template\search\searchResults.html" />
-    <Content Include="src\template\stream\timeLabelArea.html" />
-    <Content Include="src\template\stream\timeSlider.html" />
-    <Content Include="src\template\stream\videoButton.html" />
     <Content Include="src\template\tooltip\tooltip.html" />
     <Content Include="src\test.html" />
     <Content Include="package.json" />

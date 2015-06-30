@@ -110,7 +110,7 @@
       this.player = options.player;
       this.settings = options.settings;
       this.analyticsManager = options.analyticsManager;
-      this.bindEntityEvents(this.player, this.playerEvents);
+      //this.bindEntityEvents(this.player, this.playerEvents);
 
       this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseDown', this._onScrollbarMouseDown);
       this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseUp', this._onScrollbarMouseUp);
@@ -132,7 +132,7 @@
     },
 
     onRender: function() {
-      this._checkPlayerLoading();
+      //this._checkPlayerLoading();
 
       StreamusFG.channels.foregroundArea.vent.trigger('rendered');
 

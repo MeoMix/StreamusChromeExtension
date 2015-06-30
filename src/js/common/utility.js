@@ -140,14 +140,14 @@
     }
     
     // If the element would be set to the top or left of the container, add some padding.
-    if (adjustedOffset <= padding) {
-      return padding;
-    }    
+    //if (adjustedOffset <= padding) {
+    //  return padding;
+    //}    
     
     // If the element would be set to the bottom or right of the container, add some padding.
-    if (adjustedOffset + elementLength >= containerLength - padding) {
-      return containerLength - padding - elementLength;
-    }
+    //if (adjustedOffset + elementLength >= containerLength - padding) {
+    //  return containerLength - padding - elementLength; 
+    //}
     
     return adjustedOffset;
   },
@@ -169,9 +169,10 @@
     } else if (overflow > 0) {
       // Move element from below target to above target.
       adjustedOffset -= flipInvertAmount;
-    }    
-    
-    return this.shiftOffset(adjustedOffset, elementLength, containerLength, 10);
+    }
+
+    return adjustedOffset;
+    //return this.shiftOffset(adjustedOffset, elementLength, containerLength, 10);
   },
 
   // Takes a given value and ensures that it falls within minimum/maximum values.

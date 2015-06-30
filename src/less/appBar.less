@@ -6,20 +6,6 @@
     margin-top: 4px;
 }
 
-/*.appBar-content {
-    display: flex;
-    align-items: center;
-}
-
-.appBar-content--left {
-    width: (@columnWidth--wide * 1%);
-}
-
-.appBar-content--right {
-    width: (@columnWidth--thin * 1%);
-    justify-content: flex-end;
-}*/
-
 .appBar-search {
     background-color: rgba(255,255,255,.15);
     border-radius: 2px;
@@ -32,4 +18,19 @@
 
 .appBar-searchIcon {
     padding: 0 8px;
+}
+
+.appBar-searchInput {
+    font: inherit;
+    font-size: 17px;
+    height: 36px;
+    padding: 8px 0 8px 0;
+    color: inherit;
+    background-color: transparent;
+    outline: none;
+    border: none;
+
+    &::-webkit-input-placeholder {
+      color: #fff;
+    }
 }

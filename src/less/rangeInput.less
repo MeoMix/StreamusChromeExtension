@@ -37,8 +37,8 @@
             }
         }
 
-        &:active::-webkit-slider-thumb,
-        &:hover::-webkit-slider-thumb {
+        &:active:not(.is-disabled)::-webkit-slider-thumb,
+        &:hover:not(.is-disabled)::-webkit-slider-thumb {
             transform: scale(1);
         }
     }

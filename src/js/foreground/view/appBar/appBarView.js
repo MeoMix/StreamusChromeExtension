@@ -41,6 +41,7 @@
 
     events: {
       'input @ui.searchInput': '_onInputSearchInput',
+      'blur @ui.searchInput': '_onBlurSearchInput',
       'click @ui.showPlaylistsAreaButton': '_onClickShowPlaylistsAreaButton',
       'click @ui.hidePlaylistsAreaButton': '_onClickHidePlaylistsAreaButton'
     },
@@ -66,6 +67,7 @@
       this.listenTo(StreamusFG.channels.playlistsArea.vent, 'showing', this._onPlaylistsAreaShowing);
       this.listenTo(StreamusFG.channels.search.vent, 'hiding', this._onSearchHiding);
       this.listenTo(StreamusFG.channels.search.vent, 'showing', this._onSearchShowing);
+      this.listenTo(StreamusFG.channels.search.commands, 'focus:searchInput', this._focusSearchInput);
     },
 
     onRender: function() {
@@ -103,19 +105,20 @@
       this._setShowPlaylistsAreaButtonState(signedInUser);
     },
 
-    //_onClickShowSearchButton: function() {
-    //  StreamusFG.channels.search.commands.trigger('show:search');
-    //  StreamusFG.channels.playlistsArea.commands.trigger('hide:playlistsArea');
-    //},
-
-    //_onClickHideSearchButton: function() {
-    //  StreamusFG.channels.search.commands.trigger('hide:search');
-    //},
-
-    _onInputSearchInput: function() {
+    _onInputSearchInput: function () {
+      // TODO: This is weird. Fix.
+      StreamusFG.channels.search.commands.trigger('show:search');
       StreamusFG.channels.search.commands.trigger('search', {
         query: this.ui.searchInput.val()
       });
+    },
+    
+    _onBlurSearchInput: function () {
+      var searchInputValue = this.ui.searchInput.val();
+      
+      if (searchInputValue.trim().length === 0) {
+        StreamusFG.channels.search.commands.trigger('hide:search');
+      }
     },
 
     _onClickShowPlaylistsAreaButton: function() {

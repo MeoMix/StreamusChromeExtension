@@ -8,7 +8,7 @@
   // A view which shows the title of the currently active pane and provides a drop-down menu for selecting another
   // pane to activate.
   var ActivePaneFilterView = Marionette.LayoutView.extend({
-    className: 'activePaneFilter contentBar-title u-clickable',
+    className: 'activePaneFilter contentBar-title',
     template: _.template(ActivePaneFilterTemplate),
 
     behaviors: {
@@ -19,7 +19,8 @@
     },
 
     ui: {
-      'title': '[data-ui~=title]'
+      'title': '[data-ui~=title]',
+      'filterIcon': '[data-ui~=filterIcon]'
     },
 
     events: {
@@ -27,7 +28,12 @@
     },
 
     modelEvents: {
-      'change:title': '_onChangeTitle'
+      'change:title': '_onChangeTitle',
+      'change:isEnabled': '_onChangeIsEnabled'
+    },
+    
+    onRender: function () {
+      this._setState(this.model.get('isEnabled'));
     },
 
     _onClick: function() {
@@ -70,6 +76,10 @@
     _onChangeTitle: function(model, title) {
       this._setTitle(title);
     },
+    
+    _onChangeIsEnabled: function (model, isEnabled) {
+      this._setState(isEnabled);
+    },
 
     // Activate the playlist corresponding to the given item's id. This will cause the corresponding
     // view to be shown.
@@ -98,6 +108,12 @@
       if (!_.isNull(activePlaylist)) {
         activePlaylist.set('active', false);
       }
+    },
+    
+    // Set the 'enabled' state of view based on its model.
+    _setState: function(isEnabled) {
+      this.$el.toggleClass('is-enabled', isEnabled);
+      this.ui.filterIcon.toggleClass('is-hidden', !isEnabled);
     }
   });
 
