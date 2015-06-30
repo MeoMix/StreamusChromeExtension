@@ -3,7 +3,7 @@
         "message": "Streamus"
     },
     "extensionDescription": {
-        "message": "Простично, стриймва музика."
+        "message": "Простичко, стриймва музика."
     },
     "toggleRadio": {
         "message": "Радио вкл./изкл."
@@ -317,7 +317,7 @@
         "description": "Свържи моят профил"
     },
     "googleSignInMessage": {
-        "message": "You're not signed into Chrome. Your playlists are only available on this computer."
+        "message": "Вие не сте влезнали с профил в Chrome. Вашите списъци ще са налични само на този компютър."
     },
     "remindGoogleSignIn": {
         "message": "Напомняне за влизане в Google"
@@ -332,7 +332,7 @@
         "message": "Отвори в таб"
     },
     "browserSettings": {
-        "message": "Настройки"
+        "message": "Настройки на сърфирането"
     },
     "contextMenus": {
         "message": "Десен бутон"
