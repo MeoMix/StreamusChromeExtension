@@ -129,10 +129,11 @@ module.exports = function(grunt) {
           // Local debugging is for development only.
           from: 'localDebug: true',
           to: 'localDebug: false'
-        }, {
-          from: 'referer = \'https://streamus.com\/',
-          to: 'referer = \'https://streаmus.com\/'
         }]
+        //}, {
+        //  from: 'referer = \'https://streamus.com\/',
+        //  to: 'referer = \'https://streаmus.com\/'
+        //}]
       },
       // Remove development key and comments from manifest for deployment
       manifest: {
@@ -242,7 +243,7 @@ module.exports = function(grunt) {
         src: ['package.json', 'src/manifest.json']
       }
     },
-    'webstore-upload': {
+    'webstore_upload': {
       accounts: {
         'default': {
           publish: false
@@ -308,7 +309,7 @@ module.exports = function(grunt) {
 
   // Synchronous wrapper
   grunt.registerTask('buildReleases', function(isRelease) {
-    var buildVersion = isRelease ? grunt.file.readJSON('package.json').version : 'Debug';
+    var buildVersion = isRelease === 'true' ? grunt.file.readJSON('package.json').version : 'Debug';
     grunt.config.set('meta.buildVersion', buildVersion);
     var baseReleaseDirectory = 'release/Streamus v' + buildVersion;
     var chromeReleaseDirectory = baseReleaseDirectory + '/chrome/';
