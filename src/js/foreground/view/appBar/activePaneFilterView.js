@@ -66,7 +66,7 @@
         simpleMenuItems: simpleMenuItems,
         fixedMenuItem: {
           active: _.isNull(activePlaylist),
-          text: chrome.i18n.getMessage('nowPlaying'),
+          text: chrome.i18n.getMessage('stream'),
           fixedPosition: FixedPosition.Top,
           onClick: this._onClickFixedMenuItem.bind(this)
         }

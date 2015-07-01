@@ -3,7 +3,7 @@
 
   var ActivePaneFilter = Backbone.Model.extend({
     defaults: {
-      title: chrome.i18n.getMessage('nowPlaying'),
+      title: chrome.i18n.getMessage('stream'),
       isEnabled: false,
       signInManager: null,
       activePlaylistManager: null
@@ -35,7 +35,7 @@
       var title;
 
       if (_.isNull(activePlaylist)) {
-        title = chrome.i18n.getMessage('nowPlaying');
+        title = chrome.i18n.getMessage('stream');
       } else {
         title = activePlaylist.get('title');
       }

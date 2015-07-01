@@ -7,6 +7,7 @@
   var YouTubeV3API = require('background/model/youTubeV3API');
   var ListItemType = require('common/enum/listItemType');
   var DataSource = require('background/model/dataSource');
+  var Utility = require('common/utility');
 
   var Playlists = Backbone.Collection.extend({
     model: Playlist,
@@ -233,9 +234,19 @@
         }
       });
 
-      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
-        title: chrome.i18n.getMessage('playlistCreated'),
-        message: addedPlaylist.get('title')
+      var playlistTitle = Utility.truncateString(addedPlaylist.get('title'), 30);
+      var itemCount = addedPlaylist.get('items').length;
+      var notificationMessage;
+
+      if (itemCount > 0) {
+        var messageKey = itemCount === 1 ? 'playlistCreatedWithSong' : 'playlistCreatedWithSongs';
+        notificationMessage = chrome.i18n.getMessage(messageKey, [playlistTitle, itemCount]);
+      } else {
+        notificationMessage = chrome.i18n.getMessage('playlistCreated', [playlistTitle]);
+      }
+
+      StreamusBG.channels.notification.commands.trigger('show:notification', {
+        message: notificationMessage
       });
 
       this._setCanDelete(this.length > 1);

@@ -21,6 +21,7 @@
 @import "radio";
 @import "rangeInput";
 @import "scrollbar";
+@import "searchInputArea";
 @import "selectionBar";
 @import "sortable";
 @import "spinner";
@@ -30,10 +31,11 @@
 @import "textInput";
 @import "timeArea";
 @import "tooltip";
+@import "video";
 @import "volumeArea";
 
 // Force UI to full size if Streamus has been loaded into a tab by detecting min-width/min-height greater than maximum extension width/height.
-@media (min-width:650px), (min-height:490px) {
+@media (min-width:810px), (min-height:610px) {
     html,
     body {
         width: 100% !important;
@@ -43,8 +45,10 @@
 
 .foreground {
     // Default dimensions of Streamus as a browser extension
-    width: 640px;
-    height: 480px;
+    /*width: 640px;
+    height: 480px;*/
+    width: 800px;
+    height: 600px;
     margin: 0;
     // Ensure that elements which are transformed outside the viewport don't cause overflow.
     overflow: hidden;
@@ -57,4 +61,10 @@
 
 .foregroundArea.is-clickingScrollbar {
     pointer-events: none;
+}
+
+.playlistsArea,
+.searchArea {
+    top: 56px !important;
+    height: calc(100% - 56px) !important;
 }

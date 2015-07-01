@@ -50,6 +50,11 @@
           selector: '[data-region=appBar]',
           regionClass: AppBarRegion
         },
+        // TODO: This needs to come before activePane otherwise measurements are incorrect for scrollable behavior.
+        streamControlBar: {
+          selector: '[data-region=streamControlBar]',
+          regionClass: StreamControlBarRegion
+        },
         dialog: {
           selector: '[data-region=dialog]',
           regionClass: DialogRegion,
@@ -89,10 +94,6 @@
         tooltip: {
           selector: '[data-region=tooltip]',
           regionClass: TooltipRegion
-        },
-        streamControlBar: {
-          selector: '[data-region=streamControlBar]',
-          regionClass: StreamControlBarRegion
         }
       };
     },
@@ -120,6 +121,7 @@
       // Provide a throttled version of _onWindowResize because resize events can fire at a high rate.
       // https://developer.mozilla.org/en-US/docs/Web/Events/resize
       this._onWindowResize = _.throttleFramerate(requestAnimationFrame, this._onWindowResize.bind(this));
+      this._onWindowMouseMove = _.throttleFramerate(requestAnimationFrame, this._onWindowMouseMove.bind(this));
       this._onWindowError = this._onWindowError.bind(this);
       this._onKeyDown = this._onKeyDown.bind(this);
 
@@ -127,6 +129,7 @@
       window.addEventListener('resize', this._onWindowResize);
       window.addEventListener('error', this._onWindowError);
       window.addEventListener('keydown', this._onKeyDown);
+      window.addEventListener('mousemove', this._onWindowMouseMove);
 
       this.analyticsManager.sendPageView('/foreground.html');
     },
@@ -166,6 +169,10 @@
 
     _onWindowResize: function() {
       StreamusFG.channels.window.vent.trigger('resize');
+    },
+
+    _onWindowMouseMove: function(event) {
+      StreamusFG.channels.window.vent.trigger('mouseMove', event);
     },
 
     // Destroy the foreground to unbind event listeners from background models and collections.

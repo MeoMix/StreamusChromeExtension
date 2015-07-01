@@ -86,6 +86,7 @@
     _destroyBuffer: function() {
       var sourceBufferWrapper = this.get('sourceBufferWrapper');
 
+      // TODO: This is throwing an error sometimes if I spam click.
       if (_.isNull(sourceBufferWrapper)) {
         console.error('sourceBuffer already destroyed');
       } else {

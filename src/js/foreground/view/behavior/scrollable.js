@@ -61,6 +61,11 @@
     onUpdateScrollbar: function() {
       this.currentListScrollTop = this.el.scrollTop;
       this._update();
+
+      // TODO: ContentHeight is incorrect after removing items from a collection which is scrolled down
+      setTimeout(function() {
+        this._update();
+      }.bind(this), 100);
     },
 
     // Sorting a view can trigger a massive number of add/remove children.

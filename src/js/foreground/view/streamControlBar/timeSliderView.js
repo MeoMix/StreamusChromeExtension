@@ -122,6 +122,7 @@
 
       var totalTime = this._getTotalTime(this.player.get('loadedSong'));
       var progressPercent = this._getProgressPercent(currentTime, totalTime);
+      // TODO: The thumb for this gets slightly maligned at the end of the song.
       this.ui.timeProgress.css('transform', 'scaleX(' + progressPercent / 100 + ')');
     },
 

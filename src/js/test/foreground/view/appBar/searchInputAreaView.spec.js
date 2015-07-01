@@ -1,15 +1,15 @@
 ﻿define(function(require) {
   'use strict';
 
-  var AppBarView = require('foreground/view/appBar/appBarView');
-  var SignInManager = require('background/model/signInManager');
+  var SearchInputAreaView = require('foreground/view/appBar/searchInputAreaView');
+  var Search = require('background/model/search');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
-  describe('AppBarView', function() {
+  describe('SearchAreaView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
-      this.view = new AppBarView({
-        signInManager: new SignInManager()
+      this.view = new SearchInputAreaView({
+        search: new Search()
       });
     });
 

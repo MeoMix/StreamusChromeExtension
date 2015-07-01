@@ -260,9 +260,6 @@
     "pleaseWait": {
         "message": "Please wait"
     },
-    "openToSearch": {
-        "message": "Open to search"
-    },
     "anUpdateIsAvailable": {
         "message": "An update is available"
     },
@@ -445,7 +442,34 @@
         "message": "Playlist loaded"
     },
     "playlistCreated": {
-        "message": "Playlist created"
+        "message": "Playlist $playlistTitle$ created",
+        "placeholders": {
+            "playlistTitle": {
+                "content": "$1"
+            }
+        }
+    },
+    "playlistCreatedWithSong": {
+        "message": "Playlist $playlistTitle$ created with $count$ song",
+        "placeholders": {
+            "playlistTitle": {
+                "content": "$1"
+            },
+            "count": { 
+                "content": "$2"
+            }
+        }
+    },
+    "playlistCreatedWithSongs": {
+        "message": "Playlist $playlistTitle$ created with $count$ songs",
+        "placeholders": {
+            "playlistTitle": {
+                "content": "$1"
+            },
+            "count": { 
+                "content": "$2"
+            }
+        }
     },
     "extensionConflict": {
         "message": "Another extension, or other issue, has forced YouTube to use Flash.$lineBreak$ Streamus will not work properly until that extension is disabled, or the issue is resolved, and Streamus is restarted.",
@@ -488,6 +512,17 @@
         "message": "$songTitle$ saved to $playlistTitle$",
         "placeholders": {
             "songTitle": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "songsSavedToPlaylist": {
+        "message": "$count$ songs saved to $playlistTitle$",
+        "placeholders": {
+            "count": {
                 "content": "$1"
             },
             "playlistTitle": {
@@ -552,7 +587,23 @@
     "videoOff": {
         "message": "Video off"
     },
-    "deleteAll": { 
-        "message":  "Delete all"
+    "deleteAll": {
+        "message": "Delete all"
+    },
+    "songsAddedToStream": {
+        "message": "$count$ songs added to stream",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            }
+        }
+    },
+    "songAddedToStream":  {
+        "message": "$songTitle$ added to stream",
+        "placeholders": {
+            "songTitle": {
+                "content": "$1"
+            }
+        }
     }
 }

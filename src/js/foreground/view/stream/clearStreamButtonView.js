@@ -11,7 +11,7 @@
     className: 'button button--flat',
     template: _.template(ClearStreamButtonTemplate),
     templateHelpers: {
-      deleteAllMessage: chrome.i18n.getMessage('deleteAll')
+      clearStreamMessage: chrome.i18n.getMessage('clearStream')
     },
 
     attributes: {

@@ -154,6 +154,9 @@ define(function(require) {
         currentTime: 0,
         state: PlayerState.Unstarted
       });
+
+      // TODO: This might not be necessary, but might as well since we're stopping.
+      this._resetMetaData();
     },
 
     pause: function() {

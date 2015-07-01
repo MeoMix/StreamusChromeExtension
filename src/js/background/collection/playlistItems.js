@@ -6,6 +6,7 @@
   var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
   var PlaylistItem = require('background/model/playlistItem');
   var Songs = require('background/collection/songs');
+  var Utility = require('common/utility');
 
   var PlaylistItems = Backbone.Collection.extend({
     model: PlaylistItem,
@@ -45,7 +46,21 @@
       // Emit a custom event signaling all items have been added.
       // Useful for not responding to add until all items have been added.
       if (itemsToCreate.length > 0) {
-        this.trigger('add:completed', this);
+        this.trigger('add:completed', this, itemsToCreate);
+
+        // TODO: Do I care about saving properly before notifying?
+        // TODO: Need to be able to read the playlist title instead of just using 'playlist'
+        var notificationMessage;
+        if (itemsToCreate.length === 1) {
+          var songTitle = Utility.truncateString(itemsToCreate[0].get('title'), 40);
+          notificationMessage = chrome.i18n.getMessage('songSavedToPlaylist', [songTitle, 'playlist']);
+        } else {
+          notificationMessage = chrome.i18n.getMessage('songsSavedToPlaylist', [itemsToCreate.length, 'playlist']);
+        }
+
+        StreamusBG.channels.notification.commands.trigger('show:notification', {
+          message: notificationMessage
+        });
       }
 
       // Default to Backbone if only creating 1 item.

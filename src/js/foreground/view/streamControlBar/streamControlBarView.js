@@ -9,7 +9,6 @@
   var RadioButtonView = require('foreground/view/streamControlBar/radioButtonView');
   var RepeatButtonView = require('foreground/view/streamControlBar/repeatButtonView');
   var ShuffleButtonView = require('foreground/view/streamControlBar/shuffleButtonView');
-  var VideoButtonView = require('foreground/view/streamControlBar/videoButtonView');
   var NextButtonView = require('foreground/view/streamControlBar/nextButtonView');
   var PlayPauseButtonView = require('foreground/view/streamControlBar/playPauseButtonView');
   var PreviousButtonView = require('foreground/view/streamControlBar/previousButtonView');
@@ -27,7 +26,6 @@
       radioButton: '[data-region=radioButton]',
       repeatButton: '[data-region=repeatButton]',
       shuffleButton: '[data-region=shuffleButton]',
-      videoButton: '[data-region=videoButton]',
       previousButton: '[data-region=previousButton]',
       playPauseButton: '[data-region=playPauseButton]',
       nextButton: '[data-region=nextButton]'
@@ -96,10 +94,6 @@
 
       this.showChildView('radioButton', new RadioButtonView({
         model: StreamusFG.backgroundProperties.radioButton
-      }));
-
-      this.showChildView('videoButton', new VideoButtonView({
-        model: StreamusFG.backgroundProperties.videoButton
       }));
 
       this.showChildView('previousButton', new PreviousButtonView({
