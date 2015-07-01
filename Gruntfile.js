@@ -129,6 +129,9 @@ module.exports = function(grunt) {
           // Local debugging is for development only.
           from: 'localDebug: true',
           to: 'localDebug: false'
+        }, {
+          from: 'referer = \'https://streamus.com\/',
+          to: 'referer = \'https://streаmus.com\/'
         }]
       },
       // Remove development key and comments from manifest for deployment
