@@ -1,7 +1,12 @@
 ﻿@transition-easeOutSine: cubic-bezier(.39,.575,.565,1);
 
+@transition-duration--veryFast: .1s;
 @transition-duration--fast: .2s;
 @transition-duration--slow: .28s;
+
+.transition--veryFast {
+    transition-duration: @transition-duration--veryFast;
+}
 
 .transition--fast {
     transition-duration: @transition-duration--fast;

@@ -5,7 +5,6 @@
   var TooltipView = require('foreground/view/tooltip/tooltipView');
 
   describe('TooltipRegion', function() {
-
     beforeEach(function() {
       this.tooltipRegion = new TooltipRegion({
         el: document.createDocumentFragment()

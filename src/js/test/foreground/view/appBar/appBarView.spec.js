@@ -2,7 +2,6 @@
   'use strict';
 
   var AppBarView = require('foreground/view/appBar/appBarView');
-  var Search = require('background/model/search');
   var SignInManager = require('background/model/signInManager');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
@@ -10,8 +9,7 @@
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
       this.view = new AppBarView({
-        signInManager: new SignInManager(),
-        search: new Search()
+        signInManager: new SignInManager()
       });
     });
 

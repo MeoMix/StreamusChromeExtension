@@ -70,7 +70,7 @@ define(function(require) {
       this.listenTo(this.get('youTubePlayer'), 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
       this.listenTo(StreamusBG.channels.player.commands, 'playOnActivate', this._playOnActivate);
 
-      //window.addEventListener('message', this._onWindowMessage.bind(this));
+      window.addEventListener('message', this._onWindowMessage.bind(this));
       chrome.runtime.onConnect.addListener(this._onChromeRuntimeConnect.bind(this));
       chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
 
@@ -154,6 +154,9 @@ define(function(require) {
         currentTime: 0,
         state: PlayerState.Unstarted
       });
+
+      // TODO: This might not be necessary, but might as well since we're stopping.
+      this._resetMetaData();
     },
 
     pause: function() {

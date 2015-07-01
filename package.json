@@ -25,7 +25,7 @@
     "grunt-text-replace": "^0.4.0",
     "grunt-usemin": "^3.0.0",
     "grunt-version": "^1.0.0",
-    "grunt-webstore-upload": "^0.8.3",
+    "grunt-webstore-upload": "https://github.com/MeoMix/grunt-webstore-upload/tarball/master",
     "load-grunt-tasks": "^3.1.0",
     "lodash": "^3.3.0"
   },

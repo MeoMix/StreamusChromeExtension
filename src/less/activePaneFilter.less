@@ -1,0 +1,21 @@
+﻿.activePaneFilter {
+    height: 48px;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding: 8px;
+    margin-right: 16px;
+    cursor: default;
+
+    &.is-enabled {
+      cursor: pointer;
+    }
+}
+
+.activePaneFilter-filterIcon {
+    @triangleSize: 5px;
+	border-left: @triangleSize solid transparent;
+	border-right: @triangleSize solid transparent;
+	border-top: @triangleSize solid;
+    margin-left: 6px;
+}

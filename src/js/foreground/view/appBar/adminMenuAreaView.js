@@ -83,7 +83,7 @@
     },
 
     _onClickRestart: function() {
-      StreamusFG.backgroundProperties.chrome.runtime.reload();
+      chrome.runtime.reload();
     },
 
     _onElementDrag: function() {

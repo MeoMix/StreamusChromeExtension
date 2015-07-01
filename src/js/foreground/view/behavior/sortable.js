@@ -71,7 +71,7 @@
     _change: function(event, ui) {
       var isPlaceholderAdjacent = false;
       // When dragging an element up/down its own list -- hide the sortable helper around the element being dragged.
-      var draggedItems = this.view.collection.selected();
+      var draggedItems = this.view.collection.getSelectedModels();
       // Only disallow moving to adjacent location if dragging one item because that'd be a no-op.
       if (draggedItems.length === 1) {
         var draggedModelId = draggedItems[0].get('id');
@@ -97,7 +97,7 @@
       });
 
       // Set helper text here, not in helper, because dragStart may select a search result.
-      var selectedItems = this.view.collection.selected();
+      var selectedItems = this.view.collection.getSelectedModels();
       ui.helper.text(selectedItems.length);
 
       var draggedSongs = _.map(selectedItems, function(item) {
@@ -128,7 +128,7 @@
       if (allowMove) {
         this.view.once('GetMinRenderIndexResponse', function(response) {
           var dropIndex = this.ui.listItems.data('placeholderIndex') + response.minRenderIndex;
-          this._moveItems(this.view.collection.selected(), dropIndex, isParentNodeLost);
+          this._moveItems(this.view.collection.getSelectedModels(), dropIndex, isParentNodeLost);
           this._cleanup();
         }.bind(this));
         this.view.triggerMethod('GetMinRenderIndex');

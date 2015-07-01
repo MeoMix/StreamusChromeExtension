@@ -1,15 +1,15 @@
 ﻿define(function(require) {
   'use strict';
 
+  var ActivePaneRegion = require('foreground/view/activePane/activePaneRegion');
   var AppBarRegion = require('foreground/view/appBar/appBarRegion');
   var SimpleMenuRegion = require('foreground/view/simpleMenu/simpleMenuRegion');
+  var StreamControlBarRegion = require('foreground/view/streamControlBar/streamControlBarRegion');
   var DialogRegion = require('foreground/view/dialog/dialogRegion');
   var SpinnerView = require('foreground/view/element/spinnerView');
-  var LeftPaneRegion = require('foreground/view/leftPane/leftPaneRegion');
   var NotificationRegion = require('foreground/view/notification/notificationRegion');
   var PlaylistsAreaRegion = require('foreground/view/playlist/playlistsAreaRegion');
   var SearchRegion = require('foreground/view/search/searchRegion');
-  var StreamRegion = require('foreground/view/stream/streamRegion');
   var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
   var VideoRegion = require('foreground/view/video/videoRegion');
   var TooltipRegion = require('foreground/view/tooltip/tooltipRegion');
@@ -50,6 +50,11 @@
           selector: '[data-region=appBar]',
           regionClass: AppBarRegion
         },
+        // TODO: This needs to come before activePane otherwise measurements are incorrect for scrollable behavior.
+        streamControlBar: {
+          selector: '[data-region=streamControlBar]',
+          regionClass: StreamControlBarRegion
+        },
         dialog: {
           selector: '[data-region=dialog]',
           regionClass: DialogRegion,
@@ -64,11 +69,6 @@
           selector: '[data-region=simpleMenu]',
           regionClass: SimpleMenuRegion
         },
-        leftPane: {
-          selector: '[data-region=leftPane]',
-          regionClass: LeftPaneRegion,
-          settings: StreamusFG.backgroundProperties.settings
-        },
         search: {
           selector: '[data-region=search]',
           regionClass: SearchRegion,
@@ -79,9 +79,9 @@
           regionClass: PlaylistsAreaRegion,
           signInManager: StreamusFG.backgroundProperties.signInManager
         },
-        stream: {
-          selector: '[data-region=stream]',
-          regionClass: StreamRegion
+        activePane: {
+          selector: '[data-region=activePane]',
+          regionClass: ActivePaneRegion
         },
         selectionBar: {
           selector: '[data-region=selectionBar]',
@@ -121,6 +121,7 @@
       // Provide a throttled version of _onWindowResize because resize events can fire at a high rate.
       // https://developer.mozilla.org/en-US/docs/Web/Events/resize
       this._onWindowResize = _.throttleFramerate(requestAnimationFrame, this._onWindowResize.bind(this));
+      this._onWindowMouseMove = _.throttleFramerate(requestAnimationFrame, this._onWindowMouseMove.bind(this));
       this._onWindowError = this._onWindowError.bind(this);
       this._onKeyDown = this._onKeyDown.bind(this);
 
@@ -128,6 +129,7 @@
       window.addEventListener('resize', this._onWindowResize);
       window.addEventListener('error', this._onWindowError);
       window.addEventListener('keydown', this._onKeyDown);
+      window.addEventListener('mousemove', this._onWindowMouseMove);
 
       this.analyticsManager.sendPageView('/foreground.html');
     },
@@ -167,6 +169,10 @@
 
     _onWindowResize: function() {
       StreamusFG.channels.window.vent.trigger('resize');
+    },
+
+    _onWindowMouseMove: function(event) {
+      StreamusFG.channels.window.vent.trigger('mouseMove', event);
     },
 
     // Destroy the foreground to unbind event listeners from background models and collections.

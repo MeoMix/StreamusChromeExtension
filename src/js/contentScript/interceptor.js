@@ -5,6 +5,7 @@
   // Store information parsed out of YouTube's get_video_info request.
   // This info will be used to determine the active video's needed codecs.
   var videoInfoList = [];
+  var messagesSentCount = 0;
 
   // Intercept XMLHttpRequest for YouTube's iframe and send a copy of video data outside the iframe.
   // This allows for the video to be re-rendered on another page as efficiently as possible.
@@ -16,6 +17,7 @@
         var isVideoInfo = responseURL.indexOf('get_video_info') !== -1;
 
         if (isVideoInfo && responseType === '') {
+          messagesSentCount = 0;
           var decodedResponse = decodeURIComponent(this.response);
           // The 'adaptive-fmts' parameter stores the video information needed.
           var encodedAdaptiveFormats = (decodedResponse.split('adaptive_fmts=')[1] || '').replace(/\+/g, ' ');
@@ -29,6 +31,7 @@
               var parameterKeyValue = parameterPair.split('=');
               var key = decodeURIComponent(parameterKeyValue[0]);
               var value = decodeURIComponent(parameterKeyValue[1]);
+
               decodedAdaptiveFormat[key] = value;
             });
 
@@ -52,15 +55,22 @@
             })[0];
 
             if (videoInfo) {
-              // Notify Streamus of video information data necessary to render the video on another page.
-              // The type of video (including codec) as well as the ArrayBuffer of video data.
-              var message = {
-                buffer: this.response.slice(0),
-                bufferType: videoInfo.type
-              };
+              var buffer = this.response.slice(0);
 
-              // Be sure to mark the buffer as transferable as it can be a large amount of data.
-              window.top.postMessage(message, origin, [message.buffer]);
+              // The first buffer can be bad data. Detect by its abnormally small byteLength.
+              if (buffer.byteLength < 5000 && messagesSentCount === 0) {
+              } else {
+                // Notify Streamus of video information data necessary to render the video on another page.
+                // The type of video (including codec) as well as the ArrayBuffer of video data.
+                var message = {
+                  buffer: this.response.slice(0),
+                  bufferType: videoInfo.type
+                };
+
+                // Be sure to mark the buffer as transferable as it can be a large amount of data.
+                window.top.postMessage(message, origin, [message.buffer]);
+                messagesSentCount++;
+              }
             }
           }
         }

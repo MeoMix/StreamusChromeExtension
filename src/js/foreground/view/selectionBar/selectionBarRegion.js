@@ -13,7 +13,8 @@
       var selectionBar = new SelectionBar({
         streamItems: StreamusFG.backgroundProperties.stream.get('items'),
         searchResults: StreamusFG.backgroundProperties.search.get('results'),
-        signInManager: StreamusFG.backgroundProperties.signInManager
+        signInManager: StreamusFG.backgroundProperties.signInManager,
+        activePlaylistManager: StreamusFG.backgroundProperties.activePlaylistManager
       });
 
       this.show(new SelectionBarView({

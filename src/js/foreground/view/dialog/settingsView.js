@@ -27,7 +27,6 @@
 
     regions: {
       songQuality: '[data-region=songQuality]',
-      openToSearch: '[data-region=openToSearch]',
       openInTab: '[data-region=openInTab]',
       remindClearStream: '[data-region=remindClearStream]',
       remindDeletePlaylist: '[data-region=remindDeletePlaylist]',
@@ -64,7 +63,6 @@
         options: _.values(SongQuality)
       });
 
-      this._showSwitch('openToSearch');
       this._showSwitch('openInTab');
       this._showCheckbox('remindClearStream');
       this._showCheckbox('remindDeletePlaylist');

@@ -1,12 +1,10 @@
-﻿<div data-region='activeStreamItem' class='flexColumn-bugFix'></div>
-
-<div class='instruction-wrapper'>
+﻿<div class='instruction-wrapper'>
   <div data-ui='emptyMessage' class='instruction'>
     <div class='instruction-header'>
       <%= emptyMessage %>
     </div>
     <div class='instruction-content'>
-      <%= whyNotAddASongFromAPlaylistOrMessage %> <span data-ui='showSearchLink' class='u-link u-lowercase'><%= searchForSongsMessage %></span>?
+      <%= whyNotAddASongFromAPlaylistOrMessage %> <span data-ui='focusSearchInputLink' class='u-link u-lowercase'><%= searchForSongsMessage %></span>?
     </div>
   </div>
 
@@ -14,12 +12,9 @@
 </div>
 
 <div class='contentBar contentBar--bottom u-bordered--top flexColumn-bugFix'>
-  <div class='flexRow'>
-    <div data-region='shuffleButton'></div>
-    <div data-region='repeatButton'></div>
-    <div data-region='radioButton'></div>
+  <div class='contentBar--bottom-text--left flexRow'>
+    <div data-ui='streamDetails textTooltipable' class='u-lowercase u-textOverflowEllipsis text u-textSecondary'></div>
   </div>
-
   <div data-region='saveStreamButton'></div>
   <div data-region='clearStreamButton'></div>
 </div>

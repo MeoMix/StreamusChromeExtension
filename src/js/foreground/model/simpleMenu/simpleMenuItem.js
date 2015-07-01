@@ -1,5 +1,7 @@
-﻿define(function() {
+﻿define(function(require) {
   'use strict';
+
+  var FixedPosition = require('foreground/enum/fixedPosition');
 
   var SimpleMenuItem = Backbone.Model.extend({
     defaults: {
@@ -7,7 +9,7 @@
       value: null,
       active: false,
       disabled: false,
-      fixed: false,
+      fixedPosition: FixedPosition.None,
       onClick: _.noop
     }
   });

@@ -6,7 +6,9 @@
   var CollectionSequence = require('background/mixin/collectionSequence');
   var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
   var StreamItem = require('background/model/streamItem');
+  var Songs = require('background/collection/songs');
   var YouTubeV3API = require('background/model/youTubeV3API');
+  var Utility = require('common/utility');
 
   var StreamItems = Backbone.Collection.extend({
     model: StreamItem,
@@ -32,8 +34,11 @@
       this.localStorage._clear();
     },
 
+    // TODO: Maybe these should return null instead for consistency?
     getActiveItem: function() {
-      return this.findWhere({active: true});
+      return this.findWhere({
+        active: true
+      });
     },
 
     getActiveSongId: function() {
@@ -47,16 +52,19 @@
       return activeSongId;
     },
 
-    notPlayedRecently: function() {
-      return this.where({playedRecently: false});
-    },
-
-    getBySong: function(song) {
-      return this.find(function(streamItem) {
-        return streamItem.get('song').get('id') === song.get('id');
+    getNotPlayedRecently: function() {
+      return this.where({
+        playedRecently: false
       });
     },
 
+    getBySongId: function(songId) {
+      return this.find(function(streamItem) {
+        return streamItem.get('song').get('id') === songId;
+      });
+    },
+
+    // Show a desktop notification with details regarding the currently active song.
     showActiveNotification: function() {
       var activeItem = this.getActiveItem();
       var activeSongId = activeItem.get('song').get('id');
@@ -67,19 +75,23 @@
       });
     },
 
+    // Return a random song from the pool of related songs.
+    // Used for seeding the upcoming songs in radio mode.
     getRandomRelatedSong: function() {
       var relatedSongs = this._getRelatedSongs();
-      var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)] || null;
 
-      if (_.isNull(relatedSong)) {
-        throw new Error('No related song found:' + JSON.stringify(this));
+      if (relatedSongs.length === 0) {
+        throw new Error('No related songs found:' + JSON.stringify(this));
       }
 
+      var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)];
       return relatedSong;
     },
 
+    // Convert a single song, array of songs, or collection of songs to StreamItems
+    // and attempt to add them to the collection. Fail to add if non-unique.
+    // Immediately save the songs as they're only stored in localStorage.
     addSongs: function(songs, options) {
-      /* jshint ignore:start */
       options = _.isUndefined(options) ? {} : options;
       songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
@@ -91,57 +103,77 @@
 
       var createdStreamItems = [];
       _.each(songs, function(song) {
-        var streamItem = new StreamItem({
-          song: song,
-          title: song.get('title'),
-          sequence: this.getSequenceFromIndex(index)
-        });
-
-        // Provide the index that the item will be placed at because allowing re-sorting the collection is expensive.
-        this.add(streamItem, {
-          at: index
-        });
+        var addedStreamItem = this._tryAddSongAtIndex(song, index);
 
         // If the item was added successfully to the collection (not duplicate) then allow for it to be created.
-        if (!_.isUndefined(streamItem.collection)) {
-          streamItem.save();
-          createdStreamItems.push(streamItem);
+        if (!_.isNull(addedStreamItem)) {
+          addedStreamItem.save();
+          createdStreamItems.push(addedStreamItem);
           index++;
         }
       }, this);
 
+      // TODO: Presumably not needed with BB 1.2
       if (createdStreamItems.length > 0) {
         // Emit a custom event signaling items have been added.
         // Useful for not responding to add until all items have been added.
         this.trigger('add:completed', this);
+        this._showCreatedNotification(createdStreamItems);
       }
 
       if (options.playOnAdd || options.markFirstActive) {
         if (createdStreamItems.length > 0) {
-          createdStreamItems[0].save({active: true});
+          createdStreamItems[0].save({
+            active: true
+          });
         } else {
-          var songToActivate = this.getBySong(songs[0]);
-
-          if (_.isUndefined(songToActivate)) {
-            throw new Error('songToActivate undefined:' + songs.length + ' ' + JSON.stringify(songs[0]));
-          }
-
-          if (songToActivate.get('active')) {
-            songToActivate.trigger('change:active', songToActivate, true);
-          } else {
-            songToActivate.save({active: true});
-          }
+          this._activateBySongId(songs[0].get('id'));
         }
       }
 
       return createdStreamItems;
-      /* jshint ignore:end */
+    },
+
+    getDisplayInfo: function() {
+      var songs = new Songs(this.pluck('song'));
+      var displayInfo = songs.getDisplayInfo();
+      return displayInfo;
+    },
+
+    _showCreatedNotification: function(createdStreamItems) {
+      var notificationMessage;
+      if (createdStreamItems.length === 1) {
+        var songTitle = Utility.truncateString(createdStreamItems[0].get('title'), 40);
+        notificationMessage = chrome.i18n.getMessage('songAddedToStream', [songTitle]);
+      } else {
+        notificationMessage = chrome.i18n.getMessage('songsAddedToStream', [createdStreamItems.length]);
+      }
+
+      StreamusBG.channels.notification.commands.trigger('show:notification', {
+        message: notificationMessage
+      });
+    },
+
+    // Find a model by its song's id and mark it active.
+    // If it is already active, re-trigger a change:active to ensure program state updates.
+    _activateBySongId: function(songId) {
+      var streamItemToActivate = this.getBySongId(songId);
+
+      if (streamItemToActivate.get('active')) {
+        streamItemToActivate.trigger('change:active', streamItemToActivate, true);
+      } else {
+        streamItemToActivate.save({
+          active: true
+        });
+      }
     },
 
     _onAdd: function(model) {
       // Ensure a streamItem is always active
       if (_.isUndefined(this.getActiveItem())) {
-        model.save({active: true});
+        model.save({
+          active: true
+        });
       }
     },
 
@@ -185,6 +217,20 @@
       }
     },
 
+    _onChromeCommandsCommand: function(command) {
+      // Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
+      // jscs:disable maximumLineLength
+      var commands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl, ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
+      // jscs:enable maximumLineLength
+
+      if (_.contains(commands, command)) {
+        this._handleChromeCommand(command);
+      }
+    },
+
+    // Recursively iterate over a list of titles and add corresponding songs to the collection.
+    // Do this recursively as to not flood the network with requests and to preserve the order
+    // of songs added with respect to the order of the titles in the list.
     _addByTitleList: function(playOnAdd, titleList) {
       if (titleList.length > 0) {
         var title = titleList.shift();
@@ -200,6 +246,8 @@
       }
     },
 
+    // Search Youtube for a song by its title.
+    // Add the first result found to the collection.
     _searchAndAddByTitle: function(options) {
       YouTubeV3API.getSongByTitle({
         title: options.title,
@@ -217,11 +265,14 @@
       });
     },
 
+    // Mark all models inactive except for an optionally excluded item.
     _deactivateAllExcept: function(changedStreamItem) {
       this.each(function(streamItem) {
         // Be sure to check if it is active before saving to avoid hammering localStorage.
         if (streamItem !== changedStreamItem && streamItem.get('active')) {
-          streamItem.save({active: false});
+          streamItem.save({
+            active: false
+          });
         }
       });
     },
@@ -235,78 +286,101 @@
       }));
 
       // Don't add any songs that are already in the stream.
-      relatedSongs = _.filter(relatedSongs, function(relatedSong) {
-        var alreadyExistingItem = this.find(function(streamItem) {
-          var sameSongId = streamItem.get('song').get('id') === relatedSong.get('id');
-          var sameCleanTitle = streamItem.get('song').get('cleanTitle') === relatedSong.get('cleanTitle');
+      relatedSongs = _.reject(relatedSongs, this._hasSong, this);
 
-          return sameSongId || sameCleanTitle;
-        });
-
-        return _.isUndefined(alreadyExistingItem);
-      }, this);
-
-      // Try to filter out 'playlist' songs, but if they all get filtered out then back out of this assumption.
-      var tempFilteredRelatedSongs = _.filter(relatedSongs, function(relatedSong) {
-        // assuming things >8m are playlists.
-        var isJustOneSong = relatedSong.get('duration') < 480;
-        var lowerCaseSongTitle = relatedSong.get('title').toLowerCase();
-        var isNotLive = lowerCaseSongTitle.indexOf('live') === -1;
-        var isNotParody = lowerCaseSongTitle.indexOf('parody') === -1;
-
-        return isJustOneSong && isNotLive && isNotParody;
+      // Filter non-desireable songs based on set of rules
+      var desireableRelatedSongs = _.filter(relatedSongs, function(relatedSong) {
+        return relatedSong.isDesireableSong();
       });
 
-      if (tempFilteredRelatedSongs.length !== 0) {
-        relatedSongs = tempFilteredRelatedSongs;
+      // Don't filter out non-desireable songs if it would result in nothing to play.
+      if (desireableRelatedSongs.length > 0) {
+        relatedSongs = desireableRelatedSongs;
       }
 
       return relatedSongs;
     },
 
+    // Returns whether the given song is already in the collection
+    _hasSong: function(song) {
+      var containsSong = this.any(function(model) {
+        return model.get('song').isSameSong(song);
+      });
+
+      return containsSong;
+    },
+
     // When all streamItems have been played recently, reset to not having been played recently.
     // Allows for de-prioritization of played streamItems during shuffling.
     _ensureAllNotPlayedRecentlyExcept: function(model) {
-      if (this.where({playedRecently: true}).length === this.length) {
+      var modelsPlayedRecently = this.where({
+        playedRecently: true
+      });
+
+      var allModelsPlayedRecently = modelsPlayedRecently.length === this.length;
+
+      if (allModelsPlayedRecently) {
         this.each(function(streamItem) {
           if (streamItem !== model) {
-            streamItem.save({playedRecently: false});
+            streamItem.save({
+              playedRecently: false
+            });
           }
         });
       }
     },
 
-    _onChromeCommandsCommand: function(command) {
-      // Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
-      var streamItemsCommands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl,
-          ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
+    // Let the user know that their keyboard command wasn't able to be fulfilled.
+    _notifyCommandFailure: function() {
+      StreamusBG.channels.notification.commands.trigger('show:notification', {
+        title: chrome.i18n.getMessage('keyboardCommandFailure'),
+        message: chrome.i18n.getMessage('streamEmpty')
+      });
+    },
 
-      if (_.contains(streamItemsCommands, command)) {
-        if (this.length === 0) {
-          StreamusBG.channels.notification.commands.trigger('show:notification', {
-            title: chrome.i18n.getMessage('keyboardCommandFailure'),
-            message: chrome.i18n.getMessage('streamEmpty')
-          });
-        } else {
-          switch (command) {
-            case ChromeCommand.ShowSongDetails:
-              this.showActiveNotification();
-              break;
-            case ChromeCommand.DeleteSong:
-              this.getActiveItem().destroy();
-              break;
-            case ChromeCommand.CopySongUrl:
-              this.getActiveItem().get('song').copyUrl();
-              break;
-            case ChromeCommand.CopySongTitleAndUrl:
-              this.getActiveItem().get('song').copyTitleAndUrl();
-              break;
-            case ChromeCommand.SaveSong:
-              StreamusBG.channels.activePlaylist.commands.trigger('save:song', this.getActiveItem().get('song'));
-              break;
-          }
+    // Take a user's keyboard shortcut command and apply the desired action
+    _handleChromeCommand: function(command) {
+      if (this.isEmpty()) {
+        this._notifyCommandFailure();
+      } else {
+        switch (command) {
+          case ChromeCommand.ShowSongDetails:
+            this.showActiveNotification();
+            break;
+          case ChromeCommand.DeleteSong:
+            this.getActiveItem().destroy();
+            break;
+          case ChromeCommand.CopySongUrl:
+            this.getActiveItem().get('song').copyUrl();
+            break;
+          case ChromeCommand.CopySongTitleAndUrl:
+            this.getActiveItem().get('song').copyTitleAndUrl();
+            break;
+          case ChromeCommand.SaveSong:
+            StreamusBG.channels.activePlaylist.commands.trigger('save:song', this.getActiveItem().get('song'));
+            break;
         }
       }
+    },
+
+    // Creates a StreamItem from a given song and attempts to insert it into the collection.
+    // Returns the created item unless insertion fails due to non-uniqueness.
+    _tryAddSongAtIndex: function(song, index) {
+      var streamItem = new StreamItem({
+        song: song,
+        title: song.get('title'),
+        sequence: this.getSequenceFromIndex(index)
+      });
+
+      // Provide the index that the item will be placed at because allowing re-sorting the collection is expensive.
+      this.add(streamItem, {
+        at: index
+      });
+
+      // Add will return the existing item, so check the attempted item's collection to confirm if it was added.
+      var songWasAdded = !_.isUndefined(streamItem.collection);
+
+      return songWasAdded ? streamItem : null;
     }
   });
 

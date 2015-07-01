@@ -1,7 +1,18 @@
 ﻿define(function(require) {
   'use strict';
 
+  // /model/
+  // /model/appBar/
+  require('test/foreground/model/appBar/activePaneFilter.spec');
+
+  // /model/streamControlBar/
+  require('test/foreground/model/streamControlBar/timeLabelArea.spec');
+  require('test/foreground/model/streamControlBar/timeSlider.spec');
+
   // /view/
+  // /view/activePane/
+  require('test/foreground/view/activePane/activePaneSpecLoader');
+
   // /view/appBar/
   require('test/foreground/view/appBar/appBarSpecLoader');
 

@@ -1,0 +1,33 @@
+﻿@import "color";
+@import "transition";
+@import "boxShadow";
+
+.streamControlBar {
+    height: 72px;
+    color: @dark--primary;  
+    display: flex;
+}
+
+.streamControlBar-title {
+    font-size: 17px;
+    line-height: 28px;
+}
+
+.streamControlBar-playbackControls {
+    display: flex;
+    box-shadow: @boxShadow-divider--left;
+    align-items: center;
+    padding-left: 4px;
+}
+
+.streamControlBar-streamControls {
+    display: flex;
+    align-items: center;
+    padding-right: 4px;
+}
+
+.streamControlBar-content {
+  padding-left: 16px;
+  padding-right: 8px;
+  padding-top: 12px;
+}

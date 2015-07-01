@@ -26,9 +26,9 @@
     // Append a script which will intercept and sniff YouTube's server responses.
     // Needs to be appended because content scripts run in a sandbox which prevents XHR interception.
     this.appendInterceptorScript = function() {
-      //var interceptorScript = document.createElement('script');
-      //interceptorScript.src = chrome.runtime.getURL('js/contentScript/interceptor.js');
-      //document.head.appendChild(interceptorScript);
+      var interceptorScript = document.createElement('script');
+      interceptorScript.src = chrome.runtime.getURL('js/contentScript/interceptor.js');
+      document.head.appendChild(interceptorScript);
     }.bind(this);
 
     // Attach event listeners to the <video> element.
@@ -75,7 +75,7 @@
       // Respond with that value, but also include a timestamp to account for the time it takes to send the postMessage.
       this.port.onMessage.addListener(function(message) {
         if (message === 'getCurrentTimeHighPrecision') {
-          var currentTime = _.isNull(this.videoStream) ? 0 : this.videoStream.currentTime;
+          var currentTime = this.videoStream === null ? 0 : this.videoStream.currentTime;
 
           this.port.postMessage({
             timestamp: Date.now(),

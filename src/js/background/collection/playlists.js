@@ -7,11 +7,11 @@
   var YouTubeV3API = require('background/model/youTubeV3API');
   var ListItemType = require('common/enum/listItemType');
   var DataSource = require('background/model/dataSource');
+  var Utility = require('common/utility');
 
   var Playlists = Backbone.Collection.extend({
     model: Playlist,
     userId: null,
-
     mixins: [CollectionSequence],
 
     url: function() {
@@ -30,7 +30,9 @@
     },
 
     getActivePlaylist: function() {
-      return this.findWhere({active: true});
+      return this.findWhere({
+        active: true
+      });
     },
 
     // Expects options: { playlistId, success, error };
@@ -102,6 +104,18 @@
       });
     },
 
+    loadStoredState: function() {
+      var activePlaylistId = localStorage.getItem('activePlaylistId');
+      var playlist = this.get(activePlaylistId);
+
+      // Safer to check if playlist is undefined rather than activePlaylistId is null.
+      if (!_.isUndefined(playlist)) {
+        playlist.set('active', true);
+      }
+
+      this._setCanDelete(this.length > 1);
+    },
+
     _deactivateAllExcept: function(changedPlaylist) {
       this.each(function(playlist) {
         if (playlist !== changedPlaylist) {
@@ -116,15 +130,6 @@
     },
 
     _onReset: function() {
-      // Ensure there is an always active playlist by trying to load from localstorage
-      if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
-        var activePlaylistId = localStorage.getItem('activePlaylistId');
-
-        // Be sure to always have an active playlist if there is one available.
-        var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
-        playlistToSetActive.set('active', true);
-      }
-
       this._setCanDelete(this.length > 1);
     },
 
@@ -187,21 +192,16 @@
       return sendAsynchronousResponse;
     },
 
-    _notifyChromeRuntimeMessageError: function(sendResponse) {
-      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
-        title: chrome.i18n.getMessage('errorEncountered')
-      });
-
-      sendResponse({
-        result: 'error'
-      });
-    },
-
     _onChangeActive: function(changedPlaylist, active) {
       // Ensure only one playlist is active at a time by de-activating all other active playlists.
       if (active) {
         this._deactivateAllExcept(changedPlaylist);
         localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
+      } else {
+        var activePlaylist = this.getActivePlaylist();
+        if (_.isUndefined(activePlaylist)) {
+          localStorage.removeItem('activePlaylistId');
+        }
       }
     },
 
@@ -234,9 +234,19 @@
         }
       });
 
-      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
-        title: chrome.i18n.getMessage('playlistCreated'),
-        message: addedPlaylist.get('title')
+      var playlistTitle = Utility.truncateString(addedPlaylist.get('title'), 30);
+      var itemCount = addedPlaylist.get('items').length;
+      var notificationMessage;
+
+      if (itemCount > 0) {
+        var messageKey = itemCount === 1 ? 'playlistCreatedWithSong' : 'playlistCreatedWithSongs';
+        notificationMessage = chrome.i18n.getMessage(messageKey, [playlistTitle, itemCount]);
+      } else {
+        notificationMessage = chrome.i18n.getMessage('playlistCreated', [playlistTitle]);
+      }
+
+      StreamusBG.channels.notification.commands.trigger('show:notification', {
+        message: notificationMessage
       });
 
       this._setCanDelete(this.length > 1);
@@ -246,10 +256,10 @@
     _onRemove: function(removedPlaylist, collection, options) {
       if (removedPlaylist.get('active')) {
         // Clear local storage of the active playlist if it gets removed.
-        localStorage.setItem('activePlaylistId', null);
+        localStorage.removeItem('activePlaylistId');
         // If the index of the item removed was the last one in the list, activate previous.
         var index = options.index === this.length ? options.index - 1 : options.index;
-        this._activateByIndex(index);
+        this.at(index).set('active', true);
       }
 
       if (this.length === 1) {
@@ -266,8 +276,14 @@
       });
     },
 
-    _activateByIndex: function(index) {
-      this.at(index).set('active', true);
+    _notifyChromeRuntimeMessageError: function(sendResponse) {
+      StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
+        title: chrome.i18n.getMessage('errorEncountered')
+      });
+
+      sendResponse({
+        result: 'error'
+      });
     }
   });
 

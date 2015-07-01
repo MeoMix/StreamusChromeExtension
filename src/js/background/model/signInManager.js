@@ -22,6 +22,7 @@
       this.on('change:signedInUser', this._onChangeSignedInUser);
       this.on('change:signInFailed', this._onChangeSignInFailed);
       this.listenTo(StreamusBG.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
+      this.listenTo(StreamusBG.channels.foreground.vent, 'started', this._onForegroundStarted);
       chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
       chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
       chrome.identity.onSignInChanged.addListener(this._onChromeIdentitySignInChanged.bind(this));
@@ -69,6 +70,12 @@
 
     _onBackgroundAreaRendered: function() {
       this.signInWithGoogle();
+    },
+
+    _onForegroundStarted: function() {
+      if (this._canSignIn()) {
+        this.signInWithGoogle();
+      }
     },
 
     _signIn: function(googlePlusId) {

@@ -1,0 +1,28 @@
+﻿@import "boxShadow";
+@import "color";
+@import "transition";
+
+.video {
+    height: 200px;
+    width: 356px;
+    opacity: 1;
+    pointer-events: all;
+    transition: opacity @transition-duration--fast @transition-easeOutSine;
+    transition-delay: .1s;
+    background-color: @black;
+    box-shadow: @boxShadow-elevation--low;
+    border-radius: 2px;
+
+    &.is-hovered {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+.videoArea {
+    position: absolute;
+    bottom: 56px;
+    right: 8px;
+    pointer-events: none;
+    font-size: 0;
+}
