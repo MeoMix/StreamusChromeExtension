@@ -210,7 +210,7 @@
         "message": "Dager"
     },
     "errorLoadingTitle": {
-        "message": "Feil ved lasting av tittel"	
+        "message": "Feil ved lasting av tittel"
     },
     "keyboardCommandFailure": {
         "message": "Tastaturkommando mislyktes"
@@ -327,9 +327,6 @@
     },
     "openInTab": {
         "message": "Åpne i ny fane"
-    },
-    "browserSettings": {
-        "message": "Nettleserinnstillinger"
     },
     "contextMenus": {
         "message": "hurtigmenyer"

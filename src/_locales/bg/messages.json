@@ -328,9 +328,6 @@
     "openInTab": {
         "message": "Отвори в таб"
     },
-    "browserSettings": {
-        "message": "Настройки на сърфирането"
-    },
     "contextMenus": {
         "message": "Десен бутон"
     },

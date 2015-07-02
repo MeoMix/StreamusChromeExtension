@@ -210,7 +210,7 @@
         "message": "Dagen"
     },
     "errorLoadingTitle": {
-        "message": "Probleem bij het laden van de titel"	
+        "message": "Probleem bij het laden van de titel"
     },
     "keyboardCommandFailure": {
         "message": "Probleem met toetsenbord commando"
@@ -327,9 +327,6 @@
     },
     "openInTab": {
         "message": "Open in tabblad"
-    },
-    "browserSettings": {
-        "message": "Browser instellingen"
     },
     "contextMenus": {
         "message": "Contextmenu's"

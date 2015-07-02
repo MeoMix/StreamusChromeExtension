@@ -2,7 +2,6 @@
   'use strict';
 
   var SettingsDialogView = require('foreground/view/dialog/settingsDialogView');
-  var BrowserSettingsDialogView = require('foreground/view/dialog/browserSettingsDialogView');
   var AboutStreamusDialogView = require('foreground/view/dialog/aboutStreamusDialogView');
   var AdminMenuAreaTemplate = require('text!template/appBar/adminMenuArea.html');
   var SettingsIcon = require('text!template/icon/settingsIcon_24.svg');
@@ -13,7 +12,6 @@
 
     templateHelpers: {
       settingsMessage: chrome.i18n.getMessage('settings'),
-      browserSettingsMessage: chrome.i18n.getMessage('browserSettings'),
       keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
       openInTabMessage: chrome.i18n.getMessage('openInTab'),
       aboutStreamusMessage: chrome.i18n.getMessage('aboutStreamus'),
@@ -25,7 +23,6 @@
       menuButton: '[data-ui~=menuButton]',
       menu: '[data-ui~=menu]',
       settings: '[data-ui~=settings]',
-      browserSettings: '[data-ui~=browserSettings]',
       openInTab: '[data-ui~=openInTab]',
       keyboardShortcuts: '[data-ui~=keyboardShortcuts]',
       aboutStreamus: '[data-ui~=aboutStreamus]',
@@ -35,7 +32,6 @@
     events: {
       'click @ui.menuButton': '_onClickMenuButton',
       'click @ui.settings': '_onClickSettings',
-      'click @ui.browserSettings': '_onClickBrowserSettings',
       'click @ui.keyboardShortcuts': '_onClickKeyboardShortcuts',
       'click @ui.openInTab': '_onClickOpenInTab',
       'click @ui.aboutStreamus': '_onClickAboutStreamus',
@@ -64,10 +60,6 @@
 
     _onClickSettings: function() {
       StreamusFG.channels.dialog.commands.trigger('show:dialog', SettingsDialogView);
-    },
-
-    _onClickBrowserSettings: function() {
-      StreamusFG.channels.dialog.commands.trigger('show:dialog', BrowserSettingsDialogView);
     },
 
     _onClickKeyboardShortcuts: function() {

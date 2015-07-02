@@ -22,7 +22,9 @@
       generalMessage: chrome.i18n.getMessage('general'),
       songQualityMessage: chrome.i18n.getMessage('songQuality'),
       remindersMessage: chrome.i18n.getMessage('reminders'),
-      desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications')
+      desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications'),
+      contextMenusMessage: chrome.i18n.getMessage('contextMenus'),
+      websiteEnhancementsMessage: chrome.i18n.getMessage('websiteEnhancements')
     },
 
     regions: {
@@ -33,7 +35,12 @@
       remindLinkAccount: '[data-region=remindLinkAccount]',
       remindGoogleSignIn: '[data-region=remindGoogleSignIn]',
       desktopNotificationsEnabled: '[data-region=desktopNotificationsEnabled]',
-      desktopNotificationDuration: '[data-region=desktopNotificationDuration]'
+      desktopNotificationDuration: '[data-region=desktopNotificationDuration]',
+      showTextSelectionContextMenu: '[data-region=showTextSelectionContextMenu]',
+      showYouTubeLinkContextMenu: '[data-region=showYouTubeLinkContextMenu]',
+      showYouTubePageContextMenu: '[data-region=showYouTubePageContextMenu]',
+      enhanceYouTube: '[data-region=enhanceYouTube]',
+      enhanceBeatport: '[data-region=enhanceBeatport]'
     },
 
     behaviors: {
@@ -83,6 +90,12 @@
         labelKey: 'notificationDuration',
         options: _.values(DesktopNotificationDurations)
       });
+
+      this._showCheckbox('showTextSelectionContextMenu', 'textSelection');
+      this._showCheckbox('showYouTubeLinkContextMenu', 'youTubeLinks');
+      this._showCheckbox('showYouTubePageContextMenu', 'youTubePages');
+      this._showSwitch('enhanceYouTube', 'youTube');
+      this._showSwitch('enhanceBeatport', 'beatport');
     },
 
     _showSimpleListItem: function(options) {
@@ -120,9 +133,9 @@
       }));
     },
 
-    _showCheckbox: function(propertyName) {
+    _showCheckbox: function(propertyName, labelKey) {
       var checkbox = this.checkboxes.add({
-        labelText: chrome.i18n.getMessage(propertyName),
+        labelText: chrome.i18n.getMessage(_.isUndefined(labelKey) ? propertyName : labelKey),
         checked: this.model.get(propertyName),
         property: propertyName
       });

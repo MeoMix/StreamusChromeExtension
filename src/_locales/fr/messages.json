@@ -210,7 +210,7 @@
         "message": "Jours"
     },
     "errorLoadingTitle": {
-        "message": "Échec du chargement du titre"	
+        "message": "Échec du chargement du titre"
     },
     "keyboardCommandFailure": {
         "message": "Échec du raccourci clavier"
@@ -327,9 +327,6 @@
     },
     "openInTab": {
         "message": "Ouvrir dans un onglet"
-    },
-    "browserSettings": {
-        "message": "Paramètres Chrome"
     },
     "contextMenus": {
         "message": "Menus contextuels"

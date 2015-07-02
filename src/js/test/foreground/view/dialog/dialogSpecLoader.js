@@ -4,8 +4,6 @@
   /* jshint ignore:start */
   require('test/foreground/view/dialog/aboutStreamusDialogView.spec');
   require('test/foreground/view/dialog/aboutStreamusView.spec');
-  require('test/foreground/view/dialog/browserSettingsDialogView.spec');
-  require('test/foreground/view/dialog/browserSettingsView.spec');
   require('test/foreground/view/dialog/clearStreamDialogView.spec');
   require('test/foreground/view/dialog/clearStreamView.spec');
   require('test/foreground/view/dialog/createPlaylistDialogView.spec');
