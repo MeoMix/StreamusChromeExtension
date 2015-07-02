@@ -1,0 +1,609 @@
+﻿{
+    "extensionName": {
+        "message": "Streamus"
+    },
+    "extensionDescription": {
+        "message": "Простичко, стриймва музика."
+    },
+    "toggleRadio": {
+        "message": "Радио вкл./изкл."
+    },
+    "toggleShuffle": {
+        "message": "Разбъркване икзл./вкл."
+    },
+    "toggleRepeat": {
+        "message": "Повтаряне изкл./всички песен/текущата песен"
+    },
+    "increaseVolume": {
+        "message": "Увеличаване на звука"
+    },
+    "decreaseVolume": {
+        "message": "Намаляване на звука"
+    },
+    "showSongDetails": {
+        "message": "Покажи детайли за песента"
+    },
+    "nextSong": {
+        "message": "Следваща песен"
+    },
+    "previousSong": {
+        "message": "Предишна песен"
+    },
+    "toggleSong": {
+        "message": "Пусни/спри песента"
+    },
+    "deleteSong": {
+        "message": "Изтрий песента"
+    },
+    "copySongUrl": {
+        "message": "Копирай адреса на песента"
+    },
+    "copySongTitleAndUrl": {
+        "message": "Копирай заглавието и адреса на песента"
+    },
+    "save": {
+        "message": "Запази"
+    },
+    "copyUrl": {
+        "message": "Копирай адреса"
+    },
+    "copyTitleAndUrl": {
+        "message": "Копирай заглавието и адреса"
+    },
+    "delete": {
+        "message": "Изтрий"
+    },
+    "clearStream": {
+        "message": "Изчисти потока"
+    },
+    "saveStream": {
+        "message": "Запази потока"
+    },
+    "addToStreamus": {
+        "message": "Добави към Streamus"
+    },
+    "youTubePlayerErrorSongNotFound": {
+        "message": "Песента е премахната или недостъпна."
+    },
+    "youTubePlayerErrorNoPlayEmbedded": {
+        "message": "Песента не може да бъде изпълнена."
+    },
+    "errorEncountered": {
+        "message": "Опа...появи се грешка."
+    },
+    "saving": {
+        "message": "Запазване"
+    },
+    "installed": {
+        "message": "Инсталирано"
+    },
+    "repeatOff": {
+        "message": "Не повтаряй"
+    },
+    "repeatSong": {
+        "message": "Повтаряй песента"
+    },
+    "repeatAll": {
+        "message": "Повтаряй всичко"
+    },
+    "radioOn": {
+        "message": "Включено радио"
+    },
+    "radioOff": {
+        "message": "Изключено радио"
+    },
+    "shufflingOn": {
+        "message": "Включено разбъркване"
+    },
+    "shufflingOff": {
+        "message": "Изключено разбъркване"
+    },
+    "elapsedTime": {
+        "message": "Изминало време"
+    },
+    "remainingTime": {
+        "message": "Оставащо време"
+    },
+    "totalTime": {
+        "message": "Общо"
+    },
+    "highest": {
+        "message": "Високо"
+    },
+    "auto": {
+        "message": "Автоматично"
+    },
+    "lowest": {
+        "message": "Ниско"
+    },
+    "reload": {
+        "message": "Презареждане"
+    },
+    "playAll": {
+        "message": "Пусни всички"
+    },
+    "addAll": {
+        "message": "Добави всички"
+    },
+    "addSelected": {
+        "message": "Добави избраните"
+    },
+    "playSelected": {
+        "message": "Пусни избраните"
+    },
+    "saveSelected": {
+        "message": "Запази селектираните"
+    },
+    "search": {
+        "message": "Търсене"
+    },
+    "searching": {
+        "message": "Търсене..."
+    },
+    "noResultsFound": {
+        "message": "Няма намерени резултати"
+    },
+    "clearStream": {
+        "message": "Изчисти потока"
+    },
+    "createPlaylist": {
+        "message": "Създай списък"
+    },
+    "ok": {
+        "message": "Ок"
+    },
+    "playlist": {
+        "message": "Списък"
+    },
+    "stream": {
+        "message": "Поток"
+    },
+    "settings": {
+        "message": "Настройки"
+    },
+    "edit": {
+        "message": "Редактирай"
+    },
+    "cantDeleteLastPlaylist": {
+        "message": "Последният списък не може да бъде изтрит"
+    },
+    "clearStreamQuestion": {
+        "message": "Изчистване на потока?"
+    },
+    "play": {
+        "message": "Пусни"
+    },
+    "add": {
+        "message": "Добави"
+    },
+    "title": {
+        "message": "Заглавие"
+    },
+    "url": {
+        "message": "Адрес"
+    },
+    "playlists": {
+        "message": "Списъци"
+    },
+    "remind": {
+        "message": "Потвърждение"
+    },
+    "reminders": {
+        "message": "Потвърждения"
+    },
+    "remindClearStream": {
+        "message": "Потврждение при изчистване на потока"
+    },
+    "remindDeletePlaylist": {
+        "message": "Потвърждение при изтриване на списък"
+    },
+    "minute": {
+        "message": "Минута"
+    },
+    "minutes": {
+        "message": "Минути"
+    },
+    "hours": {
+        "message": "Часове"
+    },
+    "days": {
+        "message": "Дни"
+    },
+    "errorLoadingTitle": {
+        "message": "Проблем при зареждане"
+    },
+    "keyboardCommandFailure": {
+        "message": "Неуспешна клавишна комбинация"
+    },
+    "streamEmpty": {
+        "message": "Празен поток"
+    },
+    "playlistEmpty": {
+        "message": "Празен списък"
+    },
+    "create": {
+        "message": "Създаване"
+    },
+    "update": {
+        "message": "Опресняване"
+    },
+    "wouldYouLikeTo": {
+        "message": "Искате ли да"
+    },
+    "general": {
+        "message": "Основни"
+    },
+    "startTyping": {
+        "message": "Започнете да пишете"
+    },
+    "resultsWillAppearAsYouSearch": {
+        "message": "Резултатите ще се появяват докато търсите."
+    },
+    "trySearchingForSomethingElse": {
+        "message": "Опитайте да потърсите нещо друго."
+    },
+    "watchOnYouTube": {
+        "message": "Гледай в YouTube"
+    },
+    "notSignedIn": {
+        "message": "Не сте влезнали"
+    },
+    "signingIn": {
+        "message": "Влизане..."
+    },
+    "signIn": {
+        "message": "Влизане"
+    },
+    "signInFailed": {
+        "message": "Неуспешно влизане"
+    },
+    "pleaseWait": {
+        "message": "Моля изчакайте..."
+    },
+    "anUpdateIsAvailable": {
+        "message": "Има налична актуализация"
+    },
+    "pressEnterToPlay": {
+        "message": "Натиснете enter за да пуснете"
+    },
+    "volume": {
+        "message": "Звук"
+    },
+    "songAdded": {
+        "message": "Песен добавена"
+    },
+    "addSong": {
+        "message": "Добави песен"
+    },
+    "song": {
+        "message": "Песен"
+    },
+    "songs": {
+        "message": "Песни"
+    },
+    "cantSkipToNextSong": {
+        "message": "Песента не може да бъде прескочена"
+    },
+    "cantGoBackToPreviousSong": {
+        "message": "Не може да се отиде при предишната песен"
+    },
+    "cantToggleSong": {
+        "message": "Песента не може да бъде избрана"
+    },
+    "searchForSongs": {
+        "message": "Търсене за песни"
+    },
+    "songQuality": {
+        "message": "Качество"
+    },
+    "whyNotAddASongFromAPlaylistOr": {
+        "message": "Защо не добавите песен от някой списък или",
+        "description": "Пълното изречение е 'Защо не потърсите или не добавите песен от някой списък?' но трябваше да бъде побрано в HTML-a"
+    },
+    "searchAndPlay": {
+        "message": "Търси и Пусни"
+    },
+    "searchAndAdd": {
+        "message": "Търси и Добави"
+    },
+    "linkAccountsMessage": {
+        "message": "Streamus не е свързан с вашият Chrome профил. Вашите списъци ще бъдат налични на други устройства, само ако имате свързан профил."
+    },
+    "link": {
+        "message": "Свързване",
+        "description": "Свържи моят профил"
+    },
+    "googleSignInMessage": {
+        "message": "Вие не сте влезнали с профил в Chrome. Вашите списъци ще са налични само на този компютър."
+    },
+    "remindGoogleSignIn": {
+        "message": "Напомняне за влизане в Google"
+    },
+    "keyboardShortcuts": {
+        "message": "Клавишни комбинации"
+    },
+    "export": {
+        "message": "Експортирай"
+    },
+    "openInTab": {
+        "message": "Отвори в таб"
+    },
+    "browserSettings": {
+        "message": "Настройки на сърфирането"
+    },
+    "contextMenus": {
+        "message": "Десен бутон"
+    },
+    "websiteEnhancements": {
+        "message": "Подобрения в сайта"
+    },
+    "textSelection": {
+        "message": "Селекция на текст"
+    },
+    "youTubeLinks": {
+        "message": "YouTube адреси"
+    },
+    "youTubePages": {
+        "message": "YouTube страници"
+    },
+    "youTube": {
+        "message": "YouTube"
+    },
+    "beatport": {
+        "message": "Beatport"
+    },
+    "fileType": {
+        "message": "Тип"
+    },
+    "csv": {
+        "message": "CSV"
+    },
+    "json": {
+        "message": "JSON"
+    },
+    "failedToFindSong": {
+        "message": "Песента не беше намерена"
+    },
+    "failedToFindSongs": {
+        "message": "Песните не бяха намерени"
+    },
+    "loadingYouTube": {
+        "message": "Зареждане на YouTube"
+    },
+    "loadingYouTubeFailed": {
+        "message": "Неуспешно зарежда не YouTube"
+    },
+    "loadAttempt": {
+        "message": "Опит $currentLoadAttempt$ от общо $maxLoadAttempts$",
+        "placeholders": {
+            "currentLoadAttempt": {
+                "content": "$1"
+            },
+            "maxLoadAttempts": {
+                "content": "$2"
+            }
+        }
+    },
+    "songAlreadyInCollection": {
+        "message": "Песента е вече в $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "allSongsAlreadyInCollection": {
+        "message": "Всички песни са вече в $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "songsAlreadyInCollection": {
+        "message": "$duplicateSongCount$ от $draggedSongCount$ песни вече са в $collectionName$",
+        "placeholders": {
+            "duplicateSongCount": {
+                "content": "$1"
+            },
+            "draggedSongCount": {
+                "content": "$2"
+            },
+            "collectionName": {
+                "content": "$3"
+            }
+        }
+    },
+    "urlCopied": {
+        "message": "Адреса е копиран"
+    },
+    "copyFailed": {
+        "message": "Копирането е провалено"
+    },
+    "playlistExported": {
+        "message": "Списъкът е запазен успешно."
+    },
+    "playing": {
+        "message": "Свири в момента"
+    },
+    "buffering": {
+        "message": "Буфериране..."
+    },
+    "paused": {
+        "message": "Паузиран"
+    },
+    "cancel": {
+        "message": "Отказ"
+    },
+    "errorLoadingUrl": {
+        "message": "Проблем при зареждането на страницата"
+    },
+    "playlistLoaded": {
+        "message": "Списъкът е зареден"
+    },
+    "playlistCreated": {
+      "message": "Списъкът $playlistTitle$ беше създаден",
+      "placeholders": {
+        "playlistTitle": {
+          "content": "$1"
+        }
+      }
+    },
+    "playlistCreatedWithSong": {
+      "message": "Списъкът $playlistTitle$ беше създаден с $count$ песен",
+      "placeholders": {
+        "playlistTitle": {
+          "content": "$1"
+        },
+        "count": {
+          "content": "$2"
+        }
+      }
+    },
+    "playlistCreatedWithSongs": {
+      "message": "Списъкът $playlistTitle$ беше създаден с $count$ песни",
+      "placeholders": {
+        "playlistTitle": {
+          "content": "$1"
+        },
+        "count": {
+          "content": "$2"
+        }
+      }
+    },
+    "extensionConflict": {
+        "message": "Друг плъгин или проблем принуждава YouTube да ползва Flash.$lineBreak$ Streamus няма да може да работи подобаващо докато този плъгин не бъде изключен или проблема не бъде отстранен и Streamus бъде рестартиран.",
+        "placeholders": {
+            "lineBreak": {
+                "content": "$1"
+            }
+        }
+    },
+    "searchResults": {
+        "message": "Резултати от търсенето"
+    },
+    "collectionCantBeDeleted": {
+        "message": "$collectionName$ не може да бъде изтрита",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "collectionSelected": {
+        "message": "$count$ $collectionName$ избрани",
+        "description": "Когато има 0, 1 или 2 избрани песни",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "collectionName": {
+                "content": "$2"
+            }
+        }
+    },
+    "saveAll": {
+        "message": "Запази всички"
+    },
+    "saveSong": {
+        "message": "Запази песен"
+    },
+    "songSavedToPlaylist": {
+        "message": "$songTitle$ е запазена в $playlistTitle$",
+        "placeholders": {
+            "songTitle": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "songsSavedToPlaylist": {
+        "message": "$count$ песни са запазени в $playlistTitle$",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "desktopNotifications": {
+        "message": "Известия на работния плот"
+    },
+    "showNotifications": {
+        "message": "Показвай известия"
+    },
+    "notificationDuration": {
+        "message": "Продължителност на известието"
+    },
+    "oneSecond": {
+        "message": "Една секунда"
+    },
+    "twoSeconds": {
+        "message": "Две секунди"
+    },
+    "threeSeconds": {
+        "message": "Три секунди"
+    },
+    "fourSeconds": {
+        "message": "Четири секунди"
+    },
+    "fiveSeconds": {
+        "message": "Пет секунди"
+    },
+    "tenSeconds": {
+        "message": "Десет секунди"
+    },
+    "playlistUrl": {
+        "message": "Адрес на списъка с песни"
+    },
+    "aboutStreamus": {
+        "message": "За Streamus"
+    },
+    "applicationDetails": {
+        "message": "Детайли за приложението"
+    },
+    "openHomepage": {
+        "message": "Начална страница"
+    },
+    "version": {
+        "message": "Версия"
+    },
+    "openPatchNotes": {
+        "message": "Последни промени"
+    },
+    "moreOptions": {
+      "message": "Още настройки"
+    },
+    "nowPlaying": {
+      "message": "Сега свири"
+    },
+    "videoOn": {
+      "message": "Включено видео"
+    },
+    "videoOff": {
+      "message": "Изключено видео"
+    },
+    "deleteAll": {
+      "message": "Изтрий всички"
+    },
+    "songsAddedToStream": {
+      "message": "$count$ песни бяха добавени",
+      "placeholders": {
+        "count": {
+          "content": "$1"
+        }
+      }
+    },
+    "songAddedToStream":  {
+      "message": "$songTitle$ е добавена към потока",
+      "placeholders": {
+        "songTitle": {
+          "content": "$1"
+        }
+      }
+    }
+}
