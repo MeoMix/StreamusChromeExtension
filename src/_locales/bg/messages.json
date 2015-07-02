@@ -260,9 +260,6 @@
     "pleaseWait": {
         "message": "Моля изчакайте..."
     },
-    "openToSearch": {
-        "message": "Отворете за да търсите"
-    },
     "anUpdateIsAvailable": {
         "message": "Има налична актуализация"
     },
@@ -445,7 +442,34 @@
         "message": "Списъкът е зареден"
     },
     "playlistCreated": {
-        "message": "Списъкът е създаен"
+      "message": "Списъкът $playlistTitle$ беше създаден",
+      "placeholders": {
+        "playlistTitle": {
+          "content": "$1"
+        }
+      }
+    },
+    "playlistCreatedWithSong": {
+      "message": "Списъкът $playlistTitle$ беше създаден с $count$ песен",
+      "placeholders": {
+        "playlistTitle": {
+          "content": "$1"
+        },
+        "count": {
+          "content": "$2"
+        }
+      }
+    },
+    "playlistCreatedWithSongs": {
+      "message": "Списъкът $playlistTitle$ беше създаден с $count$ песни",
+      "placeholders": {
+        "playlistTitle": {
+          "content": "$1"
+        },
+        "count": {
+          "content": "$2"
+        }
+      }
     },
     "extensionConflict": {
         "message": "Друг плъгин или проблем принуждава YouTube да ползва Flash.$lineBreak$ Streamus няма да може да работи подобаващо докато този плъгин не бъде изключен или проблема не бъде отстранен и Streamus бъде рестартиран.",
@@ -485,9 +509,20 @@
         "message": "Запази песен"
     },
     "songSavedToPlaylist": {
-        "message": "$songTitle$ запазена в $playlistTitle$",
+        "message": "$songTitle$ е запазена в $playlistTitle$",
         "placeholders": {
             "songTitle": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "songsSavedToPlaylist": {
+        "message": "$count$ песни са запазени в $playlistTitle$",
+        "placeholders": {
+            "count": {
                 "content": "$1"
             },
             "playlistTitle": {
@@ -541,6 +576,34 @@
         "message": "Последни промени"
     },
     "moreOptions": {
-        "message":  "Повече опции"
+      "message": "Още настройки"
+    },
+    "nowPlaying": {
+      "message": "Сега свири"
+    },
+    "videoOn": {
+      "message": "Включено видео"
+    },
+    "videoOff": {
+      "message": "Изключено видео"
+    },
+    "deleteAll": {
+      "message": "Изтрий всички"
+    },
+    "songsAddedToStream": {
+      "message": "$count$ песни бяха добавени",
+      "placeholders": {
+        "count": {
+          "content": "$1"
+        }
+      }
+    },
+    "songAddedToStream":  {
+      "message": "$songTitle$ е добавена към потока",
+      "placeholders": {
+        "songTitle": {
+          "content": "$1"
+        }
+      }
     }
 }
