@@ -12,6 +12,7 @@
       canSave: false,
       canPlay: false,
       signInManager: null,
+      activePlaylistManager: null,
       streamItems: null,
       searchResults: null
     },
@@ -27,26 +28,19 @@
       'remove': '_onMultiSelectCollectionRemove'
     },
 
-    playlistsEvents: {
-      'change:active': '_onPlaylistsChangeActive'
-    },
-
     initialize: function() {
-      var signInManager = this.get('signInManager');
-      var signedInUser = signInManager.get('signedInUser');
-      var activeCollection = this.get('activeCollection');
-      this._setState(activeCollection, signInManager.get('signedInUser'));
+      this._setState(this.get('activeCollection'), this.get('signInManager').get('signedInUser'));
 
-      // If user is currently signed in then listen to their activePlaylist's selection events.
-      if (!_.isNull(signedInUser)) {
-        this._setUserBindings(signedInUser, true);
+      var activePlaylist = this.get('activePlaylistManager').get('activePlaylist');
+      if (!_.isNull(activePlaylist)) {
+        this._setPlaylistBindings(activePlaylist, true);
       }
 
+      this.on('change:activeCollection', this._onChangeActiveCollection);
+      this.listenTo(this.get('signInManager'), 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
+      this.listenTo(this.get('activePlaylistManager'), 'change:activePlaylist', this._onActivePlaylistManagerChangeActivePlaylist);
       Marionette.bindEntityEvents(this, this.get('streamItems'), this.multiSelectCollectionEvents);
       Marionette.bindEntityEvents(this, this.get('searchResults'), this.multiSelectCollectionEvents);
-      this.on('change:activeCollection', this._onChangeActiveCollection);
-      this.listenTo(signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
-
       Marionette.bindEntityEvents(this, this.get('streamItems'), this.streamItemsEvents);
     },
 
@@ -58,13 +52,6 @@
     _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
       var activeCollection = this.get('activeCollection');
       this._setState(activeCollection, signedInUser);
-
-      // Bind/unbind listeners as appropriate whenver the signedInUser changes.
-      if (_.isNull(signedInUser)) {
-        this._setUserBindings(model.previous('signedInUser'), false);
-      } else {
-        this._setUserBindings(signedInUser, true);
-      }
     },
 
     // Keep track of which multi-select collection is currently holding selected items
@@ -81,11 +68,15 @@
     },
 
     // Bind/unbind listeners as appropriate whenever the active playlist changes.
-    _onPlaylistsChangeActive: function(model, active) {
-      if (active) {
-        Marionette.bindEntityEvents(this, model.get('items'), this.multiSelectCollectionEvents);
+    _onActivePlaylistManagerChangeActivePlaylist: function(model, activePlaylist) {
+      if (_.isNull(activePlaylist)) {
+        var previousActivePlaylist = model.previous('activePlaylist');
+
+        if (!_.isNull(previousActivePlaylist)) {
+          Marionette.unbindEntityEvents(this, previousActivePlaylist.get('items'), this.multiSelectCollectionEvents);
+        }
       } else {
-        Marionette.unbindEntityEvents(this, model.get('items'), this.multiSelectCollectionEvents);
+        Marionette.bindEntityEvents(this, activePlaylist.get('items'), this.multiSelectCollectionEvents);
       }
     },
 
@@ -149,15 +140,10 @@
       this.set('selectedCount', songCount);
     },
 
-    // Bind or unbind entity events to a user's playlists and activePlaylist's items.
-    // Useful for when a user is signing in/out.
-    _setUserBindings: function(user, isBinding) {
+    // Bind or unbind entity events to a playlist's items.
+    _setPlaylistBindings: function(playlist, isBinding) {
       var bindingAction = isBinding ? Marionette.bindEntityEvents : Marionette.unbindEntityEvents;
-
-      var playlists = user.get('playlists');
-      bindingAction.call(this, this, playlists, this.playlistsEvents);
-
-      var playlistItems = playlists.getActivePlaylist().get('items');
+      var playlistItems = playlist.get('items');
       bindingAction.call(this, this, playlistItems, this.multiSelectCollectionEvents);
     }
   });

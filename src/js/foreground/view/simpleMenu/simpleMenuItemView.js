@@ -1,6 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
+  var FixedPosition = require('foreground/enum/fixedPosition');
   var SimpleMenuItemTemplate = require('text!template/simpleMenu/simpleMenuItem.html');
 
   var SimpleMenuItemView = Marionette.LayoutView.extend({
@@ -13,7 +14,7 @@
 
     initialize: function() {
       this.$el.toggleClass('is-disabled', this.model.get('disabled'));
-      this.$el.toggleClass('u-bordered--top', this.model.get('fixed'));
+      this._setFixedPositionClass(this.model.get('fixedPosition'));
     },
 
     onRender: function() {
@@ -42,6 +43,15 @@
 
     _setState: function(active) {
       this.$el.toggleClass('is-active', active);
+    },
+
+    // Add a border dividing a fixed ItemView's position from the other collection of ItemViews.
+    _setFixedPositionClass: function(fixedPosition) {
+      if (fixedPosition === FixedPosition.Top) {
+        this.$el.addClass('u-bordered--bottom');
+      } else if (fixedPosition === FixedPosition.Bottom) {
+        this.$el.addClass('u-bordered--top');
+      }
     }
   });
 

@@ -94,10 +94,6 @@
     // render will cause the lazy-loaded image to be reset.
     _setActiveClass: function(active) {
       this.$el.toggleClass('is-active', active);
-    },
-
-    _showVideo: function() {
-      StreamusFG.channels.video.commands.trigger('show:video');
     }
   });
 

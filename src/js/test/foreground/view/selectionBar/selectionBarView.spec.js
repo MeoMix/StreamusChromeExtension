@@ -6,6 +6,7 @@
   var StreamItems = require('background/collection/streamItems');
   var SearchResults = require('background/collection/searchResults');
   var SignInManager = require('background/model/signInManager');
+  var ActivePlaylistManager = require('background/model/activePlaylistManager');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
   describe('SelectionBarView', function() {
@@ -15,7 +16,10 @@
         model: new SelectionBar({
           streamItems: new StreamItems(),
           searchResults: new SearchResults(),
-          signInManager: new SignInManager()
+          signInManager: new SignInManager(),
+          activePlaylistManager: new ActivePlaylistManager({
+            signInManager: new SignInManager()
+          })
         })
       });
     });

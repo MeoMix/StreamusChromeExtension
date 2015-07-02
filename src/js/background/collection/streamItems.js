@@ -6,7 +6,9 @@
   var CollectionSequence = require('background/mixin/collectionSequence');
   var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
   var StreamItem = require('background/model/streamItem');
+  var Songs = require('background/collection/songs');
   var YouTubeV3API = require('background/model/youTubeV3API');
+  var Utility = require('common/utility');
 
   var StreamItems = Backbone.Collection.extend({
     model: StreamItem,
@@ -32,6 +34,7 @@
       this.localStorage._clear();
     },
 
+    // TODO: Maybe these should return null instead for consistency?
     getActiveItem: function() {
       return this.findWhere({
         active: true
@@ -103,7 +106,7 @@
         var addedStreamItem = this._tryAddSongAtIndex(song, index);
 
         // If the item was added successfully to the collection (not duplicate) then allow for it to be created.
-        if (addedStreamItem !== null) {
+        if (!_.isNull(addedStreamItem)) {
           addedStreamItem.save();
           createdStreamItems.push(addedStreamItem);
           index++;
@@ -115,6 +118,7 @@
         // Emit a custom event signaling items have been added.
         // Useful for not responding to add until all items have been added.
         this.trigger('add:completed', this);
+        this._showCreatedNotification(createdStreamItems);
       }
 
       if (options.playOnAdd || options.markFirstActive) {
@@ -128,6 +132,26 @@
       }
 
       return createdStreamItems;
+    },
+
+    getDisplayInfo: function() {
+      var songs = new Songs(this.pluck('song'));
+      var displayInfo = songs.getDisplayInfo();
+      return displayInfo;
+    },
+
+    _showCreatedNotification: function(createdStreamItems) {
+      var notificationMessage;
+      if (createdStreamItems.length === 1) {
+        var songTitle = Utility.truncateString(createdStreamItems[0].get('title'), 40);
+        notificationMessage = chrome.i18n.getMessage('songAddedToStream', [songTitle]);
+      } else {
+        notificationMessage = chrome.i18n.getMessage('songsAddedToStream', [createdStreamItems.length]);
+      }
+
+      StreamusBG.channels.notification.commands.trigger('show:notification', {
+        message: notificationMessage
+      });
     },
 
     // Find a model by its song's id and mark it active.

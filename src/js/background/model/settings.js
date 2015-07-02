@@ -15,7 +15,6 @@
       remindDeletePlaylist: true,
       remindLinkUserId: true,
       remindGoogleSignIn: true,
-      openToSearch: false,
       openInTab: false,
       desktopNotificationsEnabled: true,
       desktopNotificationDuration: DesktopNotificationDuration.ThreeSeconds

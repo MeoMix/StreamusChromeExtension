@@ -8,6 +8,5 @@
       this.streamItems = new StreamItems();
     });
 
-
   });
 });

@@ -40,7 +40,7 @@
     },
 
     _createClientError: function(message, url, lineNumber, error) {
-      console.error('Creating error: ', message);
+      console.error('Creating error:', message);
 
       var signedInUser = this.get('signInManager').get('signedInUser');
 

@@ -3,12 +3,8 @@
 
   var ClearStreamButton = require('foreground/model/stream/clearStreamButton');
   var SaveStreamButton = require('foreground/model/stream/saveStreamButton');
-  var ActiveStreamItemView = require('foreground/view/stream/activeStreamItemView');
   var ClearStreamButtonView = require('foreground/view/stream/clearStreamButtonView');
-  var RadioButtonView = require('foreground/view/stream/radioButtonView');
-  var RepeatButtonView = require('foreground/view/stream/repeatButtonView');
   var SaveStreamButtonView = require('foreground/view/stream/saveStreamButtonView');
-  var ShuffleButtonView = require('foreground/view/stream/shuffleButtonView');
   var StreamItemsView = require('foreground/view/stream/streamItemsView');
   var StreamTemplate = require('text!template/stream/stream.html');
 
@@ -25,25 +21,18 @@
 
     regions: {
       clearStreamButton: '[data-region=clearStreamButton]',
-      radioButton: '[data-region=radioButton]',
-      repeatButton: '[data-region=repeatButton]',
       saveStreamButton: '[data-region=saveStreamButton]',
-      shuffleButton: '[data-region=shuffleButton]',
-      activeStreamItem: '[data-region=activeStreamItem]',
       streamItems: '[data-region=streamItems]'
     },
 
     ui: {
       emptyMessage: '[data-ui~=emptyMessage]',
-      showSearchLink: '[data-ui~=showSearchLink]'
+      focusSearchInputLink: '[data-ui~=focusSearchInputLink]',
+      streamDetails: '[data-ui~=streamDetails]'
     },
 
     events: {
-      'click @ui.showSearchLink': '_onClickShowSearchLink'
-    },
-
-    modelEvents: {
-      'change:activeItem': '_onChangeActiveItem'
+      'click @ui.focusSearchInputLink': '_onClickFocusSearchInputLink'
     },
 
     streamItemsEvents: {
@@ -58,21 +47,10 @@
 
     onRender: function() {
       this._setState(this.model.get('items').isEmpty());
+      this._updateStreamDetails(this.model.get('items').getDisplayInfo());
 
       this.showChildView('streamItems', new StreamItemsView({
         collection: this.model.get('items')
-      }));
-
-      this.showChildView('shuffleButton', new ShuffleButtonView({
-        model: StreamusFG.backgroundProperties.shuffleButton
-      }));
-
-      this.showChildView('repeatButton', new RepeatButtonView({
-        model: StreamusFG.backgroundProperties.repeatButton
-      }));
-
-      this.showChildView('radioButton', new RadioButtonView({
-        model: StreamusFG.backgroundProperties.radioButton
       }));
 
       this.showChildView('clearStreamButton', new ClearStreamButtonView({
@@ -87,37 +65,25 @@
           signInManager: StreamusFG.backgroundProperties.signInManager
         })
       }));
-
-      var activeItem = this.model.get('activeItem');
-      if (!_.isNull(activeItem)) {
-        this._showActiveStreamItem(activeItem, true);
-      }
     },
 
-    _onClickShowSearchLink: function() {
-      this._showSearch();
-    },
-
-    _onChangeActiveItem: function(model, activeItem) {
-      if (_.isNull(activeItem)) {
-        this.getChildView('activeStreamItem').hide();
-      } else {
-        // If an active item was already shown then no transition is needed because the view is visible.
-        var isInstant = !_.isNull(model.previous('activeItem'));
-        this._showActiveStreamItem(activeItem, isInstant);
-      }
+    _onClickFocusSearchInputLink: function() {
+      StreamusFG.channels.search.commands.trigger('focus:searchInput');
     },
 
     _onStreamItemsAddCompleted: function(collection) {
       this._setState(collection.isEmpty());
+      this._updateStreamDetails(collection.getDisplayInfo());
     },
 
     _onStreamItemsRemove: function(model, collection) {
       this._setState(collection.isEmpty());
+      this._updateStreamDetails(collection.getDisplayInfo());
     },
 
     _onStreamItemsReset: function(collection) {
       this._setState(collection.isEmpty());
+      this._updateStreamDetails(collection.getDisplayInfo());
     },
 
     // Hide the empty message if there is anything in the collection
@@ -125,16 +91,8 @@
       this.ui.emptyMessage.toggleClass('is-hidden', !collectionEmpty);
     },
 
-    _showSearch: function() {
-      StreamusFG.channels.search.commands.trigger('show:search');
-    },
-
-    _showActiveStreamItem: function(activeStreamItem, instant) {
-      this.showChildView('activeStreamItem', new ActiveStreamItemView({
-        model: activeStreamItem,
-        player: StreamusFG.backgroundProperties.player,
-        instant: instant
-      }));
+    _updateStreamDetails: function(displayInfo) {
+      this.ui.streamDetails.text(displayInfo).attr('data-tooltip-text', displayInfo);
     }
   });
 

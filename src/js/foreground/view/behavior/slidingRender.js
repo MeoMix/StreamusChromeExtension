@@ -39,8 +39,6 @@
       // Give the view an implementation of filter to enforce that not all children are rendered.
       this.view.filter = this._filter.bind(this);
       this.listenTo(StreamusFG.channels.window.vent, 'resize', this._onWindowResize);
-      // It's important to set minRenderIndex before onAttach because if a view triggers ListHeightUpdated during its
-      // onAttach then SlidingRender will call _setViewportHeight before minRenderIndex has been set.
       this.minRenderIndex = this._getMinRenderIndex(0);
       // Provide a throttled version of _onScroll because scroll events can fire at a high rate.
       // https://developer.mozilla.org/en-US/docs/Web/Events/scroll
@@ -60,10 +58,6 @@
       this.view.triggerMethod('GetMinRenderIndexResponse', {
         minRenderIndex: this.minRenderIndex
       });
-    },
-
-    onListHeightUpdated: function() {
-      this._setViewportHeight();
     },
 
     _onWindowResize: function() {

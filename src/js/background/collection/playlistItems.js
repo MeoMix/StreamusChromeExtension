@@ -5,6 +5,7 @@
   var CollectionSequence = require('background/mixin/collectionSequence');
   var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
   var PlaylistItem = require('background/model/playlistItem');
+  var Songs = require('background/collection/songs');
   var Utility = require('common/utility');
 
   var PlaylistItems = Backbone.Collection.extend({
@@ -35,7 +36,7 @@
         var addedPlaylistItem = this._tryAddSongAtIndex(song, index);
 
         // If the item was added successfully to the collection (not duplicate) then allow for it to be created.
-        if (addedPlaylistItem !== null) {
+        if (!_.isNull(addedPlaylistItem)) {
           itemsToCreate.push(addedPlaylistItem);
           index++;
         }
@@ -45,7 +46,21 @@
       // Emit a custom event signaling all items have been added.
       // Useful for not responding to add until all items have been added.
       if (itemsToCreate.length > 0) {
-        this.trigger('add:completed', this);
+        this.trigger('add:completed', this, itemsToCreate);
+
+        // TODO: Do I care about saving properly before notifying?
+        // TODO: Need to be able to read the playlist title instead of just using 'playlist'
+        var notificationMessage;
+        if (itemsToCreate.length === 1) {
+          var songTitle = Utility.truncateString(itemsToCreate[0].get('title'), 40);
+          notificationMessage = chrome.i18n.getMessage('songSavedToPlaylist', [songTitle, 'playlist']);
+        } else {
+          notificationMessage = chrome.i18n.getMessage('songsSavedToPlaylist', [itemsToCreate.length, 'playlist']);
+        }
+
+        StreamusBG.channels.notification.commands.trigger('show:notification', {
+          message: notificationMessage
+        });
       }
 
       // Default to Backbone if only creating 1 item.
@@ -59,27 +74,10 @@
       }
     },
 
-    // Return a string similiar to '15 songs, 4 hours' influenced by
-    // the collection's length and sum of song durations.
     getDisplayInfo: function() {
-      var totalItemsDuration = this._getTotalDuration();
-      var prettyTimeWithWords = Utility.prettyPrintTimeWithWords(totalItemsDuration);
-
-      var songs = this.pluck('song');
-      var songString = chrome.i18n.getMessage(songs.length === 1 ? 'song' : 'songs');
-
-      var displayInfo = songs.length + ' ' + songString + ', ' + prettyTimeWithWords;
+      var songs = new Songs(this.pluck('song'));
+      var displayInfo = songs.getDisplayInfo();
       return displayInfo;
-    },
-
-    // Returns the sum of the durations of all songs in the collection (in seconds)
-    _getTotalDuration: function() {
-      var songDurations = _.invoke(this.pluck('song'), 'get', 'duration');
-      var totalDuration = _.reduce(songDurations, function(memo, songDuration) {
-        return memo + parseInt(songDuration, 10);
-      }, 0);
-
-      return totalDuration;
     },
 
     _tryAddSongAtIndex: function(song, index) {

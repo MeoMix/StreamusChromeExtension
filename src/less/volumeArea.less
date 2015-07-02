@@ -2,6 +2,8 @@
 @import "rangeInput";
 @import "transition";
 
+@slidePanelContentPadding: 10px;
+
 .volumeArea {
     // This fixes the fact that there's a small gap between the 48px button click target
     // and the slidePanel. If the user's mouse goes over that area then the slidePanel collapses.
@@ -21,7 +23,7 @@
     }
 
     .rangeInput {
-        @volumeRangeSize: (@expandedPanelHeight - (@rangeInputMargin * 2));
+        @volumeRangeSize: (@expandedPanelHeight - (@slidePanelContentPadding * 2));
         right: -@volumeRangeSize;
         width: @volumeRangeSize;
         opacity: 1;
@@ -77,4 +79,5 @@
     border-bottom-right-radius: 2px;
     border-bottom-left-radius: 2px;
     align-items: center;
+    padding: @slidePanelContentPadding 0;
 }

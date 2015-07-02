@@ -12,7 +12,7 @@
 
   var StreamItemsView = Marionette.CompositeView.extend({
     id: 'streamItems',
-    className: 'list u-flex--full u-bordered--left',
+    className: 'list u-flex--full',
     childViewContainer: '@ui.listItems',
     childView: StreamItemView,
     childViewType: ListItemType.StreamItem,
@@ -53,23 +53,6 @@
       Tooltipable: {
         behaviorClass: Tooltipable
       }
-    },
-
-    activeStreamItemAreaEvents: {
-      'visible': '_onActiveStreamItemAreaVisible',
-      'hidden': '_onActiveStreamItemAreaHidden'
-    },
-
-    initialize: function() {
-      this.bindEntityEvents(StreamusFG.channels.activeStreamItemArea.vent, this.activeStreamItemAreaEvents);
-    },
-
-    _onActiveStreamItemAreaVisible: function() {
-      this.triggerMethod('ListHeightUpdated');
-    },
-
-    _onActiveStreamItemAreaHidden: function() {
-      this.triggerMethod('ListHeightUpdated');
     }
   });
 

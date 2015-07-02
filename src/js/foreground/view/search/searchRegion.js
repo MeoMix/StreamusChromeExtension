@@ -16,7 +16,9 @@
     },
 
     _onForegroundAreaRendered: function() {
-      if (this.settings.get('openToSearch')) {
+      var search = StreamusFG.backgroundProperties.search;
+
+      if (search.hasQuery()) {
         this._createSearchView();
 
         this._showSearch({
@@ -28,7 +30,8 @@
     _onForegroundAreaIdle: function() {
       // If the search view isn't going to be shown right off the bat then it's OK to defer loading until idle so that
       // the initial load time of the application isn't impacted.
-      if (!this.settings.get('openToSearch')) {
+      var search = StreamusFG.backgroundProperties.search;
+      if (!search.hasQuery()) {
         this._createSearchView();
       }
     },
@@ -54,8 +57,6 @@
         this._createSearchView();
       }
 
-      StreamusFG.channels.search.vent.trigger('showing');
-
       // If the view should be visible when UI first loads then do not transition.
       if (options && options.instant) {
         this.$el.addClass('is-instant');
@@ -66,7 +67,6 @@
     },
 
     _hideSearch: function() {
-      StreamusFG.channels.search.vent.trigger('hiding');
       this.$el.removeClass('is-instant is-visible');
     }
   });

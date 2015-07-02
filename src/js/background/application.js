@@ -5,7 +5,7 @@
   var BackgroundAreaView = require('background/view/backgroundAreaView');
 
   var Application = Marionette.Application.extend({
-    // Set this flag to true to enable localhost server & debugging flags.
+    // Set this flag to true to enable localhost server communication.
     localDebug: false,
     // The URL to which AJAX requests are sent. localhost for debugging or cloud server in production.
     serverUrl: '',

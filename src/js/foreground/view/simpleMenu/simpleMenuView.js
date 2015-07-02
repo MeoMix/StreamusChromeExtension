@@ -4,6 +4,7 @@
   var SimpleMenuItemsView = require('foreground/view/simpleMenu/simpleMenuItemsView');
   var SimpleMenuItemView = require('foreground/view/simpleMenu/simpleMenuItemView');
   var SimpleMenuTemplate = require('text!template/simpleMenu/simpleMenu.html');
+  var FixedPosition = require('foreground/enum/fixedPosition');
   var utility = require('common/utility');
 
   var SimpleMenuView = Marionette.LayoutView.extend({
@@ -13,7 +14,8 @@
 
     regions: {
       simpleMenuItems: '[data-region=simpleMenuItems]',
-      fixedMenuItem: '[data-region=fixedMenuItem]'
+      fixedTopMenuItem: '[data-region=fixedTopMenuItem]',
+      fixedBottomMenuItem: '[data-region=fixedBottomMenuItem]'
     },
 
     ui: {
@@ -45,10 +47,9 @@
         listItemHeight: this.model.get('listItemHeight')
       }));
 
-      if (this.model.has('fixedMenuItem')) {
-        this.showChildView('fixedMenuItem', new SimpleMenuItemView({
-          model: this.model.get('fixedMenuItem')
-        }));
+      var fixedMenuItem = this.model.get('fixedMenuItem');
+      if (!_.isNull(fixedMenuItem)) {
+        this._showFixedMenuItem(fixedMenuItem);
       }
     },
 
@@ -93,6 +94,21 @@
     // If a context menu click occurs and this menu is a context menu, hide it.
     _onElementContextMenu: function() {
       this.hide();
+    },
+
+    // Renders a SimpleMenuItem in a fixed location either above or below the collection of other items.
+    _showFixedMenuItem: function(fixedMenuItem) {
+      var fixedPosition = fixedMenuItem.get('fixedPosition');
+
+      if (fixedPosition === FixedPosition.Top) {
+        this.showChildView('fixedTopMenuItem', new SimpleMenuItemView({
+          model: fixedMenuItem
+        }));
+      } else if (fixedPosition === FixedPosition.Bottom) {
+        this.showChildView('fixedBottomMenuItem', new SimpleMenuItemView({
+          model: fixedMenuItem
+        }));
+      }
     },
 
     _setPosition: function(positionData) {

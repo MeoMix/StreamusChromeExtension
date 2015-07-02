@@ -10,8 +10,7 @@
 
     _onForegroundAreaRendered: function() {
       this.show(new AppBarView({
-        signInManager: StreamusFG.backgroundProperties.signInManager,
-        search: StreamusFG.backgroundProperties.search
+        signInManager: StreamusFG.backgroundProperties.signInManager
       }));
     }
   });

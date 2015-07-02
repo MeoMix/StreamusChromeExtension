@@ -2,6 +2,7 @@
   'use strict';
 
   var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
+  var FixedPosition = require('foreground/enum/fixedPosition');
 
   var SongActions = Backbone.Model.extend({
     showSaveMenu: function(songs, top, left, playlists) {
@@ -25,6 +26,7 @@
         simpleMenuItems: simpleMenuItems,
         fixedMenuItem: {
           text: chrome.i18n.getMessage('createPlaylist'),
+          fixedPosition: FixedPosition.Bottom,
           onClick: function() {
             StreamusFG.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
               songs: songs,
