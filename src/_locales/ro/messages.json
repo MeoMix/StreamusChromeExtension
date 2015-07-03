@@ -210,7 +210,7 @@
         "message": "Zile"
     },
     "errorLoadingTitle": {
-        "message": "Nu am putut incarca titlul"	
+        "message": "Nu am putut incarca titlul"
     },
     "keyboardCommandFailure": {
         "message": "Comanda de la tastatura nu a functionat"
@@ -327,9 +327,6 @@
     },
     "openInTab": {
         "message": "Deschide in tab nou"
-    },
-    "browserSettings": {
-        "message": "Setari browser"
     },
     "contextMenus": {
         "message": "Meniuri context"

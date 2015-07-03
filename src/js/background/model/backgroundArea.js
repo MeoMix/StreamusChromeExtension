@@ -2,7 +2,6 @@
   'use strict';
 
   var AnalyticsManager = require('background/model/analyticsManager');
-  var BrowserSettings = require('background/model/browserSettings');
   var ChromeContextMenusManager = require('background/model/chromeContextMenusManager');
   var ChromeIconManager = require('background/model/chromeIconManager');
   var ChromeNotificationsManager = require('background/model/chromeNotificationsManager');
@@ -28,7 +27,6 @@
   var BackgroundArea = Backbone.Model.extend({
     defaults: function() {
       return {
-        browserSettings: new BrowserSettings(),
         settings: new Settings(),
         youTubePlayer: new YouTubePlayer(),
         radioButton: new RadioButton(),
@@ -75,7 +73,7 @@
       this.set('stream', stream);
 
       var chromeContextMenusManager = new ChromeContextMenusManager({
-        browserSettings: this.get('browserSettings'),
+        settings: this.get('settings'),
         tabManager: this.get('tabManager'),
         signInManager: this.get('signInManager'),
         streamItems: stream.get('items')
@@ -125,7 +123,6 @@
       return {
         activePlaylistManager: this.get('activePlaylistManager'),
         analyticsManager: this.get('analyticsManager'),
-        browserSettings: this.get('browserSettings'),
         dataSourceManager: this.get('dataSourceManager'),
         nextButton: this.get('nextButton'),
         playPauseButton: this.get('playPauseButton'),

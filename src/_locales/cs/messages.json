@@ -210,7 +210,7 @@
         "message": "Dnu"
     },
     "errorLoadingTitle": {
-        "message": "Nelze nacíst název"	
+        "message": "Nelze nacíst název"
     },
     "keyboardCommandFailure": {
         "message": "Chyba provedení klávesové zkratky"
@@ -327,9 +327,6 @@
     },
     "openInTab": {
         "message": "Otevrít na karte"
-    },
-    "browserSettings": {
-        "message": "Nastavení prohlížece"
     },
     "contextMenus": {
         "message": "Kontextová menu"

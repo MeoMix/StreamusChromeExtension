@@ -328,9 +328,6 @@
     "openInTab": {
         "message": "Open in tab"
     },
-    "browserSettings": {
-        "message": "Browser settings"
-    },
     "contextMenus": {
         "message": "Context menus"
     },
@@ -455,7 +452,7 @@
             "playlistTitle": {
                 "content": "$1"
             },
-            "count": { 
+            "count": {
                 "content": "$2"
             }
         }
@@ -466,7 +463,7 @@
             "playlistTitle": {
                 "content": "$1"
             },
-            "count": { 
+            "count": {
                 "content": "$2"
             }
         }

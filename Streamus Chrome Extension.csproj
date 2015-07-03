@@ -308,7 +308,6 @@
     <Content Include="src\js\background\main.js" />
     <Content Include="src\js\background\mixin\collectionMultiSelect.js" />
     <Content Include="src\js\background\mixin\collectionSequence.js" />
-    <Content Include="src\js\background\model\browserSettings.js" />
     <Content Include="src\js\background\model\nextButton.js" />
     <Content Include="src\js\background\model\playPauseButton.js" />
     <Content Include="src\js\background\model\previousButton.js" />
@@ -389,10 +388,8 @@
     <Content Include="src\js\foreground\view\listItemButton\addPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\listItemButton\deletePlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistsView.js" />
-    <Content Include="src\js\foreground\view\dialog\browserSettingsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\playPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\dialog\exportPlaylistView.js" />
-    <Content Include="src\js\foreground\view\dialog\browserSettingsDialogView.js" />
     <Content Include="src\js\foreground\view\selectionBar\selectionBarRegion.js" />
     <Content Include="src\js\foreground\view\selectionBar\selectionBarView.js" />
     <Content Include="src\js\foreground\view\stream\clearStreamButtonView.js" />
@@ -452,8 +449,6 @@
     <Content Include="src\js\test\background\model\clientErrorManager.spec.js" />
     <Content Include="src\js\test\background\model\signInManager.spec.js" />
     <Content Include="src\js\test\background\model\user.spec.js" />
-    <Content Include="src\js\test\foreground\view\dialog\browserSettingsDialogView.spec.js" />
-    <Content Include="src\js\test\foreground\view\dialog\browserSettingsView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\clearStreamDialogView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\createPlaylistDialogView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\createPlaylistView.spec.js" />
@@ -521,7 +516,6 @@
     <Content Include="src\template\listItemButton\optionsListItemButton.html" />
     <Content Include="src\template\listItemButton\playPauseSongButton.html" />
     <Content Include="src\template\playlist\playlists.html" />
-    <Content Include="src\template\dialog\browserSettings.html" />
     <Content Include="src\template\dialog\exportPlaylist.html" />
     <Content Include="src\template\appBar\adminMenuArea.html" />
     <Content Include="src\template\notification\notification.html" />
@@ -644,7 +638,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
