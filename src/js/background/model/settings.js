@@ -36,7 +36,6 @@
     },
 
     initialize: function() {
-      this.save();
       // Load from Backbone.LocalStorage
       this.fetch();
 
