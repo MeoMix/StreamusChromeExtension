@@ -4,6 +4,7 @@
   var SongQuality = require('common/enum/songQuality');
   var DesktopNotificationDuration = require('common/enum/desktopNotificationDuration');
   var SyncActionType = require('background/enum/syncActionType');
+  var LayoutType = require('common/enum/layoutType');
 
   var Settings = Backbone.Model.extend({
     localStorage: new Backbone.LocalStorage('Settings'),
@@ -17,6 +18,7 @@
       remindLinkUserId: true,
       remindGoogleSignIn: true,
       openInTab: false,
+      layoutType: LayoutType.SplitPane,
       desktopNotificationsEnabled: true,
       desktopNotificationDuration: DesktopNotificationDuration.ThreeSeconds,
       showTextSelectionContextMenu: true,

@@ -2,6 +2,7 @@
   'use strict';
 
   var SongQuality = require('common/enum/songQuality');
+  var LayoutType = require('common/enum/layoutType');
   var DesktopNotificationDurations = require('common/enum/desktopNotificationDuration');
   var Checkboxes = require('foreground/collection/element/checkboxes');
   var RadioGroups = require('foreground/collection/element/radioGroups');
@@ -34,6 +35,7 @@
       remindDeletePlaylist: '[data-region=remindDeletePlaylist]',
       remindLinkAccount: '[data-region=remindLinkAccount]',
       remindGoogleSignIn: '[data-region=remindGoogleSignIn]',
+      layoutType: '[data-region=layoutType]',
       desktopNotificationsEnabled: '[data-region=desktopNotificationsEnabled]',
       desktopNotificationDuration: '[data-region=desktopNotificationDuration]',
       showTextSelectionContextMenu: '[data-region=showTextSelectionContextMenu]',
@@ -89,6 +91,12 @@
         propertyName: 'desktopNotificationDuration',
         labelKey: 'notificationDuration',
         options: _.values(DesktopNotificationDurations)
+      });
+
+      this._showSimpleListItem({
+        propertyName: 'layoutType',
+        labelKey: 'layoutType',
+        options: _.values(LayoutType)
       });
 
       this._showCheckbox('showTextSelectionContextMenu', 'textSelection');

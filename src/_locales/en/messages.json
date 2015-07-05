@@ -595,12 +595,21 @@
             }
         }
     },
-    "songAddedToStream":  {
+    "songAddedToStream": {
         "message": "$songTitle$ added to stream",
         "placeholders": {
             "songTitle": {
                 "content": "$1"
             }
         }
+    },
+    "layoutType": {
+        "message": "Layout type"
+    },
+    "fullPane": {
+        "message": "Full pane"
+    },
+    "splitPane": {
+        "message":  "Split pane"
     }
 }
