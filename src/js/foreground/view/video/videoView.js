@@ -105,7 +105,6 @@
 
     _onWindowResize: function() {
       this._setBoundingClientRect();
-      //this._setHoveredState();
     },
 
     // Whenever a video is created its time/state might not be synced with an existing video.
@@ -162,6 +161,10 @@
 
     _setHiddenState: function(isHidden) {
       this.$el.toggleClass('is-hidden', isHidden);
+
+      if (!isHidden) {
+        this._setBoundingClientRect();
+      }
     },
 
     // Determine whether the mouse is hovering over the video element and set its state accordingly.

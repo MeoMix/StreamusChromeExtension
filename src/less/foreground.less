@@ -1,4 +1,5 @@
 ﻿@import "reset";
+@import "activePane";
 @import "activePaneFilter";
 @import "adminMenuArea";
 @import "appBar";
@@ -21,6 +22,7 @@
 @import "radio";
 @import "rangeInput";
 @import "scrollbar";
+@import "searchArea";
 @import "searchInputArea";
 @import "selectionBar";
 @import "sortable";
@@ -65,6 +67,10 @@
 
 .playlistsArea,
 .searchArea {
-    top: 56px !important;
     height: calc(100% - 56px) !important;
+}
+
+.playlistsArea.is-visible,
+.searchArea.is-visible {
+    top: 56px !important;
 }

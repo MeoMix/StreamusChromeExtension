@@ -45,6 +45,7 @@
       var serializedBrowserSettings = localStorage.getItem('BrowserSettings-BrowserSettings');
       if (!_.isNull(serializedBrowserSettings)) {
         this.set(JSON.parse(serializedBrowserSettings));
+        localStorage.removeItem('BrowserSettings-BrowserSettings');
       }
 
       this._ensurePermission('enhanceBeatport');

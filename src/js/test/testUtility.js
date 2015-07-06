@@ -4,6 +4,15 @@
   var Song = require('background/model/song');
   var Playlist = require('background/model/playlist');
   var PlaylistItem = require('background/model/playlistItem');
+  var Player = require('background/model/player');
+  var Stream = require('background/model/stream');
+  var Settings = require('background/model/settings');
+  var SignInManager = require('background/model/signInManager');
+  var YouTubePlayer = require('background/model/youTubePlayer');
+  var ActivePlaylistManager = require('background/model/activePlaylistManager');
+  var ShuffleButton = require('background/model/shuffleButton');
+  var RepeatButton = require('background/model/repeatButton');
+  var RadioButton = require('background/model/radioButton');
 
   var TestUtility = {
     songIdLength: 7,
@@ -64,6 +73,29 @@
       return new Playlist({
         title: 'Playlist'
       });
+    },
+
+    buildPlayer: function() {
+      var player = new Player({
+        settings: new Settings(),
+        youTubePlayer: new YouTubePlayer()
+      });
+
+      return player;
+    },
+
+    buildStream: function() {
+      var stream = new Stream({
+        player: this.buildPlayer(),
+        activePlaylistManager: new ActivePlaylistManager({
+          signInManager: new SignInManager()
+        }),
+        shuffleButton: new ShuffleButton(),
+        radioButton: new RadioButton(),
+        repeatButton: new RepeatButton()
+      });
+
+      return stream;
     }
   };
 

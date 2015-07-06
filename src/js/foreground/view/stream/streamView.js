@@ -10,7 +10,7 @@
 
   var StreamView = Marionette.LayoutView.extend({
     id: 'stream',
-    className: 'flexColumn',
+    className: 'pane flexColumn',
     template: _.template(StreamTemplate),
 
     templateHelpers: {

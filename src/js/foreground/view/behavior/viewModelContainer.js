@@ -1,6 +1,7 @@
 ﻿define(function() {
   'use strict';
 
+  // TODO: This can be used for Collections as well, but the name doesn't imply so much.
   // Provides event handler unbinding of models given to the implementing view.
   // If a view's model has bound event listeners and the view is destroyed then those event listeners
   // become a memory leak if no references to the model remain.

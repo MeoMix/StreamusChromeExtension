@@ -63,6 +63,7 @@
       this._setShowPlaylistsAreaButtonState(signedInUser);
 
       this.showChildView('activePaneFilter', new ActivePaneFilterView({
+        settings: StreamusFG.backgroundProperties.settings,
         model: new ActivePaneFilter({
           signInManager: StreamusFG.backgroundProperties.signInManager,
           activePlaylistManager: StreamusFG.backgroundProperties.activePlaylistManager

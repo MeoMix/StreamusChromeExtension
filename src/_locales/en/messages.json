@@ -143,9 +143,6 @@
     "noResultsFound": {
         "message": "No results found"
     },
-    "clearStream": {
-        "message": "Clear stream"
-    },
     "createPlaylist": {
         "message": "Create playlist"
     },
@@ -610,6 +607,9 @@
         "message": "Full pane"
     },
     "splitPane": {
-        "message":  "Split pane"
+        "message": "Split pane"
+    },
+    "clear": { 
+        "message": "Clear"
     }
 }

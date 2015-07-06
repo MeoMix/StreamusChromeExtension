@@ -38,6 +38,7 @@
         signInManager: new SignInManager(),
         analyticsManager: new AnalyticsManager(),
         dataSourceManager: new DataSourceManager(),
+        activePlaylistManager: null,
         player: null,
         stream: null,
         nextButton: null,
@@ -48,6 +49,9 @@
     },
 
     initialize: function() {
+      // TODO: Just trying this pattern out for now. It's nice being able to grab values from Application rather than pass down through a hierarchy of models.
+      StreamusBG.settings = this.get('settings');
+
       this.listenTo(StreamusBG.channels.foreground.vent, 'started', this._onForegroundStarted.bind(this));
       this.listenTo(StreamusBG.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload.bind(this));
       this.listenTo(StreamusBG.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
@@ -71,6 +75,11 @@
         repeatButton: this.get('repeatButton')
       });
       this.set('stream', stream);
+
+      var activePlaylistManager = new ActivePlaylistManager({
+        signInManager: this.get('signInManager')
+      });
+      this.set('activePlaylistManager', activePlaylistManager);
 
       var chromeContextMenusManager = new ChromeContextMenusManager({
         settings: this.get('settings'),
@@ -112,10 +121,6 @@
         shuffleButton: this.get('shuffleButton'),
         repeatButton: this.get('repeatButton'),
         stream: stream
-      }));
-
-      this.set('activePlaylistManager', new ActivePlaylistManager({
-        signInManager: this.get('signInManager')
       }));
     },
 

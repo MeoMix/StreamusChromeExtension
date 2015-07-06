@@ -2,16 +2,24 @@
   'use strict';
 
   var ActivePaneView = require('foreground/view/activePane/activePaneView');
-  var ActivePlaylistManager = require('background/model/activePlaylistManager');
+  var Panes = require('foreground/collection/activePane/panes');
   var SignInManager = require('background/model/signInManager');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
+  var Settings = require('background/model/settings');
+  var ActivePlaylistManager = require('background/model/activePlaylistManager');
+  var ViewTestUtility = require('test/foreground/view/viewTestUtility');
+  var TestUtility = require('test/testUtility');
 
-  describe(ActivePaneView, function() {
+  describe('ActivePaneView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
       this.view = new ActivePaneView({
-        activePlaylistManager: new ActivePlaylistManager({
-          signInManager: new SignInManager()
+        collection: new Panes(null, {
+          stream: TestUtility.buildStream(),
+          signInManager: new SignInManager(),
+          settings: new Settings(),
+          activePlaylistManager: new ActivePlaylistManager({
+            signInManager: new SignInManager()
+          })
         })
       });
     });
@@ -20,6 +28,6 @@
       this.view.destroy();
     });
 
-    viewTestUtility.ensureBasicAssumptions.call(this);
+    ViewTestUtility.ensureBasicAssumptions.call(this);
   });
 });
