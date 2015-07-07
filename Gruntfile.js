@@ -243,7 +243,7 @@ module.exports = function(grunt) {
         src: ['package.json', 'src/manifest.json']
       }
     },
-    'webstore_upload': {
+    'webstore-upload': {
       accounts: {
         'default': {
           publish: false
@@ -321,7 +321,7 @@ module.exports = function(grunt) {
     grunt.task.run('compressRelease:' + operaReleaseDirectory + ':sanitize=true');
 
     if (isRelease) {
-      grunt.task.run('webstore_upload');
+      grunt.task.run('webstore-upload');
     }
   });
 
