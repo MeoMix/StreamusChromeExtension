@@ -105,7 +105,7 @@
 
       if (isStreamPaneVisible && !this._hasStreamPane()) {
         this._addStreamPane();
-      } else if(!isStreamPaneVisible && this._hasStreamPane()) {
+      } else if (!isStreamPaneVisible && this._hasStreamPane()) {
         this._removeStreamPane();
       }
     },
