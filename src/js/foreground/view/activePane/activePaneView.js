@@ -1,80 +1,59 @@
 ﻿define(function(require) {
   'use strict';
 
-  // TODO: It's weird that I am pulling in views from other folders.
-  var ActivePaneTemplate = require('text!template/activePane/activePane.html');
+  var ActivePaneType = require('foreground/enum/activePaneType');
   var StreamView = require('foreground/view/stream/streamView');
   var ActivePlaylistAreaView = require('foreground/view/leftPane/activePlaylistAreaView');
-  // TODO: Potentially show a 'sign in' view?
+  var ActivePaneTemplate = require('text!template/activePane/activePane.html');
+
   var ActivePaneView = Marionette.LayoutView.extend({
-    className: 'flexColumn',
+    className: 'activePane flexColumn',
     template: _.template(ActivePaneTemplate),
 
     regions: {
-      stream: '[data-region=stream]',
-      activePlaylistArea: '[data-region=activePlaylistArea]'
+      content: '[data-region=content]'
     },
 
-    ui: {
-      // TODO: I don't like regions being part of the UI like this.
-      streamRegion: '[data-ui~=streamRegion]',
-      activePlaylistAreaRegion: '[data-ui~=activePlaylistAreaRegion]'
-    },
-
-    activePlaylistManager: null,
-    activePlaylistManagerEvents: {
-      'change:activePlaylist': '_onChangeActivePlaylist'
-    },
+    streamItems: null,
 
     initialize: function(options) {
-      this.activePlaylistManager = options.activePlaylistManager;
-      this.bindEntityEvents(this.activePlaylistManager, this.activePlaylistManagerEvents);
+      this.streamItems = options.streamItems;
     },
 
     onRender: function() {
-      this._setState(this.activePlaylistManager.get('activePlaylist'));
+      this._showContentView();
     },
 
-    _onChangeActivePlaylist: function(model, activePlaylist) {
-      this._setState(activePlaylist);
+    // Show a dynamically determined view inside of the content region.
+    _showContentView: function() {
+      var contentView = this._getContentView();
+      this.showChildView('content', contentView);
     },
 
-    _setState: function(activePlaylist) {
-      if (_.isNull(activePlaylist)) {
-        this._hideActivePlaylistAreaView();
-        this._showStreamView();
-      } else {
-        this._hideStreamView();
-        this._showActivePlaylistAreaView(activePlaylist);
+    // Returns an instantiated StreamView or ActivePlaylistAreaView depending on the pane's type.
+    _getContentView: function() {
+      var contentView;
+      var relatedModel = this.model.get('relatedModel');
+      var activePaneType = this.model.get('type');
+
+      switch (activePaneType) {
+        case ActivePaneType.Stream:
+          contentView = new StreamView({
+            model: relatedModel
+          });
+          break;
+        case ActivePaneType.Playlist:
+          contentView = new ActivePlaylistAreaView({
+            model: relatedModel,
+            collection: relatedModel.get('items'),
+            streamItems: this.streamItems
+          });
+          break;
+        default:
+          throw new Error('Unhandled activePaneType' + activePaneType);
       }
-    },
 
-    _showStreamView: function() {
-      this.ui.streamRegion.removeClass('is-hidden');
-
-      this.showChildView('stream', new StreamView({
-        model: StreamusFG.backgroundProperties.stream
-      }));
-    },
-
-    _hideStreamView: function() {
-      this.ui.streamRegion.addClass('is-hidden');
-      this.getRegion('stream').empty();
-    },
-
-    _showActivePlaylistAreaView: function(activePlaylist) {
-      this.ui.activePlaylistAreaRegion.removeClass('is-hidden');
-
-      this.showChildView('activePlaylistArea', new ActivePlaylistAreaView({
-        model: activePlaylist,
-        collection: activePlaylist.get('items'),
-        streamItems: StreamusFG.backgroundProperties.stream.get('items')
-      }));
-    },
-
-    _hideActivePlaylistAreaView: function() {
-      this.ui.activePlaylistAreaRegion.addClass('is-hidden');
-      this.getRegion('activePlaylistArea').empty();
+      return contentView;
     }
   });
 

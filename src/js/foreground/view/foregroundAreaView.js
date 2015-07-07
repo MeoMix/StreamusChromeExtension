@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var ActivePaneRegion = require('foreground/view/activePane/activePaneRegion');
+  var ActivePanesRegion = require('foreground/view/activePane/activePanesRegion');
   var AppBarRegion = require('foreground/view/appBar/appBarRegion');
   var SimpleMenuRegion = require('foreground/view/simpleMenu/simpleMenuRegion');
   var StreamControlBarRegion = require('foreground/view/streamControlBar/streamControlBarRegion');
@@ -80,8 +80,8 @@
           signInManager: StreamusFG.backgroundProperties.signInManager
         },
         activePane: {
-          selector: '[data-region=activePane]',
-          regionClass: ActivePaneRegion
+          selector: '[data-region=activePanes]',
+          regionClass: ActivePanesRegion
         },
         selectionBar: {
           selector: '[data-region=selectionBar]',

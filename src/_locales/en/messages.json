@@ -143,9 +143,6 @@
     "noResultsFound": {
         "message": "No results found"
     },
-    "clearStream": {
-        "message": "Clear stream"
-    },
     "createPlaylist": {
         "message": "Create playlist"
     },
@@ -328,9 +325,6 @@
     "openInTab": {
         "message": "Open in tab"
     },
-    "browserSettings": {
-        "message": "Browser settings"
-    },
     "contextMenus": {
         "message": "Context menus"
     },
@@ -455,7 +449,7 @@
             "playlistTitle": {
                 "content": "$1"
             },
-            "count": { 
+            "count": {
                 "content": "$2"
             }
         }
@@ -466,7 +460,7 @@
             "playlistTitle": {
                 "content": "$1"
             },
-            "count": { 
+            "count": {
                 "content": "$2"
             }
         }
@@ -598,12 +592,24 @@
             }
         }
     },
-    "songAddedToStream":  {
+    "songAddedToStream": {
         "message": "$songTitle$ added to stream",
         "placeholders": {
             "songTitle": {
                 "content": "$1"
             }
         }
+    },
+    "layoutType": {
+        "message": "Layout type"
+    },
+    "fullPane": {
+        "message": "Full pane"
+    },
+    "splitPane": {
+        "message": "Split pane"
+    },
+    "clear": { 
+        "message": "Clear"
     }
 }

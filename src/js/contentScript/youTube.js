@@ -246,8 +246,9 @@
 
         var observer = new MutationObserver(function(mutations) {
           var hasPageLoadedClass = mutations[0].target.classList.contains('page-loaded');
+          var isVideoPage = window.location.href.indexOf('watch') !== -1;
 
-          if (hasPageLoadedClass && !isPageLoaded) {
+          if (hasPageLoadedClass && isVideoPage && !isPageLoaded) {
             this.appendHtml();
           }
 

@@ -210,7 +210,7 @@
         "message": "Días"
     },
     "errorLoadingTitle": {
-        "message": "Error cargando título"	
+        "message": "Error cargando título"
     },
     "keyboardCommandFailure": {
         "message": "Falla en comando de teclado"
@@ -327,9 +327,6 @@
     },
     "openInTab": {
         "message": "Abrir en pestaña"
-    },
-    "browserSettings": {
-        "message": "Ajustes de explorador"
     },
     "contextMenus": {
         "message": "Menúes contextuales"

@@ -8,6 +8,7 @@
   var ListItemType = require('common/enum/listItemType');
   var DataSource = require('background/model/dataSource');
   var Utility = require('common/utility');
+  var LayoutType = require('common/enum/layoutType');
 
   var Playlists = Backbone.Collection.extend({
     model: Playlist,
@@ -26,7 +27,7 @@
       this.on('remove', this._onRemove);
       this.on('change:active', this._onChangeActive);
       this.on('change:sequence', this._onChangeSequence);
-      this.on('reset', this._onReset);
+      this.listenTo(StreamusBG.settings, 'change:layoutType', this._onSettingsChangeLayoutType);
     },
 
     getActivePlaylist: function() {
@@ -105,14 +106,7 @@
     },
 
     loadStoredState: function() {
-      var activePlaylistId = localStorage.getItem('activePlaylistId');
-      var playlist = this.get(activePlaylistId);
-
-      // Safer to check if playlist is undefined rather than activePlaylistId is null.
-      if (!_.isUndefined(playlist)) {
-        playlist.set('active', true);
-      }
-
+      this._ensureActivePlaylist();
       this._setCanDelete(this.length > 1);
     },
 
@@ -127,10 +121,6 @@
     _setCanDelete: function(canDelete) {
       // Playlists can only be deleted if there's >1 playlist existing because I don't want to leave the user with 0 playlists.
       this.invoke('set', 'canDelete', canDelete);
-    },
-
-    _onReset: function() {
-      this._setCanDelete(this.length > 1);
     },
 
     _onChangeSequence: function(model) {
@@ -194,14 +184,11 @@
 
     _onChangeActive: function(changedPlaylist, active) {
       // Ensure only one playlist is active at a time by de-activating all other active playlists.
+      // Purposefully don't remove activePlaylistId because it's useful for restoring state when
+      // changing from Layout.FullPane w/ Stream visible to SplitPane.
       if (active) {
         this._deactivateAllExcept(changedPlaylist);
         localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
-      } else {
-        var activePlaylist = this.getActivePlaylist();
-        if (_.isUndefined(activePlaylist)) {
-          localStorage.removeItem('activePlaylistId');
-        }
       }
     },
 
@@ -274,6 +261,27 @@
           id: removedPlaylist.get('id')
         }
       });
+    },
+
+    _onSettingsChangeLayoutType: function(settings, layoutType) {
+      if (layoutType === LayoutType.SplitPane) {
+        this._ensureActivePlaylist();
+      }
+    },
+
+    _ensureActivePlaylist: function() {
+      var activePlaylistId = localStorage.getItem('activePlaylistId');
+      var playlist = this.get(activePlaylistId);
+
+      // Safer to check if playlist is undefined rather than activePlaylistId is null.
+      if (_.isUndefined(playlist)) {
+        // Ensure that there's an active playlist if an active playlist needs to be shown.
+        if (this.length > 0 && StreamusBG.settings.get('layoutType') === LayoutType.SplitPane) {
+          this.at(0).set('active', true);
+        }
+      } else {
+        playlist.set('active', true);
+      }
     },
 
     _notifyChromeRuntimeMessageError: function(sendResponse) {

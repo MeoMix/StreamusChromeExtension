@@ -73,27 +73,32 @@
     <Content Include="src\img\streamus_icon38.png" />
     <Content Include="src\img\streamus_icon48.png" />
     <Content Include="src\img\streamus_icon_white19.png" />
+    <Content Include="src\js\foreground\collection\activePane\activePanes.js" />
     <Content Include="src\js\background\enum\entityType.js" />
     <Content Include="src\js\background\model\activePlaylistManager.js" />
     <Content Include="src\js\background\model\analyticsManager.js" />
+    <Content Include="src\js\foreground\model\activePane\activePane.js" />
     <Content Include="src\js\background\model\videoButton.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
+    <Content Include="src\js\common\enum\layoutType.js" />
     <Content Include="src\js\common\lodashMixin.js" />
     <Content Include="src\js\contentScript\interceptor.js" />
     <Content Include="src\js\foreground\enum\fixedPosition.js" />
+    <Content Include="src\js\foreground\enum\activePaneType.js" />
     <Content Include="src\js\foreground\model\appBar\activePaneFilter.js" />
     <Content Include="src\js\foreground\model\dialog\createPlaylist.js" />
     <Content Include="src\js\foreground\model\dialog\editPlaylist.js" />
     <Content Include="src\js\foreground\model\listItemButton\listItemButton.js" />
     <Content Include="src\js\foreground\model\song\songActions.js" />
+    <Content Include="src\js\foreground\model\streamControlBar\timeLabelArea.js" />
+    <Content Include="src\js\foreground\model\streamControlBar\timeSlider.js" />
     <Content Include="src\js\foreground\model\video\mediaSourceWrapper.js" />
     <Content Include="src\js\foreground\model\video\sourceBufferWrapper.js" />
     <Content Include="src\js\foreground\enum\keyCode.js" />
     <Content Include="src\js\foreground\model\tooltip\tooltip.js" />
-    <Content Include="src\js\foreground\view\activePane\activePaneRegion.js" />
+    <Content Include="src\js\foreground\view\activePane\activePanesRegion.js" />
+    <Content Include="src\js\foreground\view\activePane\activePanesView.js" />
     <Content Include="src\js\foreground\view\activePane\activePaneView.js" />
-    <Content Include="src\js\foreground\view\activePane\panesView.js" />
-    <Content Include="src\js\foreground\view\activePane\paneView.js" />
     <Content Include="src\js\foreground\view\appBar\activePaneFilterView.js" />
     <Content Include="src\js\foreground\view\appBar\searchInputAreaView.js" />
     <Content Include="src\js\foreground\view\behavior\dialogContent.js" />
@@ -109,11 +114,8 @@
     <Content Include="src\js\foreground\view\listItemButton\playlistOptionsButtonView.js" />
     <Content Include="src\js\foreground\view\simpleMenu\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
-    <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
-    <Content Include="src\js\foreground\view\leftPane\leftPaneView.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemView.js" />
-    <Content Include="src\js\foreground\view\leftPane\signInView.js" />
     <Content Include="src\js\foreground\view\listItemButton\songOptionsButtonView.js" />
     <Content Include="src\js\foreground\view\streamControlBar\nextButtonView.js" />
     <Content Include="src\js\foreground\view\streamControlBar\playPauseButtonView.js" />
@@ -139,9 +141,12 @@
     <Content Include="src\js\test\chrome.mock.js" />
     <Content Include="src\js\test\common\commonSpecLoader.js" />
     <Content Include="src\js\test\background\model\activePlaylistManager.spec.js" />
+    <Content Include="src\js\test\foreground\collection\activePane\panes.spec.js" />
     <Content Include="src\js\test\foreground\model\appBar\activePaneFilter.spec.js" />
-    <Content Include="src\js\test\foreground\view\activePane\activePaneView.spec.js" />
+    <Content Include="src\js\test\foreground\view\activePane\activePanesRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\activePane\activePaneSpecLoader.js" />
+    <Content Include="src\js\test\foreground\view\activePane\activePanesView.spec.js" />
+    <Content Include="src\js\test\foreground\view\activePane\activePaneView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\activePaneFilterView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\adminMenuAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarRegion.spec.js" />
@@ -158,9 +163,6 @@
     <Content Include="src\js\test\foreground\view\streamControlBar\streamControlBarView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\timeLabelAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\timeSliderView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\nextButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\playPauseButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\previousButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\volumeAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\behaviorSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\behavior\collectionViewMultiSelect.spec.js" />
@@ -228,19 +230,13 @@
     <Content Include="src\js\test\foreground\view\selectionBar\selectionBarRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\selectionBar\selectionBarSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\selectionBar\selectionBarView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\activeStreamItemView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\clearStreamButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\radioButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\repeatButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\saveStreamButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\shuffleButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamItemsView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamItemView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\stream\streamView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\timeLabelAreaView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\timeSliderView.spec.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipView.spec.js" />
@@ -252,6 +248,7 @@
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />
+    <Content Include="src\template\activePane\activePanes.html" />
     <Content Include="src\template\activePane\activePane.html" />
     <Content Include="src\template\appBar\activePaneFilter.html" />
     <Content Include="src\template\appBar\searchInputArea.html" />
@@ -308,7 +305,6 @@
     <Content Include="src\js\background\main.js" />
     <Content Include="src\js\background\mixin\collectionMultiSelect.js" />
     <Content Include="src\js\background\mixin\collectionSequence.js" />
-    <Content Include="src\js\background\model\browserSettings.js" />
     <Content Include="src\js\background\model\nextButton.js" />
     <Content Include="src\js\background\model\playPauseButton.js" />
     <Content Include="src\js\background\model\previousButton.js" />
@@ -389,10 +385,8 @@
     <Content Include="src\js\foreground\view\listItemButton\addPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\listItemButton\deletePlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistsView.js" />
-    <Content Include="src\js\foreground\view\dialog\browserSettingsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\playPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\dialog\exportPlaylistView.js" />
-    <Content Include="src\js\foreground\view\dialog\browserSettingsDialogView.js" />
     <Content Include="src\js\foreground\view\selectionBar\selectionBarRegion.js" />
     <Content Include="src\js\foreground\view\selectionBar\selectionBarView.js" />
     <Content Include="src\js\foreground\view\stream\clearStreamButtonView.js" />
@@ -452,8 +446,6 @@
     <Content Include="src\js\test\background\model\clientErrorManager.spec.js" />
     <Content Include="src\js\test\background\model\signInManager.spec.js" />
     <Content Include="src\js\test\background\model\user.spec.js" />
-    <Content Include="src\js\test\foreground\view\dialog\browserSettingsDialogView.spec.js" />
-    <Content Include="src\js\test\foreground\view\dialog\browserSettingsView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\clearStreamDialogView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\createPlaylistDialogView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\createPlaylistView.spec.js" />
@@ -505,6 +497,7 @@
     <Content Include="src\less\appBar.less" />
     <Content Include="src\less\flexRow.less" />
     <Content Include="src\less\activePaneFilter.less" />
+    <Content Include="src\less\activePane.less" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\appBar\appBar.html" />
     <Content Include="src\template\backgroundArea.html" />
@@ -521,7 +514,6 @@
     <Content Include="src\template\listItemButton\optionsListItemButton.html" />
     <Content Include="src\template\listItemButton\playPauseSongButton.html" />
     <Content Include="src\template\playlist\playlists.html" />
-    <Content Include="src\template\dialog\browserSettings.html" />
     <Content Include="src\template\dialog\exportPlaylist.html" />
     <Content Include="src\template\appBar\adminMenuArea.html" />
     <Content Include="src\template\notification\notification.html" />
@@ -609,6 +601,7 @@
     <Content Include="src\less\streamControlBar.less" />
     <Content Include="src\less\video.less" />
     <Content Include="src\less\searchInputArea.less" />
+    <Content Include="src\less\searchArea.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />
@@ -644,7 +637,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

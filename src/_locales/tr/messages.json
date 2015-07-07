@@ -211,7 +211,7 @@
         "message": "Günler"
     },
     "errorLoadingTitle": {
-        "message": "Başlığı yüklerken hata "	
+        "message": "Başlığı yüklerken hata "
     },
     "keyboardCommandFailure": {
         "message": "Klavye komutu hatası"
@@ -329,9 +329,6 @@
     },
     "openInTab": {
         "message": "Sekmede Aç"
-    },
-    "browserSettings": {
-        "message": "Tarayıcı Ayarları"
     },
     "contextMenus": {
         "message": "Açılır Menü"

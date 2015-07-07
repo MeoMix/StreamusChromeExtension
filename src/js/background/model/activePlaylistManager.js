@@ -5,6 +5,7 @@
   // whether a user is signed in or not.
   var ActivePlaylistManager = Backbone.Model.extend({
     defaults: {
+      // TODO: This could be a little less verbose -- probably just want to call it PlaylistManager.
       activePlaylist: null,
       signInManager: null
     },
@@ -21,9 +22,9 @@
       this._setActivePlaylist(signedInUser);
     },
 
-    _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
+    _onSignInManagerChangeSignedInUser: function(signInManager, signedInUser) {
       if (_.isNull(signedInUser)) {
-        var previousSignedInUser = model.previous('signedInUser');
+        var previousSignedInUser = signInManager.previous('signedInUser');
 
         if (!_.isNull(previousSignedInUser)) {
           this._setUserBindings(previousSignedInUser, false);
@@ -35,21 +36,23 @@
       this._setActivePlaylist(signedInUser);
     },
 
-    _onPlaylistsChangeActive: function(model, active) {
+    _onPlaylistsChangeActive: function(playlist, active) {
       if (active) {
-        this.set('activePlaylist', model);
+        this.set('activePlaylist', playlist);
       } else {
-        if (this.get('activePlaylist') === model) {
+        if (this.get('activePlaylist') === playlist) {
           this.set('activePlaylist', null);
         }
       }
     },
 
     _setUserBindings: function(user, isBinding) {
+      var playlists = user.get('playlists');
       if (isBinding) {
-        this.listenTo(user.get('playlists'), 'change:active', this._onPlaylistsChangeActive);
+        this.listenTo(playlists, 'change:active', this._onPlaylistsChangeActive);
+        this.listenTo(playlists, 'remove', this._onPlaylistsRemove);
       } else {
-        this.stopListening(user.get('playlists'));
+        this.stopListening(playlists);
       }
     },
 

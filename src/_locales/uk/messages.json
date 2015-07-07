@@ -328,9 +328,6 @@
     "openInTab": {
         "message": "Відкривати у вкладці"
     },
-    "browserSettings": {
-        "message": "Налаштування браузера"
-    },
     "contextMenus": {
         "message": "Контекстне меню"
     },
@@ -534,7 +531,7 @@
     "version": {
         "message": "Версія"
     },
-    "openPatchNotes": { 
+    "openPatchNotes": {
         "message":  "Відкрити інформацію про оновлення"
     }
 }

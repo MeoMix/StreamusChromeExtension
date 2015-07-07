@@ -11,7 +11,7 @@
     className: 'button button--flat',
     template: _.template(SaveStreamButtonTemplate),
     templateHelpers: {
-      saveStreamMessage: chrome.i18n.getMessage('saveStream')
+      saveAllMessage: chrome.i18n.getMessage('saveAll')
     },
 
     attributes: {

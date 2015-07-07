@@ -328,9 +328,6 @@
     "openInTab": {
         "message": "Открывать во вкладке"
     },
-    "browserSettings": {
-        "message": "Настройки браузера"
-    },
     "contextMenus": {
         "message": "Контекстное меню"
     },
@@ -534,7 +531,7 @@
     "version": {
         "message": "Версия"
     },
-    "openPatchNotes": { 
+    "openPatchNotes": {
         "message":  "Открыть информацию про обновления"
     }
 }

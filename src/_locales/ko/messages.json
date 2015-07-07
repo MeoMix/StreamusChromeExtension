@@ -210,7 +210,7 @@
         "message": "일"
     },
     "errorLoadingTitle": {
-        "message": "제목 불러오기 실패"	
+        "message": "제목 불러오기 실패"
     },
     "keyboardCommandFailure": {
         "message": "키보드 커맨드 실패"
@@ -327,9 +327,6 @@
     },
     "openInTab": {
         "message": "탭에서 열기"
-    },
-    "browserSettings": {
-        "message": "브라우저 설정"
     },
     "contextMenus": {
         "message": "메뉴"

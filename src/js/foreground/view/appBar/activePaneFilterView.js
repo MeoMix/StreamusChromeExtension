@@ -3,6 +3,7 @@
 
   var FixedPosition = require('foreground/enum/fixedPosition');
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
+  var LayoutType = require('common/enum/layoutType');
   var ActivePaneFilterTemplate = require('text!template/appBar/activePaneFilter.html');
 
   // A view which shows the title of the currently active pane and provides a drop-down menu for selecting another
@@ -32,6 +33,13 @@
       'change:isEnabled': '_onChangeIsEnabled'
     },
 
+    settings: null,
+
+    initialize: function(options) {
+      this.settings = options.settings;
+    },
+
+    // TODO: Review setState here, not sure if always relevant.
     onRender: function() {
       this._setState(this.model.get('isEnabled'));
     },
@@ -60,16 +68,23 @@
 
       var activePlaylist = this.model.get('activePlaylistManager').get('activePlaylist');
 
-      StreamusFG.channels.simpleMenu.commands.trigger('show:simpleMenu', {
-        top: offset.top,
-        left: offset.left,
-        simpleMenuItems: simpleMenuItems,
-        fixedMenuItem: {
+      var fixedMenuItem = null;
+      var layoutType = this.settings.get('layoutType');
+
+      if (layoutType === LayoutType.FullPane) {
+        fixedMenuItem = {
           active: _.isNull(activePlaylist),
           text: chrome.i18n.getMessage('stream'),
           fixedPosition: FixedPosition.Top,
           onClick: this._onClickFixedMenuItem.bind(this)
-        }
+        };
+      }
+
+      StreamusFG.channels.simpleMenu.commands.trigger('show:simpleMenu', {
+        top: offset.top,
+        left: offset.left,
+        simpleMenuItems: simpleMenuItems,
+        fixedMenuItem: fixedMenuItem
       });
     },
 

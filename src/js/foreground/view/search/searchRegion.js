@@ -2,6 +2,7 @@
   'use strict';
 
   var SearchView = require('foreground/view/search/searchView');
+  var LayoutType = require('common/enum/layoutType');
 
   var SearchRegion = Marionette.Region.extend({
     settings: null,
@@ -13,9 +14,11 @@
       this.listenTo(StreamusFG.channels.search.commands, 'hide:search', this._hideSearch);
       this.listenTo(StreamusFG.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
       this.listenTo(StreamusFG.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+      this.listenTo(this.settings, 'change:layoutType', this._onSettingsChangeLayoutType);
     },
 
     _onForegroundAreaRendered: function() {
+      this._setWidth(this.settings.get('layoutType'));
       var search = StreamusFG.backgroundProperties.search;
 
       if (search.hasQuery()) {
@@ -34,6 +37,10 @@
       if (!search.hasQuery()) {
         this._createSearchView();
       }
+    },
+
+    _onSettingsChangeLayoutType: function(settings, layoutType) {
+      this._setWidth(layoutType);
     },
 
     _createSearchView: function() {
@@ -68,6 +75,14 @@
 
     _hideSearch: function() {
       this.$el.removeClass('is-instant is-visible');
+    },
+
+    _setWidth: function(layoutType) {
+      // TODO: How can I safely get the reference to this region's element?
+      var element = this.$el.length > 0 ? this.$el : $(this.el);
+
+      element.toggleClass('is-fullWidth', layoutType === LayoutType.FullPane);
+      element.toggleClass('is-halfWidth', layoutType === LayoutType.SplitPane);
     }
   });
 
