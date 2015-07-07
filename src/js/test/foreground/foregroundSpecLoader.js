@@ -3,7 +3,7 @@
 
   // /collection/
   // /collection/activePane/
-  require('test/foreground/collection/activePane/panes.spec');
+  require('test/foreground/collection/activePane/activePanes.spec');
 
   // /model/
   // /model/appBar/

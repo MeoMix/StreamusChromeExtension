@@ -1,33 +1,59 @@
-﻿// TODO: Show a sign-in view.
-define(function(require) {
+﻿define(function(require) {
   'use strict';
 
-  var PaneType = require('foreground/enum/paneType');
-  var PaneView = require('foreground/view/activePane/paneView');
+  var ActivePaneType = require('foreground/enum/activePaneType');
+  var StreamView = require('foreground/view/stream/streamView');
+  var ActivePlaylistAreaView = require('foreground/view/leftPane/activePlaylistAreaView');
   var ActivePaneTemplate = require('text!template/activePane/activePane.html');
-  var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
 
-  var ActivePaneView = Marionette.CollectionView.extend({
-    className: 'activePane flexRow',
-    childView: PaneView,
+  var ActivePaneView = Marionette.LayoutView.extend({
+    className: 'activePane flexColumn',
     template: _.template(ActivePaneTemplate),
 
-    childViewOptions: function() {
-      return {
-        streamItems: StreamusFG.backgroundProperties.stream.get('items')
-      };
+    regions: {
+      content: '[data-region=content]'
     },
 
-    behaviors: {
-      ViewModelContainer: {
-        behaviorClass: ViewModelContainer,
-        viewModelNames: ['collection']
+    streamItems: null,
+
+    initialize: function(options) {
+      this.streamItems = options.streamItems;
+    },
+
+    onRender: function() {
+      this._showContentView();
+    },
+
+    // Show a dynamically determined view inside of the content region.
+    _showContentView: function() {
+      var contentView = this._getContentView();
+      this.showChildView('content', contentView);
+    },
+
+    // Returns an instantiated StreamView or ActivePlaylistAreaView depending on the pane's type.
+    _getContentView: function() {
+      var contentView;
+      var relatedModel = this.model.get('relatedModel');
+      var activePaneType = this.model.get('type');
+
+      switch (activePaneType) {
+        case ActivePaneType.Stream:
+          contentView = new StreamView({
+            model: relatedModel
+          });
+          break;
+        case ActivePaneType.Playlist:
+          contentView = new ActivePlaylistAreaView({
+            model: relatedModel,
+            collection: relatedModel.get('items'),
+            streamItems: this.streamItems
+          });
+          break;
+        default:
+          throw new Error('Unhandled activePaneType' + activePaneType);
       }
-    },
 
-    // Sort the panes such that the stream appears on the right side.
-    viewComparator: function(pane) {
-      return pane.get('type') === PaneType.Stream ? 1 : 0;
+      return contentView;
     }
   });
 

@@ -1,12 +1,12 @@
 ﻿define(function(require) {
   'use strict';
 
-  var Pane = require('foreground/model/activePane/pane');
-  var PaneType = require('foreground/enum/paneType');
+  var ActivePane = require('foreground/model/activePane/activePane');
+  var ActivePaneType = require('foreground/enum/activePaneType');
   var LayoutType = require('common/enum/layoutType');
 
-  var Panes = Backbone.Collection.extend({
-    model: Pane,
+  var ActivePanes = Backbone.Collection.extend({
+    model: ActivePane,
     stream: null,
     settings: null,
     activePlaylistManager: null,
@@ -19,7 +19,9 @@
       this.listenTo(this.settings, 'change:layoutType', this._onSettingsChangeLayoutType);
       this.listenTo(this.activePlaylistManager, 'change:activePlaylist', this._onActivePlaylistManagerChangeActivePlaylist);
 
-      this._initializePanes(this.settings.get('layoutType'), this.activePlaylistManager.get('activePlaylist'));
+      var layoutType = this.settings.get('layoutType');
+      var activePlaylist = this.activePlaylistManager.get('activePlaylist');
+      this._initializePanes(layoutType, activePlaylist);
     },
 
     // Determine whether the stream is visible or not based on the layoutType.
@@ -42,55 +44,28 @@
         this._addPlaylistPane(activePlaylist);
       }
 
-      if (!_.isNull(previousActivePlaylist) && !_.isUndefined(previousActivePlaylist)) {
+      if (previousActivePlaylist) {
         this._removePlaylistPane(previousActivePlaylist);
       }
     },
 
-    _getPaneByRelatedModel: function(relatedModel) {
-      var pane = this.findWhere({
-        relatedModel: relatedModel
-      });
-
-      return pane;
-    },
-
-    _getStreamPane: function() {
-      var streamPane = this.findWhere({
-        type: PaneType.Stream
-      });
-
-      return streamPane;
-    },
-
-    _getPlaylistPanes: function() {
-      var playlistPanes = this.where({
-        type: PaneType.Playlist
-      });
-
-      return playlistPanes;
-    },
-
     _addPlaylistPane: function(playlist) {
       this.add({
-        type: PaneType.Playlist,
+        type: ActivePaneType.Playlist,
         relatedModel: playlist
       });
     },
 
     _removePlaylistPane: function(playlist) {
-      var playlistPane = this._getPaneByRelatedModel(playlist);
+      var playlistPane = this.findWhere({
+        relatedModel: playlist
+      });
       this.remove(playlistPane);
-    },
-
-    _getStreamPaneVisibility: function(layoutType, activePlaylistExists) {
-      var isStreamPaneVisible = layoutType === LayoutType.SplitPane || !activePlaylistExists;
-      return isStreamPaneVisible;
     },
 
     _addStreamPane: function() {
       this.add({
-        type: PaneType.Stream,
+        type: ActivePaneType.Stream,
         relatedModel: this.stream
       });
     },
@@ -98,6 +73,11 @@
     _removeStreamPane: function() {
       var streamPane = this._getStreamPane();
       this.remove(streamPane);
+    },
+
+    _getStreamPaneVisibility: function(layoutType, activePlaylistExists) {
+      var isStreamPaneVisible = layoutType === LayoutType.SplitPane || !activePlaylistExists;
+      return isStreamPaneVisible;
     },
 
     _setStreamPaneVisibility: function(layoutType, activePlaylistExists) {
@@ -113,8 +93,16 @@
     _hasStreamPane: function() {
       var streamPane = this._getStreamPane();
       return !_.isUndefined(streamPane);
+    },
+
+    _getStreamPane: function() {
+      var streamPane = this.findWhere({
+        type: ActivePaneType.Stream
+      });
+
+      return streamPane;
     }
   });
 
-  return Panes;
+  return ActivePanes;
 });

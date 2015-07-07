@@ -1,8 +1,8 @@
 ﻿define(function(require) {
   'use strict';
 
-  var ActivePaneView = require('foreground/view/activePane/activePaneView');
-  var Panes = require('foreground/collection/activePane/panes');
+  var ActivePanesView = require('foreground/view/activePane/activePanesView');
+  var ActivePanes = require('foreground/collection/activePane/activePanes');
 
   var ActivePaneRegion = Marionette.Region.extend({
     initialize: function() {
@@ -10,12 +10,12 @@
     },
 
     _onForegroundAreaRendered: function() {
-      this._showActivePaneView();
+      this._showActivePanesView();
     },
 
-    _showActivePaneView: function() {
-      this.show(new ActivePaneView({
-        collection: new Panes(null, {
+    _showActivePanesView: function() {
+      this.show(new ActivePanesView({
+        collection: new ActivePanes(null, {
           stream: StreamusFG.backgroundProperties.stream,
           settings: StreamusFG.backgroundProperties.settings,
           activePlaylistManager: StreamusFG.backgroundProperties.activePlaylistManager
