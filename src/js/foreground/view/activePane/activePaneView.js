@@ -3,31 +3,19 @@ define(function(require) {
   'use strict';
 
   var PaneType = require('foreground/enum/paneType');
-  var StreamView = require('foreground/view/stream/streamView');
-  var ActivePlaylistAreaView = require('foreground/view/leftPane/activePlaylistAreaView');
+  var PaneView = require('foreground/view/activePane/paneView');
   var ActivePaneTemplate = require('text!template/activePane/activePane.html');
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
 
   var ActivePaneView = Marionette.CollectionView.extend({
     className: 'activePane flexRow',
+    childView: PaneView,
     template: _.template(ActivePaneTemplate),
 
-    childViewOptions: function(pane) {
-      var streamViewOptions = {
-        model: pane.get('relatedModel')
-      };
-
-      var activePlaylistAreaViewOptions = {
-        model: pane.get('relatedModel'),
-        collection: pane.get('relatedModel').get('items'),
+    childViewOptions: function() {
+      return {
         streamItems: StreamusFG.backgroundProperties.stream.get('items')
       };
-
-      return pane.get('type') === PaneType.Stream ? streamViewOptions : activePlaylistAreaViewOptions;
-    },
-
-    getChildView: function(pane) {
-      return pane.get('type') === PaneType.Stream ? StreamView : ActivePlaylistAreaView;
     },
 
     behaviors: {

@@ -98,6 +98,7 @@
     <Content Include="src\js\foreground\model\tooltip\tooltip.js" />
     <Content Include="src\js\foreground\view\activePane\activePaneRegion.js" />
     <Content Include="src\js\foreground\view\activePane\activePaneView.js" />
+    <Content Include="src\js\foreground\view\activePane\paneView.js" />
     <Content Include="src\js\foreground\view\appBar\activePaneFilterView.js" />
     <Content Include="src\js\foreground\view\appBar\searchInputAreaView.js" />
     <Content Include="src\js\foreground\view\behavior\dialogContent.js" />
@@ -145,6 +146,7 @@
     <Content Include="src\js\test\foreground\view\activePane\activePaneRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\activePane\activePaneSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\activePane\activePaneView.spec.js" />
+    <Content Include="src\js\test\foreground\view\activePane\paneView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\activePaneFilterView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\adminMenuAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarRegion.spec.js" />

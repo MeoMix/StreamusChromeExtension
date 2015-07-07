@@ -3,4 +3,5 @@
 
   require('test/foreground/view/activePane/activePaneRegion.spec');
   require('test/foreground/view/activePane/activePaneView.spec');
+  require('test/foreground/view/activePane/paneView.spec');
 });
