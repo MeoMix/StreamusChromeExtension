@@ -1,6 +1,10 @@
 ﻿define(function(require) {
   'use strict';
 
+  // /collection/
+  // /collection/activePane/
+  require('test/foreground/collection/activePane/panes.spec');
+
   // /model/
   // /model/appBar/
   require('test/foreground/model/appBar/activePaneFilter.spec');

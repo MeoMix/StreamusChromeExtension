@@ -1,5 +1,4 @@
-﻿// TODO: It's weird that I am pulling in views from other folders.
-// TODO: Potentially show a 'sign in' view?
+﻿// TODO: Show a sign-in view.
 define(function(require) {
   'use strict';
 
@@ -13,46 +12,22 @@ define(function(require) {
     className: 'activePane flexRow',
     template: _.template(ActivePaneTemplate),
 
-    childViewOptions: function(model) {
-      var childViewOptions = null;
-      var paneType = model.get('type');
+    childViewOptions: function(pane) {
+      var streamViewOptions = {
+        model: pane.get('relatedModel')
+      };
 
-      switch (paneType) {
-        case PaneType.Stream:
-          childViewOptions = {
-            model: model.get('relatedModel')
-          };
-          break;
-        case PaneType.Playlist:
-          childViewOptions = {
-            model: model.get('relatedModel'),
-            collection: model.get('relatedModel').get('items'),
-            streamItems: StreamusFG.backgroundProperties.stream.get('items')
-          };
-          break;
-        default:
-          console.error('Unhandled pane type ' + paneType);
-      }
+      var activePlaylistAreaViewOptions = {
+        model: pane.get('relatedModel'),
+        collection: pane.get('relatedModel').get('items'),
+        streamItems: StreamusFG.backgroundProperties.stream.get('items')
+      };
 
-      return childViewOptions;
+      return pane.get('type') === PaneType.Stream ? streamViewOptions : activePlaylistAreaViewOptions;
     },
 
-    getChildView: function(model) {
-      var ChildView = null;
-      var paneType = model.get('type');
-
-      switch (paneType) {
-        case PaneType.Stream:
-          ChildView = StreamView;
-          break;
-        case PaneType.Playlist:
-          ChildView = ActivePlaylistAreaView;
-          break;
-        default:
-          console.error('Unhandled pane type ' + paneType);
-      }
-
-      return ChildView;
+    getChildView: function(pane) {
+      return pane.get('type') === PaneType.Stream ? StreamView : ActivePlaylistAreaView;
     },
 
     behaviors: {
@@ -62,18 +37,22 @@ define(function(require) {
       }
     },
 
-    filter: function(model) {
-      return model.get('isVisible');
+    filter: function(pane) {
+      return pane.get('isVisible');
+    },
+
+    // Sort the panes such that the stream appears on the right side.
+    viewComparator: function(pane) {
+      return pane.get('type') === PaneType.Stream ? 1 : 0;
     },
 
     collectionEvents: {
       'change:isVisible': '_onChangeIsVisible'
     },
 
-    _onChangeIsVisible: function(pane, isVisible) {
-      //if (isVisible) {
-        this.render();
-      //}
+    // TODO: This isn't very performant. I render twice in a lot of scenarios when moving from isVisibile: false to isVisible: true.
+    _onChangeIsVisible: function() {
+      this.render();
     }
   });
 

@@ -49,7 +49,7 @@
     },
 
     initialize: function() {
-      // TODO: Just trying this pattern out for now. It's nice being able to grab values from Application rather than pass down through a hierarchy of models.
+      // TODO: Just trying this pattern out for now.
       StreamusBG.settings = this.get('settings');
 
       this.listenTo(StreamusBG.channels.foreground.vent, 'started', this._onForegroundStarted.bind(this));

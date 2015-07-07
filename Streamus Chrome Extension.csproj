@@ -98,7 +98,6 @@
     <Content Include="src\js\foreground\model\tooltip\tooltip.js" />
     <Content Include="src\js\foreground\view\activePane\activePaneRegion.js" />
     <Content Include="src\js\foreground\view\activePane\activePaneView.js" />
-    <Content Include="src\js\foreground\view\activePane\paneView.js" />
     <Content Include="src\js\foreground\view\appBar\activePaneFilterView.js" />
     <Content Include="src\js\foreground\view\appBar\searchInputAreaView.js" />
     <Content Include="src\js\foreground\view\behavior\dialogContent.js" />
@@ -141,9 +140,11 @@
     <Content Include="src\js\test\chrome.mock.js" />
     <Content Include="src\js\test\common\commonSpecLoader.js" />
     <Content Include="src\js\test\background\model\activePlaylistManager.spec.js" />
+    <Content Include="src\js\test\foreground\collection\activePane\panes.spec.js" />
     <Content Include="src\js\test\foreground\model\appBar\activePaneFilter.spec.js" />
-    <Content Include="src\js\test\foreground\view\activePane\activePaneView.spec.js" />
+    <Content Include="src\js\test\foreground\view\activePane\activePaneRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\activePane\activePaneSpecLoader.js" />
+    <Content Include="src\js\test\foreground\view\activePane\activePaneView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\activePaneFilterView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\adminMenuAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarRegion.spec.js" />
@@ -160,9 +161,6 @@
     <Content Include="src\js\test\foreground\view\streamControlBar\streamControlBarView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\timeLabelAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\timeSliderView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\nextButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\playPauseButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\previousButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\volumeAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\behaviorSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\behavior\collectionViewMultiSelect.spec.js" />
@@ -230,19 +228,13 @@
     <Content Include="src\js\test\foreground\view\selectionBar\selectionBarRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\selectionBar\selectionBarSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\selectionBar\selectionBarView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\activeStreamItemView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\clearStreamButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\radioButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\repeatButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\saveStreamButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\shuffleButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamItemsView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamItemView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\stream\streamView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\timeLabelAreaView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\timeSliderView.spec.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipView.spec.js" />
@@ -503,6 +495,7 @@
     <Content Include="src\less\appBar.less" />
     <Content Include="src\less\flexRow.less" />
     <Content Include="src\less\activePaneFilter.less" />
+    <Content Include="src\less\activePane.less" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\appBar\appBar.html" />
     <Content Include="src\template\backgroundArea.html" />
@@ -606,6 +599,7 @@
     <Content Include="src\less\streamControlBar.less" />
     <Content Include="src\less\video.less" />
     <Content Include="src\less\searchInputArea.less" />
+    <Content Include="src\less\searchArea.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />
