@@ -8,37 +8,18 @@
   var Panes = Backbone.Collection.extend({
     model: Pane,
     stream: null,
-    signInManager: null,
     settings: null,
     activePlaylistManager: null,
 
-    playlistsEvents: {
-      'add': '_onPlaylistsAdd',
-      'remove': '_onPlaylistsRemove',
-      'reset': '_onPlaylistsReset',
-      'change:active': '_onPlaylistsChangeActive'
-    },
-
     initialize: function(models, options) {
       this.stream = options.stream;
-      this.signInManager = options.signInManager;
       this.settings = options.settings;
       this.activePlaylistManager = options.activePlaylistManager;
 
-      this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
       this.listenTo(this.settings, 'change:layoutType', this._onSettingsChangeLayoutType);
       this.listenTo(this.activePlaylistManager, 'change:activePlaylist', this._onActivePlaylistManagerChangeActivePlaylist);
 
-      this._initializePanes(this.signInManager.get('signedInUser'));
-    },
-
-    // When a user signs in - load their playlists and listen for changes. When a user signs out, cleanup the loaded playlists.
-    _onSignInManagerChangeSignedInUser: function(signInManager, signedInUser) {
-      if (_.isNull(signedInUser)) {
-        this._destroyPlaylistPanes(signInManager.previous('signedInUser'));
-      } else {
-        this._initializePlaylistPanes(signedInUser);
-      }
+      this._initializePanes(this.settings.get('layoutType'), this.activePlaylistManager.get('activePlaylist'));
     },
 
     // Determine whether the stream is visible or not based on the layoutType.
@@ -48,61 +29,22 @@
     },
 
     _onActivePlaylistManagerChangeActivePlaylist: function(activePlaylistManager, activePlaylist) {
-      this._setStreamPaneVisibility(this.settings.get('layoutType'), !_.isNull(activePlaylist));
+      var layoutType = this.settings.get('layoutType');
+      var previousActivePlaylist = activePlaylistManager.previous('activePlaylist');
+      this._initializePanes(layoutType, activePlaylist, previousActivePlaylist);
+    },
 
-      // The active playlist can change before playlists have been added as panes when the
-      // user is first signing in.
-      if (this._hasPlaylistPanes()) {
-        this._tryHideVisiblePlaylistPane();
+    _initializePanes: function(layoutType, activePlaylist, previousActivePlaylist) {
+      var activePlaylistExists = !_.isNull(activePlaylist);
+      this._setStreamPaneVisibility(layoutType, activePlaylistExists);
 
-        if (!_.isNull(activePlaylist)) {
-          this._setPlaylistPaneVisibility(activePlaylist, true);
-        }
+      if (activePlaylistExists) {
+        this._addPlaylistPane(activePlaylist);
       }
-    },
 
-    _onPlaylistsAdd: function(playlists, playlist) {
-      this._addPlaylistPane(playlist);
-    },
-
-    _onPlaylistsRemove: function(playlists, playlist) {
-      this._removePlaylistPane(playlist);
-    },
-
-    _onPlaylistsReset: function(playlists) {
-      this._removeAllPlaylistPanes();
-      this._addPlaylistPanes(playlists);
-    },
-
-    _onPlaylistsChangeActive: function(playlist, active) {
-      this._setPlaylistPaneVisibility(playlist, active);
-    },
-
-    _initializePanes: function(signedInUser) {
-      this._addStreamPane();
-
-      if (!_.isNull(signedInUser)) {
-        this._initializePlaylistPanes(signedInUser);
+      if (!_.isNull(previousActivePlaylist) && !_.isUndefined(previousActivePlaylist)) {
+        this._removePlaylistPane(previousActivePlaylist);
       }
-    },
-
-    _initializePlaylistPanes: function(signedInUser) {
-      var playlists = signedInUser.get('playlists');
-      this._setPlaylistsBindings(playlists, true);
-      this._addPlaylistPanes(playlists);
-    },
-
-    _destroyPlaylistPanes: function(previousSignedInUser) {
-      if (!_.isNull(previousSignedInUser)) {
-        this._setPlaylistsBindings(previousSignedInUser.get('playlists'), false);
-      }
-      this._removeAllPlaylistPanes();
-    },
-
-    // Bind or unbind entity events to a user's playlists.
-    _setPlaylistsBindings: function(playlists, isBinding) {
-      var bindingAction = isBinding ? Marionette.bindEntityEvents : Marionette.unbindEntityEvents;
-      bindingAction.call(this, this, playlists, this.playlistsEvents);
     },
 
     _getPaneByRelatedModel: function(relatedModel) {
@@ -129,13 +71,8 @@
       return playlistPanes;
     },
 
-    _addPlaylistPanes: function(playlists) {
-      playlists.each(this._addPlaylistPane.bind(this));
-    },
-
     _addPlaylistPane: function(playlist) {
       this.add({
-        isVisible: playlist.get('active'),
         type: PaneType.Playlist,
         relatedModel: playlist
       });
@@ -146,62 +83,36 @@
       this.remove(playlistPane);
     },
 
-    _removeAllPlaylistPanes: function() {
-      var playlistPanes = this._getPlaylistPanes();
-      this.remove(playlistPanes);
-    },
-
     _getStreamPaneVisibility: function(layoutType, activePlaylistExists) {
       var isStreamPaneVisible = layoutType === LayoutType.SplitPane || !activePlaylistExists;
       return isStreamPaneVisible;
     },
 
     _addStreamPane: function() {
-      var layoutType = this.settings.get('layoutType');
-      var activePlaylistExists = this.activePlaylistManager.has('activePlaylist');
-      var isStreamPaneVisible = this._getStreamPaneVisibility(layoutType, activePlaylistExists);
-
       this.add({
-        isVisible: isStreamPaneVisible,
         type: PaneType.Stream,
         relatedModel: this.stream
       });
     },
 
+    _removeStreamPane: function() {
+      var streamPane = this._getStreamPane();
+      this.remove(streamPane);
+    },
+
     _setStreamPaneVisibility: function(layoutType, activePlaylistExists) {
       var isStreamPaneVisible = this._getStreamPaneVisibility(layoutType, activePlaylistExists);
-      var streamPane = this._getStreamPane();
-      streamPane.set('isVisible', isStreamPaneVisible);
-    },
 
-    _setPlaylistPaneVisibility: function(playlist, isVisible) {
-      var playlistPane = this._getPaneByRelatedModel(playlist);
-      playlistPane.set('isVisible', isVisible);
-    },
-
-    // Try to hide the playlist pane which is visible if it exists.
-    _tryHideVisiblePlaylistPane: function() {
-      var visiblePlaylistPane = this._getVisiblePlaylistPane();
-
-      if (!_.isUndefined(visiblePlaylistPane)) {
-        visiblePlaylistPane.set('isVisible', false);
+      if (isStreamPaneVisible && !this._hasStreamPane()) {
+        this._addStreamPane();
+      } else if(!isStreamPaneVisible && this._hasStreamPane()) {
+        this._removeStreamPane();
       }
     },
 
-    // Return the playlist pane which is currently visible
-    _getVisiblePlaylistPane: function() {
-      var visiblePlaylistPane = this.findWhere({
-        type: PaneType.Playlist,
-        isVisible: true
-      });
-
-      return visiblePlaylistPane;
-    },
-
-    // Returns whether or not playlists have been added as panes.
-    _hasPlaylistPanes: function() {
-      var playlistPanes = this._getPlaylistPanes();
-      return playlistPanes.length > 0;
+    _hasStreamPane: function() {
+      var streamPane = this._getStreamPane();
+      return !_.isUndefined(streamPane);
     }
   });
 

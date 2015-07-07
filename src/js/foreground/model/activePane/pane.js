@@ -5,7 +5,6 @@
 
   var Pane = Backbone.Model.extend({
     defaults: {
-      isVisible: false,
       type: PaneType.None,
       relatedModel: null
     }

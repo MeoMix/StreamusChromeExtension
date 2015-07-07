@@ -17,7 +17,6 @@
       this.show(new ActivePaneView({
         collection: new Panes(null, {
           stream: StreamusFG.backgroundProperties.stream,
-          signInManager: StreamusFG.backgroundProperties.signInManager,
           settings: StreamusFG.backgroundProperties.settings,
           activePlaylistManager: StreamusFG.backgroundProperties.activePlaylistManager
         })

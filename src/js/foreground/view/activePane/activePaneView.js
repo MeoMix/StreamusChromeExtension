@@ -25,22 +25,9 @@ define(function(require) {
       }
     },
 
-    filter: function(pane) {
-      return pane.get('isVisible');
-    },
-
     // Sort the panes such that the stream appears on the right side.
     viewComparator: function(pane) {
       return pane.get('type') === PaneType.Stream ? 1 : 0;
-    },
-
-    collectionEvents: {
-      'change:isVisible': '_onChangeIsVisible'
-    },
-
-    // TODO: This isn't very performant. I render twice in a lot of scenarios when moving from isVisibile: false to isVisible: true.
-    _onChangeIsVisible: function() {
-      this.render();
     }
   });
 
