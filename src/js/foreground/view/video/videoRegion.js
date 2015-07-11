@@ -13,9 +13,9 @@
     },
 
     _createVideoView: function() {
-      this.show(new VideoView({
-        player: StreamusFG.backgroundProperties.player
-      }));
+      //this.show(new VideoView({
+      //  player: StreamusFG.backgroundProperties.player
+      //}));
     }
   });
 
