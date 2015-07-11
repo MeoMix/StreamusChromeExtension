@@ -28,6 +28,7 @@
       'change:title': '_onChangeTitle',
       'change:dataSourceLoaded': '_onChangeDataSourceLoaded',
       'change:active': '_onChangeActive',
+      'change:isExporting': '_onChangeIsExporting',
       'change:id': '_onChangeId'
     },
 
@@ -92,10 +93,15 @@
       this._setActiveClass(active);
     },
 
+    _onChangeIsExporting: function() {
+      this._setShowingSpinnerClass();
+    },
+
     _setShowingSpinnerClass: function() {
       var loading = this.model.isLoading();
       var saving = this.model.isNew();
-      var isShowingSpinner = loading || saving;
+      var isExporting = this.model.get('isExporting');
+      var isShowingSpinner = loading || saving || isExporting;
 
       // Prefer lazy-loading the SpinnerView to not take a perf hit if the view isn't loading.
       if (isShowingSpinner && !this.getRegion('spinner').hasView()) {

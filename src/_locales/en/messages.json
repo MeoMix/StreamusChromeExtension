@@ -609,7 +609,10 @@
     "splitPane": {
         "message": "Split pane"
     },
-    "clear": { 
+    "clear": {
         "message": "Clear"
+    },
+    "exportToYouTube": { 
+        "message":  "Export to YouTube"
     }
 }

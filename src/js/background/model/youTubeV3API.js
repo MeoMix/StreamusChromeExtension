@@ -279,13 +279,67 @@
       }, ajaxDataOptions);
     },
 
+    insertPlaylist: function(options) {
+      return this._doInsertRequest(YouTubeServiceType.Playlists, options.authToken, {
+        success: options.success,
+        error: options.error,
+        complete: options.complete
+      }, {
+        snippet: {
+          title: options.playlistTitle
+        }
+      });
+    },
+
+    insertPlaylistItems: function(options) {
+      if (options.songIds.length > 0) {
+        var songId = options.songIds.shift();
+
+        return this._doInsertRequest(YouTubeServiceType.PlaylistItems, options.authToken, {
+          // TODO: Tricky to report songs which failed to insert.
+          complete: this.insertPlaylistItems.bind(this, options)
+        }, {
+          snippet: {
+            playlistId: options.playlistId,
+            resourceId: {
+              kind: 'youtube#video',
+              videoId: songId
+            }
+          }
+        });
+      } else {
+        console.log('complete');
+        if (options.success) {
+          options.success();
+        }
+
+        if (options.complete) {
+          options.complete();
+        }
+      }
+    },
+
+    _doInsertRequest: function(serviceType, authToken, ajaxOptions, ajaxDataOptions) {
+      return $.ajax(_.extend({
+        type: 'POST',
+        url: 'https://www.googleapis.com/youtube/v3/' + serviceType + '?part=snippet',
+        beforeSend: function(request) {
+          request.setRequestHeader('Authorization', 'Bearer ' + authToken);
+        },
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(_.extend({
+          key: YouTubeAPIKey
+        }, ajaxDataOptions)),
+      }, ajaxOptions));
+    },
+
     _doRequest: function(serviceType, ajaxOptions, ajaxDataOptions) {
-      return $.ajax(_.extend(ajaxOptions, {
+      return $.ajax(_.extend({
         url: 'https://www.googleapis.com/youtube/v3/' + serviceType,
         data: _.extend({
           key: YouTubeAPIKey
         }, ajaxDataOptions)
-      }));
+      }, ajaxOptions));
     },
 
     _itemListToSongs: function(itemList) {

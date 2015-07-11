@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "__MSG_extensionName__",
     "short_name": "Streamus",
-    "version": "0.178.0",
+    "version": "0.179.0",
 
     "default_locale": "en",
     "description": "__MSG_extensionDescription__",
@@ -108,6 +108,12 @@
     "incognito": "spanning",
     "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmO/I2g0AsHj5gwKYcAv19xa/E4FYE3gD1DtReHysli/YvzOX2X/VOgPMNCB9d5PvuWNH0xud21ztmk7wsNxKLcEuDTENgGqA9voTTG+3hgT1zH5R7rm8E0Kw590KhNattqwXkoRqdvavMjnUzlB9gDbU1duI1V8U03etW4Ta8EwIDAQAB",
     "minimum_chrome_version": "37",
+    "oauth2": {
+        "client_id": "346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/youtube"
+        ]
+      },
     "offline_enabled": false,
     "omnibox": { "keyword": "streamus" },
     "optional_permissions": [ "*://*.pro.beatport.com/*" ],

@@ -24,6 +24,11 @@
         }, {
           // No point in exporting an empty playlist.
           disabled: isEmpty,
+          text: chrome.i18n.getMessage('exportToYouTube'),
+          onClick: this._exportToYouTube.bind(this, playlist)
+        }, {
+          // No point in exporting an empty playlist.
+          disabled: isEmpty,
           text: chrome.i18n.getMessage('export'),
           onClick: this._showExportPlaylistDialog.bind(this, playlist)
         }]
@@ -70,6 +75,10 @@
       StreamusFG.channels.dialog.commands.trigger('show:dialog', EditPlaylistDialogView, {
         playlist: playlist
       });
+    },
+
+    _exportToYouTube: function(playlist) {
+      playlist.exportToYouTube();
     },
 
     _showExportPlaylistDialog: function(playlist) {

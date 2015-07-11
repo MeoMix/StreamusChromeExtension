@@ -23,7 +23,8 @@ define(function(require) {
       sequence: -1,
       listItemType: ListItemType.Playlist,
       // Only allowed to delete a playlist if more than 1 exists.
-      canDelete: false
+      canDelete: false,
+      isExporting: false
     },
 
     // Convert data which is sent from the server back to a proper Backbone.Model.
@@ -91,6 +92,58 @@ define(function(require) {
         type: ListItemType.Playlist,
         data: data
       });
+    },
+
+    exportToYouTube: function() {
+      this.set('isExporting', true);
+
+      chrome.identity.getAuthToken({
+        interactive: true
+      }, function(authToken) {
+        if (_.isUndefined(authToken)) {
+          StreamusBG.channels.notification.commands.trigger('show:notification', {
+            message: 'Error encountered: ' + chrome.runtime.lastError.message
+          });
+          this.set('isExporting', false);
+        } else {
+          StreamusBG.channels.notification.commands.trigger('show:notification', {
+            message: 'Exporting ' + this.get('title')
+          });
+
+          YouTubeV3API.insertPlaylist({
+            playlistTitle: this.get('title'),
+            authToken: authToken,
+            success: function(response) {
+              if (response && response.id) {
+                var songIds = this.get('items').map(function(playlistItem) {
+                  return playlistItem.get('song').get('id');
+                });
+
+                YouTubeV3API.insertPlaylistItems({
+                  playlistId: response.id,
+                  authToken: authToken,
+                  songIds: songIds,
+                  success: function() {
+                    console.log('success');
+                    StreamusBG.channels.notification.commands.trigger('show:notification', {
+                      message: this.get('title') + ' exported to YouTube successfully'
+                    });
+                  }.bind(this),
+                  complete: function() {
+                    this.set('isExporting', false);
+                  }.bind(this)
+                });
+              }
+            }.bind(this),
+            error: function() {
+              StreamusBG.channels.notification.commands.trigger('show:notification', {
+                message: 'Error encountered while creating YouTube playlist'
+              });
+              this.set('isExporting', false);
+            }.bind(this)
+          });
+        }
+      }.bind(this));
     },
 
     _onGetPlaylistSongsSuccess: function(response) {
