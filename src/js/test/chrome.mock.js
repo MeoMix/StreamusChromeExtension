@@ -130,16 +130,6 @@
       highlight: function(highlightInfo, response) {
         response();
       }
-    },
-    webRequest: {
-      onBeforeSenderHeader: {
-        addListener: function() { },
-        removeListener: function() { }
-      },
-      onCompleted: {
-        addListener: function() { },
-        removeListener: function() { }
-      }
     }
   };
 });

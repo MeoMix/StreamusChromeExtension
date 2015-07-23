@@ -1,0 +1,60 @@
+﻿/*body > *:not(#body-container),
+#body-container > *:not(#page-container),
+#page-container > *:not(#page),
+#page > *:not(#player) {
+    display: none !important;
+}
+
+html, body {
+    overflow: hidden !important;
+}
+
+html,
+body,
+#body-container,
+#page-container,
+#page,
+#player,
+#player-mole-container,
+#player-api,
+#movie_player,
+.html5-video-container,
+.video-stream {
+    width: 100% !important;
+    height: 100% !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-height: initial !important;
+    max-width: initial !important;
+    min-height: initial !important;
+    min-width: initial !important;
+}
+
+#player {
+    top: 0 !important;
+    left: 0 !important;
+    margin: 0 !important;
+}*/
+
+/* TODO: Support a modified version of the controls bar or provide my own. */
+/*.ytp-gradient-bottom,
+.ytp-chrome-bottom {
+    display: none !important;
+}*/
+
+/*.ytp-chrome-bottom {
+    width: calc(100% - 24px) !important;
+}*/
+
+/* Hide annotations */
+.video-annotations,
+.ytp-iv-player-content {
+    display: none !important;
+}
+
+/* Show watermark since controls are hidden. */
+.ytp-watermark {
+    bottom: 12px !important;
+}

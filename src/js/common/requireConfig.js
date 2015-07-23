@@ -8,16 +8,14 @@
     paths: {
       // Paths:
       'template': '../template',
-
-      // Third Party:
-      'backbone': 'thirdParty/backbone',
-      'backbone.localStorage': 'thirdParty/backbone.localStorage',
-      'backbone.marionette': 'thirdParty/backbone.marionette',
-      'cocktail': 'thirdParty/cocktail',
-      'jquery': 'thirdParty/jquery',
-      'jquery-ui': 'thirdParty/jquery-ui',
-      'lodash': 'thirdParty/lodash',
-      'text': 'thirdParty/text'
+      'backbone': 'lib/backbone',
+      'backbone.localStorage': 'lib/backbone.localStorage',
+      'backbone.marionette': 'lib/backbone.marionette',
+      'cocktail': 'lib/cocktail',
+      'jquery': 'lib/jquery',
+      'jquery-ui': 'lib/jquery-ui',
+      'lodash': 'lib/lodash',
+      'text': 'lib/text'
     },
 
     shim: {

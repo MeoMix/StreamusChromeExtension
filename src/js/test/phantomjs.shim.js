@@ -5,29 +5,6 @@
     window.console = function() { };
   }
 
-  if (!window.MediaSource) {
-    window.MediaSource = function() {
-      return {
-        addEventListener: function() {
-        },
-        removeEventListener: function() {
-        },
-        dispatchEvent: function() {
-        },
-        sourceBuffers: [],
-        activeSourceBuffers: [],
-        readyState: -1,
-        duration: 0,
-        addSourceBuffer: function() {
-        },
-        removeSourceBuffer: function() {
-        },
-        endOfStream: function() {
-        }
-      };
-    };
-  }
-
   if (!window.MutationObserver) {
     window.MutationObserver = function() {
       return {

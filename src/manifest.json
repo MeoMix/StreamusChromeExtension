@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "__MSG_extensionName__",
     "short_name": "Streamus",
-    "version": "0.179.0",
+    "version": "0.180.0",
 
     "default_locale": "en",
     "description": "__MSG_extensionDescription__",
@@ -73,7 +73,7 @@
         "saveSong": {
             "description": "__MSG_saveSong__"
         },
-        "openInTab": { 
+        "openInTab": {
             "description": "__MSG_openInTab__"
         },
         "_execute_browser_action": {
@@ -82,9 +82,9 @@
     "content_scripts": [
         {
             "matches": [ "*://*.youtube.com/embed/*streamus=1*" ],
-            //  all_frames needs to be set to true because the url is loaded into an iframe
+            // all_frames needs to be set to true because the url is loaded into an iframe
             "all_frames": true,
-            //  run at document_start to allow time to setup code before youtube's scripts execute.
+            // run at document_start to allow time to setup code before youtube's scripts execute.
             "run_at": "document_start",
             "js": [ "js/contentScript/youTubeIFrame.js" ]
         },
@@ -98,6 +98,13 @@
             "matches": [ "*://*.pro.beatport.com/*" ],
             "js": [ "js/contentScript/beatport.js" ],
             "css": [ "css/contentScript/beatport.css" ]
+        },
+        {
+            "matches": [ "*://*.youtube.com/watch?v=*&streamus=1" ],
+            "js": [ "js/lib/require.js", "js/contentScript/require.shim.js", "js/contentScript/youTubePlayer/main.js" ],
+            // run at document_start to allow time to setup code before youtube's scripts execute.
+            "run_at": "document_start",
+            "css": [ "css/contentScript/panel.css" ]
         }
     ],
     "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/;  object-src 'self'",
@@ -113,23 +120,34 @@
         "scopes": [
             "https://www.googleapis.com/auth/youtube"
         ]
-      },
+    },
     "offline_enabled": false,
     "omnibox": { "keyword": "streamus" },
     "optional_permissions": [ "*://*.pro.beatport.com/*" ],
     "permissions": [
         "alarms",
         "contextMenus",
-        "background",
         "notifications",
         "storage",
         "identity",
         "identity.email",
-        "webRequest",
-        "webRequestBlocking",
         "*://*.youtube.com/*"
     ],
     "web_accessible_resources": [
-        "js/inject/interceptor.js"
+        "js/lib/backbone.js",
+        "js/lib/backbone.marionette.js",
+        "js/lib/jquery.js",
+        "js/lib/lodash.js",
+        "js/lib/text.js",
+        "js/common/enum/playerState.js",
+        "js/common/enum/videoCommand.js",
+        "js/common/enum/videoRequest.js",
+        "js/contentScript/youTubePlayer/application.js",
+        "js/contentScript/youTubePlayer/plugins.js",
+        "js/contentScript/youTubePlayer/model/port.js",
+        "js/contentScript/youTubePlayer/model/videoStream.js",
+        "js/contentScript/youTubePlayer/view/youTubePlayerView.js",
+        "js/contentScript/youTubePlayer/view/videoStreamView.js",
+        "template/contentScript/youTubePlayer/watermark.html"
     ]
 }

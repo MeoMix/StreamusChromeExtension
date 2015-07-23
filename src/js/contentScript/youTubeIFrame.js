@@ -23,14 +23,6 @@
       document.head.appendChild(script);
     }.bind(this);
 
-    // Append a script which will intercept and sniff YouTube's server responses.
-    // Needs to be appended because content scripts run in a sandbox which prevents XHR interception.
-    this.appendInterceptorScript = function() {
-      var interceptorScript = document.createElement('script');
-      interceptorScript.src = chrome.runtime.getURL('js/contentScript/interceptor.js');
-      document.head.appendChild(interceptorScript);
-    }.bind(this);
-
     // Attach event listeners to the <video> element.
     this.monitorVideoStream = function() {
       var lastPostedCurrentTime = null;
@@ -70,19 +62,6 @@
       this.port = chrome.runtime.connect({
         name: 'youTubeIFrameConnectRequest'
       });
-
-      // The extension can request the *exact* time of YouTube's video player.
-      // Respond with that value, but also include a timestamp to account for the time it takes to send the postMessage.
-      this.port.onMessage.addListener(function(message) {
-        if (message === 'getCurrentTimeHighPrecision') {
-          var currentTime = this.videoStream === null ? 0 : this.videoStream.currentTime;
-
-          this.port.postMessage({
-            timestamp: Date.now(),
-            currentTimeHighPrecision: currentTime
-          });
-        }
-      }.bind(this));
     }.bind(this);
 
     // If YouTube fails to initialize properly - notify the extension so that logs can be taken.
@@ -143,7 +122,6 @@
     // Initialization code:
     window.addEventListener('error', this.onWindowError);
     this.patchVideoCanPlayType();
-    this.appendInterceptorScript();
     this.initializePort();
 
     var isMonitoring = this.tryMonitorVideoStream();

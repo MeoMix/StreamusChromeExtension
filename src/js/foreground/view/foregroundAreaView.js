@@ -11,7 +11,6 @@
   var PlaylistsAreaRegion = require('foreground/view/playlist/playlistsAreaRegion');
   var SearchRegion = require('foreground/view/search/searchRegion');
   var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
-  var VideoRegion = require('foreground/view/video/videoRegion');
   var TooltipRegion = require('foreground/view/tooltip/tooltipRegion');
   var KeyCode = require('foreground/enum/keyCode');
   var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
@@ -86,10 +85,6 @@
         selectionBar: {
           selector: '[data-region=selectionBar]',
           regionClass: SelectionBarRegion
-        },
-        video: {
-          selector: '[data-region=video]',
-          regionClass: VideoRegion
         },
         tooltip: {
           selector: '[data-region=tooltip]',

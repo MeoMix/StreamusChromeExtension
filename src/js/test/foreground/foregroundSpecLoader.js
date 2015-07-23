@@ -56,9 +56,6 @@
   // /view/tooltip/
   require('test/foreground/view/tooltip/tooltipSpecLoader');
 
-  // /view/video/
-  require('test/foreground/view/video/videoSpecLoader');
-
   require('test/foreground/view/foregroundAreaView.spec');
   require('test/foreground/view/listItemView.spec');
 });

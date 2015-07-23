@@ -98,7 +98,7 @@ define(function(require) {
       this.set('isExporting', true);
 
       chrome.identity.getAuthToken({
-        interactive: true
+        interactive: true,
       }, function(authToken) {
         if (_.isUndefined(authToken)) {
           StreamusBG.channels.notification.commands.trigger('show:notification', {

@@ -42,8 +42,8 @@ module.exports = function(grunt) {
         maxdepth: 4,
         maxstatements: 25,
         maxcomplexity: 10,
-        //	Don't validate third-party libraries
-        ignores: ['src/js/thirdParty/**/*.js']
+        //	Don't validate libraries
+        ignores: ['src/js/lib/**/*.js']
       },
 
       files: ['src/js/**/*.js', 'Gruntfile.js']
@@ -209,7 +209,7 @@ module.exports = function(grunt) {
       }
     },
     jscs: {
-      src: ['src/js/**/*.js', '!src/js/thirdParty/**/*.js', 'Gruntfile.js'],
+      src: ['src/js/**/*.js', '!src/js/lib/**/*.js', 'Gruntfile.js'],
       options: {
         config: '.jscsrc',
         fix: true

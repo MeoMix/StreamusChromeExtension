@@ -6,7 +6,6 @@
   var GoogleSignInDialogView = require('foreground/view/dialog/googleSignInDialogView');
   var LinkUserIdDialogView = require('foreground/view/dialog/linkUserIdDialogView');
   var UpdateStreamusDialogView = require('foreground/view/dialog/updateStreamusDialogView');
-  var ShuttingDownDialogView = require('foreground/view/dialog/shuttingDownDialogView');
 
   var DialogRegion = Marionette.Region.extend({
     player: null,
@@ -28,8 +27,6 @@
       this._showDialogIfNeedGoogleSignIn();
       this._showDialogIfNeedLinkUserId();
       this._showDialogIfUpdateAvailable();
-      console.log('go');
-      this._showShuttingDownDialog();
     },
 
     // Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
@@ -80,10 +77,6 @@
       this._showDialog(GoogleSignInDialogView, {
         signInManager: StreamusFG.backgroundProperties.signInManager
       });
-    },
-
-    _showShuttingDownDialog: function() {
-      this._showDialog(ShuttingDownDialogView);
     },
 
     _showDialog: function(DialogView, options) {
