@@ -197,28 +197,28 @@
       expect(dataSource.isYouTubePlaylist()).to.equal(false);
     });
 
-    it('Should be able to get a YouTube song id from a variety of URL patterns', function() {
+    it('Should be able to get a YouTube video id from a variety of URL patterns', function() {
       var dataSource = new DataSource();
 
       var url = 'http://www.youtube.com/watch?v=6od4WeaWDcs';
-      expect(dataSource._getYouTubeSongId(url)).to.equal('6od4WeaWDcs');
+      expect(dataSource._getYouTubeVideoId(url)).to.equal('6od4WeaWDcs');
 
       url = 'http://youtu.be/3sg6KCayu0E';
-      expect(dataSource._getYouTubeSongId(url)).to.equal('3sg6KCayu0E');
+      expect(dataSource._getYouTubeVideoId(url)).to.equal('3sg6KCayu0E');
 
       url = 'http://www.youtube.com/watch?feature=youtu.be&v=aKpLrmQsS_M';
-      expect(dataSource._getYouTubeSongId(url)).to.equal('aKpLrmQsS_M');
+      expect(dataSource._getYouTubeVideoId(url)).to.equal('aKpLrmQsS_M');
 
       url = 'http://www.youtube.com/watch?feature=player_embedded&v=MKS8Jn_3bnA';
-      expect(dataSource._getYouTubeSongId(url)).to.equal('MKS8Jn_3bnA');
+      expect(dataSource._getYouTubeVideoId(url)).to.equal('MKS8Jn_3bnA');
 
       // 10 digit URL is not valid:
       url = 'http://youtu.be/3sg6KCau0E';
-      expect(dataSource._getYouTubeSongId(url)).to.equal('');
+      expect(dataSource._getYouTubeVideoId(url)).to.equal('');
 
       // 12 digit URL is not valid
       url = 'http://youtu.be/3sg6KaaCau0E';
-      expect(dataSource._getYouTubeSongId(url)).to.equal('');
+      expect(dataSource._getYouTubeVideoId(url)).to.equal('');
     });
 
     describe('when parsing YouTube Channel URLs', function() {

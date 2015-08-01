@@ -28,7 +28,7 @@
 
       if (enabled) {
         // Restart when clicking 'previous' if too much time has passed
-        if (this._songHasBeenPlaying()) {
+        if (this._videoHasBeenPlaying()) {
           this.get('player').seekTo(0);
         } else {
           this.get('stream').activatePrevious();
@@ -51,13 +51,13 @@
     },
 
     _onChromeCommandsCommand: function(command) {
-      if (command === ChromeCommand.PreviousSong) {
+      if (command === ChromeCommand.PreviousVideo) {
         var didPrevious = this.tryDoTimeBasedPrevious();
 
         if (!didPrevious) {
           StreamusBG.channels.notification.commands.trigger('show:notification', {
             title: chrome.i18n.getMessage('keyboardCommandFailure'),
-            message: chrome.i18n.getMessage('cantGoBackToPreviousSong')
+            message: chrome.i18n.getMessage('cantGoBackToPreviousVideo')
           });
         }
       }
@@ -65,14 +65,14 @@
 
     _toggleEnabled: function() {
       var previousItem = this.get('stream').getPrevious();
-      var enabled = !_.isNull(previousItem) || this._songHasBeenPlaying();
+      var enabled = !_.isNull(previousItem) || this._videoHasBeenPlaying();
       this.set('enabled', enabled);
     },
 
-    // Consider the active song 'playing' after a few (3) seconds. After this amount of time
-    // clicking 'previous' will skip to the front of the song rather than skipping to the previous
-    // song in the stream
-    _songHasBeenPlaying: function() {
+    // Consider the active video 'playing' after a few (3) seconds. After this amount of time
+    // clicking 'previous' will skip to the front of the video rather than skipping to the previous
+    // video in the stream
+    _videoHasBeenPlaying: function() {
       return this.get('player').get('currentTime') > 3;
     }
   });

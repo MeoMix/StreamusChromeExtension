@@ -2,11 +2,11 @@
   'use strict';
 
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var SongActions = require('foreground/model/song/songActions');
+  var VideoActions = require('foreground/model/video/videoActions');
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
   var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
 
-  var SaveStreamButtonView = Marionette.ItemView.extend({
+  var SaveStreamButtonView = Marionette.LayoutView.extend({
     id: 'saveStreamButton',
     className: 'button button--flat',
     template: _.template(SaveStreamButtonTemplate),
@@ -42,8 +42,8 @@
 
     _onClick: function() {
       if (this.model.get('enabled')) {
-        var songs = this.model.get('streamItems').pluck('song');
-        this._showSaveSongsSimpleMenu(songs);
+        var videos = this.model.get('streamItems').pluck('video');
+        this._showSaveVideosSimpleMenu(videos);
       }
     },
 
@@ -55,12 +55,12 @@
       this.$el.toggleClass('is-disabled', !enabled).attr('data-tooltip-text', stateMessage);
     },
 
-    _showSaveSongsSimpleMenu: function(songs) {
-      var songActions = new SongActions();
+    _showSaveVideosSimpleMenu: function(videos) {
+      var videoActions = new VideoActions();
       var offset = this.$el.offset();
       var playlists = this.model.get('signInManager').get('signedInUser').get('playlists');
 
-      songActions.showSaveMenu(songs, offset.top, offset.left, playlists);
+      videoActions.showSaveMenu(videos, offset.top, offset.left, playlists);
     }
   });
 

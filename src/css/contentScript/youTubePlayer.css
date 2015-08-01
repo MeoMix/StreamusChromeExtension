@@ -1,4 +1,4 @@
-﻿/*body > *:not(#body-container),
+﻿body > *:not(#body-container),
 #body-container > *:not(#page-container),
 #page-container > *:not(#page),
 #page > *:not(#player) {
@@ -36,17 +36,7 @@ body,
     top: 0 !important;
     left: 0 !important;
     margin: 0 !important;
-}*/
-
-/* TODO: Support a modified version of the controls bar or provide my own. */
-/*.ytp-gradient-bottom,
-.ytp-chrome-bottom {
-    display: none !important;
-}*/
-
-/*.ytp-chrome-bottom {
-    width: calc(100% - 24px) !important;
-}*/
+}
 
 /* Hide annotations */
 .video-annotations,
@@ -54,7 +44,36 @@ body,
     display: none !important;
 }
 
-/* Show watermark since controls are hidden. */
-.ytp-watermark {
-    bottom: 12px !important;
+/* Don't show alternate videos at end */
+.html5-endscreen {
+    display: none !important;
+}
+
+/* NEW LAYOUT: */
+
+/* Hide the skip to next video button */
+.ytp-next-button,
+/* Hide the 'Autoplay' option in menu */
+.ytp-menuitem:first-child,
+/* Hide the theater mode button */
+.ytp-size-button {
+    display: none !important;
+}
+
+/* OLD LAYOUT: */
+/* Force showing the 'watch on YouTube' button '*/
+.ytp-button-watch-on-youtube {
+    display: block !important;
+}
+
+/* Hide the watch later button */
+.ytp-button-watch-later,
+/* Hide the skip to next video button */
+.ytp-button-next,
+/* Hide the settings button */
+.ytp-settings-button,
+/* Hide the theater mode button */
+.ytp-size-toggle-large,
+.ytp-size-toggle-small {
+    display: none !important;
 }

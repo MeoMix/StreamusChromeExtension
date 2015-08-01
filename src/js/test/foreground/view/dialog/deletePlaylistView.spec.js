@@ -2,7 +2,6 @@
   'use strict';
 
   var DeletePlaylistView = require('foreground/view/dialog/deletePlaylistView');
-  var TestUtility = require('test/testUtility');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
   describe('DeletePlaylistView', function() {

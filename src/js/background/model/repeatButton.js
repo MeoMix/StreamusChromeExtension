@@ -28,9 +28,9 @@
           nextState = RepeatButtonState.RepeatAll;
           break;
         case RepeatButtonState.RepeatAll:
-          nextState = RepeatButtonState.RepeatSong;
+          nextState = RepeatButtonState.RepeatVideo;
           break;
-        case RepeatButtonState.RepeatSong:
+        case RepeatButtonState.RepeatVideo:
           nextState = RepeatButtonState.Off;
           break;
         default:
@@ -49,8 +49,8 @@
         case RepeatButtonState.Off:
           message = chrome.i18n.getMessage('repeatOff');
           break;
-        case RepeatButtonState.RepeatSong:
-          message = chrome.i18n.getMessage('repeatSong');
+        case RepeatButtonState.RepeatVideo:
+          message = chrome.i18n.getMessage('repeatVideo');
           break;
         case RepeatButtonState.RepeatAll:
           message = chrome.i18n.getMessage('repeatAll');

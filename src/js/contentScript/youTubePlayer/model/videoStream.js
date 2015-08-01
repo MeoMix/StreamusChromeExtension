@@ -3,11 +3,10 @@
 
   var VideoStream = Backbone.Model.extend({
     defaults: {
-      currentTime: 0
-    },
-
-    resetCurrentTime: function() {
-      this.set('currentTime', this.defaults.currentTime);
+      currentTime: 0,
+      muted: false,
+      volume: 50,
+      suggestedQuality: 'default'
     }
   });
 

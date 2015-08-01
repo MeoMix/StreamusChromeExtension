@@ -2,11 +2,11 @@
   'use strict';
 
   var ListItemButton = require('foreground/view/behavior/listItemButton');
-  var SongActions = require('foreground/model/song/songActions');
+  var VideoActions = require('foreground/model/video/videoActions');
   var SaveListItemButtonTemplate = require('text!template/listItemButton/saveListItemButton.html');
   var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
-  var SaveSongButtonView = Marionette.ItemView.extend({
+  var SaveVideoButtonView = Marionette.LayoutView.extend({
     template: _.template(SaveListItemButtonTemplate),
     templateHelpers: {
       saveIcon: _.template(SaveIconTemplate)()
@@ -19,10 +19,10 @@
     },
 
     signInManager: null,
-    song: null,
+    video: null,
 
     initialize: function(options) {
-      this.song = options.song;
+      this.video = options.video;
       this.signInManager = options.signInManager;
       this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
     },
@@ -32,11 +32,11 @@
     },
 
     onClick: function() {
-      var songActions = new SongActions();
+      var videoActions = new VideoActions();
       var offset = this.$el.offset();
       var playlists = this.signInManager.get('signedInUser').get('playlists');
 
-      songActions.showSaveMenu(this.song, offset.top, offset.left, playlists);
+      videoActions.showSaveMenu(this.video, offset.top, offset.left, playlists);
     },
 
     _onSignInManagerChangeSignedInUser: function() {
@@ -52,5 +52,5 @@
     }
   });
 
-  return SaveSongButtonView;
+  return SaveVideoButtonView;
 });

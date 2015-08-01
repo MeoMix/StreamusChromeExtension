@@ -3,7 +3,7 @@
 
   var SpinnerView = require('foreground/view/element/spinnerView');
   var SearchResultsView = require('foreground/view/search/searchResultsView');
-  var SongActions = require('foreground/model/song/songActions');
+  var VideoActions = require('foreground/model/video/videoActions');
   var SearchTemplate = require('text!template/search/search.html');
 
   var SearchView = Marionette.LayoutView.extend({
@@ -25,17 +25,17 @@
     },
 
     regions: {
-      searchResults: '[data-region=searchResults]',
-      spinner: '[data-region=spinner]'
+      searchResults: 'searchResults',
+      spinner: 'spinner'
     },
 
     ui: {
-      playAllButton: '[data-ui~=playAllButton]',
-      saveAllButton: '[data-ui~=saveAllButton]',
-      addAllButton: '[data-ui~=addAllButton]',
-      searchingMessage: '[data-ui~=searchingMessage]',
-      typeToSearchMessage: '[data-ui~=typeToSearchMessage]',
-      noResultsMessage: '[data-ui~=noResultsMessage]'
+      playAllButton: 'playAllButton',
+      saveAllButton: 'saveAllButton',
+      addAllButton: 'addAllButton',
+      searchingMessage: 'searchingMessage',
+      typeToSearchMessage: 'typeToSearchMessage',
+      noResultsMessage: 'noResultsMessage'
     },
 
     events: {
@@ -93,8 +93,8 @@
       var canAdd = this._canPlayOrAdd();
 
       if (canAdd) {
-        var songs = this.collection.pluck('song');
-        this.streamItems.addSongs(songs);
+        var videos = this.collection.pluck('video');
+        this.streamItems.addVideos(videos);
       }
     },
 
@@ -102,8 +102,8 @@
       var canPlay = this._canPlayOrAdd();
 
       if (canPlay) {
-        var songs = this.collection.pluck('song');
-        this.streamItems.addSongs(songs, {
+        var videos = this.collection.pluck('video');
+        this.streamItems.addVideos(videos, {
           playOnAdd: true
         });
       }
@@ -136,7 +136,7 @@
       this._setButtonStates();
     },
 
-    // Searches youtube for song results based on the given text.
+    // Searches youtube for video results based on the given text.
     _search: function(options) {
       this.model.set('query', options.query);
     },
@@ -158,12 +158,12 @@
       var canSave = this._canSave();
 
       if (canSave) {
-        var songActions = new SongActions();
-        var songs = this.collection.pluck('song');
+        var videoActions = new VideoActions();
+        var videos = this.collection.pluck('video');
         var offset = this.ui.saveAllButton.offset();
         var playlists = this.signInManager.get('signedInUser').get('playlists');
 
-        songActions.showSaveMenu(songs, offset.top, offset.left, playlists);
+        videoActions.showSaveMenu(videos, offset.top, offset.left, playlists);
       }
     },
 

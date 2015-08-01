@@ -20,25 +20,25 @@
     "decreaseVolume": {
         "message": "소리 줄이기"
     },
-    "showSongDetails": {
+    "showVideoDetails": {
         "message": "자세히"
     },
-    "nextSong": {
+    "nextVideo": {
         "message": "다음곡"
     },
-    "previousSong": {
+    "previousVideo": {
         "message": "이전곡"
     },
-    "toggleSong": {
+    "toggleVideo": {
         "message": "재생/정지"
     },
-    "deleteSong": {
+    "deleteVideo": {
         "message": "노래 삭제"
     },
-    "copySongUrl": {
+    "copyVideoUrl": {
         "message": "링크 복사"
     },
-    "copySongTitleAndUrl": {
+    "copyVideoTitleAndUrl": {
         "message": "노래 제목과 링크 복사"
     },
     "save": {
@@ -62,7 +62,7 @@
     "addToStreamus": {
         "message": "Streamus에 등록"
     },
-    "youTubePlayerErrorSongNotFound": {
+    "youTubePlayerErrorVideoNotFound": {
         "message": "노래가 지워졌거나 비공개 상태입니다."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
@@ -80,7 +80,7 @@
     "repeatOff": {
         "message": "반복 끄기"
     },
-    "repeatSong": {
+    "repeatVideo": {
         "message": "노래 반복"
     },
     "repeatAll": {
@@ -269,36 +269,36 @@
     "volume": {
         "message": "소리"
     },
-    "songAdded": {
+    "videoAdded": {
         "message": "노래 추가됨"
     },
-    "addSong": {
+    "addVideo": {
         "message": "노래 추가"
     },
-    "song": {
+    "video": {
         "message": "노래"
     },
-    "songs": {
+    "videos": {
         "message": "노래"
     },
-    "cantSkipToNextSong": {
+    "cantSkipToNextVideo": {
         "message": "다음 노래 재생 불가"
     },
-    "cantGoBackToPreviousSong": {
+    "cantGoBackToPreviousVideo": {
         "message": "이전 노래 재생 불가"
     },
-    "cantToggleSong": {
+    "cantToggleVideo": {
         "message": "노래 토글 불가"
     },
-    "searchForSongs": {
+    "searchForVideos": {
         "message": "노래 찾기"
     },
-    "songQuality": {
+    "videoQuality": {
         "message": "노래 품질"
     },
-    "whyNotAddASongFromAPlaylistOr": {
+    "whyNotAddAVideoFromAPlaylistOr": {
         "message": "재생목록에서 노래를 추가하거나",
-        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
     },
     "searchAndPlay": {
         "message": "검색과 재생"
@@ -358,10 +358,10 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
+    "failedToFindVideo": {
         "message": "노래를 찾지 못했습니다"
     },
-    "failedToFindSongs": {
+    "failedToFindVideos": {
         "message": "노래를 찾지 못했습니다"
     },
     "loadingYouTube": {
@@ -381,7 +381,7 @@
             }
         }
     },
-    "songAlreadyInCollection": {
+    "videoAlreadyInCollection": {
         "message": "노래가 이미 $collectionName$ 에 있습니다",
         "placeholders": {
             "collectionName": {
@@ -389,7 +389,7 @@
             }
         }
     },
-    "allSongsAlreadyInCollection": {
+    "allVideosAlreadyInCollection": {
         "message": "모든 노래가 이미 $collectionName$ 에 있습니다",
         "placeholders": {
             "collectionName": {
@@ -397,13 +397,13 @@
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$duplicateSongCount$ / $draggedSongCount$ 노래가 이미 $collectionName$ 에 있습니다",
+    "videosAlreadyInCollection": {
+        "message": "$duplicateVideoCount$ / $draggedVideoCount$ 노래가 이미 $collectionName$ 에 있습니다",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -462,7 +462,7 @@
     },
     "collectionSelected": {
         "message": "$count$ $collectionName$ 선택됨",
-        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -475,13 +475,13 @@
     "saveAll": {
         "message": "모두 저장"
     },
-    "saveSong": {
+    "saveVideo": {
         "message": "노래 저장"
     },
-    "songSavedToPlaylist": {
-        "message": "$songTitle$ 가 $playlistTitle$ 에 저장됨",
+    "videoSavedToPlaylist": {
+        "message": "$videoTitle$ 가 $playlistTitle$ 에 저장됨",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {

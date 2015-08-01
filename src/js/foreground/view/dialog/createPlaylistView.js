@@ -15,16 +15,16 @@
         titleMessage: chrome.i18n.getMessage('title'),
         playlistUrlMessage: chrome.i18n.getMessage('playlistUrl'),
         titleMaxLength: this.titleMaxLength,
-        // If the playlist is not already being created with songs then allow for importing of songs.
-        showDataSource: this.songs.length === 0
+        // If the playlist is not already being created with videos then allow for importing of videos.
+        showDataSource: this.videos.length === 0
       };
     },
 
     ui: {
-      title: '[data-ui~=title]',
-      titleCharacterCount: '[data-ui~=title-characterCount]',
-      dataSource: '[data-ui~=dataSource]',
-      dataSourceHint: '[data-ui~=dataSource-hint]'
+      title: 'title',
+      titleCharacterCount: 'title-characterCount',
+      dataSource: 'dataSource',
+      dataSourceHint: 'dataSource-hint'
     },
 
     events: {
@@ -40,12 +40,12 @@
 
     playlists: null,
     dataSourceManager: null,
-    songs: [],
+    videos: [],
 
     initialize: function(options) {
       this.playlists = options.playlists;
       this.dataSourceManager = options.dataSourceManager;
-      this.songs = _.isUndefined(options.songs) ? this.songs : options.songs;
+      this.videos = _.isUndefined(options.videos) ? this.videos : options.videos;
     },
 
     onRender: function() {
@@ -72,8 +72,8 @@
     createPlaylist: function() {
       var trimmedTitle = this._getTrimmedTitle();
 
-      if (this.songs.length > 0) {
-        this.playlists.addPlaylistWithSongs(trimmedTitle, this.songs);
+      if (this.videos.length > 0) {
+        this.playlists.addPlaylistWithVideos(trimmedTitle, this.videos);
       } else {
         var dataSource = this.ui.dataSource.data('datasource');
         this.playlists.addPlaylistByDataSource(trimmedTitle, dataSource);

@@ -100,12 +100,12 @@
       var selectedItems = this.view.collection.getSelectedModels();
       ui.helper.text(selectedItems.length);
 
-      var draggedSongs = _.map(selectedItems, function(item) {
-        return item.get('song');
+      var draggedVideos = _.map(selectedItems, function(item) {
+        return item.get('video');
       });
 
       this.ui.listItems.addClass(this.isDraggingClass).data({
-        draggedSongs: draggedSongs
+        draggedVideos: draggedVideos
       });
 
       this._overrideSortableItem(ui);
@@ -147,7 +147,7 @@
     },
 
     _cleanup: function() {
-      this.ui.listItems.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
+      this.ui.listItems.removeData('draggedVideos placeholderIndex').removeClass(this.isDraggingClass);
       StreamusFG.channels.element.vent.trigger('drop');
     },
 
@@ -163,11 +163,11 @@
       }
 
       this.view.once('GetMinRenderIndexResponse', function(response) {
-        this.view.collection.addSongs(ui.sender.data('draggedSongs'), {
+        this.view.collection.addVideos(ui.sender.data('draggedVideos'), {
           index: placeholderIndex + response.minRenderIndex
         });
 
-        // The collection does not resort because the model's index was provided when calling addSongs
+        // The collection does not resort because the model's index was provided when calling addVideos
         // The CollectionView's state is incorrect because the collection's index does not correspond to the view's child's index.
         // Simply triggering a sort is the simplest solution as it forces the CollectionView to re-render its children.
         this.view.collection.sort();
@@ -257,10 +257,10 @@
 
       var overOtherCollection = this.view.childViewType !== ui.item.data('type');
       if (overOtherCollection) {
-        // Decorate the placeholder to indicate songs can't be copied.
-        var draggedSongs = ui.sender.data('draggedSongs');
+        // Decorate the placeholder to indicate videos can't be copied.
+        var draggedVideos = ui.sender.data('draggedVideos');
         // Show a visual indicator if all dragged stream items are duplicates.
-        var duplicatesInfo = this.view.collection.getDuplicatesInfo(draggedSongs);
+        var duplicatesInfo = this.view.collection.getDuplicatesInfo(draggedVideos);
         notDroppable = duplicatesInfo.allDuplicates;
         warnDroppable = duplicatesInfo.someDuplicates;
         placeholderText = duplicatesInfo.message;

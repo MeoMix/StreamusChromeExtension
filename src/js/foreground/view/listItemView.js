@@ -27,9 +27,9 @@
     },
 
     regions: {
-      buttons: '[data-region=buttons]',
-      spinner: '[data-region=spinner]',
-      checkbox: '[data-region=checkbox]'
+      buttons: 'buttons',
+      spinner: 'spinner',
+      checkbox: 'checkbox'
     },
 
     behaviors: {

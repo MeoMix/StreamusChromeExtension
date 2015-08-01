@@ -1,19 +1,19 @@
 ﻿define(function(require) {
   'use strict';
 
-  var SongType = require('background/enum/songType');
+  var VideoType = require('background/enum/videoType');
   var Utility = require('common/utility');
 
-  var Song = Backbone.Model.extend({
+  var Video = Backbone.Model.extend({
     defaults: {
       // ID is a YouTube Video ID
       id: '',
-      // Title is immutable. PlaylistItem might support editing the title, but applied to the PlaylistItem and not to Song.
+      // Title is immutable. PlaylistItem might support editing the title, but applied to the PlaylistItem and not to Video.
       title: '',
       author: '',
-      // Duration in seconds for the length of the given song.
+      // Duration in seconds for the length of the given video.
       duration: -1,
-      type: SongType.None,
+      type: VideoType.None,
 
       // These are calculated:
       prettyDuration: '',
@@ -27,17 +27,17 @@
       this._setUrl(this.get('id'));
     },
 
-    // Certain songs are not desireable when using radio mode.
-    // If a song is too long, or a parody, or live then it's not great to random into.
-    isDesireableSong: function() {
-      // Duration greater than 8 minutes (480 seconds) is assumed to be multiple songs
+    // Certain videos are not desireable when using radio mode.
+    // If a video is too long, or a parody, or live then it's not great to random into.
+    isDesireableVideo: function() {
+      // Duration greater than 8 minutes (480 seconds) is assumed to be multiple videos
       var isNotTooLong = this.get('duration') < 480;
-      var lowerCaseSongTitle = this.get('title').toLowerCase();
-      var isNotLive = lowerCaseSongTitle.indexOf('live') === -1;
-      var isNotParody = lowerCaseSongTitle.indexOf('parody') === -1;
+      var lowerCaseVideoTitle = this.get('title').toLowerCase();
+      var isNotLive = lowerCaseVideoTitle.indexOf('live') === -1;
+      var isNotParody = lowerCaseVideoTitle.indexOf('parody') === -1;
 
-      var isDesireableSong = isNotTooLong && isNotLive && isNotParody;
-      return isDesireableSong;
+      var isDesireableVideo = isNotTooLong && isNotLive && isNotParody;
+      return isDesireableVideo;
     },
 
     copyUrl: function() {
@@ -58,13 +58,13 @@
       });
     },
 
-    // Return whether the given song is thought to be the same as the current.
-    isSameSong: function(song) {
-      var isMatchingId = song.get('id') === this.get('id');
-      var isMatchingCleanTitle = song.get('cleanTitle') === this.get('cleanTitle');
-      var isSameSong = isMatchingId || isMatchingCleanTitle;
+    // Return whether the given video is thought to be the same as the current.
+    isSameVideo: function(video) {
+      var isMatchingId = video.get('id') === this.get('id');
+      var isMatchingCleanTitle = video.get('cleanTitle') === this.get('cleanTitle');
+      var isSameVideo = isMatchingId || isMatchingCleanTitle;
 
-      return isSameSong;
+      return isSameVideo;
     },
 
     // Calculate this value pre-emptively because when rendering I don't want to incur inefficiency
@@ -82,5 +82,5 @@
     }
   });
 
-  return Song;
+  return Video;
 });

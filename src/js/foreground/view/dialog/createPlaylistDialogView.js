@@ -18,7 +18,7 @@
         model: new CreatePlaylist(),
         dataSourceManager: StreamusFG.backgroundProperties.dataSourceManager,
         playlists: options.playlists,
-        songs: _.isUndefined(options.songs) ? [] : options.songs
+        videos: _.isUndefined(options.videos) ? [] : options.videos
       });
 
       DialogView.prototype.initialize.apply(this, arguments);

@@ -20,25 +20,25 @@
 	"decreaseVolume": {
 		"message": "Diminuir volume"
 	},
-	"showSongDetails": {
+	"showVideoDetails": {
 		"message": "Exibir detalhes da música"
 	},
-	"nextSong": {
+	"nextVideo": {
 		"message": "Próxima música"
 	},
-	"previousSong": {
+	"previousVideo": {
 		"message": "Música anterior"
 	},
-	"toggleSong": {
+	"toggleVideo": {
 		"message": "Reproduzir/pausar música"
 	},
-	"deleteSong": {
+	"deleteVideo": {
 		"message": "Excluir música"
 	},
-	"copySongUrl": {
+	"copyVideoUrl": {
 		"message": "Copiar URL da música"
 	},
-	"copySongTitleAndUrl": {
+	"copyVideoTitleAndUrl": {
 		"message": "Copiar título e URL da música"
 	},
 	"save": {
@@ -62,7 +62,7 @@
 	"addToStreamus": {
 		"message": "Adicionar ao Streamus"
 	},
-	"youTubePlayerErrorSongNotFound": {
+	"youTubePlayerErrorVideoNotFound": {
 		"message": "Música removida ou marcada como privada."
 	},
 	"youTubePlayerErrorNoPlayEmbedded": {
@@ -80,7 +80,7 @@
 	"repeatOff": {
 		"message": "Desligar repetição"
 	},
-	"repeatSong": {
+	"repeatVideo": {
 		"message": "Repetir música"
 	},
 	"repeatAll": {
@@ -269,34 +269,34 @@
 	"volume": {
 		"message": "Volume"
 	},
-	"songAdded": {
+	"videoAdded": {
 		"message": "Música adicionada"
 	},
-	"addSong": {
+	"addVideo": {
 		"message": "Adicionar música"
 	},
-	"song": {
+	"video": {
 		"message": "Música"
 	},
-	"songs": {
+	"videos": {
 		"message": "Músicas"
 	},
-	"cantSkipToNextSong": {
+	"cantSkipToNextVideo": {
 		"message": "Não é possível pular para a próxima música"
 	},
-	"cantGoBackToPreviousSong": {
+	"cantGoBackToPreviousVideo": {
 		"message": "Não é possível voltar para a música anterior"
 	},
-	"cantToggleSong": {
+	"cantToggleVideo": {
 		"message": "Não é possível alternar música"
 	},
-	"searchForSongs": {
+	"searchForVideos": {
 		"message": "Procurar músicas"
 	},
-	"songQuality": {
+	"videoQuality": {
 		"message": "Qualidade da música"
 	},
-	"whyNotAddASongFromAPlaylistOr": {
+	"whyNotAddAVideoFromAPlaylistOr": {
 		"message": "Por que não adicionar uma música de uma lista de reprodução ou",
 		"description": "The full sentence here is 'Por que não adicionar uma música de uma lista de reprodução ou procurar por músicas?' but I need to wrap part of the sentence in HTML"
 	},
@@ -358,10 +358,10 @@
 	"json": {
 		"message": "JSON"
 	},
-	"failedToFindSong": {
+	"failedToFindVideo": {
 		"message": "Não foi possível encontrar música"
 	},
-	"failedToFindSongs": {
+	"failedToFindVideos": {
 		"message": "Não foi possível encontrar músicas"
 	},
 	"loadingYouTube": {
@@ -381,7 +381,7 @@
 			}
 		}
 	},
-	"songAlreadyInCollection": {
+	"videoAlreadyInCollection": {
 		"message": "Música já existe em $collectionName$",
 		"placeholders": {
 			"collectionName": {
@@ -389,7 +389,7 @@
 			}
 		}
 	},
-	"allSongsAlreadyInCollection": {
+	"allVideosAlreadyInCollection": {
 		"message": "Todas as músicas já existem em $collectionName$",
 		"placeholders": {
 			"collectionName": {
@@ -397,13 +397,13 @@
 			}
 		}
 	},
-	"songsAlreadyInCollection": {
-		"message": "$duplicateSongCount$ de $draggedSongCount$ músicas já existem em $collectionName$",
+	"videosAlreadyInCollection": {
+		"message": "$duplicateVideoCount$ de $draggedVideoCount$ músicas já existem em $collectionName$",
 		"placeholders": {
-			"duplicateSongCount": {
+			"duplicateVideoCount": {
 				"content": "$1"
 			},
-			"draggedSongCount": {
+			"draggedVideoCount": {
 				"content": "$2"
 			},
 			"collectionName": {
@@ -462,7 +462,7 @@
 	},
 	"collectionSelected": {
 		"message": "$count$ $collectionName$ selecionada(s)",
-		"description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+		"description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
 		"placeholders": {
 			"count": {
 				"content": "$1"
@@ -475,13 +475,13 @@
 	"saveAll": {
 		"message": "Salvar todas"
 	},
-	"saveSong": {
+	"saveVideo": {
 		"message": "Salvar música"
 	},
-	"songSavedToPlaylist": {
-		"message": "$songTitle$ salvo em $playlistTitle$",
+	"videoSavedToPlaylist": {
+		"message": "$videoTitle$ salvo em $playlistTitle$",
 		"placeholders": {
-			"songTitle": {
+			"videoTitle": {
 				"content": "$1"
 			},
 			"playlistTitle": {

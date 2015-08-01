@@ -7,7 +7,7 @@
   var RepeatIconTemplate = require('text!template/icon/repeatIcon_18.svg');
   var RepeatOneIconTemplate = require('text!template/icon/repeatOneIcon_18.svg');
 
-  var RepeatButtonView = Marionette.ItemView.extend({
+  var RepeatButtonView = Marionette.LayoutView.extend({
     id: 'repeatButton',
     className: 'button button--icon button--icon--secondary button--medium',
     template: _.template(RepeatButtonTemplate),
@@ -22,8 +22,8 @@
     },
 
     ui: {
-      repeatIcon: '[data-ui~=repeatIcon]',
-      repeatOneIcon: '[data-ui~=repeatOneIcon]'
+      repeatIcon: 'repeatIcon',
+      repeatOneIcon: 'repeatOneIcon'
     },
 
     events: {
@@ -57,8 +57,8 @@
       var enabled = state !== RepeatButtonState.Off;
 
       this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
-      this.ui.repeatOneIcon.toggleClass('is-hidden', state !== RepeatButtonState.RepeatSong);
-      this.ui.repeatIcon.toggleClass('is-hidden', state === RepeatButtonState.RepeatSong);
+      this.ui.repeatOneIcon.toggleClass('is-hidden', state !== RepeatButtonState.RepeatVideo);
+      this.ui.repeatIcon.toggleClass('is-hidden', state === RepeatButtonState.RepeatVideo);
     },
   });
 

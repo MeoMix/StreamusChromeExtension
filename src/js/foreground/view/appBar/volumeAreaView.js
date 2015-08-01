@@ -7,7 +7,7 @@ define(function(require) {
   var VolumeOffIconTemplate = require('text!template/icon/volumeOffIcon_24.svg');
   var VolumeMuteIconTemplate = require('text!template/icon/volumeMuteIcon_24.svg');
 
-  var VolumeAreaView = Marionette.ItemView.extend({
+  var VolumeAreaView = Marionette.LayoutView.extend({
     id: 'volumeArea',
     className: 'volumeArea',
     template: _.template(VolumeAreaTemplate),
@@ -23,14 +23,14 @@ define(function(require) {
     },
 
     ui: {
-      volumeProgress: '[data-ui~=volumeProgress]',
-      volumeRange: '[data-ui~=volumeRange]',
-      volumeButton: '[data-ui~=volumeButton]',
-      slidePanel: '[data-ui~=slidePanel]',
-      volumeIconUp: '[data-ui~=volumeIcon--up]',
-      volumeIconDown: '[data-ui~=volumeIcon--down]',
-      volumeIconOff: '[data-ui~=volumeIcon--off]',
-      volumeIconMute: '[data-ui~=volumeIcon--mute]'
+      volumeProgress: 'volumeProgress',
+      volumeRange: 'volumeRange',
+      volumeButton: 'volumeButton',
+      slidePanel: 'slidePanel',
+      volumeIconUp: 'volumeIcon--up',
+      volumeIconDown: 'volumeIcon--down',
+      volumeIconOff: 'volumeIcon--off',
+      volumeIconMute: 'volumeIcon--mute'
     },
 
     events: {
@@ -43,6 +43,8 @@ define(function(require) {
 
     initialize: function(options) {
       this.player = options.player;
+
+      //this._setVolume = _.throttleFramerate(requestAnimationFrame, this._setVolume.bind(this));
 
       this.listenTo(this.player, 'change:muted', this._onPlayerChangeMuted);
       this.listenTo(this.player, 'change:volume', this._onPlayerChangeVolume);

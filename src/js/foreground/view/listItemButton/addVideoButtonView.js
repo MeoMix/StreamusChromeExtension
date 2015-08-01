@@ -5,7 +5,7 @@
   var AddListItemButtonTemplate = require('text!template/listItemButton/addListItemButton.html');
   var AddIconTemplate = require('text!template/icon/addIcon_18.svg');
 
-  var AddSongButtonView = Marionette.ItemView.extend({
+  var AddVideoButtonView = Marionette.LayoutView.extend({
     template: _.template(AddListItemButtonTemplate),
     templateHelpers: {
       addIcon: _.template(AddIconTemplate)()
@@ -24,10 +24,10 @@
       'reset': '_onStreamItemsReset'
     },
 
-    song: null,
+    video: null,
 
     initialize: function(options) {
-      this.song = options.song;
+      this.video = options.video;
       this.streamItems = options.streamItems;
       this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
     },
@@ -37,7 +37,7 @@
     },
 
     onClick: function() {
-      this.streamItems.addSongs(this.song);
+      this.streamItems.addVideos(this.video);
     },
 
     _onStreamItemsAddCompleted: function() {
@@ -53,7 +53,7 @@
     },
 
     _setState: function() {
-      var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.song);
+      var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.video);
       this.$el.toggleClass('is-disabled', duplicatesInfo.allDuplicates);
       this.model.set('enabled', !duplicatesInfo.allDuplicates);
 
@@ -62,5 +62,5 @@
     }
   });
 
-  return AddSongButtonView;
+  return AddVideoButtonView;
 });

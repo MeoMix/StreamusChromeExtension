@@ -28,7 +28,7 @@
     },
 
     ui: {
-      listItems: '[data-ui~=listItems]'
+      listItems: 'listItems'
     },
 
     triggers: {

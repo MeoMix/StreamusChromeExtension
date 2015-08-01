@@ -3,12 +3,12 @@
 
   var TooltipTemplate = require('text!template/tooltip/tooltip.html');
 
-  var TooltipView = Marionette.ItemView.extend({
+  var TooltipView = Marionette.LayoutView.extend({
     className: 'tooltip panel',
     template: _.template(TooltipTemplate),
 
     ui: {
-      panelContent: '[data-ui~=panelContent]'
+      panelContent: 'panelContent'
     },
 
     modelEvents: {

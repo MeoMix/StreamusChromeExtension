@@ -36,13 +36,13 @@
     }, 100, true),
 
     _onChromeCommandsCommand: function(command) {
-      if (command === ChromeCommand.NextSong) {
+      if (command === ChromeCommand.NextVideo) {
         var activatedStreamItem = this.tryActivateNextStreamItem();
 
         if (!activatedStreamItem) {
           StreamusBG.channels.notification.commands.trigger('show:notification', {
             title: chrome.i18n.getMessage('keyboardCommandFailure'),
-            message: chrome.i18n.getMessage('cantSkipToNextSong')
+            message: chrome.i18n.getMessage('cantSkipToNextVideo')
           });
         }
       }

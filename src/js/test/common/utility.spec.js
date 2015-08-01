@@ -29,7 +29,7 @@
       expect(Utility.prettyPrintTime(86400)).to.equal('24:00:00');
     });
 
-    it('Should be able to cleanse a YouTube song title', function() {
+    it('Should be able to cleanse a YouTube video title', function() {
       expect(Utility.cleanTitle(' ')).to.equal('');
       expect(Utility.cleanTitle('**NEW**')).to.equal('');
       expect(Utility.cleanTitle('[1999]')).to.equal('');

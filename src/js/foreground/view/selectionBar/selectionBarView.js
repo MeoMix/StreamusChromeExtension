@@ -3,11 +3,11 @@
 
   var Tooltipable = require('foreground/view/behavior/tooltipable');
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
-  var SongActions = require('foreground/model/song/songActions');
+  var VideoActions = require('foreground/model/video/videoActions');
   var SelectionBarTemplate = require('text!template/selectionBar/selectionBar.html');
   var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
 
-  var SelectionBarView = Marionette.ItemView.extend({
+  var SelectionBarView = Marionette.LayoutView.extend({
     id: 'selectionBar',
     className: 'selectionBar panel-content panel-content--uncolored',
     template: _.template(SelectionBarTemplate),
@@ -21,12 +21,12 @@
     },
 
     ui: {
-      playButton: '[data-ui~=playButton]',
-      addButton: '[data-ui~=addButton]',
-      saveButton: '[data-ui~=saveButton]',
-      deleteButton: '[data-ui~=deleteButton]',
-      selectionCountText: '[data-ui~=selectionCountText]',
-      clearButton: '[data-ui~=clearButton]'
+      playButton: 'playButton',
+      addButton: 'addButton',
+      saveButton: 'saveButton',
+      deleteButton: 'deleteButton',
+      selectionCountText: 'selectionCountText',
+      clearButton: 'clearButton'
     },
 
     events: {
@@ -69,8 +69,8 @@
       var canPlay = this.model.get('canPlay');
 
       if (canPlay) {
-        var selectedSongs = this.model.get('activeCollection').getSelectedSongs();
-        this.model.get('streamItems').addSongs(selectedSongs, {
+        var selectedVideos = this.model.get('activeCollection').getSelectedVideos();
+        this.model.get('streamItems').addVideos(selectedVideos, {
           playOnAdd: true
         });
 
@@ -82,8 +82,8 @@
       var canAdd = this.model.get('canAdd');
 
       if (canAdd) {
-        var selectedSongs = this.model.get('activeCollection').getSelectedSongs();
-        this.model.get('streamItems').addSongs(selectedSongs);
+        var selectedVideos = this.model.get('activeCollection').getSelectedVideos();
+        this.model.get('streamItems').addVideos(selectedVideos);
 
         StreamusFG.channels.listItem.commands.trigger('deselect:collection');
       }
@@ -93,12 +93,12 @@
       var canSave = this.model.get('canSave');
 
       if (canSave) {
-        var songActions = new SongActions();
-        var songs = this.model.get('activeCollection').getSelectedSongs();
+        var videoActions = new VideoActions();
+        var videos = this.model.get('activeCollection').getSelectedVideos();
         var offset = this.ui.saveButton.offset();
         var playlists = this.model.get('signInManager').get('signedInUser').get('playlists');
 
-        songActions.showSaveMenu(songs, offset.top, offset.left, playlists);
+        videoActions.showSaveMenu(videos, offset.top, offset.left, playlists);
 
         // Don't deselect collections immediately when the button is clicked because more actions are needed.
         // If the user decides to not use the simple menu then don't de-select, either.
@@ -151,13 +151,13 @@
       this._setDeleteButtonState(this.model.get('canDelete'), activeCollection);
     },
 
-    // Update the text which shows how many songs are currently selected
+    // Update the text which shows how many videos are currently selected
     _setSelectionCountText: function(selectedCount) {
-      var songsMessage = chrome.i18n.getMessage(selectedCount === 1 ? 'song' : 'songs');
-      var selectionCountText = chrome.i18n.getMessage('collectionSelected', [selectedCount, songsMessage]);
+      var videosMessage = chrome.i18n.getMessage(selectedCount === 1 ? 'video' : 'videos');
+      var selectionCountText = chrome.i18n.getMessage('collectionSelected', [selectedCount, videosMessage]);
       this.ui.selectionCountText.html(selectionCountText);
 
-      // The tooltip might transition between 'cant add song' and 'cant add songs' depending on # of selections.
+      // The tooltip might transition between 'cant add video' and 'cant add videos' depending on # of selections.
       this._setAddButtonState(this.model.get('canAdd'), this.model.get('activeCollection'));
     },
 
@@ -191,13 +191,13 @@
     },
 
     _setAddButtonState: function(canAdd, activeCollection) {
-      // Add is disabled if all selected songs are already in the stream.
-      // A warning tooltip is shown if some of the selected songs are already in the stream.
+      // Add is disabled if all selected videos are already in the stream.
+      // A warning tooltip is shown if some of the selected videos are already in the stream.
       var tooltipText = '';
 
       if (!_.isNull(activeCollection)) {
-        var selectedSongs = activeCollection.getSelectedSongs();
-        var duplicatesInfo = this.model.get('streamItems').getDuplicatesInfo(selectedSongs);
+        var selectedVideos = activeCollection.getSelectedVideos();
+        var duplicatesInfo = this.model.get('streamItems').getDuplicatesInfo(selectedVideos);
         tooltipText = duplicatesInfo.message;
       }
 

@@ -4,9 +4,6 @@
   var PreviousButtonView = require('foreground/view/streamControlBar/previousButtonView');
   var PreviousButton = require('background/model/previousButton');
   var Stream = require('background/model/stream');
-  var Player = require('background/model/player');
-  var Settings = require('background/model/settings');
-  var YouTubePlayer = require('background/model/youTubePlayer');
   var RadioButton = require('background/model/radioButton');
   var ShuffleButton = require('background/model/shuffleButton');
   var RepeatButton = require('background/model/repeatButton');
@@ -16,10 +13,7 @@
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
 
-      var player = new Player({
-        settings: new Settings(),
-        youTubePlayer: new YouTubePlayer()
-      });
+      var player = TestUtility.buildPlayer();
 
       var shuffleButton = new ShuffleButton();
       var radioButton = new RadioButton();

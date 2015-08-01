@@ -102,7 +102,7 @@
 
       switch (youTubeError) {
         case YouTubePlayerError.VideoNotFound:
-          text = chrome.i18n.getMessage('youTubePlayerErrorSongNotFound');
+          text = chrome.i18n.getMessage('youTubePlayerErrorVideoNotFound');
           break;
         case YouTubePlayerError.InvalidParameter:
         case YouTubePlayerError.NoPlayEmbedded:

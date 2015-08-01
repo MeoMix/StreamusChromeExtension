@@ -3,7 +3,7 @@
 
   var NotificationTemplate = require('text!template/notification/notification.html');
 
-  var NotificationView = Marionette.ItemView.extend({
+  var NotificationView = Marionette.LayoutView.extend({
     id: 'notification',
     className: 'notification panel panel--bottom u-transitionable transition--fast u-zIndex--5',
     template: _.template(NotificationTemplate),

@@ -20,25 +20,25 @@
     "decreaseVolume": {
         "message": "Sesi Azalt"
     },
-    "showSongDetails": {
+    "showVideoDetails": {
         "message": "Şarkı Detaylarını Göster"
     },
-    "nextSong": {
+    "nextVideo": {
         "message": "Sonraki Şarkı"
     },
-    "previousSong": {
+    "previousVideo": {
         "message": "Önceki Şarkı"
     },
-    "toggleSong": {
+    "toggleVideo": {
         "message": "Şarkıyı Başlat/Durdur"
     },
-    "deleteSong": {
+    "deleteVideo": {
         "message": "Şarkıyı Sil"
     },
-    "copySongUrl": {
+    "copyVideoUrl": {
         "message": "Şarkı Adresini Kopyala"
     },
-    "copySongTitleAndUrl": {
+    "copyVideoTitleAndUrl": {
         "message": "Şarkı Adı ve Adresini Kopyala"
     },
     "save": {
@@ -62,7 +62,7 @@
     "addToStreamus": {
         "message": "Streamus'a ekle"
     },
-    "youTubePlayerErrorSongNotFound": {
+    "youTubePlayerErrorVideoNotFound": {
         "message": "Şarkı Kaldırılmış yada gizlenmiş."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
@@ -81,7 +81,7 @@
     "repeatOff": {
         "message": "Tekrarlama Kapalı"
     },
-    "repeatSong": {
+    "repeatVideo": {
         "message": "Şarkıyı Tekrarla"
     },
     "repeatAll": {
@@ -270,34 +270,34 @@
     "volume": {
         "message": "Ses"
     },
-    "songAdded": {
+    "videoAdded": {
         "message": "Şarkı Eklendi"
     },
-    "addSong": {
+    "addVideo": {
         "message": "Şarkı Ekle"
     },
-    "song": {
+    "video": {
         "message": "Şarkı"
     },
-    "songs": {
+    "videos": {
         "message": "Şarkılar"
     },
-    "cantSkipToNextSong": {
+    "cantSkipToNextVideo": {
         "message": "Sonraki şarkıya geçilemiyor"
     },
-    "cantGoBackToPreviousSong": {
+    "cantGoBackToPreviousVideo": {
         "message": "Önceki şarkıya geçilemiyor"
     },
-    "cantToggleSong": {
+    "cantToggleVideo": {
         "message": "Şarkı değiştirilemiyor"
     },
-    "searchForSongs": {
+    "searchForVideos": {
         "message": "Şarkı ara"
     },
-    "songQuality": {
+    "videoQuality": {
         "message": "Şarkı kalitesi"
     },
-    "whyNotAddASongFromAPlaylistOr": {
+    "whyNotAddAVideoFromAPlaylistOr": {
         "message": "Oynatma listesinden ya da arama sonuçlarından şarkı ekleyebilirsiniz",
 
         "description": "Oynama listesinden yada Arama sonuçlarından neden şarkı eklenemedi"
@@ -360,10 +360,10 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
+    "failedToFindVideo": {
         "message": "Şarkı bulunamadı"
     },
-    "failedToFindSongs": {
+    "failedToFindVideos": {
         "message": "Şarkılar bulunamadı"
     },
     "loadingYouTube": {
@@ -383,7 +383,7 @@
             }
         }
     },
-    "songAlreadyInCollection": {
+    "videoAlreadyInCollection": {
         "message": "Şarkı $collectionName$ içerisinde ",
         "placeholders": {
             "collectionName": {
@@ -391,7 +391,7 @@
             }
         }
     },
-    "allSongsAlreadyInCollection": {
+    "allVideosAlreadyInCollection": {
         "message": "Tüm Şarkılar $collectionName$ içerisinde",
         "placeholders": {
             "collectionName": {
@@ -399,13 +399,13 @@
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$draggedSongCount$ şarkının $duplicateSongCount$ tanesi zaten $collectionName$  içerisinde",
+    "videosAlreadyInCollection": {
+        "message": "$draggedVideoCount$ şarkının $duplicateVideoCount$ tanesi zaten $collectionName$  içerisinde",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -478,13 +478,13 @@
     "saveAll": {
         "message": "Hepsini Kaydet"
     },
-    "saveSong": {
+    "saveVideo": {
         "message": "Şarkıyı Kaydet"
     },
-    "songSavedToPlaylist": {
-        "message": "$songTitle$ $playlistTitle$ içerisine eklendi",
+    "videoSavedToPlaylist": {
+        "message": "$videoTitle$ $playlistTitle$ içerisine eklendi",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {

@@ -4,9 +4,9 @@
   var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
   var FixedPosition = require('foreground/enum/fixedPosition');
 
-  var SongActions = Backbone.Model.extend({
-    showSaveMenu: function(songs, top, left, playlists) {
-      songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
+  var VideoActions = Backbone.Model.extend({
+    showSaveMenu: function(videos, top, left, playlists) {
+      videos = videos instanceof Backbone.Collection ? videos.models : _.isArray(videos) ? videos : [videos];
 
       var simpleMenuItems = playlists.map(function(playlist) {
         return {
@@ -15,7 +15,7 @@
           value: playlist.get('id'),
           onClick: function(model) {
             var playlistId = model.get('value');
-            playlists.get(playlistId).get('items').addSongs(songs);
+            playlists.get(playlistId).get('items').addVideos(videos);
           }.bind(this)
         };
       }, this);
@@ -29,7 +29,7 @@
           fixedPosition: FixedPosition.Bottom,
           onClick: function() {
             StreamusFG.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
-              songs: songs,
+              videos: videos,
               playlists: playlists
             });
           }.bind(this)
@@ -37,7 +37,7 @@
       });
     },
 
-    showContextMenu: function(song, top, left, player) {
+    showContextMenu: function(video, top, left, player) {
       StreamusFG.channels.simpleMenu.commands.trigger('show:simpleMenu', {
         isContextMenu: true,
         top: top,
@@ -45,22 +45,22 @@
         simpleMenuItems: [{
           text: chrome.i18n.getMessage('copyUrl'),
           onClick: function() {
-            song.copyUrl();
+            video.copyUrl();
           }.bind(this)
         }, {
           text: chrome.i18n.getMessage('copyTitleAndUrl'),
           onClick: function() {
-            song.copyTitleAndUrl();
+            video.copyTitleAndUrl();
           }.bind(this)
         }, {
           text: chrome.i18n.getMessage('watchOnYouTube'),
           onClick: function() {
-            player.watchInTab(song);
+            player.watchInTab(video);
           }.bind(this)
         }]
       });
     }
   });
 
-  return SongActions;
+  return VideoActions;
 });

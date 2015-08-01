@@ -3,7 +3,6 @@
 
   var EditPlaylistView = require('foreground/view/dialog/editPlaylistView');
   var EditPlaylist = require('foreground/model/dialog/editPlaylist');
-  var TestUtility = require('test/testUtility');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
   describe('EditPlaylistView', function() {

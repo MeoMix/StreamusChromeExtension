@@ -4,9 +4,6 @@
   var StreamItemView = require('foreground/view/stream/streamItemView');
   var StreamItem = require('background/model/streamItem');
   var StreamItems = require('background/collection/streamItems');
-  var Player = require('background/model/player');
-  var Settings = require('background/model/settings');
-  var YouTubePlayer = require('background/model/youTubePlayer');
   var PlayPauseButton = require('background/model/playPauseButton');
   var ListItemType = require('common/enum/listItemType');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
@@ -15,10 +12,7 @@
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
 
-      var player = new Player({
-        settings: new Settings(),
-        youTubePlayer: new YouTubePlayer()
-      });
+      var player = TestUtility.buildPlayer();
 
       this.view = new StreamItemView({
         model: new StreamItem(),

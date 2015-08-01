@@ -7,6 +7,9 @@
   require('test/phantomjs.shim');
   require('test/chrome.mock');
 
+  require('common/shim/backbone.marionette.view.shim');
+  require('common/shim/backbone.marionette.region.shim');
+
   var Cocktail = require('cocktail');
   Cocktail.patch(Backbone);
 
@@ -21,7 +24,8 @@
   });
 
   // Finally, load the tests:
-  require(['background/application', 'foreground/application', 'test/test'], function(BackgroundApplication, ForegroundApplication) {
+  require(['background/application', 'foreground/application', 'test/testUtility', 'test/test'],
+    function(BackgroundApplication, ForegroundApplication, TestUtility) {
     window.StreamusBG = new BackgroundApplication();
     window.StreamusBG.localDebug = true;
     window.StreamusBG.instantiateBackgroundArea();
@@ -30,6 +34,8 @@
       backgroundProperties: window.StreamusBG.getExposedProperties(),
       backgroundChannels: window.StreamusBG.getExposedChannels()
     });
+
+    window.TestUtility = TestUtility;
 
     window.mocha.run();
   });

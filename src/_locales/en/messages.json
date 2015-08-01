@@ -3,7 +3,7 @@
         "message": "Streamus"
     },
     "extensionDescription": {
-        "message": "Simple, streaming music."
+        "message": "Simple, streaming videos."
     },
     "toggleRadio": {
         "message": "Radio off/on"
@@ -12,7 +12,7 @@
         "message": "Shuffle off/on"
     },
     "toggleRepeat": {
-        "message": "Repeat off/all songs/current song"
+        "message": "Repeat off/all videos/current video"
     },
     "increaseVolume": {
         "message": "Increase volume"
@@ -20,26 +20,26 @@
     "decreaseVolume": {
         "message": "Decrease volume"
     },
-    "showSongDetails": {
-        "message": "Show song details"
+    "showVideoDetails": {
+        "message": "Show video details"
     },
-    "nextSong": {
-        "message": "Next song"
+    "nextVideo": {
+        "message": "Next video"
     },
-    "previousSong": {
-        "message": "Previous song"
+    "previousVideo": {
+        "message": "Previous video"
     },
-    "toggleSong": {
-        "message": "Play/pause song"
+    "toggleVideo": {
+        "message": "Play/pause video"
     },
-    "deleteSong": {
-        "message": "Delete song"
+    "deleteVideo": {
+        "message": "Delete video"
     },
-    "copySongUrl": {
-        "message": "Copy song's URL"
+    "copyVideoUrl": {
+        "message": "Copy video's URL"
     },
-    "copySongTitleAndUrl": {
-        "message": "Copy song's title and URL"
+    "copyVideoTitleAndUrl": {
+        "message": "Copy video's title and URL"
     },
     "save": {
         "message": "Save"
@@ -62,11 +62,11 @@
     "addToStreamus": {
         "message": "Add to Streamus"
     },
-    "youTubePlayerErrorSongNotFound": {
-        "message": "Song has been removed or marked private."
+    "youTubePlayerErrorVideoNotFound": {
+        "message": "Video has been removed or marked private."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
-        "message": "Song unable to be played."
+        "message": "Video unable to be played."
     },
     "errorEncountered": {
         "message": "An error was encountered."
@@ -80,8 +80,8 @@
     "repeatOff": {
         "message": "Repeat off"
     },
-    "repeatSong": {
-        "message": "Repeat song"
+    "repeatVideo": {
+        "message": "Repeat video"
     },
     "repeatAll": {
         "message": "Repeat all"
@@ -266,36 +266,36 @@
     "volume": {
         "message": "Volume"
     },
-    "songAdded": {
-        "message": "Song added"
+    "videoAdded": {
+        "message": "Video added"
     },
-    "addSong": {
-        "message": "Add song"
+    "addVideo": {
+        "message": "Add video"
     },
-    "song": {
-        "message": "Song"
+    "video": {
+        "message": "Video"
     },
-    "songs": {
-        "message": "Songs"
+    "videos": {
+        "message": "Videos"
     },
-    "cantSkipToNextSong": {
-        "message": "Can't skip to next song"
+    "cantSkipToNextVideo": {
+        "message": "Can't skip to next video"
     },
-    "cantGoBackToPreviousSong": {
-        "message": "Can't go back to previous song"
+    "cantGoBackToPreviousVideo": {
+        "message": "Can't go back to previous video"
     },
-    "cantToggleSong": {
-        "message": "Can't toggle song"
+    "cantToggleVideo": {
+        "message": "Can't toggle video"
     },
-    "searchForSongs": {
-        "message": "Search for songs"
+    "searchForVideos": {
+        "message": "Search for videos"
     },
-    "songQuality": {
-        "message": "Song quality"
+    "videoQuality": {
+        "message": "Video quality"
     },
-    "whyNotAddASongFromAPlaylistOr": {
-        "message": "Why not add a song from a playlist or",
-        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+    "whyNotAddAVideoFromAPlaylistOr": {
+        "message": "Why not add a video from a playlist or",
+        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
     },
     "searchAndPlay": {
         "message": "Search and Play"
@@ -355,11 +355,11 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
-        "message": "Failed to find song"
+    "failedToFindVideo": {
+        "message": "Failed to find video"
     },
-    "failedToFindSongs": {
-        "message": "Failed to find songs"
+    "failedToFindVideos": {
+        "message": "Failed to find videos"
     },
     "loadingYouTube": {
         "message": "Loading YouTube"
@@ -378,29 +378,29 @@
             }
         }
     },
-    "songAlreadyInCollection": {
-        "message": "Song already in $collectionName$",
+    "videoAlreadyInCollection": {
+        "message": "Video already in $collectionName$",
         "placeholders": {
             "collectionName": {
                 "content": "$1"
             }
         }
     },
-    "allSongsAlreadyInCollection": {
-        "message": "All songs already in $collectionName$",
+    "allVideosAlreadyInCollection": {
+        "message": "All videos already in $collectionName$",
         "placeholders": {
             "collectionName": {
                 "content": "$1"
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$duplicateSongCount$ of $draggedSongCount$ songs already in $collectionName$",
+    "videosAlreadyInCollection": {
+        "message": "$duplicateVideoCount$ of $draggedVideoCount$ videos already in $collectionName$",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -443,8 +443,8 @@
             }
         }
     },
-    "playlistCreatedWithSong": {
-        "message": "Playlist $playlistTitle$ created with $count$ song",
+    "playlistCreatedWithVideo": {
+        "message": "Playlist $playlistTitle$ created with $count$ video",
         "placeholders": {
             "playlistTitle": {
                 "content": "$1"
@@ -454,8 +454,8 @@
             }
         }
     },
-    "playlistCreatedWithSongs": {
-        "message": "Playlist $playlistTitle$ created with $count$ songs",
+    "playlistCreatedWithVideos": {
+        "message": "Playlist $playlistTitle$ created with $count$ videos",
         "placeholders": {
             "playlistTitle": {
                 "content": "$1"
@@ -486,7 +486,7 @@
     },
     "collectionSelected": {
         "message": "$count$ $collectionName$ selected",
-        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -499,13 +499,13 @@
     "saveAll": {
         "message": "Save all"
     },
-    "saveSong": {
-        "message": "Save song"
+    "saveVideo": {
+        "message": "Save video"
     },
-    "songSavedToPlaylist": {
-        "message": "$songTitle$ saved to $playlistTitle$",
+    "videoSavedToPlaylist": {
+        "message": "$videoTitle$ saved to $playlistTitle$",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {
@@ -513,8 +513,8 @@
             }
         }
     },
-    "songsSavedToPlaylist": {
-        "message": "$count$ songs saved to $playlistTitle$",
+    "videosSavedToPlaylist": {
+        "message": "$count$ videos saved to $playlistTitle$",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -584,18 +584,18 @@
     "deleteAll": {
         "message": "Delete all"
     },
-    "songsAddedToStream": {
-        "message": "$count$ songs added to stream",
+    "videosAddedToStream": {
+        "message": "$count$ videos added to stream",
         "placeholders": {
             "count": {
                 "content": "$1"
             }
         }
     },
-    "songAddedToStream": {
-        "message": "$songTitle$ added to stream",
+    "videoAddedToStream": {
+        "message": "$videoTitle$ added to stream",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             }
         }

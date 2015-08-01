@@ -4,7 +4,7 @@
   var NextButtonTemplate = require('text!template/streamControlBar/nextButton.html');
   var NextIconTemplate = require('text!template/icon/nextIcon_24.svg');
 
-  var NextButtonView = Marionette.ItemView.extend({
+  var NextButtonView = Marionette.LayoutView.extend({
     id: 'nextButton',
     className: 'button button--icon button--icon--primary button--large',
     template: _.template(NextButtonTemplate),

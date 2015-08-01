@@ -10,7 +10,7 @@
 
     regions: {
       clipboard: {
-        el: '[data-region=clipboard]',
+        el: 'clipboard',
         regionClass: ClipboardRegion
       }
     },

@@ -7,7 +7,6 @@
   var StreamView = require('foreground/view/stream/streamView');
   var ActivePlaylistAreaView = require('foreground/view/leftPane/activePlaylistAreaView');
   var ViewTestUtility = require('test/foreground/view/viewTestUtility');
-  var TestUtility = require('test/testUtility');
 
   describe('ActivePaneView', function() {
     describe('PlaylistActivePaneView', function() {

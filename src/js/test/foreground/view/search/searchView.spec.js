@@ -88,45 +88,45 @@
 
     describe('when clicking the addAll button', function() {
       beforeEach(function() {
-        sinon.stub(this.streamItems, 'addSongs');
+        sinon.stub(this.streamItems, 'addVideos');
       });
 
       afterEach(function() {
-        this.streamItems.addSongs.restore();
+        this.streamItems.addVideos.restore();
       });
 
-      it('should add songs when able to add', function() {
+      it('should add videos when able to add', function() {
         this.searchResults.add({});
 
         this.view._onClickAddAllButton();
-        expect(this.streamItems.addSongs.calledOnce).to.equal(true);
+        expect(this.streamItems.addVideos.calledOnce).to.equal(true);
       });
 
-      it('should not add songs when not able to add', function() {
+      it('should not add videos when not able to add', function() {
         this.view._onClickSaveAllButton();
-        expect(this.streamItems.addSongs.calledOnce).to.equal(false);
+        expect(this.streamItems.addVideos.calledOnce).to.equal(false);
       });
     });
 
     describe('when clicking the playAll button', function() {
       beforeEach(function() {
-        sinon.stub(this.streamItems, 'addSongs');
+        sinon.stub(this.streamItems, 'addVideos');
       });
 
       afterEach(function() {
-        this.streamItems.addSongs.restore();
+        this.streamItems.addVideos.restore();
       });
 
-      it('should add & play songs when able to play', function() {
+      it('should add & play videos when able to play', function() {
         this.searchResults.add({});
 
         this.view._onClickAddAllButton();
-        expect(this.streamItems.addSongs.calledOnce).to.equal(true);
+        expect(this.streamItems.addVideos.calledOnce).to.equal(true);
       });
 
-      it('should not add & play songs when not able to play', function() {
+      it('should not add & play videos when not able to play', function() {
         this.view._onClickSaveAllButton();
-        expect(this.streamItems.addSongs.calledOnce).to.equal(false);
+        expect(this.streamItems.addVideos.calledOnce).to.equal(false);
       });
     });
   });

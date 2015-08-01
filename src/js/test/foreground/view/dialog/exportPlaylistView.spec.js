@@ -3,7 +3,6 @@
 
   var ExportPlaylist = require('foreground/model/dialog/exportPlaylist');
   var ExportPlaylistView = require('foreground/view/dialog/exportPlaylistView');
-  var TestUtility = require('test/testUtility');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
   describe('ExportPlaylistView', function() {

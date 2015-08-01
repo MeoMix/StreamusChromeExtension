@@ -5,7 +5,7 @@
   var PlayListItemButtonTemplate = require('text!template/listItemButton/playListItemButton.html');
   var PlayIconTemplate = require('text!template/icon/playIcon_18.svg');
 
-  var PlayPlaylistButtonView = Marionette.ItemView.extend({
+  var PlayPlaylistButtonView = Marionette.LayoutView.extend({
     template: _.template(PlayListItemButtonTemplate),
     templateHelpers: {
       playIcon: _.template(PlayIconTemplate)()
@@ -37,9 +37,9 @@
     },
 
     onClick: function() {
-      var songs = this.playlist.get('items').pluck('song');
+      var videos = this.playlist.get('items').pluck('video');
 
-      this.streamItems.addSongs(songs, {
+      this.streamItems.addVideos(videos, {
         playOnAdd: true
       });
     },

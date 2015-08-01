@@ -20,25 +20,25 @@
     "decreaseVolume": {
         "message": "Disminuir volumen"
     },
-    "showSongDetails": {
+    "showVideoDetails": {
         "message": "Mostrar detalles de canción"
     },
-    "nextSong": {
+    "nextVideo": {
         "message": "Canción siguiente"
     },
-    "previousSong": {
+    "previousVideo": {
         "message": "Canción anterior"
     },
-    "toggleSong": {
+    "toggleVideo": {
         "message": "Reproducir/pausar canción"
     },
-    "deleteSong": {
+    "deleteVideo": {
         "message": "Eliminar canción"
     },
-    "copySongUrl": {
+    "copyVideoUrl": {
         "message": "Copiar dirección del enlace de la canción"
     },
-    "copySongTitleAndUrl": {
+    "copyVideoTitleAndUrl": {
         "message": "Copiar titulo y direccion del enlace de la canción"
     },
     "save": {
@@ -62,7 +62,7 @@
     "addToStreamus": {
         "message": "Añadir a Streamus"
     },
-    "youTubePlayerErrorSongNotFound": {
+    "youTubePlayerErrorVideoNotFound": {
         "message": "La canción ha sido removida o marcada como privada."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
@@ -80,7 +80,7 @@
     "repeatOff": {
         "message": "Repetir apagado"
     },
-    "repeatSong": {
+    "repeatVideo": {
         "message": "Repetir canción"
     },
     "repeatAll": {
@@ -269,34 +269,34 @@
     "volume": {
         "message": "Volumen"
     },
-    "songAdded": {
+    "videoAdded": {
         "message": "Canción añadida"
     },
-    "addSong": {
+    "addVideo": {
         "message": "Añadir canción"
     },
-    "song": {
+    "video": {
         "message": "Canción"
     },
-    "songs": {
+    "videos": {
         "message": "Canciones"
     },
-    "cantSkipToNextSong": {
+    "cantSkipToNextVideo": {
         "message": "No se puede adelantar a la siguiente canción"
     },
-    "cantGoBackToPreviousSong": {
+    "cantGoBackToPreviousVideo": {
         "message": "No se puede regresar a la canción anterior"
     },
-    "cantToggleSong": {
+    "cantToggleVideo": {
         "message": "No se puede cambiar la canción"
     },
-    "searchForSongs": {
+    "searchForVideos": {
         "message": "Buscar canciones"
     },
-    "songQuality": {
+    "videoQuality": {
         "message": "Calidad de canción"
     },
-    "whyNotAddASongFromAPlaylistOr": {
+    "whyNotAddAVideoFromAPlaylistOr": {
         "message": "Por que no añadir una canción desde una lista de reproduccion o",
         "description": "The full sentence here is 'Por que no añadir una canción desde una lista de reproduccion o buscar canciones?' but I need to wrap part of the sentence in HTML"
     },
@@ -358,10 +358,10 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
+    "failedToFindVideo": {
         "message": "Hubo un fallo buscando la canción"
     },
-    "failedToFindSongs": {
+    "failedToFindVideos": {
         "message": "Hubo un fallo buscando las canciónes"
     },
     "loadingYouTube": {
@@ -381,7 +381,7 @@
             }
         }
     },
-    "songAlreadyInCollection": {
+    "videoAlreadyInCollection": {
         "message": "La canción ya está en $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -389,7 +389,7 @@
             }
         }
     },
-    "allSongsAlreadyInCollection": {
+    "allVideosAlreadyInCollection": {
         "message": "Todas las canciones ya están en $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -397,13 +397,13 @@
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$duplicateSongCount$ de $draggedSongCount$ canciones ya están en $collectionName$",
+    "videosAlreadyInCollection": {
+        "message": "$duplicateVideoCount$ de $draggedVideoCount$ canciones ya están en $collectionName$",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -475,13 +475,13 @@
     "saveAll": {
         "message": "Guardar todo"
     },
-    "saveSong": {
+    "saveVideo": {
         "message": "Guardar canción"
     },
-    "songSavedToPlaylist": {
-        "message": "$songTitle$ guardada en $playlistTitle$",
+    "videoSavedToPlaylist": {
+        "message": "$videoTitle$ guardada en $playlistTitle$",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {

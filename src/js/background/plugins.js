@@ -4,6 +4,9 @@
   require('backbone.marionette');
   require('backbone.localStorage');
 
+  require('common/shim/backbone.marionette.view.shim');
+  require('common/shim/backbone.marionette.region.shim');
+
   var Cocktail = require('cocktail');
   Cocktail.patch(Backbone);
 

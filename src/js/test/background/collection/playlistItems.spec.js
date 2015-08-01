@@ -2,35 +2,34 @@
   'use strict';
 
   var PlaylistItems = require('background/collection/playlistItems');
-  var TestUtility = require('test/testUtility');
 
   describe('PlaylistItems', function() {
     beforeEach(function() {
       this.playlistItems = new PlaylistItems();
     });
 
-    xdescribe('when calling addSongs', function() {
-      it('should support a single song object', function() {
+    xdescribe('when calling addVideos', function() {
+      it('should support a single video object', function() {
 
       });
 
-      it('should support an array of song objects', function() {
+      it('should support an array of video objects', function() {
 
       });
 
-      it('should support a collection of song models', function() {
+      it('should support a collection of video models', function() {
 
       });
 
-      it('should only create songs which were added successfully', function() {
+      it('should only create videos which were added successfully', function() {
 
       });
 
-      it('should rely on native Model.save when creating a single song', function() {
+      it('should rely on native Model.save when creating a single video', function() {
 
       });
 
-      it('should call _bulkCreate when creating multiple songs', function() {
+      it('should call _bulkCreate when creating multiple videos', function() {
 
       });
     });
@@ -43,7 +42,7 @@
 
       it('should not error when non-empty', function() {
         this.playlistItems.add({
-          song: TestUtility.buildSong()
+          video: TestUtility.buildVideo()
         });
 
         var displayInfo = this.playlistItems.getDisplayInfo();
@@ -51,19 +50,20 @@
       });
     });
 
-    describe('when adding a song at an index', function() {
-      it('should be able to successfully add a unique song', function() {
-        var song = TestUtility.buildSong();
-        var addedPlaylistItem = this.playlistItems._tryAddSongAtIndex(song, 0);
+    describe('when adding a video at an index', function() {
+      it('should be able to successfully add a unique video', function() {
+        var video = TestUtility.buildVideo();
+        debugger;
+        var addedPlaylistItem = this.playlistItems._tryAddVideoAtIndex(video, 0);
         expect(addedPlaylistItem).not.to.equal(null);
         expect(this.playlistItems.length).to.equal(1);
       });
 
-      it('should gracefully fail to add a non-unique song', function() {
-        var song = TestUtility.buildSong();
-        this.playlistItems._tryAddSongAtIndex(song, 0);
+      it('should gracefully fail to add a non-unique video', function() {
+        var video = TestUtility.buildVideo();
+        this.playlistItems._tryAddVideoAtIndex(video, 0);
 
-        var addedPlaylistItem = this.playlistItems._tryAddSongAtIndex(song, 1);
+        var addedPlaylistItem = this.playlistItems._tryAddVideoAtIndex(video, 1);
         expect(addedPlaylistItem).to.equal(null);
         expect(this.playlistItems.length).to.equal(1);
       });
@@ -102,7 +102,7 @@
 
         this.playlistItems.add({
           title: 'hello, world',
-          song: TestUtility.buildSong()
+          video: TestUtility.buildVideo()
         });
         this.playlistItems.at(0).cid = '123';
 
@@ -124,7 +124,7 @@
 
       this.playlistItems.add({
         title: 'hello, world',
-        song: TestUtility.buildSong()
+        video: TestUtility.buildVideo()
       });
       this.playlistItems.at(0).cid = '123';
 
@@ -132,15 +132,15 @@
       expect(this.playlistItems.at(0).get('title')).to.equal(createdObject.title);
     });
 
-    it('should be able to get a model by song id', function() {
-      var song = TestUtility.buildSong();
+    it('should be able to get a model by video id', function() {
+      var video = TestUtility.buildVideo();
 
       this.playlistItems.add({
-        song: song,
-        title: song.get('title')
+        video: video,
+        title: video.get('title')
       });
 
-      var playlistItem = this.playlistItems._getBySongId(song.get('id'));
+      var playlistItem = this.playlistItems._getByVideoId(video.get('id'));
       expect(playlistItem).to.equal(this.playlistItems.at(0));
     });
   });

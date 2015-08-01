@@ -20,8 +20,8 @@
     },
 
     ui: {
-      'title': '[data-ui~=title]',
-      'filterIcon': '[data-ui~=filterIcon]'
+      'title': 'title',
+      'filterIcon': 'filterIcon'
     },
 
     events: {

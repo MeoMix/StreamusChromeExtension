@@ -4,13 +4,13 @@
   var ListItemView = require('foreground/view/listItemView');
   var ListItemMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
   var SpinnerView = require('foreground/view/element/spinnerView');
-  var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
+  var AddVideoButtonView = require('foreground/view/listItemButton/addVideoButtonView');
   var DeleteListItemButtonView = require('foreground/view/listItemButton/deleteListItemButtonView');
-  var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
-  var SongOptionsButtonView = require('foreground/view/listItemButton/songOptionsButtonView');
+  var PlayPauseVideoButtonView = require('foreground/view/listItemButton/playPauseVideoButtonView');
+  var VideoOptionsButtonView = require('foreground/view/listItemButton/videoOptionsButtonView');
   var PlaylistItemTemplate = require('text!template/leftPane/playlistItem.html');
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var SongActions = require('foreground/model/song/songActions');
+  var VideoActions = require('foreground/model/video/videoActions');
 
   var PlaylistItemView = ListItemView.extend({
     className: ListItemView.prototype.className + ' playlist-item listItem--medium listItem--hasButtons listItem--selectable',
@@ -35,24 +35,24 @@
 
     buttonViewOptions: function() {
       return {
-        PlayPauseSongButtonView: {
-          viewClass: PlayPauseSongButtonView,
-          song: this.model.get('song'),
+        PlayPauseVideoButtonView: {
+          viewClass: PlayPauseVideoButtonView,
+          video: this.model.get('video'),
           streamItems: StreamusFG.backgroundProperties.stream.get('items'),
           player: StreamusFG.backgroundProperties.player
         },
-        AddSongButtonView: {
-          viewClass: AddSongButtonView,
-          song: this.model.get('song'),
+        AddVideoButtonView: {
+          viewClass: AddVideoButtonView,
+          video: this.model.get('video'),
           streamItems: StreamusFG.backgroundProperties.stream.get('items')
         },
         DeleteListItemButtonView: {
           viewClass: DeleteListItemButtonView,
           listItem: this.model
         },
-        SongOptionsButtonView: {
-          viewClass: SongOptionsButtonView,
-          song: this.model.get('song'),
+        VideoOptionsButtonView: {
+          viewClass: VideoOptionsButtonView,
+          video: this.model.get('video'),
           player: this.player
         }
       };
@@ -71,10 +71,10 @@
     },
 
     showContextMenu: function(top, left) {
-      var song = this.model.get('song');
-      var songActions = new SongActions();
+      var video = this.model.get('video');
+      var videoActions = new VideoActions();
 
-      songActions.showContextMenu(song, top, left, this.player);
+      videoActions.showContextMenu(video, top, left, this.player);
     },
 
     _onDblClick: function() {
@@ -105,7 +105,7 @@
     },
 
     _playInStream: function() {
-      this.streamItems.addSongs(this.model.get('song'), {
+      this.streamItems.addVideos(this.model.get('video'), {
         playOnAdd: true
       });
     }

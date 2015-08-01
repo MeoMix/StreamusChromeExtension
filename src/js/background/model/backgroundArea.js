@@ -22,7 +22,7 @@
   var ShuffleButton = require('background/model/shuffleButton');
   var VideoButton = require('background/model/videoButton');
   var ActivePlaylistManager = require('background/model/activePlaylistManager');
-  var ChromeWindowManager = require('background/model/chromeWindowManager');
+  var YouTubePlayer = require('background/model/youTubePlayer');
 
   var BackgroundArea = Backbone.Model.extend({
     defaults: function() {
@@ -61,11 +61,10 @@
         signInManager: this.get('signInManager')
       });
 
-      var chromeWindowManager = new ChromeWindowManager();
+      var youTubePlayer = new YouTubePlayer();
 
       var player = new Player({
-        settings: this.get('settings'),
-        chromeWindowManager: chromeWindowManager
+        youTubePlayer: youTubePlayer
       });
       this.set('player', player);
 

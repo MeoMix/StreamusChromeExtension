@@ -24,8 +24,8 @@
     isMouseDownOnTrack: false,
 
     ui: {
-      track: '[data-ui~=track]',
-      thumb: '[data-ui~=thumb]'
+      track: 'track',
+      thumb: 'thumb'
     },
 
     events: {

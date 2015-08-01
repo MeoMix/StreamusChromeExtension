@@ -4,20 +4,12 @@
   var TimeSliderView = require('foreground/view/streamControlBar/timeSliderView');
   var TimeSlider = require('foreground/model/streamControlBar/timeSlider');
   var StreamItems = require('background/collection/streamItems');
-  var Player = require('background/model/player');
-  var Settings = require('background/model/settings');
-  var YouTubePlayer = require('background/model/youTubePlayer');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
-  var testUtility = require('test/testUtility');
 
   describe('TimeSliderView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
-
-      var player = new Player({
-        settings: new Settings(),
-        youTubePlayer: new YouTubePlayer()
-      });
+      var player = TestUtility.buildPlayer();
 
       this.view = new TimeSliderView({
         model: new TimeSlider({
@@ -36,15 +28,15 @@
     viewTestUtility.ensureBasicAssumptions.call(this);
 
     describe('_getTotalTime', function() {
-      it('should return 0 if there is no loaded song', function() {
+      it('should return 0 if there is no loaded video', function() {
         var totalTime = this.view._getTotalTime(null);
         expect(totalTime).to.equal(0);
       });
 
-      it('should return the songs duration if it exists', function() {
-        var song = testUtility.buildSong();
-        var totalTime = this.view._getTotalTime(song);
-        expect(totalTime).to.equal(song.get('duration'));
+      it('should return the videos duration if it exists', function() {
+        var video = TestUtility.buildVideo();
+        var totalTime = this.view._getTotalTime(video);
+        expect(totalTime).to.equal(video.get('duration'));
       });
     });
 

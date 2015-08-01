@@ -20,25 +20,25 @@
     "decreaseVolume": {
         "message": "Senk volum"
     },
-    "showSongDetails": {
+    "showVideoDetails": {
         "message": "Vis sanginformasjon"
     },
-    "nextSong": {
+    "nextVideo": {
         "message": "Neste sang"
     },
-    "previousSong": {
+    "previousVideo": {
         "message": "Forrige sang"
     },
-    "toggleSong": {
+    "toggleVideo": {
         "message": "Spill av/pause sang"
     },
-    "deleteSong": {
+    "deleteVideo": {
         "message": "Slett sang"
     },
-    "copySongUrl": {
+    "copyVideoUrl": {
         "message": "Kopier sangens nettadresse"
     },
-    "copySongTitleAndUrl": {
+    "copyVideoTitleAndUrl": {
         "message": "Kopier sangens tittel og nettadresse"
     },
     "save": {
@@ -62,7 +62,7 @@
     "addToStreamus": {
         "message": "Legg til Streamus"
     },
-    "youTubePlayerErrorSongNotFound": {
+    "youTubePlayerErrorVideoNotFound": {
         "message": "Sangen har blitt fjernet eller markert som privat."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
@@ -80,7 +80,7 @@
     "repeatOff": {
         "message": "Gjenta av"
     },
-    "repeatSong": {
+    "repeatVideo": {
         "message": "Gjenta på"
     },
     "repeatAll": {
@@ -269,36 +269,36 @@
     "volume": {
         "message": "Volum"
     },
-    "songAdded": {
+    "videoAdded": {
         "message": "Sang lagt til"
     },
-    "addSong": {
+    "addVideo": {
         "message": "Legg til sang"
     },
-    "song": {
+    "video": {
         "message": "Sang"
     },
-    "songs": {
+    "videos": {
         "message": "Sanger"
     },
-    "cantSkipToNextSong": {
+    "cantSkipToNextVideo": {
         "message": "Kan ikke hoppe til neste sang"
     },
-    "cantGoBackToPreviousSong": {
+    "cantGoBackToPreviousVideo": {
         "message": "Kan ikke gå tilbake til forrige sang"
     },
-    "cantToggleSong": {
+    "cantToggleVideo": {
         "message": "Kan ikke skifte sang"
     },
-    "searchForSongs": {
+    "searchForVideos": {
         "message": "Søk etter sanger"
     },
-    "songQuality": {
+    "videoQuality": {
         "message": "Sangkvalitet"
     },
-    "whyNotAddASongFromAPlaylistOr": {
+    "whyNotAddAVideoFromAPlaylistOr": {
         "message": "Hvorfor ikke legge til en sang fra en spilleliste eller",
-        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
     },
     "searchAndPlay": {
         "message": "Søk og Spill av"
@@ -358,10 +358,10 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
+    "failedToFindVideo": {
         "message": "Kunne ikke finne sang"
     },
-    "failedToFindSongs": {
+    "failedToFindVideos": {
         "message": "Kunne ikke finne sanger"
     },
     "loadingYouTube": {
@@ -381,7 +381,7 @@
             }
         }
     },
-    "songAlreadyInCollection": {
+    "videoAlreadyInCollection": {
         "message": "Sang allerede i $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -389,7 +389,7 @@
             }
         }
     },
-    "allSongsAlreadyInCollection": {
+    "allVideosAlreadyInCollection": {
         "message": "Alle sanger allerede i $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -397,13 +397,13 @@
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$duplicateSongCount$ av $draggedSongCount$ sanger allerede i $collectionName$",
+    "videosAlreadyInCollection": {
+        "message": "$duplicateVideoCount$ av $draggedVideoCount$ sanger allerede i $collectionName$",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -462,7 +462,7 @@
     },
     "collectionSelected": {
         "message": "$count$ $collectionName$ valgt",
-        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -475,13 +475,13 @@
     "saveAll": {
         "message": "Lagre alt"
     },
-    "saveSong": {
+    "saveVideo": {
         "message": "Lagre sang"
     },
-    "songSavedToPlaylist": {
-        "message": "$songTitle$ lagret i $playlistTitle$",
+    "videoSavedToPlaylist": {
+        "message": "$videoTitle$ lagret i $playlistTitle$",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {

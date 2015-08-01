@@ -1,4 +1,4 @@
-﻿define(function() { 
+﻿define(function() {
   'use strict';
 
   var Port = Backbone.Model.extend({

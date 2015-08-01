@@ -5,7 +5,7 @@
   var AddListItemButtonTemplate = require('text!template/listItemButton/addListItemButton.html');
   var AddIconTemplate = require('text!template/icon/addIcon_18.svg');
 
-  var AddPlaylistButtonView = Marionette.ItemView.extend({
+  var AddPlaylistButtonView = Marionette.LayoutView.extend({
     template: _.template(AddListItemButtonTemplate),
     templateHelpers: {
       addIcon: _.template(AddIconTemplate)()
@@ -45,8 +45,8 @@
     },
 
     onClick: function() {
-      var songs = this.playlist.get('items').pluck('song');
-      this.streamItems.addSongs(songs);
+      var videos = this.playlist.get('items').pluck('video');
+      this.streamItems.addVideos(videos);
     },
 
     _onPlaylistItemsAddCompleted: function() {
@@ -76,7 +76,7 @@
     _setState: function() {
       var playlistItems = this.playlist.get('items');
       var empty = playlistItems.length === 0;
-      var duplicatesInfo = this.streamItems.getDuplicatesInfo(playlistItems.pluck('song'));
+      var duplicatesInfo = this.streamItems.getDuplicatesInfo(playlistItems.pluck('video'));
       var isDisabled = empty || duplicatesInfo.allDuplicates;
       this.$el.toggleClass('is-disabled', isDisabled);
       this.model.set('enabled', !isDisabled);

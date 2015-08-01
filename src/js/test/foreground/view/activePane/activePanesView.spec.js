@@ -7,7 +7,6 @@
   var Settings = require('background/model/settings');
   var ActivePlaylistManager = require('background/model/activePlaylistManager');
   var ViewTestUtility = require('test/foreground/view/viewTestUtility');
-  var TestUtility = require('test/testUtility');
 
   describe('ActivePanesView', function() {
     beforeEach(function() {

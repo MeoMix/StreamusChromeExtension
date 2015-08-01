@@ -15,20 +15,20 @@
       playAllMessage: chrome.i18n.getMessage('playAll'),
       playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
       showSearchMessage: chrome.i18n.getMessage('showSearch'),
-      searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
+      searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
       wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
     },
 
     regions: {
-      playlistItems: '[data-region=playlistItems]'
+      playlistItems: 'playlistItems'
     },
 
     ui: {
-      playlistEmptyMessage: '[data-ui~=playlistEmptyMessage]',
-      showSearchLink: '[data-ui~=showSearchLink]',
-      playlistDetails: '[data-ui~=playlistDetails]',
-      playAllButton: '[data-ui~=playAllButton]',
-      addAllButton: '[data-ui~=addAllButton]'
+      playlistEmptyMessage: 'playlistEmptyMessage',
+      showSearchLink: 'showSearchLink',
+      playlistDetails: 'playlistDetails',
+      playAllButton: 'playAllButton',
+      addAllButton: 'addAllButton'
     },
 
     events: {
@@ -81,17 +81,17 @@
 
     _onClickAddAllButton: function() {
       if (this._canAdd()) {
-        var songs = this.model.get('items').pluck('song');
+        var videos = this.model.get('items').pluck('video');
 
-        this.streamItems.addSongs(songs);
+        this.streamItems.addVideos(videos);
       }
     },
 
     _onClickPlayAllButton: function() {
       if (this._canPlay()) {
-        var songs = this.model.get('items').pluck('song');
+        var videos = this.model.get('items').pluck('video');
 
-        this.streamItems.addSongs(songs, {
+        this.streamItems.addVideos(videos, {
           playOnAdd: true
         });
       }
@@ -135,7 +135,7 @@
       var isEmpty = this.model.get('items').isEmpty();
       this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
 
-      var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
+      var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('video'));
       var isDisabled = isEmpty || duplicatesInfo.allDuplicates;
       this.ui.addAllButton.toggleClass('is-disabled', isDisabled);
 
@@ -150,8 +150,8 @@
 
     _canAdd: function() {
       var isEmpty = this.model.get('items').isEmpty();
-      var songs = this.model.get('items').pluck('song');
-      var duplicatesInfo = this.streamItems.getDuplicatesInfo(songs);
+      var videos = this.model.get('items').pluck('video');
+      var duplicatesInfo = this.streamItems.getDuplicatesInfo(videos);
 
       return !isEmpty && !duplicatesInfo.allDuplicates;
     },

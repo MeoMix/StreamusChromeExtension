@@ -11,8 +11,8 @@
 
     initialize: function() {
       var player = this.get('player');
-      this._setEnabledState(player.get('loadedSong'));
-      this.listenTo(player, 'change:loadedSong', this._onPlayerChangeLoadedSong);
+      this._setEnabledState(player.get('loadedVideo'));
+      this.listenTo(player, 'change:loadedVideo', this._onPlayerChangeLoadedVideo);
     },
 
     incrementCurrentTime: function(incrementValue) {
@@ -23,12 +23,12 @@
       return incrementedCurrentTime;
     },
 
-    _onPlayerChangeLoadedSong: function(model, loadedSong) {
-      this._setEnabledState(loadedSong);
+    _onPlayerChangeLoadedVideo: function(model, loadedVideo) {
+      this._setEnabledState(loadedVideo);
     },
 
-    _setEnabledState: function(loadedSong) {
-      this.set('isEnabled', !_.isNull(loadedSong));
+    _setEnabledState: function(loadedVideo) {
+      this.set('isEnabled', !_.isNull(loadedVideo));
     }
   });
 

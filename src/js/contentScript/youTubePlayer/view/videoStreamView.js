@@ -1,49 +1,35 @@
 ﻿define(function(require) {
   'use strict';
 
-  var VideoCommand = require('common/enum/videoCommand');
-  var VideoRequest = require('common/enum/videoRequest');
   var PlayerState = require('common/enum/playerState');
+  var YouTubePlayerState = require('common/enum/youTubePlayerState');
 
-  var VideoStreamView = Marionette.ItemView.extend({
+  var VideoStreamView = Marionette.LayoutView.extend({
     el: '.video-stream',
     template: false,
 
     events: {
-      'loadstart': '_onLoadStart',
-      'playing': '_onPlaying',
-      'pause': '_onPause',
       'seeking': '_onSeeking',
       'seeked': '_onSeeked',
-      'timeupdate': '_onTimeUpdate'
+      'timeupdate': '_onTimeUpdate',
+      'ended': '_onEnded'
     },
 
     modelEvents: {
-      'change:currentTime': '_onChangeCurrentTime'
+      'change:currentTime': '_onChangeCurrentTime',
+      'change:volume': '_onChangeVolume',
+      'change:muted': '_onChangeMuted'
     },
-
-    lastPostedCurrentTime: null,
 
     initialize: function() {
       this.listenTo(Application.port, 'receive:message', this._onPortReceiveMessage);
-      this._requestInitialState();
+
+      this._onWindowMessage = this._onWindowMessage.bind(this);
+      window.addEventListener('message', this._onWindowMessage);
     },
 
-    _onLoadStart: function() {
-      this.model.resetCurrentTime();
-    },
-
-    // TODO: Buffering, Ended, Unstarted, maybe SongCued.
-    _onPlaying: function() {
-      Application.port.postMessage({
-        videoState: PlayerState.Playing
-      });
-    },
-
-    _onPause: function() {
-      Application.port.postMessage({
-        videoState: PlayerState.Paused
-      });
+    onBeforeDestroy: function() {
+      window.removeEventListener('message', this._onWindowMessage);
     },
 
     _onSeeking: function() {
@@ -58,7 +44,14 @@
       });
     },
 
+    _onEnded: function() {
+      // TODO: Maybe I should just ceil always, but when going into ended it won't round to the last second.
+      var currentTime = Math.ceil(this.el.currentTime);
+      this.model.set('currentTime', currentTime);
+    },
+
     _onTimeUpdate: function() {
+      // TODO: Race condition where currentTime on player.js is set to 0, but video for navigate isn't paused so its time can update.
       // Round currentTime to the nearest second to prevent flooding the port with unnecessary messages.
       var currentTime = Math.floor(this.el.currentTime);
       this.model.set('currentTime', currentTime);
@@ -70,54 +63,68 @@
       });
     },
 
+    _onChangeVolume: function(model, volume) {
+      Application.port.postMessage({
+        volume: volume
+      });
+    },
+
+    _onChangeMuted: function(model, muted) {
+      Application.port.postMessage({
+        muted: muted
+      });
+    },
+
+    _onWindowMessage: function(message) {
+      if (!_.isUndefined(message.data.state)) {
+        Application.port.postMessage({
+          videoState: this._getPlayerState(message.data.state)
+        });
+      }
+
+      if (!_.isUndefined(message.data.volume)) {
+        this.model.set('volume', message.data.volume);
+      }
+
+      if (!_.isUndefined(message.data.muted)) {
+        this.model.set('muted', message.data.muted);
+      }
+    },
+
     _onPortReceiveMessage: function(message) {
-      if (!_.isUndefined(message.initialState)) {
-        this._setInitialState(message.initialState);
-      }
-
-      if (!_.isUndefined(message.videoCommand)) {
-        this._handleCommand(message.videoCommand, message.value);
+      if (message.videoCommand || message.navigate) {
+        window.postMessage(message, '*');
       }
     },
 
-    _setInitialState: function(initialState) {
-      this.el.currentTime = initialState.startSeconds;
-      // TODO: Change this so that my player works out of 0-1 instead of 0-100.
-      this.el.volume = initialState.volume / 100;
-      this.el.muted = initialState.muted;
+    //  Maps a YouTubePlayerState enumeration value to the corresponding PlayerState enumeration value.
+    _getPlayerState: function(youTubePlayerState) {
+      var playerState;
 
-      if (!initialState.playOnActivate) {
-        this.el.pause();
-      }
-    },
-
-    _handleCommand: function(command, value) {
-      switch (command) {
-        case VideoCommand.Play:
-          this.el.play();
+      switch (youTubePlayerState) {
+        case YouTubePlayerState.Unstarted:
+          playerState = PlayerState.Unstarted;
           break;
-        case VideoCommand.Pause:
-          this.el.pause();
+        case YouTubePlayerState.Ended:
+          playerState = PlayerState.Ended;
           break;
-        case VideoCommand.SetVolume:
-          // TODO: Change this so that my player works out of 0-1 instead of 0-100.
-          this.el.volume = value / 100;
+        case YouTubePlayerState.Playing:
+          playerState = PlayerState.Playing;
           break;
-        case VideoCommand.SetMuted:
-          this.el.muted = value;
+        case YouTubePlayerState.Paused:
+          playerState = PlayerState.Paused;
           break;
-        case VideoCommand.SetCurrentTime:
-          this.el.currentTime = value;
+        case YouTubePlayerState.Buffering:
+          playerState = PlayerState.Buffering;
+          break;
+        case YouTubePlayerState.VideoCued:
+          playerState = PlayerState.VideoCued;
           break;
         default:
-          console.error('Unhandled command:', command);
+          throw new Error('Unmapped YouTubePlayerState:' + youTubePlayerState);
       }
-    },
 
-    _requestInitialState: function() {
-      Application.port.postMessage({
-        request: VideoRequest.InitialState
-      });
+      return playerState;
     }
   });
 

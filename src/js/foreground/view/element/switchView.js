@@ -3,12 +3,12 @@
 
   var SwitchTemplate = require('text!template/element/switch.html');
 
-  var SwitchView = Marionette.ItemView.extend({
+  var SwitchView = Marionette.LayoutView.extend({
     tagName: 'switch',
     template: _.template(SwitchTemplate),
 
     ui: {
-      icon: '[data-ui~=icon]'
+      icon: 'icon'
     },
 
     events: {

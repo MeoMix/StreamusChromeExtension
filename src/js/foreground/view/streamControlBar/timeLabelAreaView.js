@@ -10,8 +10,8 @@
     template: _.template(TimeLabelAreaTemplate),
 
     ui: {
-      elapsedTimeLabel: '[data-ui~=elapsedTimeLabel]',
-      totalTimeLabel: '[data-ui~=totalTimeLabel]'
+      elapsedTimeLabel: 'elapsedTimeLabel',
+      totalTimeLabel: 'totalTimeLabel'
     },
 
     behaviors: {
@@ -35,7 +35,7 @@
 
     player: null,
     playerEvents: {
-      'change:loadedSong': '_onPlayerChangeLoadedSong'
+      'change:loadedVideo': '_onPlayerChangeLoadedVideo'
     },
 
     initialize: function(options) {
@@ -46,7 +46,7 @@
     },
 
     onRender: function() {
-      var totalTime = this._getTotalTime(this.player.get('loadedSong'));
+      var totalTime = this._getTotalTime(this.player.get('loadedVideo'));
       this._setTotalTimeLabelText(totalTime);
       this._setElapsedTimeLabelText(this.timeSlider.get('currentTime'));
       this._setElapsedTimeLabelTooltipText(this.model.get('showRemainingTime'));
@@ -65,20 +65,20 @@
       this._setElapsedTimeLabelText(this.timeSlider.get('currentTime'));
     },
 
-    _onPlayerChangeLoadedSong: function(model, loadedSong) {
-      var totalTime = this._getTotalTime(loadedSong);
+    _onPlayerChangeLoadedVideo: function(model, loadedVideo) {
+      var totalTime = this._getTotalTime(loadedVideo);
       this._setTotalTimeLabelText(totalTime);
 
-      // Since there's no loaded song the label could not possibly be anything other than 0.
+      // Since there's no loaded video the label could not possibly be anything other than 0.
       // This is important if remaining time is being shown and timeSlider's currentTime is 0 since
-      // changing the loadedSong to null won't trigger a change event on timerSlider's currentTime
-      if (_.isNull(loadedSong)) {
+      // changing the loadedVideo to null won't trigger a change event on timerSlider's currentTime
+      if (_.isNull(loadedVideo)) {
         this._setElapsedTimeLabelText(0);
       }
     },
 
-    _getTotalTime: function(loadedSong) {
-      var totalTime = _.isNull(loadedSong) ? 0 : loadedSong.get('duration');
+    _getTotalTime: function(loadedVideo) {
+      var totalTime = _.isNull(loadedVideo) ? 0 : loadedVideo.get('duration');
       return totalTime;
     },
 
@@ -94,7 +94,7 @@
     // dragging the time slider which will cause the label to represent a different value.
     _setElapsedTimeLabelText: function(currentTime) {
       var showRemainingTime = this.model.get('showRemainingTime');
-      var totalTime = this._getTotalTime(this.player.get('loadedSong'));
+      var totalTime = this._getTotalTime(this.player.get('loadedVideo'));
       var elapsedTime = this._getElapsedTime(currentTime, totalTime, showRemainingTime);
 
       this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(elapsedTime));

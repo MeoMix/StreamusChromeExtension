@@ -204,7 +204,7 @@
       return saveContextMenuId;
     },
 
-    // Whenever a playlist context menu is clicked -- add the related song to that playlist.
+    // Whenever a playlist context menu is clicked -- add the related video to that playlist.
     _createPlaylistContextMenu: function(contextMenuOptions, parentId, playlist) {
       var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
         'title': playlist.get('title'),
@@ -237,10 +237,10 @@
     },
 
     _onClickTextSelectionContextMenu: function(playOnAdd, onClickData) {
-      YouTubeV3API.getSongByTitle({
+      YouTubeV3API.getVideoByTitle({
         title: onClickData.selectionText,
-        success: function(song) {
-          this.get('streamItems').addSongs(song, {
+        success: function(video) {
+          this.get('streamItems').addVideos(video, {
             playOnAdd: playOnAdd
           });
         }.bind(this)
@@ -253,9 +253,9 @@
         url: url
       });
 
-      dataSource.getSong({
-        success: function(song) {
-          this.get('streamItems').addSongs(song, {
+      dataSource.getVideo({
+        success: function(video) {
+          this.get('streamItems').addVideos(video, {
             playOnAdd: true
           });
         }.bind(this)
@@ -268,9 +268,9 @@
         url: url
       });
 
-      dataSource.getSong({
-        success: function(song) {
-          this.get('streamItems').addSongs(song);
+      dataSource.getVideo({
+        success: function(video) {
+          this.get('streamItems').addVideos(video);
         }.bind(this)
       });
     },
@@ -281,9 +281,9 @@
         url: url
       });
 
-      dataSource.getSong({
-        success: function(song) {
-          playlist.get('items').addSongs(song);
+      dataSource.getVideo({
+        success: function(video) {
+          playlist.get('items').addVideos(video);
         }
       });
     }

@@ -4,13 +4,14 @@
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
   var TimeSliderTemplate = require('text!template/streamControlBar/timeSlider.html');
 
-  var TimeSliderView = Marionette.ItemView.extend({
+  var TimeSliderView = Marionette.LayoutView.extend({
     id: 'timeSlider',
     template: _.template(TimeSliderTemplate),
 
+    useCustomUiSelector: false,
     ui: {
-      timeProgress: '[data-ui~=timeProgress]',
-      timeRange: '[data-ui~=timeRange]'
+      timeProgress: 'timeProgress',
+      timeRange: 'timeRange'
     },
 
     behaviors: {
@@ -35,7 +36,7 @@
     player: null,
     playerEvents: {
       'change:currentTime': '_onPlayerChangeCurrentTime',
-      'change:loadedSong': '_onPlayerChangeLoadedSong'
+      'change:loadedVideo': '_onPlayerChangeLoadedVideo'
     },
 
     initialize: function(options) {
@@ -45,8 +46,9 @@
 
     onRender: function() {
       this._setEnabledState(this.model.get('isEnabled'));
-      var loadedSong = this.player.get('loadedSong');
-      var totalTime = this._getTotalTime(loadedSong);
+
+      var loadedVideo = this.player.get('loadedVideo');
+      var totalTime = this._getTotalTime(loadedVideo);
       this._setTotalTime(totalTime);
       this._setTimeProgress(this.player.get('currentTime'));
     },
@@ -91,15 +93,16 @@
       this._setEnabledState(isEnabled);
     },
 
-    _onPlayerChangeLoadedSong: function(model, loadedSong) {
-      var totalTime = this._getTotalTime(loadedSong);
+    _onPlayerChangeLoadedVideo: function(model, loadedVideo) {
+      var totalTime = this._getTotalTime(loadedVideo);
       this._setTotalTime(totalTime);
-      this._setEnabledState(loadedSong);
+      this._setEnabledState(loadedVideo);
     },
 
     _onPlayerChangeCurrentTime: function(model, currentTime) {
       var isBeingDragged = this.model.get('isBeingDragged');
       var isPlayerSeeking = this.player.get('seeking');
+
       // If the time changes while user is dragging it then do not update the view because user's input should override it.
       // There's also a point in time where the user has stopped dragging, and the player is responding to the seekTo request,
       // but it has not yet fulfilled the seek. During this time, if the player's time changes, the currentTime will stutter
@@ -113,16 +116,16 @@
       this.ui.timeRange.attr('max', totalTime);
     },
 
-    // Repaints the progress bar's filled-in amount based on the % of time elapsed for current song.
+    // Repaints the progress bar's filled-in amount based on the % of time elapsed for current video.
     // Keep separate from render because a distinction is needed between the player's time and the
     // progress bar's time. The player's time should not update when the progress bar's time is
     // being dragged by the user, but the progress bar's values do need to update.
     _setTimeProgress: function(currentTime) {
       this.ui.timeRange.val(currentTime);
 
-      var totalTime = this._getTotalTime(this.player.get('loadedSong'));
+      var totalTime = this._getTotalTime(this.player.get('loadedVideo'));
       var progressPercent = this._getProgressPercent(currentTime, totalTime);
-      // TODO: The thumb for this gets slightly maligned at the end of the song.
+      // TODO: The thumb for this gets slightly maligned at the end of the video.
       this.ui.timeProgress.css('transform', 'scaleX(' + progressPercent / 100 + ')');
     },
 
@@ -138,8 +141,8 @@
       return progressPercent;
     },
 
-    _getTotalTime: function(loadedSong) {
-      var totalTime = _.isNull(loadedSong) ? 0 : loadedSong.get('duration');
+    _getTotalTime: function(loadedVideo) {
+      var totalTime = _.isNull(loadedVideo) ? 0 : loadedVideo.get('duration');
       return totalTime;
     },
 

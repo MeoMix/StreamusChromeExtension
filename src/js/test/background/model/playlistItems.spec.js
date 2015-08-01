@@ -2,7 +2,6 @@
   'use strict';
 
   var PlaylistItems = require('background/collection/playlistItems');
-  var TestUtility = require('test/testUtility');
 
   describe('PlaylistItems', function() {
     it('Should not be able to contain duplicates by id', function() {
@@ -15,7 +14,7 @@
       playlistItem.set('id', 123);
       var duplicatePlaylistItem = TestUtility.buildPlaylistItem();
       duplicatePlaylistItem.set('id', 123);
-      duplicatePlaylistItem.get('song').set('id', '12345678910');
+      duplicatePlaylistItem.get('video').set('id', '12345678910');
 
       var addedPlaylistItem = playlistItems.add(playlistItem);
       expect(playlistItems.length).to.equal(1);
@@ -26,7 +25,7 @@
       expect(addedDuplicatePlaylistItem).not.to.equal(null);
     });
 
-    it('Should not be able to contain duplicates by songId', function() {
+    it('Should not be able to contain duplicates by videoId', function() {
       var playlistItems = new PlaylistItems([], {
         playlistId: ''
       });

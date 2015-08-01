@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var SongQuality = require('common/enum/songQuality');
+  var VideoQuality = require('common/enum/videoQuality');
   var LayoutType = require('common/enum/layoutType');
   var DesktopNotificationDurations = require('common/enum/desktopNotificationDuration');
   var Checkboxes = require('foreground/collection/element/checkboxes');
@@ -21,7 +21,7 @@
 
     templateHelpers: {
       generalMessage: chrome.i18n.getMessage('general'),
-      songQualityMessage: chrome.i18n.getMessage('songQuality'),
+      videoQualityMessage: chrome.i18n.getMessage('videoQuality'),
       remindersMessage: chrome.i18n.getMessage('reminders'),
       desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications'),
       contextMenusMessage: chrome.i18n.getMessage('contextMenus'),
@@ -29,20 +29,20 @@
     },
 
     regions: {
-      songQuality: '[data-region=songQuality]',
-      openInTab: '[data-region=openInTab]',
-      remindClearStream: '[data-region=remindClearStream]',
-      remindDeletePlaylist: '[data-region=remindDeletePlaylist]',
-      remindLinkAccount: '[data-region=remindLinkAccount]',
-      remindGoogleSignIn: '[data-region=remindGoogleSignIn]',
-      layoutType: '[data-region=layoutType]',
-      desktopNotificationsEnabled: '[data-region=desktopNotificationsEnabled]',
-      desktopNotificationDuration: '[data-region=desktopNotificationDuration]',
-      showTextSelectionContextMenu: '[data-region=showTextSelectionContextMenu]',
-      showYouTubeLinkContextMenu: '[data-region=showYouTubeLinkContextMenu]',
-      showYouTubePageContextMenu: '[data-region=showYouTubePageContextMenu]',
-      enhanceYouTube: '[data-region=enhanceYouTube]',
-      enhanceBeatport: '[data-region=enhanceBeatport]'
+      videoQuality: 'videoQuality',
+      openInTab: 'openInTab',
+      remindClearStream: 'remindClearStream',
+      remindDeletePlaylist: 'remindDeletePlaylist',
+      remindLinkAccount: 'remindLinkAccount',
+      remindGoogleSignIn: 'remindGoogleSignIn',
+      layoutType: 'layoutType',
+      desktopNotificationsEnabled: 'desktopNotificationsEnabled',
+      desktopNotificationDuration: 'desktopNotificationDuration',
+      showTextSelectionContextMenu: 'showTextSelectionContextMenu',
+      showYouTubeLinkContextMenu: 'showYouTubeLinkContextMenu',
+      showYouTubePageContextMenu: 'showYouTubePageContextMenu',
+      enhanceYouTube: 'enhanceYouTube',
+      enhanceBeatport: 'enhanceBeatport'
     },
 
     behaviors: {
@@ -68,8 +68,8 @@
 
     onRender: function() {
       this._showSimpleListItem({
-        propertyName: 'songQuality',
-        options: _.values(SongQuality)
+        propertyName: 'videoQuality',
+        options: _.values(VideoQuality)
       });
 
       this._showSwitch('openInTab');

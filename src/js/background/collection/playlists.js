@@ -55,12 +55,12 @@
       });
     },
 
-    addPlaylistWithSongs: function(playlistTitle, songs) {
-      songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
-      var playlistItems = _.map(songs, function(song) {
+    addPlaylistWithVideos: function(playlistTitle, videos) {
+      videos = videos instanceof Backbone.Collection ? videos.models : _.isArray(videos) ? videos : [videos];
+      var playlistItems = _.map(videos, function(video) {
         return {
-          title: song.get('title'),
-          song: song
+          title: video.get('title'),
+          video: video
         };
       });
 
@@ -142,23 +142,23 @@
             playlists: this
           });
           break;
-        case 'addSongByUrlToPlaylist':
+        case 'addVideoByUrlToPlaylist':
           var dataSource = new DataSource({
             url: request.url
           });
 
           dataSource.parseUrl({
             success: function() {
-              YouTubeV3API.getSong({
-                songId: dataSource.get('entityId'),
-                success: function(song) {
+              YouTubeV3API.getVideo({
+                videoId: dataSource.get('entityId'),
+                success: function(video) {
                   var playlistItems = this.get(request.playlistId).get('items');
 
-                  playlistItems.addSongs(song, {
+                  playlistItems.addVideos(video, {
                     success: function() {
                       StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
-                        title: chrome.i18n.getMessage('songAdded'),
-                        message: song.get('title')
+                        title: chrome.i18n.getMessage('videoAdded'),
+                        message: video.get('title')
                       });
 
                       sendResponse({
@@ -226,7 +226,7 @@
       var notificationMessage;
 
       if (itemCount > 0) {
-        var messageKey = itemCount === 1 ? 'playlistCreatedWithSong' : 'playlistCreatedWithSongs';
+        var messageKey = itemCount === 1 ? 'playlistCreatedWithVideo' : 'playlistCreatedWithVideos';
         notificationMessage = chrome.i18n.getMessage(messageKey, [playlistTitle, itemCount]);
       } else {
         notificationMessage = chrome.i18n.getMessage('playlistCreated', [playlistTitle]);

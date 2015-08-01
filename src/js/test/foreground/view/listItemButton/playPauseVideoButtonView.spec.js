@@ -1,26 +1,20 @@
 ﻿define(function(require) {
   'use strict';
 
-  var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
+  var PlayPauseVideoButtonView = require('foreground/view/listItemButton/playPauseVideoButtonView');
   var StreamItems = require('background/collection/streamItems');
-  var Player = require('background/model/player');
   var ListItemButton = require('foreground/model/listItemButton/listItemButton');
-  var Settings = require('background/model/settings');
-  var YouTubePlayer = require('background/model/youTubePlayer');
-  var Song = require('background/model/song');
+  var Video = require('background/model/video');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
-  describe('PlayPauseSongButtonView', function() {
+  describe('PlayPauseVideoButtonView', function() {
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
-      this.view = new PlayPauseSongButtonView({
+      this.view = new PlayPauseVideoButtonView({
         model: new ListItemButton(),
-        song: new Song(),
+        video: new Video(),
         streamItems: new StreamItems(),
-        player: new Player({
-          settings: new Settings(),
-          youTubePlayer: new YouTubePlayer()
-        })
+        player: TestUtility.buildPlayer()
       });
     });
 

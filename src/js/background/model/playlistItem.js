@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var Song = require('background/model/song');
+  var Video = require('background/model/video');
   var ListItemType = require('common/enum/listItemType');
 
   var PlaylistItem = Backbone.Model.extend({
@@ -12,7 +12,7 @@
       title: '',
       selected: false,
       firstSelected: false,
-      song: null,
+      video: null,
       listItemType: ListItemType.PlaylistItem
     },
 
@@ -26,9 +26,9 @@
           }
         }
 
-        // Take json of song and set into model. Delete to prevent overriding on return of data object.
-        this.get('song').set(playlistItemDto.song);
-        delete playlistItemDto.song;
+        // Take json of video and set into model. Delete to prevent overriding on return of data object.
+        this.get('video').set(playlistItemDto.video);
+        delete playlistItemDto.video;
       }
 
       return playlistItemDto;
@@ -42,16 +42,16 @@
     },
 
     initialize: function() {
-      this._ensureSongModel();
+      this._ensureVideoModel();
     },
 
-    _ensureSongModel: function() {
-      var song = this.get('song');
+    _ensureVideoModel: function() {
+      var video = this.get('video');
 
-      // Need to convert song object to Backbone.Model
-      if (!(song instanceof Backbone.Model)) {
-        // Silent because song is just being properly set.
-        this.set('song', new Song(song), {silent: true});
+      // Need to convert video object to Backbone.Model
+      if (!(video instanceof Backbone.Model)) {
+        // Silent because video is just being properly set.
+        this.set('video', new Video(video), {silent: true});
       }
     }
   });

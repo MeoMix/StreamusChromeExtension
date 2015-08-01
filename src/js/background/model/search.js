@@ -102,7 +102,7 @@
 
             // If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
             if (dataSource.isYouTubeVideo()) {
-              this._setResultsBySong(dataSource.get('entityId'));
+              this._setResultsByVideo(dataSource.get('entityId'));
             } else if (dataSource.isYouTubePlaylist()) {
               this._setResultsByPlaylist(dataSource.get('entityId'));
             } else {
@@ -118,9 +118,9 @@
       }
     }, 350),
 
-    _setResultsBySong: function(songId) {
-      var pendingRequest = YouTubeV3API.getSong({
-        songId: songId,
+    _setResultsByVideo: function(videoId) {
+      var pendingRequest = YouTubeV3API.getVideo({
+        videoId: videoId,
         success: this._trySetResults.bind(this),
         error: this._onSearchError.bind(this)
       });
@@ -130,9 +130,9 @@
 
     _setResultsByPlaylist: function(playlistId) {
       // https://github.com/MeoMix/StreamusChromeExtension/issues/567
-      var pendingRequest = YouTubeV3API.getPlaylistSongs({
+      var pendingRequest = YouTubeV3API.getPlaylistVideos({
         playlistId: playlistId,
-        success: this._onGetPlaylistSongsSuccess.bind(this, playlistId),
+        success: this._onGetPlaylistVideosSuccess.bind(this, playlistId),
         error: this._onSearchError.bind(this)
       });
 
@@ -149,14 +149,14 @@
       this.set('pendingRequest', pendingRequest);
     },
 
-    _onGetPlaylistSongsSuccess: function(playlistId, response) {
-      this.get('results').addSongs(response.songs);
+    _onGetPlaylistVideosSuccess: function(playlistId, response) {
+      this.get('results').addVideos(response.videos);
 
       if (!_.isUndefined(response.nextPageToken)) {
-        var pendingRequest = YouTubeV3API.getPlaylistSongs({
+        var pendingRequest = YouTubeV3API.getPlaylistVideos({
           playlistId: playlistId,
           pageToken: response.nextPageToken,
-          success: this._onGetPlaylistSongsSuccess.bind(this, playlistId),
+          success: this._onGetPlaylistVideosSuccess.bind(this, playlistId),
           error: this._onSearchError.bind(this)
         });
 
@@ -167,7 +167,7 @@
     },
 
     _onSearchSuccess: function(trimmedQuery, response) {
-      this.get('results').addSongs(response.songs);
+      this.get('results').addVideos(response.videos);
 
       var continueSearching = !_.isUndefined(response.nextPageToken) && this.get('results').length < this.get('maxSearchResults');
 
@@ -189,8 +189,8 @@
       this.set('pendingRequest', null);
     },
 
-    _trySetResults: function(songs) {
-      this.get('results').resetSongs(songs);
+    _trySetResults: function(videos) {
+      this.get('results').resetVideos(videos);
       this.set('pendingRequest', null);
     },
 

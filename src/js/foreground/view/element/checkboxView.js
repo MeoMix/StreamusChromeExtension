@@ -3,7 +3,7 @@
 
   var CheckboxTemplate = require('text!template/element/checkbox.html');
 
-  var CheckboxView = Marionette.ItemView.extend({
+  var CheckboxView = Marionette.LayoutView.extend({
     tagName: 'checkbox',
     className: function() {
       var className = this.model.get('primary') ? 'checkbox--primary' : 'checkbox--secondary';
@@ -13,7 +13,7 @@
     template: _.template(CheckboxTemplate),
 
     ui: {
-      icon: '[data-ui~=icon]'
+      icon: 'icon'
     },
 
     events: {

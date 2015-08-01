@@ -5,7 +5,9 @@
 require.load = function(context, moduleName, url) {
   var xhr = new XMLHttpRequest();
   var evalResponseText = function(xhr) {
+    /* jshint ignore:start */
     eval(xhr.responseText);
+    /* jshint ignore:end */
     context.completeLoad(moduleName);
   };
 

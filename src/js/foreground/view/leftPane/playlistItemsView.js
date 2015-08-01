@@ -32,7 +32,7 @@
     template: _.template(PlaylistItemsTemplate),
 
     ui: {
-      listItems: '[data-ui~=listItems]'
+      listItems: 'listItems'
     },
 
     behaviors: {

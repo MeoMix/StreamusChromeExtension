@@ -1,5 +1,5 @@
 ﻿define({
   Off: 'off',
-  RepeatSong: 'repeatSong',
+  RepeatVideo: 'repeatVideo',
   RepeatAll: 'repeatAll'
 });

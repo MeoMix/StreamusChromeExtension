@@ -3,8 +3,8 @@
 
   var YouTubeV3API = require('background/model/youTubeV3API');
 
-  // Ensure that the network is not flooded with requests when issuing several getRelatedSongs requests.
-  var RelatedSongsManager = Backbone.Model.extend({
+  // Ensure that the network is not flooded with requests when issuing several getRelatedVideos requests.
+  var RelatedVideosManager = Backbone.Model.extend({
     defaults: function() {
       return {
         currentRequestCount: 0,
@@ -13,15 +13,15 @@
       };
     },
 
-    // When a song comes from the server it won't have its related songs, so need to fetch and populate.
-    // Expects options: { songId: string, success: function, error: function }
-    getRelatedSongs: function(options) {
+    // When a video comes from the server it won't have its related videos, so need to fetch and populate.
+    // Expects options: { videoId: string, success: function, error: function }
+    getRelatedVideos: function(options) {
       if (this._canRequest()) {
         this._incrementRequestCount();
 
-        YouTubeV3API.getRelatedSongs({
-          songId: options.songId,
-          success: this._onGetRelatedSongsSuccess.bind(this, options.success),
+        YouTubeV3API.getRelatedVideos({
+          videoId: options.videoId,
+          success: this._onGetRelatedVideosSuccess.bind(this, options.success),
           error: options.error
         });
       } else {
@@ -29,9 +29,9 @@
       }
     },
 
-    _onGetRelatedSongsSuccess: function(callback, relatedSongs) {
+    _onGetRelatedVideosSuccess: function(callback, relatedVideos) {
       this._decrementRequestCount();
-      callback(relatedSongs);
+      callback(relatedVideos);
       this._checkRequestQueue();
     },
 
@@ -40,7 +40,7 @@
       var requestOptions = this.get('requestOptionsQueue').shift();
 
       if (!_.isUndefined(requestOptions)) {
-        this.getRelatedSongs(requestOptions);
+        this.getRelatedVideos(requestOptions);
       }
     },
 
@@ -57,5 +57,5 @@
     }
   });
 
-  return RelatedSongsManager;
+  return RelatedVideosManager;
 });

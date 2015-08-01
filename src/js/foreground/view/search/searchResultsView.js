@@ -33,7 +33,7 @@
     template: _.template(SearchResultsTemplate),
 
     ui: {
-      listItems: '[data-ui~=listItems]'
+      listItems: 'listItems'
     },
 
     behaviors: {

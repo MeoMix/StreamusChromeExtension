@@ -3,9 +3,6 @@
 
   var PlayPauseButtonView = require('foreground/view/streamControlBar/playPauseButtonView');
   var PlayPauseButton = require('background/model/playPauseButton');
-  var Player = require('background/model/player');
-  var Settings = require('background/model/settings');
-  var YouTubePlayer = require('background/model/youTubePlayer');
   var StreamItems = require('background/collection/streamItems');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
@@ -13,10 +10,7 @@
     beforeEach(function() {
       this.documentFragment = document.createDocumentFragment();
 
-      var player = new Player({
-        settings: new Settings(),
-        youTubePlayer: new YouTubePlayer()
-      });
+      var player = TestUtility.buildPlayer();
 
       this.view = new PlayPauseButtonView({
         model: new PlayPauseButton({

@@ -1,12 +1,11 @@
 ﻿define(function(require) {
   'use strict';
 
-  var Song = require('background/model/song');
+  var Video = require('background/model/video');
   var Playlist = require('background/model/playlist');
   var PlaylistItem = require('background/model/playlistItem');
   var Player = require('background/model/player');
   var Stream = require('background/model/stream');
-  var Settings = require('background/model/settings');
   var SignInManager = require('background/model/signInManager');
   var YouTubePlayer = require('background/model/youTubePlayer');
   var ActivePlaylistManager = require('background/model/activePlaylistManager');
@@ -15,7 +14,7 @@
   var RadioButton = require('background/model/radioButton');
 
   var TestUtility = {
-    songIdLength: 7,
+    videoIdLength: 7,
     guidIdLength: 16,
 
     getGuid: function() {
@@ -33,17 +32,17 @@
       return text;
     },
 
-    getSongArray: function(length) {
-      var songArray = [];
+    getVideoArray: function(length) {
+      var videoArray = [];
 
       for (var i = 0; i < length; i++) {
-        songArray.push(this.buildSong(this._getUniqueId(this.songIdLength)));
+        videoArray.push(this.buildVideo(this._getUniqueId(this.videoIdLength)));
       }
 
-      return songArray;
+      return videoArray;
     },
 
-    getRawSong: function(idOverride) {
+    getRawVideo: function(idOverride) {
       var id = _.isUndefined(idOverride) ? 'M7lc1UVf-VE' : idOverride;
 
       return {
@@ -54,18 +53,18 @@
       };
     },
 
-    // Construct a basic Song object fit for general testing.
-    buildSong: function(idOverride) {
-      return new Song(this.getRawSong(idOverride));
+    // Construct a basic Video object fit for general testing.
+    buildVideo: function(idOverride) {
+      return new Video(this.getRawVideo(idOverride));
     },
 
     // Construct a basic PlaylistItem object fit for general testing.
     buildPlaylistItem: function() {
-      var song = this.buildSong();
+      var video = this.buildVideo();
 
       return new PlaylistItem({
-        song: song,
-        title: song.get('title')
+        video: video,
+        title: video.get('title')
       });
     },
 
@@ -77,7 +76,6 @@
 
     buildPlayer: function() {
       var player = new Player({
-        settings: new Settings(),
         youTubePlayer: new YouTubePlayer()
       });
 

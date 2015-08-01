@@ -1,27 +1,27 @@
 ﻿define({
   initialize: function() {
-    // Stub out the default implementation of add with one which enforces uniqueness based on song id.
+    // Stub out the default implementation of add with one which enforces uniqueness based on video id.
     this.add = this._add;
   },
 
-  getDuplicatesInfo: function(songs) {
-    songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
+  getDuplicatesInfo: function(videos) {
+    videos = videos instanceof Backbone.Collection ? videos.models : _.isArray(videos) ? videos : [videos];
 
-    var duplicates = _.filter(songs, this._hasSong.bind(this));
-    var allDuplicates = duplicates.length === songs.length;
+    var duplicates = _.filter(videos, this._hasVideo.bind(this));
+    var allDuplicates = duplicates.length === videos.length;
     var someDuplicates = !allDuplicates && duplicates.length > 0;
     var message = '';
 
     var collectionName = this.userFriendlyName.toLowerCase();
 
     if (allDuplicates) {
-      if (songs.length === 1) {
-        message = chrome.i18n.getMessage('songAlreadyInCollection', [collectionName]);
+      if (videos.length === 1) {
+        message = chrome.i18n.getMessage('videoAlreadyInCollection', [collectionName]);
       } else {
-        message = chrome.i18n.getMessage('allSongsAlreadyInCollection', [collectionName]);
+        message = chrome.i18n.getMessage('allVideosAlreadyInCollection', [collectionName]);
       }
     } else if (someDuplicates) {
-      message = chrome.i18n.getMessage('songsAlreadyInCollection', [duplicates.length, songs.length, collectionName]);
+      message = chrome.i18n.getMessage('videosAlreadyInCollection', [duplicates.length, videos.length, collectionName]);
     }
 
     return {
@@ -31,7 +31,7 @@
     };
   },
 
-  // Prevent models from being added to the collection if the model's song is not unique to the collection.
+  // Prevent models from being added to the collection if the model's video is not unique to the collection.
   _add: function(models, options) {
     var preparedModels;
 
@@ -64,10 +64,10 @@
     return preparedModel;
   },
 
-  // Try to find an existing model in the collection based on the given model's song's id.
+  // Try to find an existing model in the collection based on the given model's video's id.
   _getExistingModel: function(model) {
-    var songId = model instanceof Backbone.Model ? model.get('song').get('id') : model.song.id;
-    var existingModel = this._getBySongId(songId);
+    var videoId = model instanceof Backbone.Model ? model.get('video').get('id') : model.video.id;
+    var existingModel = this._getByVideoId(videoId);
     return existingModel;
   },
 
@@ -88,13 +88,13 @@
     }
   },
 
-  _getBySongId: function(songId) {
+  _getByVideoId: function(videoId) {
     return this.find(function(model) {
-      return model.get('song').get('id') === songId;
+      return model.get('video').get('id') === videoId;
     });
   },
 
-  _hasSong: function(song) {
-    return !_.isUndefined(this._getBySongId(song.get('id')));
+  _hasVideo: function(video) {
+    return !_.isUndefined(this._getByVideoId(video.get('id')));
   }
 });

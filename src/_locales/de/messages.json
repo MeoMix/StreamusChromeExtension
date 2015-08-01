@@ -12,7 +12,7 @@
         "message": "Shuffle an/aus"
     },
     "toggleRepeat": {
-        "message": "Wiederholen: aus/alle Songs/dieser Song"
+        "message": "Wiederholen: aus/alle Videos/dieser Video"
     },
     "increaseVolume": {
         "message": "Lautstärke erhöhen"
@@ -20,26 +20,26 @@
     "decreaseVolume": {
         "message": "Lautstärke senken"
     },
-    "showSongDetails": {
-        "message": "Zeige Songinformationen"
+    "showVideoDetails": {
+        "message": "Zeige Videoinformationen"
     },
-    "nextSong": {
-        "message": "Nächster Song"
+    "nextVideo": {
+        "message": "Nächster Video"
     },
-    "previousSong": {
-        "message": "Vorheriger Song"
+    "previousVideo": {
+        "message": "Vorheriger Video"
     },
-    "toggleSong": {
-        "message": "Song spielen/pausieren"
+    "toggleVideo": {
+        "message": "Video spielen/pausieren"
     },
-    "deleteSong": {
-        "message": "Song löschen"
+    "deleteVideo": {
+        "message": "Video löschen"
     },
-    "copySongUrl": {
-        "message": "Song-URL kopieren"
+    "copyVideoUrl": {
+        "message": "Video-URL kopieren"
     },
-    "copySongTitleAndUrl": {
-        "message": "Songtitel und -URL kopieren"
+    "copyVideoTitleAndUrl": {
+        "message": "Videotitel und -URL kopieren"
     },
     "save": {
         "message": "Speichern"
@@ -62,11 +62,11 @@
     "addToStreamus": {
         "message": "Zu Streamus hinzufügen"
     },
-    "youTubePlayerErrorSongNotFound": {
-        "message": "Song wurde gelöscht oder privat gestellt."
+    "youTubePlayerErrorVideoNotFound": {
+        "message": "Video wurde gelöscht oder privat gestellt."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
-        "message": "Song kann nicht abgespielt werden"
+        "message": "Video kann nicht abgespielt werden"
     },
     "errorEncountered": {
         "message": "Ein Fehler ist aufgetreten"
@@ -80,11 +80,11 @@
     "repeatOff": {
         "message": "Wiederholen aus"
     },
-    "repeatSong": {
-        "message": "Wiederholen: dieser Song"
+    "repeatVideo": {
+        "message": "Wiederholen: dieser Video"
     },
     "repeatAll": {
-        "message": "Wiederholen: alle Songs"
+        "message": "Wiederholen: alle Videos"
     },
     "radioOn": {
         "message": "Radio aus"
@@ -269,36 +269,36 @@
     "volume": {
         "message": "Lautstärke"
     },
-    "songAdded": {
-        "message": "Song hinzugefügt"
+    "videoAdded": {
+        "message": "Video hinzugefügt"
     },
-    "addSong": {
-        "message": "Song hinzufügen"
+    "addVideo": {
+        "message": "Video hinzufügen"
     },
-    "song": {
-        "message": "Song"
+    "video": {
+        "message": "Video"
     },
-    "songs": {
-        "message": "Songs"
+    "videos": {
+        "message": "Videos"
     },
-    "cantSkipToNextSong": {
-        "message": "Kann nicht zum nächsten Song springen"
+    "cantSkipToNextVideo": {
+        "message": "Kann nicht zum nächsten Video springen"
     },
-    "cantGoBackToPreviousSong": {
-        "message": "Kann nicht zum vorherigen Song springen"
+    "cantGoBackToPreviousVideo": {
+        "message": "Kann nicht zum vorherigen Video springen"
     },
-    "cantToggleSong": {
-        "message": "Kann Song nicht umschalten"
+    "cantToggleVideo": {
+        "message": "Kann Video nicht umschalten"
     },
-    "searchForSongs": {
-        "message": "Suche nach Songs"
+    "searchForVideos": {
+        "message": "Suche nach Videos"
     },
-    "songQuality": {
-        "message": "Songqualität"
+    "videoQuality": {
+        "message": "Videoqualität"
     },
-    "whyNotAddASongFromAPlaylistOr": {
-        "message": "Wieso nicht einen Song von einer Playlist hinzufügen oder",
-        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+    "whyNotAddAVideoFromAPlaylistOr": {
+        "message": "Wieso nicht einen Video von einer Playlist hinzufügen oder",
+        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
     },
     "searchAndPlay": {
         "message": "Suchen und Abspielen"
@@ -358,11 +358,11 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
-        "message": "Konnte Song nicht finden"
+    "failedToFindVideo": {
+        "message": "Konnte Video nicht finden"
     },
-    "failedToFindSongs": {
-        "message": "Konnte Songs nicht finden"
+    "failedToFindVideos": {
+        "message": "Konnte Videos nicht finden"
     },
     "loadingYouTube": {
         "message": "Lade YouTube"
@@ -381,29 +381,29 @@
             }
         }
     },
-    "songAlreadyInCollection": {
-        "message": "Song ist schon in $collectionName$",
+    "videoAlreadyInCollection": {
+        "message": "Video ist schon in $collectionName$",
         "placeholders": {
             "collectionName": {
                 "content": "$1"
             }
         }
     },
-    "allSongsAlreadyInCollection": {
-        "message": "Alle Songs sind schon in $collectionName$",
+    "allVideosAlreadyInCollection": {
+        "message": "Alle Videos sind schon in $collectionName$",
         "placeholders": {
             "collectionName": {
                 "content": "$1"
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$duplicateSongCount$ von $draggedSongCount$ Songs sind schon in $collectionName$",
+    "videosAlreadyInCollection": {
+        "message": "$duplicateVideoCount$ von $draggedVideoCount$ Videos sind schon in $collectionName$",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -462,7 +462,7 @@
     },
     "collectionSelected": {
         "message": "$count$ $collectionName$ ausgewählt",
-        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -475,13 +475,13 @@
     "saveAll": {
         "message": "Alle speichern"
     },
-    "saveSong": {
-        "message": "Song speichern"
+    "saveVideo": {
+        "message": "Video speichern"
     },
-    "songSavedToPlaylist": {
-        "message": "$songTitle$ in $playlistTitle$ gespeichert",
+    "videoSavedToPlaylist": {
+        "message": "$videoTitle$ in $playlistTitle$ gespeichert",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {

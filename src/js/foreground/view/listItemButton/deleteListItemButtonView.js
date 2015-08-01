@@ -5,7 +5,7 @@
   var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
   var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
 
-  var DeleteListItemButtonView = Marionette.ItemView.extend({
+  var DeleteListItemButtonView = Marionette.LayoutView.extend({
     template: _.template(DeleteListItemButtonTemplate),
     templateHelpers: {
       deleteIcon: _.template(DeleteIconTemplate)()

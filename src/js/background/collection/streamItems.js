@@ -4,9 +4,9 @@
   var ChromeCommand = require('background/enum/chromeCommand');
   var CollectionMultiSelect = require('background/mixin/collectionMultiSelect');
   var CollectionSequence = require('background/mixin/collectionSequence');
-  var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
+  var CollectionUniqueVideo = require('background/mixin/collectionUniqueVideo');
   var StreamItem = require('background/model/streamItem');
-  var Songs = require('background/collection/songs');
+  var Videos = require('background/collection/videos');
   var YouTubeV3API = require('background/model/youTubeV3API');
   var Utility = require('common/utility');
 
@@ -14,7 +14,7 @@
     model: StreamItem,
     localStorage: new Backbone.LocalStorage('StreamItems'),
     userFriendlyName: chrome.i18n.getMessage('stream'),
-    mixins: [CollectionMultiSelect, CollectionSequence, CollectionUniqueSong],
+    mixins: [CollectionMultiSelect, CollectionSequence, CollectionUniqueVideo],
 
     initialize: function() {
       this.on('add', this._onAdd);
@@ -41,15 +41,15 @@
       });
     },
 
-    getActiveSongId: function() {
+    getActiveVideoId: function() {
       var activeItem = this.getActiveItem();
-      var activeSongId = null;
+      var activeVideoId = null;
 
       if (!_.isUndefined(activeItem)) {
-        activeSongId = activeItem.get('song').get('id');
+        activeVideoId = activeItem.get('video').get('id');
       }
 
-      return activeSongId;
+      return activeVideoId;
     },
 
     getNotPlayedRecently: function() {
@@ -58,42 +58,42 @@
       });
     },
 
-    getBySongId: function(songId) {
+    getByVideoId: function(videoId) {
       return this.find(function(streamItem) {
-        return streamItem.get('song').get('id') === songId;
+        return streamItem.get('video').get('id') === videoId;
       });
     },
 
-    // Show a desktop notification with details regarding the currently active song.
+    // Show a desktop notification with details regarding the currently active video.
     showActiveNotification: function() {
       var activeItem = this.getActiveItem();
-      var activeSongId = activeItem.get('song').get('id');
+      var activeVideoId = activeItem.get('video').get('id');
 
       StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
-        iconUrl: 'https://img.youtube.com/vi/' + activeSongId + '/default.jpg',
+        iconUrl: 'https://img.youtube.com/vi/' + activeVideoId + '/default.jpg',
         title: activeItem.get('title')
       });
     },
 
-    // Return a random song from the pool of related songs.
-    // Used for seeding the upcoming songs in radio mode.
-    getRandomRelatedSong: function() {
-      var relatedSongs = this._getRelatedSongs();
+    // Return a random video from the pool of related videos.
+    // Used for seeding the upcoming videos in radio mode.
+    getRandomRelatedVideo: function() {
+      var relatedVideos = this._getRelatedVideos();
 
-      if (relatedSongs.length === 0) {
-        throw new Error('No related songs found:' + JSON.stringify(this));
+      if (relatedVideos.length === 0) {
+        throw new Error('No related videos found:' + JSON.stringify(this));
       }
 
-      var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)];
-      return relatedSong;
+      var relatedVideo = relatedVideos[_.random(relatedVideos.length - 1)];
+      return relatedVideo;
     },
 
-    // Convert a single song, array of songs, or collection of songs to StreamItems
+    // Convert a single video, array of videos, or collection of videos to StreamItems
     // and attempt to add them to the collection. Fail to add if non-unique.
-    // Immediately save the songs as they're only stored in localStorage.
-    addSongs: function(songs, options) {
+    // Immediately save the videos as they're only stored in localStorage.
+    addVideos: function(videos, options) {
       options = _.isUndefined(options) ? {} : options;
-      songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
+      videos = videos instanceof Backbone.Collection ? videos.models : _.isArray(videos) ? videos : [videos];
 
       if (options.playOnAdd) {
         StreamusBG.channels.player.commands.trigger('playOnActivate', true);
@@ -102,8 +102,8 @@
       var index = _.isUndefined(options.index) ? this.length : options.index;
 
       var createdStreamItems = [];
-      _.each(songs, function(song) {
-        var addedStreamItem = this._tryAddSongAtIndex(song, index);
+      _.each(videos, function(video) {
+        var addedStreamItem = this._tryAddVideoAtIndex(video, index);
 
         // If the item was added successfully to the collection (not duplicate) then allow for it to be created.
         if (!_.isNull(addedStreamItem)) {
@@ -127,7 +127,7 @@
             active: true
           });
         } else {
-          this._activateBySongId(songs[0].get('id'));
+          this._activateByVideoId(videos[0].get('id'));
         }
       }
 
@@ -135,18 +135,18 @@
     },
 
     getDisplayInfo: function() {
-      var songs = new Songs(this.pluck('song'));
-      var displayInfo = songs.getDisplayInfo();
+      var videos = new Videos(this.pluck('video'));
+      var displayInfo = videos.getDisplayInfo();
       return displayInfo;
     },
 
     _showCreatedNotification: function(createdStreamItems) {
       var notificationMessage;
       if (createdStreamItems.length === 1) {
-        var songTitle = Utility.truncateString(createdStreamItems[0].get('title'), 40);
-        notificationMessage = chrome.i18n.getMessage('songAddedToStream', [songTitle]);
+        var videoTitle = Utility.truncateString(createdStreamItems[0].get('title'), 40);
+        notificationMessage = chrome.i18n.getMessage('videoAddedToStream', [videoTitle]);
       } else {
-        notificationMessage = chrome.i18n.getMessage('songsAddedToStream', [createdStreamItems.length]);
+        notificationMessage = chrome.i18n.getMessage('videosAddedToStream', [createdStreamItems.length]);
       }
 
       StreamusBG.channels.notification.commands.trigger('show:notification', {
@@ -154,10 +154,10 @@
       });
     },
 
-    // Find a model by its song's id and mark it active.
+    // Find a model by its video's id and mark it active.
     // If it is already active, re-trigger a change:active to ensure program state updates.
-    _activateBySongId: function(songId) {
-      var streamItemToActivate = this.getBySongId(songId);
+    _activateByVideoId: function(videoId) {
+      var streamItemToActivate = this.getByVideoId(videoId);
 
       if (streamItemToActivate.get('active')) {
         streamItemToActivate.trigger('change:active', streamItemToActivate, true);
@@ -207,7 +207,7 @@
             title: request.query,
             playOnAdd: true,
             error: function(error) {
-              console.error('Failed to add song by title: ' + request.query, error);
+              console.error('Failed to add video by title: ' + request.query, error);
             }
           });
           break;
@@ -220,7 +220,7 @@
     _onChromeCommandsCommand: function(command) {
       // Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
       // jscs:disable maximumLineLength
-      var commands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl, ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
+      var commands = [ChromeCommand.ShowVideoDetails, ChromeCommand.DeleteVideo, ChromeCommand.CopyVideoUrl, ChromeCommand.CopyVideoTitleAndUrl, ChromeCommand.SaveVideo];
       // jscs:enable maximumLineLength
 
       if (_.contains(commands, command)) {
@@ -228,9 +228,9 @@
       }
     },
 
-    // Recursively iterate over a list of titles and add corresponding songs to the collection.
+    // Recursively iterate over a list of titles and add corresponding videos to the collection.
     // Do this recursively as to not flood the network with requests and to preserve the order
-    // of songs added with respect to the order of the titles in the list.
+    // of videos added with respect to the order of the titles in the list.
     _addByTitleList: function(playOnAdd, titleList) {
       if (titleList.length > 0) {
         var title = titleList.shift();
@@ -239,20 +239,20 @@
           title: title,
           playOnAdd: playOnAdd,
           error: function(error) {
-            console.error('Failed to add song by title: ' + title, error);
+            console.error('Failed to add video by title: ' + title, error);
           },
           complete: this._addByTitleList.bind(this, false, titleList)
         });
       }
     },
 
-    // Search Youtube for a song by its title.
+    // Search Youtube for a video by its title.
     // Add the first result found to the collection.
     _searchAndAddByTitle: function(options) {
-      YouTubeV3API.getSongByTitle({
+      YouTubeV3API.getVideoByTitle({
         title: options.title,
-        success: function(song) {
-          this.addSongs(song, {
+        success: function(video) {
+          this.addVideos(video, {
             playOnAdd: !!options.playOnAdd
           });
 
@@ -277,37 +277,37 @@
       });
     },
 
-    // Take each streamItem's array of related songs, pluck them all out into a collection of arrays
-    // then flatten the arrays into a single array of songs.
-    _getRelatedSongs: function() {
+    // Take each streamItem's array of related videos, pluck them all out into a collection of arrays
+    // then flatten the arrays into a single array of videos.
+    _getRelatedVideos: function() {
       // Some items may not have related information due to lack of response from YouTube or simply a lack of information.
-      var relatedSongs = _.flatten(this.map(function(streamItem) {
-        return streamItem.get('relatedSongs').models;
+      var relatedVideos = _.flatten(this.map(function(streamItem) {
+        return streamItem.get('relatedVideos').models;
       }));
 
-      // Don't add any songs that are already in the stream.
-      relatedSongs = _.reject(relatedSongs, this._hasSong, this);
+      // Don't add any videos that are already in the stream.
+      relatedVideos = _.reject(relatedVideos, this._hasVideo, this);
 
-      // Filter non-desireable songs based on set of rules
-      var desireableRelatedSongs = _.filter(relatedSongs, function(relatedSong) {
-        return relatedSong.isDesireableSong();
+      // Filter non-desireable videos based on set of rules
+      var desireableRelatedVideos = _.filter(relatedVideos, function(relatedVideo) {
+        return relatedVideo.isDesireableVideo();
       });
 
-      // Don't filter out non-desireable songs if it would result in nothing to play.
-      if (desireableRelatedSongs.length > 0) {
-        relatedSongs = desireableRelatedSongs;
+      // Don't filter out non-desireable videos if it would result in nothing to play.
+      if (desireableRelatedVideos.length > 0) {
+        relatedVideos = desireableRelatedVideos;
       }
 
-      return relatedSongs;
+      return relatedVideos;
     },
 
-    // Returns whether the given song is already in the collection
-    _hasSong: function(song) {
-      var containsSong = this.any(function(model) {
-        return model.get('song').isSameSong(song);
+    // Returns whether the given video is already in the collection
+    _hasVideo: function(video) {
+      var containsVideo = this.any(function(model) {
+        return model.get('video').isSameVideo(video);
       });
 
-      return containsSong;
+      return containsVideo;
     },
 
     // When all streamItems have been played recently, reset to not having been played recently.
@@ -344,31 +344,31 @@
         this._notifyCommandFailure();
       } else {
         switch (command) {
-          case ChromeCommand.ShowSongDetails:
+          case ChromeCommand.ShowVideoDetails:
             this.showActiveNotification();
             break;
-          case ChromeCommand.DeleteSong:
+          case ChromeCommand.DeleteVideo:
             this.getActiveItem().destroy();
             break;
-          case ChromeCommand.CopySongUrl:
-            this.getActiveItem().get('song').copyUrl();
+          case ChromeCommand.CopyVideoUrl:
+            this.getActiveItem().get('video').copyUrl();
             break;
-          case ChromeCommand.CopySongTitleAndUrl:
-            this.getActiveItem().get('song').copyTitleAndUrl();
+          case ChromeCommand.CopyVideoTitleAndUrl:
+            this.getActiveItem().get('video').copyTitleAndUrl();
             break;
-          case ChromeCommand.SaveSong:
-            StreamusBG.channels.activePlaylist.commands.trigger('save:song', this.getActiveItem().get('song'));
+          case ChromeCommand.SaveVideo:
+            StreamusBG.channels.activePlaylist.commands.trigger('save:video', this.getActiveItem().get('video'));
             break;
         }
       }
     },
 
-    // Creates a StreamItem from a given song and attempts to insert it into the collection.
+    // Creates a StreamItem from a given video and attempts to insert it into the collection.
     // Returns the created item unless insertion fails due to non-uniqueness.
-    _tryAddSongAtIndex: function(song, index) {
+    _tryAddVideoAtIndex: function(video, index) {
       var streamItem = new StreamItem({
-        song: song,
-        title: song.get('title'),
+        video: video,
+        title: video.get('title'),
         sequence: this.getSequenceFromIndex(index)
       });
 
@@ -378,9 +378,9 @@
       });
 
       // Add will return the existing item, so check the attempted item's collection to confirm if it was added.
-      var songWasAdded = !_.isUndefined(streamItem.collection);
+      var videoWasAdded = !_.isUndefined(streamItem.collection);
 
-      return songWasAdded ? streamItem : null;
+      return videoWasAdded ? streamItem : null;
     }
   });
 

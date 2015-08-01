@@ -13,7 +13,7 @@
   var PlayPauseButtonView = require('foreground/view/streamControlBar/playPauseButtonView');
   var PreviousButtonView = require('foreground/view/streamControlBar/previousButtonView');
   var StreamControlBarTemplate = require('text!template/streamControlBar/streamControlBar.html');
-  var SongActions = require('foreground/model/song/songActions');
+  var VideoActions = require('foreground/model/video/videoActions');
 
   var StreamControlBarView = Marionette.LayoutView.extend({
     id: 'streamControlBar',
@@ -21,18 +21,18 @@
     template: _.template(StreamControlBarTemplate),
 
     regions: {
-      timeLabelArea: '[data-region=timeLabelArea]',
-      timeSlider: '[data-region=timeSlider]',
-      radioButton: '[data-region=radioButton]',
-      repeatButton: '[data-region=repeatButton]',
-      shuffleButton: '[data-region=shuffleButton]',
-      previousButton: '[data-region=previousButton]',
-      playPauseButton: '[data-region=playPauseButton]',
-      nextButton: '[data-region=nextButton]'
+      timeLabelArea: 'timeLabelArea',
+      timeSlider: 'timeSlider',
+      radioButton: 'radioButton',
+      repeatButton: 'repeatButton',
+      shuffleButton: 'shuffleButton',
+      previousButton: 'previousButton',
+      playPauseButton: 'playPauseButton',
+      nextButton: 'nextButton'
     },
 
     ui: {
-      title: '[data-ui~=title]'
+      title: 'title'
     },
 
     events: {
@@ -51,7 +51,7 @@
 
     player: null,
     playerEvents: {
-      'change:loadedSong': '_onPlayerChangeLoadedSong'
+      'change:loadedVideo': '_onPlayerChangeLoadedVideo'
     },
 
     initialize: function(options) {
@@ -60,8 +60,8 @@
     },
 
     onRender: function() {
-      var loadedSong = this.player.get('loadedSong');
-      this._setTitle(loadedSong);
+      var loadedVideo = this.player.get('loadedVideo');
+      this._setTitle(loadedVideo);
 
       var timeSlider = new TimeSlider({
         currentTime: this.player.get('currentTime'),
@@ -74,7 +74,7 @@
         player: StreamusFG.backgroundProperties.player
       }));
 
-      var totalTime = _.isNull(loadedSong) ? 0 : loadedSong.get('duration');
+      var totalTime = _.isNull(loadedVideo) ? 0 : loadedVideo.get('duration');
       this.showChildView('timeLabelArea', new TimeLabelAreaView({
         model: new TimeLabelArea({
           totalTime: totalTime
@@ -110,8 +110,8 @@
       }));
     },
 
-    _onPlayerChangeLoadedSong: function(model, loadedSong) {
-      this._setTitle(loadedSong);
+    _onPlayerChangeLoadedVideo: function(model, loadedVideo) {
+      this._setTitle(loadedVideo);
     },
 
     _onContextMenu: function(event) {
@@ -121,19 +121,19 @@
     },
 
     _showContextMenu: function(top, left) {
-      var loadedSong = this.player.get('loadedSong');
+      var loadedVideo = this.player.get('loadedVideo');
 
-      if (!_.isNull(loadedSong)) {
-        var songActions = new SongActions();
-        songActions.showContextMenu(loadedSong, top, left, this.player);
+      if (!_.isNull(loadedVideo)) {
+        var videoActions = new VideoActions();
+        videoActions.showContextMenu(loadedVideo, top, left, this.player);
       }
     },
 
-    _setTitle: function(loadedSong) {
+    _setTitle: function(loadedVideo) {
       var title = chrome.i18n.getMessage('streamEmpty');
 
-      if (!_.isNull(loadedSong)) {
-        title = loadedSong.get('title');
+      if (!_.isNull(loadedVideo)) {
+        title = loadedVideo.get('title');
       }
 
       this.ui.title.text(title).attr('data-tooltip-text', title);

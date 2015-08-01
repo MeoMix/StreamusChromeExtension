@@ -20,25 +20,25 @@
     "decreaseVolume": {
         "message": "Baisser le volume"
     },
-    "showSongDetails": {
+    "showVideoDetails": {
         "message": "Afficher les détails du morceau"
     },
-    "nextSong": {
+    "nextVideo": {
         "message": "Morceau suivant"
     },
-    "previousSong": {
+    "previousVideo": {
         "message": "Morceau précédent"
     },
-    "toggleSong": {
+    "toggleVideo": {
         "message": "Lecture/pause du morceau"
     },
-    "deleteSong": {
+    "deleteVideo": {
         "message": "Effacer le morceau"
     },
-    "copySongUrl": {
+    "copyVideoUrl": {
         "message": "Copier l'URL du morceau"
     },
-    "copySongTitleAndUrl": {
+    "copyVideoTitleAndUrl": {
         "message": "Copier le titre et l'URL du morceau"
     },
     "save": {
@@ -62,7 +62,7 @@
     "addToStreamus": {
         "message": "Ajouter à Streamus"
     },
-    "youTubePlayerErrorSongNotFound": {
+    "youTubePlayerErrorVideoNotFound": {
         "message": "Le morceau a été retiré ou rendu privé."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
@@ -80,7 +80,7 @@
     "repeatOff": {
         "message": "Répétition désactivée"
     },
-    "repeatSong": {
+    "repeatVideo": {
         "message": "Répéter le morceau en cours de lecture"
     },
     "repeatAll": {
@@ -269,36 +269,36 @@
     "volume": {
         "message": "Volume"
     },
-    "songAdded": {
+    "videoAdded": {
         "message": "Morceau ajouté"
     },
-    "addSong": {
+    "addVideo": {
         "message": "Ajouter le morceau à la file d'attente"
     },
-    "song": {
+    "video": {
         "message": "Morceau"
     },
-    "songs": {
+    "videos": {
         "message": "Morceaux"
     },
-    "cantSkipToNextSong": {
+    "cantSkipToNextVideo": {
         "message": "Impossible de passer au morceau suivant"
     },
-    "cantGoBackToPreviousSong": {
+    "cantGoBackToPreviousVideo": {
         "message": "Impossible de revenir au morceau précédent"
     },
-    "cantToggleSong": {
+    "cantToggleVideo": {
         "message": "Changement de morceau impossible"
     },
-    "searchForSongs": {
+    "searchForVideos": {
         "message": "Rechercher un morceau"
     },
-    "songQuality": {
+    "videoQuality": {
         "message": "Qualité audio"
     },
-    "whyNotAddASongFromAPlaylistOr": {
+    "whyNotAddAVideoFromAPlaylistOr": {
         "message": "Pourquoi ne pas ajouter un morceau d'une playlist ou",
-        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
     },
     "searchAndPlay": {
         "message": "Rechercher et lire"
@@ -358,10 +358,10 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
+    "failedToFindVideo": {
         "message": "Échec de la recherche du morceau"
     },
-    "failedToFindSongs": {
+    "failedToFindVideos": {
         "message": "Échec de la recherche des morceaux"
     },
     "loadingYouTube": {
@@ -381,7 +381,7 @@
             }
         }
     },
-    "songAlreadyInCollection": {
+    "videoAlreadyInCollection": {
         "message": "Morceau déjà présent dans $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -389,7 +389,7 @@
             }
         }
     },
-    "allSongsAlreadyInCollection": {
+    "allVideosAlreadyInCollection": {
         "message": "Tous les morceaux sont déjà présents dans $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -397,13 +397,13 @@
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$duplicateSongCount$ morceaux sur $draggedSongCount$ sont déjà présents dans $collectionName$",
+    "videosAlreadyInCollection": {
+        "message": "$duplicateVideoCount$ morceaux sur $draggedVideoCount$ sont déjà présents dans $collectionName$",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -462,7 +462,7 @@
     },
     "collectionSelected": {
         "message": "$count$ $collectionName$ sélectionné(s)",
-        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -475,13 +475,13 @@
     "saveAll": {
         "message": "Tout ajouter à une playlist"
     },
-    "saveSong": {
+    "saveVideo": {
         "message": "Ajouter le morceau à une playlist"
     },
-    "songSavedToPlaylist": {
-        "message": "$songTitle$ ajouté à $playlistTitle$",
+    "videoSavedToPlaylist": {
+        "message": "$videoTitle$ ajouté à $playlistTitle$",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {

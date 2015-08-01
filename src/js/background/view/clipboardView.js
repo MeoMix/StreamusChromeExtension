@@ -1,7 +1,7 @@
 ﻿define(function() {
   'use strict';
 
-  var ClipboardView = Marionette.ItemView.extend({
+  var ClipboardView = Marionette.LayoutView.extend({
     id: 'clipboard',
     tagName: 'textarea',
     template: false,

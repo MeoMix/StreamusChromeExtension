@@ -24,15 +24,15 @@
     },
 
     regions: {
-      volumeArea: '[data-region=volumeArea]',
-      adminMenuArea: '[data-region=adminMenuArea]',
-      activePaneFilter: '[data-region=activePaneFilter]',
-      searchInputArea: '[data-region=searchInputArea]'
+      volumeArea: 'volumeArea',
+      adminMenuArea: 'adminMenuArea',
+      activePaneFilter: 'activePaneFilter',
+      searchInputArea: 'searchInputArea'
     },
 
     ui: {
-      showPlaylistsAreaButton: '[data-ui~=showPlaylistsAreaButton]',
-      hidePlaylistsAreaButton: '[data-ui~=hidePlaylistsAreaButton]'
+      showPlaylistsAreaButton: 'showPlaylistsAreaButton',
+      hidePlaylistsAreaButton: 'hidePlaylistsAreaButton'
     },
 
     events: {

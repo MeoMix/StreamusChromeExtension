@@ -6,7 +6,7 @@
   var OptionsListItemButtonTemplate = require('text!template/listItemButton/optionsListItemButton.html');
   var OptionsIconTemplate = require('text!template/icon/optionsIcon_18.svg');
 
-  var PlaylistOptionsButtonView = Marionette.ItemView.extend({
+  var PlaylistOptionsButtonView = Marionette.LayoutView.extend({
     template: _.template(OptionsListItemButtonTemplate),
     templateHelpers: {
       optionsIcon: _.template(OptionsIconTemplate)()

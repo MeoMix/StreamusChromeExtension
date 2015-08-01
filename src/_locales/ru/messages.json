@@ -20,25 +20,25 @@
     "decreaseVolume": {
         "message": "Уменьшить громкость"
     },
-    "showSongDetails": {
+    "showVideoDetails": {
         "message": "Показать подробную информацию о песне"
     },
-    "nextSong": {
+    "nextVideo": {
         "message": "Следующая песня"
     },
-    "previousSong": {
+    "previousVideo": {
         "message": "Предыдущая песня"
     },
-    "toggleSong": {
+    "toggleVideo": {
         "message": "Воспроизвести/пауза"
     },
-    "deleteSong": {
+    "deleteVideo": {
         "message": "Удалить песню"
     },
-    "copySongUrl": {
+    "copyVideoUrl": {
         "message": "Скопировать ссылку песни"
     },
-    "copySongTitleAndUrl": {
+    "copyVideoTitleAndUrl": {
         "message": "Скопировать название и ссылку песни"
     },
     "save": {
@@ -62,7 +62,7 @@
     "addToStreamus": {
         "message": "Добавить в Streamus"
     },
-    "youTubePlayerErrorSongNotFound": {
+    "youTubePlayerErrorVideoNotFound": {
         "message": "Песня была удалена или отмечена приватной."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
@@ -80,7 +80,7 @@
     "repeatOff": {
         "message": "Повтор выкл"
     },
-    "repeatSong": {
+    "repeatVideo": {
         "message": "Повтор песни"
     },
     "repeatAll": {
@@ -269,36 +269,36 @@
     "volume": {
         "message": "Громкость"
     },
-    "songAdded": {
+    "videoAdded": {
         "message": "Песня добавлена"
     },
-    "addSong": {
+    "addVideo": {
         "message": "Добавить песню"
     },
-    "song": {
+    "video": {
         "message": "Песня"
     },
-    "songs": {
+    "videos": {
         "message": "Песни"
     },
-    "cantSkipToNextSong": {
+    "cantSkipToNextVideo": {
         "message": "Невозможно воспроизвести следующую песню"
     },
-    "cantGoBackToPreviousSong": {
+    "cantGoBackToPreviousVideo": {
         "message": "Невозможно воспроизвести предыдущую песню"
     },
-    "cantToggleSong": {
+    "cantToggleVideo": {
         "message": "Невозможно выполнить действие"
     },
-    "searchForSongs": {
+    "searchForVideos": {
         "message": "Выполнить поиск песен"
     },
-    "songQuality": {
+    "videoQuality": {
         "message": "Качество песен"
     },
-    "whyNotAddASongFromAPlaylistOr": {
+    "whyNotAddAVideoFromAPlaylistOr": {
         "message": "Почему бы не добавить песню из плейлиста или",
-        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
     },
     "searchAndPlay": {
         "message": "Найти и воспроизвести"
@@ -358,10 +358,10 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
+    "failedToFindVideo": {
         "message": "Невозможно найти песню"
     },
-    "failedToFindSongs": {
+    "failedToFindVideos": {
         "message": "Невозможно найти песни"
     },
     "loadingYouTube": {
@@ -381,7 +381,7 @@
             }
         }
     },
-    "songAlreadyInCollection": {
+    "videoAlreadyInCollection": {
         "message": "Песня уже есть в $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -389,7 +389,7 @@
             }
         }
     },
-    "allSongsAlreadyInCollection": {
+    "allVideosAlreadyInCollection": {
         "message": "Все песни уже есть в $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -397,13 +397,13 @@
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$duplicateSongCount$ из $draggedSongCount$ песен уже есть в $collectionName$",
+    "videosAlreadyInCollection": {
+        "message": "$duplicateVideoCount$ из $draggedVideoCount$ песен уже есть в $collectionName$",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -462,7 +462,7 @@
     },
     "collectionSelected": {
         "message": "$count$ $collectionName$ выбрано",
-        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -475,13 +475,13 @@
     "saveAll": {
         "message": "Сохранить всё"
     },
-    "saveSong": {
+    "saveVideo": {
         "message": "Сохранить песню"
     },
-    "songSavedToPlaylist": {
-        "message": "$songTitle$ сохранено в $playlistTitle$",
+    "videoSavedToPlaylist": {
+        "message": "$videoTitle$ сохранено в $playlistTitle$",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {

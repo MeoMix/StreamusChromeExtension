@@ -4,9 +4,9 @@
   var Tooltipable = Marionette.Behavior.extend({
     ui: {
       // Children which need tooltips and do not need to take into account text overflowing.
-      tooltipable: '[data-ui~=tooltipable]',
+      tooltipable: 'tooltipable',
       // Children which need tooltips, but also need to take into account overflowing.
-      textTooltipable: '[data-ui~=textTooltipable]'
+      textTooltipable: 'textTooltipable'
     },
 
     // Whether view's element or a descendant is showing a tooltip

@@ -5,7 +5,7 @@
   var YouTubeV3API = require('background/model/youTubeV3API');
 
   describe('YouTubeV3API', function() {
-    describe('when asked to get a list of information involving both available and unavailable songs', function() {
+    describe('when asked to get a list of information involving both available and unavailable videos', function() {
       before(function() {
         sinon.stub($, 'ajax').yieldsTo('success', {
           items: [{
@@ -36,13 +36,13 @@
         });
       });
 
-      it('should return the available songs', function(done) {
-        YouTubeV3API.getSongs({
-          songIds: ['MKS8Jn_3bnA', 'mNGpPqxsTmQ', '6od4WeaWDcs', 'JMPYmNINxrE'],
-          success: function(songs) {
+      it('should return the available videos', function(done) {
+        YouTubeV3API.getVideos({
+          videoIds: ['MKS8Jn_3bnA', 'mNGpPqxsTmQ', '6od4WeaWDcs', 'JMPYmNINxrE'],
+          success: function(videos) {
             expect($.ajax.calledOnce).to.equal(true);
-            expect(songs).not.to.equal(null);
-            expect(songs.length).to.equal(2);
+            expect(videos).not.to.equal(null);
+            expect(videos.length).to.equal(2);
             done();
           }
         });
@@ -53,7 +53,7 @@
       });
     });
 
-    describe('when asked to search for songs', function() {
+    describe('when asked to search for videos', function() {
       before(function() {
         // jscs:disable maximumLineLength
         sinon.stub($, 'ajax')
@@ -62,13 +62,13 @@
         // jscs:enable maximumLineLength
       });
 
-      it('should return 50 songs', function(done) {
+      it('should return 50 videos', function(done) {
         YouTubeV3API.search({
           text: 'Gramatik',
           success: function(searchResponse) {
             expect($.ajax.calledTwice).to.equal(true);
-            expect(searchResponse.songs).not.to.equal(null);
-            expect(searchResponse.songs.length).to.equal(50);
+            expect(searchResponse.videos).not.to.equal(null);
+            expect(searchResponse.videos.length).to.equal(50);
             done();
           }
         });
@@ -79,7 +79,7 @@
       });
     });
 
-    describe('when asked to find a playable song by title', function() {
+    describe('when asked to find a playable video by title', function() {
       before(function() {
         // jscs:disable maximumLineLength
         sinon.stub($, 'ajax')
@@ -89,7 +89,7 @@
       });
 
       it('should return a playable result', function(done) {
-        YouTubeV3API.getSongByTitle({
+        YouTubeV3API.getVideoByTitle({
           title: 'Gramatik',
           success: function(response) {
             expect($.ajax.calledTwice).to.equal(true);
@@ -108,7 +108,7 @@
       });
     });
 
-    describe('when asked to get related song information', function() {
+    describe('when asked to get related video information', function() {
       before(function() {
         // jscs:disable maximumLineLength
         sinon.stub($, 'ajax')
@@ -117,13 +117,13 @@
         // jscs:enable maximumLineLength
       });
 
-      it('should return related song information', function(done) {
-        YouTubeV3API.getRelatedSongs({
-          songId: 'CxHFnVCZDRo',
-          success: function(songs) {
+      it('should return related video information', function(done) {
+        YouTubeV3API.getRelatedVideos({
+          videoId: 'CxHFnVCZDRo',
+          success: function(videos) {
             expect($.ajax.calledTwice).to.equal(true);
-            expect(songs).not.to.equal(null);
-            expect(songs.length).to.equal(5);
+            expect(videos).not.to.equal(null);
+            expect(videos.length).to.equal(5);
             done();
           }
         });
@@ -176,9 +176,9 @@
       });
     });
 
-    describe('when asked to get a song by songId', function() {
-      var songTitle = 'Danger - 22h39';
-      var songId = 'MKS8Jn_3bnA';
+    describe('when asked to get a video by videoId', function() {
+      var videoTitle = 'Danger - 22h39';
+      var videoId = 'MKS8Jn_3bnA';
 
       beforeEach(function() {
         sinon.stub($, 'ajax').yieldsTo('success', {
@@ -186,10 +186,10 @@
             contentDetails: {
               duration: 'PT4M33S'
             },
-            id: songId,
+            id: videoId,
             snippet: {
               channelTitle: 'jlmaha5',
-              title: songTitle
+              title: videoTitle
             },
             status: {
               embeddable: true
@@ -202,13 +202,13 @@
         $.ajax.restore();
       });
 
-      it('should return the song', function(done) {
-        YouTubeV3API.getSong({
-          songId: 'MKS8Jn_3bnA',
-          success: function(song) {
-            expect(song instanceof Backbone.Model).to.equal(true);
-            expect(song.get('title')).to.equal(songTitle);
-            expect(song.get('id')).to.equal(songId);
+      it('should return the video', function(done) {
+        YouTubeV3API.getVideo({
+          videoId: 'MKS8Jn_3bnA',
+          success: function(video) {
+            expect(video instanceof Backbone.Model).to.equal(true);
+            expect(video.get('title')).to.equal(videoTitle);
+            expect(video.get('id')).to.equal(videoId);
             done();
           }
         });
@@ -335,18 +335,18 @@
       });
 
       it('should return a list of playlist items', function(done) {
-        YouTubeV3API.getPlaylistSongs({
+        YouTubeV3API.getPlaylistVideos({
           playlistId: 'FL_Gkp1Oa7e2a8NNaf5-KCpA',
           success: function(response) {
             expect(response).not.to.equal(null);
-            expect(response.songs.length).to.equal(1);
+            expect(response.videos.length).to.equal(1);
             done();
           }
         });
       });
     });
 
-    describe('when asked to get information on a song which is unavailable', function() {
+    describe('when asked to get information on a video which is unavailable', function() {
       beforeEach(function() {
         sinon.stub($, 'ajax').yieldsTo('success', {
           items: []
@@ -357,12 +357,12 @@
         $.ajax.restore();
       });
 
-      it('should throw an error indicating no song found', function(done) {
-        YouTubeV3API.getSong({
-          songId: 'JMPYmNINxrE',
+      it('should throw an error indicating no video found', function(done) {
+        YouTubeV3API.getVideo({
+          videoId: 'JMPYmNINxrE',
           error: function(error) {
             expect(error).not.to.equal(null);
-            expect(error).to.equal(chrome.i18n.getMessage('failedToFindSong') + ' ' + 'JMPYmNINxrE');
+            expect(error).to.equal(chrome.i18n.getMessage('failedToFindVideo') + ' ' + 'JMPYmNINxrE');
             done();
           }
         });

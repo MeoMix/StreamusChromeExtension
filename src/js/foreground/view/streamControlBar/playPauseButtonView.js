@@ -5,7 +5,7 @@
   var PauseIconTemplate = require('text!template/icon/pauseIcon_30.svg');
   var PlayIconTemplate = require('text!template/icon/playIcon_30.svg');
 
-  var PlayPauseButtonView = Marionette.ItemView.extend({
+  var PlayPauseButtonView = Marionette.LayoutView.extend({
     id: 'playPauseButton',
     className: 'button button--icon button--icon--primary button--large',
     template: _.template(PlayPauseButtonTemplate),
@@ -16,8 +16,8 @@
     },
 
     ui: {
-      playIcon: '[data-ui~=playIcon]',
-      pauseIcon: '[data-ui~=pauseIcon]'
+      playIcon: 'playIcon',
+      pauseIcon: 'pauseIcon'
     },
 
     events: {

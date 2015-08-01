@@ -194,8 +194,7 @@ module.exports = function(grunt) {
       contentScripts: {
         files: {
           'dist/js/contentScript/beatport.js': ['src/js/contentScript/beatport.js'],
-          'dist/js/contentScript/youTube.js': ['src/js/contentScript/youTube.js'],
-          'dist/js/contentScript/youTubeIFrame.js': ['src/js/contentScript/youTubeIFrame.js']
+          'dist/js/contentScript/youTube.js': ['src/js/contentScript/youTube.js']
         }
       }
     },

@@ -19,7 +19,7 @@
     },
 
     regions: {
-      fileType: '[data-region=fileType]'
+      fileType: 'fileType'
     },
 
     behaviors: {
@@ -104,15 +104,15 @@
     },
 
     _mapAsExportedItem: function(item) {
-      var song = item.get('song');
+      var video = item.get('video');
 
       var exportedItem = {
-        title: song.get('title'),
-        id: song.get('id'),
-        url: song.get('url'),
-        author: song.get('author'),
-        duration: song.get('duration'),
-        prettyDuration: song.get('prettyDuration')
+        title: video.get('title'),
+        id: video.get('id'),
+        url: video.get('url'),
+        author: video.get('author'),
+        duration: video.get('duration'),
+        prettyDuration: video.get('prettyDuration')
       };
 
       return exportedItem;

@@ -20,25 +20,25 @@
     "decreaseVolume": {
         "message": "Scade volumul"
     },
-    "showSongDetails": {
+    "showVideoDetails": {
         "message": "Arata detalii cantec"
     },
-    "nextSong": {
+    "nextVideo": {
         "message": "Urmatorul cantec"
     },
-    "previousSong": {
+    "previousVideo": {
         "message": "Cantec anterior"
     },
-    "toggleSong": {
+    "toggleVideo": {
         "message": "Porneste/Opreste cantec"
     },
-    "deleteSong": {
+    "deleteVideo": {
         "message": "Sterge cantec"
     },
-    "copySongUrl": {
+    "copyVideoUrl": {
         "message": "Copiaza URLul cantecului"
     },
-    "copySongTitleAndUrl": {
+    "copyVideoTitleAndUrl": {
         "message": "Copiaza titlul cantecului si URLul"
     },
     "save": {
@@ -62,7 +62,7 @@
     "addToStreamus": {
         "message": "Adauga la Streamus"
     },
-    "youTubePlayerErrorSongNotFound": {
+    "youTubePlayerErrorVideoNotFound": {
         "message": "Cantecul a fost marcat privat sau eliminat."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
@@ -80,7 +80,7 @@
     "repeatOff": {
         "message": "Nu repeta"
     },
-    "repeatSong": {
+    "repeatVideo": {
         "message": "Repeta cantec"
     },
     "repeatAll": {
@@ -269,36 +269,36 @@
     "volume": {
         "message": "Volum"
     },
-    "songAdded": {
+    "videoAdded": {
         "message": "Cantec adaugat"
     },
-    "addSong": {
+    "addVideo": {
         "message": "Adauga cantec"
     },
-    "song": {
+    "video": {
         "message": "Cantec"
     },
-    "songs": {
+    "videos": {
         "message": "Cantece"
     },
-    "cantSkipToNextSong": {
+    "cantSkipToNextVideo": {
         "message": "Nu pot sari la cantecul urmator"
     },
-    "cantGoBackToPreviousSong": {
+    "cantGoBackToPreviousVideo": {
         "message": "Nu pot merge la cantecul anterior"
     },
-    "cantToggleSong": {
+    "cantToggleVideo": {
         "message": "Nu pot schimba cantecul"
     },
-    "searchForSongs": {
+    "searchForVideos": {
         "message": "Cauta cantece"
     },
-    "songQuality": {
+    "videoQuality": {
         "message": "Calitatea cantecului"
     },
-    "whyNotAddASongFromAPlaylistOr": {
+    "whyNotAddAVideoFromAPlaylistOr": {
         "message": "De ce sa nu adaugi un cantec dintr-o lista sau sa cauti unul anume?",
-        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
     },
     "searchAndPlay": {
         "message": "Cauta si porneste"
@@ -358,10 +358,10 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
+    "failedToFindVideo": {
         "message": "Nu sa gasit cantecul"
     },
-    "failedToFindSongs": {
+    "failedToFindVideos": {
         "message": "Nu s-a gasit nici un cantec"
     },
     "loadingYouTube": {
@@ -381,7 +381,7 @@
             }
         }
     },
-    "songAlreadyInCollection": {
+    "videoAlreadyInCollection": {
         "message": "Cantec deja in $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -389,7 +389,7 @@
             }
         }
     },
-    "allSongsAlreadyInCollection": {
+    "allVideosAlreadyInCollection": {
         "message": "Toate cantecele sunt deja in $collectionName$",
         "placeholders": {
             "collectionName": {
@@ -397,13 +397,13 @@
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$duplicateSongCount$ cantece din $draggedSongCount$ sunt deja in lista $collectionName$",
+    "videosAlreadyInCollection": {
+        "message": "$duplicateVideoCount$ cantece din $draggedVideoCount$ sunt deja in lista $collectionName$",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -462,7 +462,7 @@
     },
     "collectionSelected": {
         "message": "$count$ $collectionName$ alese",
-        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -475,13 +475,13 @@
     "saveAll": {
         "message": "Salveaza tot"
     },
-    "saveSong": {
+    "saveVideo": {
         "message": "Salveaza cantec"
     },
-    "songSavedToPlaylist": {
-        "message": "$songTitle$ salvat in lista $playlistTitle$",
+    "videoSavedToPlaylist": {
+        "message": "$videoTitle$ salvat in lista $playlistTitle$",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {

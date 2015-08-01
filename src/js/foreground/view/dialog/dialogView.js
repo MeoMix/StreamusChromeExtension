@@ -12,15 +12,15 @@
     contentView: null,
 
     regions: {
-      reminder: '[data-region=reminder]',
-      content: '[data-region=content]'
+      reminder: 'reminder',
+      content: 'content'
     },
 
     ui: {
-      panel: '[data-ui~=panel]',
-      submitButton: '[data-ui~=submitButton]',
-      cancelButton: '[data-ui~=cancelButton]',
-      submittable: '[data-ui~=submittable]'
+      panel: 'panel',
+      submitButton: 'submitButton',
+      cancelButton: 'cancelButton',
+      submittable: 'submittable'
     },
 
     events: {

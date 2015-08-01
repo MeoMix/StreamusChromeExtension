@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var Songs = require('background/collection/songs');
+  var Videos = require('background/collection/videos');
   var OmniboxModifier = require('background/enum/omniboxModifier');
   var YouTubeV3API = require('background/model/youTubeV3API');
   var Utility = require('common/utility');
@@ -10,7 +10,7 @@
   var ChromeOmniboxManager = Backbone.Model.extend({
     defaults: function() {
       return {
-        suggestedSongs: new Songs(),
+        suggestedVideos: new Videos(),
         searchRequest: null,
         modifiers: [],
         validModifiers: [OmniboxModifier.Add],
@@ -28,8 +28,8 @@
     },
 
     _onChromeOmniboxInputChanged: function(text, suggest) {
-      // Clear suggestedSongs
-      this.get('suggestedSongs').reset();
+      // Clear suggestedVideos
+      this.get('suggestedVideos').reset();
 
       var searchText = text.trim();
 
@@ -62,28 +62,28 @@
     },
 
     _onChromeOmniboxInputEntered: function(text) {
-      // Find the cached song data by url
-      var pickedSong = this.get('suggestedSongs').find(function(song) {
-        return song.get('url') === text;
+      // Find the cached video data by url
+      var pickedVideo = this.get('suggestedVideos').find(function(video) {
+        return video.get('url') === text;
       });
 
       // If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
       // take the best suggestion related to their text.
-      if (_.isUndefined(pickedSong)) {
-        pickedSong = this.get('suggestedSongs').first();
+      if (_.isUndefined(pickedVideo)) {
+        pickedVideo = this.get('suggestedVideos').first();
       }
 
       var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifier.Add);
       var playOnAdd = addOnlyModifierExists ? false : true;
 
-      this.get('streamItems').addSongs(pickedSong, {
+      this.get('streamItems').addVideos(pickedVideo, {
         playOnAdd: playOnAdd
       });
 
       if (!playOnAdd) {
         StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
-          title: chrome.i18n.getMessage('songAdded'),
-          message: pickedSong.get('title')
+          title: chrome.i18n.getMessage('videoAdded'),
+          message: pickedVideo.get('title')
         });
       }
     },
@@ -115,22 +115,22 @@
     _onSearchResponse: function(suggest, searchText, searchResponse) {
       this.set('searchRequest', null);
 
-      var suggestions = this._buildSuggestions(searchResponse.songs, searchText);
+      var suggestions = this._buildSuggestions(searchResponse.videos, searchText);
       suggest(suggestions);
     },
 
-    _buildSuggestions: function(songs, text) {
-      var suggestions = songs.map(function(song) {
-        this.get('suggestedSongs').add(song);
+    _buildSuggestions: function(videos, text) {
+      var suggestions = videos.map(function(video) {
+        this.get('suggestedVideos').add(video);
 
-        var safeTitle = _.escape(song.get('title'));
+        var safeTitle = _.escape(video.get('title'));
         var textStyleRegExp = new RegExp(Utility.escapeRegExp(text), 'i');
         var styledTitle = safeTitle.replace(textStyleRegExp, '<match>$&</match>');
 
-        var description = '<dim>' + song.get('prettyDuration') + '</dim>  ' + styledTitle;
+        var description = '<dim>' + video.get('prettyDuration') + '</dim>  ' + styledTitle;
 
         return {
-          content: song.get('url'),
+          content: video.get('url'),
           description: description
         };
       }, this);

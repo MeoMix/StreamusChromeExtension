@@ -20,25 +20,25 @@
     "decreaseVolume": {
         "message": "Snížit hlasitost"
     },
-    "showSongDetails": {
+    "showVideoDetails": {
         "message": "Ukázat podrobnosti stopy"
     },
-    "nextSong": {
+    "nextVideo": {
         "message": "Další stopa"
     },
-    "previousSong": {
+    "previousVideo": {
         "message": "Predchozí stopa"
     },
-    "toggleSong": {
+    "toggleVideo": {
         "message": "Prehrát/pozastavit stopu"
     },
-    "deleteSong": {
+    "deleteVideo": {
         "message": "Odstranit stopu"
     },
-    "copySongUrl": {
+    "copyVideoUrl": {
         "message": "Zkopírovat URL stopy"
     },
-    "copySongTitleAndUrl": {
+    "copyVideoTitleAndUrl": {
         "message": "Zkopírovat název a URL stopy"
     },
     "save": {
@@ -62,7 +62,7 @@
     "addToStreamus": {
         "message": "Pridat do streamusu"
     },
-    "youTubePlayerErrorSongNotFound": {
+    "youTubePlayerErrorVideoNotFound": {
         "message": "Stopa byla smazána nebo oznacena jako soukromá."
     },
     "youTubePlayerErrorNoPlayEmbedded": {
@@ -80,7 +80,7 @@
     "repeatOff": {
         "message": "Opakování vypnuto"
     },
-    "repeatSong": {
+    "repeatVideo": {
         "message": "Opakování stopy"
     },
     "repeatAll": {
@@ -269,36 +269,36 @@
     "volume": {
         "message": "Hlasitost"
     },
-    "songAdded": {
+    "videoAdded": {
         "message": "Stopa pridána"
     },
-    "addSong": {
+    "addVideo": {
         "message": "Pridat stopu"
     },
-    "song": {
+    "video": {
         "message": "Stopa"
     },
-    "songs": {
+    "videos": {
         "message": "Stop"
     },
-    "cantSkipToNextSong": {
+    "cantSkipToNextVideo": {
         "message": "Nelze prejít na další stopu"
     },
-    "cantGoBackToPreviousSong": {
+    "cantGoBackToPreviousVideo": {
         "message": "Nelze prejít na predchozí stopu"
     },
-    "cantToggleSong": {
+    "cantToggleVideo": {
         "message": "Nelze prehrát stopu"
     },
-    "searchForSongs": {
+    "searchForVideos": {
         "message": "Vyhledat stopy"
     },
-    "songQuality": {
+    "videoQuality": {
         "message": "Kvalita prehrávání"
     },
-    "whyNotAddASongFromAPlaylistOr": {
+    "whyNotAddAVideoFromAPlaylistOr": {
         "message": "Nechcete pridat stopu ze seznamu nebor",
-        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
     },
     "searchAndPlay": {
         "message": "Vyhledat a prehrát"
@@ -358,10 +358,10 @@
     "json": {
         "message": "JSON"
     },
-    "failedToFindSong": {
+    "failedToFindVideo": {
         "message": "Hledání stopy selhalo"
     },
-    "failedToFindSongs": {
+    "failedToFindVideos": {
         "message": "Hledání stop selhalo"
     },
     "loadingYouTube": {
@@ -381,7 +381,7 @@
             }
         }
     },
-    "songAlreadyInCollection": {
+    "videoAlreadyInCollection": {
         "message": "$collectionName$ již stopu obsahuje",
         "placeholders": {
             "collectionName": {
@@ -389,7 +389,7 @@
             }
         }
     },
-    "allSongsAlreadyInCollection": {
+    "allVideosAlreadyInCollection": {
         "message": "$collectionName$ již všechny stopy obsahuje",
         "placeholders": {
             "collectionName": {
@@ -397,13 +397,13 @@
             }
         }
     },
-    "songsAlreadyInCollection": {
-        "message": "$collectionName$ již $duplicateSongCount$ z $draggedSongCount$ stop obsahuje",
+    "videosAlreadyInCollection": {
+        "message": "$collectionName$ již $duplicateVideoCount$ z $draggedVideoCount$ stop obsahuje",
         "placeholders": {
-            "duplicateSongCount": {
+            "duplicateVideoCount": {
                 "content": "$1"
             },
-            "draggedSongCount": {
+            "draggedVideoCount": {
                 "content": "$2"
             },
             "collectionName": {
@@ -462,7 +462,7 @@
     },
     "collectionSelected": {
         "message": "$count$ $collectionName$ vybrán",
-        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
         "placeholders": {
             "count": {
                 "content": "$1"
@@ -475,13 +475,13 @@
     "saveAll": {
         "message": "Uložit vše"
     },
-    "saveSong": {
+    "saveVideo": {
         "message": "Uložit stopu"
     },
-    "songSavedToPlaylist": {
-        "message": "Stopa $songTitle$ uložena do seznamu $playlistTitle$",
+    "videoSavedToPlaylist": {
+        "message": "Stopa $videoTitle$ uložena do seznamu $playlistTitle$",
         "placeholders": {
-            "songTitle": {
+            "videoTitle": {
                 "content": "$1"
             },
             "playlistTitle": {

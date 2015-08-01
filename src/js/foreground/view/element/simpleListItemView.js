@@ -17,11 +17,11 @@
     },
 
     regions: {
-      simpleMenu: '[data-region=simpleMenu]'
+      simpleMenu: 'simpleMenu'
     },
 
     ui: {
-      prettyValue: '[data-ui~=prettyValue]'
+      prettyValue: 'prettyValue'
     },
 
     events: {

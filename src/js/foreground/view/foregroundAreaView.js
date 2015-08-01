@@ -36,58 +36,58 @@
     },
 
     ui: {
-      loadingMessage: '[data-ui~=loadingMessage]',
-      loadingFailedMessage: '[data-ui~=loadingFailedMessage]',
-      reloadLink: '[data-ui~=reloadLink]',
-      loadAttemptMessage: '[data-ui~=loadAttemptMessage]'
+      loadingMessage: 'loadingMessage',
+      loadingFailedMessage: 'loadingFailedMessage',
+      reloadLink: 'reloadLink',
+      loadAttemptMessage: 'loadAttemptMessage'
     },
 
     regions: function() {
       return {
-        spinner: '[data-region=spinner]',
+        spinner: 'spinner',
         appBar: {
-          selector: '[data-region=appBar]',
+          selector: 'appBar',
           regionClass: AppBarRegion
         },
         // TODO: This needs to come before activePane otherwise measurements are incorrect for scrollable behavior.
         streamControlBar: {
-          selector: '[data-region=streamControlBar]',
+          selector: 'streamControlBar',
           regionClass: StreamControlBarRegion
         },
         dialog: {
-          selector: '[data-region=dialog]',
+          selector: 'dialog',
           regionClass: DialogRegion,
           player: StreamusFG.backgroundProperties.player,
           signInManager: StreamusFG.backgroundProperties.signInManager
         },
         notification: {
-          selector: '[data-region=notification]',
+          selector: 'notification',
           regionClass: NotificationRegion
         },
         simpleMenu: {
-          selector: '[data-region=simpleMenu]',
+          selector: 'simpleMenu',
           regionClass: SimpleMenuRegion
         },
         search: {
-          selector: '[data-region=search]',
+          selector: 'search',
           regionClass: SearchRegion,
           settings: StreamusFG.backgroundProperties.settings
         },
         playlistsArea: {
-          selector: '[data-region=playlistsArea]',
+          selector: 'playlistsArea',
           regionClass: PlaylistsAreaRegion,
           signInManager: StreamusFG.backgroundProperties.signInManager
         },
         activePane: {
-          selector: '[data-region=activePanes]',
+          selector: 'activePanes',
           regionClass: ActivePanesRegion
         },
         selectionBar: {
-          selector: '[data-region=selectionBar]',
+          selector: 'selectionBar',
           regionClass: SelectionBarRegion
         },
         tooltip: {
-          selector: '[data-region=tooltip]',
+          selector: 'tooltip',
           regionClass: TooltipRegion
         }
       };

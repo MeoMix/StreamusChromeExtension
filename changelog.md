@@ -26,10 +26,10 @@ v0.169
 - Display issues fixed when showing notifications in Streamus while in a tab.
 - Translations have been drastically improved and expanded upon.
 - Streamus now keeps track of what language you're using it in so I can tell which translations are most important.
-- The keyboard shortcut for saving currently playing song to current playlist has been re-introduced.
+- The keyboard shortcut for saving currently playing video to current playlist has been re-introduced.
 - Streamus will now tell YouTube to use HTML5 player automatically on Opera rather than requiring user to opt-in to the HTML5 trial.
 - 'Add to Streamus' button on YouTube now works even if you are not signed into YouTube
 - 'Add to Streamus' button now selects your current playlist by default
-- Search Results now filter out songs which have been marked as not playable outside of YouTube.com. This should help alleviate some of the "Song cannot be played in embedded player" errors.
+- Search Results now filter out videos which have been marked as not playable outside of YouTube.com. This should help alleviate some of the "Video cannot be played in embedded player" errors.
 - Playlist 0000 has been renamed to New Playlist
 - The playlists panel will now remember its scroll position even after Streamus has been closed and re-opened. Remembering the position for Playlist Items will come in the future.

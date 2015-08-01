@@ -8,9 +8,9 @@
   var DataSource = Backbone.Model.extend({
     defaults: {
       type: DataSourceType.None,
-      // Valid song ID can appear in a playlist URL so provide the ability to only pull out a playlist URL
+      // Valid video ID can appear in a playlist URL so provide the ability to only pull out a playlist URL
       parseVideo: true,
-      // The songId, playlistId, channelId etc..
+      // The videoId, playlistId, channelId etc..
       entityId: '',
       title: '',
       url: ''
@@ -29,7 +29,7 @@
 
       // URLs could have both video id + playlist id. Use a flag to determine whether video id is important
       if (this.get('parseVideo')) {
-        entityId = this._getYouTubeSongId(url);
+        entityId = this._getYouTubeVideoId(url);
 
         if (entityId !== '') {
           this.set({
@@ -85,15 +85,15 @@
       }
     },
 
-    getSong: function(options) {
+    getVideo: function(options) {
       this.parseUrl({
         success: function() {
-          YouTubeV3API.getSong({
-            songId: this.get('entityId'),
+          YouTubeV3API.getVideo({
+            videoId: this.get('entityId'),
             success: options.success,
             error: function() {
               StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
-                title: chrome.i18n.getMessage('failedToFindSong')
+                title: chrome.i18n.getMessage('failedToFindVideo')
               });
 
               if (options.error) {
@@ -133,16 +133,16 @@
       });
     },
 
-    // Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
-    _getYouTubeSongId: function(url) {
-      var songId = '';
+    // Takes a URL and returns parsed URL information such as schema and video id if found inside of the URL.
+    _getYouTubeVideoId: function(url) {
+      var videoId = '';
 
       var match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
       if (match && match[2].length === 11) {
-        songId = match[2];
+        videoId = match[2];
       }
 
-      return songId;
+      return videoId;
     },
 
     // Find a YouTube Channel or Playlist ID by looking through the URL for the given identifier.

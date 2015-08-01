@@ -1,60 +1,59 @@
 ﻿define(function(require) {
   'use strict';
 
-  var Songs = require('background/collection/songs');
+  var Videos = require('background/collection/videos');
   var SearchResults = require('background/collection/searchResults');
-  var TestUtility = require('test/testUtility');
 
   describe('SearchResults', function() {
     beforeEach(function() {
       this.searchResults = new SearchResults();
     });
 
-    it('should be able to parse a song into a search result', function() {
-      var song = TestUtility.buildSong();
-      var searchResult = this.searchResults._mapSongAsSearchResult(song);
+    it('should be able to parse a video into a search result', function() {
+      var video = TestUtility.buildVideo();
+      var searchResult = this.searchResults._mapVideoAsSearchResult(video);
 
-      expect(searchResult.get('title')).to.equal(song.get('title'));
-      expect(searchResult.get('song')).to.equal(song);
+      expect(searchResult.get('title')).to.equal(video.get('title'));
+      expect(searchResult.get('video')).to.equal(video);
     });
 
-    it('should be able to parse an array of songs into an array of search results', function() {
-      var songs = [TestUtility.buildSong('N92CLZlsNRw'), TestUtility.buildSong('bek1y2uiQGA')];
-      var searchResults = this.searchResults._mapSongsAsSearchResults(songs);
+    it('should be able to parse an array of videos into an array of search results', function() {
+      var videos = [TestUtility.buildVideo('N92CLZlsNRw'), TestUtility.buildVideo('bek1y2uiQGA')];
+      var searchResults = this.searchResults._mapVideosAsSearchResults(videos);
 
       expect(searchResults.length).to.equal(2);
-      expect(searchResults[0].get('song')).to.equal(songs[0]);
-      expect(searchResults[1].get('song')).to.equal(songs[1]);
+      expect(searchResults[0].get('video')).to.equal(videos[0]);
+      expect(searchResults[1].get('video')).to.equal(videos[1]);
     });
 
-    it('should be able to parse a collection of songs into an array of search results', function() {
-      var songs = new Songs([TestUtility.buildSong('N92CLZlsNRw'), TestUtility.buildSong('bek1y2uiQGA')]);
-      var searchResults = this.searchResults._mapSongsAsSearchResults(songs);
+    it('should be able to parse a collection of videos into an array of search results', function() {
+      var videos = new Videos([TestUtility.buildVideo('N92CLZlsNRw'), TestUtility.buildVideo('bek1y2uiQGA')]);
+      var searchResults = this.searchResults._mapVideosAsSearchResults(videos);
 
       expect(searchResults.length).to.equal(2);
-      expect(searchResults[0].get('song')).to.equal(songs.at(0));
-      expect(searchResults[1].get('song')).to.equal(songs.at(1));
+      expect(searchResults[0].get('video')).to.equal(videos.at(0));
+      expect(searchResults[1].get('video')).to.equal(videos.at(1));
     });
 
-    it('should be able to parse a single song into an array of search results', function() {
-      var song = TestUtility.buildSong();
-      var searchResults = this.searchResults._mapSongsAsSearchResults(song);
+    it('should be able to parse a single video into an array of search results', function() {
+      var video = TestUtility.buildVideo();
+      var searchResults = this.searchResults._mapVideosAsSearchResults(video);
 
       expect(searchResults.length).to.equal(1);
-      expect(searchResults[0].get('song')).to.equal(song);
+      expect(searchResults[0].get('video')).to.equal(video);
     });
 
-    it('should be able to add songs', function() {
-      var songs = new Songs([TestUtility.buildSong('N92CLZlsNRw'), TestUtility.buildSong('bek1y2uiQGA')]);
-      this.searchResults.addSongs(songs);
+    it('should be able to add videos', function() {
+      var videos = new Videos([TestUtility.buildVideo('N92CLZlsNRw'), TestUtility.buildVideo('bek1y2uiQGA')]);
+      this.searchResults.addVideos(videos);
 
-      expect(this.searchResults.length).to.equal(songs.length);
+      expect(this.searchResults.length).to.equal(videos.length);
     });
 
-    it('should trigger an add:completed event after adding songs', function() {
+    it('should trigger an add:completed event after adding videos', function() {
       sinon.spy(this.searchResults, 'trigger');
-      var songs = new Songs([TestUtility.buildSong('N92CLZlsNRw'), TestUtility.buildSong('bek1y2uiQGA')]);
-      this.searchResults.addSongs(songs);
+      var videos = new Videos([TestUtility.buildVideo('N92CLZlsNRw'), TestUtility.buildVideo('bek1y2uiQGA')]);
+      this.searchResults.addVideos(videos);
 
       expect(this.searchResults.trigger.calledWith('add:completed')).to.equal(true);
       this.searchResults.trigger.restore();

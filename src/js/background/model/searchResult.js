@@ -13,7 +13,7 @@
         // Important for proper shift+click functionality.
         firstSelected: false,
         listItemType: ListItemType.SearchResult,
-        song: null
+        video: null
       };
     }
   });

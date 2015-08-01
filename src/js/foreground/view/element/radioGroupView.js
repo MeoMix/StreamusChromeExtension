@@ -16,7 +16,7 @@
     },
 
     ui: {
-      buttons: '[data-ui~=buttons]'
+      buttons: 'buttons'
     },
 
     events: {

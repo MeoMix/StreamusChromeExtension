@@ -20,10 +20,10 @@
     },
 
     ui: {
-      searchButton: '[data-ui~=searchButton]',
-      searchInput: '[data-ui~=searchInput]',
-      searchInputWrapper: '[data-ui~=searchInputWrapper]',
-      clearSearchIcon: '[data-ui~=clearSearchIcon]'
+      searchButton: 'searchButton',
+      searchInput: 'searchInput',
+      searchInputWrapper: 'searchInputWrapper',
+      clearSearchIcon: 'clearSearchIcon'
     },
 
     events: {

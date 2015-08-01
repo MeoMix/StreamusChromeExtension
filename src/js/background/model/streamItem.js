@@ -1,22 +1,22 @@
 ﻿define(function(require) {
   'use strict';
 
-  var Songs = require('background/collection/songs');
-  var Song = require('background/model/song');
+  var Videos = require('background/collection/videos');
+  var Video = require('background/model/video');
   var ListItemType = require('common/enum/listItemType');
 
   var StreamItem = Backbone.Model.extend({
     defaults: function() {
       return {
         id: null,
-        song: null,
+        video: null,
         title: '',
         // Used to weight randomness in shuffle. Resets to false when all in collection are set to true.
         playedRecently: false,
         active: false,
         selected: false,
         firstSelected: false,
-        relatedSongs: new Songs(),
+        relatedVideos: new Videos(),
         sequence: -1,
         listItemType: ListItemType.StreamItem
       };
@@ -29,28 +29,28 @@
     },
 
     initialize: function() {
-      this._ensureSongModel();
-      this._ensureRelatedSongsCollection();
+      this._ensureVideoModel();
+      this._ensureRelatedVideosCollection();
       this.on('change:active', this._onChangeActive);
     },
 
-    _ensureSongModel: function() {
-      var song = this.get('song');
+    _ensureVideoModel: function() {
+      var video = this.get('video');
 
-      // Need to convert song object to Backbone.Model
-      if (!(song instanceof Backbone.Model)) {
-        // Silent because song is just being properly set.
-        this.set('song', new Song(song), {silent: true});
+      // Need to convert video object to Backbone.Model
+      if (!(video instanceof Backbone.Model)) {
+        // Silent because video is just being properly set.
+        this.set('video', new Video(video), {silent: true});
       }
     },
 
-    _ensureRelatedSongsCollection: function() {
-      var relatedSongs = this.get('relatedSongs');
+    _ensureRelatedVideosCollection: function() {
+      var relatedVideos = this.get('relatedVideos');
 
-      // Need to convert relatedSongs array to Backbone.Collection
-      if (!(relatedSongs instanceof Backbone.Collection)) {
-        // Silent because relatedSongs is just being properly set.
-        this.set('relatedSongs', new Songs(relatedSongs), {
+      // Need to convert relatedVideos array to Backbone.Collection
+      if (!(relatedVideos instanceof Backbone.Collection)) {
+        // Silent because relatedVideos is just being properly set.
+        this.set('relatedVideos', new Videos(relatedVideos), {
           silent: true
         });
       }

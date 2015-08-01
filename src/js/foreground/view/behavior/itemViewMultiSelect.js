@@ -6,7 +6,7 @@
 
   var ItemViewMultiSelect = Marionette.Behavior.extend({
     ui: {
-      leftContent: '[data-ui~=leftContent]'
+      leftContent: 'leftContent'
     },
 
     events: {

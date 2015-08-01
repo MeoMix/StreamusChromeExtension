@@ -3,16 +3,16 @@
 
   var CollectionMultiSelect = require('background/mixin/collectionMultiSelect');
   var CollectionSequence = require('background/mixin/collectionSequence');
-  var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
+  var CollectionUniqueVideo = require('background/mixin/collectionUniqueVideo');
   var PlaylistItem = require('background/model/playlistItem');
-  var Songs = require('background/collection/songs');
+  var Videos = require('background/collection/videos');
   var Utility = require('common/utility');
 
   var PlaylistItems = Backbone.Collection.extend({
     model: PlaylistItem,
     playlistId: -1,
     userFriendlyName: chrome.i18n.getMessage('playlist'),
-    mixins: [CollectionMultiSelect, CollectionSequence, CollectionUniqueSong],
+    mixins: [CollectionMultiSelect, CollectionSequence, CollectionUniqueVideo],
 
     url: function() {
       return StreamusBG.serverUrl + 'PlaylistItem/';
@@ -22,18 +22,18 @@
       this.playlistId = options ? options.playlistId : this.playlistId;
     },
 
-    // Convert a single song, array of songs, or collection of songs to PlaylistItems
+    // Convert a single video, array of videos, or collection of videos to PlaylistItems
     // and attempt to add them to the collection. Fail to add if non-unique.
     // Notify the server of all successfully added items so that they may be saved to DB.
-    addSongs: function(songs, options) {
+    addVideos: function(videos, options) {
       options = _.isUndefined(options) ? {} : options;
-      songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
+      videos = videos instanceof Backbone.Collection ? videos.models : _.isArray(videos) ? videos : [videos];
 
       var itemsToCreate = [];
       var index = _.isUndefined(options.index) ? this.length : options.index;
 
-      _.each(songs, function(song) {
-        var addedPlaylistItem = this._tryAddSongAtIndex(song, index);
+      _.each(videos, function(video) {
+        var addedPlaylistItem = this._tryAddVideoAtIndex(video, index);
 
         // If the item was added successfully to the collection (not duplicate) then allow for it to be created.
         if (!_.isNull(addedPlaylistItem)) {
@@ -52,10 +52,10 @@
         // TODO: Need to be able to read the playlist title instead of just using 'playlist'
         var notificationMessage;
         if (itemsToCreate.length === 1) {
-          var songTitle = Utility.truncateString(itemsToCreate[0].get('title'), 40);
-          notificationMessage = chrome.i18n.getMessage('songSavedToPlaylist', [songTitle, 'playlist']);
+          var videoTitle = Utility.truncateString(itemsToCreate[0].get('title'), 40);
+          notificationMessage = chrome.i18n.getMessage('videoSavedToPlaylist', [videoTitle, 'playlist']);
         } else {
-          notificationMessage = chrome.i18n.getMessage('songsSavedToPlaylist', [itemsToCreate.length, 'playlist']);
+          notificationMessage = chrome.i18n.getMessage('videosSavedToPlaylist', [itemsToCreate.length, 'playlist']);
         }
 
         StreamusBG.channels.notification.commands.trigger('show:notification', {
@@ -75,16 +75,16 @@
     },
 
     getDisplayInfo: function() {
-      var songs = new Songs(this.pluck('song'));
-      var displayInfo = songs.getDisplayInfo();
+      var videos = new Videos(this.pluck('video'));
+      var displayInfo = videos.getDisplayInfo();
       return displayInfo;
     },
 
-    _tryAddSongAtIndex: function(song, index) {
+    _tryAddVideoAtIndex: function(video, index) {
       var playlistItem = new PlaylistItem({
         playlistId: this.playlistId,
-        song: song,
-        title: song.get('title'),
+        video: video,
+        title: video.get('title'),
         sequence: this.getSequenceFromIndex(index)
       });
 
@@ -94,9 +94,9 @@
       });
 
       // Add will return the existing item, so check the attempted item's collection to confirm if it was added.
-      var songWasAdded = !_.isUndefined(playlistItem.collection);
+      var videoWasAdded = !_.isUndefined(playlistItem.collection);
 
-      return songWasAdded ? playlistItem : null;
+      return videoWasAdded ? playlistItem : null;
     },
 
     // Non-RESTful bulk API request for creating multiple models.
@@ -132,9 +132,9 @@
       existingModel.set(parsedModel);
     },
 
-    _getBySongId: function(songId) {
+    _getByVideoId: function(videoId) {
       return this.find(function(playlistItem) {
-        return playlistItem.get('song').get('id') === songId;
+        return playlistItem.get('video').get('id') === videoId;
       });
     }
   });

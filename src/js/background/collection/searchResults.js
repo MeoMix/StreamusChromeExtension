@@ -11,9 +11,9 @@
     isImmutable: true,
     userFriendlyName: chrome.i18n.getMessage('searchResults'),
 
-    addSongs: function(songs) {
-      if (songs.length > 0) {
-        var searchResults = this._mapSongsAsSearchResults(songs);
+    addVideos: function(videos) {
+      if (videos.length > 0) {
+        var searchResults = this._mapVideosAsSearchResults(videos);
         this.add(searchResults);
 
         // Emit a custom event signaling items have been added.
@@ -22,32 +22,32 @@
       }
     },
 
-    // Reset the collection with SearchResults derived from a collection, array, or individual Song
-    resetSongs: function(songs) {
-      var searchResults = this._mapSongsAsSearchResults(songs);
+    // Reset the collection with SearchResults derived from a collection, array, or individual Video
+    resetVideos: function(videos) {
+      var searchResults = this._mapVideosAsSearchResults(videos);
       this.reset(searchResults);
     },
 
-    // Takes a collection, array, or individual Song model and returns an array of SearchResult models
-    _mapSongsAsSearchResults: function(songs) {
+    // Takes a collection, array, or individual Video model and returns an array of SearchResult models
+    _mapVideosAsSearchResults: function(videos) {
       var searchResults = [];
 
-      if (songs instanceof Backbone.Collection) {
-        searchResults = songs.map(this._mapSongAsSearchResult.bind(this));
-      } else if (_.isArray(songs)) {
-        searchResults = _.map(songs, this._mapSongAsSearchResult.bind(this));
+      if (videos instanceof Backbone.Collection) {
+        searchResults = videos.map(this._mapVideoAsSearchResult.bind(this));
+      } else if (_.isArray(videos)) {
+        searchResults = _.map(videos, this._mapVideoAsSearchResult.bind(this));
       } else {
-        searchResults.push(this._mapSongAsSearchResult(songs));
+        searchResults.push(this._mapVideoAsSearchResult(videos));
       }
 
       return searchResults;
     },
 
-    // Takes an individual Song model and returns a SearchResult model
-    _mapSongAsSearchResult: function(song) {
+    // Takes an individual Video model and returns a SearchResult model
+    _mapVideoAsSearchResult: function(video) {
       return new SearchResult({
-        song: song,
-        title: song.get('title')
+        video: video,
+        title: video.get('title')
       });
     }
   });

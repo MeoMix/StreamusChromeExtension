@@ -15,20 +15,20 @@
 
     templateHelpers: {
       emptyMessage: chrome.i18n.getMessage('streamEmpty'),
-      searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
-      whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr')
+      searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
+      whyNotAddAVideoFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddAVideoFromAPlaylistOr')
     },
 
     regions: {
-      clearStreamButton: '[data-region=clearStreamButton]',
-      saveStreamButton: '[data-region=saveStreamButton]',
-      streamItems: '[data-region=streamItems]'
+      clearStreamButton: 'clearStreamButton',
+      saveStreamButton: 'saveStreamButton',
+      streamItems: 'streamItems'
     },
 
     ui: {
-      emptyMessage: '[data-ui~=emptyMessage]',
-      focusSearchInputLink: '[data-ui~=focusSearchInputLink]',
-      streamDetails: '[data-ui~=streamDetails]'
+      emptyMessage: 'emptyMessage',
+      focusSearchInputLink: 'focusSearchInputLink',
+      streamDetails: 'streamDetails'
     },
 
     events: {

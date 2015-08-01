@@ -75,9 +75,9 @@ define(function(require) {
 
     // Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
     loadDataSource: function() {
-      YouTubeV3API.getPlaylistSongs({
+      YouTubeV3API.getPlaylistVideos({
         playlistId: this.get('dataSource').get('entityId'),
-        success: this._onGetPlaylistSongsSuccess.bind(this)
+        success: this._onGetPlaylistVideosSuccess.bind(this)
       });
     },
 
@@ -115,16 +115,15 @@ define(function(require) {
             authToken: authToken,
             success: function(response) {
               if (response && response.id) {
-                var songIds = this.get('items').map(function(playlistItem) {
-                  return playlistItem.get('song').get('id');
+                var videoIds = this.get('items').map(function(playlistItem) {
+                  return playlistItem.get('video').get('id');
                 });
 
                 YouTubeV3API.insertPlaylistItems({
                   playlistId: response.id,
                   authToken: authToken,
-                  songIds: songIds,
+                  videoIds: videoIds,
                   success: function() {
-                    console.log('success');
                     StreamusBG.channels.notification.commands.trigger('show:notification', {
                       message: this.get('title') + ' exported to YouTube successfully'
                     });
@@ -146,22 +145,22 @@ define(function(require) {
       }.bind(this));
     },
 
-    _onGetPlaylistSongsSuccess: function(response) {
+    _onGetPlaylistVideosSuccess: function(response) {
       // Periodicially send bursts of packets to the server and trigger visual update.
-      this.get('items').addSongs(response.songs, {
-        success: this._onAddSongsByDataSourceSuccess.bind(this, response.nextPageToken)
+      this.get('items').addVideos(response.videos, {
+        success: this._onAddVideosByDataSourceSuccess.bind(this, response.nextPageToken)
       });
     },
 
-    _onAddSongsByDataSourceSuccess: function(nextPageToken) {
+    _onAddVideosByDataSourceSuccess: function(nextPageToken) {
       if (_.isUndefined(nextPageToken)) {
         this.set('dataSourceLoaded', true);
       } else {
         // Request next batch of data by iteration once addItems has succeeded.
-        YouTubeV3API.getPlaylistSongs({
+        YouTubeV3API.getPlaylistVideos({
           playlistId: this.get('dataSource').get('entityId'),
           pageToken: nextPageToken,
-          success: this._onGetPlaylistSongsSuccess.bind(this)
+          success: this._onGetPlaylistVideosSuccess.bind(this)
         });
       }
     },
@@ -191,34 +190,34 @@ define(function(require) {
 
     _setActivePlaylistListeners: function(active) {
       if (active) {
-        this.listenTo(StreamusBG.channels.activePlaylist.commands, 'save:song', this._saveSong);
+        this.listenTo(StreamusBG.channels.activePlaylist.commands, 'save:video', this._saveVideo);
       } else {
         this.stopListening(StreamusBG.channels.activePlaylist.commands);
       }
     },
 
-    _saveSong: function(song) {
-      var duplicatesInfo = this.get('items').getDuplicatesInfo(song);
+    _saveVideo: function(video) {
+      var duplicatesInfo = this.get('items').getDuplicatesInfo(video);
 
       if (duplicatesInfo.allDuplicates) {
         StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
           title: duplicatesInfo.message
         });
       } else {
-        this.get('items').addSongs(song, {
-          success: this._onSaveSongsSuccess.bind(this, song),
-          error: this._onSaveSongsError.bind(this)
+        this.get('items').addVideos(video, {
+          success: this._onSaveVideosSuccess.bind(this, video),
+          error: this._onSaveVideosError.bind(this)
         });
       }
     },
 
-    _onSaveSongsSuccess: function(savedSong) {
+    _onSaveVideosSuccess: function(savedVideo) {
       StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
-        title: chrome.i18n.getMessage('songSavedToPlaylist', [savedSong.get('title'), this.get('title')])
+        title: chrome.i18n.getMessage('videoSavedToPlaylist', [savedVideo.get('title'), this.get('title')])
       });
     },
 
-    _onSaveSongsError: function() {
+    _onSaveVideosError: function() {
       StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
         title: chrome.i18n.getMessage('errorEncountered')
       });

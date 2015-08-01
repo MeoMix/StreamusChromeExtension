@@ -6,7 +6,7 @@
   var AdminMenuAreaTemplate = require('text!template/appBar/adminMenuArea.html');
   var SettingsIcon = require('text!template/icon/settingsIcon_24.svg');
 
-  var AdminMenuAreaView = Marionette.ItemView.extend({
+  var AdminMenuAreaView = Marionette.LayoutView.extend({
     id: 'adminMenuArea',
     template: _.template(AdminMenuAreaTemplate),
 
@@ -20,13 +20,13 @@
     },
 
     ui: {
-      menuButton: '[data-ui~=menuButton]',
-      menu: '[data-ui~=menu]',
-      settings: '[data-ui~=settings]',
-      openInTab: '[data-ui~=openInTab]',
-      keyboardShortcuts: '[data-ui~=keyboardShortcuts]',
-      aboutStreamus: '[data-ui~=aboutStreamus]',
-      restart: '[data-ui~=reload]'
+      menuButton: 'menuButton',
+      menu: 'menu',
+      settings: 'settings',
+      openInTab: 'openInTab',
+      keyboardShortcuts: 'keyboardShortcuts',
+      aboutStreamus: 'aboutStreamus',
+      restart: 'reload'
     },
 
     events: {

@@ -6,7 +6,7 @@
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
   var ClearStreamButtonTemplate = require('text!template/stream/clearStreamButton.html');
 
-  var ClearStreamButtonView = Marionette.ItemView.extend({
+  var ClearStreamButtonView = Marionette.LayoutView.extend({
     id: 'clearStreamButton',
     className: 'button button--flat',
     template: _.template(ClearStreamButtonTemplate),

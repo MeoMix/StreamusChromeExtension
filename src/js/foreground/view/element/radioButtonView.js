@@ -3,7 +3,7 @@
 
   var RadioButtonTemplate = require('text!template/element/radioButton.html');
 
-  var RadioButtonView = Marionette.ItemView.extend({
+  var RadioButtonView = Marionette.LayoutView.extend({
     tagName: 'radio-button',
     template: _.template(RadioButtonTemplate),
 

@@ -1,27 +1,27 @@
 ﻿define(function(require) {
   'use strict';
 
-  var Songs = require('background/collection/songs');
+  var Videos = require('background/collection/videos');
   var YouTubeAPIKey = require('background/key/youTubeAPIKey');
-  var SongType = require('background/enum/songType');
+  var VideoType = require('background/enum/videoType');
   var YouTubeServiceType = require('background/enum/youTubeServiceType');
   var Utility = require('common/utility');
 
   var YouTubeV3API = Backbone.Model.extend({
     // Performs a search and then grabs the first item and returns its title
     // Expects options: { title: string, success: function, error: function }
-    getSongByTitle: function(options) {
+    getVideoByTitle: function(options) {
       return this.search({
         text: options.title,
-        // Expect to find a playable song within the first 10 -- don't need the default 50 items
+        // Expect to find a playable video within the first 10 -- don't need the default 50 items
         maxResults: 10,
         success: function(searchResponse) {
-          if (searchResponse.songs.length === 0) {
+          if (searchResponse.videos.length === 0) {
             if (options.error) {
-              options.error(chrome.i18n.getMessage('failedToFindSong'));
+              options.error(chrome.i18n.getMessage('failedToFindVideo'));
             }
           } else {
-            options.success(searchResponse.songs.first());
+            options.success(searchResponse.videos.first());
           }
         },
         error: options.error,
@@ -29,22 +29,22 @@
       });
     },
 
-    // Performs a search of YouTube with the provided text and returns a list of playable songs (<= max-results)
+    // Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
     // Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
     search: function(options) {
       var activeJqXHR = this._doRequest(YouTubeServiceType.Search, {
         success: function(response) {
-          var songIds = _.map(response.items, function(item) {
+          var videoIds = _.map(response.items, function(item) {
             return item.id.videoId;
           });
 
-          activeJqXHR = this.getSongs({
-            songIds: songIds,
-            success: function(songs) {
+          activeJqXHR = this.getVideos({
+            videoIds: videoIds,
+            success: function(videos) {
               activeJqXHR = null;
 
               options.success({
-                songs: songs,
+                videos: videos,
                 nextPageToken: response.nextPageToken,
               });
             },
@@ -67,7 +67,7 @@
         pageToken: options.pageToken || '',
         q: options.text.trim(),
         fields: 'nextPageToken, items/id/videoId',
-        // I don't think it's a good idea to filter out results based on safeSearch for music.
+        // I don't think it's a good idea to filter out results based on safeSearch for videos.
         safeSearch: 'none',
         videoEmbeddable: 'true'
       });
@@ -104,14 +104,14 @@
       }, listOptions);
     },
 
-    getSong: function(options) {
-      return this.getSongs({
-        songIds: [options.songId],
-        success: function(songs) {
-          if (songs.length === 0) {
-            options.error(chrome.i18n.getMessage('failedToFindSong') + ' ' + options.songId);
+    getVideo: function(options) {
+      return this.getVideos({
+        videoIds: [options.videoId],
+        success: function(videos) {
+          if (videos.length === 0) {
+            options.error(chrome.i18n.getMessage('failedToFindVideo') + ' ' + options.videoId);
           } else {
-            options.success(songs.first());
+            options.success(videos.first());
           }
         },
         error: options.error,
@@ -120,20 +120,20 @@
     },
 
     // Returns the results of a request for a segment of a channel, playlist, or other dataSource.
-    getPlaylistSongs: function(options) {
+    getPlaylistVideos: function(options) {
       var activeJqXHR = this._doRequest(YouTubeServiceType.PlaylistItems, {
         success: function(response) {
-          var songIds = _.map(response.items, function(item) {
+          var videoIds = _.map(response.items, function(item) {
             return item.contentDetails.videoId;
           });
 
-          activeJqXHR = this.getSongs({
-            songIds: songIds,
-            success: function(songs) {
+          activeJqXHR = this.getVideos({
+            videoIds: videoIds,
+            success: function(videos) {
               activeJqXHR = null;
 
               options.success({
-                songs: songs,
+                videos: videos,
                 nextPageToken: response.nextPageToken,
               });
             },
@@ -167,23 +167,23 @@
       };
     },
 
-    getRelatedSongs: function(options) {
+    getRelatedVideos: function(options) {
       var activeJqXHR = this._doRequest(YouTubeServiceType.Search, {
         success: function(response) {
-          // It is possible to receive no response if a song was removed from YouTube but is still known to StreamusBG.
+          // It is possible to receive no response if a video was removed from YouTube but is still known to StreamusBG.
           if (!response) {
             throw new Error('No response for: ' + JSON.stringify(options));
           }
 
-          var songIds = _.map(response.items, function(item) {
+          var videoIds = _.map(response.items, function(item) {
             return item.id.videoId;
           });
 
-          activeJqXHR = this.getSongs({
-            songIds: songIds,
-            success: function(songs) {
+          activeJqXHR = this.getVideos({
+            videoIds: videoIds,
+            success: function(videos) {
               activeJqXHR = null;
-              options.success(songs);
+              options.success(videos);
             },
             error: options.error,
             complete: options.complete
@@ -199,7 +199,7 @@
         }
       }, {
         part: 'id',
-        relatedToVideoId: options.songId,
+        relatedToVideoId: options.videoId,
         maxResults: options.maxResults || 5,
         // If the relatedToVideoId parameter has been supplied, type must be video.
         type: 'video',
@@ -217,8 +217,8 @@
       };
     },
 
-    // Converts a list of YouTube song ids into actual video information by querying YouTube with the list of ids.
-    getSongs: function(options) {
+    // Converts a list of YouTube video ids into actual video information by querying YouTube with the list of ids.
+    getVideos: function(options) {
       return this._doRequest(YouTubeServiceType.Videos, {
         success: function(response) {
           if (_.isUndefined(response)) {
@@ -230,16 +230,16 @@
 
           if (_.isUndefined(response.items)) {
             if (options.error) {
-              var isSingleSong = options.songIds.length === 1;
-              var errorMessage = chrome.i18n.getMessage(isSingleSong ? 'failedToFindSong' : 'failedToFindSongs');
+              var isSingleVideo = options.videoIds.length === 1;
+              var errorMessage = chrome.i18n.getMessage(isSingleVideo ? 'failedToFindVideo' : 'failedToFindVideos');
               options.error(errorMessage);
             }
           } else {
             var playableItems = _.filter(response.items, function(item) {
-              // Filter out songs are not able to be embedded since they are unable to be played in StreamusBG.
+              // Filter out videos are not able to be embedded since they are unable to be played in StreamusBG.
               var isEmbeddable = item.status.embeddable;
 
-              // Songs with 0s duration are unable to be played and YouTube's API
+              // Videos with 0s duration are unable to be played and YouTube's API
               // sometimes responds (incorrectly) with PT0S.
               // https://code.google.com/p/gdata-issues/issues/detail?id=7172
               var hasValidDuration = item.contentDetails.duration !== 'PT0S';
@@ -247,15 +247,15 @@
               return isEmbeddable && hasValidDuration;
             });
 
-            var songs = this._itemListToSongs(playableItems);
-            options.success(songs);
+            var videos = this._itemListToVideos(playableItems);
+            options.success(videos);
           }
         }.bind(this),
         error: options.error,
         complete: options.complete
       }, {
         part: 'contentDetails, snippet, status',
-        id: options.songIds.join(','),
+        id: options.videoIds.join(','),
         fields: 'items/id, items/contentDetails/duration, items/snippet/title, items/snippet/channelTitle, items/status/embeddable'
       });
     },
@@ -292,23 +292,22 @@
     },
 
     insertPlaylistItems: function(options) {
-      if (options.songIds.length > 0) {
-        var songId = options.songIds.shift();
+      if (options.videoIds.length > 0) {
+        var videoId = options.videoIds.shift();
 
         return this._doInsertRequest(YouTubeServiceType.PlaylistItems, options.authToken, {
-          // TODO: Tricky to report songs which failed to insert.
+          // TODO: Tricky to report videos which failed to insert.
           complete: this.insertPlaylistItems.bind(this, options)
         }, {
           snippet: {
             playlistId: options.playlistId,
             resourceId: {
               kind: 'youtube#video',
-              videoId: songId
+              videoId: videoId
             }
           }
         });
       } else {
-        console.log('complete');
         if (options.success) {
           options.success();
         }
@@ -342,14 +341,14 @@
       }, ajaxOptions));
     },
 
-    _itemListToSongs: function(itemList) {
-      return new Songs(_.map(itemList, function(item) {
+    _itemListToVideos: function(itemList) {
+      return new Videos(_.map(itemList, function(item) {
         return {
           id: item.id,
           duration: Utility.iso8061DurationToSeconds(item.contentDetails.duration),
           title: item.snippet.title,
           author: item.snippet.channelTitle,
-          type: SongType.YouTube
+          type: VideoType.YouTube
         };
       }));
     }

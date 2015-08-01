@@ -2,12 +2,12 @@
   'use strict';
 
   var ListItemButton = require('foreground/view/behavior/listItemButton');
-  var PlayPauseSongButtonTemplate = require('text!template/listItemButton/playPauseSongButton.html');
+  var PlayPauseVideoButtonTemplate = require('text!template/listItemButton/playPauseVideoButton.html');
   var PlayIconTemplate = require('text!template/icon/playIcon_18.svg');
   var PauseIconTemplate = require('text!template/icon/pauseIcon_18.svg');
 
-  var PlayPauseSongButtonView = Marionette.ItemView.extend({
-    template: _.template(PlayPauseSongButtonTemplate),
+  var PlayPauseVideoButtonView = Marionette.LayoutView.extend({
+    template: _.template(PlayPauseVideoButtonTemplate),
     templateHelpers: {
       playIcon: _.template(PlayIconTemplate)(),
       pauseIcon: _.template(PauseIconTemplate)()
@@ -18,8 +18,8 @@
     },
 
     ui: {
-      playIcon: '[data-ui~=playIcon]',
-      pauseIcon: '[data-ui~=pauseIcon]'
+      playIcon: 'playIcon',
+      pauseIcon: 'pauseIcon'
     },
 
     behaviors: {
@@ -30,12 +30,12 @@
 
     streamItems: null,
     player: null,
-    song: null,
+    video: null,
 
     initialize: function(options) {
       this.streamItems = options.streamItems;
       this.player = options.player;
-      this.song = options.song;
+      this.video = options.video;
       this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
       this.listenTo(this.streamItems, 'change:active', this._onStreamItemsChangeActive);
     },
@@ -50,7 +50,7 @@
       if (isPausable) {
         this.player.pause();
       } else {
-        this._playSong();
+        this._playVideo();
       }
     },
 
@@ -69,21 +69,21 @@
     },
 
     _isPausable: function() {
-      var activeSongId = this.streamItems.getActiveSongId();
-      // The pause icon is visible only if the player is playing/buffering and the song is this song's song.
-      var songId = this.song.get('id');
+      var activeVideoId = this.streamItems.getActiveVideoId();
+      // The pause icon is visible only if the player is playing/buffering and the video is this video's video.
+      var videoId = this.video.get('id');
       var isPlayerPausable = this.player.isPausable();
-      var isPausable = activeSongId === songId && isPlayerPausable;
+      var isPausable = activeVideoId === videoId && isPlayerPausable;
 
       return isPausable;
     },
 
-    _playSong: function() {
-      // If there's only one song to be played - check if it's already in the stream.
-      var streamItem = this.streamItems.getBySongId(this.song.get('id'));
+    _playVideo: function() {
+      // If there's only one video to be played - check if it's already in the stream.
+      var streamItem = this.streamItems.getByVideoId(this.video.get('id'));
 
       if (_.isUndefined(streamItem)) {
-        this.streamItems.addSongs(this.song, {
+        this.streamItems.addVideos(this.video, {
           playOnAdd: true
         });
       } else {
@@ -101,5 +101,5 @@
     }
   });
 
-  return PlayPauseSongButtonView;
+  return PlayPauseVideoButtonView;
 });

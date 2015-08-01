@@ -9,6 +9,9 @@
   require('backbone.localStorage');
   require('jquery-ui');
 
+  require('common/shim/backbone.marionette.view.shim');
+  require('common/shim/backbone.marionette.region.shim');
+
   // Finally, load the application which will initialize the foreground:
   require(['foreground/application'], function(Application) {
     var backgroundPage = chrome.extension.getBackgroundPage();

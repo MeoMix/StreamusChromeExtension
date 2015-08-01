@@ -17,8 +17,8 @@
     },
 
     ui: {
-      title: '[data-ui~=title]',
-      titleCharacterCount: '[data-ui~=title-characterCount]'
+      title: 'title',
+      titleCharacterCount: 'title-characterCount'
     },
 
     events: {

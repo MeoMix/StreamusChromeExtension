@@ -1,5 +1,5 @@
 <h1 align="center">Streamus</h1>
-<p align="center">The most popular Chrome extension YouTube music player.</p>
+<p align="center">The most popular Chrome extension YouTube video player.</p>
 <p align="center">
   <a title='Build Status' href="https://travis-ci.org/MeoMix/StreamusChromeExtension">
     <img src='https://travis-ci.org/MeoMix/StreamusChromeExtension.svg?branch=Development' />

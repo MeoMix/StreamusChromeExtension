@@ -3,7 +3,7 @@
 
   var ListItemButton = require('foreground/model/listItemButton/listItemButton');
 
-  var ListItemButtonsView = Marionette.ItemView.extend({
+  var ListItemButtonsView = Marionette.LayoutView.extend({
     className: 'listItem-buttons',
     template: false,
     buttonViewOptions: null,

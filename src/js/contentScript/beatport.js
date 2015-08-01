@@ -33,9 +33,9 @@
       });
     }
 
-    // Take a given track element and parse its children for information needed to query YouTube for corresponding song.
+    // Take a given track element and parse its children for information needed to query YouTube for corresponding video.
     this.getQueryFromTrack = function(track) {
-      // Figure out the information needed to find a song on YouTube.
+      // Figure out the information needed to find a video on YouTube.
       // Query will look like "primaryTitle remix artist1 artist2"
       var primaryTitle = track.querySelector('[class*=track-primary-title]').textContent;
       var remix = track.querySelector('[class*=track-remixed]').textContent;
@@ -47,7 +47,7 @@
       }
 
       var query = primaryTitle;
-      // Original Mix can mess up YouTube queries since songs won't always have that value.
+      // Original Mix can mess up YouTube queries since videos won't always have that value.
       if (remix !== 'Original Mix') {
         query = ' ' + remix;
       }

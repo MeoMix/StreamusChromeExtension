@@ -11,7 +11,7 @@
     template: _.template(ActivePaneTemplate),
 
     regions: {
-      content: '[data-region=content]'
+      content: 'content'
     },
 
     streamItems: null,

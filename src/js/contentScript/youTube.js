@@ -45,24 +45,24 @@
       playlistSelect.classList.add('yt-uix-form-input-text');
       sharePanelPlaylistSelect.appendChild(playlistSelect);
 
-      var addSongButton = document.createElement('button');
-      addSongButton.id = 'streamus-addSongButton';
-      addSongButton.classList.add('yt-uix-button', 'yt-uix-button-size-default', 'yt-uix-button-primary');
-      addSongButton.innerHTML = chrome.i18n.getMessage('addSong');
-      addSongButton.onclick = function() {
+      var addVideoButton = document.createElement('button');
+      addVideoButton.id = 'streamus-addVideoButton';
+      addVideoButton.classList.add('yt-uix-button', 'yt-uix-button-size-default', 'yt-uix-button-primary');
+      addVideoButton.innerHTML = chrome.i18n.getMessage('addVideo');
+      addVideoButton.onclick = function() {
         this.innerHTML = chrome.i18n.getMessage('saving');
         this.setAttribute('disabled', 'disabled');
 
         chrome.runtime.sendMessage({
-          method: 'addSongByUrlToPlaylist',
+          method: 'addVideoByUrlToPlaylist',
           playlistId: playlistSelect.options[playlistSelect.selectedIndex].value,
           url: window.location.href
         }, function() {
           this.removeAttribute('disabled');
-          this.innerHTML = chrome.i18n.getMessage('addSong');
+          this.innerHTML = chrome.i18n.getMessage('addVideo');
         }.bind(this));
       };
-      sharePanelPlaylistSelect.appendChild(addSongButton);
+      sharePanelPlaylistSelect.appendChild(addVideoButton);
 
       sharePanel.appendChild(sharePanelPlaylistSelect);
     }.bind(this);

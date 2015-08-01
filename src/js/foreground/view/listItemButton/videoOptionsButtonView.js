@@ -2,11 +2,11 @@
   'use strict';
 
   var ListItemButton = require('foreground/view/behavior/listItemButton');
-  var SongActions = require('foreground/model/song/songActions');
+  var VideoActions = require('foreground/model/video/videoActions');
   var OptionsListItemButtonTemplate = require('text!template/listItemButton/optionsListItemButton.html');
   var OptionsIconTemplate = require('text!template/icon/optionsIcon_18.svg');
 
-  var SongOptionsButtonView = Marionette.ItemView.extend({
+  var VideoOptionsButtonView = Marionette.LayoutView.extend({
     template: _.template(OptionsListItemButtonTemplate),
     templateHelpers: {
       optionsIcon: _.template(OptionsIconTemplate)()
@@ -22,20 +22,20 @@
       }
     },
 
-    song: null,
+    video: null,
     player: null,
 
     initialize: function(options) {
-      this.song = options.song;
+      this.video = options.video;
       this.player = options.player;
     },
 
     onClick: function() {
       var offset = this.$el.offset();
-      var songActions = new SongActions();
-      songActions.showContextMenu(this.song, offset.top, offset.left, this.player);
+      var videoActions = new VideoActions();
+      videoActions.showContextMenu(this.video, offset.top, offset.left, this.player);
     }
   });
 
-  return SongOptionsButtonView;
+  return VideoOptionsButtonView;
 });

@@ -2,7 +2,6 @@
   'use strict';
 
   var EditPlaylistDialogView = require('foreground/view/dialog/editPlaylistDialogView');
-  var TestUtility = require('test/testUtility');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
   describe('EditPlaylistDialogView', function() {

@@ -30,13 +30,13 @@
     }, 100, true),
 
     _onChromeCommandsCommand: function(command) {
-      if (command === ChromeCommand.ToggleSong) {
+      if (command === ChromeCommand.ToggleVideo) {
         var didTogglePlayerState = this.tryTogglePlayerState();
 
         if (!didTogglePlayerState) {
           StreamusBG.channels.notification.commands.trigger('show:notification', {
             title: chrome.i18n.getMessage('keyboardCommandFailure'),
-            message: chrome.i18n.getMessage('cantToggleSong')
+            message: chrome.i18n.getMessage('cantToggleVideo')
           });
         }
       }

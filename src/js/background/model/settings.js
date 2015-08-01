@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var SongQuality = require('common/enum/songQuality');
+  var VideoQuality = require('common/enum/videoQuality');
   var DesktopNotificationDuration = require('common/enum/desktopNotificationDuration');
   var SyncActionType = require('background/enum/syncActionType');
   var LayoutType = require('common/enum/layoutType');
@@ -12,7 +12,7 @@
     defaults: {
       // Need to set the ID for Backbone.LocalStorage
       id: 'Settings',
-      songQuality: SongQuality.Auto,
+      videoQuality: VideoQuality.Auto,
       remindClearStream: true,
       remindDeletePlaylist: true,
       remindLinkUserId: true,

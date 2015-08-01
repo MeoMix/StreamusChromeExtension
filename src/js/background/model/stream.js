@@ -2,7 +2,7 @@
   'use strict';
 
   var StreamItems = require('background/collection/streamItems');
-  var RelatedSongsManager = require('background/model/relatedSongsManager');
+  var RelatedVideosManager = require('background/model/relatedVideosManager');
   var PlayerState = require('common/enum/playerState');
   var RepeatButtonState = require('common/enum/repeatButtonState');
 
@@ -15,7 +15,7 @@
         id: 'Stream',
         items: new StreamItems(),
         activeItem: null,
-        relatedSongsManager: new RelatedSongsManager(),
+        relatedVideosManager: new RelatedVideosManager(),
         history: [],
         player: null,
         shuffleButton: null,
@@ -43,12 +43,12 @@
       var activeItem = this.get('items').getActiveItem();
       if (!_.isUndefined(activeItem)) {
         this.set('activeItem', activeItem);
-        this.get('player').activateSong(activeItem.get('song'));
+        this.get('player').activateVideo(activeItem.get('video'));
       }
 
       // Ensure that localStorage data is valid
       this.get('items').each(function(streamItem) {
-        this._ensureHasRelatedSongs(streamItem);
+        this._ensureHasRelatedVideos(streamItem);
       }, this);
     },
 
@@ -63,14 +63,14 @@
       var items = this.get('items');
       var currentActiveItem = items.getActiveItem();
 
-      // If removedActiveItemIndex is provided, RepeatSong doesn't matter because the song was deleted.
-      if (_.isUndefined(removedActiveItemIndex) && repeatButtonState === RepeatButtonState.RepeatSong) {
+      // If removedActiveItemIndex is provided, RepeatVideo doesn't matter because the video was deleted.
+      if (_.isUndefined(removedActiveItemIndex) && repeatButtonState === RepeatButtonState.RepeatVideo) {
         nextItem = currentActiveItem;
         nextItem.trigger('change:active', nextItem, true);
       } else if (shuffleEnabled) {
         var eligibleItems = items.getNotPlayedRecently();
 
-        // All songs will be played recently if there's only one item because it just finished playing.
+        // All videos will be played recently if there's only one item because it just finished playing.
         if (eligibleItems.length > 0) {
           nextItem = _.sample(eligibleItems);
           nextItem.save({active: true});
@@ -101,17 +101,17 @@
               nextItem.save({active: true});
             }
           } else if (radioEnabled) {
-            var randomRelatedSong = items.getRandomRelatedSong();
+            var randomRelatedVideo = items.getRandomRelatedVideo();
 
-            var addedSongs = items.addSongs(randomRelatedSong, {
+            var addedVideos = items.addVideos(randomRelatedVideo, {
               // Mark as active after adding it to deselect other active items and ensure it is visible visually.
               markFirstActive: true
             });
 
-            nextItem = addedSongs[0];
+            nextItem = addedVideos[0];
           } else if (!_.isUndefined(removedActiveItemIndex)) {
             // Pause on the last active item if there's nothing to skip to during a delete.
-            // Apply after checking 'radioEnabled' because it's OK to skip to new 'radio' song during delete.
+            // Apply after checking 'radioEnabled' because it's OK to skip to new 'radio' video during delete.
             items.last().save({active: true});
             this.get('player').pause();
           } else {
@@ -144,7 +144,7 @@
     activatePrevious: function() {
       var previousStreamItem = this.getPrevious();
 
-      // Repeated songs are already active. Trigger a 'change:active' event to keep the UI up-to-date.
+      // Repeated videos are already active. Trigger a 'change:active' event to keep the UI up-to-date.
       if (previousStreamItem.get('active')) {
         previousStreamItem.trigger('change:active', previousStreamItem, true);
       } else {
@@ -173,11 +173,11 @@
         var shuffleEnabled = this.get('shuffleButton').get('enabled');
         var repeatButtonState = this.get('repeatButton').get('state');
 
-        if (repeatButtonState === RepeatButtonState.RepeatSong) {
-          // If repeating a single song just return whichever song is already currently active.
+        if (repeatButtonState === RepeatButtonState.RepeatVideo) {
+          // If repeating a single video just return whichever video is already currently active.
           previousStreamItem = items.getActiveItem() || null;
         } else if (shuffleEnabled) {
-          // If shuffle is enabled and there's nothing in history -- grab a random song which hasn't been played recently.
+          // If shuffle is enabled and there's nothing in history -- grab a random video which hasn't been played recently.
           previousStreamItem = _.sample(items.getNotPlayedRecently()) || null;
         } else {
           // Activate the previous item by index. Potentially loop around to the back.
@@ -197,16 +197,16 @@
       /* jshint ignore:end */
     },
 
-    // A StreamItem's related song information is used when radio mode is enabled to allow users to discover new music.
+    // A StreamItem's related video information is used when radio mode is enabled to allow users to discover new videos.
     _onItemsAdd: function(model) {
-      this._ensureHasRelatedSongs(model);
+      this._ensureHasRelatedVideos(model);
     },
 
-    _onGetRelatedSongsSuccess: function(model, relatedSongs) {
+    _onGetRelatedVideosSuccess: function(model, relatedVideos) {
       // The model could have been removed from the collection while the request was still in flight.
       // If this happened, just discard the data instead of trying to update the model.
       if (this.get('items').get(model)) {
-        model.get('relatedSongs').reset(relatedSongs.models);
+        model.get('relatedVideos').reset(relatedVideos.models);
         model.save();
       }
     },
@@ -248,11 +248,11 @@
     _onPlayerChangeState: function(model, state) {
       // It's important to ensure that the Stream is still in a valid state when the player change's state
       // because the player's methods are asynchronous.
-      // The user could've removed a song from the stream after the player emitted an event.
+      // The user could've removed a video from the stream after the player emitted an event.
       if (!this.get('items').isEmpty()) {
         var previousState = this.get('player').get('previousState');
-        // YouTube triggers an 'Ended' event when seeking to the end of a song.
-        // Skipping to the next song when not playing is undesired.
+        // YouTube triggers an 'Ended' event when seeking to the end of a video.
+        // Skipping to the next video when not playing is undesired.
         var wasPlaying = previousState === PlayerState.Playing || previousState === PlayerState.Buffering;
 
         if (state === PlayerState.Ended && wasPlaying) {
@@ -277,7 +277,7 @@
     },
 
     _loadActiveItem: function(activeItem) {
-      this.get('player').activateSong(activeItem.get('song'));
+      this.get('player').activateVideo(activeItem.get('video'));
     },
 
     _cleanupOnItemsEmpty: function() {
@@ -285,14 +285,14 @@
       this.get('player').stop();
     },
 
-    // Items fetched from localStorage may not have their relatedSongs loaded.
+    // Items fetched from localStorage may not have their relatedVideos loaded.
     // This can happen for various reasons: The JSON in localStorage is out of date,
-    // an XHR to YouTube failed, etc. So, try loading relatedSongs if missing.
-    _ensureHasRelatedSongs: function(streamItem) {
-      if (streamItem.get('relatedSongs').length === 0) {
-        this.get('relatedSongsManager').getRelatedSongs({
-          songId: streamItem.get('song').get('id'),
-          success: this._onGetRelatedSongsSuccess.bind(this, streamItem)
+    // an XHR to YouTube failed, etc. So, try loading relatedVideos if missing.
+    _ensureHasRelatedVideos: function(streamItem) {
+      if (streamItem.get('relatedVideos').length === 0) {
+        this.get('relatedVideosManager').getRelatedVideos({
+          videoId: streamItem.get('video').get('id'),
+          success: this._onGetRelatedVideosSuccess.bind(this, streamItem)
         });
       }
     }

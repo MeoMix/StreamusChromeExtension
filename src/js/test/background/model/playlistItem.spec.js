@@ -2,29 +2,28 @@
   'use strict';
 
   var PlaylistItem = require('background/model/playlistItem');
-  var TestUtility = require('test/testUtility');
 
   describe('PlaylistItem', function() {
-    it('Should set its title properly when being created with a Song object', function() {
-      var song = TestUtility.buildSong();
+    it('Should set its title properly when being created with a Video object', function() {
+      var video = TestUtility.buildVideo();
 
       var playlistItem = new PlaylistItem({
-        title: song.get('title'),
-        song: song
+        title: video.get('title'),
+        video: video
       });
 
-      expect(playlistItem.get('title')).to.equal(song.get('title'));
+      expect(playlistItem.get('title')).to.equal(video.get('title'));
     });
 
-    it('Should set its title properly when being created with raw Song data', function() {
-      var song = TestUtility.getRawSong();
+    it('Should set its title properly when being created with raw Video data', function() {
+      var video = TestUtility.getRawVideo();
 
       var playlistItem = new PlaylistItem({
-        title: song.title,
-        song: song
+        title: video.title,
+        video: video
       });
 
-      expect(playlistItem.get('title')).to.equal(song.title);
+      expect(playlistItem.get('title')).to.equal(video.title);
     });
   });
 });

@@ -28,12 +28,12 @@
     return firstSelectedModel;
   },
 
-  // Returns an array of Song models underlying the selected models in the collection.
-  getSelectedSongs: function() {
+  // Returns an array of Video models underlying the selected models in the collection.
+  getSelectedVideos: function() {
     var selectedModels = this.getSelectedModels();
-    var selectedSongs = _.invoke(selectedModels, 'get', 'song');
+    var selectedVideos = _.invoke(selectedModels, 'get', 'video');
 
-    return selectedSongs;
+    return selectedVideos;
   },
 
   _onChangeSelected: function(model, selected) {

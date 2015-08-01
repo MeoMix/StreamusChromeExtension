@@ -13,13 +13,13 @@
     template: _.template(SimpleMenuTemplate),
 
     regions: {
-      simpleMenuItems: '[data-region=simpleMenuItems]',
-      fixedTopMenuItem: '[data-region=fixedTopMenuItem]',
-      fixedBottomMenuItem: '[data-region=fixedBottomMenuItem]'
+      simpleMenuItems: 'simpleMenuItems',
+      fixedTopMenuItem: 'fixedTopMenuItem',
+      fixedBottomMenuItem: 'fixedBottomMenuItem'
     },
 
     ui: {
-      panelContent: '[data-ui~=panelContent]'
+      panelContent: 'panelContent'
     },
 
     childEvents: {

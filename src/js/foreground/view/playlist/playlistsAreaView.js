@@ -14,14 +14,14 @@
     },
 
     regions: {
-      playlists: '[data-region=playlists]'
+      playlists: 'playlists'
     },
 
     ui: {
-      transitionable: '[data-ui~=transitionable]',
-      overlay: '[data-ui~=overlay]',
-      panel: '[data-ui~=panel]',
-      createPlaylistButton: '[data-ui~=createPlaylistButton]'
+      transitionable: 'transitionable',
+      overlay: 'overlay',
+      panel: 'panel',
+      createPlaylistButton: 'createPlaylistButton'
     },
 
     events: {

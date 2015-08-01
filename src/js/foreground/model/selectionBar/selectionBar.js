@@ -108,15 +108,15 @@
       var canAdd = !_.isNull(activeCollection);
 
       if (canAdd) {
-        var selectedSongs = activeCollection.getSelectedSongs();
-        var duplicatesInfo = this.get('streamItems').getDuplicatesInfo(selectedSongs);
+        var selectedVideos = activeCollection.getSelectedVideos();
+        var duplicatesInfo = this.get('streamItems').getDuplicatesInfo(selectedVideos);
         canAdd = !duplicatesInfo.allDuplicates;
       }
 
       this.set('canAdd', canAdd);
     },
 
-    // Keep track of which collection currently has selected songs by handling selection & deselection events.
+    // Keep track of which collection currently has selected videos by handling selection & deselection events.
     _setActiveCollection: function(collection, isSelecting) {
       var hasSelectedItems = collection.getSelectedModels().length > 0;
 
@@ -133,11 +133,11 @@
       }
     },
 
-    // Update the number of songs which are currently selected
+    // Update the number of videos which are currently selected
     _setSelectedCount: function() {
       var activeCollection = this.get('activeCollection');
-      var songCount = _.isNull(activeCollection) ? 0 : activeCollection.getSelectedModels().length;
-      this.set('selectedCount', songCount);
+      var videoCount = _.isNull(activeCollection) ? 0 : activeCollection.getSelectedModels().length;
+      this.set('selectedCount', videoCount);
     },
 
     // Bind or unbind entity events to a playlist's items.
