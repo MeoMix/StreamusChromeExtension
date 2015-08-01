@@ -53,7 +53,6 @@
     describe('when adding a video at an index', function() {
       it('should be able to successfully add a unique video', function() {
         var video = TestUtility.buildVideo();
-        debugger;
         var addedPlaylistItem = this.playlistItems._tryAddVideoAtIndex(video, 0);
         expect(addedPlaylistItem).not.to.equal(null);
         expect(this.playlistItems.length).to.equal(1);
