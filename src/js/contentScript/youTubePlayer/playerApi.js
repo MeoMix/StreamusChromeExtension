@@ -141,6 +141,8 @@
       }
     }.bind(this);
 
+    // If the player is initialized, seek to a point in time on the video.
+    // Otherwise, record the desired time so that it can be used once the player is initializing.
     this.seekTo = function(timeInSeconds) {
       if (this.isReady) {
         playerApi.seekTo(timeInSeconds);
@@ -150,6 +152,8 @@
       }
     }.bind(this);
 
+    // https://youtube.github.io/spfjs/
+    // Tell YouTube to navigate to another video via its URL
     this.navigate = function(urlString) {
       this.isNavigating = true;
       // Pause the video so that time doesn't tick + audio doesn't continue once navigation is happening.
@@ -160,13 +164,18 @@
       window.spf.navigate(urlString);
     }.bind(this);
 
+    // Receive messages from the sandboxed videoStreamView content script.
     this.onWindowMessage = function(message) {
-      if (message.data.navigate) {
-        this.navigate(message.data.navigate.urlString);
+      // Respond to navigation requests
+      var navigate = message.data.navigate;
+      if (navigate) {
+        this.navigate(navigate.urlString);
       }
 
+      // Respond to video command requests
       var videoCommand = message.data.videoCommand;
       if (videoCommand) {
+        // videoCommands have a 1:1 correspondence with functions defined within this script.
         var videoCommandHandler = this[videoCommand];
 
         if (videoCommandHandler) {
@@ -177,9 +186,12 @@
       }
     }.bind(this);
 
+    // YouTube will fire an 'spfdone' event once it has successfully navigated to a video.
+    // This event does not fire for the initial load of the first video. Only subsequent loads.
     this.onWindowSpfDone = function() {
       this.isNavigating = false;
 
+      // Can't tell YouTube's player to pause prematurely. Need to wait for navigation to finish.
       if (!videoOptions.playOnActivate) {
         playerApi.pauseVideo();
       }
@@ -198,6 +210,8 @@
         this.cuedVolumeCommands--;
       }
 
+      // Need to check document.hasFocus() to ensure that values aren't passed from Streamus to script back to Streamus.
+      // Only pass values to Streamus when originating from user actions on the YouTube window.
       if (this.cuedVolumeCommands === 0 && document.hasFocus()) {
         throttledWindowPostMessage(state);
       }
@@ -209,6 +223,7 @@
       });
     }.bind(this);
 
+    // Once YouTube's API is ready to handle commands - initialize the video player's state.
     this.onReady = function() {
       this.initialize();
     }.bind(this);
@@ -216,6 +231,7 @@
     this.initialize = function() {
       this.isReady = true;
 
+      // Configure various properties of the video so that it reflects desired state.
       if (!videoOptions.playOnActivate) {
         this.pauseVideo();
       }
@@ -231,6 +247,7 @@
       this.setPlaybackQuality(videoOptions.suggestedQuality);
 
       // Ensure that when a song ends it doesn't auto-nav to the next one.
+      // 1 is the enum used by YouTube for saying 'Autonav is disabled'
       playerApi.setAutonavState(1);
 
       throttledWindowPostMessage({
@@ -238,6 +255,8 @@
         muted: videoOptions.muted,
         // TODO: I worry this value might be incorrect if pauseVideo is still being processed.
         state: playerApi.getPlayerState(),
+        // Detect whether user is using new YouTube layout which can be enabled via https://www.youtube.com/testtube
+        // fexp is a list of enabled experimental features. One can check it to determine which features are enabled.
         isNewLayout: playerApi.getUpdatedConfigurationData().args.fexp.indexOf('9407675') !== -1
       });
     }.bind(this);
