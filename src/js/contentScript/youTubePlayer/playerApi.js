@@ -1,4 +1,6 @@
-﻿(function() {
+﻿// This file runs within the YouTube page's sandbox rather than Streamus' sandbox.
+// It has the ability to access variables on the page, but not Chrome APIs.
+(function() {
   'use strict';
 
   // Disable YouTube's player resizing logic: https://github.com/YePpHa/YouTubeCenter/issues/1844
@@ -9,19 +11,25 @@
   // By forcing canPlayType to return 'probably' YouTube will assume the browser supports HTML5 video.
   // This is necessary because other extensions and/or customer browsers mess with canPlayType and
   // prevent YouTube from loading HTML5.
-  HTMLMediaElement.prototype.canPlayType = function() { return 'probably'; };
+  HTMLMediaElement.prototype.canPlayType = function() {
+    return 'probably';
+  };
 
-  var PlayerAPIScript = function() {
-    // TODO: It would be nice to not have this duplicated from videoCommand.js, but I need to find a better way to inject it.
-    var VideoCommand = {
-      Play: 'play',
-      Pause: 'pause',
-      SetVolume: 'setVolume',
-      SetMuted: 'setMuted',
-      SetCurrentTime: 'setCurrentTime',
-      SetPlaybackQuality: 'setPlaybackQuality'
-    };
+  var PlayerAPI = function() {
+    this.isReady = false;
+    this.cuedVolumeCommands = 0;
+    this.isNavigating = false;
 
+    // TODO: This assumes that lodash has successfully loaded, but that seems like a race condition.
+    // window.postMessage has an internal throttling mechanism which can cause a lot of issues for accurate data reporting.
+    // For instance, if the volume is changing rapidly, incorrect volume values will leak out of postMessage.
+    // Using an explicit throttling mechanism results in much more anticipated behavior.
+    // 150 appears to be roughly the minimum possible throttle rate. 100 causes window.postMessage to throttle.
+    var throttledWindowPostMessage = _.throttle(function(message) {
+      window.postMessage(message, window.location.origin);
+    }, 150);
+
+    // TODO: I still need to be able to tell player what to do before it does anything without relying on the URL.
     var urlToVideoOptions = function(url) {
       var queryParameters = url.search.substr(1);
 
@@ -56,169 +64,203 @@
     };
 
     var videoOptions = urlToVideoOptions(window.location);
-
     var playerApi = window.yt.player.getPlayerByElement('player-api');
-    var apiIsReady = false;
-    var cuedVolumeCommands = 0;
 
-    // TODO: I need to check apiIsReady for all supported commands.
-    function setVolume(volume) {
-      if (apiIsReady) {
+    // If the player is initialized, set its volume to the given value.
+    // Otherwise, record the value so that it can be used once the player is initializing.
+    this.setVolume = function(volume) {
+      if (this.isReady) {
         var currentVolume = playerApi.getVolume();
 
         if (currentVolume !== volume) {
-          cuedVolumeCommands++;
+          this.cuedVolumeCommands++;
           playerApi.setVolume(volume);
         }
       } else {
         videoOptions.volume = volume;
       }
-    }
+    }.bind(this);
 
-    function setMuted(muted) {
-      if (apiIsReady) {
-        var currentMuted = playerApi.isMuted();
+    // If the player is initialized, mute it.
+    // Otherwise, record the muted state so that it can be used once the player is initializing.
+    this.mute = function() {
+      if (this.isReady) {
+        var isMuted = playerApi.isMuted();
 
-        if (currentMuted !== muted) {
-          cuedVolumeCommands++;
-
-          if (muted) {
-            playerApi.mute();
-          } else {
-            playerApi.unMute();
-          }
+        if (!isMuted) {
+          this.cuedVolumeCommands++;
+          playerApi.mute();
         }
       } else {
         videoOptions.muted = muted;
       }
-    }
+    }.bind(this);
 
-    function navigate(urlString) {
+    // If the player is initialized, unmute it.
+    // Otherwise, record the unmuted state so that it can be used once the player is initializing.
+    this.unMute = function() {
+      if (this.isReady) {
+        var isMuted = playerApi.isMuted();
+
+        if (isMuted) {
+          this.cuedVolumeCommands++;
+          playerApi.unMute();
+        }
+      } else {
+        videoOptions.muted = muted;
+      }
+    }.bind(this);
+
+    // If the player is initialized, set the video's playback quality.
+    // Otherwise, record the suggested quality so that it can be used once the player is initializing.
+    this.setPlaybackQuality = function(suggestedQuality) {
+      if (this.isReady) {
+        playerApi.setPlaybackQuality(suggestedQuality);
+      } else {
+        videoOptions.suggestedQuality = suggestedQuality;
+      }
+    }.bind(this);
+
+    // If the player is initialized, play its currently loaded video.
+    // Otherwise, record the desire to play so that it can be used once the player is initializing.
+    this.playVideo = function() {
+      if (this.isReady && !this.isNavigating) {
+        playerApi.playVideo();
+      } else {
+        videoOptions.playOnActivate = true;
+      }
+    }.bind(this);
+
+    // If the player is initialized, pause its currently loaded video.
+    // Otherwise, record the desire to pause so that it can be used once the player is initializing.
+    this.pauseVideo = function() {
+      if (this.isReady && !this.isNavigating) {
+        playerApi.pauseVideo();
+      } else {
+        videoOptions.playOnActivate = false;
+      }
+    }.bind(this);
+
+    this.seekTo = function(timeInSeconds) {
+      if (this.isReady) {
+        playerApi.seekTo(timeInSeconds);
+      } else {
+        // TODO: I need to either update the URL as well, or find a way to set startTime quickly.
+        videoOptions.startTime = timeInSeconds;
+      }
+    }.bind(this);
+
+    this.navigate = function(urlString) {
+      this.isNavigating = true;
       // Pause the video so that time doesn't tick + audio doesn't continue once navigation is happening.
       playerApi.pauseVideo();
 
       var url = new URL(urlString);
       videoOptions = urlToVideoOptions(url);
       window.spf.navigate(urlString);
-    }
+    }.bind(this);
 
-    function doVideoCommand(videoCommand, value) {
-      switch (videoCommand) {
-        case VideoCommand.SetPlaybackQuality:
-          playerApi.setPlaybackQuality(value);
-          break;
-        case VideoCommand.Play:
-          playerApi.playVideo();
-          break;
-        case VideoCommand.Pause:
-          playerApi.pauseVideo();
-          break;
-        case VideoCommand.SetVolume:
-          setVolume(value);
-          break;
-        case VideoCommand.SetMuted:
-          setMuted(value);
-          break;
-        case VideoCommand.SetCurrentTime:
-          playerApi.seekTo(value);
-          break;
-        default:
-          console.error('Unhandled command:', videoCommand);
-      }
-    }
-
-    // This file runs within the YouTube page's sandbox rather than Streamus' sandbox.
-    // It has the ability to access variables on the page, but not Chrome APIs.
-    window.addEventListener('message', function(message) {
-      if (!_.isUndefined(message.data.navigate)) {
-        navigate(message.data.navigate.urlString);
+    this.onWindowMessage = function(message) {
+      if (message.data.navigate) {
+        this.navigate(message.data.navigate.urlString);
       }
 
-      if (!_.isUndefined(message.data.videoCommand)) {
-        doVideoCommand(message.data.videoCommand, message.data.value);
-      }
-    });
+      var videoCommand = message.data.videoCommand;
+      if (videoCommand) {
+        var videoCommandHandler = this[videoCommand];
 
-    var announceApiReady = function() {
-      apiIsReady = true;
+        if (videoCommandHandler) {
+          videoCommandHandler(message.data.value);
+        } else {
+          console.error('Unexpected videoCommand:', videoCommand);
+        }
+      }
+    }.bind(this);
+
+    this.onWindowSpfDone = function() {
+      this.isNavigating = false;
 
       if (!videoOptions.playOnActivate) {
         playerApi.pauseVideo();
       }
+    }.bind(this);
 
-      setVolume(videoOptions.volume);
-      setMuted(videoOptions.muted);
+    this.onError = function(error) {
+      throttledWindowPostMessage({
+        error: error
+      });
+    }.bind(this);
 
-      playerApi.setPlaybackQuality(videoOptions.suggestedQuality);
-
-      // Ensure that when a song ends it doesn't auto-nav to the next one.
-      var autonavStateDisabled = 1;
-      playerApi.setAutonavState(autonavStateDisabled);
-
-      window.postMessage({
-        apiReady: true,
-        volume: videoOptions.volume,
-        muted: videoOptions.muted,
-        state: playerApi.getPlayerState(),
-        isNewLayout: playerApi.getUpdatedConfigurationData().args.fexp.indexOf('9407675') !== -1
-      }, '*');
-    };
-
-    var onPlayerApiReady = function() {
-      announceApiReady();
-      playerApi.removeEventListener(onPlayerApiReady);
-    };
-
-    if (playerApi.isReady()) {
-      announceApiReady();
-    } else {
-      playerApi.addEventListener('onReady', onPlayerApiReady);
-    }
-
-    // window.postMessage has an internal throttling mechanism which can cause a lot of issues for accurate data reporting.
-    // For instance, if the volume is changing rapidly, incorrect volume values will leak out of postMessage.
-    // Using an explicit throttling mechanism results in much more anticipated behavior.
-    // 150 appears to be roughly the minimum possible throttle rate. 100 causes window.postMessage to throttle.
-    var throttledWindowPostMessage = _.throttle(function(message) {
-      window.postMessage(message, '*');
-    }, 150);
-
-    playerApi.addEventListener('onStateChange', function(state) {
-      window.postMessage({
-        state: state
-      }, '*');
-    });
-
-    playerApi.addEventListener('onVolumeChange', function(state) {
+    this.onVolumeChange = function(state) {
       // It's important to keep track of cued commands because onVolumeChange is used for both muted and volume changes.
       // So, if volume and muted have both changed then the first 'onVolumeChange' event will contain an incorrect value.
-      if (cuedVolumeCommands > 0) {
-        cuedVolumeCommands--;
+      if (this.cuedVolumeCommands > 0) {
+        this.cuedVolumeCommands--;
       }
 
-      if (cuedVolumeCommands === 0) {
+      if (this.cuedVolumeCommands === 0 && document.hasFocus()) {
         throttledWindowPostMessage(state);
       }
-    });
+    }.bind(this);
 
-    playerApi.addEventListener('onError', function(error) {
-      window.postMessage({
-        error: error
-      }, '*');
-    });
+    this.onStateChange = function(state) {
+      throttledWindowPostMessage({
+        state: state
+      });
+    }.bind(this);
 
-    window.addEventListener('spfdone', function() {
+    this.onReady = function() {
+      this.initialize();
+    }.bind(this);
+
+    this.initialize = function() {
+      this.isReady = true;
+
       if (!videoOptions.playOnActivate) {
-        playerApi.pauseVideo();
+        this.pauseVideo();
       }
-    });
+
+      this.setVolume(videoOptions.volume);
+
+      if (videoOptions.muted) {
+        this.mute();
+      } else {
+        this.unMute();
+      }
+
+      this.setPlaybackQuality(videoOptions.suggestedQuality);
+
+      // Ensure that when a song ends it doesn't auto-nav to the next one.
+      playerApi.setAutonavState(1);
+
+      throttledWindowPostMessage({
+        volume: videoOptions.volume,
+        muted: videoOptions.muted,
+        // TODO: I worry this value might be incorrect if pauseVideo is still being processed.
+        state: playerApi.getPlayerState(),
+        isNewLayout: playerApi.getUpdatedConfigurationData().args.fexp.indexOf('9407675') !== -1
+      });
+    }.bind(this);
+
+    playerApi.addEventListener('onStateChange', this.onStateChange);
+    playerApi.addEventListener('onVolumeChange', this.onVolumeChange);
+    playerApi.addEventListener('onError', this.onError);
+
+    window.addEventListener('message', this.onWindowMessage);
+    window.addEventListener('spfdone', this.onWindowSpfDone);
+
+    if (playerApi.isReady()) {
+      this.initialize();
+    } else {
+      playerApi.addEventListener('onReady', this.onReady);
+    }
   };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
-      window.playerAPIScript = new PlayerAPIScript();
+      window.playerAPI = new PlayerAPI();
     });
   } else {
-    window.playerAPIScript = new PlayerAPIScript();
+    window.playerAPI = new PlayerAPI();
   }
 })();

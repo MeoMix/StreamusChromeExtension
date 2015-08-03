@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         jquery: true,
         maxparams: 5,
         maxdepth: 4,
-        maxstatements: 25,
+        maxstatements: 35,
         maxcomplexity: 10,
         //	Don't validate libraries
         ignores: ['src/js/lib/**/*.js']

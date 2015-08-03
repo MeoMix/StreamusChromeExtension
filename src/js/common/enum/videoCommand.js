@@ -1,8 +1,9 @@
 ﻿define({
-  Play: 'play',
-  Pause: 'pause',
+  PlayVideo: 'playVideo',
+  PauseVideo: 'pauseVideo',
   SetVolume: 'setVolume',
-  SetMuted: 'setMuted',
-  SetCurrentTime: 'setCurrentTime',
+  Mute: 'mute',
+  UnMute: 'unMute',
+  SeekTo: 'seekTo',
   SetPlaybackQuality: 'setPlaybackQuality'
 });

@@ -197,7 +197,13 @@ define(function(require) {
     },
 
     _onChangeMuted: function(model, muted) {
-      this.get('youTubePlayer').setMuted(muted);
+      var youTubePlayer = this.get('youTubePlayer');
+
+      if (muted) {
+        youTubePlayer.mute();
+      } else {
+        youTubePlayer.unMute();
+      }
     },
 
     _onChangeLoadedVideo: function(model, loadedVideo) {

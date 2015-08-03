@@ -40,14 +40,14 @@
     play: function(videoOptions) {
       // TODO: Maybe a race-condition here for a window which is opening.
       if (this.has('openWindow')) {
-        this._sendVideoCommand(VideoCommand.Play);
+        this._sendVideoCommand(VideoCommand.PlayVideo);
       } else {
         this._openWindow(videoOptions);
       }
     },
 
     pause: function() {
-      this._sendVideoCommand(VideoCommand.Pause);
+      this._sendVideoCommand(VideoCommand.PauseVideo);
     },
 
     stop: function() {
@@ -62,12 +62,16 @@
       this._sendVideoCommand(VideoCommand.SetVolume, volume);
     },
 
-    setMuted: function(muted) {
-      this._sendVideoCommand(VideoCommand.SetMuted, muted);
+    mute: function() {
+      this._sendVideoCommand(VideoCommand.Mute);
+    },
+
+    unMute: function() {
+      this._sendVideoCommand(VideoCommand.UnMute);
     },
 
     setCurrentTime: function(timeInSeconds) {
-      this._sendVideoCommand(VideoCommand.SetCurrentTime, timeInSeconds);
+      this._sendVideoCommand(VideoCommand.SeekTo, timeInSeconds);
     },
 
     _sendVideoCommand: function(commandName, value) {

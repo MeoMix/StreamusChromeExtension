@@ -6,7 +6,8 @@
       currentTime: 0,
       muted: false,
       volume: 50,
-      suggestedQuality: 'default'
+      suggestedQuality: 'default',
+      isSeeking: false
     }
   });
 

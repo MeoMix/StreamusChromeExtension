@@ -33,12 +33,14 @@
     },
 
     _onSeeking: function() {
+      this.model.set('isSeeking', true);
       Application.port.postMessage({
         videoSeeking: true
       });
     },
 
     _onSeeked: function() {
+      this.model.set('isSeeking', false);
       Application.port.postMessage({
         videoSeeking: false
       });
@@ -51,10 +53,15 @@
     },
 
     _onTimeUpdate: function() {
-      // TODO: Race condition where currentTime on player.js is set to 0, but video for navigate isn't paused so its time can update.
-      // Round currentTime to the nearest second to prevent flooding the port with unnecessary messages.
-      var currentTime = Math.floor(this.el.currentTime);
-      this.model.set('currentTime', currentTime);
+      // Skip updating the time during a 'seeking' event because Streamus UI will not update while player is seeking.
+      // If we respond to the initial 'seeking' event then currentTime might not change when seeking completes due to rounding.
+      // Guaranteed to get another timeUpdate event once seeking has completed.
+      if (!this.model.get('isSeeking')) {
+        // TODO: Race condition where currentTime on player.js is set to 0, but video for navigate isn't paused so its time can update.
+        // Round currentTime to the nearest second to prevent flooding the port with unnecessary messages.
+        var currentTime = Math.floor(this.el.currentTime);
+        this.model.set('currentTime', currentTime);
+      }
     },
 
     _onChangeCurrentTime: function(model, currentTime) {
@@ -93,7 +100,7 @@
 
     _onPortReceiveMessage: function(message) {
       if (message.videoCommand || message.navigate) {
-        window.postMessage(message, '*');
+        window.postMessage(message, window.location.origin);
       }
     },
 
