@@ -17,7 +17,6 @@
       remindDeletePlaylist: true,
       remindLinkUserId: true,
       remindGoogleSignIn: true,
-      remindShuttingDown: true,
       openInTab: false,
       layoutType: LayoutType.SplitPane,
       desktopNotificationsEnabled: true,
