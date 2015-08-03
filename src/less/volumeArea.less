@@ -1,4 +1,5 @@
-﻿@import "color";
+﻿@import "boxShadow";
+@import "color";
 @import "rangeInput";
 @import "transition";
 
@@ -58,6 +59,8 @@
         background-color: white;
         content: ' ';
         transform: rotate(45deg);
+        box-shadow: @boxShadow-elevation--low;
+        -webkit-clip-path: inset(0px 8px 8px 0px);
     }
 
     .rangeInput {

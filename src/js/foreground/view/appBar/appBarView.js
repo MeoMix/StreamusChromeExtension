@@ -5,7 +5,6 @@
   var AdminMenuAreaView = require('foreground/view/appBar/adminMenuAreaView');
   var ActivePaneFilterView = require('foreground/view/appBar/activePaneFilterView');
   var ActivePaneFilter = require('foreground/model/appBar/activePaneFilter');
-  var VolumeAreaView = require('foreground/view/appBar/volumeAreaView');
   var SearchInputAreaView = require('foreground/view/appBar/searchInputAreaView');
   var Tooltipable = require('foreground/view/behavior/tooltipable');
   var AppBarTemplate = require('text!template/appBar/appBar.html');
@@ -24,7 +23,6 @@
     },
 
     regions: {
-      volumeArea: 'volumeArea',
       adminMenuArea: 'adminMenuArea',
       activePaneFilter: 'activePaneFilter',
       searchInputArea: 'searchInputArea'
@@ -72,10 +70,6 @@
 
       this.showChildView('searchInputArea', new SearchInputAreaView({
         search: StreamusFG.backgroundProperties.search
-      }));
-
-      this.showChildView('volumeArea', new VolumeAreaView({
-        player: StreamusFG.backgroundProperties.player
       }));
 
       this.showChildView('adminMenuArea', new AdminMenuAreaView({

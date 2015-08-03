@@ -1,7 +1,7 @@
 define(function(require) {
   'use strict';
 
-  var VolumeAreaTemplate = require('text!template/appBar/volumeArea.html');
+  var VolumeAreaTemplate = require('text!template/streamControlBar/volumeArea.html');
   var VolumeUpIconTemplate = require('text!template/icon/volumeUpIcon_24.svg');
   var VolumeDownIconTemplate = require('text!template/icon/volumeDownIcon_24.svg');
   var VolumeOffIconTemplate = require('text!template/icon/volumeOffIcon_24.svg');
@@ -43,8 +43,6 @@ define(function(require) {
 
     initialize: function(options) {
       this.player = options.player;
-
-      //this._setVolume = _.throttleFramerate(requestAnimationFrame, this._setVolume.bind(this));
 
       this.listenTo(this.player, 'change:muted', this._onPlayerChangeMuted);
       this.listenTo(this.player, 'change:volume', this._onPlayerChangeVolume);
