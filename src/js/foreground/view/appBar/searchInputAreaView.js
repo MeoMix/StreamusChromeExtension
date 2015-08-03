@@ -1,6 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
+  var KeyCode = require('foreground/enum/keyCode');
   var SearchInputAreaTemplate = require('text!template/appBar/searchInputArea.html');
   var SearchIconTemplate = require('text!template/icon/searchIcon_24.svg');
   var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
@@ -28,6 +29,7 @@
 
     events: {
       'input @ui.searchInput': '_onInputSearchInput',
+      'keypress @ui.searchInput': '_onKeyPressSearchInput',
       'focus @ui.searchInput': '_onFocusSearchInput',
       'click @ui.searchButton': '_onClickSearchButton',
       'click @ui.clearSearchIcon': '_onClickClearSearchIcon'
@@ -56,6 +58,18 @@
     _onInputSearchInput: function() {
       var query = this.ui.searchInput.val();
       this._updateSearchQuery(query);
+    },
+
+    _onKeyPressSearchInput: function(event) {
+      var query = this.ui.searchInput.val();
+
+      // The search input is automatically focused on initial load. If the user presses space they
+      // expect the player to toggle its playback state, but instead they input into the search field.
+      // Override this behavior with what is expected.
+      if (event.keyCode === KeyCode.Space && query.trim().length === 0) {
+        event.preventDefault();
+        StreamusFG.channels.playPauseButton.commands.trigger('tryToggle:playerState');
+      }
     },
 
     _onClickSearchButton: function() {

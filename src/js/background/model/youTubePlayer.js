@@ -141,11 +141,14 @@
         type: 'popup',
         url: this._videoOptionsToUrl(videoOptions),
         height: 480,
-        width: 854
+        width: 854,
+        // Don't steal focus from Streamus when opening this window.
+        // Especially important because hitting 'space' can cause this window to appear due to toggling playback.
+        // Hitting space a second time should result in playback pausing, but that won't happen if this is focused.
+        focused: false
       }, this._onWindowCreated.bind(this));
     },
 
-    // TODO: Can this fail?
     // TODO: I can check createdWindow.type to see if a popup was created instead and notify.
     // TODO: Tab mode?
     _onWindowCreated: function(createdWindow) {
