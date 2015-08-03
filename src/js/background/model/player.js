@@ -22,11 +22,7 @@ define(function(require) {
         // Muted will be changed by YouTube's API if the API loads properly.
         muted: false,
         loadedVideo: null,
-        // Keep track of when the video was loaded so that if playback is attempted
-        // after it has expired then the video can be properly reloaded.
-        initialVideoLoadTime: 0,
-        // 4 hours in milliseconds. I believe YouTube's cache expires in ~5.5 hours.
-        maxVideoLoadTime: 14400000,
+        videoExpirationTime: 0,
         youTubePlayerPort: null,
         youTubePlayer: null
       };
@@ -165,7 +161,7 @@ define(function(require) {
         this.activateVideo(loadedVideo, this.get('currentTime'));
       }
 
-      this._setInitialVideoLoadTime(loadedVideo);
+      this._setVideoExpirationTime(loadedVideo);
     },
 
     isPausable: function() {
@@ -207,7 +203,7 @@ define(function(require) {
     },
 
     _onChangeLoadedVideo: function(model, loadedVideo) {
-      this._setInitialVideoLoadTime(loadedVideo);
+      this._setVideoExpirationTime(loadedVideo);
     },
 
     _onChromeRuntimeConnect: function(port) {
@@ -253,20 +249,23 @@ define(function(require) {
       this.set('playOnActivate', playOnActivate);
     },
 
-    // TODO: Just set a 'videoExpiration' property instead - much simpler.
     // YouTube videos can't be loaded forever. The server's cache will become invalid and
     // the video will fail to buffer. To work around this, reload the video when attempting to play it
     // if it has been loaded for an excessive amount of time.
     _getIsVideoExpired: function() {
-      var videoLoadTime = performance.now() - this.get('initialVideoLoadTime');
-      var isVideoExpired = videoLoadTime > this.get('maxVideoLoadTime');
+      var remainingTime = this.get('videoExpirationTime') - performance.now();
+      var isVideoExpired = remainingTime <= 0;
 
       return isVideoExpired;
     },
 
-    _setInitialVideoLoadTime: function(loadedVideo) {
-      var initialVideoLoadTime = _.isNull(loadedVideo) ? 0 : performance.now();
-      this.set('initialVideoLoadTime', initialVideoLoadTime);
+    // TODO: Move this to popup window potentially.
+    // Keep track of when the video was loaded so that if playback is attempted
+    // after it has expired then the video can be properly reloaded.
+    _setVideoExpirationTime: function(loadedVideo) {
+      var fourHoursInMilliseconds = 14400000;
+      var videoExpirationTime = _.isNull(loadedVideo) ? 0 : performance.now() + fourHoursInMilliseconds;
+      this.set('videoExpirationTime', videoExpirationTime);
     },
 
     _updateState: function(state) {
