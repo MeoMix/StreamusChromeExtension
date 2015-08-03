@@ -36,21 +36,23 @@
 @import "video";
 @import "volumeArea";
 
+html {
+    width: 100%;
+    height: 100%;
+}
+
 // Force UI to full size if Streamus has been loaded into a tab by detecting min-width/min-height greater than maximum extension width/height.
-@media (min-width:810px), (min-height:610px) {
+/*@media (min-width:810px), (min-height:610px) {
     html,
     body {
         width: 100% !important;
         height: 100% !important;
     }
-}
+}*/
 
 .foreground {
-    // Default dimensions of Streamus as a browser extension
-    /*width: 640px;
-    height: 480px;*/
-    width: 800px;
-    height: 600px;
+    /*width: 800px;
+    height: 600px;*/
     margin: 0;
     // Ensure that elements which are transformed outside the viewport don't cause overflow.
     overflow: hidden;
@@ -59,6 +61,16 @@
     text-rendering: optimizeLegibility;
     -webkit-user-select: none;
     color: @white;
+}
+
+.foreground.is-tab {
+    width: 100%;
+    height: 100%;
+}
+
+.foreground.is-popup {
+    width: 800px;
+    height: 600px;
 }
 
 .foregroundArea.is-clickingScrollbar {

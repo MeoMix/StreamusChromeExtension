@@ -33,6 +33,12 @@
 
     _onStart: function() {
       StreamusFG.backgroundChannels.foreground.vent.trigger('started');
+      chrome.tabs.getCurrent(this._onChromeTabsGetCurrent.bind(this));
+    },
+
+    // Flag body with a class indicating whether view is in popup or tab so that CSS can react.
+    _onChromeTabsGetCurrent: function(tab) {
+      $('body').addClass(_.isUndefined(tab) ? 'is-popup' : 'is-tab');
       this._showForegroundArea();
     },
 
