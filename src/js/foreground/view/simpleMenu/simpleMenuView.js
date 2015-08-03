@@ -112,8 +112,16 @@
     },
 
     _setPosition: function(positionData) {
+      // Prefer flipping, but if flipping won't fit in the viewport then settle for shifting.
       var offsetTop = utility.flipInvertOffset(positionData.top, this.$el.outerHeight(), positionData.containerHeight);
+      if (offsetTop < 0) {
+        offsetTop = utility.shiftOffset(positionData.top, this.$el.outerHeight(), positionData.containerHeight, 8);
+      }
+
       var offsetLeft = utility.flipInvertOffset(positionData.left, this.$el.outerWidth(), positionData.containerWidth);
+      if (offsetLeft < 0) {
+        offsetLeft = utility.shiftOffset(positionData.left, this.$el.outerWidth, positionData.containerWidth, 8);
+      }
 
       // Be sure to round the values because sub-pixel positioning of view can cause blur.
       offsetTop = Math.round(offsetTop);

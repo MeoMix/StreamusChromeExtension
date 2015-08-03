@@ -126,11 +126,11 @@
 
   // Determines if a given elementLength will fit inside of a containerLength.
   // If it overflows out of containerLength then shift it such that it does not overflow.
-  shiftOffset: function(offset, elementLength, containerLength, padding) {
-    //padding = padding || 10;
+  shiftOffset: function(offset, elementLength, containerLength, adjust) {
+    adjust = adjust || 0;
 
     var adjustedOffset = offset;
-    var overflow = offset + elementLength - containerLength;
+    var overflow = offset + elementLength - containerLength + adjust;
 
     // Shift the element based such that it stays within the container
     if (offset < 0) {
@@ -138,16 +138,6 @@
     } else if (overflow > 0) {
       adjustedOffset -= overflow;
     }
-
-    // If the element would be set to the top or left of the container, add some padding.
-    //if (adjustedOffset <= padding) {
-    //  return padding;
-    //}
-
-    // If the element would be set to the bottom or right of the container, add some padding.
-    //if (adjustedOffset + elementLength >= containerLength - padding) {
-    //  return containerLength - padding - elementLength;
-    //}
 
     return adjustedOffset;
   },
@@ -172,7 +162,6 @@
     }
 
     return adjustedOffset;
-    //return this.shiftOffset(adjustedOffset, elementLength, containerLength, 10);
   },
 
   // Takes a given value and ensures that it falls within minimum/maximum values.
