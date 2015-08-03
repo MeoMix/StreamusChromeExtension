@@ -5,5 +5,4 @@
   // /youTubePlayer/model/
   require('test/contentScript/youTubePlayer/model/port.spec');
 
-
 });
