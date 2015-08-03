@@ -118,7 +118,16 @@
         };
       },
       reload: function() {
-
+      },
+      connect: function() {
+        return {
+          onMessage: {
+            addListener: _.noop,
+            removeListener: _.noop
+          },
+          disconnect: _.noop,
+          postMessage: _.noop
+        };
       }
     },
     tabs: {
