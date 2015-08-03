@@ -6,5 +6,4 @@
   require('test/foreground/view/appBar/appBarRegion.spec');
   require('test/foreground/view/appBar/appBarView.spec');
   require('test/foreground/view/appBar/searchInputAreaView.spec');
-  require('test/foreground/view/appBar/volumeAreaView.spec');
 });

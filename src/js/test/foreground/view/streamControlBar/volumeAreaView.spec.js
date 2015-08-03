@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var VolumeAreaView = require('foreground/view/appBar/volumeAreaView');
+  var VolumeAreaView = require('foreground/view/streamControlBar/volumeAreaView');
   var viewTestUtility = require('test/foreground/view/viewTestUtility');
 
   describe('VolumeAreaView', function() {

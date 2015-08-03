@@ -10,4 +10,5 @@
   require('test/foreground/view/streamControlBar/streamControlBarView.spec');
   require('test/foreground/view/streamControlBar/timeLabelAreaView.spec');
   require('test/foreground/view/streamControlBar/timeSliderView.spec');
+  require('test/foreground/view/streamControlBar/volumeAreaView.spec');
 });
