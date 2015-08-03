@@ -1,522 +1,522 @@
 ﻿{
-	"extensionName": {
-		"message": "Streamus"
-	},
-	"extensionDescription": {
-		"message": "Simples, streaming de música."
-	},
-	"toggleRadio": {
-		"message": "Rádio desligar/ligar"
-	},
-	"toggleShuffle": {
-		"message": "Misturar desligar/ligar"
-	},
-	"toggleRepeat": {
-		"message": "Repetir desligar/todas músicas/música atual"
-	},
-	"increaseVolume": {
-		"message": "Aumentar volume"
-	},
-	"decreaseVolume": {
-		"message": "Diminuir volume"
-	},
-	"showVideoDetails": {
-		"message": "Exibir detalhes da música"
-	},
-	"nextVideo": {
-		"message": "Próxima música"
-	},
-	"previousVideo": {
-		"message": "Música anterior"
-	},
-	"toggleVideo": {
-		"message": "Reproduzir/pausar música"
-	},
-	"deleteVideo": {
-		"message": "Excluir música"
-	},
-	"copyVideoUrl": {
-		"message": "Copiar URL da música"
-	},
-	"copyVideoTitleAndUrl": {
-		"message": "Copiar título e URL da música"
-	},
-	"save": {
-		"message": "Salvar"
-	},
-	"copyUrl": {
-		"message": "Copiar URL"
-	},
-	"copyTitleAndUrl": {
-		"message": "Copiar título e URL"
-	},
-	"delete": {
-		"message": "Excluir"
-	},
-	"clearStream": {
-		"message": "Limpar stream"
-	},
-	"saveStream": {
-		"message": "Salvar stream"
-	},
-	"addToStreamus": {
-		"message": "Adicionar ao Streamus"
-	},
-	"youTubePlayerErrorVideoNotFound": {
-		"message": "Música removida ou marcada como privada."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "Música incapaz de ser reproduzida."
-	},
-	"errorEncountered": {
-		"message": "Foi encontrado um erro."
-	},
-	"saving": {
-		"message": "Salvando"
-	},
-	"installed": {
-		"message": "Instalado"
-	},
-	"repeatOff": {
-		"message": "Desligar repetição"
-	},
-	"repeatVideo": {
-		"message": "Repetir música"
-	},
-	"repeatAll": {
-		"message": "Repetir totas"
-	},
-	"radioOn": {
-		"message": "Ligar rádio"
-	},
-	"radioOff": {
-		"message": "Desligar rádio"
-	},
-	"shufflingOn": {
-		"message": "Ligar misturar"
-	},
-	"shufflingOff": {
-		"message": "Desligar misturar"
-	},
-	"elapsedTime": {
-		"message": "Tempo decorrido"
-	},
-	"remainingTime": {
-		"message": "Tempo restante"
-	},
-	"totalTime": {
-		"message": "Tempo total"
-	},
-	"highest": {
-		"message": "Maior"
-	},
-	"auto": {
-		"message": "Automático"
-	},
-	"lowest": {
-		"message": "Menor"
-	},
-	"reload": {
-		"message": "Recarregar"
-	},
-	"playAll": {
-		"message": "Reproduzir todas"
-	},
-	"addAll": {
-		"message": "Adicionar todas"
-	},
-	"addSelected": {
-		"message": "Adicionar selecionada"
-	},
-	"playSelected": {
-		"message": "Reproduzir selecionada"
-	},
-	"saveSelected": {
-		"message": "Salvar selecionada"
-	},
-	"search": {
-		"message": "Pesquisar"
-	},
-	"searching": {
-		"message": "Pesquisando"
-	},
-	"noResultsFound": {
-		"message": "Nenhum resultado encontrado"
-	},
-	"clearStream": {
-		"message": "Limpar stream"
-	},
-	"createPlaylist": {
-		"message": "Criar lista de reprodução"
-	},
-	"ok": {
-		"message": "Ok"
-	},
-	"playlist": {
-		"message": "Lista de reprodução"
-	},
-	"stream": {
-		"message": "Stream"
-	},
-	"settings": {
-		"message": "Configurações"
-	},
-	"edit": {
-		"message": "Editar"
-	},
-	"cantDeleteLastPlaylist": {
-		"message": "Não é possível excluir a última lista de reprodução"
-	},
-	"clearStreamQuestion": {
-		"message": "Limpar stream?"
-	},
-	"play": {
-		"message": "Reproduzir"
-	},
-	"add": {
-		"message": "Adicionar"
-	},
-	"title": {
-		"message": "Título"
-	},
-	"url": {
-		"message": "URL"
-	},
-	"playlists": {
-		"message": "Listas de reprodução"
-	},
-	"remind": {
-		"message": "Lembrar"
-	},
-	"reminders": {
-		"message": "Lembretes"
-	},
-	"remindClearStream": {
-		"message": "Lembrar limpar stream"
-	},
-	"remindDeletePlaylist": {
-		"message": "Lembrar remover lista de reprodução"
-	},
-	"minute": {
-		"message": "Minuto"
-	},
-	"minutes": {
-		"message": "Minutos"
-	},
-	"hours": {
-		"message": "Horas"
-	},
-	"days": {
-		"message": "Dias"
-	},
-	"errorLoadingTitle": {
-		"message": "Erro ao carregar título"
-	},
-	"keyboardCommandFailure": {
-		"message": "Falha na tecla de atalho"
-	},
-	"streamEmpty": {
-		"message": "Stream vazio"
-	},
-	"playlistEmpty": {
-		"message": "Lista de reprodução vazia"
-	},
-	"create": {
-		"message": "Criar"
-	},
-	"update": {
-		"message": "Atualizar"
-	},
-	"wouldYouLikeTo": {
-		"message": "Você gostaria de"
-	},
-	"general": {
-		"message": "Geral"
-	},
-	"startTyping": {
-		"message": "Comece a digitar"
-	},
-	"resultsWillAppearAsYouSearch": {
-		"message": "Os resultados aparecerão conforme você digita."
-	},
-	"trySearchingForSomethingElse": {
-		"message": "Tente procurar por outra coisa."
-	},
-	"watchOnYouTube": {
-		"message": "Assista no YouTube"
-	},
-	"notSignedIn": {
-		"message": "Não iniciada"
-	},
-	"signingIn": {
-		"message": "Entrando"
-	},
-	"signIn": {
-		"message": "Entrar"
-	},
-	"signInFailed": {
-		"message": "Falha ao entrar"
-	},
-	"pleaseWait": {
-		"message": "Por favor, aguarde"
-	},
-	"anUpdateIsAvailable": {
-		"message": "Uma atualização está disponível"
-	},
-	"pressEnterToPlay": {
-		"message": "Pressione enter para reproduzir"
-	},
-	"volume": {
-		"message": "Volume"
-	},
-	"videoAdded": {
-		"message": "Música adicionada"
-	},
-	"addVideo": {
-		"message": "Adicionar música"
-	},
-	"video": {
-		"message": "Música"
-	},
-	"videos": {
-		"message": "Músicas"
-	},
-	"cantSkipToNextVideo": {
-		"message": "Não é possível pular para a próxima música"
-	},
-	"cantGoBackToPreviousVideo": {
-		"message": "Não é possível voltar para a música anterior"
-	},
-	"cantToggleVideo": {
-		"message": "Não é possível alternar música"
-	},
-	"searchForVideos": {
-		"message": "Procurar músicas"
-	},
-	"videoQuality": {
-		"message": "Qualidade da música"
-	},
-	"whyNotAddAVideoFromAPlaylistOr": {
-		"message": "Por que não adicionar uma música de uma lista de reprodução ou",
-		"description": "The full sentence here is 'Por que não adicionar uma música de uma lista de reprodução ou procurar por músicas?' but I need to wrap part of the sentence in HTML"
-	},
-	"searchAndPlay": {
-		"message": "Procurar e Reproduzir"
-	},
-	"searchAndAdd": {
-		"message": "Procurar e Adicionar"
-	},
-	"linkAccountsMessage": {
-		"message": "Streamus não está vinculada à sua conta Chrome. Suas listas de reprodução estarão disponíveis em outros computadores, se você ligar as suas contas."
-	},
-	"link": {
-		"message": "Link",
-		"description": "This is 'Link' as in 'Link my account'"
-	},
-	"googleSignInMessage": {
-		"message": "Você não está logado no Chrome. Suas listas de reprodução só estão disponíveis neste computador."
-	},
-	"remindGoogleSignIn": {
-		"message": "Remind Google sign in"
-	},
-	"keyboardShortcuts": {
-		"message": "Teclas de atalho"
-	},
-	"export": {
-		"message": "Exportar"
-	},
-	"openInTab": {
-		"message": "Abrir em aba"
-	},
-	"contextMenus": {
-		"message": "Menu de contexto"
-	},
-	"websiteEnhancements": {
-		"message": "Melhorias do site"
-	},
-	"textSelection": {
-		"message": "Seleção de texto"
-	},
-	"youTubeLinks": {
-		"message": "Links do YouTube"
-	},
-	"youTubePages": {
-		"message": "Páginas do YouTube"
-	},
-	"youTube": {
-		"message": "YouTube"
-	},
-	"beatport": {
-		"message": "Beatport"
-	},
-	"fileType": {
-		"message": "Tipo de arquivo"
-	},
-	"csv":{
-		"message": "CSV"
-	},
-	"json": {
-		"message": "JSON"
-	},
-	"failedToFindVideo": {
-		"message": "Não foi possível encontrar música"
-	},
-	"failedToFindVideos": {
-		"message": "Não foi possível encontrar músicas"
-	},
-	"loadingYouTube": {
-		"message": "Carregando YouTube"
-	},
-	"loadingYouTubeFailed": {
-		"message": "Falha ao carregar Youtube"
-	},
-	"loadAttempt": {
-		"message": "Tentando $currentLoadAttempt$ de $maxLoadAttempts$",
-		"placeholders": {
-			"currentLoadAttempt": {
-				"content": "$1"
-			},
-			"maxLoadAttempts": {
-				"content": "$2"
-			}
-		}
-	},
-	"videoAlreadyInCollection": {
-		"message": "Música já existe em $collectionName$",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"allVideosAlreadyInCollection": {
-		"message": "Todas as músicas já existem em $collectionName$",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"videosAlreadyInCollection": {
-		"message": "$duplicateVideoCount$ de $draggedVideoCount$ músicas já existem em $collectionName$",
-		"placeholders": {
-			"duplicateVideoCount": {
-				"content": "$1"
-			},
-			"draggedVideoCount": {
-				"content": "$2"
-			},
-			"collectionName": {
-				"content": "$3"
-			}
-		}
-	},
-	"urlCopied": {
-		"message": "URL copiada"
-	},
-	"copyFailed": {
-		"message": "Falha ao copiar"
-	},
-	"playlistExported": {
-		"message": "Lista de reprodução exportada com sucesso."
-	},
-	"playing": {
-		"message": "Reproduzindo"
-	},
-	"buffering": {
-		"message": "Carregando"
-	},
-	"paused": {
-		"message": "Pausado"
-	},
-	"cancel": {
-		"message": "Cancelar"
-	},
-	"errorLoadingUrl": {
-		"message": "Erro ao carregar URL"
-	},
-	"playlistLoaded": {
-		"message": "Lista de reprodução carregada"
-	},
-	"playlistCreated": {
-		"message": "Lista de reprodução criada"
-	},
-	"extensionConflict": {
-		"message": "Outra extensão, ou outro problema, tem forçado o YouTube a utilizar Flash.$lineBreak$ Streamus não funcionará corretamente até que a extensão esteja desativada, ou o problema seja resolvido, e Streamus reiniciado.",
-		"placeholders": {
-			"lineBreak": {
-				"content": "$1"
-			}
-		}
-	},
-	"searchResults": {
-		"message": "Resultados da pesquisa"
-	},
-	"collectionCantBeDeleted": {
-		"message": "$collectionName$ não pode ser excluído",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"collectionSelected": {
-		"message": "$count$ $collectionName$ selecionada(s)",
-		"description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
-		"placeholders": {
-			"count": {
-				"content": "$1"
-			},
-			"collectionName": {
-				"content": "$2"
-			}
-		}
-	},
-	"saveAll": {
-		"message": "Salvar todas"
-	},
-	"saveVideo": {
-		"message": "Salvar música"
-	},
-	"videoSavedToPlaylist": {
-		"message": "$videoTitle$ salvo em $playlistTitle$",
-		"placeholders": {
-			"videoTitle": {
-				"content": "$1"
-			},
-			"playlistTitle": {
-				"content": "$2"
-			}
-		}
-	},
-	"desktopNotifications": {
-		"message": "Notificações da área de trabalho"
-	},
-	"showNotifications": {
-		"message": "Exibir notificações"
-	},
-	"notificationDuration": {
-		"message": "Duração da notificação"
-	},
-	"oneSecond": {
-		"message": "Um segundo"
-	},
-	"twoSeconds": {
-		"message": "Dois segundos"
-	},
-	"threeSeconds": {
-		"message": "Três segundos"
-	},
-	"fourSeconds": {
-		"message": "Quatro segundos"
-	},
-	"fiveSeconds": {
-		"message": "Cinco segundos"
-	},
-	"tenSeconds": {
-		"message": "Dez segundos"
-	},
-	"playlistUrl": {
-		"message": "URL da lista de reprodução"
-	}
+  "extensionName": {
+    "message": "Streamus"
+  },
+  "extensionDescription": {
+    "message": "Simples, streaming de música."
+  },
+  "toggleRadio": {
+    "message": "Rádio desligar/ligar"
+  },
+  "toggleShuffle": {
+    "message": "Misturar desligar/ligar"
+  },
+  "toggleRepeat": {
+    "message": "Repetir desligar/todas músicas/música atual"
+  },
+  "increaseVolume": {
+    "message": "Aumentar volume"
+  },
+  "decreaseVolume": {
+    "message": "Diminuir volume"
+  },
+  "showVideoDetails": {
+    "message": "Exibir detalhes da música"
+  },
+  "nextVideo": {
+    "message": "Próxima música"
+  },
+  "previousVideo": {
+    "message": "Música anterior"
+  },
+  "toggleVideo": {
+    "message": "Reproduzir/pausar música"
+  },
+  "deleteVideo": {
+    "message": "Excluir música"
+  },
+  "copyVideoUrl": {
+    "message": "Copiar URL da música"
+  },
+  "copyVideoTitleAndUrl": {
+    "message": "Copiar título e URL da música"
+  },
+  "save": {
+    "message": "Salvar"
+  },
+  "copyUrl": {
+    "message": "Copiar URL"
+  },
+  "copyTitleAndUrl": {
+    "message": "Copiar título e URL"
+  },
+  "delete": {
+    "message": "Excluir"
+  },
+  "clearStream": {
+    "message": "Limpar stream"
+  },
+  "saveStream": {
+    "message": "Salvar stream"
+  },
+  "addToStreamus": {
+    "message": "Adicionar ao Streamus"
+  },
+  "youTubePlayerErrorVideoNotFound": {
+    "message": "Música removida ou marcada como privada."
+  },
+  "youTubePlayerErrorNoPlayEmbedded": {
+    "message": "Música incapaz de ser reproduzida."
+  },
+  "errorEncountered": {
+    "message": "Foi encontrado um erro."
+  },
+  "saving": {
+    "message": "Salvando"
+  },
+  "installed": {
+    "message": "Instalado"
+  },
+  "repeatOff": {
+    "message": "Desligar repetição"
+  },
+  "repeatVideo": {
+    "message": "Repetir música"
+  },
+  "repeatAll": {
+    "message": "Repetir totas"
+  },
+  "radioOn": {
+    "message": "Ligar rádio"
+  },
+  "radioOff": {
+    "message": "Desligar rádio"
+  },
+  "shufflingOn": {
+    "message": "Ligar misturar"
+  },
+  "shufflingOff": {
+    "message": "Desligar misturar"
+  },
+  "elapsedTime": {
+    "message": "Tempo decorrido"
+  },
+  "remainingTime": {
+    "message": "Tempo restante"
+  },
+  "totalTime": {
+    "message": "Tempo total"
+  },
+  "highest": {
+    "message": "Maior"
+  },
+  "auto": {
+    "message": "Automático"
+  },
+  "lowest": {
+    "message": "Menor"
+  },
+  "reload": {
+    "message": "Recarregar"
+  },
+  "playAll": {
+    "message": "Reproduzir todas"
+  },
+  "addAll": {
+    "message": "Adicionar todas"
+  },
+  "addSelected": {
+    "message": "Adicionar selecionada"
+  },
+  "playSelected": {
+    "message": "Reproduzir selecionada"
+  },
+  "saveSelected": {
+    "message": "Salvar selecionada"
+  },
+  "search": {
+    "message": "Pesquisar"
+  },
+  "searching": {
+    "message": "Pesquisando"
+  },
+  "noResultsFound": {
+    "message": "Nenhum resultado encontrado"
+  },
+  "clearStream": {
+    "message": "Limpar stream"
+  },
+  "createPlaylist": {
+    "message": "Criar lista de reprodução"
+  },
+  "ok": {
+    "message": "Ok"
+  },
+  "playlist": {
+    "message": "Lista de reprodução"
+  },
+  "stream": {
+    "message": "Stream"
+  },
+  "settings": {
+    "message": "Configurações"
+  },
+  "edit": {
+    "message": "Editar"
+  },
+  "cantDeleteLastPlaylist": {
+    "message": "Não é possível excluir a última lista de reprodução"
+  },
+  "clearStreamQuestion": {
+    "message": "Limpar stream?"
+  },
+  "play": {
+    "message": "Reproduzir"
+  },
+  "add": {
+    "message": "Adicionar"
+  },
+  "title": {
+    "message": "Título"
+  },
+  "url": {
+    "message": "URL"
+  },
+  "playlists": {
+    "message": "Listas de reprodução"
+  },
+  "remind": {
+    "message": "Lembrar"
+  },
+  "reminders": {
+    "message": "Lembretes"
+  },
+  "remindClearStream": {
+    "message": "Lembrar limpar stream"
+  },
+  "remindDeletePlaylist": {
+    "message": "Lembrar remover lista de reprodução"
+  },
+  "minute": {
+    "message": "Minuto"
+  },
+  "minutes": {
+    "message": "Minutos"
+  },
+  "hours": {
+    "message": "Horas"
+  },
+  "days": {
+    "message": "Dias"
+  },
+  "errorLoadingTitle": {
+    "message": "Erro ao carregar título"
+  },
+  "keyboardCommandFailure": {
+    "message": "Falha na tecla de atalho"
+  },
+  "streamEmpty": {
+    "message": "Stream vazio"
+  },
+  "playlistEmpty": {
+    "message": "Lista de reprodução vazia"
+  },
+  "create": {
+    "message": "Criar"
+  },
+  "update": {
+    "message": "Atualizar"
+  },
+  "wouldYouLikeTo": {
+    "message": "Você gostaria de"
+  },
+  "general": {
+    "message": "Geral"
+  },
+  "startTyping": {
+    "message": "Comece a digitar"
+  },
+  "resultsWillAppearAsYouSearch": {
+    "message": "Os resultados aparecerão conforme você digita."
+  },
+  "trySearchingForSomethingElse": {
+    "message": "Tente procurar por outra coisa."
+  },
+  "watchOnYouTube": {
+    "message": "Assista no YouTube"
+  },
+  "notSignedIn": {
+    "message": "Não iniciada"
+  },
+  "signingIn": {
+    "message": "Entrando"
+  },
+  "signIn": {
+    "message": "Entrar"
+  },
+  "signInFailed": {
+    "message": "Falha ao entrar"
+  },
+  "pleaseWait": {
+    "message": "Por favor, aguarde"
+  },
+  "anUpdateIsAvailable": {
+    "message": "Uma atualização está disponível"
+  },
+  "pressEnterToPlay": {
+    "message": "Pressione enter para reproduzir"
+  },
+  "volume": {
+    "message": "Volume"
+  },
+  "videoAdded": {
+    "message": "Música adicionada"
+  },
+  "addVideo": {
+    "message": "Adicionar música"
+  },
+  "video": {
+    "message": "Música"
+  },
+  "videos": {
+    "message": "Músicas"
+  },
+  "cantSkipToNextVideo": {
+    "message": "Não é possível pular para a próxima música"
+  },
+  "cantGoBackToPreviousVideo": {
+    "message": "Não é possível voltar para a música anterior"
+  },
+  "cantToggleVideo": {
+    "message": "Não é possível alternar música"
+  },
+  "searchForVideos": {
+    "message": "Procurar músicas"
+  },
+  "videoQuality": {
+    "message": "Qualidade da música"
+  },
+  "whyNotAddAVideoFromAPlaylistOr": {
+    "message": "Por que não adicionar uma música de uma lista de reprodução ou",
+    "description": "The full sentence here is 'Por que não adicionar uma música de uma lista de reprodução ou procurar por músicas?' but I need to wrap part of the sentence in HTML"
+  },
+  "searchAndPlay": {
+    "message": "Procurar e Reproduzir"
+  },
+  "searchAndAdd": {
+    "message": "Procurar e Adicionar"
+  },
+  "linkAccountsMessage": {
+    "message": "Streamus não está vinculada à sua conta Chrome. Suas listas de reprodução estarão disponíveis em outros computadores, se você ligar as suas contas."
+  },
+  "link": {
+    "message": "Link",
+    "description": "This is 'Link' as in 'Link my account'"
+  },
+  "googleSignInMessage": {
+    "message": "Você não está logado no Chrome. Suas listas de reprodução só estão disponíveis neste computador."
+  },
+  "remindGoogleSignIn": {
+    "message": "Remind Google sign in"
+  },
+  "keyboardShortcuts": {
+    "message": "Teclas de atalho"
+  },
+  "export": {
+    "message": "Exportar"
+  },
+  "openInTab": {
+    "message": "Abrir em aba"
+  },
+  "contextMenus": {
+    "message": "Menu de contexto"
+  },
+  "websiteEnhancements": {
+    "message": "Melhorias do site"
+  },
+  "textSelection": {
+    "message": "Seleção de texto"
+  },
+  "youTubeLinks": {
+    "message": "Links do YouTube"
+  },
+  "youTubePages": {
+    "message": "Páginas do YouTube"
+  },
+  "youTube": {
+    "message": "YouTube"
+  },
+  "beatport": {
+    "message": "Beatport"
+  },
+  "fileType": {
+    "message": "Tipo de arquivo"
+  },
+  "csv": {
+    "message": "CSV"
+  },
+  "json": {
+    "message": "JSON"
+  },
+  "failedToFindVideo": {
+    "message": "Não foi possível encontrar música"
+  },
+  "failedToFindVideos": {
+    "message": "Não foi possível encontrar músicas"
+  },
+  "loadingYouTube": {
+    "message": "Carregando YouTube"
+  },
+  "loadingYouTubeFailed": {
+    "message": "Falha ao carregar Youtube"
+  },
+  "loadAttempt": {
+    "message": "Tentando $currentLoadAttempt$ de $maxLoadAttempts$",
+    "placeholders": {
+      "currentLoadAttempt": {
+        "content": "$1"
+      },
+      "maxLoadAttempts": {
+        "content": "$2"
+      }
+    }
+  },
+  "videoAlreadyInCollection": {
+    "message": "Música já existe em $collectionName$",
+    "placeholders": {
+      "collectionName": {
+        "content": "$1"
+      }
+    }
+  },
+  "allVideosAlreadyInCollection": {
+    "message": "Todas as músicas já existem em $collectionName$",
+    "placeholders": {
+      "collectionName": {
+        "content": "$1"
+      }
+    }
+  },
+  "videosAlreadyInCollection": {
+    "message": "$duplicateVideoCount$ de $draggedVideoCount$ músicas já existem em $collectionName$",
+    "placeholders": {
+      "duplicateVideoCount": {
+        "content": "$1"
+      },
+      "draggedVideoCount": {
+        "content": "$2"
+      },
+      "collectionName": {
+        "content": "$3"
+      }
+    }
+  },
+  "urlCopied": {
+    "message": "URL copiada"
+  },
+  "copyFailed": {
+    "message": "Falha ao copiar"
+  },
+  "playlistExported": {
+    "message": "Lista de reprodução exportada com sucesso."
+  },
+  "playing": {
+    "message": "Reproduzindo"
+  },
+  "buffering": {
+    "message": "Carregando"
+  },
+  "paused": {
+    "message": "Pausado"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "errorLoadingUrl": {
+    "message": "Erro ao carregar URL"
+  },
+  "playlistLoaded": {
+    "message": "Lista de reprodução carregada"
+  },
+  "playlistCreated": {
+    "message": "Lista de reprodução criada"
+  },
+  "extensionConflict": {
+    "message": "Outra extensão, ou outro problema, tem forçado o YouTube a utilizar Flash.$lineBreak$ Streamus não funcionará corretamente até que a extensão esteja desativada, ou o problema seja resolvido, e Streamus reiniciado.",
+    "placeholders": {
+      "lineBreak": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchResults": {
+    "message": "Resultados da pesquisa"
+  },
+  "collectionCantBeDeleted": {
+    "message": "$collectionName$ não pode ser excluído",
+    "placeholders": {
+      "collectionName": {
+        "content": "$1"
+      }
+    }
+  },
+  "collectionSelected": {
+    "message": "$count$ $collectionName$ selecionada(s)",
+    "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "collectionName": {
+        "content": "$2"
+      }
+    }
+  },
+  "saveAll": {
+    "message": "Salvar todas"
+  },
+  "saveVideo": {
+    "message": "Salvar música"
+  },
+  "videoSavedToPlaylist": {
+    "message": "$videoTitle$ salvo em $playlistTitle$",
+    "placeholders": {
+      "videoTitle": {
+        "content": "$1"
+      },
+      "playlistTitle": {
+        "content": "$2"
+      }
+    }
+  },
+  "desktopNotifications": {
+    "message": "Notificações da área de trabalho"
+  },
+  "showNotifications": {
+    "message": "Exibir notificações"
+  },
+  "notificationDuration": {
+    "message": "Duração da notificação"
+  },
+  "oneSecond": {
+    "message": "Um segundo"
+  },
+  "twoSeconds": {
+    "message": "Dois segundos"
+  },
+  "threeSeconds": {
+    "message": "Três segundos"
+  },
+  "fourSeconds": {
+    "message": "Quatro segundos"
+  },
+  "fiveSeconds": {
+    "message": "Cinco segundos"
+  },
+  "tenSeconds": {
+    "message": "Dez segundos"
+  },
+  "playlistUrl": {
+    "message": "URL da lista de reprodução"
+  }
 }

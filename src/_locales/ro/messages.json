@@ -1,522 +1,522 @@
 {
-    "extensionName": {
-        "message": "Streamus"
-    },
-    "extensionDescription": {
-        "message": "Simplu, muzica in stream."
-    },
-    "toggleRadio": {
-        "message": "Radio pornit/oprit"
-    },
-    "toggleShuffle": {
-        "message": "Aleator pornit/oprit"
-    },
-    "toggleRepeat": {
-        "message": "Nu repeta/toate cantecele/cantecul curent"
-    },
-    "increaseVolume": {
-        "message": "Creste volumul"
-    },
-    "decreaseVolume": {
-        "message": "Scade volumul"
-    },
-    "showVideoDetails": {
-        "message": "Arata detalii cantec"
-    },
-    "nextVideo": {
-        "message": "Urmatorul cantec"
-    },
-    "previousVideo": {
-        "message": "Cantec anterior"
-    },
-    "toggleVideo": {
-        "message": "Porneste/Opreste cantec"
-    },
-    "deleteVideo": {
-        "message": "Sterge cantec"
-    },
-    "copyVideoUrl": {
-        "message": "Copiaza URLul cantecului"
-    },
-    "copyVideoTitleAndUrl": {
-        "message": "Copiaza titlul cantecului si URLul"
-    },
-    "save": {
-        "message": "Salveaza"
-    },
-    "copyUrl": {
-        "message": "Copiaza URL"
-    },
-    "copyTitleAndUrl": {
-        "message": "Copiaza titlu si URL"
-    },
-    "delete": {
-        "message": "Sterge"
-    },
-    "clearStream": {
-        "message": "Goleste stream"
-    },
-    "saveStream": {
-        "message": "Salveaza stream"
-    },
-    "addToStreamus": {
-        "message": "Adauga la Streamus"
-    },
-    "youTubePlayerErrorVideoNotFound": {
-        "message": "Cantecul a fost marcat privat sau eliminat."
-    },
-    "youTubePlayerErrorNoPlayEmbedded": {
-        "message": "Nu pot reda cantecul."
-    },
-    "errorEncountered": {
-        "message": "A aparut o eroare"
-    },
-    "saving": {
-        "message": "Salveaza"
-    },
-    "installed": {
-        "message": "Instalat"
-    },
-    "repeatOff": {
-        "message": "Nu repeta"
-    },
-    "repeatVideo": {
-        "message": "Repeta cantec"
-    },
-    "repeatAll": {
-        "message": "Repeta toate"
-    },
-    "radioOn": {
-        "message": "Radio pornit"
-    },
-    "radioOff": {
-        "message": "Radio oprit"
-    },
-    "shufflingOn": {
-        "message": "Redare aleatoare pornita"
-    },
-    "shufflingOff": {
-        "message": "Redare aleatoare oprita"
-    },
-    "elapsedTime": {
-        "message": "Timp trecut"
-    },
-    "remainingTime": {
-        "message": "Timp ramas"
-    },
-    "totalTime": {
-        "message": "Timp total"
-    },
-    "highest": {
-        "message": "Cel mai mare"
-    },
-    "auto": {
-        "message": "Auto"
-    },
-    "lowest": {
-        "message": "Cel mai mic"
-    },
-    "reload": {
-        "message": "Reincarca"
-    },
-    "playAll": {
-        "message": "Porneste toate"
-    },
-    "addAll": {
-        "message": "Adauga toate"
-    },
-    "addSelected": {
-        "message": "Adauga cele selectate"
-    },
-    "playSelected": {
-        "message": "Porneste cele selectate"
-    },
-    "saveSelected": {
-        "message": "Salveaza cele selectate"
-    },
-    "search": {
-        "message": "Cauta"
-    },
-    "searching": {
-        "message": "Caut"
-    },
-    "noResultsFound": {
-        "message": "Nu am gasit nici un rezultat"
-    },
-    "clearStream": {
-        "message": "Goleste stream"
-    },
-    "createPlaylist": {
-        "message": "Creaza lista"
-    },
-    "ok": {
-        "message": "Ok"
-    },
-    "playlist": {
-        "message": "Lista"
-    },
-    "stream": {
-        "message": "Stream"
-    },
-    "settings": {
-        "message": "Setari"
-    },
-    "edit": {
-        "message": "Editeaza"
-    },
-    "cantDeleteLastPlaylist": {
-        "message": "Nu pot sterge ultima lista"
-    },
-    "clearStreamQuestion": {
-        "message": "Golesc stream?"
-    },
-    "play": {
-        "message": "Porneste"
-    },
-    "add": {
-        "message": "Adauga"
-    },
-    "title": {
-        "message": "Titlu"
-    },
-    "url": {
-        "message": "URL"
-    },
-    "playlists": {
-        "message": "Liste"
-    },
-    "remind": {
-        "message": "Aminteste"
-    },
-    "reminders": {
-        "message": "Memento"
-    },
-    "remindClearStream": {
-        "message": "Aminteste goleste stream"
-    },
-    "remindDeletePlaylist": {
-        "message": "Aminteste sterge lista"
-    },
-    "minute": {
-        "message": "Minut"
-    },
-    "minutes": {
-        "message": "Minute"
-    },
-    "hours": {
-        "message": "Ore"
-    },
-    "days": {
-        "message": "Zile"
-    },
-    "errorLoadingTitle": {
-        "message": "Nu am putut incarca titlul"
-    },
-    "keyboardCommandFailure": {
-        "message": "Comanda de la tastatura nu a functionat"
-    },
-    "streamEmpty": {
-        "message": "Stream gol"
-    },
-    "playlistEmpty": {
-        "message": "Lista goala"
-    },
-    "create": {
-        "message": "Creaza"
-    },
-    "update": {
-        "message": "Actualizezi"
-    },
-    "wouldYouLikeTo": {
-        "message": "Ai dori sa"
-    },
-    "general": {
-        "message": "General"
-    },
-    "startTyping": {
-        "message": "Incepe sa scrii"
-    },
-    "resultsWillAppearAsYouSearch": {
-        "message": "Rezultatele vor aparea in timp ce cauti."
-    },
-    "trySearchingForSomethingElse": {
-        "message": "Incearca o alta cautare."
-    },
-    "watchOnYouTube": {
-        "message": "Vezi pe YouTube"
-    },
-    "notSignedIn": {
-        "message": "Nu esti autentificat"
-    },
-    "signingIn": {
-        "message": "In curs de autentificare"
-    },
-    "signIn": {
-        "message": "Autentifica"
-    },
-    "signInFailed": {
-        "message": "Autentificare esuata"
-    },
-    "pleaseWait": {
-        "message": "Asteapta"
-    },
-    "anUpdateIsAvailable": {
-        "message": "Actualizare disponibila"
-    },
-    "pressEnterToPlay": {
-        "message": "Enter pentru redare"
-    },
-    "volume": {
-        "message": "Volum"
-    },
-    "videoAdded": {
-        "message": "Cantec adaugat"
-    },
-    "addVideo": {
-        "message": "Adauga cantec"
-    },
-    "video": {
-        "message": "Cantec"
-    },
-    "videos": {
-        "message": "Cantece"
-    },
-    "cantSkipToNextVideo": {
-        "message": "Nu pot sari la cantecul urmator"
-    },
-    "cantGoBackToPreviousVideo": {
-        "message": "Nu pot merge la cantecul anterior"
-    },
-    "cantToggleVideo": {
-        "message": "Nu pot schimba cantecul"
-    },
-    "searchForVideos": {
-        "message": "Cauta cantece"
-    },
-    "videoQuality": {
-        "message": "Calitatea cantecului"
-    },
-    "whyNotAddAVideoFromAPlaylistOr": {
-        "message": "De ce sa nu adaugi un cantec dintr-o lista sau sa cauti unul anume?",
-        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
-    },
-    "searchAndPlay": {
-        "message": "Cauta si porneste"
-    },
-    "searchAndAdd": {
-        "message": "Cauta si adauga"
-    },
-    "linkAccountsMessage": {
-        "message": "Streamus nu este conectat cu contul Chrome. Daca cele doua conturi vor fi conectate, listele vor aparea si pe alte computere."
-    },
-    "link": {
-        "message": "Conecteaza",
-        "description": "This is 'Link' as in 'Link my account'"
-    },
-    "googleSignInMessage": {
-        "message": "Nu esti autentificat in Chrome. Listele sunt disponibile numai pe acest computer"
-    },
-    "remindGoogleSignIn": {
-        "message": "Reaminteste autentificare Google"
-    },
-    "keyboardShortcuts": {
-        "message": "Scurtaturi tastatura"
-    },
-    "export": {
-        "message": "Export"
-    },
-    "openInTab": {
-        "message": "Deschide in tab nou"
-    },
-    "contextMenus": {
-        "message": "Meniuri context"
-    },
-    "websiteEnhancements": {
-        "message": "Imbunatatiri Website"
-    },
-    "textSelection": {
-        "message": "Textul selectat"
-    },
-    "youTubeLinks": {
-        "message": "Linkuri YouTube"
-    },
-    "youTubePages": {
-        "message": "Pagini YouTube"
-    },
-    "youTube": {
-        "message": "YouTube"
-    },
-    "beatport": {
-        "message": "Beatport"
-    },
-    "fileType": {
-        "message": "Tip fisier"
-    },
-    "csv":{
-        "message": "CSV"
-    },
-    "json": {
-        "message": "JSON"
-    },
-    "failedToFindVideo": {
-        "message": "Nu sa gasit cantecul"
-    },
-    "failedToFindVideos": {
-        "message": "Nu s-a gasit nici un cantec"
-    },
-    "loadingYouTube": {
-        "message": "Incarca YouTube"
-    },
-    "loadingYouTubeFailed": {
-        "message": "Nu s-a reusit incarcarea YouTube"
-    },
-    "loadAttempt": {
-        "message": "$currentLoadAttempt$ incercari din $maxLoadAttempts$",
-        "placeholders": {
-            "currentLoadAttempt": {
-                "content": "$1"
-            },
-            "maxLoadAttempts": {
-                "content": "$2"
-            }
-        }
-    },
-    "videoAlreadyInCollection": {
-        "message": "Cantec deja in $collectionName$",
-        "placeholders": {
-            "collectionName": {
-                "content": "$1"
-            }
-        }
-    },
-    "allVideosAlreadyInCollection": {
-        "message": "Toate cantecele sunt deja in $collectionName$",
-        "placeholders": {
-            "collectionName": {
-                "content": "$1"
-            }
-        }
-    },
-    "videosAlreadyInCollection": {
-        "message": "$duplicateVideoCount$ cantece din $draggedVideoCount$ sunt deja in lista $collectionName$",
-        "placeholders": {
-            "duplicateVideoCount": {
-                "content": "$1"
-            },
-            "draggedVideoCount": {
-                "content": "$2"
-            },
-            "collectionName": {
-                "content": "$3"
-            }
-        }
-    },
-    "urlCopied": {
-        "message": "URL copiat"
-    },
-    "copyFailed": {
-        "message": "Copiere esuata"
-    },
-    "playlistExported": {
-        "message": "Lista exportata cu succes."
-    },
-    "playing": {
-        "message": "Redare"
-    },
-    "buffering": {
-        "message": "Pre-incarcare"
-    },
-    "paused": {
-        "message": "Pauza"
-    },
-    "cancel": {
-        "message": "Renunta"
-    },
-    "errorLoadingUrl": {
-        "message": "Eroare la incarcarea URL"
-    },
-    "playlistLoaded": {
-        "message": "Lista incarcata"
-    },
-    "playlistCreated": {
-        "message": "Lista creata"
-    },
-    "extensionConflict": {
-        "message": "O problema sau o alta extensie a fortat Youtube sa foloseasca Flash.$lineBreak$ Streamus nu va functiona corect in aceste conditii. Rezolvati problema sau opriti extensia, apoi re-porniti Streamus",
-        "placeholders": {
-            "lineBreak": {
-                "content": "$1"
-            }
-        }
-    },
-    "searchResults": {
-        "message": "Rezultatele cautarii"
-    },
-    "collectionCantBeDeleted": {
-        "message": "Nu se poate sterge $collectionName$",
-        "placeholders": {
-            "collectionName": {
-                "content": "$1"
-            }
-        }
-    },
-    "collectionSelected": {
-        "message": "$count$ $collectionName$ alese",
-        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            },
-            "collectionName": {
-                "content": "$2"
-            }
-        }
-    },
-    "saveAll": {
-        "message": "Salveaza tot"
-    },
-    "saveVideo": {
-        "message": "Salveaza cantec"
-    },
-    "videoSavedToPlaylist": {
-        "message": "$videoTitle$ salvat in lista $playlistTitle$",
-        "placeholders": {
-            "videoTitle": {
-                "content": "$1"
-            },
-            "playlistTitle": {
-                "content": "$2"
-            }
-        }
-    },
-    "desktopNotifications": {
-        "message": "Notificari Desktop"
-    },
-    "showNotifications": {
-        "message": "Arata notificari"
-    },
-    "notificationDuration": {
-        "message": "Durata notificarii"
-    },
-    "oneSecond": {
-        "message": "O secunda"
-    },
-    "twoSeconds": {
-        "message": "Doua secunde"
-    },
-    "threeSeconds": {
-        "message": "Trei secunde"
-    },
-    "fourSeconds": {
-        "message": "Patru secunde"
-    },
-    "fiveSeconds": {
-        "message": "Cingi secunde"
-    },
-    "tenSeconds": {
-        "message": "Zece secunde"
-    },
-    "playlistUrl": {
-        "message": "Lista URL"
+  "extensionName": {
+    "message": "Streamus"
+  },
+  "extensionDescription": {
+    "message": "Simplu, muzica in stream."
+  },
+  "toggleRadio": {
+    "message": "Radio pornit/oprit"
+  },
+  "toggleShuffle": {
+    "message": "Aleator pornit/oprit"
+  },
+  "toggleRepeat": {
+    "message": "Nu repeta/toate cantecele/cantecul curent"
+  },
+  "increaseVolume": {
+    "message": "Creste volumul"
+  },
+  "decreaseVolume": {
+    "message": "Scade volumul"
+  },
+  "showVideoDetails": {
+    "message": "Arata detalii cantec"
+  },
+  "nextVideo": {
+    "message": "Urmatorul cantec"
+  },
+  "previousVideo": {
+    "message": "Cantec anterior"
+  },
+  "toggleVideo": {
+    "message": "Porneste/Opreste cantec"
+  },
+  "deleteVideo": {
+    "message": "Sterge cantec"
+  },
+  "copyVideoUrl": {
+    "message": "Copiaza URLul cantecului"
+  },
+  "copyVideoTitleAndUrl": {
+    "message": "Copiaza titlul cantecului si URLul"
+  },
+  "save": {
+    "message": "Salveaza"
+  },
+  "copyUrl": {
+    "message": "Copiaza URL"
+  },
+  "copyTitleAndUrl": {
+    "message": "Copiaza titlu si URL"
+  },
+  "delete": {
+    "message": "Sterge"
+  },
+  "clearStream": {
+    "message": "Goleste stream"
+  },
+  "saveStream": {
+    "message": "Salveaza stream"
+  },
+  "addToStreamus": {
+    "message": "Adauga la Streamus"
+  },
+  "youTubePlayerErrorVideoNotFound": {
+    "message": "Cantecul a fost marcat privat sau eliminat."
+  },
+  "youTubePlayerErrorNoPlayEmbedded": {
+    "message": "Nu pot reda cantecul."
+  },
+  "errorEncountered": {
+    "message": "A aparut o eroare"
+  },
+  "saving": {
+    "message": "Salveaza"
+  },
+  "installed": {
+    "message": "Instalat"
+  },
+  "repeatOff": {
+    "message": "Nu repeta"
+  },
+  "repeatVideo": {
+    "message": "Repeta cantec"
+  },
+  "repeatAll": {
+    "message": "Repeta toate"
+  },
+  "radioOn": {
+    "message": "Radio pornit"
+  },
+  "radioOff": {
+    "message": "Radio oprit"
+  },
+  "shufflingOn": {
+    "message": "Redare aleatoare pornita"
+  },
+  "shufflingOff": {
+    "message": "Redare aleatoare oprita"
+  },
+  "elapsedTime": {
+    "message": "Timp trecut"
+  },
+  "remainingTime": {
+    "message": "Timp ramas"
+  },
+  "totalTime": {
+    "message": "Timp total"
+  },
+  "highest": {
+    "message": "Cel mai mare"
+  },
+  "auto": {
+    "message": "Auto"
+  },
+  "lowest": {
+    "message": "Cel mai mic"
+  },
+  "reload": {
+    "message": "Reincarca"
+  },
+  "playAll": {
+    "message": "Porneste toate"
+  },
+  "addAll": {
+    "message": "Adauga toate"
+  },
+  "addSelected": {
+    "message": "Adauga cele selectate"
+  },
+  "playSelected": {
+    "message": "Porneste cele selectate"
+  },
+  "saveSelected": {
+    "message": "Salveaza cele selectate"
+  },
+  "search": {
+    "message": "Cauta"
+  },
+  "searching": {
+    "message": "Caut"
+  },
+  "noResultsFound": {
+    "message": "Nu am gasit nici un rezultat"
+  },
+  "clearStream": {
+    "message": "Goleste stream"
+  },
+  "createPlaylist": {
+    "message": "Creaza lista"
+  },
+  "ok": {
+    "message": "Ok"
+  },
+  "playlist": {
+    "message": "Lista"
+  },
+  "stream": {
+    "message": "Stream"
+  },
+  "settings": {
+    "message": "Setari"
+  },
+  "edit": {
+    "message": "Editeaza"
+  },
+  "cantDeleteLastPlaylist": {
+    "message": "Nu pot sterge ultima lista"
+  },
+  "clearStreamQuestion": {
+    "message": "Golesc stream?"
+  },
+  "play": {
+    "message": "Porneste"
+  },
+  "add": {
+    "message": "Adauga"
+  },
+  "title": {
+    "message": "Titlu"
+  },
+  "url": {
+    "message": "URL"
+  },
+  "playlists": {
+    "message": "Liste"
+  },
+  "remind": {
+    "message": "Aminteste"
+  },
+  "reminders": {
+    "message": "Memento"
+  },
+  "remindClearStream": {
+    "message": "Aminteste goleste stream"
+  },
+  "remindDeletePlaylist": {
+    "message": "Aminteste sterge lista"
+  },
+  "minute": {
+    "message": "Minut"
+  },
+  "minutes": {
+    "message": "Minute"
+  },
+  "hours": {
+    "message": "Ore"
+  },
+  "days": {
+    "message": "Zile"
+  },
+  "errorLoadingTitle": {
+    "message": "Nu am putut incarca titlul"
+  },
+  "keyboardCommandFailure": {
+    "message": "Comanda de la tastatura nu a functionat"
+  },
+  "streamEmpty": {
+    "message": "Stream gol"
+  },
+  "playlistEmpty": {
+    "message": "Lista goala"
+  },
+  "create": {
+    "message": "Creaza"
+  },
+  "update": {
+    "message": "Actualizezi"
+  },
+  "wouldYouLikeTo": {
+    "message": "Ai dori sa"
+  },
+  "general": {
+    "message": "General"
+  },
+  "startTyping": {
+    "message": "Incepe sa scrii"
+  },
+  "resultsWillAppearAsYouSearch": {
+    "message": "Rezultatele vor aparea in timp ce cauti."
+  },
+  "trySearchingForSomethingElse": {
+    "message": "Incearca o alta cautare."
+  },
+  "watchOnYouTube": {
+    "message": "Vezi pe YouTube"
+  },
+  "notSignedIn": {
+    "message": "Nu esti autentificat"
+  },
+  "signingIn": {
+    "message": "In curs de autentificare"
+  },
+  "signIn": {
+    "message": "Autentifica"
+  },
+  "signInFailed": {
+    "message": "Autentificare esuata"
+  },
+  "pleaseWait": {
+    "message": "Asteapta"
+  },
+  "anUpdateIsAvailable": {
+    "message": "Actualizare disponibila"
+  },
+  "pressEnterToPlay": {
+    "message": "Enter pentru redare"
+  },
+  "volume": {
+    "message": "Volum"
+  },
+  "videoAdded": {
+    "message": "Cantec adaugat"
+  },
+  "addVideo": {
+    "message": "Adauga cantec"
+  },
+  "video": {
+    "message": "Cantec"
+  },
+  "videos": {
+    "message": "Cantece"
+  },
+  "cantSkipToNextVideo": {
+    "message": "Nu pot sari la cantecul urmator"
+  },
+  "cantGoBackToPreviousVideo": {
+    "message": "Nu pot merge la cantecul anterior"
+  },
+  "cantToggleVideo": {
+    "message": "Nu pot schimba cantecul"
+  },
+  "searchForVideos": {
+    "message": "Cauta cantece"
+  },
+  "videoQuality": {
+    "message": "Calitatea cantecului"
+  },
+  "whyNotAddAVideoFromAPlaylistOr": {
+    "message": "De ce sa nu adaugi un cantec dintr-o lista sau sa cauti unul anume?",
+    "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
+  },
+  "searchAndPlay": {
+    "message": "Cauta si porneste"
+  },
+  "searchAndAdd": {
+    "message": "Cauta si adauga"
+  },
+  "linkAccountsMessage": {
+    "message": "Streamus nu este conectat cu contul Chrome. Daca cele doua conturi vor fi conectate, listele vor aparea si pe alte computere."
+  },
+  "link": {
+    "message": "Conecteaza",
+    "description": "This is 'Link' as in 'Link my account'"
+  },
+  "googleSignInMessage": {
+    "message": "Nu esti autentificat in Chrome. Listele sunt disponibile numai pe acest computer"
+  },
+  "remindGoogleSignIn": {
+    "message": "Reaminteste autentificare Google"
+  },
+  "keyboardShortcuts": {
+    "message": "Scurtaturi tastatura"
+  },
+  "export": {
+    "message": "Export"
+  },
+  "openInTab": {
+    "message": "Deschide in tab nou"
+  },
+  "contextMenus": {
+    "message": "Meniuri context"
+  },
+  "websiteEnhancements": {
+    "message": "Imbunatatiri Website"
+  },
+  "textSelection": {
+    "message": "Textul selectat"
+  },
+  "youTubeLinks": {
+    "message": "Linkuri YouTube"
+  },
+  "youTubePages": {
+    "message": "Pagini YouTube"
+  },
+  "youTube": {
+    "message": "YouTube"
+  },
+  "beatport": {
+    "message": "Beatport"
+  },
+  "fileType": {
+    "message": "Tip fisier"
+  },
+  "csv": {
+    "message": "CSV"
+  },
+  "json": {
+    "message": "JSON"
+  },
+  "failedToFindVideo": {
+    "message": "Nu sa gasit cantecul"
+  },
+  "failedToFindVideos": {
+    "message": "Nu s-a gasit nici un cantec"
+  },
+  "loadingYouTube": {
+    "message": "Incarca YouTube"
+  },
+  "loadingYouTubeFailed": {
+    "message": "Nu s-a reusit incarcarea YouTube"
+  },
+  "loadAttempt": {
+    "message": "$currentLoadAttempt$ incercari din $maxLoadAttempts$",
+    "placeholders": {
+      "currentLoadAttempt": {
+        "content": "$1"
+      },
+      "maxLoadAttempts": {
+        "content": "$2"
+      }
     }
+  },
+  "videoAlreadyInCollection": {
+    "message": "Cantec deja in $collectionName$",
+    "placeholders": {
+      "collectionName": {
+        "content": "$1"
+      }
+    }
+  },
+  "allVideosAlreadyInCollection": {
+    "message": "Toate cantecele sunt deja in $collectionName$",
+    "placeholders": {
+      "collectionName": {
+        "content": "$1"
+      }
+    }
+  },
+  "videosAlreadyInCollection": {
+    "message": "$duplicateVideoCount$ cantece din $draggedVideoCount$ sunt deja in lista $collectionName$",
+    "placeholders": {
+      "duplicateVideoCount": {
+        "content": "$1"
+      },
+      "draggedVideoCount": {
+        "content": "$2"
+      },
+      "collectionName": {
+        "content": "$3"
+      }
+    }
+  },
+  "urlCopied": {
+    "message": "URL copiat"
+  },
+  "copyFailed": {
+    "message": "Copiere esuata"
+  },
+  "playlistExported": {
+    "message": "Lista exportata cu succes."
+  },
+  "playing": {
+    "message": "Redare"
+  },
+  "buffering": {
+    "message": "Pre-incarcare"
+  },
+  "paused": {
+    "message": "Pauza"
+  },
+  "cancel": {
+    "message": "Renunta"
+  },
+  "errorLoadingUrl": {
+    "message": "Eroare la incarcarea URL"
+  },
+  "playlistLoaded": {
+    "message": "Lista incarcata"
+  },
+  "playlistCreated": {
+    "message": "Lista creata"
+  },
+  "extensionConflict": {
+    "message": "O problema sau o alta extensie a fortat Youtube sa foloseasca Flash.$lineBreak$ Streamus nu va functiona corect in aceste conditii. Rezolvati problema sau opriti extensia, apoi re-porniti Streamus",
+    "placeholders": {
+      "lineBreak": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchResults": {
+    "message": "Rezultatele cautarii"
+  },
+  "collectionCantBeDeleted": {
+    "message": "Nu se poate sterge $collectionName$",
+    "placeholders": {
+      "collectionName": {
+        "content": "$1"
+      }
+    }
+  },
+  "collectionSelected": {
+    "message": "$count$ $collectionName$ alese",
+    "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "collectionName": {
+        "content": "$2"
+      }
+    }
+  },
+  "saveAll": {
+    "message": "Salveaza tot"
+  },
+  "saveVideo": {
+    "message": "Salveaza cantec"
+  },
+  "videoSavedToPlaylist": {
+    "message": "$videoTitle$ salvat in lista $playlistTitle$",
+    "placeholders": {
+      "videoTitle": {
+        "content": "$1"
+      },
+      "playlistTitle": {
+        "content": "$2"
+      }
+    }
+  },
+  "desktopNotifications": {
+    "message": "Notificari Desktop"
+  },
+  "showNotifications": {
+    "message": "Arata notificari"
+  },
+  "notificationDuration": {
+    "message": "Durata notificarii"
+  },
+  "oneSecond": {
+    "message": "O secunda"
+  },
+  "twoSeconds": {
+    "message": "Doua secunde"
+  },
+  "threeSeconds": {
+    "message": "Trei secunde"
+  },
+  "fourSeconds": {
+    "message": "Patru secunde"
+  },
+  "fiveSeconds": {
+    "message": "Cingi secunde"
+  },
+  "tenSeconds": {
+    "message": "Zece secunde"
+  },
+  "playlistUrl": {
+    "message": "Lista URL"
+  }
 }

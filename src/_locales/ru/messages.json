@@ -1,537 +1,537 @@
 ﻿{
-    "extensionName": {
-        "message": "Streamus"
-    },
-    "extensionDescription": {
-        "message": "Потоковая музыка в вашем браузере."
-    },
-    "toggleRadio": {
-        "message": "Радио выкл/вкл"
-    },
-    "toggleShuffle": {
-        "message": "Перемешивание выкл/вкл"
-    },
-    "toggleRepeat": {
-        "message": "Повтор выкл/все песни/текущая песня"
-    },
-    "increaseVolume": {
-        "message": "Увеличить громкость"
-    },
-    "decreaseVolume": {
-        "message": "Уменьшить громкость"
-    },
-    "showVideoDetails": {
-        "message": "Показать подробную информацию о песне"
-    },
-    "nextVideo": {
-        "message": "Следующая песня"
-    },
-    "previousVideo": {
-        "message": "Предыдущая песня"
-    },
-    "toggleVideo": {
-        "message": "Воспроизвести/пауза"
-    },
-    "deleteVideo": {
-        "message": "Удалить песню"
-    },
-    "copyVideoUrl": {
-        "message": "Скопировать ссылку песни"
-    },
-    "copyVideoTitleAndUrl": {
-        "message": "Скопировать название и ссылку песни"
-    },
-    "save": {
-        "message": "Сохранить"
-    },
-    "copyUrl": {
-        "message": "Скопировать ссылку"
-    },
-    "copyTitleAndUrl": {
-        "message": "Скопировать название и ссылку"
-    },
-    "delete": {
-        "message": "Удалить"
-    },
-    "clearStream": {
-        "message": "Очистить список воспроизведения"
-    },
-    "saveStream": {
-        "message": "Сохранить список воспроизведения"
-    },
-    "addToStreamus": {
-        "message": "Добавить в Streamus"
-    },
-    "youTubePlayerErrorVideoNotFound": {
-        "message": "Песня была удалена или отмечена приватной."
-    },
-    "youTubePlayerErrorNoPlayEmbedded": {
-        "message": "Невозможно воспроизвести песню."
-    },
-    "errorEncountered": {
-        "message": "Обнаружена ошибка."
-    },
-    "saving": {
-        "message": "Сохраняю"
-    },
-    "installed": {
-        "message": "Установлено"
-    },
-    "repeatOff": {
-        "message": "Повтор выкл"
-    },
-    "repeatVideo": {
-        "message": "Повтор песни"
-    },
-    "repeatAll": {
-        "message": "Повторить все"
-    },
-    "radioOn": {
-        "message": "Радио вкл"
-    },
-    "radioOff": {
-        "message": "Радио выкл"
-    },
-    "shufflingOn": {
-        "message": "Перемешивание вкл"
-    },
-    "shufflingOff": {
-        "message": "Перемешивание выкл"
-    },
-    "elapsedTime": {
-        "message": "Прошедшее время"
-    },
-    "remainingTime": {
-        "message": "Оставшееся время"
-    },
-    "totalTime": {
-        "message": "Всего времени"
-    },
-    "highest": {
-        "message": "Наилучшее"
-    },
-    "auto": {
-        "message": "Авто"
-    },
-    "lowest": {
-        "message": "Наихудшее"
-    },
-    "reload": {
-        "message": "Перезапустить приложение"
-    },
-    "playAll": {
-        "message": "Воспроизвести всё"
-    },
-    "addAll": {
-        "message": "Добавить всё"
-    },
-    "addSelected": {
-        "message": "Добавить выделенные"
-    },
-    "playSelected": {
-        "message": "Воспроизвести выделенные"
-    },
-    "saveSelected": {
-        "message": "Сохранить выделенные"
-    },
-    "search": {
-        "message": "Поиск"
-    },
-    "searching": {
-        "message": "Выполняется поиск"
-    },
-    "noResultsFound": {
-        "message": "Результатов не найдено"
-    },
-    "clearStream": {
-        "message": "Очистить список воспроизведения"
-    },
-    "createPlaylist": {
-        "message": "Создать плейлист"
-    },
-    "ok": {
-        "message": "Ок"
-    },
-    "playlist": {
-        "message": "Плейлист"
-    },
-    "stream": {
-        "message": "Список воспроизведения"
-    },
-    "settings": {
-        "message": "Настройки"
-    },
-    "edit": {
-        "message": "Редактировать"
-    },
-    "cantDeleteLastPlaylist": {
-        "message": "Нельзя удалить последний плейлист"
-    },
-    "clearStreamQuestion": {
-        "message": "Очистить список воспроизведения?"
-    },
-    "play": {
-        "message": "Воспроизвести"
-    },
-    "add": {
-        "message": "Добавить"
-    },
-    "title": {
-        "message": "Название"
-    },
-    "url": {
-        "message": "Ссылка"
-    },
-    "playlists": {
-        "message": "Плейлисты"
-    },
-    "remind": {
-        "message": "Напомнить"
-    },
-    "reminders": {
-        "message": "Напоминания"
-    },
-    "remindClearStream": {
-        "message": "Напомнить очистить список воспроизведения"
-    },
-    "remindDeletePlaylist": {
-        "message": "Напомнить удалить плейлист"
-    },
-    "minute": {
-        "message": "Минута"
-    },
-    "minutes": {
-        "message": "Минут"
-    },
-    "hours": {
-        "message": "Часов"
-    },
-    "days": {
-        "message": "Дней"
-    },
-    "errorLoadingTitle": {
-        "message": "Ошибка при загрузке названия"
-    },
-    "keyboardCommandFailure": {
-        "message": "Ошибка комбинации клавиш"
-    },
-    "streamEmpty": {
-        "message": "Список воспроизведения пуст"
-    },
-    "playlistEmpty": {
-        "message": "Плейлист пуст"
-    },
-    "create": {
-        "message": "Создать"
-    },
-    "update": {
-        "message": "Обновить"
-    },
-    "wouldYouLikeTo": {
-        "message": "Не желаете ли вы"
-    },
-    "general": {
-        "message": "Основные"
-    },
-    "startTyping": {
-        "message": "Начните печатать"
-    },
-    "resultsWillAppearAsYouSearch": {
-        "message": "Результаты будут показаны по мере того, как вы будете печатать."
-    },
-    "trySearchingForSomethingElse": {
-        "message": "Попробуйте поискать что-нибудь другое."
-    },
-    "watchOnYouTube": {
-        "message": "Просмотреть на YouTube"
-    },
-    "notSignedIn": {
-        "message": "Не выполнен вход"
-    },
-    "signingIn": {
-        "message": "Выполняется вход"
-    },
-    "signIn": {
-        "message": "Войти"
-    },
-    "signInFailed": {
-        "message": "Ошибка авторизации"
-    },
-    "pleaseWait": {
-        "message": "Пожалуйста подождите"
-    },
-    "anUpdateIsAvailable": {
-        "message": "Доступно обновление"
-    },
-    "pressEnterToPlay": {
-        "message": "Нажмите ввод для воспроизведения"
-    },
-    "volume": {
-        "message": "Громкость"
-    },
-    "videoAdded": {
-        "message": "Песня добавлена"
-    },
-    "addVideo": {
-        "message": "Добавить песню"
-    },
-    "video": {
-        "message": "Песня"
-    },
-    "videos": {
-        "message": "Песни"
-    },
-    "cantSkipToNextVideo": {
-        "message": "Невозможно воспроизвести следующую песню"
-    },
-    "cantGoBackToPreviousVideo": {
-        "message": "Невозможно воспроизвести предыдущую песню"
-    },
-    "cantToggleVideo": {
-        "message": "Невозможно выполнить действие"
-    },
-    "searchForVideos": {
-        "message": "Выполнить поиск песен"
-    },
-    "videoQuality": {
-        "message": "Качество песен"
-    },
-    "whyNotAddAVideoFromAPlaylistOr": {
-        "message": "Почему бы не добавить песню из плейлиста или",
-        "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
-    },
-    "searchAndPlay": {
-        "message": "Найти и воспроизвести"
-    },
-    "searchAndAdd": {
-        "message": "Найти и добавить"
-    },
-    "linkAccountsMessage": {
-        "message": "Streamus не привязан к Вашему Chrome аккаунту. Ваши плейлисты будут доступны на других компьютерах после привязки."
-    },
-    "link": {
-        "message": "Привязать",
-        "description": "This is 'Link' as in 'Link my account'"
-    },
-    "googleSignInMessage": {
-        "message": "Вы не авторизированы в браузере. Ваши плейлисты доступны только на этом компьютере."
-    },
-    "remindGoogleSignIn": {
-        "message": "Напомнить выполнить вход в Google аккаунт"
-    },
-    "keyboardShortcuts": {
-        "message": "Горячие клавиши"
-    },
-    "export": {
-        "message": "Экспорт"
-    },
-    "openInTab": {
-        "message": "Открывать во вкладке"
-    },
-    "contextMenus": {
-        "message": "Контекстное меню"
-    },
-    "websiteEnhancements": {
-        "message": "Индексируемые сайты"
-    },
-    "textSelection": {
-        "message": "Выделение текста"
-    },
-    "youTubeLinks": {
-        "message": "Ссылки YouTube"
-    },
-    "youTubePages": {
-        "message": "Страницы YouTube"
-    },
-    "youTube": {
-        "message": "YouTube"
-    },
-    "beatport": {
-        "message": "Beatport"
-    },
-    "fileType": {
-        "message": "Формат файла"
-    },
-    "csv": {
-        "message": "CSV"
-    },
-    "json": {
-        "message": "JSON"
-    },
-    "failedToFindVideo": {
-        "message": "Невозможно найти песню"
-    },
-    "failedToFindVideos": {
-        "message": "Невозможно найти песни"
-    },
-    "loadingYouTube": {
-        "message": "Загрузка YouTube"
-    },
-    "loadingYouTubeFailed": {
-        "message": "Ошибка загрузки YouTube"
-    },
-    "loadAttempt": {
-        "message": "Попытка $currentLoadAttempt$ из $maxLoadAttempts$",
-        "placeholders": {
-            "currentLoadAttempt": {
-                "content": "$1"
-            },
-            "maxLoadAttempts": {
-                "content": "$2"
-            }
-        }
-    },
-    "videoAlreadyInCollection": {
-        "message": "Песня уже есть в $collectionName$",
-        "placeholders": {
-            "collectionName": {
-                "content": "$1"
-            }
-        }
-    },
-    "allVideosAlreadyInCollection": {
-        "message": "Все песни уже есть в $collectionName$",
-        "placeholders": {
-            "collectionName": {
-                "content": "$1"
-            }
-        }
-    },
-    "videosAlreadyInCollection": {
-        "message": "$duplicateVideoCount$ из $draggedVideoCount$ песен уже есть в $collectionName$",
-        "placeholders": {
-            "duplicateVideoCount": {
-                "content": "$1"
-            },
-            "draggedVideoCount": {
-                "content": "$2"
-            },
-            "collectionName": {
-                "content": "$3"
-            }
-        }
-    },
-    "urlCopied": {
-        "message": "Ссылка скопирована"
-    },
-    "copyFailed": {
-        "message": "Ошибка копирования"
-    },
-    "playlistExported": {
-        "message": "Плейлист успешно экспортирован."
-    },
-    "playing": {
-        "message": "Воспроизведение"
-    },
-    "buffering": {
-        "message": "Буферизация"
-    },
-    "paused": {
-        "message": "Пауза"
-    },
-    "cancel": {
-        "message": "Отмена"
-    },
-    "errorLoadingUrl": {
-        "message": "Ошибка загрузки ссылки"
-    },
-    "playlistLoaded": {
-        "message": "Плейлист загружен"
-    },
-    "playlistCreated": {
-        "message": "Плейлист создан"
-    },
-    "extensionConflict": {
-        "message": "Другое расширение, или ещё что-то, вынуждает YouTube работать на Flash.$lineBreak$ Streamus не может работать до тех пор, пока проблема не будет решена, а Streamus перезагружен.",
-        "placeholders": {
-            "lineBreak": {
-                "content": "$1"
-            }
-        }
-    },
-    "searchResults": {
-        "message": "Результаты поиска"
-    },
-    "collectionCantBeDeleted": {
-        "message": "$collectionName$ не может быть удален",
-        "placeholders": {
-            "collectionName": {
-                "content": "$1"
-            }
-        }
-    },
-    "collectionSelected": {
-        "message": "$count$ $collectionName$ выбрано",
-        "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
-        "placeholders": {
-            "count": {
-                "content": "$1"
-            },
-            "collectionName": {
-                "content": "$2"
-            }
-        }
-    },
-    "saveAll": {
-        "message": "Сохранить всё"
-    },
-    "saveVideo": {
-        "message": "Сохранить песню"
-    },
-    "videoSavedToPlaylist": {
-        "message": "$videoTitle$ сохранено в $playlistTitle$",
-        "placeholders": {
-            "videoTitle": {
-                "content": "$1"
-            },
-            "playlistTitle": {
-                "content": "$2"
-            }
-        }
-    },
-    "desktopNotifications": {
-        "message": "Уведомления на рабочем столе"
-    },
-    "showNotifications": {
-        "message": "Показывать уведомления"
-    },
-    "notificationDuration": {
-        "message": "Длительность уведомления"
-    },
-    "oneSecond": {
-        "message": "Одна секунда"
-    },
-    "twoSeconds": {
-        "message": "Две секунды"
-    },
-    "threeSeconds": {
-        "message": "Три секунды"
-    },
-    "fourSeconds": {
-        "message": "Четыре секунды"
-    },
-    "fiveSeconds": {
-        "message": "Пять секунд"
-    },
-    "tenSeconds": {
-        "message": "Десять секунд"
-    },
-    "playlistUrl": {
-        "message": "Ссылка на плейлист"
-    },
-    "aboutStreamus": {
-        "message": "Про Streamus"
-    },
-    "applicationDetails": {
-        "message":  "Подробная информация про приложение"
-    },
-    "openHomepage": {
-        "message": "Открыть домашнюю страницу"
-    },
-    "version": {
-        "message": "Версия"
-    },
-    "openPatchNotes": {
-        "message":  "Открыть информацию про обновления"
+  "extensionName": {
+    "message": "Streamus"
+  },
+  "extensionDescription": {
+    "message": "Потоковая музыка в вашем браузере."
+  },
+  "toggleRadio": {
+    "message": "Радио выкл/вкл"
+  },
+  "toggleShuffle": {
+    "message": "Перемешивание выкл/вкл"
+  },
+  "toggleRepeat": {
+    "message": "Повтор выкл/все песни/текущая песня"
+  },
+  "increaseVolume": {
+    "message": "Увеличить громкость"
+  },
+  "decreaseVolume": {
+    "message": "Уменьшить громкость"
+  },
+  "showVideoDetails": {
+    "message": "Показать подробную информацию о песне"
+  },
+  "nextVideo": {
+    "message": "Следующая песня"
+  },
+  "previousVideo": {
+    "message": "Предыдущая песня"
+  },
+  "toggleVideo": {
+    "message": "Воспроизвести/пауза"
+  },
+  "deleteVideo": {
+    "message": "Удалить песню"
+  },
+  "copyVideoUrl": {
+    "message": "Скопировать ссылку песни"
+  },
+  "copyVideoTitleAndUrl": {
+    "message": "Скопировать название и ссылку песни"
+  },
+  "save": {
+    "message": "Сохранить"
+  },
+  "copyUrl": {
+    "message": "Скопировать ссылку"
+  },
+  "copyTitleAndUrl": {
+    "message": "Скопировать название и ссылку"
+  },
+  "delete": {
+    "message": "Удалить"
+  },
+  "clearStream": {
+    "message": "Очистить список воспроизведения"
+  },
+  "saveStream": {
+    "message": "Сохранить список воспроизведения"
+  },
+  "addToStreamus": {
+    "message": "Добавить в Streamus"
+  },
+  "youTubePlayerErrorVideoNotFound": {
+    "message": "Песня была удалена или отмечена приватной."
+  },
+  "youTubePlayerErrorNoPlayEmbedded": {
+    "message": "Невозможно воспроизвести песню."
+  },
+  "errorEncountered": {
+    "message": "Обнаружена ошибка."
+  },
+  "saving": {
+    "message": "Сохраняю"
+  },
+  "installed": {
+    "message": "Установлено"
+  },
+  "repeatOff": {
+    "message": "Повтор выкл"
+  },
+  "repeatVideo": {
+    "message": "Повтор песни"
+  },
+  "repeatAll": {
+    "message": "Повторить все"
+  },
+  "radioOn": {
+    "message": "Радио вкл"
+  },
+  "radioOff": {
+    "message": "Радио выкл"
+  },
+  "shufflingOn": {
+    "message": "Перемешивание вкл"
+  },
+  "shufflingOff": {
+    "message": "Перемешивание выкл"
+  },
+  "elapsedTime": {
+    "message": "Прошедшее время"
+  },
+  "remainingTime": {
+    "message": "Оставшееся время"
+  },
+  "totalTime": {
+    "message": "Всего времени"
+  },
+  "highest": {
+    "message": "Наилучшее"
+  },
+  "auto": {
+    "message": "Авто"
+  },
+  "lowest": {
+    "message": "Наихудшее"
+  },
+  "reload": {
+    "message": "Перезапустить приложение"
+  },
+  "playAll": {
+    "message": "Воспроизвести всё"
+  },
+  "addAll": {
+    "message": "Добавить всё"
+  },
+  "addSelected": {
+    "message": "Добавить выделенные"
+  },
+  "playSelected": {
+    "message": "Воспроизвести выделенные"
+  },
+  "saveSelected": {
+    "message": "Сохранить выделенные"
+  },
+  "search": {
+    "message": "Поиск"
+  },
+  "searching": {
+    "message": "Выполняется поиск"
+  },
+  "noResultsFound": {
+    "message": "Результатов не найдено"
+  },
+  "clearStream": {
+    "message": "Очистить список воспроизведения"
+  },
+  "createPlaylist": {
+    "message": "Создать плейлист"
+  },
+  "ok": {
+    "message": "Ок"
+  },
+  "playlist": {
+    "message": "Плейлист"
+  },
+  "stream": {
+    "message": "Список воспроизведения"
+  },
+  "settings": {
+    "message": "Настройки"
+  },
+  "edit": {
+    "message": "Редактировать"
+  },
+  "cantDeleteLastPlaylist": {
+    "message": "Нельзя удалить последний плейлист"
+  },
+  "clearStreamQuestion": {
+    "message": "Очистить список воспроизведения?"
+  },
+  "play": {
+    "message": "Воспроизвести"
+  },
+  "add": {
+    "message": "Добавить"
+  },
+  "title": {
+    "message": "Название"
+  },
+  "url": {
+    "message": "Ссылка"
+  },
+  "playlists": {
+    "message": "Плейлисты"
+  },
+  "remind": {
+    "message": "Напомнить"
+  },
+  "reminders": {
+    "message": "Напоминания"
+  },
+  "remindClearStream": {
+    "message": "Напомнить очистить список воспроизведения"
+  },
+  "remindDeletePlaylist": {
+    "message": "Напомнить удалить плейлист"
+  },
+  "minute": {
+    "message": "Минута"
+  },
+  "minutes": {
+    "message": "Минут"
+  },
+  "hours": {
+    "message": "Часов"
+  },
+  "days": {
+    "message": "Дней"
+  },
+  "errorLoadingTitle": {
+    "message": "Ошибка при загрузке названия"
+  },
+  "keyboardCommandFailure": {
+    "message": "Ошибка комбинации клавиш"
+  },
+  "streamEmpty": {
+    "message": "Список воспроизведения пуст"
+  },
+  "playlistEmpty": {
+    "message": "Плейлист пуст"
+  },
+  "create": {
+    "message": "Создать"
+  },
+  "update": {
+    "message": "Обновить"
+  },
+  "wouldYouLikeTo": {
+    "message": "Не желаете ли вы"
+  },
+  "general": {
+    "message": "Основные"
+  },
+  "startTyping": {
+    "message": "Начните печатать"
+  },
+  "resultsWillAppearAsYouSearch": {
+    "message": "Результаты будут показаны по мере того, как вы будете печатать."
+  },
+  "trySearchingForSomethingElse": {
+    "message": "Попробуйте поискать что-нибудь другое."
+  },
+  "watchOnYouTube": {
+    "message": "Просмотреть на YouTube"
+  },
+  "notSignedIn": {
+    "message": "Не выполнен вход"
+  },
+  "signingIn": {
+    "message": "Выполняется вход"
+  },
+  "signIn": {
+    "message": "Войти"
+  },
+  "signInFailed": {
+    "message": "Ошибка авторизации"
+  },
+  "pleaseWait": {
+    "message": "Пожалуйста подождите"
+  },
+  "anUpdateIsAvailable": {
+    "message": "Доступно обновление"
+  },
+  "pressEnterToPlay": {
+    "message": "Нажмите ввод для воспроизведения"
+  },
+  "volume": {
+    "message": "Громкость"
+  },
+  "videoAdded": {
+    "message": "Песня добавлена"
+  },
+  "addVideo": {
+    "message": "Добавить песню"
+  },
+  "video": {
+    "message": "Песня"
+  },
+  "videos": {
+    "message": "Песни"
+  },
+  "cantSkipToNextVideo": {
+    "message": "Невозможно воспроизвести следующую песню"
+  },
+  "cantGoBackToPreviousVideo": {
+    "message": "Невозможно воспроизвести предыдущую песню"
+  },
+  "cantToggleVideo": {
+    "message": "Невозможно выполнить действие"
+  },
+  "searchForVideos": {
+    "message": "Выполнить поиск песен"
+  },
+  "videoQuality": {
+    "message": "Качество песен"
+  },
+  "whyNotAddAVideoFromAPlaylistOr": {
+    "message": "Почему бы не добавить песню из плейлиста или",
+    "description": "The full sentence here is 'Why not add a video from a playlist or search for videos?' but I need to wrap part of the sentence in HTML"
+  },
+  "searchAndPlay": {
+    "message": "Найти и воспроизвести"
+  },
+  "searchAndAdd": {
+    "message": "Найти и добавить"
+  },
+  "linkAccountsMessage": {
+    "message": "Streamus не привязан к Вашему Chrome аккаунту. Ваши плейлисты будут доступны на других компьютерах после привязки."
+  },
+  "link": {
+    "message": "Привязать",
+    "description": "This is 'Link' as in 'Link my account'"
+  },
+  "googleSignInMessage": {
+    "message": "Вы не авторизированы в браузере. Ваши плейлисты доступны только на этом компьютере."
+  },
+  "remindGoogleSignIn": {
+    "message": "Напомнить выполнить вход в Google аккаунт"
+  },
+  "keyboardShortcuts": {
+    "message": "Горячие клавиши"
+  },
+  "export": {
+    "message": "Экспорт"
+  },
+  "openInTab": {
+    "message": "Открывать во вкладке"
+  },
+  "contextMenus": {
+    "message": "Контекстное меню"
+  },
+  "websiteEnhancements": {
+    "message": "Индексируемые сайты"
+  },
+  "textSelection": {
+    "message": "Выделение текста"
+  },
+  "youTubeLinks": {
+    "message": "Ссылки YouTube"
+  },
+  "youTubePages": {
+    "message": "Страницы YouTube"
+  },
+  "youTube": {
+    "message": "YouTube"
+  },
+  "beatport": {
+    "message": "Beatport"
+  },
+  "fileType": {
+    "message": "Формат файла"
+  },
+  "csv": {
+    "message": "CSV"
+  },
+  "json": {
+    "message": "JSON"
+  },
+  "failedToFindVideo": {
+    "message": "Невозможно найти песню"
+  },
+  "failedToFindVideos": {
+    "message": "Невозможно найти песни"
+  },
+  "loadingYouTube": {
+    "message": "Загрузка YouTube"
+  },
+  "loadingYouTubeFailed": {
+    "message": "Ошибка загрузки YouTube"
+  },
+  "loadAttempt": {
+    "message": "Попытка $currentLoadAttempt$ из $maxLoadAttempts$",
+    "placeholders": {
+      "currentLoadAttempt": {
+        "content": "$1"
+      },
+      "maxLoadAttempts": {
+        "content": "$2"
+      }
     }
+  },
+  "videoAlreadyInCollection": {
+    "message": "Песня уже есть в $collectionName$",
+    "placeholders": {
+      "collectionName": {
+        "content": "$1"
+      }
+    }
+  },
+  "allVideosAlreadyInCollection": {
+    "message": "Все песни уже есть в $collectionName$",
+    "placeholders": {
+      "collectionName": {
+        "content": "$1"
+      }
+    }
+  },
+  "videosAlreadyInCollection": {
+    "message": "$duplicateVideoCount$ из $draggedVideoCount$ песен уже есть в $collectionName$",
+    "placeholders": {
+      "duplicateVideoCount": {
+        "content": "$1"
+      },
+      "draggedVideoCount": {
+        "content": "$2"
+      },
+      "collectionName": {
+        "content": "$3"
+      }
+    }
+  },
+  "urlCopied": {
+    "message": "Ссылка скопирована"
+  },
+  "copyFailed": {
+    "message": "Ошибка копирования"
+  },
+  "playlistExported": {
+    "message": "Плейлист успешно экспортирован."
+  },
+  "playing": {
+    "message": "Воспроизведение"
+  },
+  "buffering": {
+    "message": "Буферизация"
+  },
+  "paused": {
+    "message": "Пауза"
+  },
+  "cancel": {
+    "message": "Отмена"
+  },
+  "errorLoadingUrl": {
+    "message": "Ошибка загрузки ссылки"
+  },
+  "playlistLoaded": {
+    "message": "Плейлист загружен"
+  },
+  "playlistCreated": {
+    "message": "Плейлист создан"
+  },
+  "extensionConflict": {
+    "message": "Другое расширение, или ещё что-то, вынуждает YouTube работать на Flash.$lineBreak$ Streamus не может работать до тех пор, пока проблема не будет решена, а Streamus перезагружен.",
+    "placeholders": {
+      "lineBreak": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchResults": {
+    "message": "Результаты поиска"
+  },
+  "collectionCantBeDeleted": {
+    "message": "$collectionName$ не может быть удален",
+    "placeholders": {
+      "collectionName": {
+        "content": "$1"
+      }
+    }
+  },
+  "collectionSelected": {
+    "message": "$count$ $collectionName$ выбрано",
+    "description": "This is either 0 videos selected, 1 video selected, or 2 videos selected",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "collectionName": {
+        "content": "$2"
+      }
+    }
+  },
+  "saveAll": {
+    "message": "Сохранить всё"
+  },
+  "saveVideo": {
+    "message": "Сохранить песню"
+  },
+  "videoSavedToPlaylist": {
+    "message": "$videoTitle$ сохранено в $playlistTitle$",
+    "placeholders": {
+      "videoTitle": {
+        "content": "$1"
+      },
+      "playlistTitle": {
+        "content": "$2"
+      }
+    }
+  },
+  "desktopNotifications": {
+    "message": "Уведомления на рабочем столе"
+  },
+  "showNotifications": {
+    "message": "Показывать уведомления"
+  },
+  "notificationDuration": {
+    "message": "Длительность уведомления"
+  },
+  "oneSecond": {
+    "message": "Одна секунда"
+  },
+  "twoSeconds": {
+    "message": "Две секунды"
+  },
+  "threeSeconds": {
+    "message": "Три секунды"
+  },
+  "fourSeconds": {
+    "message": "Четыре секунды"
+  },
+  "fiveSeconds": {
+    "message": "Пять секунд"
+  },
+  "tenSeconds": {
+    "message": "Десять секунд"
+  },
+  "playlistUrl": {
+    "message": "Ссылка на плейлист"
+  },
+  "aboutStreamus": {
+    "message": "Про Streamus"
+  },
+  "applicationDetails": {
+    "message": "Подробная информация про приложение"
+  },
+  "openHomepage": {
+    "message": "Открыть домашнюю страницу"
+  },
+  "version": {
+    "message": "Версия"
+  },
+  "openPatchNotes": {
+    "message": "Открыть информацию про обновления"
+  }
 }
