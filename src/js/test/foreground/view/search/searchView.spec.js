@@ -40,14 +40,14 @@
     });
 
     it('should not be able to save if there are search results, but the user is not signed in', function() {
-      this.searchResults.add({});
+      this.searchResults.add(TestUtility.buildSearchResult());
       var canSave = this.view._canSave();
       expect(canSave).to.equal(false);
     });
 
     it('should be able to save if there are search results and the user is signed in', function() {
       this.signInManager.set('signedInUser', {});
-      this.searchResults.add({});
+      this.searchResults.add(TestUtility.buildSearchResult());
       var canSave = this.view._canSave();
       expect(canSave).to.equal(true);
     });
@@ -63,7 +63,7 @@
 
       it('should create a saveSelectedSimpleMenu when able to save', function() {
         this.signInManager.set('signedInUser', {});
-        this.searchResults.add({});
+        this.searchResults.add(TestUtility.buildSearchResult());
 
         this.view._onClickSaveAllButton();
         expect(this.view._showSaveSelectedSimpleMenu.calledOnce).to.equal(true);
@@ -76,14 +76,16 @@
     });
 
     it('should not be able to play or add if there are no search results', function() {
-      var canPlayOrAdd = this.view._canPlayOrAdd();
-      expect(canPlayOrAdd).to.equal(false);
+      var canPlay = this.view._canPlay();
+      var canAdd = this.view._canAdd();
+      expect(canPlay).to.equal(false);
+      expect(canAdd).to.equal(false);
     });
 
-    it('should be able to play or add if there are search results', function() {
-      this.searchResults.add({});
-      var canPlayOrAdd = this.view._canPlayOrAdd();
-      expect(canPlayOrAdd).to.equal(true);
+    it('should be able to play if there are search results', function() {
+      this.searchResults.add(TestUtility.buildSearchResult());
+      var canPlay = this.view._canPlay();
+      expect(canPlay).to.equal(true);
     });
 
     describe('when clicking the addAll button', function() {
@@ -96,7 +98,7 @@
       });
 
       it('should add videos when able to add', function() {
-        this.searchResults.add({});
+        this.searchResults.add(TestUtility.buildSearchResult());
 
         this.view._onClickAddAllButton();
         expect(this.streamItems.addVideos.calledOnce).to.equal(true);
@@ -118,7 +120,7 @@
       });
 
       it('should add & play videos when able to play', function() {
-        this.searchResults.add({});
+        this.searchResults.add(TestUtility.buildSearchResult());
 
         this.view._onClickAddAllButton();
         expect(this.streamItems.addVideos.calledOnce).to.equal(true);

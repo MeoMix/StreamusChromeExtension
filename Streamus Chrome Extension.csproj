@@ -151,6 +151,8 @@
     <Content Include="src\js\test\chrome.mock.js" />
     <Content Include="src\js\test\common\commonSpecLoader.js" />
     <Content Include="src\js\test\background\model\activePlaylistManager.spec.js" />
+    <Content Include="src\js\test\contentScript\contentScriptSpecLoader.js" />
+    <Content Include="src\js\test\contentScript\youTubePlayer\model\port.spec.js" />
     <Content Include="src\js\test\foreground\collection\activePane\activePanes.spec.js" />
     <Content Include="src\js\test\foreground\model\appBar\activePaneFilter.spec.js" />
     <Content Include="src\js\test\foreground\model\streamControlBar\timeLabelArea.spec.js" />
@@ -175,7 +177,7 @@
     <Content Include="src\js\test\foreground\view\streamControlBar\streamControlBarView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\timeLabelAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\timeSliderView.spec.js" />
-    <Content Include="src\js\test\foreground\view\appBar\volumeAreaView.spec.js" />
+    <Content Include="src\js\test\foreground\view\streamControlBar\volumeAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\behaviorSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\behavior\collectionViewMultiSelect.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\dialogContent.spec.js" />
@@ -441,7 +443,7 @@
     <Content Include="src\js\foreground\view\dialog\dialogView.js" />
     <Content Include="src\js\foreground\view\stream\streamItemView.js" />
     <Content Include="src\js\foreground\view\stream\streamView.js" />
-    <Content Include="src\js\foreground\view\appBar\volumeAreaView.js" />
+    <Content Include="src\js\foreground\view\streamControlBar\volumeAreaView.js" />
     <Content Include="src\js\foreground\view\search\searchResultsView.js" />
     <Content Include="src\js\foreground\view\search\searchResultView.js" />
     <Content Include="src\js\foreground\view\search\searchView.js" />
@@ -544,7 +546,6 @@
     <Content Include="src\template\streamControlBar\streamControlBar.html" />
     <Content Include="src\template\streamControlBar\timeLabelArea.html" />
     <Content Include="src\template\streamControlBar\timeSlider.html" />
-    <Content Include="src\template\streamControlBar\videoButton.html" />
     <Content Include="src\template\stream\clearStreamButton.html" />
     <Content Include="src\template\stream\saveStreamButton.html" />
     <Content Include="src\template\stream\streamItem.html" />
@@ -554,7 +555,7 @@
     <Content Include="src\template\stream\streamItems.html" />
     <Content Include="src\template\search\searchResult.html" />
     <Content Include="src\template\search\search.html" />
-    <Content Include="src\template\appBar\volumeArea.html" />
+    <Content Include="src\template\streamControlBar\volumeArea.html" />
     <Content Include="src\js\test\main.js" />
     <Content Include="src\js\test\background\model\relatedVideosManager.spec.js" />
     <Content Include="src\js\test\background\model\dataSource.spec.js" />

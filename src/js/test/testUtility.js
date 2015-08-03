@@ -4,6 +4,7 @@
   var Video = require('background/model/video');
   var Playlist = require('background/model/playlist');
   var PlaylistItem = require('background/model/playlistItem');
+  var SearchResult = require('background/model/searchResult');
   var Player = require('background/model/player');
   var Stream = require('background/model/stream');
   var SignInManager = require('background/model/signInManager');
@@ -63,6 +64,15 @@
       var video = this.buildVideo();
 
       return new PlaylistItem({
+        video: video,
+        title: video.get('title')
+      });
+    },
+
+    buildSearchResult: function() {
+      var video = this.buildVideo();
+
+      return new SearchResult({
         video: video,
         title: video.get('title')
       });
