@@ -4,6 +4,7 @@
   var SpinnerView = require('foreground/view/element/spinnerView');
   var SearchResultsView = require('foreground/view/search/searchResultsView');
   var VideoActions = require('foreground/model/video/videoActions');
+  var Tooltipable = require('foreground/view/behavior/tooltipable');
   var SearchTemplate = require('text!template/search/search.html');
 
   var SearchView = Marionette.LayoutView.extend({
@@ -38,6 +39,12 @@
       noResultsMessage: 'noResultsMessage'
     },
 
+    behaviors: {
+      Tooltipable: {
+        behaviorClass: Tooltipable
+      }
+    },
+
     events: {
       'click @ui.playAllButton': '_onClickPlayAllButton',
       'click @ui.addAllButton': '_onClickAddAllButton',
@@ -55,14 +62,21 @@
       'reset': '_onSearchResultsReset'
     },
 
-    transitionDuration: 4000,
     streamItems: null,
+    streamItemsEvents: {
+      'add:completed': '_onStreamItemsAddCompleted',
+      'remove': '_onStreamItemsRemove',
+      'reset': '_onStreamItemsReset'
+    },
+
+    transitionDuration: 4000,
     signInManager: null,
 
     initialize: function(options) {
       this.streamItems = options.streamItems;
       this.signInManager = options.signInManager;
 
+      this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
       this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
       this.listenTo(StreamusFG.channels.search.commands, 'search', this._search);
     },
@@ -90,7 +104,7 @@
     },
 
     _onClickAddAllButton: function() {
-      var canAdd = this._canPlayOrAdd();
+      var canAdd = this._canAdd();
 
       if (canAdd) {
         var videos = this.collection.pluck('video');
@@ -99,7 +113,7 @@
     },
 
     _onClickPlayAllButton: function() {
-      var canPlay = this._canPlayOrAdd();
+      var canPlay = this._canPlay();
 
       if (canPlay) {
         var videos = this.collection.pluck('video');
@@ -119,6 +133,18 @@
 
     _onChangeQuery: function() {
       this._toggleInstructions();
+    },
+
+    _onStreamItemsAddCompleted: function() {
+      this._setButtonStates();
+    },
+
+    _onStreamItemsRemove: function() {
+      this._setButtonStates();
+    },
+
+    _onStreamItemsReset: function() {
+      this._setButtonStates();
     },
 
     _onSearchResultsReset: function() {
@@ -149,9 +175,14 @@
     _setButtonStates: function() {
       this._setSaveAllButtonState();
 
-      var canPlayOrAdd = this._canPlayOrAdd();
-      this.ui.playAllButton.toggleClass('is-disabled', !canPlayOrAdd);
-      this.ui.addAllButton.toggleClass('is-disabled', !canPlayOrAdd);
+      var canPlay = this._canPlay();
+      this.ui.playAllButton.toggleClass('is-disabled', !canPlay);
+
+      var canAdd = this._canAdd();
+      this.ui.addAllButton.toggleClass('is-disabled', !canAdd);
+
+      var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.collection.pluck('video'));
+      this.ui.addAllButton.attr('data-tooltip-text', duplicatesInfo.message);
     },
 
     _showSaveSelectedSimpleMenu: function() {
@@ -174,10 +205,18 @@
       return signedIn && !isEmpty;
     },
 
-    _canPlayOrAdd: function() {
+    _canPlay: function() {
       var isEmpty = this.collection.isEmpty();
 
       return !isEmpty;
+    },
+
+    _canAdd: function() {
+      var isEmpty = this.collection.isEmpty();
+      var videos = this.collection.pluck('video');
+      var duplicatesInfo = this.streamItems.getDuplicatesInfo(videos);
+
+      return !isEmpty && !duplicatesInfo.allDuplicates;
     },
 
     // Set the visibility of any visible text messages.
