@@ -76,7 +76,7 @@
         title = chrome.i18n.getMessage('streamEmpty');
       } else {
         var playerStateMessage = this._getPlayerStateMessage(playerState);
-        title = playerStateMessage + activeStreamItem.get('title');
+        title = playerStateMessage + activeStreamItem.get('video').get('title');
       }
 
       chrome.browserAction.setTitle({

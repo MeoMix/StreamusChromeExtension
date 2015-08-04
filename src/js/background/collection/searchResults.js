@@ -46,8 +46,7 @@
     // Takes an individual Video model and returns a SearchResult model
     _mapVideoAsSearchResult: function(video) {
       return new SearchResult({
-        video: video,
-        title: video.get('title')
+        video: video
       });
     }
   });

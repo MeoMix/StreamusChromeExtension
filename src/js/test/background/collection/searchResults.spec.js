@@ -13,7 +13,6 @@
       var video = TestUtility.buildVideo();
       var searchResult = this.searchResults._mapVideoAsSearchResult(video);
 
-      expect(searchResult.get('title')).to.equal(video.get('title'));
       expect(searchResult.get('video')).to.equal(video);
     });
 

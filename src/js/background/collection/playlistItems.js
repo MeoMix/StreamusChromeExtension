@@ -52,7 +52,7 @@
         // TODO: Need to be able to read the playlist title instead of just using 'playlist'
         var notificationMessage;
         if (itemsToCreate.length === 1) {
-          var videoTitle = Utility.truncateString(itemsToCreate[0].get('title'), 40);
+          var videoTitle = Utility.truncateString(itemsToCreate[0].get('video').get('title'), 40);
           notificationMessage = chrome.i18n.getMessage('videoSavedToPlaylist', [videoTitle, 'playlist']);
         } else {
           notificationMessage = chrome.i18n.getMessage('videosSavedToPlaylist', [itemsToCreate.length, 'playlist']);
@@ -84,7 +84,6 @@
       var playlistItem = new PlaylistItem({
         playlistId: this.playlistId,
         video: video,
-        title: video.get('title'),
         sequence: this.getSequenceFromIndex(index)
       });
 

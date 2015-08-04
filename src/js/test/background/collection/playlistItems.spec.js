@@ -93,21 +93,20 @@
 
       it('should map created objects back to its models on success', function(done) {
         var createdObject = {
-          title: 'foo',
+          video: TestUtility.buildVideo(),
           cid: '123'
         };
 
         sinon.stub($, 'ajax').yieldsTo('success', [createdObject]);
 
         this.playlistItems.add({
-          title: 'hello, world',
           video: TestUtility.buildVideo()
         });
         this.playlistItems.at(0).cid = '123';
 
         this.playlistItems._bulkCreate([], {
           success: function() {
-            expect(this.playlistItems.at(0).get('title')).to.equal(createdObject.title);
+            expect(this.playlistItems.at(0).get('video')).to.equal(createdObject.video);
             $.ajax.restore();
             done();
           }.bind(this)
@@ -118,25 +117,23 @@
     it('should be able to map a created object to an existing model', function() {
       var createdObject = {
         cid: '123',
-        title: 'foo'
+        video: TestUtility.buildVideo()
       };
 
       this.playlistItems.add({
-        title: 'hello, world',
         video: TestUtility.buildVideo()
       });
       this.playlistItems.at(0).cid = '123';
 
       this.playlistItems._mapCreatedToExisting(createdObject);
-      expect(this.playlistItems.at(0).get('title')).to.equal(createdObject.title);
+      expect(this.playlistItems.at(0).get('video')).to.equal(createdObject.video);
     });
 
     it('should be able to get a model by video id', function() {
       var video = TestUtility.buildVideo();
 
       this.playlistItems.add({
-        video: video,
-        title: video.get('title')
+        video: video
       });
 
       var playlistItem = this.playlistItems._getByVideoId(video.get('id'));

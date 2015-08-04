@@ -61,20 +61,14 @@
 
     // Construct a basic PlaylistItem object fit for general testing.
     buildPlaylistItem: function() {
-      var video = this.buildVideo();
-
       return new PlaylistItem({
-        video: video,
-        title: video.get('title')
+        video: this.buildVideo()
       });
     },
 
     buildSearchResult: function() {
-      var video = this.buildVideo();
-
       return new SearchResult({
-        video: video,
-        title: video.get('title')
+        video: this.buildVideo()
       });
     },
 

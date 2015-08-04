@@ -71,7 +71,7 @@
 
       StreamusBG.channels.backgroundNotification.commands.trigger('show:notification', {
         iconUrl: 'https://img.youtube.com/vi/' + activeVideoId + '/default.jpg',
-        title: activeItem.get('title')
+        title: activeItem.get('video').get('title')
       });
     },
 
@@ -143,7 +143,7 @@
     _showCreatedNotification: function(createdStreamItems) {
       var notificationMessage;
       if (createdStreamItems.length === 1) {
-        var videoTitle = Utility.truncateString(createdStreamItems[0].get('title'), 40);
+        var videoTitle = Utility.truncateString(createdStreamItems[0].get('video').get('title'), 40);
         notificationMessage = chrome.i18n.getMessage('videoAddedToStream', [videoTitle]);
       } else {
         notificationMessage = chrome.i18n.getMessage('videosAddedToStream', [createdStreamItems.length]);
@@ -368,7 +368,6 @@
     _tryAddVideoAtIndex: function(video, index) {
       var streamItem = new StreamItem({
         video: video,
-        title: video.get('title'),
         sequence: this.getSequenceFromIndex(index)
       });
 

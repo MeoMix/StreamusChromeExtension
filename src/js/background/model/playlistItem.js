@@ -9,7 +9,6 @@
       id: null,
       playlistId: null,
       sequence: -1,
-      title: '',
       selected: false,
       firstSelected: false,
       video: null,
