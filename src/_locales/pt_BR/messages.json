@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "Não foi possível encontrar músicas"
   },
-  "loadingYouTube": {
-    "message": "Carregando YouTube"
-  },
-  "loadingYouTubeFailed": {
-    "message": "Falha ao carregar Youtube"
-  },
-  "loadAttempt": {
-    "message": "Tentando $currentLoadAttempt$ de $maxLoadAttempts$",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "Música já existe em $collectionName$",
     "placeholders": {

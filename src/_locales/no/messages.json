@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "Kunne ikke finne sanger"
   },
-  "loadingYouTube": {
-    "message": "Laster YouTube"
-  },
-  "loadingYouTubeFailed": {
-    "message": "Lasting av YouTube mislyktes"
-  },
-  "loadAttempt": {
-    "message": "Forsøk $currentLoadAttempt$ av $maxLoadAttempts$",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "Sang allerede i $collectionName$",
     "placeholders": {

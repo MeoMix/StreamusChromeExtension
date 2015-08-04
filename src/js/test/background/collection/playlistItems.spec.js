@@ -92,8 +92,10 @@
       });
 
       it('should map created objects back to its models on success', function(done) {
+        var createdVideo = TestUtility.buildVideo();
+
         var createdObject = {
-          video: TestUtility.buildVideo(),
+          video: createdVideo,
           cid: '123'
         };
 
@@ -106,7 +108,7 @@
 
         this.playlistItems._bulkCreate([], {
           success: function() {
-            expect(this.playlistItems.at(0).get('video')).to.equal(createdObject.video);
+            expect(this.playlistItems.at(0).get('video').get('id')).to.equal(createdVideo.get('id'));
             $.ajax.restore();
             done();
           }.bind(this)
@@ -115,9 +117,10 @@
     });
 
     it('should be able to map a created object to an existing model', function() {
+      var createdVideo = TestUtility.buildVideo();
       var createdObject = {
         cid: '123',
-        video: TestUtility.buildVideo()
+        video: createdVideo
       };
 
       this.playlistItems.add({
@@ -126,7 +129,7 @@
       this.playlistItems.at(0).cid = '123';
 
       this.playlistItems._mapCreatedToExisting(createdObject);
-      expect(this.playlistItems.at(0).get('video')).to.equal(createdObject.video);
+      expect(this.playlistItems.at(0).get('video').get('id')).to.equal(createdVideo.get('id'));
     });
 
     it('should be able to get a model by video id', function() {

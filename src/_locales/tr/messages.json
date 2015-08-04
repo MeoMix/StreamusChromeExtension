@@ -366,23 +366,6 @@
   "failedToFindVideos": {
     "message": "Şarkılar bulunamadı"
   },
-  "loadingYouTube": {
-    "message": "YouTube yükleniyor"
-  },
-  "loadingYouTubeFailed": {
-    "message": "YouTube Açılışı başarısız oldu"
-  },
-  "loadAttempt": {
-    "message": "$maxLoadAttempts$ denemeden $currentLoadAttempt$.si",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "Şarkı $collectionName$ içerisinde ",
     "placeholders": {

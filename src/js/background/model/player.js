@@ -245,7 +245,7 @@ define(function(require) {
     },
 
     _onChromeCommandsCommand: function(command) {
-      switch(command) {
+      switch (command) {
         case ChromeCommand.IncreaseVolume:
           var increasedVolume = this.get('volume') + 5;
           this.setVolume(increasedVolume);

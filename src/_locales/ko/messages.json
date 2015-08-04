@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "노래를 찾지 못했습니다"
   },
-  "loadingYouTube": {
-    "message": "유투브 로딩중"
-  },
-  "loadingYouTubeFailed": {
-    "message": "유투브 로딩 실패"
-  },
-  "loadAttempt": {
-    "message": "$currentLoadAttempt$ / $maxLoadAttempts$ 시도중",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "노래가 이미 $collectionName$ 에 있습니다",
     "placeholders": {

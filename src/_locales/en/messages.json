@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "Failed to find videos"
   },
-  "loadingYouTube": {
-    "message": "Loading YouTube"
-  },
-  "loadingYouTubeFailed": {
-    "message": "Loading YouTube failed"
-  },
-  "loadAttempt": {
-    "message": "Attempt $currentLoadAttempt$ of $maxLoadAttempts$",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "Video already in $collectionName$",
     "placeholders": {

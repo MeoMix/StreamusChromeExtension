@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "Nu s-a gasit nici un cantec"
   },
-  "loadingYouTube": {
-    "message": "Incarca YouTube"
-  },
-  "loadingYouTubeFailed": {
-    "message": "Nu s-a reusit incarcarea YouTube"
-  },
-  "loadAttempt": {
-    "message": "$currentLoadAttempt$ incercari din $maxLoadAttempts$",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "Cantec deja in $collectionName$",
     "placeholders": {

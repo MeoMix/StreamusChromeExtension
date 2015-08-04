@@ -1,42 +1,14 @@
-﻿<div data-ui='loadingMessage' class='instruction is-hidden is-showingSpinner'>
-  <div class='instruction-header'>
-    <%= loadingYouTubeMessage %>
-  </div>
-  <div class='instruction-content'>
-    <div data-region='spinner'></div>
-    <span data-ui='loadAttemptMessage'>
-      <%= loadAttemptMessage %>
-    </span>
-    <div>
-      <span data-ui='reloadLink' class='u-link'>
-        <%= reloadMessage %>
-      </span>
-    </div>
-  </div>
-</div>
-
-<div data-ui='loadingFailedMessage' class='instruction is-hidden'>
-  <div class='instruction-header'>
-    <%= loadingYouTubeFailedMessage %>
-  </div>
-  <div>
-    <span data-ui='reloadLink' class='u-link'>
-      <%= reloadMessage %>
-    </span>
-  </div>
-</div>
-
-<div data-region='appBar' class='u-elevated u-shadowed--low spinner--faded spinner--unclickable'></div>
+﻿<div data-region='appBar' class='u-elevated u-shadowed--low'></div>
 <div data-region='search' class='searchArea panel panel--top u-transitionable transition--fast flexColumn u-fullHeight'></div>
-<div data-region='streamControlBar' class='flexColumn-bugFix u-zIndex--1 spinner--faded spinner--unclickable'></div>
+<div data-region='streamControlBar' class='flexColumn-bugFix u-zIndex--1'></div>
 <div data-region='playlistsArea' class='playlistsArea flexColumn overlay u-zIndex--3'></div>
-<div class='flexRow u-relative spinner--faded spinner--unclickable'>
+<div class='flexRow u-relative'>
   <div data-region='activePanes' class='flexColumn'></div>
   <div data-region='video' class='videoArea'></div>
 </div>
 
-<div data-region='selectionBar' class='u-shadowed--low panel panel--bottom spinner--faded spinner--unclickable transition--fast u-fullWidth'></div>
-<div data-region='dialog' class='spinner--faded spinner--unclickable overlay u-elevated'></div>
-<div data-region='notification' class='spinner--faded spinner--unclickable'></div>
-<div data-region='tooltip' class='spinner--faded spinner--unclickable overlay u-zIndex--5'></div>
-<div data-region='simpleMenu' class='spinner--faded spinner--unclickable overlay u-zIndex--6'></div>
+<div data-region='selectionBar' class='u-shadowed--low panel panel--bottom transition--fast u-fullWidth'></div>
+<div data-region='dialog' class='overlay u-elevated'></div>
+<div data-region='notification'></div>
+<div data-region='tooltip' class='overlay u-zIndex--5'></div>
+<div data-region='simpleMenu' class='overlay u-zIndex--6'></div>

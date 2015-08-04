@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "Konnte Videos nicht finden"
   },
-  "loadingYouTube": {
-    "message": "Lade YouTube"
-  },
-  "loadingYouTubeFailed": {
-    "message": "Laden von YouTube gescheitert"
-  },
-  "loadAttempt": {
-    "message": "Versuche $currentLoadAttempt$ von $maxLoadAttempts$",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "Video ist schon in $collectionName$",
     "placeholders": {

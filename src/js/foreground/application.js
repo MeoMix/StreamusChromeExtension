@@ -44,8 +44,6 @@
 
     _showForegroundArea: function() {
       var foregroundAreaView = new ForegroundAreaView({
-        player: StreamusFG.backgroundProperties.player,
-        settings: StreamusFG.backgroundProperties.settings,
         analyticsManager: StreamusFG.backgroundProperties.analyticsManager
       });
       foregroundAreaView.render();

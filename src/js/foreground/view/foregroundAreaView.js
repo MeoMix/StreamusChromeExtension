@@ -6,7 +6,6 @@
   var SimpleMenuRegion = require('foreground/view/simpleMenu/simpleMenuRegion');
   var StreamControlBarRegion = require('foreground/view/streamControlBar/streamControlBarRegion');
   var DialogRegion = require('foreground/view/dialog/dialogRegion');
-  var SpinnerView = require('foreground/view/element/spinnerView');
   var NotificationRegion = require('foreground/view/notification/notificationRegion');
   var PlaylistsAreaRegion = require('foreground/view/playlist/playlistsAreaRegion');
   var SearchRegion = require('foreground/view/search/searchRegion');
@@ -19,27 +18,10 @@
     el: '#foregroundArea',
     template: _.template(ForegroundAreaTemplate),
 
-    templateHelpers: function() {
-      return {
-        loadingYouTubeMessage: chrome.i18n.getMessage('loadingYouTube'),
-        loadingYouTubeFailedMessage: chrome.i18n.getMessage('loadingYouTubeFailed'),
-        reloadMessage: chrome.i18n.getMessage('reload'),
-        loadAttemptMessage: this._getLoadAttemptMessage()
-      };
-    },
-
     events: {
       'mousedown': '_onMouseDown',
       'click': '_onClick',
-      'contextmenu': '_onContextMenu',
-      'click @ui.reloadLink': '_onClickReloadLink'
-    },
-
-    ui: {
-      loadingMessage: 'loadingMessage',
-      loadingFailedMessage: 'loadingFailedMessage',
-      reloadLink: 'reloadLink',
-      loadAttemptMessage: 'loadAttemptMessage'
+      'contextmenu': '_onContextMenu'
     },
 
     regions: function() {
@@ -93,20 +75,10 @@
       };
     },
 
-    player: null,
-    settings: null,
     analyticsManager: null,
 
-    playerEvents: {
-      'change:loading': '_onPlayerChangeLoading',
-      'change:currentLoadAttempt': '_onPlayerChangeCurrentLoadAttempt'
-    },
-
     initialize: function(options) {
-      this.player = options.player;
-      this.settings = options.settings;
       this.analyticsManager = options.analyticsManager;
-      this.bindEntityEvents(this.player, this.playerEvents);
 
       this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseDown', this._onScrollbarMouseDown);
       this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseUp', this._onScrollbarMouseUp);
@@ -130,8 +102,6 @@
     },
 
     onRender: function() {
-      this._checkPlayerLoading();
-
       StreamusFG.channels.foregroundArea.vent.trigger('rendered');
 
       // After announcing that the foregroundArea has rendered successfully, wait a moment for other views to respond.
@@ -158,10 +128,6 @@
       }
     },
 
-    _onClickReloadLink: function() {
-      chrome.runtime.reload();
-    },
-
     _onWindowResize: function() {
       StreamusFG.channels.window.vent.trigger('resize');
     },
@@ -173,10 +139,8 @@
     // Destroy the foreground to unbind event listeners from background models and collections.
     // Streamus will leak memory if these events aren't cleaned up.
     _onWindowUnload: function() {
-      StreamusFG.channels.foreground.vent.trigger('beginUnload');
       StreamusFG.backgroundChannels.foreground.vent.trigger('beginUnload');
       this.destroy();
-      StreamusFG.channels.foreground.vent.trigger('endUnload');
       StreamusFG.backgroundChannels.foreground.vent.trigger('endUnload');
     },
 
@@ -197,51 +161,6 @@
 
     _onScrollbarMouseUp: function() {
       this.$el.removeClass('is-clickingScrollbar');
-    },
-
-    _onPlayerChangeLoading: function(model, loading) {
-      if (loading) {
-        this._startLoading();
-      } else {
-        this._stopLoading();
-      }
-    },
-
-    _onPlayerChangeCurrentLoadAttempt: function() {
-      this.ui.loadAttemptMessage.text(this._getLoadAttemptMessage());
-    },
-
-    _startLoading: function() {
-      // Prefer lazy-rendering the spinner view to not take a perf hit when not actually loading.
-      if (!this.getRegion('spinner').hasView()) {
-        this.showChildView('spinner', new SpinnerView());
-      }
-
-      this.$el.addClass('is-showingSpinner');
-      this.ui.loadingFailedMessage.addClass('is-hidden');
-      this.ui.loadingMessage.removeClass('is-hidden');
-    },
-
-    // Set the foreground's view state to indicate that user interactions are OK once the player is ready.
-    _stopLoading: function() {
-      this.ui.loadingMessage.addClass('is-hidden');
-
-      if (this.player.get('ready')) {
-        this.$el.removeClass('is-showingSpinner');
-        this.ui.loadingFailedMessage.addClass('is-hidden');
-      } else {
-        this.ui.loadingFailedMessage.removeClass('is-hidden');
-      }
-    },
-
-    _checkPlayerLoading: function() {
-      if (this.player.get('loading')) {
-        this._startLoading();
-      }
-    },
-
-    _getLoadAttemptMessage: function() {
-      return chrome.i18n.getMessage('loadAttempt', [this.player.get('currentLoadAttempt'), this.player.get('maxLoadAttempts')]);
     }
   });
 

@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "Échec de la recherche des morceaux"
   },
-  "loadingYouTube": {
-    "message": "Chargement de YouTube"
-  },
-  "loadingYouTubeFailed": {
-    "message": "Échec du chargement de YouTube"
-  },
-  "loadAttempt": {
-    "message": "Tentative $currentLoadAttempt$ sur $maxLoadAttempts$",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "Morceau déjà présent dans $collectionName$",
     "placeholders": {

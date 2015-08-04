@@ -16,9 +16,6 @@
 
       var signInManager = this.get('signInManager');
       this.listenTo(signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
-
-      this.listenTo(StreamusFG.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload);
-
       this._setEnabled(signInManager.has('signedInUser'), streamItems.isEmpty());
     },
 
@@ -54,11 +51,6 @@
 
     _onSignInManagerChangeSignedInUser: function() {
       this._setEnabled(this.get('signInManager').has('signedInUser'), this.get('streamItems').isEmpty());
-    },
-
-    // Since models don't cascade clean-up their listenTo event handlers I need to do this manually when the foreground unloads.
-    _onForegroundBeginUnload: function() {
-      this.stopListening();
     }
   });
 

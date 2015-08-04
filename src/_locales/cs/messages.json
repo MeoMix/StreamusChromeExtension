@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "Hledání stop selhalo"
   },
-  "loadingYouTube": {
-    "message": "Nacítání YouTube"
-  },
-  "loadingYouTubeFailed": {
-    "message": "Nacítání YouTube selhalo"
-  },
-  "loadAttempt": {
-    "message": "Pokus c. $currentLoadAttempt$ z $maxLoadAttempts$",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "$collectionName$ již stopu obsahuje",
     "placeholders": {

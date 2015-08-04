@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "Kan nummers niet vinden"
   },
-  "loadingYouTube": {
-    "message": "YouTube laden"
-  },
-  "loadingYouTubeFailed": {
-    "message": "YouTube laden mislukt"
-  },
-  "loadAttempt": {
-    "message": "Poging $currentLoadAttempt$ van de $maxLoadAttempts$",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "Nummer zit al in $collectionName$",
     "placeholders": {

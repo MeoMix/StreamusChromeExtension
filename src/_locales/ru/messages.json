@@ -364,23 +364,6 @@
   "failedToFindVideos": {
     "message": "Невозможно найти песни"
   },
-  "loadingYouTube": {
-    "message": "Загрузка YouTube"
-  },
-  "loadingYouTubeFailed": {
-    "message": "Ошибка загрузки YouTube"
-  },
-  "loadAttempt": {
-    "message": "Попытка $currentLoadAttempt$ из $maxLoadAttempts$",
-    "placeholders": {
-      "currentLoadAttempt": {
-        "content": "$1"
-      },
-      "maxLoadAttempts": {
-        "content": "$2"
-      }
-    }
-  },
   "videoAlreadyInCollection": {
     "message": "Песня уже есть в $collectionName$",
     "placeholders": {
