@@ -76,6 +76,12 @@
     "openInTab": {
       "description": "__MSG_openInTab__"
     },
+    "seekForward": {
+      "description": "__MSG_seekForward__"
+    },
+    "seekBackward": {
+      "description": "__MSG_seekBackward__"
+    },
     "_execute_browser_action": {
     }
   },

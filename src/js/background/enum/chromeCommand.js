@@ -13,5 +13,7 @@ define({
   ToggleShuffle: 'toggleShuffle',
   IncreaseVolume: 'increaseVolume',
   DecreaseVolume: 'decreaseVolume',
-  OpenInTab: 'openInTab'
+  OpenInTab: 'openInTab',
+  SeekForward: 'seekForward',
+  SeekBackward: 'seekBackward'
 });

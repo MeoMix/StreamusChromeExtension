@@ -137,6 +137,15 @@ define(function(require) {
     },
 
     seekTo: function(timeInSeconds) {
+      var minTime = 0;
+      var maxTime = this.get('loadedVideo').get('duration');
+
+      if (timeInSeconds > maxTime) {
+        timeInSeconds = maxTime;
+      } else if (timeInSeconds < minTime) {
+        timeInSeconds = minTime;
+      }
+
       this.set('currentTime', timeInSeconds);
       this.get('youTubePlayer').setCurrentTime(timeInSeconds);
     },
@@ -236,12 +245,25 @@ define(function(require) {
     },
 
     _onChromeCommandsCommand: function(command) {
-      if (command === ChromeCommand.IncreaseVolume) {
-        var increasedVolume = this.get('volume') + 5;
-        this.setVolume(increasedVolume);
-      } else if (command === ChromeCommand.DecreaseVolume) {
-        var decreasedVolume = this.get('volume') - 5;
-        this.setVolume(decreasedVolume);
+      switch(command) {
+        case ChromeCommand.IncreaseVolume:
+          var increasedVolume = this.get('volume') + 5;
+          this.setVolume(increasedVolume);
+          break;
+        case ChromeCommand.DecreaseVolume:
+          var decreasedVolume = this.get('volume') - 5;
+          this.setVolume(decreasedVolume);
+          break;
+        case ChromeCommand.SeekForward:
+          if (this.has('loadedVideo')) {
+            this.seekTo(this.get('currentTime') + 5);
+          }
+          break;
+        case ChromeCommand.SeekBackward:
+          if (this.has('loadedVideo')) {
+            this.seekTo(this.get('currentTime') - 5);
+          }
+          break;
       }
     },
 

@@ -317,7 +317,7 @@
     "message": "Remind Google sign in"
   },
   "remindLinkAccount": {
-    "message":  "Remind link account"
+    "message": "Remind link account"
   },
   "keyboardShortcuts": {
     "message": "Keyboard shortcuts"
@@ -617,5 +617,11 @@
   },
   "exportToYouTube": {
     "message": "Export to YouTube"
+  },
+  "seekForward": {
+    "message": "Seek forward"
+  },
+  "seekBackward": { 
+    "message": "Seek backward"
   }
 }
