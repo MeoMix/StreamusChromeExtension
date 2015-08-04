@@ -10,7 +10,7 @@
       stream: null,
       radioButton: null,
       shuffleButton: null,
-      repeatButton: null,
+      repeatButton: null
     },
 
     initialize: function() {
