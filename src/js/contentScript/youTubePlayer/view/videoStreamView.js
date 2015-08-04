@@ -126,6 +126,7 @@
           break;
         case YouTubePlayerState.VideoCued:
           playerState = PlayerState.VideoCued;
+          console.error('UNEXPECTED STATE!');
           break;
         default:
           throw new Error('Unmapped YouTubePlayerState:' + youTubePlayerState);

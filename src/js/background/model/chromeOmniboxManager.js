@@ -20,7 +20,7 @@
 
     initialize: function() {
       chrome.omnibox.setDefaultSuggestion({
-        description: chrome.i18n.getMessage('pressEnterToPlay')
+        description: chrome.i18n.getMessage('pressEnterToPlay') + '. ' + chrome.i18n.getMessage('type@AddToAdd')
       });
 
       chrome.omnibox.onInputChanged.addListener(this._onChromeOmniboxInputChanged.bind(this));

@@ -604,7 +604,10 @@
   "seekForward": {
     "message": "Seek forward"
   },
-  "seekBackward": { 
+  "seekBackward": {
     "message": "Seek backward"
+  },
+  "type@AddToAdd": { 
+    "message":  "Type @add to add"
   }
 }
