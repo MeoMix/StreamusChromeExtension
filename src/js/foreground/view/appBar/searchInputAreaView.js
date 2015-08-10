@@ -31,6 +31,7 @@
       'input @ui.searchInput': '_onInputSearchInput',
       'keypress @ui.searchInput': '_onKeyPressSearchInput',
       'focus @ui.searchInput': '_onFocusSearchInput',
+      'blur @ui.searchInput': '_onBlurSearchInput',
       'click @ui.searchButton': '_onClickSearchButton',
       'click @ui.clearSearchIcon': '_onClickClearSearchIcon'
     },
@@ -41,18 +42,15 @@
       this.search = options.search;
       this.listenTo(this.search, 'change:query', this._onSearchChangeQuery);
       this.listenTo(StreamusFG.channels.search.commands, 'focus:searchInput', this._focusSearchInput);
-      this.listenTo(StreamusFG.channels.element.vent, 'click', this._onElementClick);
     },
 
-    // TODO: autofocus should also highlight existing text when re-opening.
     onRender: function() {
       var hasQuery = this.ui.searchInput.val().length > 0;
       this._setState(hasQuery);
     },
 
-    onShow: function() {
-      // TODO: This won't focus w/o autofocus attribute, but it really should...
-      this._focusSearchInput();
+    onAttach: function() {
+      this.ui.searchInput.select();
     },
 
     _onInputSearchInput: function() {
@@ -83,20 +81,18 @@
       this._updateSearchQuery(query);
     },
 
-    _onElementClick: function() {
-      if (!this.ui.searchInput.is(':focus')) {
-        var searchInputValue = this.ui.searchInput.val();
+    _onBlurSearchInput: function() {
+      var searchInputValue = this.ui.searchInput.val();
 
-        if (searchInputValue.trim().length === 0) {
-          this.ui.searchInputWrapper.one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
-          this.ui.searchInputWrapper.removeClass('is-active').addClass('is-inactive');
-          StreamusFG.channels.search.commands.trigger('hide:search');
-        }
+      if (searchInputValue.trim().length === 0) {
+        this.ui.searchInputWrapper.one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+        this.ui.searchInputWrapper.removeClass('is-active').addClass('is-inactive');
+        StreamusFG.channels.search.commands.trigger('hide:search');
       }
     },
 
     _onFocusSearchInput: function() {
-      // TODO: This feels a bit weird, but it's needed to guarantee no weird flickering behavior if a focus comes in when collapsing.
+      // Prevent inputWrapper from collapsing if input is focused mid-collapse.
       this.ui.searchInputWrapper.off('webkitTransitionEnd');
       this.ui.searchInputWrapper.addClass('is-active').removeClass('is-inactive');
     },
@@ -107,7 +103,8 @@
       var selectionEnd = searchInputElement.selectionEnd;
       this.ui.searchInput.val(query);
 
-      // Preserve the selection range which is lost after modifying val
+      // Set the cursor's position to its previous location after modifying the query.
+      // This allows users to keep typing with the cursor in the middle of the query.
       searchInputElement.setSelectionRange(selectionStart, selectionEnd);
     },
 
@@ -119,7 +116,7 @@
     },
 
     _updateSearchQuery: function(query) {
-      // TODO: This is weird. Fix.
+      // Ensure the search view is shown and then have it perform a search on the given query.
       StreamusFG.channels.search.commands.trigger('show:search');
       StreamusFG.channels.search.commands.trigger('search', {
         query: query
@@ -132,9 +129,9 @@
     _focusSearchInput: function() {
       this.ui.searchButton.addClass('is-hidden');
       this.ui.searchInputWrapper.removeClass('is-hidden');
-      // Reset val after focusing to prevent selecting the text while maintaining focus.
-      // This needs to be ran after makign the region visible because you can't focus an element which isn't visible.
-      this.ui.searchInput.focus().val(this.ui.searchInput.val());
+      // Need to use .select over .focus here due to a browser rendering issue.
+      // http://stackoverflow.com/questions/31928330/input-element-transitions-improperly-when-focused-but-not-when-selected
+      this.ui.searchInput.select();
     },
 
     _setState: function(hasQuery) {

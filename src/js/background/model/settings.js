@@ -41,13 +41,6 @@
       // Load from Backbone.LocalStorage
       this.fetch();
 
-      // Need to look in localStorage's BrowserSettings for backwards compatibility. This can be removed in v0.179+
-      var serializedBrowserSettings = localStorage.getItem('BrowserSettings-BrowserSettings');
-      if (!_.isNull(serializedBrowserSettings)) {
-        this.set(JSON.parse(serializedBrowserSettings));
-        localStorage.removeItem('BrowserSettings-BrowserSettings');
-      }
-
       this._ensurePermission('enhanceBeatport');
 
       chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));

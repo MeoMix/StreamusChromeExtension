@@ -10,7 +10,8 @@
     isDecorated: false,
 
     events: {
-      'mouseenter': '_onMouseEnter'
+      'mouseenter': '_onMouseEnter',
+      'mousedown': '_onMouseDown'
     },
 
     initialize: function() {
@@ -23,6 +24,11 @@
 
     _onMouseEnter: function() {
       this._decorate();
+    },
+
+    _onMouseDown: function() {
+      // http://stackoverflow.com/questions/8869708/click-on-jquery-sortable-list-does-not-blur-input
+      document.activeElement.blur();
     },
 
     _decorate: function() {
@@ -56,7 +62,8 @@
         receive: this._receive.bind(this),
         over: this._over.bind(this),
         out: this._out.bind(this),
-        beforeStop: this._beforeStop.bind(this)
+        beforeStop: this._beforeStop.bind(this),
+        mousedown: this._onMouseDown.bind(this)
       };
 
       return sortableOptions;
