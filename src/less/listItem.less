@@ -4,161 +4,158 @@
 @import "boxShadow";
 
 .list {
-    padding: 8px 0;
+  padding: 8px 0;
 }
 
 .listItem--selectable:hover {
-    background: @dark--quinary;
+  background: @dark--quinary;
 }
 
 .listItem--clickable {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .listItem {
-    // NOTE: This is needed so that .spinner is contained properly.
-    position: relative;
-    display: flex;
-    width: 100%;
-    transition: color @transition-duration--fast @transition-easeOutSine,
-                background @transition-duration--fast @transition-easeOutSine,
-                opacity @transition-duration--fast @transition-easeOutSine;
+  // NOTE: This is needed so that .spinner is contained properly.
+  position: relative;
+  display: flex;
+  width: 100%;
+  transition: color @transition-duration--fast @transition-easeOutSine, background @transition-duration--fast @transition-easeOutSine, opacity @transition-duration--fast @transition-easeOutSine;
 
-    &:hover {
-        .is-hiddenOnHover {
-            .is-hidden;
-        }
+  &:hover {
+    .is-hiddenOnHover {
+      .is-hidden;
+    }
+  }
+  // https://github.com/MeoMix/StreamusChromeExtension/issues/562
+  &:not(.is-disabled):not(.grouping-item):not(.simpleListItem):hover {
+    background: @dark--quinary;
+  }
+
+  &.is-active {
+    .listItem-title {
+      color: @blue--500;
     }
 
-    // https://github.com/MeoMix/StreamusChromeExtension/issues/562
-    &:not(.is-disabled):not(.grouping-item):not(.simpleListItem):hover {
-        background: @dark--quinary;
+    .listItem-details {
+      color: fadeout(@blue--500, 13%);
     }
 
-    &.is-active {
-        .listItem-title{
-            color: @blue--500;
-        }
-
-        .listItem-details {
-            color: fadeout(@blue--500, 13%);
-        }
-
-        .listItem-itemCount {
-            background-color: @blue--500;
-        }
+    .listItem-itemCount {
+      background-color: @blue--500;
     }
+  }
 }
 
 .listItem-spinner,
 .listItem-button {
-    transition: color @transition-duration--fast @transition-easeOutSine;
+  transition: color @transition-duration--fast @transition-easeOutSine;
 }
 
 .listItem--medium {
-    // Be sure to keep childViewHeight in /behavior/slidingRender.js synced with this value.
-    height: 56px;
+  // Be sure to keep childViewHeight in /behavior/slidingRender.js synced with this value.
+  height: 56px;
 
-    .listItem-content {
-        padding: 8px 0;
-        padding-right: 16px;
-        flex: 1;
-    }
+  .listItem-content {
+    padding: 8px 0;
+    padding-right: 16px;
+    flex: 1;
+  }
 
-    .listItem-title {
-        font-size: 15px;
-        line-height: 22px;
-    }
+  .listItem-title {
+    font-size: 15px;
+    line-height: 22px;
+  }
 
-    .listItem-details {
-        .u-textSecondary;
-        .u-textOverflowEllipsis;
-        font-size: 13px;
-    }
+  .listItem-details {
+    .u-textSecondary;
+    .u-textOverflowEllipsis;
+    font-size: 13px;
+  }
 }
 
 .listItem--hasButtons:hover .listItem-content {
-    padding-right: 4px;
+  padding-right: 4px;
 }
 
 .listItem--small {
-    height: 44px;
+  height: 44px;
 
-    .listItem-title {
-        margin: auto 0;
-        font-size: 15px;
-    }
+  .listItem-title {
+    margin: auto 0;
+    font-size: 15px;
+  }
 
-    .listItem-content {
-        display: flex;
-        padding-right: 16px;
-        padding-left: 16px;
-        flex: 1;
-    }
+  .listItem-content {
+    display: flex;
+    padding-right: 16px;
+    padding-left: 16px;
+    flex: 1;
+  }
 
-    .listItem-itemCount {
-        width: 30px;
-        // If this is an even number then the 13px font-size looks off-by-one px.
-        height: 17px;
-        margin: auto 0;
-        margin-left: 16px;
-        font-weight: 600;
-        line-height: 18px;
-        color: @white;
-        text-align: center;
-        background-color: @dark--secondary;
-        border-radius: 1em;
-    }
+  .listItem-itemCount {
+    width: 30px;
+    // If this is an even number then the 13px font-size looks off-by-one px.
+    height: 17px;
+    margin: auto 0;
+    margin-left: 16px;
+    font-weight: 600;
+    line-height: 18px;
+    color: @white;
+    text-align: center;
+    background-color: @dark--secondary;
+    border-radius: 1em;
+  }
 }
 
 .listItem-imageThumbnail {
-    width: 40px;
-    height: 40px;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    border-radius: 50%;
-    box-shadow: @boxShadow-outline;
+  width: 40px;
+  height: 40px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 50%;
+  box-shadow: @boxShadow-outline;
 }
 
 .listItem-title {
-    .u-textOverflowEllipsis;
-    color: @dark--primary;
-    transition: color @transition-duration--fast @transition-easeOutSine;
+  .u-textOverflowEllipsis;
+  color: @dark--primary;
+  transition: color @transition-duration--fast @transition-easeOutSine;
 }
 
 .listItem-details {
-    transition: color @transition-duration--fast @transition-easeOutSine;
+  transition: color @transition-duration--fast @transition-easeOutSine;
 }
 
 .listItem-buttonsRegion {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .listItem-buttons {
-    margin-right: 4px;
+  margin-right: 4px;
 }
 
 .listItem-checkboxRegion {
-    padding: 10px;
+  padding: 10px;
 }
 
 .listItem-leftContent {
-    width: 48px;
-    height: 48px;
-    padding: 4px 4px;
-    margin: 4px 12px;
+  width: 48px;
+  height: 48px;
+  padding: 4px 4px;
+  margin: 4px 12px;
 
-    &.is-showingCheckbox {
-        .listItem-imageThumbnail {
-            .is-hidden;
-        }
+  &.is-showingCheckbox {
+    .listItem-imageThumbnail {
+      .is-hidden;
     }
+  }
 
-    &.is-showingThumbnail {
-        .listItem-checkboxRegion {
-            .is-hidden;
-        }
+  &.is-showingThumbnail {
+    .listItem-checkboxRegion {
+      .is-hidden;
     }
+  }
 }

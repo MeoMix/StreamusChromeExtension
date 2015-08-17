@@ -2,26 +2,26 @@
 
 // It's important to use last-of-type with a <section class="grouping"> element because
 // scrollable behavior can inject additional <div> elements which conflict with last-child.
-.grouping:not(:last-of-type){
-    margin-bottom: 10px;
+.grouping:not(:last-of-type) {
+  margin-bottom: 10px;
 }
 
 .grouping-header {
-    margin-bottom: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 16px;
-    color: @blue--500;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 16px;
+  color: @blue--500;
 }
 
 .grouping-item {
-    display: flex;
-    font-size: 15px;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  font-size: 15px;
+  flex-direction: column;
+  justify-content: center;
 }
 
 // Avoid having blank padding for reminders which aren't shown.
 .grouping-item:empty {
-    display: none;
+  display: none;
 }

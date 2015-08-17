@@ -2,118 +2,118 @@
 @import "boxShadow";
 
 .u-flex--full {
-    flex: 1;
+  flex: 1;
 }
 
 .u-relative {
-    position: relative;
+  position: relative;
 }
 
 .u-zIndex--1 {
-    z-index: 1;
+  z-index: 1;
 }
 
 .u-zIndex--3 {
-    z-index: 3;
+  z-index: 3;
 }
 
 .u-elevated {
-    // This important is needed because foregroundArea-dialogRegion's panel property is overriding w/ z-index: 2
-    z-index: 4 !important;
+  // This important is needed because foregroundArea-dialogRegion's panel property is overriding w/ z-index: 2
+  z-index: 4 !important;
 }
 
 .u-zIndex--5 {
-    // Same conflict here as above w/ z-index 2
-    z-index: 5 !important;
+  // Same conflict here as above w/ z-index 2
+  z-index: 5 !important;
 }
 
 .u-zIndex--6 {
-    // Same conflict here as above w/ z-index 2
-    z-index: 6 !important;
+  // Same conflict here as above w/ z-index 2
+  z-index: 6 !important;
 }
 
 .u-clickable {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .u-lowercase {
-    text-transform: lowercase;
+  text-transform: lowercase;
 }
 
 .u-fullHeight {
-    height: 100%;
+  height: 100%;
 }
 
 .u-fullWidth {
-    width: 100%;
+  width: 100%;
 }
 
 .u-textAlignRight {
-    text-align: right;
+  text-align: right;
 }
 
 .u-link {
-    color: @blue--500;
-    .u-clickable;
+  color: @blue--500;
+  .u-clickable;
 
-    &:hover {
-        color: @blue--700;
-    }
+  &:hover {
+    color: @blue--700;
+  }
 }
 
 .u-marginAuto {
-    margin: auto;
+  margin: auto;
 }
 
 .u-textOverflowEllipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .u-textSecondary {
-    line-height: 18px;
-    color: @dark--secondary;
+  line-height: 18px;
+  color: @dark--secondary;
 }
 
 .u-transitionable {
-    pointer-events: none;
+  pointer-events: none;
 
-    &.is-visible {
-        pointer-events: all;
-    }
+  &.is-visible {
+    pointer-events: all;
+  }
 }
 
 .u-bordered--left {
-    box-shadow: @boxShadow-divider--left;
+  box-shadow: @boxShadow-divider--left;
 }
 
 .u-bordered--top {
-    box-shadow: @boxShadow-divider--top;
+  box-shadow: @boxShadow-divider--top;
 }
 
 .u-bordered--bottom {
-    box-shadow: @boxShadow-divider--bottom;
+  box-shadow: @boxShadow-divider--bottom;
 }
 
 .u-shadowed--low {
-    box-shadow: @boxShadow-elevation--low;
+  box-shadow: @boxShadow-elevation--low;
 }
 
 .is-hidden {
-    // Use important to ensure that hidden always takes precedence.
-    display: none !important;
+  // Use important to ensure that hidden always takes precedence.
+  display: none !important;
 }
 
 // It's important to use a class and not the disabled attribute because tooltips stop working on disabled elements.
 .is-disabled {
+  color: @dark--tertiary !important;
+  cursor: default !important;
+
+  *,
+  *:before,
+  *:after {
     color: @dark--tertiary !important;
     cursor: default !important;
-
-    *,
-    *:before,
-    *:after {
-        color: @dark--tertiary !important;
-        cursor: default !important;
-    }
+  }
 }

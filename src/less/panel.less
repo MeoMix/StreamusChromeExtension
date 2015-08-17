@@ -5,69 +5,69 @@
 @import "flexColumn";
 
 .panel {
-    position: absolute;
-    // Necessary to make sure it covers .instruction
-    z-index: 2;
-    // Don't allow interaction with panels until they are declared visible.
-    pointer-events: none;
-    will-change: transform;
-    transition-property: transform;
-    transition-timing-function: @transition-easeOutSine;
+  position: absolute;
+  // Necessary to make sure it covers .instruction
+  z-index: 2;
+  // Don't allow interaction with panels until they are declared visible.
+  pointer-events: none;
+  will-change: transform;
+  transition-property: transform;
+  transition-timing-function: @transition-easeOutSine;
 
-    &.is-instant {
-        transition: none;
+  &.is-instant {
+    transition: none;
+  }
+
+  &.is-visible {
+    pointer-events: all;
+
+    > .panel-content--fadeInOut {
+      opacity: 1;
     }
-
-    &.is-visible {
-        pointer-events: all;
-
-        > .panel-content--fadeInOut {
-            opacity: 1;
-        }
-    }
+  }
 }
 
 .panel-content {
-    box-shadow: @boxShadow-elevation--low;
+  box-shadow: @boxShadow-elevation--low;
 }
 
 .panel-content--uncolored {
-    // Panels overlay other content so background-color cannot be transparent.
-    // Either describe the content as uncolored, so it will be white, or provide a custom color.
-    background-color: white;
+  // Panels overlay other content so background-color cannot be transparent.
+  // Either describe the content as uncolored, so it will be white, or provide a custom color.
+  background-color: white;
 }
 
 .panel-content--fadeInOut {
-    opacity: 0;
-    transition-duration: inherit;
-    transition-property: opacity;
-    transition-timing-function: inherit;
-    will-change: opacity;
+  opacity: 0;
+  transition-duration: inherit;
+  transition-property: opacity;
+  transition-timing-function: inherit;
+  will-change: opacity;
 }
 
 .panel--left {
-    left: 0;
-    transform: translateX(-110%);
+  left: 0;
+  transform: translateX(-110%);
 
-    &.is-visible {
-        transform: translateX(0);
-    }
+  &.is-visible {
+    transform: translateX(0);
+  }
 }
 
 .panel--top {
-    top: 0;
-    transform: translateY(-110%);
+  top: 0;
+  transform: translateY(-110%);
 
-    &.is-visible {
-        transform: translateY(0);
-    }
+  &.is-visible {
+    transform: translateY(0);
+  }
 }
 
 .panel--bottom {
-    bottom: 0;
-    transform: translateY(110%);
+  bottom: 0;
+  transform: translateY(110%);
 
-    &.is-visible {
-        transform: translateY(0);
-    }
+  &.is-visible {
+    transform: translateY(0);
+  }
 }

@@ -17,16 +17,13 @@ define(function(require) {
         volumeUpIcon: _.template(VolumeUpIconTemplate)(),
         volumeDownIcon: _.template(VolumeDownIconTemplate)(),
         volumeOffIcon: _.template(VolumeOffIconTemplate)(),
-        volumeMuteIcon: _.template(VolumeMuteIconTemplate)(),
-        volume: this.player.get('volume')
+        volumeMuteIcon: _.template(VolumeMuteIconTemplate)()
       };
     },
 
     ui: {
-      volumeProgress: 'volumeProgress',
-      volumeRange: 'volumeRange',
+      volumeSlider: 'volumeSlider',
       volumeButton: 'volumeButton',
-      slidePanel: 'slidePanel',
       volumeIconUp: 'volumeIcon--up',
       volumeIconDown: 'volumeIcon--down',
       volumeIconOff: 'volumeIcon--off',
@@ -34,9 +31,8 @@ define(function(require) {
     },
 
     events: {
-      'input @ui.volumeRange': '_onInputVolumeRange',
-      'click @ui.volumeButton': '_onClickVolumeButton',
-      'wheel': '_onWheel'
+      'input @ui.volumeSlider': '_onInputVolumeSlider',
+      'click @ui.volumeButton': '_onClickVolumeButton'
     },
 
     player: null,
@@ -55,27 +51,16 @@ define(function(require) {
       this._setVolumeProgress(volume);
     },
 
-    _onInputVolumeRange: function() {
-      this._setVolume();
+    _onInputVolumeSlider: function(event, volume) {
+      this.player.setVolume(volume);
     },
 
     _onClickVolumeButton: function() {
       this._toggleMute();
     },
 
-    _onWheel: function(event) {
-      var delta = event.originalEvent.deltaY / -100;
-      this._scrollVolume(delta);
-    },
-
-    _setVolume: function() {
-      var volume = parseInt(this.ui.volumeRange.val(), 10);
-      this.player.setVolume(volume);
-    },
-
     _setVolumeProgress: function(volume) {
-      this.ui.volumeRange.val(volume);
-      this.ui.volumeProgress.height(volume + '%');
+      this.ui.volumeSlider.val(volume);
     },
 
     _setVolumeIcon: function(volume, muted) {
@@ -83,21 +68,6 @@ define(function(require) {
       this.ui.volumeIconDown.toggleClass('is-hidden', muted || volume > 50 || volume === 0);
       this.ui.volumeIconOff.toggleClass('is-hidden', muted || volume !== 0);
       this.ui.volumeIconMute.toggleClass('is-hidden', !muted);
-    },
-
-    // Adjust volume when user scrolls wheel while hovering over volume.
-    _scrollVolume: function(delta) {
-      var volume = parseInt(this.ui.volumeRange.val(), 10) + (delta * 3);
-
-      if (volume > 100) {
-        volume = 100;
-      }
-
-      if (volume < 0) {
-        volume = 0;
-      }
-
-      this.player.setVolume(volume);
     },
 
     _toggleMute: function() {

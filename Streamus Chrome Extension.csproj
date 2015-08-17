@@ -92,6 +92,7 @@
     <Content Include="src\js\background\enum\entityType.js" />
     <Content Include="src\js\background\model\activePlaylistManager.js" />
     <Content Include="src\js\background\model\analyticsManager.js" />
+    <Content Include="src\js\foreground\enum\orientation.js" />
     <Content Include="src\js\foreground\model\activePane\activePane.js" />
     <Content Include="src\js\background\model\videoButton.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
@@ -115,6 +116,7 @@
     <Content Include="src\js\foreground\view\appBar\searchInputAreaView.js" />
     <Content Include="src\js\foreground\view\behavior\dialogContent.js" />
     <Content Include="src\js\foreground\view\behavior\listItemButton.js" />
+    <Content Include="src\js\foreground\view\behavior\resizeEmitter.js" />
     <Content Include="src\js\foreground\view\behavior\viewModelContainer.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusView.js" />
@@ -123,6 +125,7 @@
     <Content Include="src\js\foreground\view\dialog\googleSignInView.js" />
     <Content Include="src\js\foreground\view\dialog\linkUserIdView.js" />
     <Content Include="src\js\foreground\view\dialog\updateStreamusView.js" />
+    <Content Include="src\js\foreground\view\element\sliderView.js" />
     <Content Include="src\js\foreground\view\listItemButton\playlistOptionsButtonView.js" />
     <Content Include="src\js\foreground\view\simpleMenu\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
@@ -265,6 +268,7 @@
     <Content Include="src\template\appBar\searchInputArea.html" />
     <Content Include="src\template\contentScript\youTubePlayer\watermark.html" />
     <Content Include="src\template\dialog\aboutStreamus.html" />
+    <Content Include="src\template\element\slider.html" />
     <Content Include="src\template\simpleMenu\simpleMenuItem.html" />
     <Content Include="src\template\icon\closeIcon_24.svg" />
     <Content Include="src\template\icon\deleteIcon_18.svg" />
@@ -604,9 +608,10 @@
     <Content Include="src\_locales\ru\messages.json" />
     <Content Include="src\_locales\uk\messages.json" />
     <Content Include="src\less\streamControlBar.less" />
-    <Content Include="src\less\video.less" />
     <Content Include="src\less\searchInputArea.less" />
     <Content Include="src\less\searchArea.less" />
+    <Content Include="src\less\slider.less" />
+    <Content Include="src\less\resizeTriggers.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

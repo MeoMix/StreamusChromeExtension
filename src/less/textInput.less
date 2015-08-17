@@ -3,61 +3,60 @@
 @import "boxShadow";
 
 .textInput {
-    width: 100%;
-    // This needs to be 7px because of 1px border-bottom, otherwise I get into odd-pixel math.
-    // I need 1px border-bottom due to a bug in Chrome: http://stackoverflow.com/questions/26951053/jumpy-transition-when-only-modifying-box-shadow-looks-fine-with-box-shadow-bo
-    padding: 8px 0 7px 0;
-    font: inherit;
-    color: inherit;
-    background-color: transparent;
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    border-bottom-width: 1px;
-    outline: none;
-    transition: box-shadow @transition-duration--fast @transition-easeOutSine,
-                border @transition-duration--fast @transition-easeOutSine;
+  width: 100%;
+  // This needs to be 7px because of 1px border-bottom, otherwise I get into odd-pixel math.
+  // I need 1px border-bottom due to a bug in Chrome: http://stackoverflow.com/questions/26951053/jumpy-transition-when-only-modifying-box-shadow-looks-fine-with-box-shadow-bo
+  padding: 8px 0 7px 0;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom-width: 1px;
+  outline: none;
+  transition: box-shadow @transition-duration--fast @transition-easeOutSine, border @transition-duration--fast @transition-easeOutSine;
 }
 
 .textInput--basic {
-    margin-bottom: 8px;
-    border-bottom-color: rgba(0, 0, 0, .26);
+  margin-bottom: 8px;
+  border-bottom-color: rgba(0, 0, 0, .26);
 
-    &::-webkit-input-placeholder {
-        color: @dark--secondary;
+  &::-webkit-input-placeholder {
+    color: @dark--secondary;
+  }
+
+  &:focus {
+    border-bottom-color: @blue--500;
+    .m-boxShadow-underline(@blue--500);
+  }
+
+  &.is-invalid {
+    border-bottom-color: @red--500;
+    .m-boxShadow-underline(@red--500);
+
+    & + .textInput-hint {
+      color: @red--500;
     }
+  }
 
-    &:focus {
-        border-bottom-color: @blue--500;
-        .m-boxShadow-underline(@blue--500);
+  &.is-valid {
+    border-bottom-color: @green--500;
+    .m-boxShadow-underline(@green--500);
+
+    & + .textInput-hint {
+      color: @green--500;
     }
-
-    &.is-invalid {
-        border-bottom-color: @red--500;
-        .m-boxShadow-underline(@red--500);
-
-        & + .textInput-hint {
-            color: @red--500;
-        }
-    }
-
-    &.is-valid {
-        border-bottom-color: @green--500;
-        .m-boxShadow-underline(@green--500);
-
-        & + .textInput-hint {
-            color: @green--500;
-        }
-    }
+  }
 }
 
 .textInput-hint {
-    height: 14px;
-    font-size: 12px;
-    color: @dark--secondary;
-    cursor: default;
+  height: 14px;
+  font-size: 12px;
+  color: @dark--secondary;
+  cursor: default;
 }
 
 .textInput-characterCounter {
-    text-align: right;
+  text-align: right;
 }

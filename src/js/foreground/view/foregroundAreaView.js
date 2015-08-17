@@ -12,6 +12,8 @@
   var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
   var TooltipRegion = require('foreground/view/tooltip/tooltipRegion');
   var KeyCode = require('foreground/enum/keyCode');
+  // TODO: Need pattern for registering Web Component.
+  var SliderView = require('foreground/view/element/sliderView');
   var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
   var ForegroundAreaView = Marionette.LayoutView.extend({
@@ -80,8 +82,11 @@
     initialize: function(options) {
       this.analyticsManager = options.analyticsManager;
 
+      // TODO: Consolidate these into a 'clickingElement' event, I think?
       this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseDown', this._onScrollbarMouseDown);
       this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseUp', this._onScrollbarMouseUp);
+      this.listenTo(StreamusFG.channels.slider.vent, 'mouseDown', this._onSliderMouseDown);
+      this.listenTo(StreamusFG.channels.slider.vent, 'mouseUp', this._onSliderMouseUp);
 
       // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
       this._onWindowUnload = this._onWindowUnload.bind(this);
@@ -161,8 +166,16 @@
 
     _onScrollbarMouseUp: function() {
       this.$el.removeClass('is-clickingScrollbar');
+    },
+
+    _onSliderMouseDown: function() {
+      this.$el.addClass('is-clickingSlider');
+    },
+
+    _onSliderMouseUp: function() {
+      this.$el.removeClass('is-clickingSlider');
     }
-  });
+});
 
   return ForegroundAreaView;
 });

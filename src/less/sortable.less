@@ -2,37 +2,36 @@
 
 // This is the jQuery UI draggable object that shows # of items being dragged
 .sortable-selectedItemsCount {
-    position: absolute;
-    // !important is being used to override jQuery UI's width/height settings
-    width: auto !important;
-    height: auto !important;
-    padding: 2px 8px;
-    font-weight: 600;
-    color: @white;
-    text-align: center;
-    background-color: @gray--tooltip;
-    border-radius: 18px;
+  position: absolute;
+  // !important is being used to override jQuery UI's width/height settings
+  width: auto !important;
+  height: auto !important;
+  padding: 2px 8px;
+  font-weight: 600;
+  color: @white;
+  text-align: center;
+  background-color: @gray--tooltip;
+  border-radius: 18px;
 }
 
 .sortable-placeholder {
-    font-size: 15px;
-    color: white;
-    background: @dark--quinary;
+  font-size: 15px;
+  color: white;
+  background: @dark--quinary;
+  // Don't allow duplicates to be dropped into playlist items
+  &.is-notDroppable {
+    background-color: @red--500;
+  }
 
-    // Don't allow duplicates to be dropped into playlist items
-    &.is-notDroppable {
-        background-color: @red--500;
-    }
-
-    &.is-warnDroppable {
-        background-color: @yellow--500;
-    }
+  &.is-warnDroppable {
+    background-color: @yellow--500;
+  }
 }
 
 .sortable--unsortable .sortable-placeholder {
-    display: none;
+  display: none;
 }
 
 .is-dragging .is-selected {
-    opacity: .5;
+  opacity: .5;
 }

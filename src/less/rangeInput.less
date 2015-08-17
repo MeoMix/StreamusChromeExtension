@@ -5,77 +5,76 @@
 @rangeInputThumbSize: 10px;
 
 .rangeInput-wrapper {
-    position: relative;
-    background: @dark--quaternary;
-    flex: 1;
+  position: relative;
+  background: @dark--quaternary;
+  flex: 1;
 }
 
 .rangeInput-wrapper--horizontal {
-    height: @rangeInputSize;
+  height: @rangeInputSize;
 
-    .rangeInput-progress {
-        height: 100%;
-        width: 100%;
-        transform-origin: 0 50%;
+  .rangeInput-progress {
+    height: 100%;
+    width: 100%;
+    transform-origin: 0 50%;
+  }
+  // NOTE: Can't force this on all range inputs because transform: rotate messes up height/width calculations.
+  .rangeInput {
+    width: 100%;
+    height: 100%;
+
+    &::-webkit-slider-thumb {
+      margin-left: (@rangeInputThumbSize / -2);
+      will-change: transform;
+      transform: scale(0);
+      .transition--veryFast;
+      transition-property: transform;
+      transition-timing-function: @transition-easeOutSine;
+
+      &:active {
+        transform: scale(1);
+      }
     }
 
-    // NOTE: Can't force this on all range inputs because transform: rotate messes up height/width calculations.
-    .rangeInput {
-        width: 100%;
-        height: 100%;
-
-        &::-webkit-slider-thumb {
-            margin-left: (@rangeInputThumbSize / -5);
-            will-change: transform;
-            transform: scale(0);
-            .transition--veryFast;
-            transition-property: transform;
-            transition-timing-function: @transition-easeOutSine;
-
-            &:active {
-                transform: scale(1);
-            }
-        }
-
-        &:active:not(.is-disabled)::-webkit-slider-thumb,
-        &:hover:not(.is-disabled)::-webkit-slider-thumb {
-            transform: scale(1);
-        }
+    &:active:not(.is-disabled)::-webkit-slider-thumb,
+    &:hover:not(.is-disabled)::-webkit-slider-thumb {
+      transform: scale(1);
     }
+  }
 }
 
 .rangeInput-wrapper--vertical {
-    width: @rangeInputSize;
-    transform: rotate(180deg);
+  width: @rangeInputSize;
+  transform: rotate(180deg);
 
-    .rangeInput-progress {
-        width: 100%;
-    }
+  .rangeInput-progress {
+    width: 100%;
+  }
 
-    .rangeInput {
-        -webkit-transform: rotate(90deg);
-        -webkit-transform-origin: 0 0;
-    }
+  .rangeInput {
+    -webkit-transform: rotate(90deg);
+    -webkit-transform-origin: 0 0;
+  }
 }
 
 .rangeInput-progress {
-    position: absolute;
-    background-color: @blue--500;
+  position: absolute;
+  background-color: @blue--500;
 }
 
 .rangeInput {
-    position: absolute;
-    top: 0;
-    margin: 0;
-    background: transparent;
-    outline: none;
-    -webkit-appearance: none;
+  position: absolute;
+  top: 0;
+  margin: 0;
+  background: transparent;
+  outline: none;
+  -webkit-appearance: none;
 
-    &::-webkit-slider-thumb {
-        width: @rangeInputThumbSize;
-        height: @rangeInputThumbSize;
-        background: @blue--500;
-        border-radius: 50%;
-        -webkit-appearance: none;
-    }
+  &::-webkit-slider-thumb {
+    width: @rangeInputThumbSize;
+    height: @rangeInputThumbSize;
+    background: @blue--500;
+    border-radius: 50%;
+    -webkit-appearance: none;
+  }
 }

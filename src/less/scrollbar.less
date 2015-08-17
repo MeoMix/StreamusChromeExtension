@@ -2,43 +2,43 @@
 @import "transition";
 
 .scrollbar-container {
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
 
-    &:hover .scrollbar-thumb {
-        background-color: @dark--quaternary;
-    }
+  &:hover .scrollbar-thumb {
+    background-color: @dark--quaternary;
+  }
 }
 
 .scrollbar-track,
 .scrollbar-thumb {
-    position: absolute;
-    top: 0;
-    right: 0;
-    transition: background-color @transition-duration--fast ease-out, width @transition-duration--fast ease-out;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transition: background-color @transition-duration--fast ease-out, width @transition-duration--fast ease-out;
 }
 
 .scrollbar-track {
-    height: 100%;
-    width: 12px;
+  height: 100%;
+  width: 12px;
 
-    &:hover,
-    &:active {
-        .scrollbar-thumb {
-            width: 12px;
-            background-color: @dark--tertiary;
-        }
+  &:hover,
+  &:active {
+    .scrollbar-thumb {
+      width: 12px;
+      background-color: @dark--tertiary;
     }
+  }
 }
 
 .scrollbar-thumb {
-    width: 8px;
-    height: 1px;
-    transform-origin: 50% 0;
+  width: 8px;
+  height: 1px;
+  transform-origin: 50% 0;
 }
 
 .scrollbar-thumb {
-    &.is-clicked {
-        background-color: @dark--tertiary;
-    }
+  &.is-clicked {
+    background-color: @dark--tertiary;
+  }
 }

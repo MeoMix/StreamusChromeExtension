@@ -34,11 +34,12 @@
     },
 
     ui: {
-      title: 'title'
+      title: 'title',
+      content: 'content'
     },
 
     events: {
-      'contextmenu': '_onContextMenu'
+      'contextmenu @ui.content': '_onContextMenuContent'
     },
 
     modelEvents: {
@@ -120,7 +121,7 @@
       this._setTitle(loadedVideo);
     },
 
-    _onContextMenu: function(event) {
+    _onContextMenuContent: function(event) {
       event.preventDefault();
       // Show the element just slightly offset as to not break onHover effects.
       this._showContextMenu(event.pageY, event.pageX + 1);

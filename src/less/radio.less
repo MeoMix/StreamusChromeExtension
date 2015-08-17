@@ -2,54 +2,54 @@
 @import "transition";
 
 radio-group {
-    outline: none;
+  outline: none;
 }
 
 radio-button {
-    display: flex;
-    height: 48px;
-    cursor: pointer;
-    align-items: center;
+  display: flex;
+  height: 48px;
+  cursor: pointer;
+  align-items: center;
 
-    &.is-checked {
-        .radio-on {
-            transform: scale(0.5);
-        }
-
-        .radio-off {
-            border-color: @green--500;
-        }
+  &.is-checked {
+    .radio-on {
+      transform: scale(0.5);
     }
+
+    .radio-off {
+      border-color: @green--500;
+    }
+  }
 }
 
 .radio-container {
-    position: relative;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
 }
 
 .radio-state {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .radio-off {
-    border: solid 2px;
-    border-color: @dark--secondary;
-    transition: border-color ease @transition-duration--slow;
+  border: solid 2px;
+  border-color: @dark--secondary;
+  transition: border-color ease @transition-duration--slow;
 }
 
 .radio-on {
-    background-color: @green--500;
-    transform: scale(0);
-    transition: transform ease @transition-duration--slow;
+  background-color: @green--500;
+  transform: scale(0);
+  transition: transform ease @transition-duration--slow;
 }
 
 .radio-label {
-    margin-left: 10px;
-    cursor: pointer;
+  margin-left: 10px;
+  cursor: pointer;
 }

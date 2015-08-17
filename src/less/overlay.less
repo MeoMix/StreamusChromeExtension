@@ -1,25 +1,25 @@
 ﻿@import "transition";
 
 .overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 2;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .overlay--faded {
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    will-change: opacity;
-    transition-property: opacity;
-    transition-timing-function: @transition-easeOutSine;
-    // When click-and-holding over a faded overlay the cursor disappears unless cursor: default is set.
-    cursor: default;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  will-change: opacity;
+  transition-property: opacity;
+  transition-timing-function: @transition-easeOutSine;
+  // When click-and-holding over a faded overlay the cursor disappears unless cursor: default is set.
+  cursor: default;
 
-    &.is-visible {
-        opacity: 1;
-    }
+  &.is-visible {
+    opacity: 1;
+  }
 }

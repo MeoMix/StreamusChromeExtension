@@ -1,47 +1,47 @@
 ﻿@import "transition";
 
 .searchInputArea {
-    border-radius: 2px;
-    padding-left: 4px;
-    justify-content: flex-end;
-    overflow: hidden;
+  border-radius: 2px;
+  padding-left: 4px;
+  justify-content: flex-end;
+  overflow: hidden;
 }
 
 .searchInputArea-searchInputWrapper {
-    transform: translateX(0);
-    transition: transform @transition-easeOutSine @transition-duration--fast, background-color @transition-easeOutSine @transition-duration--fast;
+  transform: translateX(0);
+  transition: transform @transition-easeOutSine @transition-duration--fast, background-color @transition-easeOutSine @transition-duration--fast;
 
-    &.is-active {
-        background-color: rgba(255,255,255,.15);
+  &.is-active {
+    background-color: rgba(255,255,255,.15);
 
-        .searchInputArea-searchInput {
-            opacity: 1;
-        }
+    .searchInputArea-searchInput {
+      opacity: 1;
     }
+  }
 
-    &.is-inactive {
-        transform: translateX(calc(100% - 48px));
-    }
+  &.is-inactive {
+    transform: translateX(calc(100% - 48px));
+  }
 }
 
 .searchInputArea-clearSearchIcon,
 .searchInputArea-searchIcon {
-    padding: 0 12px;
+  padding: 0 12px;
 }
 
 .searchInputArea-searchInput {
-    font: inherit;
-    font-size: 17px;
-    height: 36px;
-    color: inherit;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    opacity: 0;
-    transition: opacity @transition-easeOutSine @transition-duration--fast;
-    flex: 1;
+  font: inherit;
+  font-size: 17px;
+  height: 36px;
+  color: inherit;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  opacity: 0;
+  transition: opacity @transition-easeOutSine @transition-duration--fast;
+  flex: 1;
 
-    &::-webkit-input-placeholder {
-      color: inherit;
-    }
+  &::-webkit-input-placeholder {
+    color: inherit;
+  }
 }

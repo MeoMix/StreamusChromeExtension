@@ -1,0 +1,99 @@
+﻿@import "transition";
+@import "color";
+
+@thumbCircumference: 12px;
+@sliderPadding: 12px;
+@sliderSize: 4px;
+
+streamus-slider {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+
+  &:hover .slider-thumb:after {
+    will-change: transform;
+  }
+
+  &:active:not(.is-disabled) .slider-thumb:after {
+    transform: scale(1.5);
+  }
+
+  &[orientation=horizontal] {
+    padding: @sliderPadding 0;
+    width: 100%;
+
+    .slider-trackContainer {
+      height: @sliderSize;
+      width: 100%;
+    }
+
+    .slider-track {
+      transform-origin: left center;
+    }
+
+    .slider-thumb {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      left: (-@thumbCircumference / 2);
+    }
+  }
+
+  &[orientation=vertical] {
+    padding: 0 @sliderPadding;
+    height: 100%;
+
+    .slider-trackContainer {
+      width: @sliderSize;
+      height: 100%;
+    }
+
+    .slider-track {
+      transform-origin: center bottom;
+    }
+
+    .slider-thumb {
+      left: 0;
+      right: 0;
+      top: 0;
+      top: (-@thumbCircumference / 2);
+    }
+  }
+}
+
+.slider-trackContainer {
+  background-color: rgba(0,0,0,0.12);
+  position: relative;
+}
+
+.slider-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: @blue--500;
+  /* 
+    Pass click events through the track up to the trackContainer to avoid receiving a click offset 
+    which has been modified by transform: scale. Failure to do so will result in incorrect values
+    when clicking on the track.
+  */
+  pointer-events: none;
+}
+
+.slider-thumb {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:after {
+    width: @thumbCircumference;
+    height: @thumbCircumference;
+    background-color: @blue--500;
+    border-radius: 50%;
+    transform: scale(1);
+    transition: transform @transition-duration--veryFast @transition-easeOutSine;
+    content: "";
+  }
+}

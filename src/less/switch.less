@@ -3,52 +3,52 @@
 @import "transition";
 
 switch {
-    display: flex;
-    cursor: pointer;
-    align-items: center;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
 }
 
 .switch-label {
-    margin-right: 12px;
-    cursor: pointer;
-    flex: 1;
+  margin-right: 12px;
+  cursor: pointer;
+  flex: 1;
 }
 
 .switch-icon {
-    width: 30px;
-    height: 15px;
-    border-radius: 15px;
-    transition: background @transition-duration--slow ease;
+  width: 30px;
+  height: 15px;
+  border-radius: 15px;
+  transition: background @transition-duration--slow ease;
 
-    &.is-checked {
-        // http://www.google.com/design/spec/components/switches.html#switches-switch
-        // Track On: Swatch 500, Alpha 50%
-        background-color: fadeout(@blue--500, 50%);
+  &.is-checked {
+    // http://www.google.com/design/spec/components/switches.html#switches-switch
+    // Track On: Swatch 500, Alpha 50%
+    background-color: fadeout(@blue--500, 50%);
 
-        &:after {
-            left: 15px;
-            background-color: @blue--500;
-        }
+    &:after {
+      left: 15px;
+      background-color: @blue--500;
     }
+  }
 
-    &.is-unchecked {
-        background-color: @dark--tertiary;
+  &.is-unchecked {
+    background-color: @dark--tertiary;
 
-        &:after {
-            left: -5px;
-            background-color: @gray--50;
-        }
+    &:after {
+      left: -5px;
+      background-color: @gray--50;
     }
+  }
 }
 
 .switch-icon:after {
-    position: relative;
-    top: -2px;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    content: "";
-    box-shadow: @boxShadow-elevation--low;
-    transition: left @transition-duration--slow ease, background @transition-duration--slow ease;
+  position: relative;
+  top: -2px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  content: "";
+  box-shadow: @boxShadow-elevation--low;
+  transition: left @transition-duration--slow ease, background @transition-duration--slow ease;
 }

@@ -124,18 +124,18 @@
       this.ui.timeRange.val(currentTime);
 
       var totalTime = this._getTotalTime(this.player.get('loadedVideo'));
-      var progressPercent = this._getProgressPercent(currentTime, totalTime);
+      var progressPercent = this._getProgressFraction(currentTime, totalTime);
       // TODO: The thumb for this gets slightly maligned at the end of the video.
-      this.ui.timeProgress.css('transform', 'scaleX(' + progressPercent / 100 + ')');
+      this.ui.timeProgress.css('transform', 'scaleX(' + progressPercent + ')');
     },
 
     // Returns a % value out of 100 for how much time has elapsed.
-    _getProgressPercent: function(currentTime, totalTime) {
+    _getProgressFraction: function(currentTime, totalTime) {
       var progressPercent = 0;
 
       // Guard against divide-by-zero
       if (totalTime !== 0) {
-        progressPercent = currentTime / totalTime * 100;
+        progressPercent = currentTime / totalTime;
       }
 
       return progressPercent;

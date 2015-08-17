@@ -2,69 +2,69 @@
 @import "color";
 
 .dialog {
-    z-index: 2;
+  z-index: 2;
 
-    .grouping:first-of-type {
-        .textInput:first-of-type{
-            padding-top: 0;
-        }
+  .grouping:first-of-type {
+    .textInput:first-of-type {
+      padding-top: 0;
     }
+  }
 }
 
 .dialog-panel {
-    top: 50%;
-    left: 50%;
-    display: flex;
-    max-width: 500px;
-    max-height: 410px;
-    min-width: 260px;
-    transform: translate(-50%, -50%) scale(.8);
-    flex-direction: column;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  max-width: 500px;
+  max-height: 410px;
+  min-width: 260px;
+  transform: translate(-50%, -50%) scale(.8);
+  flex-direction: column;
 
-    &.is-visible {
-        transform: translate(-50%, -50%) scale(1);
-    }
+  &.is-visible {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 .dialog-panel-content {
-    display: flex;
-    border-radius: 2px;
-    flex-direction: column;
-    min-height: 0;
+  display: flex;
+  border-radius: 2px;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .dialog-contentRegion {
-    display: flex;
-    min-height: 0;
+  display: flex;
+  min-height: 0;
 }
 
 .dialog-content {
-    padding: 0 24px;
-    // http://www.google.com/design/spec/components/dialogs.html#dialogs-specs
-    margin-top: 24px;
-    margin-bottom: 16px;
-    font-size: 15px;
-    color: @dark--primary;
-    cursor: default;
-    flex: 1;
+  padding: 0 24px;
+  // http://www.google.com/design/spec/components/dialogs.html#dialogs-specs
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-size: 15px;
+  color: @dark--primary;
+  cursor: default;
+  flex: 1;
 }
 
 .dialog-contentBar--bottom {
-    margin: 8px 8px;
+  margin: 8px 8px;
 
-    checkbox {
-        padding: 8px;
-        margin: 0 4px;
-        font-size: 14px;
+  checkbox {
+    padding: 8px;
+    margin: 0 4px;
+    font-size: 14px;
 
-        &.is-checking .checkbox-label,
-        &.is-checked .checkbox-label {
-            color: @blue--500;
-        }
+    &.is-checking .checkbox-label,
+    &.is-checked .checkbox-label {
+      color: @blue--500;
     }
+  }
 
-    .checkbox-label {
-        font-weight: 600;
-        text-transform: uppercase;
-    }
+  .checkbox-label {
+    font-weight: 600;
+    text-transform: uppercase;
+  }
 }

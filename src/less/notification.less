@@ -1,23 +1,23 @@
 ﻿@import "color";
 
 .notification {
-    // https://github.com/MeoMix/StreamusChromeExtension/issues/564
-    // Don't want the whitespace area around the notification to be unclickable.
-    pointer-events: none !important;
+  // https://github.com/MeoMix/StreamusChromeExtension/issues/564
+  // Don't want the whitespace area around the notification to be unclickable.
+  pointer-events: none !important;
 }
 
 .notification-content {
-    max-width: 568px;
-    min-width: 288px;
-    padding: 0 24px;
-    margin-bottom: 16px;
-    margin-left: 16px;
-    // The spec says this should be 14px, but I think 15px looks better.
-    font-size: 15px;
-    line-height: 48px;
-    color: @white;
-    cursor: default;
-    // http://www.google.com/design/spec/components/snackbars-toasts.html#snackbars-toasts-usage
-    background-color: @gray--snackbar;
-    border-radius: 2px;
+  max-width: 568px;
+  min-width: 288px;
+  padding: 0 24px;
+  margin-bottom: 16px;
+  margin-left: 16px;
+  // The spec says this should be 14px, but I think 15px looks better.
+  font-size: 15px;
+  line-height: 48px;
+  color: @white;
+  cursor: default;
+  // http://www.google.com/design/spec/components/snackbars-toasts.html#snackbars-toasts-usage
+  background-color: @gray--snackbar;
+  border-radius: 2px;
 }

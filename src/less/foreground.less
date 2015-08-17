@@ -21,10 +21,12 @@
 @import "panel";
 @import "radio";
 @import "rangeInput";
+@import "resizeTriggers";
 @import "scrollbar";
 @import "searchArea";
 @import "searchInputArea";
 @import "selectionBar";
+@import "slider";
 @import "sortable";
 @import "spinner";
 @import "streamControlBar";
@@ -33,56 +35,54 @@
 @import "textInput";
 @import "timeArea";
 @import "tooltip";
-@import "video";
 @import "volumeArea";
 
 html {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
-// Force UI to full size if Streamus has been loaded into a tab by detecting min-width/min-height greater than maximum extension width/height.
-/*@media (min-width:810px), (min-height:610px) {
-    html,
-    body {
-        width: 100% !important;
-        height: 100% !important;
-    }
-}*/
-
 .foreground {
-    /*width: 800px;
-    height: 600px;*/
-    margin: 0;
-    // Ensure that elements which are transformed outside the viewport don't cause overflow.
-    overflow: hidden;
-    font: 13px 'Roboto';
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    -webkit-user-select: none;
-    color: @white;
+  margin: 0;
+  // Ensure that elements which are transformed outside the viewport don't cause overflow.
+  overflow: hidden;
+  font: 13px 'Roboto';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  color: @white;
 }
 
 .foreground.is-tab {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .foreground.is-popup {
-    width: 800px;
-    height: 600px;
+  width: 800px;
+  height: 600px;
 }
 
-.foregroundArea.is-clickingScrollbar {
-    pointer-events: none;
+/* When interacting with 'native' UI elements such as scrollbars and sliders - ensure that
+  the browser stops responding to the mouse while dragging because that's how browsers work with
+  actually native elements.
+*/
+.foregroundArea.is-clickingScrollbar,
+.foregroundArea.is-clickingSlider {
+  -webkit-user-select: none !important;
+
+  *, *:before, *:after {
+    -webkit-user-select: none !important;
+  }
 }
 
 .playlistsArea,
 .searchArea {
-    height: calc(100% - 56px) !important;
+  height: calc(100% - 56px) !important;
 }
 
 .playlistsArea,
 .searchArea.is-visible {
-    top: 56px !important;
+  top: 56px !important;
 }

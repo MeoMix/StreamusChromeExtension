@@ -5,24 +5,24 @@
 @columnWidth--thin: 45;
 
 .flexColumn {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    min-height: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
 }
 
 // https://code.google.com/p/chromium/issues/detail?id=484460&q=flex&colspec=ID%20Pri%20M%20Week%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
 // https://github.com/philipwalton/flexbugs#1-minimum-content-sizing-of-flex-items-not-honored
 .flexColumn-bugFix {
-    flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .flexColumn--wide {
-    width: (@columnWidth--wide * 1%);
-    flex: @columnWidth--wide;
+  width: (@columnWidth--wide * 1%);
+  flex: @columnWidth--wide;
 }
 
 .flexColumn--thin {
-    width: (@columnWidth--thin * 1%);
-    flex: @columnWidth--thin;
+  width: (@columnWidth--thin * 1%);
+  flex: @columnWidth--thin;
 }

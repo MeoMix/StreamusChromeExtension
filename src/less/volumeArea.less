@@ -1,86 +1,29 @@
 ﻿@import "boxShadow";
 @import "color";
-@import "rangeInput";
 @import "transition";
-
-@slidePanelContentPadding: 10px;
-
-.volumeArea {
-    // This fixes the fact that there's a small gap between the 48px button click target
-    // and the slidePanel. If the user's mouse goes over that area then the slidePanel collapses.
-    padding: 4px 0;
-}
 
 .volumeArea:hover,
 .volumeArea:active {
-    @expandedPanelHeight: 100px;
-    @transitionDelay: .2s;
-
-    .volumeArea-slidePanel {
-        height: @expandedPanelHeight;
-        pointer-events: all;
-        opacity: 1;
-        transition-delay: @transitionDelay;
-    }
-
-    .rangeInput {
-        @volumeRangeSize: (@expandedPanelHeight - (@slidePanelContentPadding * 2));
-        right: -@volumeRangeSize;
-        width: @volumeRangeSize;
-        opacity: 1;
-        transition-delay: @transitionDelay;
-    }
+  .volumeArea-slidePanel {
+    opacity: 1;
+    transform: scaleY(1);
+    pointer-events: all;
+  }
 }
 
-// Chrome bug forces this to be awkward: https://code.google.com/p/chromium/issues/detail?id=341071
 .volumeArea-slidePanel {
-    @panelWidth: 40px;
-    z-index: 1;
-    width: @panelWidth;
-    height: 0;
-    margin-right: 4px;
-    margin-left: 4px;
-    // Prevent hover events from firing on children when it isn't visible.
-    pointer-events: none;
-    opacity: 0;
-    align-items: center;
-    transition: opacity @transition-duration--slow @transition-easeOutSine,
-                height  @transition-duration--slow @transition-easeOutSine;
-
-    // CSS triangle
-    &:before {
-        position: absolute;
-        top: (-1 * (@panelWidth / 8));
-        right: 0;
-        left: 0;
-        width: (@panelWidth / 4);
-        height: (@panelWidth / 4);
-        margin: 0 auto;
-        background-color: white;
-        content: ' ';
-        transform: rotate(45deg);
-        box-shadow: @boxShadow-elevation--low;
-        -webkit-clip-path: inset(0 8px 8px 0);
-    }
-
-    .rangeInput {
-        // These values need to be explicitly set because element has been rotated so can't rely on width/height: 100%
-        right: 0;
-        width: 0;
-        height: @rangeInputSize;
-        opacity: 0;
-        transition:
-            width @transition-duration--slow @transition-easeOutSine,
-            right @transition-duration--slow @transition-easeOutSine,
-            opacity @transition-duration--slow @transition-easeOutSine;
-    }
+  width: 48px;
+  height: 120px;
+  transform: scaleY(0);
+  opacity: 0;
+  transform-origin: top;
+  will-change: transform, opacity;
+  transition: opacity @transition-duration--fast @transition-easeOutSine, transform @transition-duration--fast @transition-easeOutSine;
 }
 
 .volumeArea-slidePanel-content {
-    width: 100%;
-    height: 100%;
-    border-bottom-right-radius: 2px;
-    border-bottom-left-radius: 2px;
-    align-items: center;
-    padding: @slidePanelContentPadding 0;
+  height: 100%;
+  border-radius: 2px;
+  align-items: center;
+  padding: 16px 0;
 }
