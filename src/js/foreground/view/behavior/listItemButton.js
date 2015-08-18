@@ -35,7 +35,7 @@
 
     _announceClick: function(event) {
       if (this.view.model.get('enabled')) {
-        this.view.triggerMethod('Click');
+        this.view.triggerMethod('click');
       }
       // Since returning false, need to announce the event happened here since root level won't know about it.
       StreamusFG.channels.element.vent.trigger('click', event);

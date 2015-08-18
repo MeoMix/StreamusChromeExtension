@@ -93,12 +93,12 @@
 
       // Removing the placeholder modifies the container's height.
       // Notify the scrollbar to update because of this height change.
-      this.view.triggerMethod('UpdateScrollbar');
+      this.view.triggerMethod('update:scrollbar');
     },
 
     _start: function(event, ui) {
       StreamusFG.channels.element.vent.trigger('drag');
-      this.view.triggerMethod('ItemDragged', {
+      this.view.triggerMethod('item:dragged', {
         item: this.view.collection.get(ui.item.attr('data-id')),
         shiftKey: event.shiftKey
       });
@@ -138,7 +138,7 @@
           this._moveItems(this.view.collection.getSelectedModels(), dropIndex, isParentNodeLost);
           this._cleanup();
         }.bind(this));
-        this.view.triggerMethod('GetMinRenderIndex');
+        this.view.triggerMethod('get:minRenderIndex');
       } else {
         // _.defer allows for jQuery UI to finish interacting with the element. Without this, CSS animations do not run.
         _.defer(function() {
@@ -179,7 +179,7 @@
         // Simply triggering a sort is the simplest solution as it forces the CollectionView to re-render its children.
         this.view.collection.sort();
       }.bind(this));
-      this.view.triggerMethod('GetMinRenderIndex');
+      this.view.triggerMethod('get:minRenderIndex');
     },
 
     _over: function(event, ui) {
@@ -188,13 +188,13 @@
 
       // Removing the placeholder modifies the container's height.
       // Notify the scrollbar to update because of this height change.
-      this.view.triggerMethod('UpdateScrollbar');
+      this.view.triggerMethod('update:scrollbar');
     },
 
     _out: function() {
       // Removing the placeholder modifies the container's height.
       // Notify the scrollbar to update because of this height change.
-      this.view.triggerMethod('UpdateScrollbar');
+      this.view.triggerMethod('update:scrollbar');
     },
 
     _moveItems: function(items, dropIndex, isParentNodeLost) {
@@ -253,7 +253,7 @@
         this.view.collection.sort();
         // Need to update the scrollbar because if the drag-and-drop placeholder pushed scrollTop beyond its normal limits
         // then the scrollbar is not representing the correct height after the placeholder is removed.
-        this.view.triggerMethod('UpdateScrollbar');
+        this.view.triggerMethod('update:scrollbar');
       }
     },
 

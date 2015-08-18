@@ -61,7 +61,7 @@
 
     // Don't maintain selected results after closing the view because the view won't be visible.
     _onSearchHiding: function() {
-      this.triggerMethod('DeselectCollection');
+      this.triggerMethod('deselect:collection');
     }
   });
 

@@ -49,13 +49,13 @@
       // Allow N items to be rendered initially where N is how many items need to cover the viewport.
       this._setViewportHeight();
       this._tryScrollToActiveItem();
-      this.view.triggerMethod('UpdateScrollbar');
+      this.view.triggerMethod('update:scrollbar');
     },
 
     // jQuery UI's sortable needs to be able to know the minimum rendered index. Whenever an external
     // event requests the min render index -- return it!
     onGetMinRenderIndex: function() {
-      this.view.triggerMethod('GetMinRenderIndexResponse', {
+      this.view.triggerMethod('get:minRenderIndex:response', {
         minRenderIndex: this.minRenderIndex
       });
     },
@@ -336,7 +336,7 @@
         }
 
         this.el.scrollTop = scrollTop;
-        this.view.triggerMethod('UpdateScrollbar');
+        this.view.triggerMethod('update:scrollbar');
       }
     },
 
@@ -352,7 +352,7 @@
 
       // Give the items a second to disappear after being reset and then update.
       requestAnimationFrame(function() {
-        this.view.triggerMethod('UpdateScrollbar');
+        this.view.triggerMethod('update:scrollbar');
       }.bind(this));
     },
 
@@ -380,7 +380,7 @@
           }
 
           this._setHeightTranslateY();
-          this.view.triggerMethod('UpdateScrollbar');
+          this.view.triggerMethod('update:scrollbar');
         }
       }.bind(this));
     },
@@ -406,7 +406,7 @@
 
       // Give the items a second to appear and then update.
       requestAnimationFrame(function() {
-        this.view.triggerMethod('UpdateScrollbar');
+        this.view.triggerMethod('update:scrollbar');
       }.bind(this));
     },
 

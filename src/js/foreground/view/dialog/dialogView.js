@@ -153,7 +153,7 @@
 
         this._hide();
       } else {
-        this.contentView.triggerMethod('ValidationFailed');
+        this.contentView.triggerMethod('validation:failed');
       }
     },
 

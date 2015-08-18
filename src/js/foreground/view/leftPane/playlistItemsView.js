@@ -57,7 +57,7 @@
 
     // Don't maintain selected results after showing SearchView because this view won't be visible.
     _onSearchShowing: function() {
-      this.triggerMethod('DeselectCollection');
+      this.triggerMethod('deselect:collection');
     }
   });
 

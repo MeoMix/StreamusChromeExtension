@@ -65,7 +65,7 @@
       if (isResized) {
         this.lastKnownDimensions.width = width;
         this.lastKnownDimensions.height = height;
-        this.view.triggerMethod('Resize');
+        this.view.triggerMethod('resize');
       }
     },
 
