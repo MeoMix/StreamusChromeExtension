@@ -5,13 +5,17 @@
   var TimeSliderTemplate = require('text!template/streamControlBar/timeSlider.html');
 
   var TimeSliderView = Marionette.LayoutView.extend({
+    tagName: 'streamus-slider',
     id: 'timeSlider',
-    template: _.template(TimeSliderTemplate),
+    template: false, //template: _.template(TimeSliderTemplate),
+
+    attributes: {
+      orientation: 'horizontal'
+    },
 
     useCustomUiSelector: false,
     ui: {
-      timeProgress: 'timeProgress',
-      timeRange: 'timeRange'
+      timeSlider: 'timeSlider'
     },
 
     behaviors: {
@@ -22,10 +26,10 @@
     },
 
     events: {
-      'input @ui.timeRange': '_onInputTimeRange',
-      'wheel @ui.timeRange': '_onWheelTimeRange',
-      'mousedown @ui.timeRange': '_onMouseDownTimeRange',
-      'mouseup @ui.timeRange': '_onMouseUpTimeRange'
+      //'input': '_onInputTimeRange',
+      //'wheel @ui.timeSlider': '_onWheelTimeRange',
+      //'mousedown @ui.timeSlider': '_onMouseDownTimeRange',
+      //'mouseup @ui.timeSlider': '_onMouseUpTimeRange'
     },
 
     modelEvents: {
@@ -46,7 +50,6 @@
 
     onRender: function() {
       this._setEnabledState(this.model.get('isEnabled'));
-
       var loadedVideo = this.player.get('loadedVideo');
       var totalTime = this._getTotalTime(loadedVideo);
       this._setTotalTime(totalTime);
@@ -55,7 +58,7 @@
 
     _onInputTimeRange: function() {
       if (this.model.get('isEnabled')) {
-        var currentTime = parseInt(this.ui.timeRange.val(), 10);
+        var currentTime = parseInt(this.$el.val(), 10);
         this.model.set('currentTime', currentTime);
       }
     },
@@ -113,7 +116,8 @@
     },
 
     _setTotalTime: function(totalTime) {
-      this.ui.timeRange.attr('max', totalTime);
+      this.$el.attr('max', totalTime);
+      console.log('set max');
     },
 
     // Repaints the progress bar's filled-in amount based on the % of time elapsed for current video.
@@ -121,12 +125,7 @@
     // progress bar's time. The player's time should not update when the progress bar's time is
     // being dragged by the user, but the progress bar's values do need to update.
     _setTimeProgress: function(currentTime) {
-      this.ui.timeRange.val(currentTime);
-
-      var totalTime = this._getTotalTime(this.player.get('loadedVideo'));
-      var progressPercent = this._getProgressFraction(currentTime, totalTime);
-      // TODO: The thumb for this gets slightly maligned at the end of the video.
-      this.ui.timeProgress.css('transform', 'scaleX(' + progressPercent + ')');
+      this.$el.val(currentTime);
     },
 
     // Returns a % value out of 100 for how much time has elapsed.
@@ -147,7 +146,7 @@
     },
 
     _setEnabledState: function(isEnabled) {
-      this.ui.timeRange.toggleClass('is-disabled', !isEnabled);
+      this.$el.toggleClass('is-disabled', !isEnabled);
     }
   });
 

@@ -42,6 +42,7 @@
     length: -1,
     orientation: Orientation.Horizontal,
     isVertical: false,
+    _isAttached: false,
 
     initialize: function() {
       // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
@@ -49,8 +50,8 @@
       // Provide a throttled version of _onWheel because wheel events can fire at a high rate.
       // https://developer.mozilla.org/en-US/docs/Web/Events/wheel
       this._onWheel = _.throttleFramerate(requestAnimationFrame, this._onWheel);
+      // TODO: I think I can use onAttributeChaned instead of this.
       Object.observe(this.el, this._onUpdate, ['update']);
-      this._setDefaultValues();
     },
 
     onRender: function() {
@@ -60,6 +61,9 @@
     },
 
     onAttach: function() {
+      this._isAttached = true;
+      this._setDefaultValues();
+
       // Cache the length of the slider once it is known.
       this.length = this._getLength();
 
@@ -76,6 +80,21 @@
       this._setWindowEventListeners(false);
       Object.unobserve(this.el, this._onUpdate);
       window.removeResizeListener(this.el, this._onResize);
+    },
+
+    setMaxValue: function(maxValue) {
+      if (this._isAttached) {
+        if (this.maxValue !== maxValue) {
+          this.maxValue = maxValue;
+
+          var boundedValue = this._getBoundedValue(this.value);
+          if (boundedValue === this.value) {
+            this._updateLayout(boundedValue);
+          } else {
+            this._setValue(boundedValue);
+          }
+        }
+      }
     },
 
     // Monitor changes to the user's mouse position after they begin clicking
@@ -138,6 +157,7 @@
 
     // Whenever the element's .value property is modified respond by updating the view's value.
     _onUpdate: function(changes) {
+      console.log('_onUpdate, changes:', changes);
       var valueUpdates = _.where(changes, {
         name: 'value'
       });
@@ -276,17 +296,24 @@
   // Register the SliderView as a Web Component for easier re-use.
   var SliderViewPrototype = Object.create(HTMLElement.prototype);
 
-  // TODO: I wonder if this could ever bug out and reference the wrong sliderView in attachedCallback.
-  var sliderView;
   SliderViewPrototype.createdCallback = function() {
-    sliderView = new SliderView({
+    var sliderView = new SliderView({
       el: this
     });
     sliderView.render();
+
+    this.view = sliderView;
   };
 
   SliderViewPrototype.attachedCallback = function() {
-    sliderView.triggerMethod('attach');
+    this.view.triggerMethod('attach');
+  };
+
+  SliderViewPrototype.attributeChangedCallback = function(attributeName) {
+    if (attributeName === 'max') {
+      var maxValue = parseInt(this.getAttribute(attributeName), 10) || 0;
+      this.view.setMaxValue(maxValue);
+    }
   };
 
   document.registerElement('streamus-slider', {
