@@ -30,8 +30,8 @@
 
     // Values parsed from the HTML declaration.
     value: -1,
-    maxValue: 100,
-    minValue: 0,
+    max: 100,
+    min: 0,
     step: 1,
     // TODO: Do I want this to be dynamic?
     wheelDeltaScale: 3,
@@ -50,7 +50,6 @@
       // Provide a throttled version of _onWheel because wheel events can fire at a high rate.
       // https://developer.mozilla.org/en-US/docs/Web/Events/wheel
       this._onWheel = _.throttleFramerate(requestAnimationFrame, this._onWheel);
-      // TODO: I think I can use onAttributeChaned instead of this.
       Object.observe(this.el, this._onUpdate, ['update']);
     },
 
@@ -62,13 +61,14 @@
 
     onAttach: function() {
       this._isAttached = true;
+      // Only set defaults after attached to ensure that we read proper values from the DOM.
       this._setDefaultValues();
 
       // Cache the length of the slider once it is known.
       this.length = this._getLength();
 
       // Initialize with default value and update layout. Can only be done once length is known.
-      // Check this.el.value first because if $.val() was called before the element was attached then any potential HTML value should not be respected.
+      // Check el.value first because if $.val() was called before onAttach then that value should be used.
       var valueAttribute = _.isUndefined(this.el.value) ? this.$el.attr('value') : parseInt(this.el.value, 10);
       var value = _.isUndefined(valueAttribute) ? this._getDefaultValue() : parseInt(valueAttribute, 10);
       this._setValue(value, {
@@ -82,17 +82,19 @@
       window.removeResizeListener(this.el, this._onResize);
     },
 
-    setMaxValue: function(maxValue) {
-      if (this._isAttached) {
-        if (this.maxValue !== maxValue) {
-          this.maxValue = maxValue;
+    setProperty: function(propertyName, propertyValue) {
+      // TODO: Prefer not having to check _isAttached
+      if (this._isAttached && this[propertyName] !== propertyValue) {
+        this[propertyName] = propertyValue;
 
-          var boundedValue = this._getBoundedValue(this.value);
-          if (boundedValue === this.value) {
-            this._updateLayout(boundedValue);
-          } else {
-            this._setValue(boundedValue);
-          }
+        var boundedValue = this._getBoundedValue(this.value);
+        if (boundedValue === this.value) {
+          this._updateLayout(boundedValue);
+        } else {
+          this._setValue(boundedValue, {
+            // Range input does not emit 'input' event when value attribute is changed.
+            silent: true
+          });
         }
       }
     },
@@ -156,8 +158,8 @@
     },
 
     // Whenever the element's .value property is modified respond by updating the view's value.
+    // This will run for the property being modified not for the DOM attribute being modified.
     _onUpdate: function(changes) {
-      console.log('_onUpdate, changes:', changes);
       var valueUpdates = _.where(changes, {
         name: 'value'
       });
@@ -174,8 +176,8 @@
     _setDefaultValues: function() {
       this.orientation = this.$el.attr('orientation') || this.orientation;
       this.isVertical = this.orientation === Orientation.Vertical;
-      this.minValue = parseInt(this.$el.attr('min'), 10) || this.minValue;
-      this.maxValue = parseInt(this.$el.attr('max'), 10) || this.maxValue;
+      this.min = parseInt(this.$el.attr('min'), 10) || this.min;
+      this.max = parseInt(this.$el.attr('max'), 10) || this.max;
       this.step = parseInt(this.$el.attr('step'), 10) || this.step;
     },
 
@@ -206,7 +208,6 @@
     // Set their translate and scale values such that they represent the given value.
     _updateLayout: function(value) {
       var boundedValue = this._getBoundedValue(value);
-
       var percentValue = this._getPercentValue(boundedValue);
       var pixelValue = this._getPixelValue(boundedValue);
       var axis = this.isVertical ? 'Y' : 'X';
@@ -219,33 +220,33 @@
       var boundedValue = value;
 
       // Respect min/max values
-      if (boundedValue > this.maxValue) {
-        boundedValue = this.maxValue;
+      if (boundedValue > this.max) {
+        boundedValue = this.max;
       }
 
-      if (boundedValue < this.minValue) {
-        boundedValue = this.minValue;
+      if (boundedValue < this.min) {
+        boundedValue = this.min;
       }
 
       // Round value to the nearest number which is divisible by step.
-      // Subtract and re-add minValue so stepping down will always reach minValue.
-      // Do this after min/max because step should be respected before setting to maxValue.
-      boundedValue -= this.minValue;
+      // Subtract and re-add min so stepping down will always reach min.
+      // Do this after min/max because step should be respected before setting to max.
+      boundedValue -= this.min;
       boundedValue = this.step * Math.round(boundedValue / this.step);
-      boundedValue += this.minValue;
+      boundedValue += this.min;
 
       return boundedValue;
     },
 
-    // Return the average value between minValue and maxValue.
+    // Return the average value between min and max.
     // Useful when no value has been provided on the HTML element.
     _getDefaultValue: function() {
-      return this.minValue + (this.maxValue - this.minValue) / 2;
+      return this.min + (this.max - this.min) / 2;
     },
 
     // Take a given number and determine what percent of the input the value represents.
     _getPercentValue: function(value) {
-      return (value - this.minValue) / (this.maxValue - this.minValue);
+      return (value - this.min) / (this.max - this.min) || 0;
     },
 
     // Take a given value and return the pixel length needed to represent that value on the slider.
@@ -274,8 +275,8 @@
       // Convert px moved to % distance moved.
       var offsetPercent = pixelValue / this.length;
       // Convert % distance moved into corresponding value.
-      var valueDifference = this.maxValue - this.minValue;
-      var value = this.minValue + valueDifference * offsetPercent;
+      var valueDifference = this.max - this.min;
+      var value = this.min + valueDifference * offsetPercent;
 
       return value;
     },
@@ -283,13 +284,13 @@
     // Query the DOM for width or height of the slider and return it.
     // Method is slow and should only be used when cached length is stale.
     _getLength: function() {
-      return this.isVertical ? this.$el.height() : this.$el.width();;
+      return this.isVertical ? this.$el.height() : this.$el.width();
     },
 
     // Return a ratio of the range of values able to be iterated over relative to the length of the slider.
     // Useful for converting a pixel amount to a slider value.
     _getScaleFactor: function() {
-      return (this.maxValue - this.minValue) / this.length;
+      return (this.max - this.min) / this.length;
     }
   });
 
@@ -309,10 +310,17 @@
     this.view.triggerMethod('attach');
   };
 
+  // Respond to changes made to the element through node.setAttribute or $.attr('');
   SliderViewPrototype.attributeChangedCallback = function(attributeName) {
-    if (attributeName === 'max') {
-      var maxValue = parseInt(this.getAttribute(attributeName), 10) || 0;
-      this.view.setMaxValue(maxValue);
+    // TODO: I could also support changing orientation on the fly?
+    switch (attributeName) {
+      case 'max':
+      case 'min':
+      case 'step':
+      case 'value':
+        var attributeValue = parseInt(this.getAttribute(attributeName), 10) || 0;
+        this.view.setProperty(attributeName, attributeValue);
+        break;
     }
   };
 

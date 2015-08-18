@@ -16,8 +16,7 @@
     },
 
     incrementCurrentTime: function(incrementValue) {
-      var currentTime = this.get('currentTime');
-      var incrementedCurrentTime = currentTime + incrementValue;
+      var incrementedCurrentTime = this.get('currentTime') + incrementValue;
       this.set('currentTime', incrementedCurrentTime);
 
       return incrementedCurrentTime;

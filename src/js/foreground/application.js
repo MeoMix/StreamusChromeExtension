@@ -24,7 +24,7 @@
       tooltip: Backbone.Wreqr.radio.channel('tooltip'),
       scrollbar: Backbone.Wreqr.radio.channel('scrollbar'),
       slider: Backbone.Wreqr.radio.channel('slider')
-},
+    },
 
     initialize: function(options) {
       this.backgroundPage = options.backgroundProperties;

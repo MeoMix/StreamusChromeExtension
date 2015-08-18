@@ -2,20 +2,14 @@
   'use strict';
 
   var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
-  var TimeSliderTemplate = require('text!template/streamControlBar/timeSlider.html');
 
   var TimeSliderView = Marionette.LayoutView.extend({
     tagName: 'streamus-slider',
     id: 'timeSlider',
-    template: false, //template: _.template(TimeSliderTemplate),
+    template: false,
 
     attributes: {
       orientation: 'horizontal'
-    },
-
-    useCustomUiSelector: false,
-    ui: {
-      timeSlider: 'timeSlider'
     },
 
     behaviors: {
@@ -26,10 +20,9 @@
     },
 
     events: {
-      //'input': '_onInputTimeRange',
-      //'wheel @ui.timeSlider': '_onWheelTimeRange',
-      //'mousedown @ui.timeSlider': '_onMouseDownTimeRange',
-      //'mouseup @ui.timeSlider': '_onMouseUpTimeRange'
+      'input': '_onInput',
+      'mousedown': '_onMouseDown',
+      'mouseup': '_onMouseUp'
     },
 
     modelEvents: {
@@ -56,30 +49,26 @@
       this._setTimeProgress(this.player.get('currentTime'));
     },
 
-    _onInputTimeRange: function() {
+    _onInput: function(event, value) {
       if (this.model.get('isEnabled')) {
-        var currentTime = parseInt(this.$el.val(), 10);
-        this.model.set('currentTime', currentTime);
+        //var currentTime = parseInt(this.$el.val(), 10);
+        this.model.set('currentTime', value);
+
+        // Stifle updating the player when dragging until the drag has finished.
+        if (!this.model.get('isBeingDragged')) {
+          this.player.seekTo(value);
+        }
       }
     },
 
-    // Allow the user to manual time change by click or scroll.
-    _onWheelTimeRange: function(event) {
-      if (this.model.get('isEnabled')) {
-        var delta = event.originalEvent.deltaY / -100;
-        var incrementedTime = this.model.incrementCurrentTime(delta);
-        this.player.seekTo(incrementedTime);
-      }
-    },
-
-    _onMouseDownTimeRange: function(event) {
+    _onMouseDown: function(event) {
       // 1 is primary mouse button, usually left
       if (this.model.get('isEnabled') && event.which === 1) {
         this.model.set('isBeingDragged', true);
       }
     },
 
-    _onMouseUpTimeRange: function(event) {
+    _onMouseUp: function(event) {
       // 1 is primary mouse button, usually left
       // It's important to check isBeingDragged here because onMouseUp can run even if onMouseDown did not fire.
       if (this.model.get('isEnabled') && event.which === 1 && this.model.get('isBeingDragged')) {
@@ -117,7 +106,6 @@
 
     _setTotalTime: function(totalTime) {
       this.$el.attr('max', totalTime);
-      console.log('set max');
     },
 
     // Repaints the progress bar's filled-in amount based on the % of time elapsed for current video.
@@ -126,18 +114,6 @@
     // being dragged by the user, but the progress bar's values do need to update.
     _setTimeProgress: function(currentTime) {
       this.$el.val(currentTime);
-    },
-
-    // Returns a % value out of 100 for how much time has elapsed.
-    _getProgressFraction: function(currentTime, totalTime) {
-      var progressPercent = 0;
-
-      // Guard against divide-by-zero
-      if (totalTime !== 0) {
-        progressPercent = currentTime / totalTime;
-      }
-
-      return progressPercent;
     },
 
     _getTotalTime: function(loadedVideo) {

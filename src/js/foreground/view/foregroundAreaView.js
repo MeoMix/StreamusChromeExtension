@@ -175,7 +175,7 @@
     _onSliderMouseUp: function() {
       this.$el.removeClass('is-clickingSlider');
     }
-});
+  });
 
   return ForegroundAreaView;
 });

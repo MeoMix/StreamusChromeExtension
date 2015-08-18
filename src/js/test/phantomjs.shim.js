@@ -66,4 +66,9 @@
   if (!window.Error.prototype.stack) {
     window.Error.prototype.stack = '_phantomJS stack';
   }
+
+  if (!document.registerElement) {
+    document.registerElement = function() {
+    };
+  }
 });
