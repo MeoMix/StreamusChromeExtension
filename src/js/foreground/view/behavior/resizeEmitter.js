@@ -1,71 +1,99 @@
-﻿define(function() {
+﻿define(function(require) {
   'use strict';
+
+  var ResizeEmitterTemplate = require('text!template/behavior/resizeEmitter.html');
 
   // There's a lack of support in modern browsers for being notified of a DOM element changing dimensions.
   // Provide this functionality by leveraging 'scroll' events attached to hidden DOM elements attached to
   // a given element.
   // http://stackoverflow.com/questions/19329530/onresize-for-div-elements/19418479#19418479
   var ResizeEmitter = Marionette.Behavior.extend({
+    ui: {
+      expand: 'expand',
+      expandChild: 'expandChild',
+      contract: 'contract'
+    },
+
+    lastKnownDimensions: {
+      width: 0,
+      height: 0
+    },
+    requestedAnimationFrame: null,
+
     initialize: function() {
-      window.addResizeListener = function(element, fn) {
-        if (!element.__resizeTriggers__) {
-          if (getComputedStyle(element).position === 'static') {
-            element.style.position = 'relative';
-          }
-          element.__resizeLast__ = {};
-          element.__resizeListeners__ = [];
-          (element.__resizeTriggers__ = document.createElement('div')).className = 'resize-triggers';
-          element.__resizeTriggers__.innerHTML = '<div class="expand-trigger"><div></div></div><div class="contract-trigger"></div>';
-          element.appendChild(element.__resizeTriggers__);
-          this._resetTriggers(element);
-          element.addEventListener('scroll', this._scrollListener, true);
-        }
-        element.__resizeListeners__.push(fn);
-      }.bind(this);
-
-      window.removeResizeListener = function(element, fn) {
-        element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
-        if (!element.__resizeListeners__.length) {
-          element.removeEventListener('scroll', this._scrollListener);
-          element.__resizeTriggers__ = !element.removeChild(element.__resizeTriggers__);
-        }
-      }.bind(this);
+      // Ensure that _onScroll event is bound before calling addEventListener to preserve function reference.
+      _.bindAll(this, '_onScroll');
     },
 
-    _scrollListener: function(e) {
-      var element = this;
-      this._resetTriggers(this);
-      if (this.__resizeRAF__) {
-        cancelAnimationFrame(this.__resizeRAF__);
+    onRender: function() {
+      // Append a hidden element which will trigger 'scroll' events whenever it resizes.
+      this.$el.append(_.template(ResizeEmitterTemplate)());
+      // Need to rebind because the view's DOM was modified after render.
+      this.view.bindUIElements();
+    },
+
+    onAttach: function() {
+      this._ensurePosition();
+      this._resetEmitterLayout();
+      // This needs to be bound like so and not via events hash because scroll event won't propagate properly.
+      this.el.addEventListener('scroll', this._onScroll, true);
+    },
+
+    onBeforeDestroy: function() {
+      this.el.removeEventListener('scroll', this._onScroll);
+      this._clearRequestedAnimationFrame();
+    },
+
+    // Whenever a scroll event is emitted - reset the emitter state and wait for a repaint so resize can be checked.
+    _onScroll: function() {
+      this._resetEmitterLayout();
+      this._clearRequestedAnimationFrame();
+      this.requestedAnimationFrame = requestAnimationFrame(this._onAnimationFrame.bind(this));
+    },
+
+    _onAnimationFrame: function() {
+      this.requestedAnimationFrame = null;
+      this._checkForResize();
+    },
+
+    // Announce a resize event if the previously known dimensions do not match the current dimensions.
+    _checkForResize: function() {
+      var width = this.el.offsetWidth;
+      var height = this.el.offsetHeight;
+      var isResized = width !== this.lastKnownDimensions.width || height !== this.lastKnownDimensions.height;
+
+      if (isResized) {
+        this.lastKnownDimensions.width = width;
+        this.lastKnownDimensions.height = height;
+        this.view.triggerMethod('Resize');
       }
-
-      this.__resizeRAF__ = requestAnimationFrame(function() {
-        if (this._checkTriggers(element)) {
-          element.__resizeLast__.width = element.offsetWidth;
-          element.__resizeLast__.height = element.offsetHeight;
-          element.__resizeListeners__.forEach(function(fn) {
-            fn.call(element, e);
-          });
-        }
-      });
     },
 
-    _checkTriggers: function(element) {
-      return element.offsetWidth != element.__resizeLast__.width || element.offsetHeight != element.__resizeLast__.height;
+    // Ensure the element's is able to contain an absolutely positioned resizeEmitter child.
+    _ensurePosition: function() {
+      if (getComputedStyle(this.el).position === 'static') {
+        this.el.style.position = 'relative';
+      }
     },
 
-    _resetTriggers: function(element) {
-      var triggers = element.__resizeTriggers__;
-      var expand = triggers.firstElementChild;
-      var contract = triggers.lastElementChild;
-      var expandChild = expand.firstElementChild;
-
+    // Setup the emitter's children's dimensions such that any document reflow will cause them to emit scroll events.
+    _resetEmitterLayout: function() {
+      var contract = this.ui.contract[0];
       contract.scrollLeft = contract.scrollWidth;
       contract.scrollTop = contract.scrollHeight;
+
+      var expand = this.ui.expand[0];
+      var expandChild = this.ui.expandChild[0];
       expandChild.style.width = expand.offsetWidth + 1 + 'px';
       expandChild.style.height = expand.offsetHeight + 1 + 'px';
       expand.scrollLeft = expand.scrollWidth;
       expand.scrollTop = expand.scrollHeight;
+    },
+
+    _clearRequestedAnimationFrame: function() {
+      if (!_.isNull(this.requestedAnimationFrame)) {
+        cancelAnimationFrame(this.requestedAnimationFrame);
+      }
     }
   });
 

@@ -19,10 +19,9 @@ streamus-slider {
   }
 
   &[orientation=horizontal] {
-    //padding: @sliderPadding 0;
+    padding: @sliderPadding 0;
     width: 100%;
-    height: @sliderSize;
-    //height: (@sliderSize + @sliderPadding * 2);
+    height: (@sliderSize + @sliderPadding * 2);
 
     .slider-trackContainer {
       height: @sliderSize;
@@ -40,10 +39,9 @@ streamus-slider {
   }
 
   &[orientation=vertical] {
-    //padding: 0 @sliderPadding;
+    padding: 0 @sliderPadding;
     height: 100%;
-    width: @sliderSize;
-    //width: (@sliderSize + @sliderPadding * 2);
+    width: (@sliderSize + @sliderPadding * 2);
 
     .slider-trackContainer {
       width: @sliderSize;

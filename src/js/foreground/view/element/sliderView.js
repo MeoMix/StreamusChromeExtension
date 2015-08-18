@@ -33,8 +33,7 @@
     max: 100,
     min: 0,
     step: 1,
-    // TODO: Do I want this to be dynamic?
-    wheelDeltaScale: 3,
+    wheelStepScale: 1,
     // Values stored to determine mouse movement amounts.
     mouseDownValue: 0,
     totalMouseMovement: 0,
@@ -46,17 +45,11 @@
 
     initialize: function() {
       // It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
-      _.bindAll(this, '_onWindowMouseMove', '_onWindowMouseUp', '_onResize', '_onWheel', '_onUpdate');
+      _.bindAll(this, '_onWindowMouseMove', '_onWindowMouseUp', '_onWheel', '_onUpdate');
       // Provide a throttled version of _onWheel because wheel events can fire at a high rate.
       // https://developer.mozilla.org/en-US/docs/Web/Events/wheel
       this._onWheel = _.throttleFramerate(requestAnimationFrame, this._onWheel);
       Object.observe(this.el, this._onUpdate, ['update']);
-    },
-
-    onRender: function() {
-      // Use custom logic to monitor element for resizing.
-      // This logic injects a hidden element into the DOM which is used to detect resizes.
-      window.addResizeListener(this.el, this._onResize);
     },
 
     onAttach: function() {
@@ -79,7 +72,16 @@
     onBeforeDestroy: function() {
       this._setWindowEventListeners(false);
       Object.unobserve(this.el, this._onUpdate);
-      window.removeResizeListener(this.el, this._onResize);
+    },
+
+    // Refresh the cached length and update layout whenever element resizes.
+    onResize: function() {
+      var length = this._getLength();
+
+      if (this.length !== length) {
+        this.length = length;
+        this._updateLayout(this.value);
+      }
     },
 
     setProperty: function(propertyName, propertyValue) {
@@ -122,18 +124,8 @@
 
     // Update the value by one step.
     _onWheel: function(event) {
-      var value = this.value + event.originalEvent.deltaY / (-100 / this.step) * this.wheelDeltaScale;
+      var value = this.value + event.originalEvent.deltaY / (-100 / this.step) * this.wheelStepScale;
       this._setValue(value);
-    },
-
-    // Refresh the cached length and update layout whenever element resizes.
-    _onResize: function() {
-      var length = this._getLength();
-
-      if (this.length !== length) {
-        this.length = length;
-        this._updateLayout(this.value);
-      }
     },
 
     _onWindowMouseMove: function(event) {
@@ -179,6 +171,7 @@
       this.min = parseInt(this.$el.attr('min'), 10) || this.min;
       this.max = parseInt(this.$el.attr('max'), 10) || this.max;
       this.step = parseInt(this.$el.attr('step'), 10) || this.step;
+      this.wheelStepScale = parseInt(this.$el.attr('wheelStepScale'), 10) || this.wheelStepScale;
     },
 
     // Temporarily add or remove mouse-monitoring events bound the window.
@@ -295,37 +288,36 @@
   });
 
   // Register the SliderView as a Web Component for easier re-use.
-  var SliderViewPrototype = Object.create(HTMLElement.prototype);
-
-  SliderViewPrototype.createdCallback = function() {
-    var sliderView = new SliderView({
-      el: this
-    });
-    sliderView.render();
-
-    this.view = sliderView;
-  };
-
-  SliderViewPrototype.attachedCallback = function() {
-    this.view.triggerMethod('attach');
-  };
-
-  // Respond to changes made to the element through node.setAttribute or $.attr('');
-  SliderViewPrototype.attributeChangedCallback = function(attributeName) {
-    // TODO: I could also support changing orientation on the fly?
-    switch (attributeName) {
-      case 'max':
-      case 'min':
-      case 'step':
-      case 'value':
-        var attributeValue = parseInt(this.getAttribute(attributeName), 10) || 0;
-        this.view.setProperty(attributeName, attributeValue);
-        break;
-    }
-  };
-
   document.registerElement('streamus-slider', {
-    prototype: SliderViewPrototype
+    prototype: _.extend(Object.create(HTMLElement.prototype), {
+      createdCallback: function() {
+        var sliderView = new SliderView({
+          el: this
+        });
+        sliderView.render();
+
+        this.view = sliderView;
+      },
+      attachedCallback: function() {
+        this.view.triggerMethod('attach');
+      },
+      // Respond to changes made to the element through node.setAttribute or $.attr('');
+      attributeChangedCallback: function(attributeName) {
+        // TODO: I could also support changing orientation on the fly?
+        var attributeValue = parseInt(this.getAttribute(attributeName), 10) || 0;
+
+        switch (attributeName) {
+          case 'max':
+          case 'min':
+          case 'step':
+          case 'value':
+            this.view.setProperty(attributeName, attributeValue);
+            break;
+          case 'wheelStepScale':
+            this.view.wheelStepScale = attributeValue;
+        }
+      }
+    })
   });
 
   return SliderView;

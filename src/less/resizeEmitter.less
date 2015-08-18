@@ -1,8 +1,8 @@
-﻿.resize-triggers {
+﻿.resizeEmitter {
   visibility: hidden;
 }
 
-.resize-triggers, .resize-triggers > div, .contract-trigger:before {
+.resizeEmitter, .resizeEmitter > div, .resizeEmitter-contract:before {
   content: " ";
   display: block;
   position: absolute;
@@ -13,12 +13,12 @@
   overflow: hidden;
 }
 
-.resize-triggers > div {
+.resizeEmitter > div {
   background: #eee;
   overflow: auto;
 }
 
-.contract-trigger:before {
+.resizeEmitter-contract:before {
   width: 200%;
   height: 200%;
 }
