@@ -10,7 +10,29 @@
     });
 
     describe('setInitialValues', function() {
+      it('should set a provided value', function() {
+        this.model.setInitialValues({
+          length: 10
+        });
 
+        expect(this.model.get('length')).to.equal(10);
+      });
+
+      it('should not overwrite with undefined', function() {
+        this.model.setInitialValues({
+          length: undefined
+        });
+
+        expect(this.model.get('length')).to.equal(this.model.defaults.length);
+      });
+
+      it('should not overwrite with NaN', function() {
+        this.model.setInitialValues({
+          length: NaN
+        });
+
+        expect(this.model.get('length')).to.equal(this.model.defaults.length);
+      });
     });
 
     describe('getBoundedValue', function() {
