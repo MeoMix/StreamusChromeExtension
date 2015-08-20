@@ -2,27 +2,26 @@
 @import "color";
 
 @thumbCircumference: 12px;
-@sliderPadding: 12px;
+@sliderPadding: 8px;
 @sliderSize: 4px;
 
 streamus-slider {
-  display: inline-block;
+  display: block;
   cursor: pointer;
   position: relative;
-
-  &:hover .slider-thumb:after {
-    will-change: transform;
-  }
 
   &:active:not(.is-disabled) .slider-thumb:after {
     transform: scale(1.5);
   }
+ 
+  &:after {
+    position: absolute;
+    content: "";
+  }
 
   // Support default value being horizontal by anticipating not-vertical rather than horizontal
   &:not([orientation=vertical]) {
-    padding: @sliderPadding 0;
     width: 100%;
-    height: (@sliderSize + @sliderPadding * 2);
 
     .slider-trackContainer {
       height: @sliderSize;
@@ -37,12 +36,18 @@ streamus-slider {
       top: calc(50% - (@thumbCircumference / 2));
       left: (-@thumbCircumference / 2);
     }
+    
+    &:after {
+      width: 100%;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: (@sliderSize + @sliderPadding * 2);
+    }
   }
 
   &[orientation=vertical] {
-    padding: 0 @sliderPadding;
     height: 100%;
-    width: (@sliderSize + @sliderPadding * 2);
 
     .slider-trackContainer {
       width: @sliderSize;
@@ -57,11 +62,30 @@ streamus-slider {
       top: (-@thumbCircumference / 2);
       left: calc(50% - (@thumbCircumference / 2));
     }
+    
+    &:after {
+      height: 100%;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: (@sliderSize + @sliderPadding * 2);
+    }
+  }
+}
+
+/* The time slider is more like a progress bar. Allow for hiding the thumb element until needed. */
+.slider-collapsedThumb {
+  .slider-thumb:after {
+    transform: scale(0);
+  }
+
+  &:hover:not(.is-disabled):not(:active) .slider-thumb:after {
+    transform: scale(1);
   }
 }
 
 .slider-trackContainer {
-  background-color: rgba(0,0,0,0.12);
+  background-color: @dark--quaternary;
   position: relative;
 }
 
@@ -83,8 +107,11 @@ streamus-slider {
 .slider-thumb {
   position: absolute;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  /*
+    Position the thumb above the streamus-slider:after pseudo-element to ensure
+    that the click target is preserved. Useful for knowing when to snap to click or not.
+  */
+  z-index: 1;
 
   &:after {
     width: @thumbCircumference;
@@ -94,5 +121,6 @@ streamus-slider {
     transform: scale(1);
     transition: transform @transition-duration--veryFast @transition-easeOutSine;
     content: "";
+    will-change: transform;
   }
 }

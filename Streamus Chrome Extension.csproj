@@ -159,6 +159,7 @@
     <Content Include="src\js\test\contentScript\youTubePlayer\model\port.spec.js" />
     <Content Include="src\js\test\foreground\collection\activePane\activePanes.spec.js" />
     <Content Include="src\js\test\foreground\model\appBar\activePaneFilter.spec.js" />
+    <Content Include="src\js\test\foreground\model\element\slider.spec.js" />
     <Content Include="src\js\test\foreground\model\streamControlBar\timeLabelArea.spec.js" />
     <Content Include="src\js\test\foreground\model\streamControlBar\timeSlider.spec.js" />
     <Content Include="src\js\test\foreground\view\activePane\activePanesRegion.spec.js" />
@@ -171,6 +172,7 @@
     <Content Include="src\js\test\foreground\view\appBar\appBarSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\searchInputAreaView.spec.js" />
+    <Content Include="src\js\test\foreground\view\element\sliderView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\nextButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\playPauseButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\previousButtonView.spec.js" />

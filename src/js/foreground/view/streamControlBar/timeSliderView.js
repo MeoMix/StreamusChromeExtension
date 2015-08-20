@@ -5,6 +5,7 @@
 
   var TimeSliderView = Marionette.LayoutView.extend({
     tagName: 'streamus-slider',
+    className: 'slider-collapsedThumb',
     id: 'timeSlider',
     template: false,
 
