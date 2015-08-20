@@ -133,7 +133,7 @@
       // If the mouse dropped the items not over the given list don't run move logic.
       var allowMove = ui.item.data('type') !== ListItemType.SearchResult && this.ui.listItems.is(':hover');
       if (allowMove) {
-        this.view.once('GetMinRenderIndexResponse', function(response) {
+        this.view.once('get:minRenderIndexResponse', function(response) {
           var dropIndex = this.ui.listItems.data('placeholderIndex') + response.minRenderIndex;
           this._moveItems(this.view.collection.getSelectedModels(), dropIndex, isParentNodeLost);
           this._cleanup();
@@ -169,7 +169,7 @@
         placeholderIndex += 1;
       }
 
-      this.view.once('GetMinRenderIndexResponse', function(response) {
+      this.view.once('get:minRenderIndexResponse', function(response) {
         this.view.collection.addVideos(ui.sender.data('draggedVideos'), {
           index: placeholderIndex + response.minRenderIndex
         });
