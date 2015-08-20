@@ -5,6 +5,9 @@
   var Slider = require('foreground/model/element/slider');
   var SliderTemplate = require('text!template/element/slider.html');
 
+  // Provide a Web Component implementation of <input type='range'> which doesn't utilize an <input> element
+  // nor any browser stylings. Should support most expected behaviors of an input element.
+  // Notable differences include support for vertical styling and default support for 'wheel' events.
   var SliderView = Marionette.ItemView.extend({
     tagName: 'streamus-slider',
     template: _.template(SliderTemplate),
