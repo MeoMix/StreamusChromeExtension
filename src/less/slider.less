@@ -18,7 +18,8 @@ streamus-slider {
     transform: scale(1.5);
   }
 
-  &[orientation=horizontal] {
+  // Support default value being horizontal by anticipating not-vertical rather than horizontal
+  &:not([orientation=vertical]) {
     padding: @sliderPadding 0;
     width: 100%;
     height: (@sliderSize + @sliderPadding * 2);

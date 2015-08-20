@@ -9,6 +9,9 @@
   // /model/appBar/
   require('test/foreground/model/appBar/activePaneFilter.spec');
 
+  // /model/element/
+  require('test/foreground/model/element/slider.spec');
+
   // /model/streamControlBar/
   require('test/foreground/model/streamControlBar/timeLabelArea.spec');
   require('test/foreground/model/streamControlBar/timeSlider.spec');

@@ -8,10 +8,6 @@
     id: 'timeSlider',
     template: false,
 
-    attributes: {
-      orientation: 'horizontal'
-    },
-
     behaviors: {
       ViewModelContainer: {
         behaviorClass: ViewModelContainer,

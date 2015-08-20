@@ -71,4 +71,11 @@
     document.registerElement = function() {
     };
   }
+
+  if (!Object.observe) {
+    Object.observe = function() {
+    };
+    Object.unobserve = function() {
+    };
+  }
 });

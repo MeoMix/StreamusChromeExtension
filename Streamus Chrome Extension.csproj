@@ -103,6 +103,7 @@
     <Content Include="src\js\foreground\model\appBar\activePaneFilter.js" />
     <Content Include="src\js\foreground\model\dialog\createPlaylist.js" />
     <Content Include="src\js\foreground\model\dialog\editPlaylist.js" />
+    <Content Include="src\js\foreground\model\element\slider.js" />
     <Content Include="src\js\foreground\model\listItemButton\listItemButton.js" />
     <Content Include="src\js\foreground\model\video\videoActions.js" />
     <Content Include="src\js\foreground\model\streamControlBar\timeLabelArea.js" />
@@ -266,6 +267,7 @@
     <Content Include="src\template\activePane\activePane.html" />
     <Content Include="src\template\appBar\activePaneFilter.html" />
     <Content Include="src\template\appBar\searchInputArea.html" />
+    <Content Include="src\template\behavior\resizeEmitter.html" />
     <Content Include="src\template\contentScript\youTubePlayer\watermark.html" />
     <Content Include="src\template\dialog\aboutStreamus.html" />
     <Content Include="src\template\element\slider.html" />
@@ -611,7 +613,7 @@
     <Content Include="src\less\searchInputArea.less" />
     <Content Include="src\less\searchArea.less" />
     <Content Include="src\less\slider.less" />
-    <Content Include="src\less\resizeTriggers.less" />
+    <Content Include="src\less\resizeEmitter.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

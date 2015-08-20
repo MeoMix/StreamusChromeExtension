@@ -5,6 +5,7 @@
   require('test/foreground/view/element/radioButtonView.spec');
   require('test/foreground/view/element/radioGroupView.spec');
   require('test/foreground/view/element/simpleListItemView.spec');
+  require('test/foreground/view/element/sliderView.spec');
   require('test/foreground/view/element/spinnerView.spec');
   require('test/foreground/view/element/switchView.spec');
 });
