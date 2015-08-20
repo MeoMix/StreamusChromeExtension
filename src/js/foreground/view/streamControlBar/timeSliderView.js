@@ -48,7 +48,6 @@
 
     _onInput: function(event, value) {
       if (this.model.get('isEnabled')) {
-        //var currentTime = parseInt(this.$el.val(), 10);
         this.model.set('currentTime', value);
 
         // Stifle updating the player when dragging until the drag has finished.

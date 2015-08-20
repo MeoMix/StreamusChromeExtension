@@ -126,10 +126,7 @@
       if (movement !== 0) {
         movement *= this.model.getScaleFactor();
         this._totalMouseMovement += movement;
-        // Derive new value from initial + total movement rather than value + movement.
-        // If user drags mouse outside element then current + movement will not equal initial + total movement.
-        var value = this._mouseDownValue + this._totalMouseMovement;
-        this._setValue(value);
+        this._updateMouseMovement();
       }
     },
 
@@ -161,6 +158,14 @@
         this._updateLayout(this.model.get('value'));
       }
     },
+
+    // Derive new value from initial + total movement rather than value + movement.
+    // If user drags mouse outside element then current + movement will not equal initial + total movement.
+    // Since tons of mouseMove events can fire quickly - throttle based on framerate.
+    _updateMouseMovement: _.throttleFramerate(requestAnimationFrame, function() {
+      var value = this._mouseDownValue + this._totalMouseMovement;
+      this._setValue(value);
+    }),
 
     // Read attributes on DOM element and use them if provided. Otherwise,
     // rely on the HTML5 range input spec for default values.
@@ -230,6 +235,10 @@
       },
       attachedCallback: function() {
         this.view.triggerMethod('attach');
+      },
+      detachedCallback: function() {
+        this.view.destroy();
+        delete this.view;
       },
       // Respond to changes made to the element through node.setAttribute or $.attr('');
       attributeChangedCallback: function(attributeName) {

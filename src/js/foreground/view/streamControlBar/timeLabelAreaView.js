@@ -97,7 +97,8 @@
       var totalTime = this._getTotalTime(this.player.get('loadedVideo'));
       var elapsedTime = this._getElapsedTime(currentTime, totalTime, showRemainingTime);
 
-      this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(elapsedTime));
+      // Elapsed time can be set very frequently. Use the most optimized version of modifying the text.
+      this.ui.elapsedTimeLabel[0].textContent = Utility.prettyPrintTime(elapsedTime);
     },
 
     _getElapsedTime: function(currentTime, totalTime, showRemainingTime) {

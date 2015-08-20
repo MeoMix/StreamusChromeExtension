@@ -10,10 +10,17 @@ streamus-slider {
   cursor: pointer;
   position: relative;
 
-  &:active:not(.is-disabled) .slider-thumb:after {
-    transform: scale(1.5);
+  &:active:not(.is-disabled) {
+    .slider-track {
+      will-change: transform;
+    }
+
+    .slider-thumb:after {
+      transform: scale(1.5);
+      will-change: transform;
+    }
   }
- 
+
   &:after {
     position: absolute;
     content: "";
@@ -107,6 +114,8 @@ streamus-slider {
 .slider-thumb {
   position: absolute;
   display: flex;
+  justify-content: center;
+  align-items: center;
   /*
     Position the thumb above the streamus-slider:after pseudo-element to ensure
     that the click target is preserved. Useful for knowing when to snap to click or not.
@@ -121,6 +130,5 @@ streamus-slider {
     transform: scale(1);
     transition: transform @transition-duration--veryFast @transition-easeOutSine;
     content: "";
-    will-change: transform;
   }
 }
