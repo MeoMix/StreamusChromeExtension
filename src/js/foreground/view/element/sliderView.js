@@ -74,7 +74,7 @@
     },
 
     setProperty: function(propertyName, propertyValue) {
-      // TODO: Make this event-driven.
+      // TODO: Make this event-driven. Difficult without computed properties for pixelValue, percentValue and boundedValue.
       if (this._isAttached && this.model.get(propertyName) !== propertyValue) {
         this.model.set(propertyName, propertyValue);
 
