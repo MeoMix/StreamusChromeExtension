@@ -1,6 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
+  // TODO: Utilize sliderView here?
   var Utility = require('common/utility');
 
   // Gives an implementing view a custom scrollbar.

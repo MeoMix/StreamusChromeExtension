@@ -2,7 +2,7 @@
   'use strict';
 
   var FixedPosition = require('foreground/enum/fixedPosition');
-  var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
+  var ViewEntityContainer = require('foreground/view/behavior/viewEntityContainer');
   var LayoutType = require('common/enum/layoutType');
   var ActivePaneFilterTemplate = require('text!template/appBar/activePaneFilter.html');
 
@@ -13,9 +13,9 @@
     template: _.template(ActivePaneFilterTemplate),
 
     behaviors: {
-      ViewModelContainer: {
-        behaviorClass: ViewModelContainer,
-        viewModelNames: ['model']
+      ViewEntityContainer: {
+        behaviorClass: ViewEntityContainer,
+        viewEntityNames: ['model']
       }
     },
 
@@ -39,7 +39,6 @@
       this.settings = options.settings;
     },
 
-    // TODO: Review setState here, not sure if always relevant.
     onRender: function() {
       this._setState(this.model.get('isEnabled'));
     },

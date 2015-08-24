@@ -14,6 +14,7 @@
   background: rgba(0, 0, 0, 0.5);
   opacity: 0;
   will-change: opacity;
+  transition-duration: @transition-duration--fast;
   transition-property: opacity;
   transition-timing-function: @transition-easeOutSine;
   // When click-and-holding over a faded overlay the cursor disappears unless cursor: default is set.
@@ -21,5 +22,6 @@
 
   &.is-visible {
     opacity: 1;
+    pointer-events: all;
   }
 }

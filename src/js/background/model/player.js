@@ -22,7 +22,6 @@ define(function(require) {
         // Muted will be changed by YouTube's API if the API loads properly.
         muted: false,
         loadedVideo: null,
-        videoExpirationTime: 0,
         youTubePlayerPort: null,
         youTubePlayer: null
       };
@@ -38,7 +37,6 @@ define(function(require) {
     initialize: function() {
       this.on('change:volume', this._onChangeVolume);
       this.on('change:muted', this._onChangeMuted);
-      this.on('change:loadedVideo', this._onChangeLoadedVideo);
 
       this.listenTo(StreamusBG.channels.player.commands, 'playOnActivate', this._playOnActivate);
 
@@ -83,14 +81,7 @@ define(function(require) {
       if (playing) {
         this.pause();
       } else {
-        var isVideoExpired = this._getIsVideoExpired();
-
-        if (isVideoExpired) {
-          this.set('playOnActivate', true);
-          this.refresh();
-        } else {
-          this.play();
-        }
+        this.play();
       }
     },
 
@@ -164,15 +155,6 @@ define(function(require) {
       this.pause();
     },
 
-    refresh: function() {
-      var loadedVideo = this.get('loadedVideo');
-      if (!_.isNull(loadedVideo)) {
-        this.activateVideo(loadedVideo, this.get('currentTime'));
-      }
-
-      this._setVideoExpirationTime(loadedVideo);
-    },
-
     isPausable: function() {
       var state = this.get('state');
       // If the player is playing then it's obvious that it can be paused.
@@ -209,10 +191,6 @@ define(function(require) {
       } else {
         youTubePlayer.unMute();
       }
-    },
-
-    _onChangeLoadedVideo: function(model, loadedVideo) {
-      this._setVideoExpirationTime(loadedVideo);
     },
 
     _onChromeRuntimeConnect: function(port) {
@@ -269,25 +247,6 @@ define(function(require) {
 
     _playOnActivate: function(playOnActivate) {
       this.set('playOnActivate', playOnActivate);
-    },
-
-    // YouTube videos can't be loaded forever. The server's cache will become invalid and
-    // the video will fail to buffer. To work around this, reload the video when attempting to play it
-    // if it has been loaded for an excessive amount of time.
-    _getIsVideoExpired: function() {
-      var remainingTime = this.get('videoExpirationTime') - performance.now();
-      var isVideoExpired = remainingTime <= 0;
-
-      return isVideoExpired;
-    },
-
-    // TODO: Move this to popup window potentially.
-    // Keep track of when the video was loaded so that if playback is attempted
-    // after it has expired then the video can be properly reloaded.
-    _setVideoExpirationTime: function(loadedVideo) {
-      var fourHoursInMilliseconds = 14400000;
-      var videoExpirationTime = _.isNull(loadedVideo) ? 0 : performance.now() + fourHoursInMilliseconds;
-      this.set('videoExpirationTime', videoExpirationTime);
     },
 
     _updateState: function(state) {

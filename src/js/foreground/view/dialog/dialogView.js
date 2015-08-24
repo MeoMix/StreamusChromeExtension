@@ -7,7 +7,7 @@
   var DialogTemplate = require('text!template/dialog/dialog.html');
 
   var DialogView = Marionette.LayoutView.extend({
-    className: 'dialog overlay overlay--faded u-transitionable transition--fast',
+    className: 'dialog overlay overlay--faded',
     template: _.template(DialogTemplate),
     contentView: null,
 

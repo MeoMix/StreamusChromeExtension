@@ -3,12 +3,6 @@
 @import "boxShadow";
 @import "transition";
 
-.tooltip {
-  // TODO: How can I handle this more appropriately?
-  .transition--fast;
-  transition-property: none !important;
-}
-
 .tooltip-content {
   max-width: 280px;
   padding: 5px 8px;
@@ -16,5 +10,4 @@
   color: white;
   background-color: @gray--tooltip;
   border-radius: 2px;
-  box-shadow: @boxShadow-elevation--low;
 }

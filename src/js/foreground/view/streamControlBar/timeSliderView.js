@@ -1,7 +1,7 @@
 ﻿define(function(require) {
   'use strict';
 
-  var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
+  var ViewEntityContainer = require('foreground/view/behavior/viewEntityContainer');
 
   var TimeSliderView = Marionette.LayoutView.extend({
     tagName: 'streamus-slider',
@@ -10,9 +10,9 @@
     template: false,
 
     behaviors: {
-      ViewModelContainer: {
-        behaviorClass: ViewModelContainer,
-        viewModelNames: ['model']
+      ViewEntityContainer: {
+        behaviorClass: ViewEntityContainer,
+        viewEntityNames: ['model']
       }
     },
 

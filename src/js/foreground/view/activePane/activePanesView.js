@@ -5,7 +5,7 @@ define(function(require) {
   var ActivePaneType = require('foreground/enum/activePaneType');
   var ActivePaneView = require('foreground/view/activePane/activePaneView');
   var ActivePanesTemplate = require('text!template/activePane/activePanes.html');
-  var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
+  var ViewEntityContainer = require('foreground/view/behavior/viewEntityContainer');
 
   var ActivePanesView = Marionette.CollectionView.extend({
     className: 'activePanes flexRow',
@@ -19,9 +19,9 @@ define(function(require) {
     },
 
     behaviors: {
-      ViewModelContainer: {
-        behaviorClass: ViewModelContainer,
-        viewModelNames: ['collection']
+      ViewEntityContainer: {
+        behaviorClass: ViewEntityContainer,
+        viewEntityNames: ['collection']
       }
     },
 

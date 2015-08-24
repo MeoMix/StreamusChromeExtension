@@ -113,7 +113,6 @@
         }
       }, this);
 
-      // TODO: Presumably not needed with BB 1.2
       if (createdStreamItems.length > 0) {
         // Emit a custom event signaling items have been added.
         // Useful for not responding to add until all items have been added.

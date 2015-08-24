@@ -42,7 +42,6 @@
         }
       }, this);
 
-      // TODO: Presumably not needed with BB 1.2
       // Emit a custom event signaling all items have been added.
       // Useful for not responding to add until all items have been added.
       if (itemsToCreate.length > 0) {

@@ -49,31 +49,11 @@ body,
     display: none !important;
 }
 
-/* NEW LAYOUT: */
-
 /* Hide the skip to next video button */
 .ytp-next-button,
 /* Hide the 'Autoplay' option in menu */
 .ytp-menuitem:first-child,
 /* Hide the theater mode button */
 .ytp-size-button {
-    display: none !important;
-}
-
-/* OLD LAYOUT: */
-/* Force showing the 'watch on YouTube' button '*/
-.ytp-button-watch-on-youtube {
-    display: block !important;
-}
-
-/* Hide the watch later button */
-.ytp-button-watch-later,
-/* Hide the skip to next video button */
-.ytp-button-next,
-/* Hide the settings button */
-.ytp-settings-button,
-/* Hide the theater mode button */
-.ytp-size-toggle-large,
-.ytp-size-toggle-small {
     display: none !important;
 }

@@ -2,7 +2,7 @@
   'use strict';
 
   var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
+  var ViewEntityContainer = require('foreground/view/behavior/viewEntityContainer');
   var VideoActions = require('foreground/model/video/videoActions');
   var SelectionBarTemplate = require('text!template/selectionBar/selectionBar.html');
   var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
@@ -50,9 +50,9 @@
       Tooltipable: {
         behaviorClass: Tooltipable
       },
-      ViewModelContainer: {
-        behaviorClass: ViewModelContainer,
-        viewModelNames: ['model']
+      ViewEntityContainer: {
+        behaviorClass: ViewEntityContainer,
+        viewEntityNames: ['model']
       }
     },
 

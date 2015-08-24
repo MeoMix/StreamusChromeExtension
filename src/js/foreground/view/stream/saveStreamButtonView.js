@@ -3,7 +3,7 @@
 
   var Tooltipable = require('foreground/view/behavior/tooltipable');
   var VideoActions = require('foreground/model/video/videoActions');
-  var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
+  var ViewEntityContainer = require('foreground/view/behavior/viewEntityContainer');
   var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
 
   var SaveStreamButtonView = Marionette.LayoutView.extend({
@@ -30,9 +30,9 @@
       Tooltipable: {
         behaviorClass: Tooltipable
       },
-      ViewModelContainer: {
-        behaviorClass: ViewModelContainer,
-        viewModelNames: ['model']
+      ViewEntityContainer: {
+        behaviorClass: ViewEntityContainer,
+        viewEntityNames: ['model']
       }
     },
 

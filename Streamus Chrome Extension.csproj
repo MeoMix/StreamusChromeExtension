@@ -118,7 +118,7 @@
     <Content Include="src\js\foreground\view\behavior\dialogContent.js" />
     <Content Include="src\js\foreground\view\behavior\listItemButton.js" />
     <Content Include="src\js\foreground\view\behavior\resizeEmitter.js" />
-    <Content Include="src\js\foreground\view\behavior\viewModelContainer.js" />
+    <Content Include="src\js\foreground\view\behavior\viewEntityContainer.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusView.js" />
     <Content Include="src\js\foreground\view\dialog\clearStreamView.js" />

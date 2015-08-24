@@ -22,8 +22,8 @@
     this.ui = {};
 
     // bind each of the selectors
-    // TODO: This can be called by a behavior... which is weird, but oh well.
     _.each(bindings, function(selector, key) {
+      // Since _bindUIElements can be called by a behavior -- need to check for existence of this.view
       selector = this.useCustomUiSelector || this.view && this.view.useCustomUiSelector ? selector : '[data-ui~=' + selector + ']';
       this.ui[key] = this.$(selector);
     }, this);

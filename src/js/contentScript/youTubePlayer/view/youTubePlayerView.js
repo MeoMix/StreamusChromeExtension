@@ -26,22 +26,23 @@
 
     initialize: function() {
       // Bind pre-emptively so that removeEventListener is able to find the correct function reference.
-      this._onWindowUnload = this._onWindowUnload.bind(this);
-      this._onWindowMessage = this._onWindowMessage.bind(this);
+      _.bindAll(this, '_onWindowUnload', '_onWindowSpfDone');
 
       window.addEventListener('unload', this._onWindowUnload);
-      window.addEventListener('message', this._onWindowMessage);
+      window.addEventListener('spfdone', this._onWindowSpfDone);
     },
 
     onRender: function() {
       this.videoStreamView = new VideoStreamView({
         model: new VideoStream()
       });
+
+      this._showWatermark();
     },
 
     onBeforeDestroy: function() {
       window.removeEventListener('unload', this._onWindowUnload);
-      window.removeEventListener('message', this._onWindowMessage);
+      window.removeEventListener('spfdone', this._onWindowSpfDone);
     },
 
     _onWindowUnload: function() {
@@ -51,28 +52,30 @@
       });
     },
 
-    _onClickShowYouTubeButton: function() {
-      window.postMessage({
-        videoCommand: VideoCommand.Pause
-      }, '*');
+    // Whenever the video URL changes - update the button for showing it on YouTube.
+    _onWindowSpfDone: function() {
+      this.ui.showYouTubeButton.attr('href', this._getVideoUrl());
     },
 
-    _onWindowMessage: function(message) {
-      if (!_.isUndefined(message.data.isNewLayout)) {
-        if (message.data.isNewLayout) {
-          this._showWatermark();
-        }
-      }
+    _onClickShowYouTubeButton: function() {
+      window.postMessage({
+        videoCommand: VideoCommand.PauseVideo
+      }, window.location.origin);
     },
 
     // Mimic YouTube's watermark template since it doesn't appear when hiding the control bar manually.
     _showWatermark: function() {
-      var href = window.location.href;
-
       this.ui.settingsButton.before(_.template(WatermarkTemplate, {
         // TODO: Tooltip isn't stylized on new layout.
-        videoUrl: href.substring(0, href.indexOf('&'))
+        videoUrl: this._getVideoUrl()
       }));
+      this.bindUIElements();
+    },
+
+    _getVideoUrl: function() {
+      var href = window.location.href;
+      var videoUrl = href.substring(0, href.indexOf('&'));
+      return videoUrl;
     }
   });
 

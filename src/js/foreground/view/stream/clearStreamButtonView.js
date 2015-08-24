@@ -3,7 +3,7 @@
 
   var Tooltipable = require('foreground/view/behavior/tooltipable');
   var ClearStreamDialogView = require('foreground/view/dialog/clearStreamDialogView');
-  var ViewModelContainer = require('foreground/view/behavior/viewModelContainer');
+  var ViewEntityContainer = require('foreground/view/behavior/viewEntityContainer');
   var ClearStreamButtonTemplate = require('text!template/stream/clearStreamButton.html');
 
   var ClearStreamButtonView = Marionette.LayoutView.extend({
@@ -30,9 +30,9 @@
       Tooltipable: {
         behaviorClass: Tooltipable
       },
-      ViewModelContainer: {
-        behaviorClass: ViewModelContainer,
-        viewModelNames: ['model']
+      ViewEntityContainer: {
+        behaviorClass: ViewEntityContainer,
+        viewEntityNames: ['model']
       }
     },
 

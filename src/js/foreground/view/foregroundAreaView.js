@@ -82,7 +82,6 @@
     initialize: function(options) {
       this.analyticsManager = options.analyticsManager;
 
-      // TODO: Consolidate these into a 'clickingElement' event, I think?
       this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseDown', this._onScrollbarMouseDown);
       this.listenTo(StreamusFG.channels.scrollbar.vent, 'mouseUp', this._onScrollbarMouseUp);
       this.listenTo(StreamusFG.channels.slider.vent, 'mouseDown', this._onSliderMouseDown);

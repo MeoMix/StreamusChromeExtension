@@ -11,6 +11,7 @@
   // Don't allow interaction with panels until they are declared visible.
   pointer-events: none;
   will-change: transform;
+  transition-duration: @transition-duration--fast;
   transition-property: transform;
   transition-timing-function: @transition-easeOutSine;
 
@@ -43,6 +44,11 @@
   transition-property: opacity;
   transition-timing-function: inherit;
   will-change: opacity;
+}
+
+/* Panels which are detached from a side do not slide in and appear instantly. */
+.panel--detached {
+  transition-property: none;
 }
 
 .panel--left {

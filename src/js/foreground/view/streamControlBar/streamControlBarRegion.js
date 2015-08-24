@@ -1,6 +1,6 @@
 ﻿define(function(require) {
   'use strict';
-  // TODO: Naming? Should this be PlayerControlBarView?
+
   var StreamControlBarView = require('foreground/view/streamControlBar/streamControlBarView');
 
   var StreamControlBarRegion = Marionette.Region.extend({

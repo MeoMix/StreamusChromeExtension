@@ -9,7 +9,7 @@
     initialize: function() {
       this._createModule();
 
-      // TODO: Long poll or event listener for internet coming online.
+      // Can't load analytics if Internet isn't online.
       if (navigator.onLine) {
         this._requireAnalytics();
       }

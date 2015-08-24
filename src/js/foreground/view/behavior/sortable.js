@@ -230,7 +230,6 @@
           }
         }
 
-        // TODO: Is this needed in BB 1.2 w/ update event?
         // Pass silent: true to prevent repeatedly refreshing the view.
         var moveResult = this.view.collection.moveToIndex(dropInfo.itemId, index, {
           silent: true

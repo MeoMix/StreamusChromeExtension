@@ -19,6 +19,9 @@
     this.isReady = false;
     this.cuedVolumeCommands = 0;
     this.isNavigating = false;
+    // YouTube videos expire after roughly 5 or 6 hours. The YouTube server will not send back additional data
+    // to buffer a video. So, refreshing the video at its current time is sometimes necessary.
+    this.videoExpirationTime = 0;
 
     // TODO: This assumes that lodash has successfully loaded, but that seems like a race condition.
     // window.postMessage has an internal throttling mechanism which can cause a lot of issues for accurate data reporting.
@@ -40,8 +43,15 @@
         var value = decodeURIComponent(item[1]);
 
         // Skip the 'streamus' query parameter because it's simply used for injecting content scripts.
-        if (key !== 'streamus' && key !== 'v' && key !== 't') {
+        if (key !== 'streamus') {
           switch (key) {
+            case 'v':
+              key = 'videoId';
+              break;
+            case 't':
+              key = 'startTime';
+              value = parseInt(value, 10);
+              break;
             case 'suggestedQuality':
               // suggestedQuality is already the appropriate type.
               break;
@@ -105,6 +115,14 @@
         if (isMuted) {
           this.cuedVolumeCommands++;
           playerApi.unMute();
+
+          // YouTube's API purposefully changes volume to 5 when unMuting.
+          // This isn't desireable - so force the volume back to expected value.
+          var currentVolume = playerApi.getVolume();
+          if (currentVolume < 5) {
+            this.cuedVolumeCommands++;
+            playerApi.setVolume(currentVolume);
+          }
         }
       } else {
         videoOptions.muted = muted;
@@ -124,11 +142,38 @@
     // If the player is initialized, play its currently loaded video.
     // Otherwise, record the desire to play so that it can be used once the player is initializing.
     this.playVideo = function() {
+
       if (this.isReady && !this.isNavigating) {
-        playerApi.playVideo();
+        var isVideoExpired = this.getIsVideoExpired();
+
+        // NOTE: This will only work when playVideo is called from Streamus and not from the window itself.
+        if (isVideoExpired) {
+          var urlString = this.videoOptionsToUrl(_.extend({}, videoOptions, {
+            startTime: parseInt(playerApi.getCurrentTime()),
+            playOnActivate: true
+          }));
+
+          this.navigate(urlString);
+        } else {
+          playerApi.playVideo();
+        }
       } else {
         videoOptions.playOnActivate = true;
       }
+    }.bind(this);
+
+    this.videoOptionsToUrl = function(videoOptions) {
+      var url = 'https://www.youtube.com/watch';
+
+      url += '?v=' + videoOptions.videoId;
+      url += '&streamus=true';
+      url += '&t=' + videoOptions.startTime + 's';
+      url += '&volume=' + videoOptions.volume;
+      url += '&muted=' + videoOptions.muted;
+      url += '&playOnActivate=' + videoOptions.playOnActivate;
+      url += '&suggestedQuality=' + videoOptions.suggestedQuality;
+
+      return url;
     }.bind(this);
 
     // If the player is initialized, pause its currently loaded video.
@@ -145,7 +190,22 @@
     // Otherwise, record the desired time so that it can be used once the player is initializing.
     this.seekTo = function(timeInSeconds) {
       if (this.isReady) {
-        playerApi.seekTo(timeInSeconds);
+        var isVideoExpired = this.getIsVideoExpired();
+
+        // NOTE: This will only work when seekTo is called from Streamus and not from the window itself.
+        if (isVideoExpired) {
+          var playerState = playerApi.getPlayerState();
+
+          var urlString = this.videoOptionsToUrl(_.extend({}, videoOptions, {
+            startTime: timeInSeconds,
+            // If the player is playing or buffering - continue playback after seeking.
+            playOnActivate: playerState === 1 || playerState === 3
+          }));
+
+          this.navigate(urlString);
+        } else {
+          playerApi.seekTo(timeInSeconds);
+        }
       } else {
         // TODO: I need to either update the URL as well, or find a way to set startTime quickly.
         videoOptions.startTime = timeInSeconds;
@@ -164,6 +224,23 @@
       window.spf.navigate(urlString);
     }.bind(this);
 
+    // Keep track of when the video was loaded so that if playback is attempted
+    // after it has expired then the video can be properly reloaded.
+    this.setVideoExpirationTime = function() {
+      var fourHoursInMilliseconds = 14400000;
+      this.videoExpirationTime = performance.now() + fourHoursInMilliseconds;
+    }.bind(this);
+
+    // YouTube videos can't be loaded forever. The server's cache will become invalid and
+    // the video will fail to buffer. To work around this, reload the video when attempting to play it
+    // if it has been loaded for an excessive amount of time.
+    this.getIsVideoExpired = function() {
+      var remainingTime = this.videoExpirationTime - performance.now();
+      var isVideoExpired = remainingTime <= 0;
+
+      return isVideoExpired;
+    };
+
     // Receive messages from the sandboxed videoStreamView content script.
     this.onWindowMessage = function(message) {
       // Respond to navigation requests
@@ -174,6 +251,7 @@
 
       // Respond to video command requests
       var videoCommand = message.data.videoCommand;
+
       if (videoCommand) {
         // videoCommands have a 1:1 correspondence with functions defined within this script.
         var videoCommandHandler = this[videoCommand];
@@ -195,6 +273,9 @@
       if (!videoOptions.playOnActivate) {
         playerApi.pauseVideo();
       }
+
+      // Refresh expiration time when video changes.
+      this.setVideoExpirationTime();
     }.bind(this);
 
     this.onError = function(error) {
@@ -250,14 +331,13 @@
       // 1 is the enum used by YouTube for saying 'Autonav is disabled'
       playerApi.setAutonavState(1);
 
+      this.setVideoExpirationTime();
+
       throttledWindowPostMessage({
         volume: videoOptions.volume,
         muted: videoOptions.muted,
         // TODO: I worry this value might be incorrect if pauseVideo is still being processed.
-        state: playerApi.getPlayerState(),
-        // Detect whether user is using new YouTube layout which can be enabled via https://www.youtube.com/testtube
-        // fexp is a list of enabled experimental features. One can check it to determine which features are enabled.
-        isNewLayout: playerApi.getUpdatedConfigurationData().args.fexp.indexOf('9407675') !== -1
+        state: playerApi.getPlayerState()
       });
     }.bind(this);
 

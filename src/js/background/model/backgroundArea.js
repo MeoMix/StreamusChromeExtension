@@ -48,7 +48,7 @@
     },
 
     initialize: function() {
-      // TODO: Just trying this pattern out for now.
+      // Trying out more of a 'datastore' pattern instead of passing data down.
       StreamusBG.settings = this.get('settings');
 
       this.listenTo(StreamusBG.channels.foreground.vent, 'started', this._onForegroundStarted.bind(this));

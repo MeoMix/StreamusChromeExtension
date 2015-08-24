@@ -5,7 +5,7 @@
 
   var NotificationView = Marionette.LayoutView.extend({
     id: 'notification',
-    className: 'notification panel panel--bottom u-transitionable transition--fast u-zIndex--5',
+    className: 'notification panel panel--bottom u-zIndex--5',
     template: _.template(NotificationTemplate),
 
     hideTimeout: null,

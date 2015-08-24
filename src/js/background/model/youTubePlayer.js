@@ -3,7 +3,6 @@
 
   var VideoCommand = require('common/enum/videoCommand');
   var VideoQuality = require('common/enum/videoQuality');
-  // TODO: YouTubeVideoQuality?
   var YouTubeQuality = require('background/enum/youTubeQuality');
 
   var YouTubePlayer = Backbone.Model.extend({
@@ -38,7 +37,7 @@
     },
 
     play: function(videoOptions) {
-      // TODO: Maybe a race-condition here for a window which is opening.
+      // TODO: There's a race condition here where I'll need to send new videoOptions to a window which is opening.
       if (this.has('openWindow')) {
         this._sendVideoCommand(VideoCommand.PlayVideo);
       } else {
@@ -149,8 +148,6 @@
       }, this._onWindowCreated.bind(this));
     },
 
-    // TODO: I can check createdWindow.type to see if a popup was created instead and notify.
-    // TODO: Tab mode?
     _onWindowCreated: function(createdWindow) {
       this.set('openWindow', createdWindow);
     },

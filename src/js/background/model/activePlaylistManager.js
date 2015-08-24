@@ -5,7 +5,6 @@
   // whether a user is signed in or not.
   var ActivePlaylistManager = Backbone.Model.extend({
     defaults: {
-      // TODO: This could be a little less verbose -- probably just want to call it PlaylistManager.
       activePlaylist: null,
       signInManager: null
     },

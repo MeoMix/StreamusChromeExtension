@@ -4,7 +4,7 @@
   var TooltipTemplate = require('text!template/tooltip/tooltip.html');
 
   var TooltipView = Marionette.LayoutView.extend({
-    className: 'tooltip panel',
+    className: 'panel panel--detached',
     template: _.template(TooltipTemplate),
 
     ui: {

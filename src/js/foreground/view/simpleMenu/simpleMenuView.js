@@ -9,7 +9,7 @@
 
   var SimpleMenuView = Marionette.LayoutView.extend({
     id: 'simpleMenu',
-    className: 'menu panel',
+    className: 'panel panel--detached',
     template: _.template(SimpleMenuTemplate),
 
     regions: {

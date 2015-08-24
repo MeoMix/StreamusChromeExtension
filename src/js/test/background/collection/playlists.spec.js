@@ -7,7 +7,5 @@
     beforeEach(function() {
       this.playlists = new Playlists();
     });
-
-    // TODO: Test this collection.
   });
 });
