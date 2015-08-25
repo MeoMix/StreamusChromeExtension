@@ -260,7 +260,6 @@ module.exports = function(grunt) {
   //  Build release and place .zip files in the release directory
   grunt.registerTask('build', function(buildFlag) {
     var isRelease = buildFlag === 'release';
-
     // Ensure tests pass before performing any sort of bundling.
     grunt.task.run('test');
 
@@ -319,7 +318,7 @@ module.exports = function(grunt) {
     // Build opera release
     grunt.task.run('compressRelease:' + operaReleaseDirectory + ':sanitize=true');
 
-    if (isRelease) {
+    if (isRelease === 'true') {
       grunt.task.run('webstore-upload');
     }
   });
