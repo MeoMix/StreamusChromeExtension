@@ -181,12 +181,11 @@ module.exports = function(grunt) {
           src: ['template', 'build.txt']
         }]
       },
-      compileSingle: {
-        files: [{
-          expand: true,
-          // Set via watch task.
-          src: ''
-        }]
+      compiledFile: {
+        expand: true,
+        cwd: 'compiled',
+        // Set via grunt.event.on('watch') event handler
+        src: ''
       }
     },
     copy: {
@@ -288,58 +287,70 @@ module.exports = function(grunt) {
         dest: 'compiled'
       }
     },
+
+    // NOTE: Spawn must be disabled to keep watch running under same context in order to dynamically modify config file.
     watch: {
+      // Compile LESS files to 'compiled' directory.
       less: {
         options: {
+          interrupt: true,
           spawn: false,
-          nospawn: true
+          cwd: 'src/less'
         },
-        files: ['src/less/*'],
+        files: ['**/*.less'],
         tasks: ['less']
       },
+      // Copy all non-ES6/LESS files to 'compiled' directory. Include main files because they're not ES6. Exclude LESS because they're compiled.
       copyUncompiled: {
         options: {
           event: ['added', 'changed'],
           spawn: false,
-          nospawn: true
+          cwd: 'src'
         },
-        files: ['src/**/*', '!src/**/background/**', '!src/**/common/**', '!src/**/foreground/**', '!src/**/test/**', '!src/**/less/**', 'src/**/main.js'],
+        files: ['**/*', '!**/background/**', '!**/common/**', '!contentScript/youTubePlayer/**/*', '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'],
         tasks: ['copy:compileSingle']
       },
+      // Compile and copy ES6 files to 'compiled' directory. Exclude main files because they're not ES6.
       copyCompiled: {
         options: {
           event: ['added', 'changed'],
           spawn: false,
-          nospawn: true
+          cwd: 'src/js'
         },
-        files: ['src/**/*.js', '!src/**/main.js', '!src/**/contentScript/**', '!src/**/lib/**'],
+        files: ['background/**/*', 'common/**/*', 'contentScript/youTubePlayer/**/*', 'foreground/**/*', 'test/**/*', '!**/main.js'],
         tasks: ['babel:compileSingle']
       },
-      removeUncompiled: {
+      // Whenever a file is deleted from 'src' ensure it is also deleted from 'compiled'
+      remove: {
         options: {
           event: ['deleted'],
           spawn: false,
-          nospawn: true
+          cwd: 'src'
         },
-        files: ['src/**/*', '!src/**/background/**', '!src/**/common/**', '!src/**/foreground/**', '!src/**/test/**', '!src/**/less/**', 'src/**/main.js'],
-        tasks: ['clean:compileSingle']
+        files: ['**/*'],
+        tasks: ['clean:compiledFile']
       }
     }
   });
 
   grunt.event.on('watch', function(action, filepath, target) {
+    // Determine which task config to modify based on the event action.
+    var taskTarget = '';
     if (action === 'deleted') {
-      // Replace src with compiled so that corresponding file is removed.
-      grunt.config('clean.compileSingle.src', filepath.replace('src\\', 'compiled\\'));
+      taskTarget = 'clean.compiledFile';
     } else if (action === 'changed' || action === 'added') {
-      // Drop src off of filepath so that file properly nests under compiled instead.
-      var cleanFilepath = filepath.replace('src\\', '');
-
       if (target === 'copyCompiled') {
-        grunt.config('babel.compileSingle.src', cleanFilepath);
+        taskTarget = 'babel.compileSingle';
       } else if (target === 'copyUncompiled') {
-        grunt.config('copy.compileSingle.src', cleanFilepath);
+        taskTarget = 'copy.compileSingle';
       }
+    }
+
+    if (taskTarget === '') {
+      console.error('Unable to determine taskTarget for: ', action, filepath, target);
+    } else {
+      // Drop src off of filepath to properly rely on 'cwd' task configuration.
+      grunt.config(taskTarget + '.src', filepath.replace('src\\', ''));
     }
   });
 
