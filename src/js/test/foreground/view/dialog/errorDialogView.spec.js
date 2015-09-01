@@ -1,21 +1,18 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import ErrorDialogView from 'foreground/view/dialog/errorDialogView';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var ErrorDialogView = require('foreground/view/dialog/errorDialogView');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('ErrorDialogView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new ErrorDialogView({
-        player: TestUtility.buildPlayer()
-      });
+describe('ErrorDialogView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new ErrorDialogView({
+      player: TestUtility.buildPlayer()
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

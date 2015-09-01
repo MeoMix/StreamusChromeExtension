@@ -67,8 +67,7 @@ Streamus uses a fair number of third-party JavaScript libraries. Introduction of
 * [Backbone](http://backbonejs.org/)
 * [Marionette](http://marionettejs.com)
 * [Lo-Dash](http://lodash.com/)
-* [Require](http://requirejs.org/)
-* [Text](https://github.com/requirejs/text)
+* [jspm](http://jspm.io//)
 
 <h3>Non-core</h3>
 * [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)

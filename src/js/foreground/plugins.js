@@ -1,26 +1,17 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+var backgroundPage = chrome.extension.getBackgroundPage();
+// Overwrite lodash here to ensure all calls reference the background's lodash instance.
+// Re-using the lodash instance prevents memory leaks due to idCounter id collisions.
+window._ = backgroundPage._;
+import 'common/shim/backbone.marionette.view.shim';
+import 'common/shim/backbone.marionette.region.shim';
 
-  // Overwrite Lo-Dash here to ensure all calls reference the background's Lo-Dash instance.
-  // Re-using the Lo-Dash instance prevents memory leaks due to idCounter id collisions.
-  window._ = chrome.extension.getBackgroundPage()._;
+// Finally, load the application:
+import Application from 'foreground/application';
 
-  require('backbone.marionette');
-  require('backbone.localStorage');
-  require('jquery-ui');
-
-  require('common/shim/backbone.marionette.view.shim');
-  require('common/shim/backbone.marionette.region.shim');
-
-  // Finally, load the application which will initialize the foreground:
-  require(['foreground/application'], function(Application) {
-    var backgroundPage = chrome.extension.getBackgroundPage();
-
-    var streamusFG = new Application({
-      backgroundProperties: backgroundPage.StreamusBG.getExposedProperties(),
-      backgroundChannels: backgroundPage.StreamusBG.getExposedChannels()
-    });
-    window.StreamusFG = streamusFG;
-    streamusFG.start();
-  });
+var streamusFG = new Application({
+  backgroundProperties: backgroundPage.StreamusBG.getExposedProperties(),
+  backgroundChannels: backgroundPage.StreamusBG.getExposedChannels()
 });
+window.StreamusFG = streamusFG;
+streamusFG.start();

@@ -1,15 +1,15 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {Collection} from 'backbone';
+import Checkbox from 'foreground/model/element/checkbox';
 
-  var Checkbox = require('foreground/model/element/checkbox');
+var Checkboxes = Collection.extend({
+  model: Checkbox,
 
-  var Checkboxes = Backbone.Collection.extend({
-    model: Checkbox,
-
-    isChecked: function(property) {
-      return this.findWhere({property: property}).get('checked');
-    }
-  });
-
-  return Checkboxes;
+  isChecked: function(property) {
+    return this.findWhere({
+      property: property
+    }).get('checked');
+  }
 });
+
+export default Checkboxes;

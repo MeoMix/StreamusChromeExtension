@@ -99,7 +99,7 @@
     },
     {
       "matches": [ "*://*.youtube.com/watch?v=*&streamus=true*" ],
-      "js": [ "js/lib/require.js", "js/contentScript/require.shim.js", "js/contentScript/youTubePlayer/main.js" ],
+      "js": [ "js/lib/jspm_packages/system.js", "js/contentScript/youTubePlayer/main.js" ],
       // run at document_start to allow time to setup code before youtube's scripts execute.
       "run_at": "document_start",
       "css": [ "css/contentScript/youTubePlayer.css" ]
@@ -132,6 +132,7 @@
     "*://*.youtube.com/*"
   ],
   "web_accessible_resources": [
+    "js/lib/*.js",
     "js/lib/backbone.js",
     "js/lib/backbone.marionette.js",
     "js/lib/jquery.js",

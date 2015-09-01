@@ -1,12 +1,8 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import StreamItems from 'background/collection/streamItems';
 
-  var StreamItems = require('background/collection/streamItems');
-
-  describe('StreamItems', function() {
-    beforeEach(function() {
-      this.streamItems = new StreamItems();
-    });
-
+describe('StreamItems', function() {
+  beforeEach(function() {
+    this.streamItems = new StreamItems();
   });
 });

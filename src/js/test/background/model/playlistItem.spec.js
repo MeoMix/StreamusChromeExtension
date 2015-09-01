@@ -1,8 +1,5 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import PlaylistItem from 'background/model/playlistItem';
 
-  var PlaylistItem = require('background/model/playlistItem');
-
-  describe('PlaylistItem', function() {
-  });
+describe('PlaylistItem', function() {
 });

@@ -1,52 +1,50 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import Tooltipable from 'foreground/view/behavior/tooltipable';
+import ShuffleButtonTemplate from 'template/streamControlBar/shuffleButton.html!text';
+import ShuffleIconTemplate from 'template/icon/shuffleIcon_18.svg!text';
 
-  var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var ShuffleButtonTemplate = require('text!template/streamControlBar/shuffleButton.html');
-  var ShuffleIconTemplate = require('text!template/icon/shuffleIcon_18.svg');
+var ShuffleButtonView = LayoutView.extend({
+  id: 'shuffleButton',
+  className: 'button button--icon button--icon--secondary button--medium',
+  template: _.template(ShuffleButtonTemplate),
+  templateHelpers: {
+    shuffleIcon: _.template(ShuffleIconTemplate)()
+  },
 
-  var ShuffleButtonView = Marionette.LayoutView.extend({
-    id: 'shuffleButton',
-    className: 'button button--icon button--icon--secondary button--medium',
-    template: _.template(ShuffleButtonTemplate),
-    templateHelpers: {
-      shuffleIcon: _.template(ShuffleIconTemplate)()
-    },
+  attributes: {
+    'data-ui': 'tooltipable'
+  },
 
-    attributes: {
-      'data-ui': 'tooltipable'
-    },
+  events: {
+    'click': '_onClick'
+  },
 
-    events: {
-      'click': '_onClick'
-    },
+  modelEvents: {
+    'change:enabled': '_onChangeEnabled'
+  },
 
-    modelEvents: {
-      'change:enabled': '_onChangeEnabled'
-    },
-
-    behaviors: {
-      Tooltipable: {
-        behaviorClass: Tooltipable
-      }
-    },
-
-    onRender: function() {
-      this._setState(this.model.get('enabled'), this.model.getStateMessage());
-    },
-
-    _onClick: function() {
-      this.model.toggleEnabled();
-    },
-
-    _onChangeEnabled: function(model, enabled) {
-      this._setState(enabled, model.getStateMessage());
-    },
-
-    _setState: function(enabled, stateMessage) {
-      this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
+  behaviors: {
+    Tooltipable: {
+      behaviorClass: Tooltipable
     }
-  });
+  },
 
-  return ShuffleButtonView;
+  onRender: function() {
+    this._setState(this.model.get('enabled'), this.model.getStateMessage());
+  },
+
+  _onClick: function() {
+    this.model.toggleEnabled();
+  },
+
+  _onChangeEnabled: function(model, enabled) {
+    this._setState(enabled, model.getStateMessage());
+  },
+
+  _setState: function(enabled, stateMessage) {
+    this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
+  }
 });
+
+export default ShuffleButtonView;

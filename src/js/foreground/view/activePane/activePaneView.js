@@ -1,61 +1,59 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import ActivePaneType from 'foreground/enum/activePaneType';
+import StreamView from 'foreground/view/stream/streamView';
+import ActivePlaylistAreaView from 'foreground/view/leftPane/activePlaylistAreaView';
+import ActivePaneTemplate from 'template/activePane/activePane.html!text';
 
-  var ActivePaneType = require('foreground/enum/activePaneType');
-  var StreamView = require('foreground/view/stream/streamView');
-  var ActivePlaylistAreaView = require('foreground/view/leftPane/activePlaylistAreaView');
-  var ActivePaneTemplate = require('text!template/activePane/activePane.html');
+var ActivePaneView = LayoutView.extend({
+  className: 'activePane flexColumn',
+  template: _.template(ActivePaneTemplate),
 
-  var ActivePaneView = Marionette.LayoutView.extend({
-    className: 'activePane flexColumn',
-    template: _.template(ActivePaneTemplate),
+  regions: {
+    content: 'content'
+  },
 
-    regions: {
-      content: 'content'
-    },
+  streamItems: null,
 
-    streamItems: null,
+  initialize: function(options) {
+    this.streamItems = options.streamItems;
+  },
 
-    initialize: function(options) {
-      this.streamItems = options.streamItems;
-    },
+  onRender: function() {
+    this._showContentView();
+  },
 
-    onRender: function() {
-      this._showContentView();
-    },
+  // Show a dynamically determined view inside of the content region.
+  _showContentView: function() {
+    var contentView = this._getContentView();
+    this.showChildView('content', contentView);
+  },
 
-    // Show a dynamically determined view inside of the content region.
-    _showContentView: function() {
-      var contentView = this._getContentView();
-      this.showChildView('content', contentView);
-    },
+  // Returns an instantiated StreamView or ActivePlaylistAreaView depending on the pane's type.
+  _getContentView: function() {
+    var contentView;
+    var relatedModel = this.model.get('relatedModel');
+    var activePaneType = this.model.get('type');
 
-    // Returns an instantiated StreamView or ActivePlaylistAreaView depending on the pane's type.
-    _getContentView: function() {
-      var contentView;
-      var relatedModel = this.model.get('relatedModel');
-      var activePaneType = this.model.get('type');
-
-      switch (activePaneType) {
-        case ActivePaneType.Stream:
-          contentView = new StreamView({
-            model: relatedModel
-          });
-          break;
-        case ActivePaneType.Playlist:
-          contentView = new ActivePlaylistAreaView({
-            model: relatedModel,
-            collection: relatedModel.get('items'),
-            streamItems: this.streamItems
-          });
-          break;
-        default:
-          throw new Error('Unhandled activePaneType' + activePaneType);
-      }
-
-      return contentView;
+    switch (activePaneType) {
+      case ActivePaneType.Stream:
+        contentView = new StreamView({
+          model: relatedModel
+        });
+        break;
+      case ActivePaneType.Playlist:
+        contentView = new ActivePlaylistAreaView({
+          model: relatedModel,
+          collection: relatedModel.get('items'),
+          streamItems: this.streamItems
+        });
+        break;
+      default:
+        throw new Error('Unhandled activePaneType' + activePaneType);
     }
-  });
 
-  return ActivePaneView;
+    return contentView;
+  }
 });
+
+export default ActivePaneView;

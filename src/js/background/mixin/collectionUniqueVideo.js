@@ -1,11 +1,14 @@
-﻿define({
+﻿'use strict';
+import {Collection, Model} from 'backbone';
+
+export default {
   initialize: function() {
     // Stub out the default implementation of add with one which enforces uniqueness based on video id.
     this.add = this._add;
   },
 
   getDuplicatesInfo: function(videos) {
-    videos = videos instanceof Backbone.Collection ? videos.models : _.isArray(videos) ? videos : [videos];
+    videos = videos instanceof Collection ? videos.models : _.isArray(videos) ? videos : [videos];
 
     var duplicates = _.filter(videos, this._hasVideo.bind(this));
     var allDuplicates = duplicates.length === videos.length;
@@ -35,7 +38,7 @@
   _add: function(models, options) {
     var preparedModels;
 
-    if (models instanceof Backbone.Collection) {
+    if (models instanceof Collection) {
       preparedModels = models.map(this._prepareModelToAdd.bind(this));
     } else if (_.isArray(models)) {
       preparedModels = _.map(models, this._prepareModelToAdd.bind(this));
@@ -46,7 +49,7 @@
     }
 
     // Call the original add method using preparedModels which have updated their IDs to match any existing models.
-    return Backbone.Collection.prototype.add.call(this, preparedModels, options);
+    return Collection.prototype.add.call(this, preparedModels, options);
   },
 
   // NOTE: The function _prepareModel is reserved by Backbone.
@@ -66,19 +69,19 @@
 
   // Try to find an existing model in the collection based on the given model's video's id.
   _getExistingModel: function(model) {
-    var videoId = model instanceof Backbone.Model ? model.get('video').get('id') : model.video.id;
+    var videoId = model instanceof Model ? model.get('video').get('id') : model.video.id;
     var existingModel = this._getByVideoId(videoId);
     return existingModel;
   },
 
   _clone: function(model) {
-    return model instanceof Backbone.Model ? model.clone() : _.clone(model);
+    return model instanceof Model ? model.clone() : _.clone(model);
   },
 
   // Set attributes's id or cid to the model's id or cid to prevent attributes from being added to the collection.
   _copyId: function(preparedModel, existingModel) {
     if (existingModel.has('id')) {
-      if (preparedModel instanceof Backbone.Model) {
+      if (preparedModel instanceof Model) {
         preparedModel.set('id', existingModel.get('id'), {silent: true});
       } else {
         preparedModel.id = existingModel.get('id');
@@ -97,4 +100,4 @@
   _hasVideo: function(video) {
     return !_.isUndefined(this._getByVideoId(video.get('id')));
   }
-});
+};

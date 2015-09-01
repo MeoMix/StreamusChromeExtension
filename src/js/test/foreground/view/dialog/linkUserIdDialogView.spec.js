@@ -1,35 +1,32 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import LinkUserIdDialogView from 'foreground/view/dialog/linkUserIdDialogView';
+import SignInManager from 'background/model/signInManager';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var LinkUserIdDialogView = require('foreground/view/dialog/linkUserIdDialogView');
-  var SignInManager = require('background/model/signInManager');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
+describe('LinkUserIdDialogView', function() {
+  beforeEach(function() {
+    this.signInManager = new SignInManager();
 
-  describe('LinkUserIdDialogView', function() {
-    beforeEach(function() {
-      this.signInManager = new SignInManager();
-
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new LinkUserIdDialogView({
-        signInManager: this.signInManager
-      });
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new LinkUserIdDialogView({
+      signInManager: this.signInManager
     });
+  });
 
-    afterEach(function() {
-      this.view.destroy();
-    });
+  afterEach(function() {
+    this.view.destroy();
+  });
 
-    viewTestUtility.ensureBasicAssumptions.call(this);
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 
-    describe('onSubmit', function() {
-      it('should tell SignInManager to save the current user\'s GooglePlusId', function() {
-        sinon.stub(this.signInManager, 'saveGooglePlusId');
+  describe('onSubmit', function() {
+    it('should tell SignInManager to save the current user\'s GooglePlusId', function() {
+      sinon.stub(this.signInManager, 'saveGooglePlusId');
 
-        this.view.onSubmit();
-        expect(this.signInManager.saveGooglePlusId.calledOnce).to.equal(true);
+      this.view.onSubmit();
+      expect(this.signInManager.saveGooglePlusId.calledOnce).to.equal(true);
 
-        this.signInManager.saveGooglePlusId.restore();
-      });
+      this.signInManager.saveGooglePlusId.restore();
     });
   });
 });

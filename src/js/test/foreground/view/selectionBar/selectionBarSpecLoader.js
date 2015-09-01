@@ -1,6 +1,3 @@
-﻿define(function(require) {
-  'use strict';
-
-  require('test/foreground/view/selectionBar/selectionBarRegion.spec');
-  require('test/foreground/view/selectionBar/selectionBarView.spec');
-});
+﻿'use strict';
+import 'test/foreground/view/selectionBar/selectionBarRegion.spec';
+import 'test/foreground/view/selectionBar/selectionBarView.spec';

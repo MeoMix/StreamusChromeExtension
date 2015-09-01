@@ -1,5 +1,7 @@
-﻿// These values are synced with manifest.json's commands declaration.
-define({
+﻿'use strict';
+
+// These values are synced with manifest.json's commands declaration.
+export default {
   ShowVideoDetails: 'showVideoDetails',
   SaveVideo: 'saveVideo',
   DeleteVideo: 'deleteVideo',
@@ -16,4 +18,4 @@ define({
   OpenInTab: 'openInTab',
   SeekForward: 'seekForward',
   SeekBackward: 'seekBackward'
-});
+};

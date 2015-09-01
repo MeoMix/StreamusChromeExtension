@@ -11,11 +11,9 @@
   </head>
   <body>
     <div id='mocha'></div>
-    <!-- Mocha does not run successfully via grunt mocha when loaded via AMD -->
-    <script src='js/lib/test/mocha.js'></script>
-    <script src='js/lib/test/chai.js'></script>
-    <script src='js/lib/test/sinon.js'></script>
-    <!--Load RequireJS and then go to js/foreground/main to start-->
-    <script data-main='js/test/main' src='js/lib/require.js'></script>
+
+    <script src='js/lib/jspm_packages/system.js'></script>
+    <script src='js/lib/jspm.config.js'></script>
+    <script src='js/test/main.js' defer></script>
   </body>
 </html>

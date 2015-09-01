@@ -1,41 +1,39 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import NextButtonTemplate from 'template/streamControlBar/nextButton.html!text';
+import NextIconTemplate from 'template/icon/nextIcon_24.svg!text';
 
-  var NextButtonTemplate = require('text!template/streamControlBar/nextButton.html');
-  var NextIconTemplate = require('text!template/icon/nextIcon_24.svg');
+var NextButtonView = LayoutView.extend({
+  id: 'nextButton',
+  className: 'button button--icon button--icon--primary button--large',
+  template: _.template(NextButtonTemplate),
+  templateHelpers: {
+    nextIcon: _.template(NextIconTemplate)()
+  },
 
-  var NextButtonView = Marionette.LayoutView.extend({
-    id: 'nextButton',
-    className: 'button button--icon button--icon--primary button--large',
-    template: _.template(NextButtonTemplate),
-    templateHelpers: {
-      nextIcon: _.template(NextIconTemplate)()
-    },
+  events: {
+    'click': '_onClick'
+  },
 
-    events: {
-      'click': '_onClick'
-    },
+  modelEvents: {
+    'change:enabled': '_onChangeEnabled'
+  },
 
-    modelEvents: {
-      'change:enabled': '_onChangeEnabled'
-    },
+  onRender: function() {
+    this._setState(this.model.get('enabled'));
+  },
 
-    onRender: function() {
-      this._setState(this.model.get('enabled'));
-    },
+  _onClick: function() {
+    this.model.tryActivateNextStreamItem();
+  },
 
-    _onClick: function() {
-      this.model.tryActivateNextStreamItem();
-    },
+  _onChangeEnabled: function(model, enabled) {
+    this._setState(enabled);
+  },
 
-    _onChangeEnabled: function(model, enabled) {
-      this._setState(enabled);
-    },
-
-    _setState: function(enabled) {
-      this.$el.toggleClass('is-disabled', !enabled);
-    }
-  });
-
-  return NextButtonView;
+  _setState: function(enabled) {
+    this.$el.toggleClass('is-disabled', !enabled);
+  }
 });
+
+export default NextButtonView;

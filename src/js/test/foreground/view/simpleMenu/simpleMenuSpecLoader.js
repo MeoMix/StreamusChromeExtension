@@ -1,8 +1,5 @@
-﻿define(function(require) {
-  'use strict';
-
-  require('test/foreground/view/simpleMenu/simpleMenuItemsView.spec');
-  require('test/foreground/view/simpleMenu/simpleMenuItemView.spec');
-  require('test/foreground/view/simpleMenu/simpleMenuRegion.spec');
-  require('test/foreground/view/simpleMenu/simpleMenuView.spec');
-});
+﻿'use strict';
+import 'test/foreground/view/simpleMenu/simpleMenuItemsView.spec';
+import 'test/foreground/view/simpleMenu/simpleMenuItemView.spec';
+import 'test/foreground/view/simpleMenu/simpleMenuRegion.spec';
+import 'test/foreground/view/simpleMenu/simpleMenuView.spec';

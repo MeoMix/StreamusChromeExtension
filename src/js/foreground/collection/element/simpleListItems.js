@@ -1,11 +1,9 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {Collection} from 'backbone';
+import SimpleListItem from 'foreground/model/element/simpleListItem';
 
-  var SimpleListItem = require('foreground/model/element/simpleListItem');
-
-  var SimpleListItems = Backbone.Collection.extend({
-    model: SimpleListItem
-  });
-
-  return SimpleListItems;
+var SimpleListItems = Collection.extend({
+  model: SimpleListItem
 });
+
+export default SimpleListItems;

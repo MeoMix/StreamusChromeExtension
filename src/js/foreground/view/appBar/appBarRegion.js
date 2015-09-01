@@ -1,19 +1,17 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {Region} from 'marionette';
+import AppBarView from 'foreground/view/appBar/appBarView';
 
-  var AppBarView = require('foreground/view/appBar/appBarView');
+var AppBarRegion = Region.extend({
+  initialize: function() {
+    this.listenTo(StreamusFG.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+  },
 
-  var AppBarRegion = Marionette.Region.extend({
-    initialize: function() {
-      this.listenTo(StreamusFG.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
-    },
-
-    _onForegroundAreaRendered: function() {
-      this.show(new AppBarView({
-        signInManager: StreamusFG.backgroundProperties.signInManager
-      }));
-    }
-  });
-
-  return AppBarRegion;
+  _onForegroundAreaRendered: function() {
+    this.show(new AppBarView({
+      signInManager: StreamusFG.backgroundProperties.signInManager
+    }));
+  }
 });
+
+export default AppBarRegion;

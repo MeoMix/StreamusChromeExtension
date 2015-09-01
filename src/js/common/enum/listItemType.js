@@ -1,7 +1,9 @@
-﻿define({
+﻿'use strict';
+
+export default {
   None: 'none',
   PlaylistItem: 'playlistItem',
   StreamItem: 'streamItem',
   SearchResult: 'searchResult',
   Playlist: 'playlist'
-});
+};

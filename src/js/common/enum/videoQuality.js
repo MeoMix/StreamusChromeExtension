@@ -1,5 +1,7 @@
-﻿define({
+﻿'use strict';
+
+export default {
   Highest: 'highest',
   Auto: 'auto',
   Lowest: 'lowest'
-});
+};

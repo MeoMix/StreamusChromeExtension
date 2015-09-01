@@ -1,33 +1,30 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import CreatePlaylistDialogView from 'foreground/view/dialog/createPlaylistDialogView';
+import Playlists from 'background/collection/playlists';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
-  var Playlists = require('background/collection/playlists');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('CreatePlaylistDialogView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new CreatePlaylistDialogView({
-        playlists: new Playlists()
-      });
+describe('CreatePlaylistDialogView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new CreatePlaylistDialogView({
+      playlists: new Playlists()
     });
+  });
 
-    afterEach(function() {
-      this.view.destroy();
-    });
+  afterEach(function() {
+    this.view.destroy();
+  });
 
-    viewTestUtility.ensureBasicAssumptions.call(this);
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 
-    describe('onSubmit', function() {
-      it('should create a playlist', function() {
-        sinon.stub(this.view.contentView, 'createPlaylist');
+  describe('onSubmit', function() {
+    it('should create a playlist', function() {
+      sinon.stub(this.view.contentView, 'createPlaylist');
 
-        this.view.onSubmit();
-        expect(this.view.contentView.createPlaylist.calledOnce).to.equal(true);
+      this.view.onSubmit();
+      expect(this.view.contentView.createPlaylist.calledOnce).to.equal(true);
 
-        this.view.contentView.createPlaylist.restore();
-      });
+      this.view.contentView.createPlaylist.restore();
     });
   });
 });

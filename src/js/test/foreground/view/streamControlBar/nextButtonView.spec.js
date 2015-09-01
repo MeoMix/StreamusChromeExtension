@@ -1,41 +1,38 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import NextButtonView from 'foreground/view/streamControlBar/nextButtonView';
+import NextButton from 'background/model/nextButton';
+import Stream from 'background/model/stream';
+import RadioButton from 'background/model/radioButton';
+import ShuffleButton from 'background/model/shuffleButton';
+import RepeatButton from 'background/model/repeatButton';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var NextButtonView = require('foreground/view/streamControlBar/nextButtonView');
-  var NextButton = require('background/model/nextButton');
-  var Stream = require('background/model/stream');
-  var RadioButton = require('background/model/radioButton');
-  var ShuffleButton = require('background/model/shuffleButton');
-  var RepeatButton = require('background/model/repeatButton');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
+describe('NextButtonView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
 
-  describe('NextButtonView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
+    var shuffleButton = new ShuffleButton();
+    var radioButton = new RadioButton();
+    var repeatButton = new RepeatButton();
 
-      var shuffleButton = new ShuffleButton();
-      var radioButton = new RadioButton();
-      var repeatButton = new RepeatButton();
-
-      this.view = new NextButtonView({
-        model: new NextButton({
-          stream: new Stream({
-            player: TestUtility.buildPlayer(),
-            shuffleButton: shuffleButton,
-            radioButton: radioButton,
-            repeatButton: repeatButton
-          }),
-          radioButton: radioButton,
+    this.view = new NextButtonView({
+      model: new NextButton({
+        stream: new Stream({
+          player: TestUtility.buildPlayer(),
           shuffleButton: shuffleButton,
+          radioButton: radioButton,
           repeatButton: repeatButton
-        })
-      });
+        }),
+        radioButton: radioButton,
+        shuffleButton: shuffleButton,
+        repeatButton: repeatButton
+      })
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

@@ -1,17 +1,15 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import DialogContent from 'foreground/view/behavior/dialogContent';
 
-  var DialogContent = require('foreground/view/behavior/dialogContent');
+var LinkUserIdView = LayoutView.extend({
+  template: _.template(chrome.i18n.getMessage('linkAccountsMessage')),
 
-  var LinkUserIdView = Marionette.LayoutView.extend({
-    template: _.template(chrome.i18n.getMessage('linkAccountsMessage')),
-
-    behaviors: {
-      DialogContent: {
-        behaviorClass: DialogContent
-      }
+  behaviors: {
+    DialogContent: {
+      behaviorClass: DialogContent
     }
-  });
-
-  return LinkUserIdView;
+  }
 });
+
+export default LinkUserIdView;

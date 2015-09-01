@@ -1,146 +1,143 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import PlaylistItems from 'background/collection/playlistItems';
 
-  var PlaylistItems = require('background/collection/playlistItems');
+describe('PlaylistItems', function() {
+  beforeEach(function() {
+    this.playlistItems = new PlaylistItems();
+  });
 
-  describe('PlaylistItems', function() {
-    beforeEach(function() {
-      this.playlistItems = new PlaylistItems();
+  xdescribe('when calling addVideos', function() {
+    it('should support a single video object', function() {
+
     });
 
-    xdescribe('when calling addVideos', function() {
-      it('should support a single video object', function() {
+    it('should support an array of video objects', function() {
 
-      });
-
-      it('should support an array of video objects', function() {
-
-      });
-
-      it('should support a collection of video models', function() {
-
-      });
-
-      it('should only create videos which were added successfully', function() {
-
-      });
-
-      it('should rely on native Model.save when creating a single video', function() {
-
-      });
-
-      it('should call _bulkCreate when creating multiple videos', function() {
-
-      });
     });
 
-    describe('when asked for display info', function() {
-      it('should not error when empty', function() {
-        var displayInfo = this.playlistItems.getDisplayInfo();
-        expect(displayInfo).not.to.equal('');
-      });
+    it('should support a collection of video models', function() {
 
-      it('should not error when non-empty', function() {
-        this.playlistItems.add({
-          video: TestUtility.buildVideo()
-        });
-
-        var displayInfo = this.playlistItems.getDisplayInfo();
-        expect(displayInfo).not.to.equal('');
-      });
     });
 
-    describe('when adding a video at an index', function() {
-      it('should be able to successfully add a unique video', function() {
-        var video = TestUtility.buildVideo();
-        var addedPlaylistItem = this.playlistItems._tryAddVideoAtIndex(video, 0);
-        expect(addedPlaylistItem).not.to.equal(null);
-        expect(this.playlistItems.length).to.equal(1);
-      });
+    it('should only create videos which were added successfully', function() {
 
-      it('should gracefully fail to add a non-unique video', function() {
-        var video = TestUtility.buildVideo();
-        this.playlistItems._tryAddVideoAtIndex(video, 0);
-
-        var addedPlaylistItem = this.playlistItems._tryAddVideoAtIndex(video, 1);
-        expect(addedPlaylistItem).to.equal(null);
-        expect(this.playlistItems.length).to.equal(1);
-      });
     });
 
-    describe('when creating a bulk amount of items', function() {
-      it('should call success callback on success', function(done) {
-        sinon.stub($, 'ajax').yieldsTo('success', []);
+    it('should rely on native Model.save when creating a single video', function() {
 
-        this.playlistItems._bulkCreate([], {
-          success: function() {
-            $.ajax.restore();
-            done();
-          }
-        });
+    });
+
+    it('should call _bulkCreate when creating multiple videos', function() {
+
+    });
+  });
+
+  describe('when asked for display info', function() {
+    it('should not error when empty', function() {
+      var displayInfo = this.playlistItems.getDisplayInfo();
+      expect(displayInfo).not.to.equal('');
+    });
+
+    it('should not error when non-empty', function() {
+      this.playlistItems.add({
+        video: TestUtility.buildVideo()
       });
 
-      it('should call error callback on error', function(done) {
-        sinon.stub($, 'ajax').yieldsTo('error', []);
+      var displayInfo = this.playlistItems.getDisplayInfo();
+      expect(displayInfo).not.to.equal('');
+    });
+  });
 
-        this.playlistItems._bulkCreate([], {
-          error: function() {
-            $.ajax.restore();
-            done();
-          }
-        });
-      });
+  describe('when adding a video at an index', function() {
+    it('should be able to successfully add a unique video', function() {
+      var video = TestUtility.buildVideo();
+      var addedPlaylistItem = this.playlistItems._tryAddVideoAtIndex(video, 0);
+      expect(addedPlaylistItem).not.to.equal(null);
+      expect(this.playlistItems.length).to.equal(1);
+    });
 
-      it('should map created objects back to its models on success', function(done) {
-        var createdVideo = TestUtility.buildVideo();
+    it('should gracefully fail to add a non-unique video', function() {
+      var video = TestUtility.buildVideo();
+      this.playlistItems._tryAddVideoAtIndex(video, 0);
 
-        var createdObject = {
-          video: createdVideo,
-          cid: '123'
-        };
+      var addedPlaylistItem = this.playlistItems._tryAddVideoAtIndex(video, 1);
+      expect(addedPlaylistItem).to.equal(null);
+      expect(this.playlistItems.length).to.equal(1);
+    });
+  });
 
-        sinon.stub($, 'ajax').yieldsTo('success', [createdObject]);
+  describe('when creating a bulk amount of items', function() {
+    it('should call success callback on success', function(done) {
+      sinon.stub($, 'ajax').yieldsTo('success', []);
 
-        this.playlistItems.add({
-          video: TestUtility.buildVideo()
-        });
-        this.playlistItems.at(0).cid = '123';
-
-        this.playlistItems._bulkCreate([], {
-          success: function() {
-            expect(this.playlistItems.at(0).get('video').get('id')).to.equal(createdVideo.get('id'));
-            $.ajax.restore();
-            done();
-          }.bind(this)
-        });
+      this.playlistItems._bulkCreate([], {
+        success: function() {
+          $.ajax.restore();
+          done();
+        }
       });
     });
 
-    it('should be able to map a created object to an existing model', function() {
+    it('should call error callback on error', function(done) {
+      sinon.stub($, 'ajax').yieldsTo('error', []);
+
+      this.playlistItems._bulkCreate([], {
+        error: function() {
+          $.ajax.restore();
+          done();
+        }
+      });
+    });
+
+    it('should map created objects back to its models on success', function(done) {
       var createdVideo = TestUtility.buildVideo();
+
       var createdObject = {
-        cid: '123',
-        video: createdVideo
+        video: createdVideo,
+        cid: '123'
       };
+
+      sinon.stub($, 'ajax').yieldsTo('success', [createdObject]);
 
       this.playlistItems.add({
         video: TestUtility.buildVideo()
       });
       this.playlistItems.at(0).cid = '123';
 
-      this.playlistItems._mapCreatedToExisting(createdObject);
-      expect(this.playlistItems.at(0).get('video').get('id')).to.equal(createdVideo.get('id'));
-    });
-
-    it('should be able to get a model by video id', function() {
-      var video = TestUtility.buildVideo();
-
-      this.playlistItems.add({
-        video: video
+      this.playlistItems._bulkCreate([], {
+        success: function() {
+          expect(this.playlistItems.at(0).get('video').get('id')).to.equal(createdVideo.get('id'));
+          $.ajax.restore();
+          done();
+        }.bind(this)
       });
-
-      var playlistItem = this.playlistItems._getByVideoId(video.get('id'));
-      expect(playlistItem).to.equal(this.playlistItems.at(0));
     });
+  });
+
+  it('should be able to map a created object to an existing model', function() {
+    var createdVideo = TestUtility.buildVideo();
+    var createdObject = {
+      cid: '123',
+      video: createdVideo
+    };
+
+    this.playlistItems.add({
+      video: TestUtility.buildVideo()
+    });
+    this.playlistItems.at(0).cid = '123';
+
+    this.playlistItems._mapCreatedToExisting(createdObject);
+    expect(this.playlistItems.at(0).get('video').get('id')).to.equal(createdVideo.get('id'));
+  });
+
+  it('should be able to get a model by video id', function() {
+    var video = TestUtility.buildVideo();
+
+    this.playlistItems.add({
+      video: video
+    });
+
+    var playlistItem = this.playlistItems._getByVideoId(video.get('id'));
+    expect(playlistItem).to.equal(this.playlistItems.at(0));
   });
 });

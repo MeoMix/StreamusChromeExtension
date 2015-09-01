@@ -1,66 +1,64 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import RepeatButtonState from 'common/enum/repeatButtonState';
+import Tooltipable from 'foreground/view/behavior/tooltipable';
+import RepeatButtonTemplate from 'template/streamControlBar/repeatButton.html!text';
+import RepeatIconTemplate from 'template/icon/repeatIcon_18.svg!text';
+import RepeatOneIconTemplate from 'template/icon/repeatOneIcon_18.svg!text';
 
-  var RepeatButtonState = require('common/enum/repeatButtonState');
-  var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var RepeatButtonTemplate = require('text!template/streamControlBar/repeatButton.html');
-  var RepeatIconTemplate = require('text!template/icon/repeatIcon_18.svg');
-  var RepeatOneIconTemplate = require('text!template/icon/repeatOneIcon_18.svg');
+var RepeatButtonView = LayoutView.extend({
+  id: 'repeatButton',
+  className: 'button button--icon button--icon--secondary button--medium',
+  template: _.template(RepeatButtonTemplate),
 
-  var RepeatButtonView = Marionette.LayoutView.extend({
-    id: 'repeatButton',
-    className: 'button button--icon button--icon--secondary button--medium',
-    template: _.template(RepeatButtonTemplate),
+  templateHelpers: {
+    repeatIcon: _.template(RepeatIconTemplate)(),
+    repeatOneIcon: _.template(RepeatOneIconTemplate)()
+  },
 
-    templateHelpers: {
-      repeatIcon: _.template(RepeatIconTemplate)(),
-      repeatOneIcon: _.template(RepeatOneIconTemplate)()
-    },
+  attributes: {
+    'data-ui': 'tooltipable'
+  },
 
-    attributes: {
-      'data-ui': 'tooltipable'
-    },
+  ui: {
+    repeatIcon: 'repeatIcon',
+    repeatOneIcon: 'repeatOneIcon'
+  },
 
-    ui: {
-      repeatIcon: 'repeatIcon',
-      repeatOneIcon: 'repeatOneIcon'
-    },
+  events: {
+    'click': '_onClick'
+  },
 
-    events: {
-      'click': '_onClick'
-    },
+  modelEvents: {
+    'change:state': '_onChangeState'
+  },
 
-    modelEvents: {
-      'change:state': '_onChangeState'
-    },
+  behaviors: {
+    Tooltipable: {
+      behaviorClass: Tooltipable
+    }
+  },
 
-    behaviors: {
-      Tooltipable: {
-        behaviorClass: Tooltipable
-      }
-    },
+  onRender: function() {
+    this._setState(this.model.get('state'), this.model.getStateMessage());
+  },
 
-    onRender: function() {
-      this._setState(this.model.get('state'), this.model.getStateMessage());
-    },
+  _onClick: function() {
+    this.model.toggleRepeatState();
+  },
 
-    _onClick: function() {
-      this.model.toggleRepeatState();
-    },
+  _onChangeState: function(model, state) {
+    this._setState(state, model.getStateMessage());
+  },
 
-    _onChangeState: function(model, state) {
-      this._setState(state, model.getStateMessage());
-    },
+  _setState: function(state, stateMessage) {
+    // The button is considered enabled if it is anything but off.
+    var enabled = state !== RepeatButtonState.Off;
 
-    _setState: function(state, stateMessage) {
-      // The button is considered enabled if it is anything but off.
-      var enabled = state !== RepeatButtonState.Off;
-
-      this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
-      this.ui.repeatOneIcon.toggleClass('is-hidden', state !== RepeatButtonState.RepeatVideo);
-      this.ui.repeatIcon.toggleClass('is-hidden', state === RepeatButtonState.RepeatVideo);
-    },
-  });
-
-  return RepeatButtonView;
+    this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
+    this.ui.repeatOneIcon.toggleClass('is-hidden', state !== RepeatButtonState.RepeatVideo);
+    this.ui.repeatIcon.toggleClass('is-hidden', state === RepeatButtonState.RepeatVideo);
+  }
 });
+
+export default RepeatButtonView;

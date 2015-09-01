@@ -1,17 +1,15 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import DialogContent from 'foreground/view/behavior/dialogContent';
 
-  var DialogContent = require('foreground/view/behavior/dialogContent');
+var GoogleSignInView = LayoutView.extend({
+  template: _.template(chrome.i18n.getMessage('googleSignInMessage')),
 
-  var GoogleSignInView = Marionette.LayoutView.extend({
-    template: _.template(chrome.i18n.getMessage('googleSignInMessage')),
-
-    behaviors: {
-      DialogContent: {
-        behaviorClass: DialogContent
-      }
+  behaviors: {
+    DialogContent: {
+      behaviorClass: DialogContent
     }
-  });
-
-  return GoogleSignInView;
+  }
 });
+
+export default GoogleSignInView;

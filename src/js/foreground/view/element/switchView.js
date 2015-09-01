@@ -1,44 +1,42 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import SwitchTemplate from 'template/element/switch.html!text';
 
-  var SwitchTemplate = require('text!template/element/switch.html');
+var SwitchView = LayoutView.extend({
+  tagName: 'switch',
+  template: _.template(SwitchTemplate),
 
-  var SwitchView = Marionette.LayoutView.extend({
-    tagName: 'switch',
-    template: _.template(SwitchTemplate),
+  ui: {
+    icon: 'icon'
+  },
 
-    ui: {
-      icon: 'icon'
-    },
+  events: {
+    'click': '_onClick'
+  },
 
-    events: {
-      'click': '_onClick'
-    },
+  modelEvents: {
+    'change:checked': '_onChangeChecked'
+  },
 
-    modelEvents: {
-      'change:checked': '_onChangeChecked'
-    },
+  onRender: function() {
+    var checked = this.model.get('checked');
+    this._setCheckedState(checked);
+  },
 
-    onRender: function() {
-      var checked = this.model.get('checked');
-      this._setCheckedState(checked);
-    },
+  _onClick: function() {
+    this.model.set('checked', !this.model.get('checked'));
+  },
 
-    _onClick: function() {
-      this.model.set('checked', !this.model.get('checked'));
-    },
+  _onChangeChecked: function(model, checked) {
+    this._setCheckedState(checked);
+  },
 
-    _onChangeChecked: function(model, checked) {
-      this._setCheckedState(checked);
-    },
-
-    _setCheckedState: function(checked) {
-      this.$el.toggleClass('is-checked', checked);
-      this.$el.toggleClass('is-unchecked', !checked);
-      this.ui.icon.toggleClass('is-checked', checked);
-      this.ui.icon.toggleClass('is-unchecked', !checked);
-    }
-  });
-
-  return SwitchView;
+  _setCheckedState: function(checked) {
+    this.$el.toggleClass('is-checked', checked);
+    this.$el.toggleClass('is-unchecked', !checked);
+    this.ui.icon.toggleClass('is-checked', checked);
+    this.ui.icon.toggleClass('is-unchecked', !checked);
+  }
 });
+
+export default SwitchView;

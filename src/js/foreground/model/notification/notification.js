@@ -1,11 +1,10 @@
-﻿define(function() {
-  'use strict';
+﻿'use strict';
+import {Model} from 'backbone';
 
-  var Notification = Backbone.Model.extend({
-    defaults: {
-      message: ''
-    }
-  });
-
-  return Notification;
+var Notification = Model.extend({
+  defaults: {
+    message: ''
+  }
 });
+
+export default Notification;

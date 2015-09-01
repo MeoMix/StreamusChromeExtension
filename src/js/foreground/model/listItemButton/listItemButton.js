@@ -1,11 +1,10 @@
-﻿define(function() {
-  'use strict';
+﻿'use strict';
+import {Model} from 'backbone';
 
-  var ListItemButton = Backbone.Model.extend({
-    defaults: {
-      enabled: true
-    }
-  });
-
-  return ListItemButton;
+var ListItemButton = Model.extend({
+  defaults: {
+    enabled: true
+  }
 });
+
+export default ListItemButton;

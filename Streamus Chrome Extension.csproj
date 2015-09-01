@@ -76,10 +76,11 @@
     <Content Include="src\img\streamus_icon_white19.png" />
     <Content Include="src\js\background\model\youTubePlayer.js" />
     <Content Include="src\js\common\enum\youTubePlayerState.js" />
+    <Content Include="src\js\common\shim\backbone.cocktail.shim.js" />
     <Content Include="src\js\common\shim\backbone.marionette.region.shim.js" />
     <Content Include="src\js\common\shim\backbone.marionette.view.shim.js" />
     <Content Include="src\js\common\enum\videoCommand.js" />
-    <Content Include="src\js\contentScript\require.shim.js" />
+    <Content Include="src\js\common\shim\lodash.shim.js" />
     <Content Include="src\js\contentScript\youTubePlayer\application.js" />
     <Content Include="src\js\contentScript\youTubePlayer\main.js" />
     <Content Include="src\js\contentScript\youTubePlayer\model\port.js" />
@@ -94,10 +95,8 @@
     <Content Include="src\js\background\model\analyticsManager.js" />
     <Content Include="src\js\foreground\enum\orientation.js" />
     <Content Include="src\js\foreground\model\activePane\activePane.js" />
-    <Content Include="src\js\background\model\videoButton.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
     <Content Include="src\js\common\enum\layoutType.js" />
-    <Content Include="src\js\common\lodashMixin.js" />
     <Content Include="src\js\foreground\enum\fixedPosition.js" />
     <Content Include="src\js\foreground\enum\activePaneType.js" />
     <Content Include="src\js\foreground\model\appBar\activePaneFilter.js" />
@@ -145,6 +144,8 @@
     <Content Include="src\js\foreground\view\streamControlBar\timeSliderView.js" />
     <Content Include="src\js\foreground\view\tooltip\tooltipRegion.js" />
     <Content Include="src\js\foreground\view\tooltip\tooltipView.js" />
+    <Content Include="src\js\lib\backbone.js" />
+    <Content Include="src\js\lib\jspm.config.js" />
     <Content Include="src\js\test\background\backgroundSpecLoader.js" />
     <Content Include="src\js\test\background\collection\clientErrors.spec.js" />
     <Content Include="src\js\test\background\collection\playlistItems.spec.js" />
@@ -261,10 +262,8 @@
     <Content Include="src\js\test\foreground\view\tooltip\tooltipSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipView.spec.js" />
     <Content Include="src\js\test\foreground\view\viewTestUtility.js" />
+    <Content Include="src\js\test\mochaSetup.js" />
     <Content Include="src\js\test\phantomjs.shim.js" />
-    <Content Include="src\js\lib\test\chai.js" />
-    <Content Include="src\js\lib\test\mocha.js" />
-    <Content Include="src\js\lib\test\sinon.js" />
     <Content Include="src\template\activePane\activePanes.html" />
     <Content Include="src\template\activePane\activePane.html" />
     <Content Include="src\template\appBar\activePaneFilter.html" />
@@ -361,7 +360,6 @@
     <Content Include="src\js\background\model\dataSource.js" />
     <Content Include="src\js\common\utility.js" />
     <Content Include="src\js\background\model\youTubeV3API.js" />
-    <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
     <Content Include="src\js\foreground\collection\element\checkboxes.js" />
     <Content Include="src\js\foreground\collection\element\radioButtons.js" />
@@ -478,18 +476,12 @@
     <Content Include="src\js\test\plugins.js" />
     <Content Include="src\js\test\background\model\playlistItem.spec.js" />
     <Content Include="src\js\test\background\model\playlistItems.spec.js" />
-    <Content Include="src\js\lib\cocktail.js" />
-    <Content Include="src\js\lib\backbone.js" />
     <Content Include="README.md">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="src\js\lib\backbone.localStorage.js" />
-    <Content Include="src\js\lib\backbone.marionette.js" />
-    <Content Include="src\js\lib\jquery.js" />
     <Content Include="src\js\lib\jquery-ui.js" />
     <Content Include="src\js\lib\lodash.js" />
-    <Content Include="src\js\lib\require.js" />
-    <Content Include="src\js\lib\text.js" />
     <Content Include="src\css\contentScript\beatport.css" />
     <Content Include="src\font\Roboto-Medium.ttf" />
     <Content Include="src\font\Roboto-Regular.ttf" />

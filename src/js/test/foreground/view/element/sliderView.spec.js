@@ -1,22 +1,19 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import SliderView from 'foreground/view/element/sliderView';
+import Slider from 'foreground/model/element/slider';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var SliderView = require('foreground/view/element/sliderView');
-  var Slider = require('foreground/model/element/slider');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('SliderView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new SliderView({
-        model: new Slider()
-      });
+describe('SliderView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new SliderView({
+      model: new Slider()
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

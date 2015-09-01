@@ -1,28 +1,26 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import DialogContent from 'foreground/view/behavior/dialogContent';
 
-  var DialogContent = require('foreground/view/behavior/dialogContent');
+var ErrorView = LayoutView.extend({
+  template: _.template('<%= text %>'),
+  templateHelpers: function() {
+    return {
+      text: this.text
+    };
+  },
 
-  var ErrorView = Marionette.LayoutView.extend({
-    template: _.template('<%= text %>'),
-    templateHelpers: function() {
-      return {
-        text: this.text
-      };
-    },
-
-    behaviors: {
-      DialogContent: {
-        behaviorClass: DialogContent
-      }
-    },
-
-    text: '',
-
-    initialize: function(options) {
-      this.text = options.text;
+  behaviors: {
+    DialogContent: {
+      behaviorClass: DialogContent
     }
-  });
+  },
 
-  return ErrorView;
+  text: '',
+
+  initialize: function(options) {
+    this.text = options.text;
+  }
 });
+
+export default ErrorView;

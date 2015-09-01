@@ -1,26 +1,24 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import DialogContent from 'foreground/view/behavior/dialogContent';
+import DeletePlaylistTemplate from 'template/dialog/deletePlaylist.html!text';
 
-  var DialogContent = require('foreground/view/behavior/dialogContent');
-  var DeletePlaylistTemplate = require('text!template/dialog/deletePlaylist.html');
+var DeletePlaylistView = LayoutView.extend({
+  template: _.template(DeletePlaylistTemplate),
 
-  var DeletePlaylistView = Marionette.LayoutView.extend({
-    template: _.template(DeletePlaylistTemplate),
+  templateHelpers: {
+    deleteMessage: chrome.i18n.getMessage('delete')
+  },
 
-    templateHelpers: {
-      deleteMessage: chrome.i18n.getMessage('delete')
-    },
-
-    behaviors: {
-      DialogContent: {
-        behaviorClass: DialogContent
-      }
-    },
-
-    deletePlaylist: function() {
-      this.model.destroy();
+  behaviors: {
+    DialogContent: {
+      behaviorClass: DialogContent
     }
-  });
+  },
 
-  return DeletePlaylistView;
+  deletePlaylist: function() {
+    this.model.destroy();
+  }
 });
+
+export default DeletePlaylistView;

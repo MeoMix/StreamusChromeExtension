@@ -1,22 +1,19 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import RepeatButtonView from 'foreground/view/streamControlBar/repeatButtonView';
+import RepeatButton from 'background/model/repeatButton';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var RepeatButtonView = require('foreground/view/streamControlBar/repeatButtonView');
-  var RepeatButton = require('background/model/repeatButton');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('RepeatButtonView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new RepeatButtonView({
-        model: new RepeatButton()
-      });
+describe('RepeatButtonView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new RepeatButtonView({
+      model: new RepeatButton()
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

@@ -1,37 +1,35 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import RadioButtonTemplate from 'template/element/radioButton.html!text';
 
-  var RadioButtonTemplate = require('text!template/element/radioButton.html');
+var RadioButtonView = LayoutView.extend({
+  tagName: 'radio-button',
+  template: _.template(RadioButtonTemplate),
 
-  var RadioButtonView = Marionette.LayoutView.extend({
-    tagName: 'radio-button',
-    template: _.template(RadioButtonTemplate),
+  events: {
+    'click': '_onClick'
+  },
 
-    events: {
-      'click': '_onClick'
-    },
+  modelEvents: {
+    'change:checked': '_onChangeChecked'
+  },
 
-    modelEvents: {
-      'change:checked': '_onChangeChecked'
-    },
+  onRender: function() {
+    this._setCheckedState(this.model.get('checked'));
+  },
 
-    onRender: function() {
-      this._setCheckedState(this.model.get('checked'));
-    },
+  _onClick: function() {
+    this.model.set('checked', true);
+  },
 
-    _onClick: function() {
-      this.model.set('checked', true);
-    },
+  _onChangeChecked: function(model, checked) {
+    this._setCheckedState(checked);
+  },
 
-    _onChangeChecked: function(model, checked) {
-      this._setCheckedState(checked);
-    },
-
-    _setCheckedState: function(checked) {
-      this.$el.toggleClass('is-checked', checked);
-      this.$el.toggleClass('is-unchecked', !checked);
-    }
-  });
-
-  return RadioButtonView;
+  _setCheckedState: function(checked) {
+    this.$el.toggleClass('is-checked', checked);
+    this.$el.toggleClass('is-unchecked', !checked);
+  }
 });
+
+export default RadioButtonView;

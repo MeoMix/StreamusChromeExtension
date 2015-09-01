@@ -1,4 +1,7 @@
-﻿define({
+﻿'use strict';
+import _ from 'lodash';
+
+_.mixin({
   // Inspired by: https://gist.github.com/danro/7846358
   // Pass requestAnimationFrame as the throttleMechanism. Necessary because RAF is scoped to the current window.
   // Leverage requestAnimationFrame for throttling function calls instead of setTimeout for better perf.

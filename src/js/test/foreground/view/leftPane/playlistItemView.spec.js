@@ -1,28 +1,25 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import PlaylistItemView from 'foreground/view/leftPane/playlistItemView';
+import PlaylistItem from 'background/model/playlistItem';
+import StreamItems from 'background/collection/streamItems';
+import ListItemType from 'common/enum/listItemType';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var PlaylistItemView = require('foreground/view/leftPane/playlistItemView');
-  var PlaylistItem = require('background/model/playlistItem');
-  var StreamItems = require('background/collection/streamItems');
-  var ListItemType = require('common/enum/listItemType');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('PlaylistItemView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new PlaylistItemView({
-        model: new PlaylistItem(),
-        streamItems: new StreamItems(),
-        player: TestUtility.buildPlayer(),
-        type: ListItemType.PlaylistItem,
-        parentId: 'playlistItems-list'
-      });
+describe('PlaylistItemView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new PlaylistItemView({
+      model: new PlaylistItem(),
+      streamItems: new StreamItems(),
+      player: TestUtility.buildPlayer(),
+      type: ListItemType.PlaylistItem,
+      parentId: 'playlistItems-list'
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

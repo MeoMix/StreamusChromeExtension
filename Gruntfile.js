@@ -8,7 +8,6 @@
 var _ = require('lodash');
 
 module.exports = function(grunt) {
-
   require('load-grunt-tasks')(grunt);
 
   grunt.initConfig({
@@ -62,7 +61,7 @@ module.exports = function(grunt) {
         expand: true,
         cwd: 'src/less/',
         src: 'foreground.less',
-        dest: 'src/css/',
+        dest: 'compiled/css/',
         ext: '.css'
       }
     },
@@ -181,6 +180,13 @@ module.exports = function(grunt) {
           cwd: 'dist/',
           src: ['template', 'build.txt']
         }]
+      },
+      compileSingle: {
+        files: [{
+          expand: true,
+          // Set via watch task.
+          src: ''
+        }]
       }
     },
     copy: {
@@ -190,21 +196,27 @@ module.exports = function(grunt) {
         src: '**/*',
         dest: '<%= meta.releaseDirectory %>'
       },
+      compiled: {
+        expand: true,
+        cwd: 'src/',
+        // Exclude ES6-enabled JavaScript files which will be copied during transpilation.
+        // Exclude LESS files which will be copied during compilation.
+        src: ['**/*', '!**/background/**', '!**/common/**', '!**/foreground/**', '!src/**/test/**', '!**/less/**', '**/main.js'],
+        dest: 'compiled/'
+      },
+      compileSingle: {
+        expand: true,
+        cwd: 'src/',
+        // Set via watch task.
+        src: '',
+        dest: 'compiled/'
+      },
       // Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
       contentScripts: {
         files: {
           'dist/js/contentScript/beatport.js': ['src/js/contentScript/beatport.js'],
           'dist/js/contentScript/youTube.js': ['src/js/contentScript/youTube.js']
         }
-      }
-    },
-    watch: {
-      less: {
-        options: {
-          nospawn: true
-        },
-        files: ['src/less/*'],
-        tasks: ['less']
       }
     },
     jscs: {
@@ -254,8 +266,84 @@ module.exports = function(grunt) {
           zip: 'release/Streamus v<%= meta.buildVersion %>/chrome/Streamus v<%= meta.buildVersion %>.zip'
         }
       }
+    },
+    babel: {
+      options: {
+        modules: 'system'
+      },
+      compiled: {
+        files: [{
+          expand: true,
+          cwd: 'src',
+          // Exclude compiling main.js because it holds System.import.
+          src: ['**/*.js', '!**/main.js', '!**/lib/**'],
+          dest: 'compiled'
+        }]
+      },
+      compileSingle: {
+        expand: true,
+        cwd: 'src/',
+        // Set via watch task.
+        src: '',
+        dest: 'compiled'
+      }
+    },
+    watch: {
+      less: {
+        options: {
+          spawn: false,
+          nospawn: true
+        },
+        files: ['src/less/*'],
+        tasks: ['less']
+      },
+      copyUncompiled: {
+        options: {
+          event: ['added', 'changed'],
+          spawn: false,
+          nospawn: true
+        },
+        files: ['src/**/*', '!src/**/background/**', '!src/**/common/**', '!src/**/foreground/**', '!src/**/test/**', '!src/**/less/**', 'src/**/main.js'],
+        tasks: ['copy:compileSingle']
+      },
+      copyCompiled: {
+        options: {
+          event: ['added', 'changed'],
+          spawn: false,
+          nospawn: true
+        },
+        files: ['src/**/*.js', '!src/**/main.js', '!src/**/contentScript/**', '!src/**/lib/**'],
+        tasks: ['babel:compileSingle']
+      },
+      removeUncompiled: {
+        options: {
+          event: ['deleted'],
+          spawn: false,
+          nospawn: true
+        },
+        files: ['src/**/*', '!src/**/background/**', '!src/**/common/**', '!src/**/foreground/**', '!src/**/test/**', '!src/**/less/**', 'src/**/main.js'],
+        tasks: ['clean:compileSingle']
+      }
     }
   });
+
+  grunt.event.on('watch', function(action, filepath, target) {
+    if (action === 'deleted') {
+      // Replace src with compiled so that corresponding file is removed.
+      grunt.config('clean.compileSingle.src', filepath.replace('src\\', 'compiled\\'));
+    } else if (action === 'changed' || action === 'added') {
+      // Drop src off of filepath so that file properly nests under compiled instead.
+      var cleanFilepath = filepath.replace('src\\', '');
+
+      if (target === 'copyCompiled') {
+        grunt.config('babel.compileSingle.src', cleanFilepath);
+      } else if (target === 'copyUncompiled') {
+        grunt.config('copy.compileSingle.src', cleanFilepath);
+      }
+    }
+  });
+
+  grunt.registerTask('compile', ['copy:compiled', 'babel:compiled', 'less']);
 
   //  Build release and place .zip files in the release directory
   grunt.registerTask('build', function(buildFlag) {

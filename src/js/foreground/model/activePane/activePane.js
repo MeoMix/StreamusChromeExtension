@@ -1,14 +1,12 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {Model} from 'backbone';
+import ActivePaneType from 'foreground/enum/activePaneType';
 
-  var ActivePaneType = require('foreground/enum/activePaneType');
-
-  var ActivePane = Backbone.Model.extend({
-    defaults: {
-      type: ActivePaneType.None,
-      relatedModel: null
-    }
-  });
-
-  return ActivePane;
+var ActivePane = Model.extend({
+  defaults: {
+    type: ActivePaneType.None,
+    relatedModel: null
+  }
 });
+
+export default ActivePane;

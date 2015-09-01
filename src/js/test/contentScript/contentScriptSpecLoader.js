@@ -1,8 +1,4 @@
-﻿define(function(require) {
-  'use strict';
-
-  // /youTubePlayer/
-  // /youTubePlayer/model/
-  require('test/contentScript/youTubePlayer/model/port.spec');
-
-});
+﻿'use strict';
+// /youTubePlayer/
+// /youTubePlayer/model/
+import 'test/contentScript/youTubePlayer/model/port.spec';

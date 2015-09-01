@@ -1,70 +1,68 @@
-﻿define(function(require) {
-  'use strict';
+﻿'use strict';
+import {LayoutView} from 'marionette';
+import PlayPauseButtonTemplate from 'template/streamControlBar/playPauseButton.html!text';
+import PauseIconTemplate from 'template/icon/pauseIcon_30.svg!text';
+import PlayIconTemplate from 'template/icon/playIcon_30.svg!text';
 
-  var PlayPauseButtonTemplate = require('text!template/streamControlBar/playPauseButton.html');
-  var PauseIconTemplate = require('text!template/icon/pauseIcon_30.svg');
-  var PlayIconTemplate = require('text!template/icon/playIcon_30.svg');
+var PlayPauseButtonView = LayoutView.extend({
+  id: 'playPauseButton',
+  className: 'button button--icon button--icon--primary button--large',
+  template: _.template(PlayPauseButtonTemplate),
 
-  var PlayPauseButtonView = Marionette.LayoutView.extend({
-    id: 'playPauseButton',
-    className: 'button button--icon button--icon--primary button--large',
-    template: _.template(PlayPauseButtonTemplate),
+  templateHelpers: {
+    pauseIcon: _.template(PauseIconTemplate)(),
+    playIcon: _.template(PlayIconTemplate)()
+  },
 
-    templateHelpers: {
-      pauseIcon: _.template(PauseIconTemplate)(),
-      playIcon: _.template(PlayIconTemplate)()
-    },
+  ui: {
+    playIcon: 'playIcon',
+    pauseIcon: 'pauseIcon'
+  },
 
-    ui: {
-      playIcon: 'playIcon',
-      pauseIcon: 'pauseIcon'
-    },
+  events: {
+    'click': '_onClick'
+  },
 
-    events: {
-      'click': '_onClick'
-    },
+  modelEvents: {
+    'change:enabled': '_onChangeEnabled'
+  },
 
-    modelEvents: {
-      'change:enabled': '_onChangeEnabled'
-    },
+  player: null,
 
-    player: null,
+  initialize: function(options) {
+    this.player = options.player;
+    this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
 
-    initialize: function(options) {
-      this.player = options.player;
-      this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
+    this.listenTo(StreamusFG.channels.playPauseButton.commands, 'tryToggle:playerState', this._tryTogglePlayerState);
+  },
 
-      this.listenTo(StreamusFG.channels.playPauseButton.commands, 'tryToggle:playerState', this._tryTogglePlayerState);
-    },
+  onRender: function() {
+    this._setState(this.model.get('enabled'));
+  },
 
-    onRender: function() {
-      this._setState(this.model.get('enabled'));
-    },
+  _onClick: function() {
+    this._tryTogglePlayerState();
+  },
 
-    _onClick: function() {
-      this._tryTogglePlayerState();
-    },
+  _tryTogglePlayerState: function() {
+    this.model.tryTogglePlayerState();
+  },
 
-    _tryTogglePlayerState: function() {
-      this.model.tryTogglePlayerState();
-    },
+  _onChangeEnabled: function(model, enabled) {
+    this._setState(enabled, this.player.get('state'));
+  },
 
-    _onChangeEnabled: function(model, enabled) {
-      this._setState(enabled, this.player.get('state'));
-    },
+  _onPlayerChangeState: function() {
+    this._setState(this.model.get('enabled'));
+  },
 
-    _onPlayerChangeState: function() {
-      this._setState(this.model.get('enabled'));
-    },
+  _setState: function(enabled) {
+    this.$el.toggleClass('is-disabled', !enabled);
 
-    _setState: function(enabled) {
-      this.$el.toggleClass('is-disabled', !enabled);
-
-      var isPausable = this.player.isPausable();
-      this.ui.pauseIcon.toggleClass('is-hidden', !isPausable);
-      this.ui.playIcon.toggleClass('is-hidden', isPausable);
-    }
-  });
-
-  return PlayPauseButtonView;
+    var isPausable = this.player.isPausable();
+    this.ui.pauseIcon.toggleClass('is-hidden', !isPausable);
+    this.ui.playIcon.toggleClass('is-hidden', isPausable);
+  }
 });
+
+export default PlayPauseButtonView;
