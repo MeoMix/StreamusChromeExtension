@@ -189,6 +189,10 @@ module.exports = function(grunt) {
       }
     },
     copy: {
+      options: {
+        // Force file modified time to update so that grunt-newer is able to know not to copy to dest multiple times.
+        mtimeUpdate: true
+      },
       release: {
         expand: true,
         cwd: 'dist/',
@@ -201,13 +205,6 @@ module.exports = function(grunt) {
         // Exclude ES6-enabled JavaScript files which will be copied during transpilation.
         // Exclude LESS files which will be copied during compilation.
         src: ['**/*', '!**/background/**', '!**/common/**', '!**/foreground/**', '!src/**/test/**', '!**/less/**', '**/main.js'],
-        dest: 'compiled/'
-      },
-      compileSingle: {
-        expand: true,
-        cwd: 'src/',
-        // Set via watch task.
-        src: '',
         dest: 'compiled/'
       },
       // Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
@@ -278,13 +275,6 @@ module.exports = function(grunt) {
           src: ['**/*.js', '!**/main.js', '!**/lib/**'],
           dest: 'compiled'
         }]
-      },
-      compileSingle: {
-        expand: true,
-        cwd: 'src/',
-        // Set via watch task.
-        src: '',
-        dest: 'compiled'
       }
     },
 
@@ -294,7 +284,6 @@ module.exports = function(grunt) {
       less: {
         options: {
           interrupt: true,
-          spawn: false,
           cwd: 'src/less'
         },
         files: ['**/*.less'],
@@ -304,21 +293,19 @@ module.exports = function(grunt) {
       copyUncompiled: {
         options: {
           event: ['added', 'changed'],
-          spawn: false,
           cwd: 'src'
         },
         files: ['**/*', '!**/background/**', '!**/common/**', '!contentScript/youTubePlayer/**/*', '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'],
-        tasks: ['copy:compileSingle']
+        tasks: ['newer:copy:compiled']
       },
       // Compile and copy ES6 files to 'compiled' directory. Exclude main files because they're not ES6.
       copyCompiled: {
         options: {
           event: ['added', 'changed'],
-          spawn: false,
           cwd: 'src/js'
         },
         files: ['background/**/*', 'common/**/*', 'contentScript/youTubePlayer/**/*', 'foreground/**/*', 'test/**/*', '!**/main.js'],
-        tasks: ['babel:compileSingle']
+        tasks: ['newer:babel:compiled']
       },
       // Whenever a file is deleted from 'src' ensure it is also deleted from 'compiled'
       remove: {
@@ -333,24 +320,10 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.event.on('watch', function(action, filepath, target) {
-    // Determine which task config to modify based on the event action.
-    var taskTarget = '';
+  grunt.event.on('watch', function(action, filepath) {
     if (action === 'deleted') {
-      taskTarget = 'clean.compiledFile';
-    } else if (action === 'changed' || action === 'added') {
-      if (target === 'copyCompiled') {
-        taskTarget = 'babel.compileSingle';
-      } else if (target === 'copyUncompiled') {
-        taskTarget = 'copy.compileSingle';
-      }
-    }
-
-    if (taskTarget === '') {
-      console.error('Unable to determine taskTarget for: ', action, filepath, target);
-    } else {
       // Drop src off of filepath to properly rely on 'cwd' task configuration.
-      grunt.config(taskTarget + '.src', filepath.replace('src\\', ''));
+      grunt.config('clean.compiledFile.src', filepath.replace('src\\', ''));
     }
   });
 

@@ -6,7 +6,8 @@ System.config({
     "optional": [
       "runtime",
       "optimisation.modules.system"
-    ]
+    ],
+    "ignore": "/lib/"
   },
   paths: {
     "backbone": "js/lib/backbone",
@@ -22,17 +23,17 @@ System.config({
   },
 
   map: {
-    "babel": "npm:babel-core@5.8.22",
+    "babel": "npm:babel-core@5.8.23",
     "babel-runtime": "npm:babel-runtime@5.8.20",
     "backbone.babysitter": "github:marionettejs/backbone.babysitter@0.1.9",
     "backbone.cocktail": "npm:backbone.cocktail@0.5.10",
     "backbone.wreqr": "github:marionettejs/backbone.wreqr@1.3.4",
     "chai": "npm:chai@3.2.0",
-    "core-js": "npm:core-js@1.1.1",
+    "core-js": "npm:core-js@1.1.3",
     "jquery": "github:components/jquery@2.1.4",
     "lodash": "lib/lodash",
     "marionette": "github:marionettejs/backbone.marionette@2.4.2",
-    "mocha": "npm:mocha@2.2.5",
+    "mocha": "npm:mocha@2.3.0",
     "sinon": "npm:sinon@1.16.1",
     "text": "github:systemjs/plugin-text@0.0.2",
     "underscore": "lib/lodash",
@@ -64,7 +65,7 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0",
       "type-detect": "npm:type-detect@1.0.0"
     },
-    "npm:core-js@1.1.1": {
+    "npm:core-js@1.1.3": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
@@ -80,7 +81,7 @@ System.config({
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:mocha@2.2.5": {
+    "npm:mocha@2.3.0": {
       "css": "github:systemjs/plugin-css@0.1.15"
     },
     "npm:sinon@1.16.1": {

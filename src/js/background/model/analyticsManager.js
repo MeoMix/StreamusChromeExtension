@@ -50,7 +50,7 @@ var AnalyticsManager = Model.extend({
     // Asynchronously load Google Analytics, letting it take over our `window.ga`
     // object after it loads. This allows us to add events to `window.ga` even
     // before the library has fully loaded.
-    $('body').append($('<script src="https://www.google-analytics.com/analytics.js"></script>'));
+    $.getScript('https://www.google-analytics.com/analytics.js');
   }
 });
 
