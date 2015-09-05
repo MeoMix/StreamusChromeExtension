@@ -1,5 +1,6 @@
 ﻿'use strict';
 import {Model} from 'backbone';
+import 'https://www.google-analytics.com/analytics.js';
 
 var AnalyticsManager = Model.extend({
   defaults: {
@@ -8,11 +9,6 @@ var AnalyticsManager = Model.extend({
 
   initialize: function() {
     this._createModule();
-
-    // Can't load analytics if Internet isn't online.
-    if (navigator.onLine) {
-      this._loadAnalytics();
-    }
   },
 
   sendPageView: function(url) {
@@ -44,13 +40,6 @@ var AnalyticsManager = Model.extend({
     this.set('module', function() {
       window.ga.apply(this, arguments);
     });
-  },
-
-  _loadAnalytics: function() {
-    // Asynchronously load Google Analytics, letting it take over our `window.ga`
-    // object after it loads. This allows us to add events to `window.ga` even
-    // before the library has fully loaded.
-    $.getScript('https://www.google-analytics.com/analytics.js');
   }
 });
 

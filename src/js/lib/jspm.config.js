@@ -10,21 +10,27 @@ System.config({
     "ignore": "/lib/"
   },
   paths: {
-    "backbone": "js/lib/backbone",
     "background/*": "js/background/*",
     "common/*": "js/common/*",
     "contentScript/*": "js/contentScript/*",
     "foreground/*": "js/foreground/*",
     "test/*": "js/test/*",
     "lib/*": "js/lib/*",
-    "google-analytics": "https://www.google-analytics.com/analytics.js",
     "github:*": "js/lib/jspm_packages/github/*",
     "npm:*": "js/lib/jspm_packages/npm/*"
+  },
+
+  meta: {
+    "https://www.google-analytics.com/analytics.js": {
+      "exports": "ga",
+      "format": "global"
+    }
   },
 
   map: {
     "babel": "npm:babel-core@5.8.23",
     "babel-runtime": "npm:babel-runtime@5.8.20",
+    "backbone": "npm:backbone@1.1.2",
     "backbone.babysitter": "github:marionettejs/backbone.babysitter@0.1.9",
     "backbone.cocktail": "npm:backbone.cocktail@0.5.10",
     "backbone.wreqr": "github:marionettejs/backbone.wreqr@1.3.4",
@@ -36,7 +42,6 @@ System.config({
     "mocha": "npm:mocha@2.3.0",
     "sinon": "npm:sinon@1.16.1",
     "text": "github:systemjs/plugin-text@0.0.2",
-    "underscore": "lib/lodash",
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.4.3"
     },
@@ -48,9 +53,6 @@ System.config({
     },
     "npm:babel-runtime@5.8.20": {
       "process": "github:jspm/nodelibs-process@0.1.1"
-    },
-    "npm:backbone.cocktail@0.5.10": {
-      "underscore": "lib/lodash"
     },
     "npm:buffer@3.4.3": {
       "base64-js": "npm:base64-js@0.0.8",

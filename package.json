@@ -24,10 +24,12 @@
     "grunt-mocha": "^0.4.13",
     "grunt-newer": "^1.1.1",
     "grunt-recess": "https://github.com/MeoMix/grunt-recess/tarball/master",
+    "grunt-shell": "^1.1.2",
     "grunt-text-replace": "^0.4.0",
     "grunt-usemin": "^3.0.0",
     "grunt-version": "^1.0.0",
     "grunt-webstore-upload": "https://github.com/MeoMix/grunt-webstore-upload/tarball/master",
+    "jit-grunt": "^0.9.1",
     "jspm": "^0.16.1",
     "load-grunt-tasks": "^3.1.0",
     "lodash": "^3.3.0"
@@ -53,6 +55,8 @@
     },
     "configFile": "src/js/lib/jspm.config.js",
     "dependencies": {
+      "babel-runtime": "npm:babel-runtime@^5.8.20",
+      "backbone": "npm:backbone@1.1.2",
       "backbone.babysitter": "github:marionettejs/backbone.babysitter@^0.1.9",
       "backbone.cocktail": "npm:backbone.cocktail@^0.5.10",
       "backbone.wreqr": "github:marionettejs/backbone.wreqr@^1.3.4",
@@ -65,8 +69,41 @@
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.22",
-      "babel-runtime": "npm:babel-runtime@^5.8.20",
       "core-js": "npm:core-js@^1.1.0"
+    },
+    "overrides": {
+      "npm:backbone.cocktail@0.5.10": {
+        "map": {
+          "underscore": "lodash"
+        }
+      },
+      "npm:backbone@1.1.2": {
+        "map": {
+          "underscore": "lodash"
+        },
+        "shim": {
+          "backbone": {
+            "deps": [
+              "jquery"
+            ]
+          }
+        }
+      },
+      "github:marionettejs/backbone.babysitter@0.1.9": {
+        "map": {
+          "underscore": "lodash"
+        }
+      },
+      "github:marionettejs/backbone.marionette@2.4.2": {
+        "map": {
+          "underscore": "lodash"
+        }
+      },
+      "github:marionettejs/backbone.wreqr@1.3.4": {
+        "map": {
+          "underscore": "lodash"
+        }
+      }
     }
   }
 }

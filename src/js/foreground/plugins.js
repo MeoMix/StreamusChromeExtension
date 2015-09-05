@@ -5,6 +5,7 @@ var backgroundPage = chrome.extension.getBackgroundPage();
 window._ = backgroundPage._;
 import 'common/shim/backbone.marionette.view.shim';
 import 'common/shim/backbone.marionette.region.shim';
+import 'common/shim/backbone.marionette.toJson.shim';
 
 // Finally, load the application:
 import Application from 'foreground/application';

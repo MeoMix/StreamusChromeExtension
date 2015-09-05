@@ -8,7 +8,8 @@
 var _ = require('lodash');
 
 module.exports = function(grunt) {
-  require('load-grunt-tasks')(grunt);
+  // Use jit-grunt to improve task initialization times. Only load modules as needed.
+  require('jit-grunt')(grunt);
 
   grunt.initConfig({
     //	Read project settings from package.json in order to be able to reference the properties with grunt.
@@ -316,6 +317,12 @@ module.exports = function(grunt) {
         },
         files: ['**/*'],
         tasks: ['clean:compiledFile']
+      }
+    },
+
+    shell: {
+      jspm: {
+        command: ['jspm bundle-sfx background/plugins backgroundmain.js', 'jspm bundle-sfx foreground/plugins foregroundmain.js'].join('&&')
       }
     }
   });
