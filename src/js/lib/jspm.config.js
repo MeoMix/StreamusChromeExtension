@@ -35,7 +35,7 @@ System.config({
     "backbone.cocktail": "npm:backbone.cocktail@0.5.10",
     "backbone.wreqr": "github:marionettejs/backbone.wreqr@1.3.4",
     "chai": "npm:chai@3.2.0",
-    "core-js": "npm:core-js@1.1.3",
+    "core-js": "npm:core-js@1.1.4",
     "jquery": "github:components/jquery@2.1.4",
     "lodash": "lib/lodash",
     "marionette": "github:marionettejs/backbone.marionette@2.4.2",
@@ -67,7 +67,7 @@ System.config({
       "systemjs-json": "github:systemjs/plugin-json@0.1.0",
       "type-detect": "npm:type-detect@1.0.0"
     },
-    "npm:core-js@1.1.3": {
+    "npm:core-js@1.1.4": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.1",
       "systemjs-json": "github:systemjs/plugin-json@0.1.0"
@@ -84,7 +84,7 @@ System.config({
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:mocha@2.3.0": {
-      "css": "github:systemjs/plugin-css@0.1.15"
+      "css": "github:systemjs/plugin-css@0.1.16"
     },
     "npm:sinon@1.16.1": {
       "formatio": "npm:formatio@1.1.1",
