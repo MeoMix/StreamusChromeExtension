@@ -7,4 +7,5 @@ before_install:
 before_script:
   - grunt 'file-creator:youTubeAPIKey'
   - grunt 'less'
+  - jspm install
 install: npm install
