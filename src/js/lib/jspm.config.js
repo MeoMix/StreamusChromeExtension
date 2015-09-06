@@ -21,13 +21,15 @@ System.config({
   },
 
   meta: {
-    "https://www.google-analytics.com/analytics.js": {
+    "analytics": {
       "exports": "ga",
-      "format": "global"
+      "format": "global",
+      "build": false
     }
   },
 
   map: {
+    "analytics": "https://www.google-analytics.com/analytics.js",
     "babel": "npm:babel-core@5.8.23",
     "babel-runtime": "npm:babel-runtime@5.8.20",
     "backbone": "npm:backbone@1.1.2",

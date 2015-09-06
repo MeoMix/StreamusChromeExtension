@@ -1,5 +1,5 @@
 ﻿import {Model} from 'backbone';
-import 'https://www.google-analytics.com/analytics.js';
+//import 'analytics';
 
 var AnalyticsManager = Model.extend({
   defaults: {

@@ -7,7 +7,9 @@ var _ = require('lodash');
 
 module.exports = function(grunt) {
   // Use jit-grunt to improve task initialization times. Only load modules as needed.
-  require('jit-grunt')(grunt);
+  require('jit-grunt')(grunt, {
+    replace: 'grunt-text-replace'
+  });
 
   grunt.initConfig({
     //	Read project settings from package.json in order to be able to reference the properties with grunt.
@@ -57,13 +59,19 @@ module.exports = function(grunt) {
         strictMath: true,
         strictUnits: true
       },
-
       files: {
         expand: true,
         cwd: 'src/less/',
         src: 'foreground.less',
-        dest: 'compiled/css/',
-        ext: '.css'
+        ext: '.css',
+        dest: 'compiled/css/'
+      },
+      dist: {
+        expand: true,
+        cwd: 'src/less/',
+        src: 'foreground.less',
+        ext: '.css',
+        dest: 'dist/css/'
       }
     },
     // Ensure LESS code-quality by comparing it against Twitter's ruleset.
@@ -77,59 +85,63 @@ module.exports = function(grunt) {
         }
       }
     },
-    requirejs: {
-      production: {
-        // All r.js options can be found here: https://github.com/jrburke/r.js/blob/master/build/example.build.js
-        options: {
-          appDir: 'src',
-          mainConfigFile: 'src/js/common/requireConfig.js',
-          dir: 'dist/',
-          // Skip optimizing because there's no load benefit for an extension and it makes error debugging hard.
-          optimize: 'none',
-          optimizeCss: 'none',
-          // Inlines the text for any text! dependencies, to avoid the separate
-          // async XMLHttpRequest calls to load those dependencies.
-          inlineText: true,
-          useStrict: true,
-          stubModules: ['text'],
-          findNestedDependencies: true,
-          // Don't leave a copy of the file if it has been concatenated into a larger one.
-          removeCombined: true,
-          // List the modules that will be optimized. All their immediate and deep
-          // dependencies will be included in the module's file when the build is done
-          modules: [{
-            name: 'background/main',
-            insertRequire: ['background/main']
-          }, {
-            name: 'foreground/main',
-            insertRequire: ['foreground/main']
-          }],
-          fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/
-        }
-      }
-    },
+    //requirejs: {
+    //  production: {
+    //    // All r.js options can be found here: https://github.com/jrburke/r.js/blob/master/build/example.build.js
+    //    options: {
+    //      appDir: 'src',
+    //      mainConfigFile: 'src/js/common/requireConfig.js',
+    //      dir: 'dist/',
+    //      // Skip optimizing because there's no load benefit for an extension and it makes error debugging hard.
+    //      optimize: 'none',
+    //      optimizeCss: 'none',
+    //      // Inlines the text for any text! dependencies, to avoid the separate
+    //      // async XMLHttpRequest calls to load those dependencies.
+    //      inlineText: true,
+    //      useStrict: true,
+    //      stubModules: ['text'],
+    //      findNestedDependencies: true,
+    //      // Don't leave a copy of the file if it has been concatenated into a larger one.
+    //      removeCombined: true,
+    //      // List the modules that will be optimized. All their immediate and deep
+    //      // dependencies will be included in the module's file when the build is done
+    //      modules: [{
+    //        name: 'background/main',
+    //        insertRequire: ['background/main']
+    //      }, {
+    //        name: 'foreground/main',
+    //        insertRequire: ['foreground/main']
+    //      }],
+    //      fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/
+    //    }
+    //  }
+    //},
     replace: {
       // Remove Chrome permissions not supported on other browsers.
       invalidPermissions: {
         src: ['<%= meta.releaseDirectory %>/manifest.json'],
         overwrite: true,
-        replacements: [{
-          from: '"background",',
-          to: ''
-        }, {
-          from: '"identity.email",',
-          to: ''
-        }]
+        replacements: [
+          {
+            from: '"background",',
+            to: ''
+          }, {
+            from: '"identity.email",',
+            to: ''
+          }
+        ]
       },
       // Ensure that the localDebug flag is not set to true when building a release.
       localDebug: {
         src: ['dist/js/background/background.js'],
         overwrite: true,
-        replacements: [{
-          // Local debugging is for development only.
-          from: 'localDebug: true',
-          to: 'localDebug: false'
-        }]
+        replacements: [
+          {
+            // Local debugging is for development only.
+            from: 'localDebug: true',
+            to: 'localDebug: false'
+          }
+        ]
         //}, {
         //  from: 'referer = \'https://streamus.com\/',
         //  to: 'referer = \'https://streаmus.com\/'
@@ -139,16 +151,34 @@ module.exports = function(grunt) {
       manifest: {
         src: ['dist/manifest.json'],
         overwrite: true,
-        replacements: [{
-          // Remove manifest key because it can't be uploaded to the web store.
-          // The key is helpful for debugging because it keeps the extension ID stable.
-          from: /"key".*/,
-          to: ''
-        }, {
-          // Remove comments because they can't be uploaded to the web store.
-          from: /\/\/ .*/ig,
-          to: ''
-        }]
+        replacements: [
+          {
+            // Remove manifest key because it can't be uploaded to the web store.
+            // The key is helpful for debugging because it keeps the extension ID stable.
+            from: /"key".*/,
+            to: ''
+          }, {
+            // Remove comments because they can't be uploaded to the web store.
+            from: /\/\/ .*/ig,
+            to: ''
+          }, {
+            from: '"js/lib/jspm_packages/system.js", ',
+            to: ''
+          }
+        ]
+      },
+      htmlBundle: {
+        src: ['dist/*.html'],
+        overwrite: true,
+        replacements: [
+          {
+            from: '<script src=\'js/lib/jspm_packages/system.js\'></script>',
+            to: ''
+          }, {
+            from: '<script src=\'js/lib/jspm.config.js\'></script>',
+            to: ''
+          }
+        ]
       }
     },
     compress: {
@@ -205,8 +235,15 @@ module.exports = function(grunt) {
         cwd: 'src/',
         // Exclude ES6-enabled JavaScript files which will be copied during transpilation.
         // Exclude LESS files which will be copied during compilation.
-        src: ['**/*', '!**/background/**', '!**/common/**', '!**/foreground/**', '!src/**/test/**', '!**/less/**', '**/main.js'],
+        src: ['**/*', '!**/background/**', '!**/common/**', '!**/foreground/**', '!**/contentScript/youTubePlayer/**', '!src/**/test/**', '!**/less/**', '**/main.js'],
         dest: 'compiled/'
+      },
+      // Move non-compiled files to distribution folder.
+      dist: {
+        expand: true,
+        cwd: 'src/',
+        src: ['js/contentScript/*.js', 'css/contentScript/*.css', 'img/**', 'font/**', '_locales/**', 'background.html', 'foreground.html', 'manifest.json'],
+        dest: 'dist/'
       },
       // Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
       contentScripts: {
@@ -306,7 +343,7 @@ module.exports = function(grunt) {
           event: ['added', 'changed'],
           cwd: 'src'
         },
-        files: ['**/*', '!**/background/**', '!**/common/**', '!**contentScript/youTubePlayer/**/*',
+        files: ['**/*', '!**/background/**', '!**/common/**', '!**/contentScript/youTubePlayer/**',
           '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'],
         tasks: ['newer:copy:compiled']
       },
@@ -316,7 +353,7 @@ module.exports = function(grunt) {
           event: ['added', 'changed'],
           cwd: 'src/js'
         },
-        files: ['background/**/*', 'common/**/*', '**contentScript/youTubePlayer/**/*', 'foreground/**/*', 'test/**/*', '!**/main.js'],
+        files: ['background/**/*', 'common/**/*', '**/contentScript/youTubePlayer/**', 'foreground/**/*', 'test/**/*', '!**/main.js'],
         tasks: ['newer:babel:compiled']
       },
       // Whenever a file is deleted from 'src' ensure it is also deleted from 'compiled'
@@ -333,7 +370,11 @@ module.exports = function(grunt) {
 
     shell: {
       jspm: {
-        command: ['jspm bundle-sfx background/plugins backgroundmain.js', 'jspm bundle-sfx foreground/plugins foregroundmain.js'].join('&&')
+        command: [
+          'jspm bundle-sfx background/plugins dist/js/background/main.js',
+          'jspm bundle-sfx foreground/plugins dist/js/foreground/main.js',
+          'jspm bundle-sfx contentScript/youTubePlayer/plugins dist/js/contentScript/youTubePlayer/main.js'
+        ].join('&&')
       }
     }
   });
@@ -347,6 +388,13 @@ module.exports = function(grunt) {
 
   grunt.registerTask('compile', ['copy:compiled', 'babel:compiled', 'less']);
 
+  grunt.registerTask('testdist', function() {
+    grunt.task.run('copy:dist');
+    grunt.task.run('less:dist');
+    grunt.task.run('shell');
+    grunt.task.run('replace:manifest');
+  });
+
   //  Build release and place .zip files in the release directory
   grunt.registerTask('build', function(buildFlag) {
     var isRelease = buildFlag === 'release';
@@ -357,7 +405,9 @@ module.exports = function(grunt) {
       grunt.task.run('version:project:minor');
     }
 
-    grunt.task.run('requirejs');
+    grunt.task.run('shell');
+
+    //grunt.task.run('requirejs');
 
     // Don't replace manifest key during debugging because server will throw CORS errors.
     // No need to clean-up comments because debug version isn't uploaded
