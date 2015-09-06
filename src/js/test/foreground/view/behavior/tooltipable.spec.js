@@ -113,7 +113,7 @@ describe('Tooltipable', function() {
   });
 
   // phantomjs doesn't support MutationObserver until 2.0
-  if (_.isUndefined(window._phantom)) {
+  if (!window.PHANTOMJS) {
     it('should be able to update a tooltip', function(done) {
       sinon.stub(this.tooltipable, '_updateTooltip');
       var target = document.createElement('div');
