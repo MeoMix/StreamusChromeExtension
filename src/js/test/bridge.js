@@ -12,8 +12,10 @@
 (function() {
   // Only run when executing under phantom.js browser.
   if (!window.PHANTOMJS) {
+    console.log('returning');
     return;
   }
+  console.log('go!');
   // Send messages to the parent phantom.js process via alert! Good times!!
   function sendMessage() {
     var args = [].slice.call(arguments);
