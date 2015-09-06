@@ -37,7 +37,7 @@
   },
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test --verbose"
   },
   "repository": {
     "type": "git",

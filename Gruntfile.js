@@ -235,6 +235,7 @@ module.exports = function(grunt) {
       tests: {
         options: {
           log: true,
+          logErrors: true,
           run: false,
           inject: '',
           urls: ['http://localhost:8888/test.html'],
