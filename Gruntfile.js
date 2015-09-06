@@ -237,7 +237,8 @@ module.exports = function(grunt) {
           log: true,
           run: false,
           inject: '',
-          urls: ['http://localhost:8888/test.html']
+          urls: ['http://localhost:8888/test.html'],
+          timeout: 60000
         }
       }
     },
