@@ -226,7 +226,8 @@ module.exports = function(grunt) {
     connect: {
       server: {
         options: {
-          port: 8888,
+          hostname: '127.0.0.1',
+          port: 8000,
           base: './src'
         }
       }
@@ -237,7 +238,7 @@ module.exports = function(grunt) {
           log: true,
           run: false,
           inject: '',
-          urls: ['http://localhost:8888/test.html']
+          urls: ['http://127.0.0.1:8000/test.html']
         }
       }
     },
