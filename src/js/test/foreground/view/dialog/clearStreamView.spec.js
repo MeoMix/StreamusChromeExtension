@@ -1,5 +1,4 @@
-﻿'use strict';
-import ClearStreamView from 'foreground/view/dialog/clearStreamView';
+﻿import ClearStreamView from 'foreground/view/dialog/clearStreamView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('ClearStreamView', function() {

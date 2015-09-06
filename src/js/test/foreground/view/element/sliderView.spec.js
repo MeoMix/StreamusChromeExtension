@@ -1,5 +1,4 @@
-﻿'use strict';
-import SliderView from 'foreground/view/element/sliderView';
+﻿import SliderView from 'foreground/view/element/sliderView';
 import Slider from 'foreground/model/element/slider';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

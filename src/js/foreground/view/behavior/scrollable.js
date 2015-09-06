@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette'
+﻿import {Behavior} from 'marionette';
 // TODO: Utilize sliderView here?
 import Utility from 'common/utility';
 

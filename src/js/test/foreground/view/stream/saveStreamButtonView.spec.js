@@ -1,5 +1,4 @@
-﻿'use strict';
-import SaveStreamButtonView from 'foreground/view/stream/saveStreamButtonView';
+﻿import SaveStreamButtonView from 'foreground/view/stream/saveStreamButtonView';
 import SaveStreamButton from 'foreground/model/stream/saveStreamButton';
 import StreamItems from 'background/collection/streamItems';
 import SignInManager from 'background/model/signInManager';

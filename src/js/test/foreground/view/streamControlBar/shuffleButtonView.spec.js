@@ -1,5 +1,4 @@
-﻿'use strict';
-import ShuffleButtonView from 'foreground/view/streamControlBar/shuffleButtonView';
+﻿import ShuffleButtonView from 'foreground/view/streamControlBar/shuffleButtonView';
 import ShuffleButton from 'background/model/shuffleButton';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

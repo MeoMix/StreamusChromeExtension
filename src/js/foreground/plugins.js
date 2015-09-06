@@ -1,5 +1,4 @@
-﻿'use strict';
-var backgroundPage = chrome.extension.getBackgroundPage();
+﻿var backgroundPage = chrome.extension.getBackgroundPage();
 // Overwrite lodash here to ensure all calls reference the background's lodash instance.
 // Re-using the lodash instance prevents memory leaks due to idCounter id collisions.
 window._ = backgroundPage._;

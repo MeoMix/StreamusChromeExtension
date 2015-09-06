@@ -1,5 +1,4 @@
-﻿'use strict';
-import ClearStreamDialogView from 'foreground/view/dialog/clearStreamDialogView';
+﻿import ClearStreamDialogView from 'foreground/view/dialog/clearStreamDialogView';
 import StreamItems from 'background/collection/streamItems';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

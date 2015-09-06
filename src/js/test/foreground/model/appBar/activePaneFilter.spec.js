@@ -1,5 +1,4 @@
-﻿'use strict';
-import ActivePaneFilter from 'foreground/model/appBar/activePaneFilter';
+﻿import ActivePaneFilter from 'foreground/model/appBar/activePaneFilter';
 import SignInManager from 'background/model/signInManager';
 import User from 'background/model/user';
 import Playlists from 'background/collection/playlists';

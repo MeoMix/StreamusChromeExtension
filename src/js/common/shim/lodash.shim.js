@@ -1,5 +1,4 @@
-﻿'use strict';
-import _ from 'lodash';
+﻿import _ from 'lodash';
 
 _.mixin({
   // Inspired by: https://gist.github.com/danro/7846358

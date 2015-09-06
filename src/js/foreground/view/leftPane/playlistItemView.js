@@ -1,5 +1,4 @@
-﻿'use strict';
-import ListItemView from 'foreground/view/listItemView';
+﻿import ListItemView from 'foreground/view/listItemView';
 import ListItemMultiSelect from 'foreground/view/behavior/itemViewMultiSelect';
 import SpinnerView from 'foreground/view/element/spinnerView';
 import AddVideoButtonView from 'foreground/view/listItemButton/addVideoButtonView';

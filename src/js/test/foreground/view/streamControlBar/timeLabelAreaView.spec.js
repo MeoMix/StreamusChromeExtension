@@ -1,5 +1,4 @@
-﻿'use strict';
-import TimeLabelAreaView from 'foreground/view/streamControlBar/timeLabelAreaView';
+﻿import TimeLabelAreaView from 'foreground/view/streamControlBar/timeLabelAreaView';
 import TimeLabelArea from 'foreground/model/streamControlBar/timeLabelArea';
 import TimeSlider from 'foreground/model/streamControlBar/timeSlider';
 import StreamItems from 'background/collection/streamItems';

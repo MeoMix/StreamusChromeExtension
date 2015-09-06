@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import VideoType from 'background/enum/videoType';
 import Utility from 'common/utility';
 

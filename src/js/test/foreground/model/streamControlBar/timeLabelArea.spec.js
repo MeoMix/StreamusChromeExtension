@@ -1,5 +1,4 @@
-﻿'use strict';
-import TimeLabelArea from 'foreground/model/streamControlBar/timeLabelArea';
+﻿import TimeLabelArea from 'foreground/model/streamControlBar/timeLabelArea';
 
 describe('TimeLabelArea', function() {
   beforeEach(function() {

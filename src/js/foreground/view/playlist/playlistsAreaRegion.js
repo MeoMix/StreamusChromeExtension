@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import PlaylistsAreaView from 'foreground/view/playlist/playlistsAreaView';
 
 var PlaylistsAreaRegion = Region.extend({

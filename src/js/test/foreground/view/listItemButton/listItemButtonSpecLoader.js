@@ -1,5 +1,4 @@
-﻿'use strict';
-import 'test/foreground/view/listItemButton/addPlaylistButtonView.spec';
+﻿import 'test/foreground/view/listItemButton/addPlaylistButtonView.spec';
 import 'test/foreground/view/listItemButton/addVideoButtonView.spec';
 import 'test/foreground/view/listItemButton/deleteListItemButtonView.spec';
 import 'test/foreground/view/listItemButton/deletePlaylistButtonView.spec';

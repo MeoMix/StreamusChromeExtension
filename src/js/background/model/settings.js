@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import LocalStorage from 'lib/backbone.localStorage';
 import VideoQuality from 'common/enum/videoQuality';
 import DesktopNotificationDuration from 'common/enum/desktopNotificationDuration';

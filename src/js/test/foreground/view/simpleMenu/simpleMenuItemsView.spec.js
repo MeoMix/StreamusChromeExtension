@@ -1,5 +1,4 @@
-﻿'use strict';
-import SimpleMenuItemsView from 'foreground/view/simpleMenu/simpleMenuItemsView';
+﻿import SimpleMenuItemsView from 'foreground/view/simpleMenu/simpleMenuItemsView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('SimpleMenuItemsView', function() {

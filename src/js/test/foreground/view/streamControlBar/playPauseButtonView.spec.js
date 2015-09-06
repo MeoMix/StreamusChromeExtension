@@ -1,5 +1,4 @@
-﻿'use strict';
-import PlayPauseButtonView from 'foreground/view/streamControlBar/playPauseButtonView';
+﻿import PlayPauseButtonView from 'foreground/view/streamControlBar/playPauseButtonView';
 import PlayPauseButton from 'background/model/playPauseButton';
 import StreamItems from 'background/collection/streamItems';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';

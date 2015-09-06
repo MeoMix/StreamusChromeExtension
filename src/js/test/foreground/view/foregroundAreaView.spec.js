@@ -1,5 +1,4 @@
-﻿'use strict';
-import ForegroundAreaView from 'foreground/view/foregroundAreaView';
+﻿import ForegroundAreaView from 'foreground/view/foregroundAreaView';
 import AnalyticsManager from 'background/model/analyticsManager';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

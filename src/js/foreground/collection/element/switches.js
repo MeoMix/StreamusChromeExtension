@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection} from 'backbone';
+﻿import {Collection} from 'backbone';
 import Switch from 'foreground/model/element/switch';
 
 var Switches = Collection.extend({

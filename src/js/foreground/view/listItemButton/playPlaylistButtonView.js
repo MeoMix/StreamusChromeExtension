@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
 import PlayListItemButtonTemplate from 'template/listItemButton/playListItemButton.html!text';
 import PlayIconTemplate from 'template/icon/playIcon_18.svg!text';

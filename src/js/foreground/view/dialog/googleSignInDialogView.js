@@ -1,5 +1,4 @@
-﻿'use strict';
-import Dialog from 'foreground/model/dialog/dialog';
+﻿import Dialog from 'foreground/model/dialog/dialog';
 import GoogleSignInView from 'foreground/view/dialog/googleSignInView';
 import DialogView from 'foreground/view/dialog/dialogView';
 

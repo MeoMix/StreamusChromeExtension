@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Application} from 'marionette';
+﻿import {Application} from 'marionette';
 import YouTubePlayerView from 'contentScript/youTubePlayer/view/youTubePlayerView';
 import Port from 'contentScript/youTubePlayer/model/port';
 

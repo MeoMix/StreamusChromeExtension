@@ -1,5 +1,4 @@
-﻿'use strict';
-import SearchResultsView from 'foreground/view/search/searchResultsView';
+﻿import SearchResultsView from 'foreground/view/search/searchResultsView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('SearchResultsView', function() {

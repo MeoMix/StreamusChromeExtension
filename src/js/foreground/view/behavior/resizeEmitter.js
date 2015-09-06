@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette'
+﻿import {Behavior} from 'marionette';
 import ResizeEmitterTemplate from 'template/behavior/resizeEmitter.html!text';
 
 // There's a lack of support in modern browsers for being notified of a DOM element changing dimensions.

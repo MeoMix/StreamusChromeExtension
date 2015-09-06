@@ -1,5 +1,4 @@
-﻿'use strict';
-import LinkUserIdDialogView from 'foreground/view/dialog/linkUserIdDialogView';
+﻿import LinkUserIdDialogView from 'foreground/view/dialog/linkUserIdDialogView';
 import SignInManager from 'background/model/signInManager';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

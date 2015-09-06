@@ -1,5 +1,4 @@
-﻿'use strict';
-import _ from 'lodash';
+﻿import _ from 'lodash';
 import Marionette from 'marionette';
 
 Marionette.View.prototype.useCustomUiSelector = false;

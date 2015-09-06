@@ -1,5 +1,4 @@
-﻿'use strict';
-import Dialog from 'foreground/model/dialog/dialog';
+﻿import Dialog from 'foreground/model/dialog/dialog';
 import UpdateStreamusView from 'foreground/view/dialog/updateStreamusView';
 import DialogView from 'foreground/view/dialog/dialogView';
 

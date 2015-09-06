@@ -1,5 +1,4 @@
-﻿'use strict';
-import DeleteListItemButtonView from 'foreground/view/listItemButton/deleteListItemButtonView';
+﻿import DeleteListItemButtonView from 'foreground/view/listItemButton/deleteListItemButtonView';
 import PlaylistItem from 'background/model/playlistItem';
 import ListItemButton from 'foreground/model/listItemButton/listItemButton';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';

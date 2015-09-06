@@ -1,4 +1,3 @@
-'use strict';
 import {Collection, Model} from 'backbone';
 import PlaylistItems from 'background/collection/playlistItems';
 import SyncActionType from 'background/enum/syncActionType';

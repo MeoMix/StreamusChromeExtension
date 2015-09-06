@@ -1,3 +1,1 @@
-﻿'use strict';
-
-import 'test/common/utility.spec';
+﻿import 'test/common/utility.spec';

@@ -1,5 +1,6 @@
-﻿'use strict';
-import 'test/phantomjs.shim';
+﻿// NOTE: Don't import test/phantomjs.shim because babel has a dependency on bind.
+// Can't shim bind via an import if bind needs to exist to import.
+// Once grunt-mocha supports phantom.js 2.0 then it'll be OK
 import 'test/chrome.mock';
 import 'common/shim/lodash.shim';
 import 'common/shim/backbone.cocktail.shim';
@@ -7,6 +8,8 @@ import 'common/shim/backbone.marionette.view.shim';
 import 'common/shim/backbone.marionette.region.shim';
 
 import 'test/mochaSetup';
+// Load bridge.js manually after importing mocha because it expects mocha to be defined.
+import 'test/bridge';
 import chai, {expect} from 'chai';
 import sinon from 'sinon';
 

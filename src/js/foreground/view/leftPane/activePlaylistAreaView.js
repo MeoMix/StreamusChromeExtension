@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import PlaylistItemsView from 'foreground/view/leftPane/playlistItemsView';
 import ActivePlaylistAreaTemplate from 'template/leftPane/activePlaylistArea.html!text';

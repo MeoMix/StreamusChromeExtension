@@ -1,5 +1,4 @@
-﻿'use strict';
-/* jshint ignore:start */
+﻿/* jshint ignore:start */
 import 'test/foreground/view/dialog/aboutStreamusDialogView.spec';
 import 'test/foreground/view/dialog/aboutStreamusView.spec';
 import 'test/foreground/view/dialog/clearStreamDialogView.spec';
@@ -8,8 +7,6 @@ import 'test/foreground/view/dialog/createPlaylistDialogView.spec';
 import 'test/foreground/view/dialog/createPlaylistView.spec';
 import 'test/foreground/view/dialog/deletePlaylistDialogView.spec';
 import 'test/foreground/view/dialog/deletePlaylistView.spec';
-import 'test/foreground/view/dialog/dialogRegion.spec';
-import 'test/foreground/view/dialog/dialogView.spec';
 import 'test/foreground/view/dialog/editPlaylistDialogView.spec';
 import 'test/foreground/view/dialog/editPlaylistView.spec';
 import 'test/foreground/view/dialog/errorDialogView.spec';

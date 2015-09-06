@@ -1,5 +1,4 @@
-﻿'use strict';
-import {CompositeView} from 'marionette';
+﻿import {CompositeView} from 'marionette';
 import ListItemType from 'common/enum/listItemType';
 import Scrollable from 'foreground/view/behavior/scrollable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';

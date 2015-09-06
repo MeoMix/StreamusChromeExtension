@@ -1,5 +1,4 @@
-﻿'use strict';
-import RelatedVideosManager from 'background/model/relatedVideosManager';
+﻿import RelatedVideosManager from 'background/model/relatedVideosManager';
 
 describe('RelatedVideosManager', function() {
   beforeEach(function() {

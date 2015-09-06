@@ -1,5 +1,4 @@
-﻿'use strict';
-import SaveVideoButtonView from 'foreground/view/listItemButton/saveVideoButtonView';
+﻿import SaveVideoButtonView from 'foreground/view/listItemButton/saveVideoButtonView';
 import Video from 'background/model/video';
 import SignInManager from 'background/model/signInManager';
 import ListItemButton from 'foreground/model/listItemButton/listItemButton';

@@ -1,5 +1,4 @@
-﻿'use strict';
-import SignInManager from 'background/model/signInManager';
+﻿import SignInManager from 'background/model/signInManager';
 import User from 'background/model/user';
 
 describe('SignInManager', function() {

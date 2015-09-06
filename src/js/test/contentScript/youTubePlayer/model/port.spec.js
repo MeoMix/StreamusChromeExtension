@@ -1,5 +1,4 @@
-﻿'use strict';
-import Port from 'contentScript/youTubePlayer/model/port';
+﻿import Port from 'contentScript/youTubePlayer/model/port';
 
 describe('Port', function() {
   beforeEach(function() {

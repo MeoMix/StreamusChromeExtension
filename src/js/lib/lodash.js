@@ -12322,7 +12322,7 @@
   // Export lodash.
   var _;
 
-  var backgroundPage = chrome && chrome.extension && chrome.extension.getBackgroundPage ? chrome.extension.getBackgroundPage() : null;
+  var backgroundPage = window.chrome && chrome.extension && chrome.extension.getBackgroundPage ? chrome.extension.getBackgroundPage() : null;
   if (!backgroundPage || backgroundPage.window === window) {
     _ = runInContext();
   } else {

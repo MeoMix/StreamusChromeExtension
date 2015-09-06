@@ -1,5 +1,4 @@
-﻿'use strict';
-import ActivePaneType from 'foreground/enum/activePaneType';
+﻿import ActivePaneType from 'foreground/enum/activePaneType';
 import ActivePaneView from 'foreground/view/activePane/activePaneView';
 import ActivePane from 'foreground/model/activePane/activePane';
 import StreamView from 'foreground/view/stream/streamView';

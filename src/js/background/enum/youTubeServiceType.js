@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   Search: 'search',
   PlaylistItems: 'playlistItems',
   Videos: 'videos',

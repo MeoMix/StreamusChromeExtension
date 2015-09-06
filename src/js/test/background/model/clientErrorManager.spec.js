@@ -1,5 +1,4 @@
-﻿'use strict';
-import ClientErrorManager from 'background/model/clientErrorManager';
+﻿import ClientErrorManager from 'background/model/clientErrorManager';
 import SignInManager from 'background/model/signInManager';
 
 describe('ClientErrorManager', function() {

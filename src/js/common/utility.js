@@ -1,6 +1,4 @@
-﻿'use strict';
-
-var Utility = {
+﻿var Utility = {
   // Takes a time in seconds and converts it to something human-readable in the format of H:mm:ss or mm:ss.
   prettyPrintTime: function(timeInSeconds) {
     if (isNaN(timeInSeconds)) {

@@ -1,4 +1,3 @@
-'use strict';
 import {Model} from 'backbone';
 import EntityType from 'background/enum/entityType';
 

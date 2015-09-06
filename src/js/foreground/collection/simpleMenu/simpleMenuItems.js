@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection} from 'backbone';
+﻿import {Collection} from 'backbone';
 import SimpleMenuItem from 'foreground/model/simpleMenu/simpleMenuItem';
 
 var SimpleMenuItems = Collection.extend({

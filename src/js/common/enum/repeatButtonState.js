@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   Off: 'off',
   RepeatVideo: 'repeatVideo',
   RepeatAll: 'repeatAll'

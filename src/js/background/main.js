@@ -1,3 +1,1 @@
-﻿'use strict';
-
-System.import('background/plugins');
+﻿System.import('background/plugins');

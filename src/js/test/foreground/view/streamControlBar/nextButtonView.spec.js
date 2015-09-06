@@ -1,5 +1,4 @@
-﻿'use strict';
-import NextButtonView from 'foreground/view/streamControlBar/nextButtonView';
+﻿import NextButtonView from 'foreground/view/streamControlBar/nextButtonView';
 import NextButton from 'background/model/nextButton';
 import Stream from 'background/model/stream';
 import RadioButton from 'background/model/radioButton';

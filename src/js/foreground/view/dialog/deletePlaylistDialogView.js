@@ -1,5 +1,4 @@
-﻿'use strict';
-import Dialog from 'foreground/model/dialog/dialog';
+﻿import Dialog from 'foreground/model/dialog/dialog';
 import DeletePlaylistView from 'foreground/view/dialog/deletePlaylistView';
 import DialogView from 'foreground/view/dialog/dialogView';
 

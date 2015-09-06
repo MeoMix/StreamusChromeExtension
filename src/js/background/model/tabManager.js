@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import ChromeCommand from 'background/enum/chromeCommand';
 
 var TabManager = Model.extend({

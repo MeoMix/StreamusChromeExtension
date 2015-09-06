@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Application} from 'marionette';
+﻿import {Application} from 'marionette';
 import Wreqr from 'backbone.wreqr';
 import ForegroundAreaView from 'foreground/view/foregroundAreaView';
 

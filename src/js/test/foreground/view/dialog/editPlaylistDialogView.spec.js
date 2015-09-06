@@ -1,5 +1,4 @@
-﻿'use strict';
-import EditPlaylistDialogView from 'foreground/view/dialog/editPlaylistDialogView';
+﻿import EditPlaylistDialogView from 'foreground/view/dialog/editPlaylistDialogView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('EditPlaylistDialogView', function() {

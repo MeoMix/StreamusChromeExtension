@@ -1,5 +1,4 @@
-﻿'use strict';
-import UpdateStreamusDialogView from 'foreground/view/dialog/updateStreamusDialogView';
+﻿import UpdateStreamusDialogView from 'foreground/view/dialog/updateStreamusDialogView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('UpdateStreamusDialogView', function() {

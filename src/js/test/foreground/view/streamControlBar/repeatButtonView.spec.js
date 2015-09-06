@@ -1,5 +1,4 @@
-﻿'use strict';
-import RepeatButtonView from 'foreground/view/streamControlBar/repeatButtonView';
+﻿import RepeatButtonView from 'foreground/view/streamControlBar/repeatButtonView';
 import RepeatButton from 'background/model/repeatButton';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

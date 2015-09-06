@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   OneSecond: 'oneSecond',
   TwoSeconds: 'twoSeconds',
   ThreeSeconds: 'threeSeconds',

@@ -1,2 +1,1 @@
-﻿'use strict';
-System.import('test/plugins');
+﻿System.import('test/plugins');

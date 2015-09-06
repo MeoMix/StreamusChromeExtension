@@ -1,5 +1,4 @@
-﻿'use strict';
-import Slider from 'foreground/model/element/slider';
+﻿import Slider from 'foreground/model/element/slider';
 import Orientation from 'foreground/enum/orientation';
 
 describe('Slider', function() {

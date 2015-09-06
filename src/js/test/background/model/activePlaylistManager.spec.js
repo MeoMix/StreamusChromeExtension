@@ -1,5 +1,4 @@
-﻿'use strict';
-import ActivePlaylistManager from 'background/model/activePlaylistManager';
+﻿import ActivePlaylistManager from 'background/model/activePlaylistManager';
 import SignInManager from 'background/model/signInManager';
 import User from 'background/model/user';
 import Playlists from 'background/collection/playlists';

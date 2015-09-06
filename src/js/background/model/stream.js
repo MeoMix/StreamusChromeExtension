@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import LocalStorage from 'lib/backbone.localStorage';
 import StreamItems from 'background/collection/streamItems';
 import RelatedVideosManager from 'background/model/relatedVideosManager';

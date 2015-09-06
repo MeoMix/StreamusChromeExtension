@@ -1,5 +1,4 @@
-﻿'use strict';
-import TooltipView from 'foreground/view/tooltip/tooltipView';
+﻿import TooltipView from 'foreground/view/tooltip/tooltipView';
 import Tooltip from 'foreground/model/tooltip/tooltip';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

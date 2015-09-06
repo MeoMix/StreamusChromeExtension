@@ -1,5 +1,4 @@
-﻿'use strict';
-import GoogleSignInView from 'foreground/view/dialog/googleSignInView';
+﻿import GoogleSignInView from 'foreground/view/dialog/googleSignInView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('GoogleSignInView', function() {

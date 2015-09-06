@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import AppBarView from 'foreground/view/appBar/appBarView';
 
 var AppBarRegion = Region.extend({

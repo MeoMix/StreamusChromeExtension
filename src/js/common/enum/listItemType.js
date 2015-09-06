@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   None: 'none',
   PlaylistItem: 'playlistItem',
   StreamItem: 'streamItem',

@@ -1,5 +1,4 @@
-﻿'use strict';
-import CreatePlaylistDialogView from 'foreground/view/dialog/createPlaylistDialogView';
+﻿import CreatePlaylistDialogView from 'foreground/view/dialog/createPlaylistDialogView';
 import Playlists from 'background/collection/playlists';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import Notification from 'foreground/model/notification/notification';
 import NotificationView from 'foreground/view/notification/notificationView';
 

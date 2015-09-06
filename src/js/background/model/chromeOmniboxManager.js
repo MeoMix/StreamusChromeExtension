@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import Videos from 'background/collection/videos';
 import OmniboxModifier from 'background/enum/omniboxModifier';
 import YouTubeV3API from 'background/model/youTubeV3API';

@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 
 var ClipboardView = LayoutView.extend({
   id: 'clipboard',

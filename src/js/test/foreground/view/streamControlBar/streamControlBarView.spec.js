@@ -1,5 +1,4 @@
-﻿'use strict';
-import StreamControlBarView from 'foreground/view/streamControlBar/streamControlBarView';
+﻿import StreamControlBarView from 'foreground/view/streamControlBar/streamControlBarView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('StreamControlBarView', function() {

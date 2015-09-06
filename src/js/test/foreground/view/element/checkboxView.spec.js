@@ -1,5 +1,4 @@
-﻿'use strict';
-import CheckboxView from 'foreground/view/element/checkboxView';
+﻿import CheckboxView from 'foreground/view/element/checkboxView';
 import Checkbox from 'foreground/model/element/checkbox';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

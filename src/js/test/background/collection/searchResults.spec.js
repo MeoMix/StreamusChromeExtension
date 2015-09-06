@@ -1,5 +1,4 @@
-﻿'use strict';
-import Videos from 'background/collection/videos';
+﻿import Videos from 'background/collection/videos';
 import SearchResults from 'background/collection/searchResults';
 
 describe('SearchResults', function() {

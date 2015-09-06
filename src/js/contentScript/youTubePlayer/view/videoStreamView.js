@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import PlayerState from 'common/enum/playerState';
 import YouTubePlayerState from 'common/enum/youTubePlayerState';
 

@@ -1,5 +1,6 @@
 {
   "preset": "google",
   "maximumLineLength": 140,
-  "requireLineFeedAtFileEnd": null
+  "requireLineFeedAtFileEnd": null,
+  "esnext":  true
 }

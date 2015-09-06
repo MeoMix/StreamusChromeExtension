@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import SpinnerView from 'foreground/view/element/spinnerView';
 import SearchResultsView from 'foreground/view/search/searchResultsView';
 import VideoActions from 'foreground/model/video/videoActions';

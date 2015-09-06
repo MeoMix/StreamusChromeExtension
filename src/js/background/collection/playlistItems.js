@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection} from 'backbone';
+﻿import {Collection} from 'backbone';
 import CollectionMultiSelect from 'background/mixin/collectionMultiSelect';
 import CollectionSequence from 'background/mixin/collectionSequence';
 import CollectionUniqueVideo from 'background/mixin/collectionUniqueVideo';

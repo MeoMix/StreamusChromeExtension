@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import Orientation from 'foreground/enum/orientation';
 
 var Slider = Model.extend({

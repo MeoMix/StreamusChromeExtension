@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
 
 var TimeSliderView = LayoutView.extend({

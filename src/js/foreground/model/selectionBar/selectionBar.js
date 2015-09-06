@@ -1,5 +1,5 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
+import Marionette from 'marionette';
 
 var SelectionBar = Model.extend({
   defaults: {

@@ -3,8 +3,6 @@
 // * grunt: Lint JavaScript, LESS, and run tests
 // * grunt build: Build a debug release
 // * grunt build:release: Build a release / increment version
-'use strict';
-
 var _ = require('lodash');
 
 module.exports = function(grunt) {
@@ -28,7 +26,7 @@ module.exports = function(grunt) {
         dest: 'dist/img/'
       }
     },
-    //	Improve code quality by applying a code-quality check with jshint
+    // Improve code quality by applying a code-quality check with jshint
     jshint: {
       // A full list of options and their defaults here: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
       options: {
@@ -42,7 +40,9 @@ module.exports = function(grunt) {
         maxdepth: 4,
         maxstatements: 35,
         maxcomplexity: 10,
-        //	Don't validate libraries
+        // Allow ES6 conventions
+        esnext: true,
+        // Don't validate libraries
         ignores: ['src/js/lib/**/*.js']
       },
 
@@ -223,14 +223,22 @@ module.exports = function(grunt) {
         fix: true
       }
     },
+    connect: {
+      server: {
+        options: {
+          port: 8888,
+          base: './src'
+        }
+      }
+    },
     mocha: {
       tests: {
         options: {
           log: true,
-          // Don't automatically inject mocha.run because requireJS deps need to load first
-          run: false
-        },
-        src: ['src/test.html']
+          run: false,
+          inject: '',
+          urls: ['http://localhost:8888/test.html']
+        }
       }
     },
     // Create the key file YouTube's API using the testing key (NOT the production key).
@@ -290,13 +298,15 @@ module.exports = function(grunt) {
         files: ['**/*.less'],
         tasks: ['less']
       },
-      // Copy all non-ES6/LESS files to 'compiled' directory. Include main files because they're not ES6. Exclude LESS because they're compiled.
+      // Copy all non-ES6/LESS files to 'compiled' directory.
+      // Include main files because they're not ES6. Exclude LESS because they're compiled.
       copyUncompiled: {
         options: {
           event: ['added', 'changed'],
           cwd: 'src'
         },
-        files: ['**/*', '!**/background/**', '!**/common/**', '!contentScript/youTubePlayer/**/*', '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'],
+        files: ['**/*', '!**/background/**', '!**/common/**', '!**contentScript/youTubePlayer/**/*',
+          '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'],
         tasks: ['newer:copy:compiled']
       },
       // Compile and copy ES6 files to 'compiled' directory. Exclude main files because they're not ES6.
@@ -305,7 +315,7 @@ module.exports = function(grunt) {
           event: ['added', 'changed'],
           cwd: 'src/js'
         },
-        files: ['background/**/*', 'common/**/*', 'contentScript/youTubePlayer/**/*', 'foreground/**/*', 'test/**/*', '!**/main.js'],
+        files: ['background/**/*', 'common/**/*', '**contentScript/youTubePlayer/**/*', 'foreground/**/*', 'test/**/*', '!**/main.js'],
         tasks: ['newer:babel:compiled']
       },
       // Whenever a file is deleted from 'src' ensure it is also deleted from 'compiled'
@@ -382,7 +392,7 @@ module.exports = function(grunt) {
 
   // Run linters and enforce code-quality standards
   grunt.registerTask('default', ['test']);
-  grunt.registerTask('test', ['jshint', 'recess', 'jscs', 'mocha']);
+  grunt.registerTask('test', ['jshint', 'recess', 'jscs', 'connect', 'mocha']);
 
   // Synchronous wrapper
   grunt.registerTask('buildReleases', function(isRelease) {

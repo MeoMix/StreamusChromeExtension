@@ -1,5 +1,4 @@
-﻿'use strict';
-import RadioGroupView from 'foreground/view/element/radioGroupView';
+﻿import RadioGroupView from 'foreground/view/element/radioGroupView';
 import RadioGroup from 'foreground/model/element/radioGroup';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

@@ -1,5 +1,4 @@
-﻿'use strict';
-import AppBarView from 'foreground/view/appBar/appBarView';
+﻿import AppBarView from 'foreground/view/appBar/appBarView';
 import SignInManager from 'background/model/signInManager';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

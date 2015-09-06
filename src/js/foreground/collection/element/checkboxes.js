@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection} from 'backbone';
+﻿import {Collection} from 'backbone';
 import Checkbox from 'foreground/model/element/checkbox';
 
 var Checkboxes = Collection.extend({

@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import LocalStorage from 'lib/backbone.localStorage';
 import ChromeCommand from 'background/enum/chromeCommand';
 

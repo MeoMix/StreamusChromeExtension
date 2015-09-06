@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import _ from 'lodash';
 import ClipboardRegion from 'background/view/clipboardRegion';
 import BackgroundAreaTemplate from 'template/backgroundArea.html!text';

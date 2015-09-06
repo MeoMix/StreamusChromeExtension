@@ -1,11 +1,11 @@
-﻿'use strict';
-import Scrollable from 'foreground/view/behavior/scrollable';
+﻿import Scrollable from 'foreground/view/behavior/scrollable';
+import {CompositeView} from 'marionette';
 
 describe('Scrollable', function() {
   beforeEach(function() {
     this.documentFragment = document.createDocumentFragment();
 
-    var ScrollableView = Marionette.CompositeView.extend({
+    var ScrollableView = CompositeView.extend({
       template: _.template('<div class="children"></div>'),
       behaviors: {
         Scrollable: {

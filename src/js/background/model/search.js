@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import SearchResults from 'background/collection/searchResults';
 import DataSource from 'background/model/dataSource';
 import YouTubeV3API from 'background/model/youTubeV3API';

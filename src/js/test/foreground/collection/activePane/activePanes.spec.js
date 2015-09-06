@@ -1,5 +1,4 @@
-﻿'use strict';
-import ActivePanes from 'foreground/collection/activePane/activePanes';
+﻿import ActivePanes from 'foreground/collection/activePane/activePanes';
 import SignInManager from 'background/model/signInManager';
 import Settings from 'background/model/settings';
 import ActivePlaylistManager from 'background/model/activePlaylistManager';

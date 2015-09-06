@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   Unstarted: -1,
   Ended: 0,
   Playing: 1,

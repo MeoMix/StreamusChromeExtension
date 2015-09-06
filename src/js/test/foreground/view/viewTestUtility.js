@@ -1,6 +1,4 @@
-﻿'use strict';
-
-var ViewTestUtility = {
+﻿var ViewTestUtility = {
   ensureBasicAssumptions: function() {
     describe('Basic Assumptions', function() {
       it('should show', function() {

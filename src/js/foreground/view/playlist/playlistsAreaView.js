@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import PlaylistsView from 'foreground/view/playlist/playlistsView';
 import CreatePlaylistDialogView from 'foreground/view/dialog/createPlaylistDialogView';
 import PlaylistsAreaTemplate from 'template/playlist/playlistsArea.html!text';

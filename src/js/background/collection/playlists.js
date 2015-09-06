@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection} from 'backbone';
+﻿import {Collection} from 'backbone';
 import SyncActionType from 'background/enum/syncActionType';
 import CollectionSequence from 'background/mixin/collectionSequence';
 import Playlist from 'background/model/playlist';

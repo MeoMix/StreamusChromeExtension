@@ -1,5 +1,4 @@
-﻿'use strict';
-import TimeSliderView from 'foreground/view/streamControlBar/timeSliderView';
+﻿import TimeSliderView from 'foreground/view/streamControlBar/timeSliderView';
 import TimeSlider from 'foreground/model/streamControlBar/timeSlider';
 import StreamItems from 'background/collection/streamItems';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';

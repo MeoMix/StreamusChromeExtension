@@ -1,4 +1,3 @@
-'use strict';
 import {Collection, Model} from 'backbone';
 import Playlists from 'background/collection/playlists';
 

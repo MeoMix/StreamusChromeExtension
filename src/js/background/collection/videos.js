@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection} from 'backbone';
+﻿import {Collection} from 'backbone';
 import Video from 'background/model/video';
 import Utility from 'common/utility';
 

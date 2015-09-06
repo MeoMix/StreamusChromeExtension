@@ -1,9 +1,8 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import SearchView from 'foreground/view/search/searchView';
 import LayoutType from 'common/enum/layoutType';
 
-var SearchRegion = Marionette.Region.extend({
+var SearchRegion = Region.extend({
   settings: null,
 
   initialize: function(options) {

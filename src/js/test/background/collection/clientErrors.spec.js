@@ -1,5 +1,4 @@
-﻿'use strict';
-import ClientErrors from 'background/collection/clientErrors';
+﻿import ClientErrors from 'background/collection/clientErrors';
 import ClientError from 'background/model/clientError';
 
 describe('ClientErrors', function() {

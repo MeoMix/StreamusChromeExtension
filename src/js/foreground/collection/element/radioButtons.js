@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection} from 'backbone';
+﻿import {Collection} from 'backbone';
 import RadioButton from 'foreground/model/element/radioButton';
 
 var RadioButtons = Collection.extend({
@@ -46,5 +45,5 @@ var RadioButtons = Collection.extend({
     }
   }
 });
-  
+
 export default RadioButtons;

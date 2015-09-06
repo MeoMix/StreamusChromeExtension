@@ -1,6 +1,5 @@
 ﻿// Entities which need to keep track of their sequence in order to be ordered properly
 // while also maintaing efficiency with CRUD operations.
-'use strict';
 import Direction from 'common/enum/direction';
 
 export default {

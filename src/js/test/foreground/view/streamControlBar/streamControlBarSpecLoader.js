@@ -1,6 +1,4 @@
-﻿'use strict';
-
-import 'test/foreground/view/streamControlBar/nextButtonView.spec';
+﻿import 'test/foreground/view/streamControlBar/nextButtonView.spec';
 import 'test/foreground/view/streamControlBar/playPauseButtonView.spec';
 import 'test/foreground/view/streamControlBar/previousButtonView.spec';
 import 'test/foreground/view/streamControlBar/radioButtonView.spec';

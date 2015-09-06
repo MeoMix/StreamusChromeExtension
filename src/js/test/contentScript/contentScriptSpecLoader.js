@@ -1,4 +1,3 @@
-﻿'use strict';
-// /youTubePlayer/
+﻿// /youTubePlayer/
 // /youTubePlayer/model/
 import 'test/contentScript/youTubePlayer/model/port.spec';

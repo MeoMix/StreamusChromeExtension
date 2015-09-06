@@ -1,5 +1,4 @@
-﻿'use strict';
-// /collection/
+﻿// /collection/
 import 'test/background/collection/clientErrors.spec';
 import 'test/background/collection/playlistItems.spec';
 import 'test/background/collection/playlists.spec';

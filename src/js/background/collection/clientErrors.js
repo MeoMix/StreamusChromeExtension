@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection, Model} from 'backbone';
+﻿import {Collection, Model} from 'backbone';
 import ClientError from 'background/model/clientError';
 
 var ClientErrors = Collection.extend({

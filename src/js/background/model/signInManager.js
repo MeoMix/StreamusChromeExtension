@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import User from 'background/model/user';
 
 // Wait 30 seconds before allowing signing in attempts. Prevents spamming the server with sign-in requests.

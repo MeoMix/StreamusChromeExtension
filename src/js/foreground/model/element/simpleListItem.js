@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 
 var SimpleListItem = Model.extend({
   defaults: function() {

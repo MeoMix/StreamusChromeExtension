@@ -1,5 +1,4 @@
-﻿'use strict';
-import SelectionBarView from 'foreground/view/selectionBar/selectionBarView';
+﻿import SelectionBarView from 'foreground/view/selectionBar/selectionBarView';
 import SelectionBar from 'foreground/model/selectionBar/selectionBar';
 import StreamItems from 'background/collection/streamItems';
 import SearchResults from 'background/collection/searchResults';

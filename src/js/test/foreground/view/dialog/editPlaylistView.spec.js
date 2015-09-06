@@ -1,5 +1,4 @@
-﻿'use strict';
-import EditPlaylistView from 'foreground/view/dialog/editPlaylistView';
+﻿import EditPlaylistView from 'foreground/view/dialog/editPlaylistView';
 import EditPlaylist from 'foreground/model/dialog/editPlaylist';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

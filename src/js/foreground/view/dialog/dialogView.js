@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Checkbox from 'foreground/model/element/checkbox';
 import CheckboxView from 'foreground/view/element/checkboxView';
 import KeyCode from 'foreground/enum/keyCode';

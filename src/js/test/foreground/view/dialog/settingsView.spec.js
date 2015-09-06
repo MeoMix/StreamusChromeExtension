@@ -1,5 +1,4 @@
-﻿'use strict';
-import SettingsView from 'foreground/view/dialog/settingsView';
+﻿import SettingsView from 'foreground/view/dialog/settingsView';
 import SignInManager from 'background/model/signInManager';
 import Settings from 'background/model/settings';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';

@@ -1,5 +1,4 @@
-﻿'use strict';
-import Video from 'background/model/video';
+﻿import Video from 'background/model/video';
 import Playlist from 'background/model/playlist';
 import PlaylistItem from 'background/model/playlistItem';
 import SearchResult from 'background/model/searchResult';

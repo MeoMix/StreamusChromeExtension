@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ActivePanesRegion from 'foreground/view/activePane/activePanesRegion';
 import AppBarRegion from 'foreground/view/appBar/appBarRegion';
 import SimpleMenuRegion from 'foreground/view/simpleMenu/simpleMenuRegion';
@@ -175,4 +174,4 @@ var ForegroundAreaView = LayoutView.extend({
   }
 });
 
-export default ForegroundAreaView
+export default ForegroundAreaView;

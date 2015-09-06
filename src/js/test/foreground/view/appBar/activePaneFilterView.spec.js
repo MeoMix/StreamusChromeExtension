@@ -1,5 +1,4 @@
-﻿'use strict';
-import ActivePaneFilterView from 'foreground/view/appBar/activePaneFilterView';
+﻿import ActivePaneFilterView from 'foreground/view/appBar/activePaneFilterView';
 import ActivePaneFilter from 'foreground/model/appBar/activePaneFilter';
 import SignInManager from 'background/model/signInManager';
 import ActivePlaylistManager from 'background/model/activePlaylistManager';

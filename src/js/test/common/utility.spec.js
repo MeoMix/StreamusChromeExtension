@@ -1,5 +1,4 @@
-﻿'use strict';
-import Utility from 'common/utility';
+﻿import Utility from 'common/utility';
 
 describe('Utility', function() {
   it('Should be able to convert ISO8061 Duration to Seconds', function() {

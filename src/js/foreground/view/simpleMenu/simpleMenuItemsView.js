@@ -1,5 +1,4 @@
-﻿'use strict';
-import {CollectionView} from 'marionette';
+﻿import {CollectionView} from 'marionette';
 import SimpleMenuItemView from 'foreground/view/simpleMenu/simpleMenuItemView';
 import Scrollable from 'foreground/view/behavior/scrollable';
 

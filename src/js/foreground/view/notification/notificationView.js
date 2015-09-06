@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import NotificationTemplate from 'template/notification/notification.html!text';
 
 var NotificationView = LayoutView.extend({

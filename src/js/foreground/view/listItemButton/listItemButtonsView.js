@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/model/listItemButton/listItemButton';
 
 var ListItemButtonsView = LayoutView.extend({

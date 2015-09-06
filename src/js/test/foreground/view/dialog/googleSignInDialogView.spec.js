@@ -1,5 +1,4 @@
-﻿'use strict';
-import GoogleSignInDialogView from 'foreground/view/dialog/googleSignInDialogView';
+﻿import GoogleSignInDialogView from 'foreground/view/dialog/googleSignInDialogView';
 import SignInManager from 'background/model/signInManager';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

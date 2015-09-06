@@ -1,5 +1,4 @@
-﻿'use strict';
-import VideoOptionsButtonView from 'foreground/view/listItemButton/videoOptionsButtonView';
+﻿import VideoOptionsButtonView from 'foreground/view/listItemButton/videoOptionsButtonView';
 import ListItemButton from 'foreground/model/listItemButton/listItemButton';
 import Video from 'background/model/video';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';

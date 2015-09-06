@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import DeletePlaylistDialogView from 'foreground/view/dialog/deletePlaylistDialogView';
 import EditPlaylistDialogView from 'foreground/view/dialog/editPlaylistDialogView';
 import ExportPlaylistDialogView from 'foreground/view/dialog/exportPlaylistDialogView';

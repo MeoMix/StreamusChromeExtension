@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import StreamControlBarView from 'foreground/view/streamControlBar/streamControlBarView';
 
 var StreamControlBarRegion = Region.extend({

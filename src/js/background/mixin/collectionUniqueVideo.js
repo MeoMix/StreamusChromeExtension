@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection, Model} from 'backbone';
+﻿import {Collection, Model} from 'backbone';
 
 export default {
   initialize: function() {

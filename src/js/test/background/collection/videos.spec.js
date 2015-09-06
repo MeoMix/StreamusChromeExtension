@@ -1,5 +1,4 @@
-﻿'use strict';
-import Videos from 'background/collection/videos';
+﻿import Videos from 'background/collection/videos';
 
 describe('Videos', function() {
   beforeEach(function() {

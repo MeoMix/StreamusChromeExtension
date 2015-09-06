@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
 import DeleteListItemButtonTemplate from 'template/listItemButton/deleteListItemButton.html!text';
 import DeleteIconTemplate from 'template/icon/deleteIcon_18.svg!text';

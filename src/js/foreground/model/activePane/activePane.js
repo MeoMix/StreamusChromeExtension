@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import ActivePaneType from 'foreground/enum/activePaneType';
 
 var ActivePane = Model.extend({

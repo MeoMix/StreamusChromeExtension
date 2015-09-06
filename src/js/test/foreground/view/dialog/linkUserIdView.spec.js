@@ -1,5 +1,4 @@
-﻿'use strict';
-import LinkUserIdView from 'foreground/view/dialog/linkUserIdView';
+﻿import LinkUserIdView from 'foreground/view/dialog/linkUserIdView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('LinkUserIdView', function() {

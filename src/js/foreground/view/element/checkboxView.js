@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import CheckboxTemplate from 'template/element/checkbox.html!text';
 
 var CheckboxView = LayoutView.extend({

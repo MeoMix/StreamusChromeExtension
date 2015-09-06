@@ -1,5 +1,4 @@
-﻿'use strict';
-import ListItemButtonsView from 'foreground/view/listItemButton/listItemButtonsView';
+﻿import ListItemButtonsView from 'foreground/view/listItemButton/listItemButtonsView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('ListItemButtonsView', function() {

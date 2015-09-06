@@ -1,5 +1,4 @@
-﻿'use strict';
-// /collection/
+﻿// /collection/
 // /collection/activePane/
 import 'test/foreground/collection/activePane/activePanes.spec';
 
@@ -58,4 +57,3 @@ import 'test/foreground/view/stream/streamSpecLoader';
 import 'test/foreground/view/tooltip/tooltipSpecLoader';
 
 import 'test/foreground/view/foregroundAreaView.spec';
-import 'test/foreground/view/listItemView.spec';

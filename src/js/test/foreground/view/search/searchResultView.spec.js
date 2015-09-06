@@ -1,5 +1,4 @@
-﻿'use strict';
-import SearchResultView from 'foreground/view/search/searchResultView';
+﻿import SearchResultView from 'foreground/view/search/searchResultView';
 import SearchResult from 'background/model/searchResult';
 import StreamItems from 'background/collection/streamItems';
 import ListItemType from 'common/enum/listItemType';

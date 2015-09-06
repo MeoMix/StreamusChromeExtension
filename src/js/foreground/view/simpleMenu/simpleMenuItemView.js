@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import FixedPosition from 'foreground/enum/fixedPosition';
 import SimpleMenuItemTemplate from 'template/simpleMenu/simpleMenuItem.html!text';
 

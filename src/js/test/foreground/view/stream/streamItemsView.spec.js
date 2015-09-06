@@ -1,5 +1,4 @@
-﻿'use strict';
-import StreamItemsView from 'foreground/view/stream/streamItemsView';
+﻿import StreamItemsView from 'foreground/view/stream/streamItemsView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('StreamItemsView', function() {

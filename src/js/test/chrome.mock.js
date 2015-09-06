@@ -1,6 +1,4 @@
-﻿'use strict';
-
-window.chrome = {
+﻿window.chrome = {
   alarms: {
     create: function() { },
     clear: function() { },

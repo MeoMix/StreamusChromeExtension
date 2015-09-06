@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette'
+﻿import {Behavior} from 'marionette';
 import Checkbox from 'foreground/model/element/checkbox';
 import CheckboxView from 'foreground/view/element/checkboxView';
 
@@ -93,4 +92,4 @@ var ItemViewMultiSelect = Behavior.extend({
   }
 });
 
-export default ItemViewMultiSelect
+export default ItemViewMultiSelect;

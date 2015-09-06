@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette'
+﻿import {Behavior} from 'marionette';
 import Direction from 'common/enum/direction';
 
 var SlidingRender = Behavior.extend({

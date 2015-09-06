@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import TimeLabelArea from 'foreground/model/streamControlBar/timeLabelArea';
 import TimeSlider from 'foreground/model/streamControlBar/timeSlider';
 import Tooltipable from 'foreground/view/behavior/tooltipable';

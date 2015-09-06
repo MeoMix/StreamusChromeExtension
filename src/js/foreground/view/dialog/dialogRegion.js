@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import YouTubePlayerError from 'common/enum/youTubePlayerError';
 import ErrorDialogView from 'foreground/view/dialog/errorDialogView';
 import GoogleSignInDialogView from 'foreground/view/dialog/googleSignInDialogView';

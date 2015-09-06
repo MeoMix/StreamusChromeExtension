@@ -1,5 +1,4 @@
-﻿'use strict';
-import ActivePanesRegion from 'foreground/view/activePane/activePanesRegion';
+﻿import ActivePanesRegion from 'foreground/view/activePane/activePanesRegion';
 
 describe('ActivePanesRegion', function() {
   beforeEach(function() {

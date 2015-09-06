@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import TooltipView from 'foreground/view/tooltip/tooltipView';
 import Tooltip from 'foreground/model/tooltip/tooltip';
 import Utility from 'common/utility';

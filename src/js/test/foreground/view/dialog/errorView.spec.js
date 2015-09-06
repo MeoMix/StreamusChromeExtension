@@ -1,5 +1,4 @@
-﻿'use strict';
-import ErrorView from 'foreground/view/dialog/errorView';
+﻿import ErrorView from 'foreground/view/dialog/errorView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('ErrorView', function() {

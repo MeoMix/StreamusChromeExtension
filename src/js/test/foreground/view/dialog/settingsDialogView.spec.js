@@ -1,5 +1,4 @@
-﻿'use strict';
-import SettingsDialogView from 'foreground/view/dialog/settingsDialogView';
+﻿import SettingsDialogView from 'foreground/view/dialog/settingsDialogView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('SettingsDialogView', function() {

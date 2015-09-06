@@ -1,5 +1,4 @@
-﻿'use strict';
-import Tooltipable from 'foreground/view/behavior/tooltipable';
+﻿import Tooltipable from 'foreground/view/behavior/tooltipable';
 
 describe('Tooltipable', function() {
   beforeEach(function() {

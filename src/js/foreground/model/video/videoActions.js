@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection, Model} from 'backbone';
+﻿import {Collection, Model} from 'backbone';
 import CreatePlaylistDialogView from 'foreground/view/dialog/createPlaylistDialogView';
 import FixedPosition from 'foreground/enum/fixedPosition';
 // TODO: Naming

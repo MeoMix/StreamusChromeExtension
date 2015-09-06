@@ -1,5 +1,4 @@
-﻿'use strict';
-import AddVideoButtonView from 'foreground/view/listItemButton/addVideoButtonView';
+﻿import AddVideoButtonView from 'foreground/view/listItemButton/addVideoButtonView';
 import Video from 'background/model/video';
 import StreamItems from 'background/collection/streamItems';
 import ListItemButton from 'foreground/model/listItemButton/listItemButton';

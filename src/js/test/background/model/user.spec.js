@@ -1,5 +1,4 @@
-﻿'use strict';
-import User from 'background/model/user';
+﻿import User from 'background/model/user';
 
 describe('User', function() {
   var USER_ID = '1111-1111-1111-1111';

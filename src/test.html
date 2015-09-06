@@ -14,6 +14,8 @@
 
     <script src='js/lib/jspm_packages/system.js'></script>
     <script src='js/lib/jspm.config.js'></script>
+    <!-- Load phantomjs.shim prior to main to ensure PhantomJS works properly (.bind defined)-->
+    <script src='js/test/phantomjs.shim.js'></script>
     <script src='js/test/main.js' defer></script>
   </body>
 </html>

@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import SimpleMenuView from 'foreground/view/simpleMenu/simpleMenuView';
 import SimpleMenu from 'foreground/model/simpleMenu/simpleMenu';
 import SimpleMenuItems from 'foreground/collection/simpleMenu/simpleMenuItems';

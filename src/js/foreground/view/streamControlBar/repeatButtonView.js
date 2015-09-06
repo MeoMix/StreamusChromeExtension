@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import RepeatButtonState from 'common/enum/repeatButtonState';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import RepeatButtonTemplate from 'template/streamControlBar/repeatButton.html!text';

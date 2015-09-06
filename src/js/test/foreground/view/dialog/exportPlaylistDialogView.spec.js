@@ -1,5 +1,4 @@
-﻿'use strict';
-import ExportPlaylist from 'foreground/model/dialog/exportPlaylist';
+﻿import ExportPlaylist from 'foreground/model/dialog/exportPlaylist';
 import ExportPlaylistDialogView from 'foreground/view/dialog/exportPlaylistDialogView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ActivePaneType from 'foreground/enum/activePaneType';
 import StreamView from 'foreground/view/stream/streamView';
 import ActivePlaylistAreaView from 'foreground/view/leftPane/activePlaylistAreaView';

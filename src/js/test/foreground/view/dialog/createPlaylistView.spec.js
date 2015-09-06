@@ -1,5 +1,4 @@
-﻿'use strict';
-import CreatePlaylistView from 'foreground/view/dialog/createPlaylistView';
+﻿import CreatePlaylistView from 'foreground/view/dialog/createPlaylistView';
 import CreatePlaylist from 'foreground/model/dialog/createPlaylist';
 import Playlists from 'background/collection/playlists';
 import DataSourceManager from 'background/model/dataSourceManager';

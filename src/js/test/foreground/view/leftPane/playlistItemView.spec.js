@@ -1,5 +1,4 @@
-﻿'use strict';
-import PlaylistItemView from 'foreground/view/leftPane/playlistItemView';
+﻿import PlaylistItemView from 'foreground/view/leftPane/playlistItemView';
 import PlaylistItem from 'background/model/playlistItem';
 import StreamItems from 'background/collection/streamItems';
 import ListItemType from 'common/enum/listItemType';

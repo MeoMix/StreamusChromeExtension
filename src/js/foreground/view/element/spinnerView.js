@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import SpinnerTemplate from 'template/element/spinner.html!text';
 
 var SpinnerView = LayoutView.extend({

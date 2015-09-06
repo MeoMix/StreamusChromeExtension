@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   Highest: 'highest',
   Auto: 'auto',
   Lowest: 'lowest'

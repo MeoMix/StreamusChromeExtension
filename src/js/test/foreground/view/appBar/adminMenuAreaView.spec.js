@@ -1,5 +1,4 @@
-﻿'use strict';
-import AdminMenuAreaView from 'foreground/view/appBar/adminMenuAreaView';
+﻿import AdminMenuAreaView from 'foreground/view/appBar/adminMenuAreaView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('AdminMenuAreaView', function() {

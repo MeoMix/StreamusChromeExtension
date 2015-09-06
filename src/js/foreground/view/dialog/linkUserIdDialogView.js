@@ -1,5 +1,4 @@
-﻿'use strict';
-import Dialog from 'foreground/model/dialog/dialog';
+﻿import Dialog from 'foreground/model/dialog/dialog';
 import LinkUserIdView from 'foreground/view/dialog/linkUserIdView';
 import DialogView from 'foreground/view/dialog/dialogView';
 

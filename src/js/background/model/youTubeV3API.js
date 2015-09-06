@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import Videos from 'background/collection/videos';
 import YouTubeAPIKey from 'background/key/youTubeAPIKey';
 import VideoType from 'background/enum/videoType';

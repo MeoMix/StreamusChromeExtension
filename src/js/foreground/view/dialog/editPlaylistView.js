@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
 import EditPlaylistTemplate from 'template/dialog/editPlaylist.html!text';
 

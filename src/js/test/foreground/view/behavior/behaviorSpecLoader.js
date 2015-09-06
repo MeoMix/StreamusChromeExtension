@@ -1,9 +1,2 @@
-﻿'use strict';
-import 'test/foreground/view/behavior/collectionViewMultiSelect.spec';
-import 'test/foreground/view/behavior/dialogContent.spec';
-import 'test/foreground/view/behavior/itemViewMultiSelect.spec';
-import 'test/foreground/view/behavior/listItemButton.spec';
-import 'test/foreground/view/behavior/scrollable.spec';
-import 'test/foreground/view/behavior/slidingRender.spec';
-import 'test/foreground/view/behavior/sortable.spec';
+﻿import 'test/foreground/view/behavior/scrollable.spec';
 import 'test/foreground/view/behavior/tooltipable.spec';

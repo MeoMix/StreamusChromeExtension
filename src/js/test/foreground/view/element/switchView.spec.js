@@ -1,5 +1,4 @@
-﻿'use strict';
-import SwitchView from 'foreground/view/element/switchView';
+﻿import SwitchView from 'foreground/view/element/switchView';
 import Switch from 'foreground/model/element/switch';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

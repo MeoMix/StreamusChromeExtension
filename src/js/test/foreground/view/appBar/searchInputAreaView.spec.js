@@ -1,5 +1,4 @@
-﻿'use strict';
-import SearchInputAreaView from 'foreground/view/appBar/searchInputAreaView';
+﻿import SearchInputAreaView from 'foreground/view/appBar/searchInputAreaView';
 import Search from 'background/model/search';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

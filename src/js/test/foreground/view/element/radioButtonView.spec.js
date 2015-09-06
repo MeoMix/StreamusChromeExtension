@@ -1,5 +1,4 @@
-﻿'use strict';
-import RadioButtonView from 'foreground/view/element/radioButtonView';
+﻿import RadioButtonView from 'foreground/view/element/radioButtonView';
 import RadioButton from 'foreground/model/element/radioButton';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

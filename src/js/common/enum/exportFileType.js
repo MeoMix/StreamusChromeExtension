@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   Csv: 'csv',
   Json: 'json'
 };

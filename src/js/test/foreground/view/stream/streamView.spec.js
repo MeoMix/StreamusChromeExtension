@@ -1,5 +1,4 @@
-﻿'use strict';
-import StreamView from 'foreground/view/stream/streamView';
+﻿import StreamView from 'foreground/view/stream/streamView';
 import Stream from 'background/model/stream';
 import ShuffleButton from 'background/model/shuffleButton';
 import RadioButton from 'background/model/radioButton';

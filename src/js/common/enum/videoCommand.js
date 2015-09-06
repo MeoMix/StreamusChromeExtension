@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   PlayVideo: 'playVideo',
   PauseVideo: 'pauseVideo',
   SetVolume: 'setVolume',

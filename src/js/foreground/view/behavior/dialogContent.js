@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette'
+﻿import {Behavior} from 'marionette';
 import Scrollable from 'foreground/view/behavior/scrollable';
 
 var DialogContent = Behavior.extend({

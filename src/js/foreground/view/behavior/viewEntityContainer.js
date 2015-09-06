@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette'
+﻿import {Behavior} from 'marionette';
 
 // Provides event handler unbinding of models or collections given to the implementing view.
 // If a view's entity has bound event listeners and the view is destroyed then those event listeners

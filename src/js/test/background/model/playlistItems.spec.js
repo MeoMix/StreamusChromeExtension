@@ -1,5 +1,4 @@
-﻿'use strict';
-import PlaylistItems from 'background/collection/playlistItems';
+﻿import PlaylistItems from 'background/collection/playlistItems';
 
 describe('PlaylistItems', function() {
   it('Should not be able to contain duplicates by id', function() {

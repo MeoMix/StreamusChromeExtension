@@ -1,5 +1,4 @@
-﻿'use strict';
-import AddPlaylistButtonView from 'foreground/view/listItemButton/addPlaylistButtonView';
+﻿import AddPlaylistButtonView from 'foreground/view/listItemButton/addPlaylistButtonView';
 import Playlist from 'background/model/playlist';
 import StreamItems from 'background/collection/streamItems';
 import ListItemButton from 'foreground/model/listItemButton/listItemButton';

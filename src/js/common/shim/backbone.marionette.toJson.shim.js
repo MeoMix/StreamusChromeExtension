@@ -13,5 +13,5 @@ Marionette.View.prototype.serializeModel = function(model) {
 };
 
 Marionette.ItemView.prototype.serializeCollection = function(collection) {
-  return collection.map(function(model){ return this.serializeModel(model); }, this);
+  return collection.map(function(model) { return this.serializeModel(model); }, this);
 };

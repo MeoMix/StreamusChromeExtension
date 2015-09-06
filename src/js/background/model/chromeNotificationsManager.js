@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import DesktopNotificationDuration from 'common/enum/desktopNotificationDuration';
 
 // More details on Chrome Notifications API:

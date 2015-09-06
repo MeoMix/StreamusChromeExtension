@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import SelectionBar from 'foreground/model/selectionBar/selectionBar';
 import SelectionBarView from 'foreground/view/selectionBar/selectionBarView';
 

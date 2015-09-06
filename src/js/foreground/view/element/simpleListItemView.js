@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import SimpleMenuItems from 'foreground/collection/simpleMenu/simpleMenuItems';
 import SimpleMenu from 'foreground/model/simpleMenu/simpleMenu';
 import SimpleMenuView from 'foreground/view/simpleMenu/simpleMenuView';

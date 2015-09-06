@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import PreviousButtonTemplate from 'template/streamControlBar/previousButton.html!text';
 import PreviousIconTemplate from 'template/icon/previousIcon_24.svg!text';
 

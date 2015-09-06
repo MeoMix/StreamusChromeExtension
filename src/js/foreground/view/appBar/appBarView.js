@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import AdminMenuArea from 'foreground/model/appBar/adminMenuArea';
 import AdminMenuAreaView from 'foreground/view/appBar/adminMenuAreaView';
 import ActivePaneFilterView from 'foreground/view/appBar/activePaneFilterView';

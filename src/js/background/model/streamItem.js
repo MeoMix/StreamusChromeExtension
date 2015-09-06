@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection, Model} from 'backbone';
+﻿import {Collection, Model} from 'backbone';
 import Videos from 'background/collection/videos';
 import Video from 'background/model/video';
 import ListItemType from 'common/enum/listItemType';

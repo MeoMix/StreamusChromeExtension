@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette'
+﻿import {Behavior} from 'marionette';
 import ListItemType from 'common/enum/listItemType';
 import 'lib/jquery-ui';
 

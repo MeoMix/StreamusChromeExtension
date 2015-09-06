@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   FullPane: 'fullPane',
   SplitPane: 'splitPane'
 };

@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection, Model} from 'backbone';
+﻿import {Collection, Model} from 'backbone';
 import RadioButtons from 'foreground/collection/element/radioButtons';
 
 var RadioGroup = Model.extend({

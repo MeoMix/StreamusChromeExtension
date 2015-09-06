@@ -1,5 +1,4 @@
-﻿'use strict';
-import RadioButtonView from 'foreground/view/streamControlBar/radioButtonView';
+﻿import RadioButtonView from 'foreground/view/streamControlBar/radioButtonView';
 import RadioButton from 'background/model/radioButton';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

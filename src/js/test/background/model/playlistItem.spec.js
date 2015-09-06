@@ -1,5 +1,3 @@
-﻿'use strict';
-import PlaylistItem from 'background/model/playlistItem';
+﻿import PlaylistItem from 'background/model/playlistItem';
 
-describe('PlaylistItem', function() {
-});
+describe('PlaylistItem', function() {});

@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import VideoStreamView from 'contentScript/youTubePlayer/view/videoStreamView';
 import VideoStream from 'contentScript/youTubePlayer/model/videoStream';
 import VideoCommand from 'common/enum/videoCommand';

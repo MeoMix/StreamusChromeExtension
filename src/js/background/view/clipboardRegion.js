@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import ClipboardView from 'background/view/clipboardView';
 
 var ClipboardRegion = Region.extend({

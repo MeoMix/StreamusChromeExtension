@@ -1,5 +1,4 @@
-﻿'use strict';
-import PlaylistItemsView from 'foreground/view/leftPane/playlistItemsView';
+﻿import PlaylistItemsView from 'foreground/view/leftPane/playlistItemsView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('PlaylistItemsView', function() {

@@ -1,5 +1,4 @@
-﻿'use strict';
-import TimeSlider from 'foreground/model/streamControlBar/timeSlider';
+﻿import TimeSlider from 'foreground/model/streamControlBar/timeSlider';
 
 describe('TimeSlider', function() {
   beforeEach(function() {

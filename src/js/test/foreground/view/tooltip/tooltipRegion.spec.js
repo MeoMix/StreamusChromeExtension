@@ -1,5 +1,4 @@
-﻿'use strict';
-import TooltipRegion from 'foreground/view/tooltip/tooltipRegion';
+﻿import TooltipRegion from 'foreground/view/tooltip/tooltipRegion';
 import TooltipView from 'foreground/view/tooltip/tooltipView';
 
 describe('TooltipRegion', function() {

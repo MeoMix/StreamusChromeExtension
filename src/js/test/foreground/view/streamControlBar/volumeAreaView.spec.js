@@ -1,5 +1,4 @@
-﻿'use strict';
-import VolumeAreaView from 'foreground/view/streamControlBar/volumeAreaView';
+﻿import VolumeAreaView from 'foreground/view/streamControlBar/volumeAreaView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('VolumeAreaView', function() {

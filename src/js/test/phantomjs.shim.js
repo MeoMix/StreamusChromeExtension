@@ -1,6 +1,4 @@
-﻿'use strict';
-
-if (!window.console) {
+﻿if (!window.console) {
   window.console = function() { };
 }
 

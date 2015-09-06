@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection} from 'backbone';
+﻿import {Collection} from 'backbone';
 import Cocktail from 'backbone.cocktail';
 import LocalStorage from 'lib/backbone.localStorage';
 import ChromeCommand from 'background/enum/chromeCommand';

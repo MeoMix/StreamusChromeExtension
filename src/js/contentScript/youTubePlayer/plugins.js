@@ -1,5 +1,4 @@
-﻿'use strict';
-import 'marionette';
+﻿import 'marionette';
 import Application from 'contentScript/youTubePlayer/application';
 
 // Finally, load the application which will initialize the youTubePlayer:

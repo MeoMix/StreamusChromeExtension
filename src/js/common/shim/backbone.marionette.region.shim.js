@@ -1,5 +1,4 @@
-﻿'use strict';
-import _ from 'lodash';
+﻿import _ from 'lodash';
 import {Region, Error}from 'marionette';
 
 Region.buildRegion = function(regionConfig, DefaultRegionClass) {

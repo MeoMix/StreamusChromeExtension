@@ -1,5 +1,4 @@
-﻿'use strict';
-import DeletePlaylistView from 'foreground/view/dialog/deletePlaylistView';
+﻿import DeletePlaylistView from 'foreground/view/dialog/deletePlaylistView';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
 describe('DeletePlaylistView', function() {

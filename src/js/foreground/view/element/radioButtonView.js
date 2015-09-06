@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import RadioButtonTemplate from 'template/element/radioButton.html!text';
 
 var RadioButtonView = LayoutView.extend({

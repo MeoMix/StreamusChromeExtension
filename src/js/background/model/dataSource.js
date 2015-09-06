@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import YouTubeV3API from 'background/model/youTubeV3API';
 import DataSourceType from 'common/enum/dataSourceType';
 import YouTubeServiceType from 'background/enum/youTubeServiceType';

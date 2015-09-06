@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import YouTubeV3API from 'background/model/youTubeV3API';
 
 // Ensure that the network is not flooded with requests when issuing several getRelatedVideos requests.

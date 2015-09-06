@@ -1,5 +1,4 @@
-﻿'use strict';
-import SimpleListItemView from 'foreground/view/element/simpleListItemView';
+﻿import SimpleListItemView from 'foreground/view/element/simpleListItemView';
 import SimpleListItem from 'foreground/model/element/simpleListItem';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

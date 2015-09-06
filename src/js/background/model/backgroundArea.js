@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import AnalyticsManager from 'background/model/analyticsManager';
 import ChromeContextMenusManager from 'background/model/chromeContextMenusManager';
 import ChromeIconManager from 'background/model/chromeIconManager';

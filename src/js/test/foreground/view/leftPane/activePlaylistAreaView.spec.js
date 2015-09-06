@@ -1,5 +1,4 @@
-﻿'use strict';
-import ActivePlaylistAreaView from 'foreground/view/leftPane/activePlaylistAreaView';
+﻿import ActivePlaylistAreaView from 'foreground/view/leftPane/activePlaylistAreaView';
 import Playlist from 'background/model/playlist';
 import StreamItems from 'background/collection/streamItems';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';

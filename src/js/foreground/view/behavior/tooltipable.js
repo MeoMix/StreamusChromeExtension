@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette';
+﻿import {Behavior} from 'marionette';
 
 var Tooltipable = Behavior.extend({
   ui: {

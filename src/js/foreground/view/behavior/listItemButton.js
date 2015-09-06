@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette'
+﻿import {Behavior} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 
 var ListItemButton = Behavior.extend({

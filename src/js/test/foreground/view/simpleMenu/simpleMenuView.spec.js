@@ -1,5 +1,4 @@
-﻿'use strict';
-import SimpleMenuView from 'foreground/view/simpleMenu/simpleMenuView';
+﻿import SimpleMenuView from 'foreground/view/simpleMenu/simpleMenuView';
 import SimpleMenu from 'foreground/model/simpleMenu/simpleMenu';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

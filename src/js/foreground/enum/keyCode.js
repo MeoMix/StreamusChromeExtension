@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   Enter: 13,
   Space: 32,
   ArrowLeft: 37,

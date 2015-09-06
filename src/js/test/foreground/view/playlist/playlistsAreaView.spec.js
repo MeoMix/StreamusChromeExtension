@@ -1,5 +1,4 @@
-﻿'use strict';
-import PlaylistsAreaView from 'foreground/view/playlist/playlistsAreaView';
+﻿import PlaylistsAreaView from 'foreground/view/playlist/playlistsAreaView';
 import Playlists from 'background/collection/playlists';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

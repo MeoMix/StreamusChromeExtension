@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import VideoActions from 'foreground/model/video/videoActions';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';

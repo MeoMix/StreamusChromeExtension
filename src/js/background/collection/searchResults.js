@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Collection} from 'backbone';
+﻿import {Collection} from 'backbone';
 import CollectionMultiSelect from 'background/mixin/collectionMultiSelect';
 import SearchResult from 'background/model/searchResult';
 

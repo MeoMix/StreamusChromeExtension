@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Behavior} from 'marionette'
+﻿import {Behavior} from 'marionette';
 
 var CollectionViewMultiSelect = Behavior.extend({
   initialize: function() {

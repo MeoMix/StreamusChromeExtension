@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Utility from 'common/utility';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import TimeLabelAreaTemplate from 'template/streamControlBar/timeLabelArea.html!text';

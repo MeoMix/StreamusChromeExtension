@@ -1,6 +1,4 @@
-﻿'use strict';
-
-// The possible error values that the YouTube player might throw.
+﻿// The possible error values that the YouTube player might throw.
 // Data comes from: https://developers.google.com/youtube/js_api_reference#onError
 // The values of these strings need to be numbers because they interface with a third-party API.
 export default {

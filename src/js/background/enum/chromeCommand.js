@@ -1,6 +1,4 @@
-﻿'use strict';
-
-// These values are synced with manifest.json's commands declaration.
+﻿// These values are synced with manifest.json's commands declaration.
 export default {
   ShowVideoDetails: 'showVideoDetails',
   SaveVideo: 'saveVideo',

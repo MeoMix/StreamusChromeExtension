@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import TooltipTemplate from 'template/tooltip/tooltip.html!text';
 
 var TooltipView = LayoutView.extend({

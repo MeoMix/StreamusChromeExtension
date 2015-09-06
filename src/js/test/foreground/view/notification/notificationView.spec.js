@@ -1,5 +1,4 @@
-﻿'use strict';
-import NotificationView from 'foreground/view/notification/notificationView';
+﻿import NotificationView from 'foreground/view/notification/notificationView';
 import Notification from 'foreground/model/notification/notification';
 import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 

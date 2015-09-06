@@ -1,5 +1,4 @@
-﻿'use strict';
-import DataSource from 'background/model/dataSource';
+﻿import DataSource from 'background/model/dataSource';
 import YouTubeV3API from 'background/model/youTubeV3API';
 import DataSourceType from 'common/enum/dataSourceType';
 

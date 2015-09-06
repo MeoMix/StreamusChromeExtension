@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import ShuffleButtonTemplate from 'template/streamControlBar/shuffleButton.html!text';
 import ShuffleIconTemplate from 'template/icon/shuffleIcon_18.svg!text';

@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import VideoQuality from 'common/enum/videoQuality';
 import LayoutType from 'common/enum/layoutType';
 import DesktopNotificationDurations from 'common/enum/desktopNotificationDuration';

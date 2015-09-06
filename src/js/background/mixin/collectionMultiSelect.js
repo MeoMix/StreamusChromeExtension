@@ -1,6 +1,4 @@
-﻿'use strict';
-
-export default {
+﻿export default {
   initialize: function() {
     this.on('change:selected', this._onChangeSelected);
     this.on('change:firstSelected', this._onChangeFirstSelected);

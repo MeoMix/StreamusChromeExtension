@@ -1,5 +1,4 @@
-﻿'use strict';
-import SignInManager from 'background/model/signInManager';
+﻿import SignInManager from 'background/model/signInManager';
 import StreamItems from 'background/collection/streamItems';
 import Search from 'background/model/search';
 import SearchView from 'foreground/view/search/searchView';
@@ -119,7 +118,6 @@ describe('SearchView', function() {
 
     it('should add & play videos when able to play', function() {
       this.searchResults.add(TestUtility.buildSearchResult());
-
       this.view._onClickAddAllButton();
       expect(this.streamItems.addVideos.calledOnce).to.equal(true);
     });

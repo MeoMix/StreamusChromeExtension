@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Model} from 'backbone';
+﻿import {Model} from 'backbone';
 import FixedPosition from 'foreground/enum/fixedPosition';
 
 var SimpleMenuItem = Model.extend({

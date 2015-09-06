@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import SwitchTemplate from 'template/element/switch.html!text';
 
 var SwitchView = LayoutView.extend({

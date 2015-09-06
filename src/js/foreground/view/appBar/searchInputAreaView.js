@@ -1,5 +1,4 @@
-﻿'use strict';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import KeyCode from 'foreground/enum/keyCode';
 import SearchInputAreaTemplate from 'template/appBar/searchInputArea.html!text';
 import SearchIconTemplate from 'template/icon/searchIcon_24.svg!text';
@@ -138,4 +137,4 @@ var SearchInputAreaView = LayoutView.extend({
   }
 });
 
-export default SearchInputAreaView
+export default SearchInputAreaView;

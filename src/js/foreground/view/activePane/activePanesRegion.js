@@ -1,5 +1,4 @@
-﻿'use strict';
-import {Region} from 'marionette';
+﻿import {Region} from 'marionette';
 import ActivePanesView from 'foreground/view/activePane/activePanesView';
 import ActivePanes from 'foreground/collection/activePane/activePanes';
 
