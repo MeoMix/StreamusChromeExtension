@@ -99,7 +99,7 @@
     },
     {
       "matches": [ "*://*.youtube.com/watch?v=*&streamus=true*" ],
-      "js": [ "js/lib/jspm_packages/system.js", "js/contentScript/youTubePlayer/main.js" ],
+      "js": [ "js/lib/jspm_packages/system.js", "js/lib/jspm.config.js", "js/contentScript/youTubePlayer/sandboxInject.js", "js/contentScript/youTubePlayer/main.js" ],
       // run at document_start to allow time to setup code before youtube's scripts execute.
       "run_at": "document_start",
       "css": [ "css/contentScript/youTubePlayer.css" ]

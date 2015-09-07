@@ -3,6 +3,26 @@
 (function() {
   'use strict';
 
+  // Use a simple throttle mechanism rather than bringing in lodash because it's a PITA
+  // to try and leverage third-party libraries from within a sandbox within a content script.
+  var throttle = function(callback, timeout) {
+    var wait = false;
+    var args = null;
+    var context = null;
+
+    return function() {
+      if (!wait) {
+        wait = true;
+        args = arguments;
+        context = this;
+        setTimeout(function() {
+          wait = false;
+          callback.apply(context, args);
+        }, timeout);
+      }
+    };
+  };
+
   // Disable YouTube's player resizing logic: https://github.com/YePpHa/YouTubeCenter/issues/1844
   // Run this before document ready so that YouTube's scripts read the modified value during initialization.
   window.matchMedia = null;
@@ -23,12 +43,11 @@
     // to buffer a video. So, refreshing the video at its current time is sometimes necessary.
     this.videoExpirationTime = 0;
 
-    // TODO: This assumes that lodash has successfully loaded, but that seems like a race condition.
     // window.postMessage has an internal throttling mechanism which can cause a lot of issues for accurate data reporting.
     // For instance, if the volume is changing rapidly, incorrect volume values will leak out of postMessage.
     // Using an explicit throttling mechanism results in much more anticipated behavior.
     // 150 appears to be roughly the minimum possible throttle rate. 100 causes window.postMessage to throttle.
-    var throttledWindowPostMessage = _.throttle(function(message) {
+    var throttledWindowPostMessage = throttle(function(message) {
       window.postMessage(message, window.location.origin);
     }, 150);
 
@@ -148,11 +167,10 @@
 
         // NOTE: This will only work when playVideo is called from Streamus and not from the window itself.
         if (isVideoExpired) {
-          var urlString = this.videoOptionsToUrl(_.extend({}, videoOptions, {
-            startTime: parseInt(playerApi.getCurrentTime()),
-            playOnActivate: true
-          }));
-
+          var extendedVideoOptions = JSON.parse(JSON.stringify(videoOptions));
+          extendedVideoOptions.startTime = parseInt(playerApi.getCurrentTime());
+          extendedVideoOptions.playOnActivate = true;
+          var urlString = this.videoOptionsToUrl(extendedVideoOptions);
           this.navigate(urlString);
         } else {
           playerApi.playVideo();
@@ -195,13 +213,11 @@
         // NOTE: This will only work when seekTo is called from Streamus and not from the window itself.
         if (isVideoExpired) {
           var playerState = playerApi.getPlayerState();
-
-          var urlString = this.videoOptionsToUrl(_.extend({}, videoOptions, {
-            startTime: timeInSeconds,
-            // If the player is playing or buffering - continue playback after seeking.
-            playOnActivate: playerState === 1 || playerState === 3
-          }));
-
+          var extendedVideoOptions = JSON.parse(JSON.stringify(videoOptions));
+          extendedVideoOptions.startTime = timeInSeconds;
+          // If the player is playing or buffering - continue playback after seeking.
+          extendedVideoOptions.playOnActivate = playerState === 1 || playerState === 3;
+          var urlString = this.videoOptionsToUrl(extendedVideoOptions);
           this.navigate(urlString);
         } else {
           playerApi.seekTo(timeInSeconds);
@@ -271,7 +287,10 @@
 
       // Can't tell YouTube's player to pause prematurely. Need to wait for navigation to finish.
       if (!videoOptions.playOnActivate) {
-        playerApi.pauseVideo();
+        // Let the YouTube API fully load first otherwise it'll begin playback regardless of whether pauseVideo is called.
+        setTimeout(function() {
+          playerApi.pauseVideo();
+        });
       }
 
       // Refresh expiration time when video changes.

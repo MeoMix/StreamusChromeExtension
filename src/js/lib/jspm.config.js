@@ -23,8 +23,7 @@ System.config({
   meta: {
     "analytics": {
       "exports": "ga",
-      "format": "global",
-      "build": false
+      "format": "global"
     }
   },
 
