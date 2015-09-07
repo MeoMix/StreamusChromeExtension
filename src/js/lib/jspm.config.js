@@ -32,15 +32,15 @@ System.config({
     "babel": "npm:babel-core@5.8.23",
     "babel-runtime": "npm:babel-runtime@5.8.20",
     "backbone": "npm:backbone@1.1.2",
-    "backbone.babysitter": "github:marionettejs/backbone.babysitter@0.1.9",
+    "backbone.babysitter": "github:marionettejs/backbone.babysitter@0.1.10",
     "backbone.cocktail": "npm:backbone.cocktail@0.5.10",
-    "backbone.wreqr": "github:marionettejs/backbone.wreqr@1.3.4",
+    "backbone.wreqr": "github:marionettejs/backbone.wreqr@1.3.5",
     "chai": "npm:chai@3.2.0",
     "core-js": "npm:core-js@1.1.4",
     "jquery": "github:components/jquery@2.1.4",
     "lodash": "lib/lodash",
     "marionette": "github:marionettejs/backbone.marionette@2.4.2",
-    "mocha": "npm:mocha@2.3.0",
+    "mocha": "npm:mocha@2.3.1",
     "sinon": "npm:sinon@1.16.1",
     "text": "github:systemjs/plugin-text@0.0.2",
     "github:jspm/nodelibs-buffer@0.1.0": {
@@ -84,7 +84,7 @@ System.config({
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
-    "npm:mocha@2.3.0": {
+    "npm:mocha@2.3.1": {
       "css": "github:systemjs/plugin-css@0.1.16"
     },
     "npm:sinon@1.16.1": {

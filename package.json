@@ -45,6 +45,7 @@
   "homepage": "https://github.com/MeoMix/StreamusChromeExtension",
   "jspm": {
     "directories": {
+      "baseURL": "src",
       "packages": "src/js/lib/jspm_packages"
     },
     "configFile": "src/js/lib/jspm.config.js",
