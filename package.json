@@ -24,6 +24,7 @@
     "grunt-version": "^1.0.0",
     "grunt-webstore-upload": "https://github.com/MeoMix/grunt-webstore-upload/tarball/master",
     "jit-grunt": "^0.9.1",
+    "jspm": "^0.16.2",
     "lodash": "^3.3.0",
     "rsvp": "^3.1.0",
     "systemjs-builder": "^0.13.5"
