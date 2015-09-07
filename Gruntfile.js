@@ -2,6 +2,7 @@
 // * grunt: Lint JavaScript, LESS, and run tests
 // * grunt build: Build a debug release
 // * grunt build:release: Build a release / increment version
+// * grunt compile: Move files from /src to /compiled and compile LESS and JavaScript. Start watch task to monitor changes.
 var _ = require('lodash');
 var Builder = require('systemjs-builder');
 var Rsvp = require('rsvp');
@@ -82,7 +83,7 @@ module.exports = function(grunt) {
         strictMath: true,
         strictUnits: true
       },
-      files: {
+      compiled: {
         expand: true,
         cwd: 'src/less/',
         src: 'foreground.less',
@@ -360,7 +361,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('compile', ['copy:compiled', 'babel:compiled', 'less', 'watch']);
+  grunt.registerTask('compile', ['copy:compiled', 'babel:compiled', 'less:compiled', 'watch']);
 
   grunt.registerTask('buildDist', function() {
     grunt.task.run('copy:dist', 'less:dist');
