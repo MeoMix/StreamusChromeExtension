@@ -84,6 +84,7 @@
     <Content Include="src\js\common\enum\videoCommand.js" />
     <Content Include="src\js\common\shim\lodash.mixin.shim.js" />
     <Content Include="src\js\common\shim\lodash.reference.shim.js" />
+    <Content Include="src\js\common\templates.js" />
     <Content Include="src\js\contentScript\youTubePlayer\application.js" />
     <Content Include="src\js\contentScript\youTubePlayer\main.js" />
     <Content Include="src\js\contentScript\youTubePlayer\model\port.js" />

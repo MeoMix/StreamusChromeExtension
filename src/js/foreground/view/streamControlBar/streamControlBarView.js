@@ -12,13 +12,13 @@ import VolumeAreaView from 'foreground/view/streamControlBar/volumeAreaView';
 import NextButtonView from 'foreground/view/streamControlBar/nextButtonView';
 import PlayPauseButtonView from 'foreground/view/streamControlBar/playPauseButtonView';
 import PreviousButtonView from 'foreground/view/streamControlBar/previousButtonView';
-import StreamControlBarTemplate from 'template/streamControlBar/streamControlBar.html!text';
 import VideoActions from 'foreground/model/video/videoActions';
+import {streamControlBar_streamControlBar as StreamControlBarTemplate} from 'common/templates';
 
 var StreamControlBarView = LayoutView.extend({
   id: 'streamControlBar',
   className: 'streamControlBar',
-  template: _.template(StreamControlBarTemplate),
+  template: StreamControlBarTemplate,
 
   regions: {
     timeLabelArea: 'timeLabelArea',

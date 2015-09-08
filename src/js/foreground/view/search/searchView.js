@@ -1,15 +1,14 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import SpinnerView from 'foreground/view/element/spinnerView';
 import SearchResultsView from 'foreground/view/search/searchResultsView';
 import VideoActions from 'foreground/model/video/videoActions';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import SearchTemplate from 'template/search/search.html!text';
+import {search_search as SearchTemplate} from 'common/templates';
 
 var SearchView = LayoutView.extend({
   id: 'search',
   className: 'leftPane flexColumn panel-content panel-content--uncolored u-fullHeight',
-  template: _.template(SearchTemplate),
+  template: SearchTemplate,
 
   templateHelpers: {
     searchMessage: chrome.i18n.getMessage('search'),

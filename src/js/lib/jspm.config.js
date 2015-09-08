@@ -41,7 +41,6 @@ System.config({
     "marionette": "github:marionettejs/backbone.marionette@2.4.2",
     "mocha": "npm:mocha@2.3.1",
     "sinon": "npm:sinon@1.16.1",
-    "text": "github:systemjs/plugin-text@0.0.2",
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.4.3"
     },

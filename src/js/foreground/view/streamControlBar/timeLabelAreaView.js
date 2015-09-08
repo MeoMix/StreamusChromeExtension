@@ -2,11 +2,11 @@
 import {LayoutView} from 'marionette';
 import Utility from 'common/utility';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import TimeLabelAreaTemplate from 'template/streamControlBar/timeLabelArea.html!text';
+import {streamControlBar_timeLabelArea as TimeLabelAreaTemplate} from 'common/templates';
 
 var TimeLabelArea = LayoutView.extend({
   id: 'timeLabelArea',
-  template: _.template(TimeLabelAreaTemplate),
+  template: TimeLabelAreaTemplate,
 
   ui: {
     elapsedTimeLabel: 'elapsedTimeLabel',

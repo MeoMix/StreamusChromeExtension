@@ -1,19 +1,18 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import RepeatButtonState from 'common/enum/repeatButtonState';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import RepeatButtonTemplate from 'template/streamControlBar/repeatButton.html!text';
-import RepeatIconTemplate from 'template/icon/repeatIcon_18.svg!text';
-import RepeatOneIconTemplate from 'template/icon/repeatOneIcon_18.svg!text';
+import {streamControlBar_repeatButton as RepeatButtonTemplate} from 'common/templates';
+import {icon_repeatIcon_18 as RepeatIconTemplate} from 'common/templates';
+import {icon_repeatOneIcon_18 as RepeatOneIconTemplate} from 'common/templates';
 
 var RepeatButtonView = LayoutView.extend({
   id: 'repeatButton',
   className: 'button button--icon button--icon--secondary button--medium',
-  template: _.template(RepeatButtonTemplate),
+  template: RepeatButtonTemplate,
 
   templateHelpers: {
-    repeatIcon: _.template(RepeatIconTemplate)(),
-    repeatOneIcon: _.template(RepeatOneIconTemplate)()
+    repeatIcon: RepeatIconTemplate(),
+    repeatOneIcon: RepeatOneIconTemplate()
   },
 
   attributes: {

@@ -1,15 +1,14 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import RadioButtonTemplate from 'template/streamControlBar/radioButton.html!text';
-import RadioIconTemplate from 'template/icon/radioIcon_18.svg!text';
+import {streamControlBar_radioButton as RadioButtonTemplate} from 'common/templates';
+import {icon_radioIcon_18 as RadioIconTemplate} from 'common/templates';
 
 var RadioButtonView = LayoutView.extend({
   id: 'radioButton',
   className: 'button button--icon button--icon--secondary button--medium',
-  template: _.template(RadioButtonTemplate),
+  template: RadioButtonTemplate,
   templateHelpers: {
-    radioIcon: _.template(RadioIconTemplate)()
+    radioIcon: RadioIconTemplate()
   },
 
   attributes: {

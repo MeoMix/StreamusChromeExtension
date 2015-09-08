@@ -3,13 +3,13 @@ import {LayoutView} from 'marionette';
 import FixedPosition from 'foreground/enum/fixedPosition';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
 import LayoutType from 'common/enum/layoutType';
-import ActivePaneFilterTemplate from 'template/appBar/activePaneFilter.html!text';
+import {appBar_activePaneFilter as ActivePaneFilterTemplate} from 'common/templates';
 
 // A view which shows the title of the currently active pane and provides a drop-down menu for selecting another
 // pane to activate.
 var ActivePaneFilterView = LayoutView.extend({
   className: 'activePaneFilter contentBar-title',
-  template: _.template(ActivePaneFilterTemplate),
+  template: ActivePaneFilterTemplate,
 
   behaviors: {
     ViewEntityContainer: {

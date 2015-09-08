@@ -6,13 +6,13 @@ import AddVideoButtonView from 'foreground/view/listItemButton/addVideoButtonVie
 import DeleteListItemButtonView from 'foreground/view/listItemButton/deleteListItemButtonView';
 import PlayPauseVideoButtonView from 'foreground/view/listItemButton/playPauseVideoButtonView';
 import VideoOptionsButtonView from 'foreground/view/listItemButton/videoOptionsButtonView';
-import PlaylistItemTemplate from 'template/leftPane/playlistItem.html!text';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import VideoActions from 'foreground/model/video/videoActions';
+import {leftPane_playlistItem as PlaylistItemTemplate} from 'common/templates';
 
 var PlaylistItemView = ListItemView.extend({
   className: ListItemView.prototype.className + ' playlist-item listItem--medium listItem--hasButtons listItem--selectable',
-  template: _.template(PlaylistItemTemplate),
+  template: PlaylistItemTemplate,
 
   events: _.extend({}, ListItemView.prototype.events, {
     'dblclick': '_onDblClick'

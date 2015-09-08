@@ -1,10 +1,9 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
-import TooltipTemplate from 'template/tooltip/tooltip.html!text';
+﻿import {LayoutView} from 'marionette';
+import {tooltip_tooltip as TooltipTemplate} from 'common/templates';
 
 var TooltipView = LayoutView.extend({
   className: 'panel panel--detached',
-  template: _.template(TooltipTemplate),
+  template: TooltipTemplate,
 
   ui: {
     panelContent: 'panelContent'

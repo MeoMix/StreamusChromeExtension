@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     replace: 'grunt-text-replace'
   });
 
-  var compiledFileTargets = ['**/*', '!**/background/**', '!**/common/**', '**/common/shim/lodash.reference.shim.js', '!**/contentScript/youTubePlayer/**', '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'];
+  var compiledFileTargets = ['**/*', '!**/background/**', '!**/common/**', '**/common/shim/lodash.reference.shim.js', '**/common/templates.js', '!**/contentScript/youTubePlayer/**', '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'];
 
   grunt.initConfig({
     //	Read project settings from package.json in order to be able to reference the properties with grunt.
@@ -307,12 +307,11 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'src',
           // Exclude compiling main.js because it holds System.import.
-          src: ['**/*.js', '!**/main.js', '!**/lib/**', '!**/common/shim/lodash.reference.shim.js'],
+          src: ['**/*.js', '!**/main.js', '!**/lib/**', '!**/common/shim/lodash.reference.shim.js', '!**/common/templates.js'],
           dest: 'compiled'
         }]
       }
     },
-
     // NOTE: Spawn must be disabled to keep watch running under same context in order to dynamically modify config file.
     watch: {
       // Compile LESS files to 'compiled' directory.
@@ -353,6 +352,23 @@ module.exports = function(grunt) {
         files: ['**/*'],
         tasks: ['clean:compiledFile']
       }
+    },
+    'template-module': {
+      compile: {
+        options: {
+          module: true,
+          provider: 'lodash',
+          processName: function(filename) {
+            return filename.replace('src/template/', '').replace('.html', '').replace('.svg', '').replace(/\//g, '_');
+          },
+          templateSettings: {
+            
+          }
+        },
+        files: {
+          "src/js/common/templates.js": ["src/js/template/*.html", "src/template/**/*.html", "src/template/**/*.svg"]
+        }
+      }
     }
   });
 
@@ -363,7 +379,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('compile', ['copy:compiled', 'babel:compiled', 'less:compiled', 'watch']);
+  grunt.registerTask('compile', ['template-module', 'copy:compiled', 'babel:compiled', 'less:compiled', 'watch']);
 
   grunt.registerTask('buildDist', function() {
     grunt.task.run('copy:dist', 'less:dist');

@@ -1,13 +1,12 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
-import PlayListItemButtonTemplate from 'template/listItemButton/playListItemButton.html!text';
-import PlayIconTemplate from 'template/icon/playIcon_18.svg!text';
+import {listItemButton_playListItemButton as PlayListItemButtonTemplate} from 'common/templates';
+import {icon_playIcon_18 as PlayIconTemplate} from 'common/templates';
 
 var PlayPlaylistButtonView = LayoutView.extend({
-  template: _.template(PlayListItemButtonTemplate),
+  template: PlayListItemButtonTemplate,
   templateHelpers: {
-    playIcon: _.template(PlayIconTemplate)()
+    playIcon: PlayIconTemplate()
   },
 
   behaviors: {

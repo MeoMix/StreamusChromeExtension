@@ -1,6 +1,5 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
-import CheckboxTemplate from 'template/element/checkbox.html!text';
+﻿import {LayoutView} from 'marionette';
+import {element_checkbox as CheckboxTemplate} from 'common/templates';
 
 var CheckboxView = LayoutView.extend({
   tagName: 'checkbox',
@@ -9,7 +8,7 @@ var CheckboxView = LayoutView.extend({
     className += this.model.get('iconOnLeft') ? ' checkbox--leftIcon' : ' checkbox--rightIcon';
     return className;
   },
-  template: _.template(CheckboxTemplate),
+  template: CheckboxTemplate,
 
   ui: {
     icon: 'icon'

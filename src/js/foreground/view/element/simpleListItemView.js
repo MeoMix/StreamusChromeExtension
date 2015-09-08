@@ -3,11 +3,11 @@ import {LayoutView} from 'marionette';
 import SimpleMenuItems from 'foreground/collection/simpleMenu/simpleMenuItems';
 import SimpleMenu from 'foreground/model/simpleMenu/simpleMenu';
 import SimpleMenuView from 'foreground/view/simpleMenu/simpleMenuView';
-import SimpleListItemTemplate from 'template/element/simpleListItem.html!text';
+import {element_simpleListItem as SimpleListItemTemplate} from 'common/templates';
 
 var SimpleListItemView = LayoutView.extend({
   className: 'simpleListItem listItem listItem--medium listItem--clickable',
-  template: _.template(SimpleListItemTemplate),
+  template: SimpleListItemTemplate,
 
   templateHelpers: function() {
     return {

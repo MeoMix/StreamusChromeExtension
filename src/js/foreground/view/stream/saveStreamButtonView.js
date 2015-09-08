@@ -1,14 +1,13 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import VideoActions from 'foreground/model/video/videoActions';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
-import SaveStreamButtonTemplate from 'template/stream/saveStreamButton.html!text';
+import {stream_saveStreamButton as SaveStreamButtonTemplate} from 'common/templates';
 
 var SaveStreamButtonView = LayoutView.extend({
   id: 'saveStreamButton',
   className: 'button button--flat',
-  template: _.template(SaveStreamButtonTemplate),
+  template: SaveStreamButtonTemplate,
   templateHelpers: {
     saveAllMessage: chrome.i18n.getMessage('saveAll')
   },

@@ -1,12 +1,11 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {CompositeView} from 'marionette';
+﻿import {CompositeView} from 'marionette';
 import ListItemType from 'common/enum/listItemType';
 import CollectionViewMultiSelect from 'foreground/view/behavior/collectionViewMultiSelect';
 import Scrollable from 'foreground/view/behavior/scrollable';
 import SlidingRender from 'foreground/view/behavior/slidingRender';
 import Sortable from 'foreground/view/behavior/sortable';
 import PlaylistItemView from 'foreground/view/leftPane/playlistItemView';
-import PlaylistItemsTemplate from 'template/leftPane/playlistItems.html!text';
+import {leftPane_playlistItems as PlaylistItemsTemplate} from 'common/templates';
 
 var PlaylistItemsView = CompositeView.extend({
   id: 'playlistItems',
@@ -28,7 +27,7 @@ var PlaylistItemsView = CompositeView.extend({
     this._renderChildren();
   },
 
-  template: _.template(PlaylistItemsTemplate),
+  template: PlaylistItemsTemplate,
 
   ui: {
     listItems: 'listItems'

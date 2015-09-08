@@ -1,11 +1,10 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import EditPlaylistTemplate from 'template/dialog/editPlaylist.html!text';
+import {dialog_editPlaylist as EditPlaylistTemplate} from 'common/templates';
 
 var EditPlaylistView = LayoutView.extend({
   id: 'editPlaylist',
-  template: _.template(EditPlaylistTemplate),
+  template: EditPlaylistTemplate,
   titleMaxLength: 150,
 
   templateHelpers: function() {

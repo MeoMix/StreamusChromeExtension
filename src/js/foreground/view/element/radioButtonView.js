@@ -1,10 +1,9 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
-import RadioButtonTemplate from 'template/element/radioButton.html!text';
+﻿import {LayoutView} from 'marionette';
+import {element_radioButton as RadioButtonTemplate} from 'common/templates';
 
 var RadioButtonView = LayoutView.extend({
   tagName: 'radio-button',
-  template: _.template(RadioButtonTemplate),
+  template: RadioButtonTemplate,
 
   events: {
     'click': '_onClick'

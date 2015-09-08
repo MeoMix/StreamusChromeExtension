@@ -1,22 +1,21 @@
-import _ from 'common/shim/lodash.reference.shim';
 import {LayoutView} from 'marionette';
-import VolumeAreaTemplate from 'template/streamControlBar/volumeArea.html!text';
-import VolumeUpIconTemplate from 'template/icon/volumeUpIcon_24.svg!text';
-import VolumeDownIconTemplate from 'template/icon/volumeDownIcon_24.svg!text';
-import VolumeOffIconTemplate from 'template/icon/volumeOffIcon_24.svg!text';
-import VolumeMuteIconTemplate from 'template/icon/volumeMuteIcon_24.svg!text';
+import {streamControlBar_volumeArea as VolumeAreaTemplate} from 'common/templates';
+import {icon_volumeUpIcon_24 as VolumeUpIconTemplate} from 'common/templates';
+import {icon_volumeDownIcon_24 as VolumeDownIconTemplate} from 'common/templates';
+import {icon_volumeOffIcon_24 as VolumeOffIconTemplate} from 'common/templates';
+import {icon_volumeMuteIcon_24 as VolumeMuteIconTemplate} from 'common/templates';
 
 var VolumeAreaView = LayoutView.extend({
   id: 'volumeArea',
   className: 'volumeArea',
-  template: _.template(VolumeAreaTemplate),
+  template: VolumeAreaTemplate,
 
   templateHelpers: function() {
     return {
-      volumeUpIcon: _.template(VolumeUpIconTemplate)(),
-      volumeDownIcon: _.template(VolumeDownIconTemplate)(),
-      volumeOffIcon: _.template(VolumeOffIconTemplate)(),
-      volumeMuteIcon: _.template(VolumeMuteIconTemplate)()
+      volumeUpIcon: VolumeUpIconTemplate(),
+      volumeDownIcon: VolumeDownIconTemplate(),
+      volumeOffIcon: VolumeOffIconTemplate(),
+      volumeMuteIcon: VolumeMuteIconTemplate()
     };
   },
 

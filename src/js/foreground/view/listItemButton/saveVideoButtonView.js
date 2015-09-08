@@ -1,14 +1,13 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
 import VideoActions from 'foreground/model/video/videoActions';
-import SaveListItemButtonTemplate from 'template/listItemButton/saveListItemButton.html!text';
-import SaveIconTemplate from 'template/icon/saveIcon_18.svg!text';
+import {listItemButton_saveListItemButton as SaveListItemButtonTemplate} from 'common/templates';
+import {icon_saveIcon_18 as SaveIconTemplate} from 'common/templates';
 
 var SaveVideoButtonView = LayoutView.extend({
-  template: _.template(SaveListItemButtonTemplate),
+  template: SaveListItemButtonTemplate,
   templateHelpers: {
-    saveIcon: _.template(SaveIconTemplate)()
+    saveIcon: SaveIconTemplate()
   },
 
   behaviors: {

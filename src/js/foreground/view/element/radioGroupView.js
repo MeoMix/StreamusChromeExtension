@@ -1,12 +1,11 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {CompositeView} from 'marionette';
+﻿import {CompositeView} from 'marionette';
 import RadioButtonView from 'foreground/view/element/radioButtonView';
 import KeyCode from 'foreground/enum/keyCode';
-import RadioGroupTemplate from 'template/element/radioGroup.html!text';
+import {element_radioGroup as RadioGroupTemplate} from 'common/templates';
 
 var RadioGroupView = CompositeView.extend({
   tagName: 'radio-group',
-  template: _.template(RadioGroupTemplate),
+  template: RadioGroupTemplate,
   childViewContainer: '@ui.buttons',
   childView: RadioButtonView,
 

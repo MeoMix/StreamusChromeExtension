@@ -1,13 +1,12 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ActivePaneType from 'foreground/enum/activePaneType';
 import StreamView from 'foreground/view/stream/streamView';
 import ActivePlaylistAreaView from 'foreground/view/leftPane/activePlaylistAreaView';
-import ActivePaneTemplate from 'template/activePane/activePane.html!text';
+import {activePane_activePane as ActivePaneTemplate} from 'common/templates';
 
 var ActivePaneView = LayoutView.extend({
   className: 'activePane flexColumn',
-  template: _.template(ActivePaneTemplate),
+  template: ActivePaneTemplate,
 
   regions: {
     content: 'content'

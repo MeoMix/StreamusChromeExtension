@@ -2,14 +2,14 @@
 import {LayoutView} from 'marionette';
 import SimpleMenuItemsView from 'foreground/view/simpleMenu/simpleMenuItemsView';
 import SimpleMenuItemView from 'foreground/view/simpleMenu/simpleMenuItemView';
-import SimpleMenuTemplate from 'template/simpleMenu/simpleMenu.html!text';
 import FixedPosition from 'foreground/enum/fixedPosition';
-import utility from 'common/utility';
+import Utility from 'common/utility';
+import {simpleMenu_simpleMenu as SimpleMenuTemplate} from 'common/templates';
 
 var SimpleMenuView = LayoutView.extend({
   id: 'simpleMenu',
   className: 'panel panel--detached',
-  template: _.template(SimpleMenuTemplate),
+  template: SimpleMenuTemplate,
 
   regions: {
     simpleMenuItems: 'simpleMenuItems',
@@ -112,14 +112,14 @@ var SimpleMenuView = LayoutView.extend({
 
   _setPosition: function(positionData) {
     // Prefer flipping, but if flipping won't fit in the viewport then settle for shifting.
-    var offsetTop = utility.flipInvertOffset(positionData.top, this.$el.outerHeight(), positionData.containerHeight);
+    var offsetTop = Utility.flipInvertOffset(positionData.top, this.$el.outerHeight(), positionData.containerHeight);
     if (offsetTop < 0) {
-      offsetTop = utility.shiftOffset(positionData.top, this.$el.outerHeight(), positionData.containerHeight, 8);
+      offsetTop = Utility.shiftOffset(positionData.top, this.$el.outerHeight(), positionData.containerHeight, 8);
     }
 
-    var offsetLeft = utility.flipInvertOffset(positionData.left, this.$el.outerWidth(), positionData.containerWidth);
+    var offsetLeft = Utility.flipInvertOffset(positionData.left, this.$el.outerWidth(), positionData.containerWidth);
     if (offsetLeft < 0) {
-      offsetLeft = utility.shiftOffset(positionData.left, this.$el.outerWidth, positionData.containerWidth, 8);
+      offsetLeft = Utility.shiftOffset(positionData.left, this.$el.outerWidth, positionData.containerWidth, 8);
     }
 
     // Be sure to round the values because sub-pixel positioning of view can cause blur.

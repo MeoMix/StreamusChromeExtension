@@ -1,10 +1,9 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
-import SwitchTemplate from 'template/element/switch.html!text';
+﻿import {LayoutView} from 'marionette';
+import {element_switch as SwitchTemplate} from 'common/templates';
 
 var SwitchView = LayoutView.extend({
   tagName: 'switch',
-  template: _.template(SwitchTemplate),
+  template: SwitchTemplate,
 
   ui: {
     icon: 'icon'

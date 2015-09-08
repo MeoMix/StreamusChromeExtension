@@ -1,5 +1,4 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {CompositeView} from 'marionette';
+﻿import {CompositeView} from 'marionette';
 import ListItemType from 'common/enum/listItemType';
 import CollectionViewMultiSelect from 'foreground/view/behavior/collectionViewMultiSelect';
 import Scrollable from 'foreground/view/behavior/scrollable';
@@ -7,7 +6,7 @@ import SlidingRender from 'foreground/view/behavior/slidingRender';
 import Sortable from 'foreground/view/behavior/sortable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import SearchResultView from 'foreground/view/search/searchResultView';
-import SearchResultsTemplate from 'template/search/searchResults.html!text';
+import {search_searchResults as SearchResultsTemplate} from 'common/templates';
 
 var SearchResultsView = CompositeView.extend({
   id: 'searchResults',
@@ -29,7 +28,7 @@ var SearchResultsView = CompositeView.extend({
     this._renderChildren();
   },
 
-  template: _.template(SearchResultsTemplate),
+  template: SearchResultsTemplate,
 
   ui: {
     listItems: 'listItems'

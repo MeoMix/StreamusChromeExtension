@@ -1,15 +1,14 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ResizeEmitter from 'foreground/view/behavior/resizeEmitter';
 import Slider from 'foreground/model/element/slider';
-import SliderTemplate from 'template/element/slider.html!text';
+import {element_slider as SliderTemplate} from 'common/templates';
 
 // Provide a Web Component implementation of <input type='range'> which doesn't utilize an <input> element
 // nor any browser stylings. Should support most expected behaviors of an input element.
 // Notable differences include support for vertical styling and default support for 'wheel' events.
 var SliderView = LayoutView.extend({
   tagName: 'streamus-slider',
-  template: _.template(SliderTemplate),
+  template: SliderTemplate,
 
   ui: {
     'track': 'track',

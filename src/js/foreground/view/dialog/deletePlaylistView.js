@@ -1,10 +1,10 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import DeletePlaylistTemplate from 'template/dialog/deletePlaylist.html!text';
+import {dialog_deletePlaylist as DeletePlaylistTemplate} from 'common/templates';
 
 var DeletePlaylistView = LayoutView.extend({
-  template: _.template(DeletePlaylistTemplate),
+  template: DeletePlaylistTemplate,
 
   templateHelpers: {
     deleteMessage: chrome.i18n.getMessage('delete')

@@ -1,5 +1,4 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {CompositeView} from 'marionette';
+﻿import {CompositeView} from 'marionette';
 import ListItemType from 'common/enum/listItemType';
 import CollectionViewMultiSelect from 'foreground/view/behavior/collectionViewMultiSelect';
 import Scrollable from 'foreground/view/behavior/scrollable';
@@ -7,11 +6,12 @@ import SlidingRender from 'foreground/view/behavior/slidingRender';
 import Sortable from 'foreground/view/behavior/sortable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import StreamItemView from 'foreground/view/stream/streamItemView';
-import StreamItemsTemplate from 'template/stream/streamItems.html!text';
+import {stream_streamItems as StreamItemsTemplate} from 'common/templates';
 
 var StreamItemsView = CompositeView.extend({
   id: 'streamItems',
   className: 'list u-flex--full',
+  template: StreamItemsTemplate,
   childViewContainer: '@ui.listItems',
   childView: StreamItemView,
   childViewType: ListItemType.StreamItem,
@@ -28,8 +28,6 @@ var StreamItemsView = CompositeView.extend({
   resortView: function() {
     this._renderChildren();
   },
-
-  template: _.template(StreamItemsTemplate),
 
   ui: {
     listItems: 'listItems'

@@ -1,14 +1,13 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import ClearStreamDialogView from 'foreground/view/dialog/clearStreamDialogView';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
-import ClearStreamButtonTemplate from 'template/stream/clearStreamButton.html!text';
+import {stream_clearStreamButton as ClearStreamButtonTemplate} from 'common/templates';
 
 var ClearStreamButtonView = LayoutView.extend({
   id: 'clearStreamButton',
   className: 'button button--flat',
-  template: _.template(ClearStreamButtonTemplate),
+  template: ClearStreamButtonTemplate,
   templateHelpers: {
     clearMessage: chrome.i18n.getMessage('clear')
   },

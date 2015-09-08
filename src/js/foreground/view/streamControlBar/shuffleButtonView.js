@@ -1,15 +1,14 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import ShuffleButtonTemplate from 'template/streamControlBar/shuffleButton.html!text';
-import ShuffleIconTemplate from 'template/icon/shuffleIcon_18.svg!text';
+import {streamControlBar_shuffleButton as ShuffleButtonTemplate} from 'common/templates';
+import {icon_shuffleIcon_18 as ShuffleIconTemplate} from 'common/templates';
 
 var ShuffleButtonView = LayoutView.extend({
   id: 'shuffleButton',
   className: 'button button--icon button--icon--secondary button--medium',
-  template: _.template(ShuffleButtonTemplate),
+  template: ShuffleButtonTemplate,
   templateHelpers: {
-    shuffleIcon: _.template(ShuffleIconTemplate)()
+    shuffleIcon: ShuffleIconTemplate()
   },
 
   attributes: {

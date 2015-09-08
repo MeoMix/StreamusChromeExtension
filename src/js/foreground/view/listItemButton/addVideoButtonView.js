@@ -1,13 +1,12 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
-import AddListItemButtonTemplate from 'template/listItemButton/addListItemButton.html!text';
-import AddIconTemplate from 'template/icon/addIcon_18.svg!text';
+import {listItemButton_addListItemButton as AddListItemButtonTemplate} from 'common/templates';
+import {icon_addIcon_18 as AddIconTemplate} from 'common/templates';
 
 var AddVideoButtonView = LayoutView.extend({
-  template: _.template(AddListItemButtonTemplate),
+  template: AddListItemButtonTemplate,
   templateHelpers: {
-    addIcon: _.template(AddIconTemplate)()
+    addIcon: AddIconTemplate()
   },
 
   behaviors: {

@@ -1,13 +1,12 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import SettingsDialogView from 'foreground/view/dialog/settingsDialogView';
 import AboutStreamusDialogView from 'foreground/view/dialog/aboutStreamusDialogView';
-import AdminMenuAreaTemplate from 'template/appBar/adminMenuArea.html!text';
-import SettingsIcon from 'template/icon/settingsIcon_24.svg!text';
+import {appBar_adminMenuArea as AdminMenuAreaTemplate} from 'common/templates';
+import {icon_settingsIcon_24 as SettingsIconTemplate} from 'common/templates';
 
 var AdminMenuAreaView = LayoutView.extend({
   id: 'adminMenuArea',
-  template: _.template(AdminMenuAreaTemplate),
+  template: AdminMenuAreaTemplate,
 
   templateHelpers: {
     settingsMessage: chrome.i18n.getMessage('settings'),
@@ -15,7 +14,7 @@ var AdminMenuAreaView = LayoutView.extend({
     openInTabMessage: chrome.i18n.getMessage('openInTab'),
     aboutStreamusMessage: chrome.i18n.getMessage('aboutStreamus'),
     reloadMessage: chrome.i18n.getMessage('reload'),
-    settingsIcon: _.template(SettingsIcon)()
+    settingsIcon: SettingsIconTemplate()
   },
 
   ui: {

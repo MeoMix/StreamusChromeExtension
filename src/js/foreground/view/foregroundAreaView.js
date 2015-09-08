@@ -13,11 +13,11 @@ import TooltipRegion from 'foreground/view/tooltip/tooltipRegion';
 import KeyCode from 'foreground/enum/keyCode';
 // TODO: Need pattern for registering Web Component.
 import SliderView from 'foreground/view/element/sliderView';
-import ForegroundAreaTemplate from 'template/foregroundArea.html!text';
+import {foregroundArea as ForegroundAreaTemplate} from 'common/templates';
 
 var ForegroundAreaView = LayoutView.extend({
   el: '#foregroundArea',
-  template: _.template(ForegroundAreaTemplate),
+  template: ForegroundAreaTemplate,
 
   events: {
     'mousedown': '_onMouseDown',

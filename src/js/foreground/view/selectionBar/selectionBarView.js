@@ -3,20 +3,20 @@ import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
 import VideoActions from 'foreground/model/video/videoActions';
-import SelectionBarTemplate from 'template/selectionBar/selectionBar.html!text';
-import CloseIconTemplate from 'template/icon/closeIcon_24.svg!text';
+import {selectionBar_selectionBar as SelectionBarTemplate} from 'common/templates';
+import {icon_closeIcon_24 as CloseIconTemplate} from 'common/templates';
 
 var SelectionBarView = LayoutView.extend({
   id: 'selectionBar',
   className: 'selectionBar panel-content panel-content--uncolored',
-  template: _.template(SelectionBarTemplate),
+  template: SelectionBarTemplate,
 
   templateHelpers: {
     playMessage: chrome.i18n.getMessage('play'),
     addMessage: chrome.i18n.getMessage('add'),
     saveMessage: chrome.i18n.getMessage('save'),
     deleteMessage: chrome.i18n.getMessage('delete'),
-    closeIcon: _.template(CloseIconTemplate)()
+    closeIcon: CloseIconTemplate()
   },
 
   ui: {

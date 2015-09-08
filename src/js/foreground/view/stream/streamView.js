@@ -1,16 +1,15 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ClearStreamButton from 'foreground/model/stream/clearStreamButton';
 import SaveStreamButton from 'foreground/model/stream/saveStreamButton';
 import ClearStreamButtonView from 'foreground/view/stream/clearStreamButtonView';
 import SaveStreamButtonView from 'foreground/view/stream/saveStreamButtonView';
 import StreamItemsView from 'foreground/view/stream/streamItemsView';
-import StreamTemplate from 'template/stream/stream.html!text';
+import {stream_stream as StreamTemplate} from 'common/templates';
 
 var StreamView = LayoutView.extend({
   id: 'stream',
   className: 'flexColumn',
-  template: _.template(StreamTemplate),
+  template: StreamTemplate,
 
   templateHelpers: {
     emptyMessage: chrome.i18n.getMessage('streamEmpty'),

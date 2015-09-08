@@ -5,11 +5,11 @@ import ExportFileType from 'common/enum/exportFileType';
 import RadioGroups from 'foreground/collection/element/radioGroups';
 import RadioGroupView from 'foreground/view/element/radioGroupView';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import ExportPlaylistTemplate from 'template/dialog/exportPlaylist.html!text';
+import {dialog_exportPlaylist as ExportPlaylistTemplate} from 'common/templates';
 
 var ExportPlaylistView = LayoutView.extend({
   id: 'exportPlaylist',
-  template: _.template(ExportPlaylistTemplate),
+  template: ExportPlaylistTemplate,
 
   templateHelpers: {
     fileTypeMessage: chrome.i18n.getMessage('fileType'),

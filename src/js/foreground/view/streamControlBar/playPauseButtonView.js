@@ -1,17 +1,16 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
-import PlayPauseButtonTemplate from 'template/streamControlBar/playPauseButton.html!text';
-import PauseIconTemplate from 'template/icon/pauseIcon_30.svg!text';
-import PlayIconTemplate from 'template/icon/playIcon_30.svg!text';
+﻿import {LayoutView} from 'marionette';
+import {streamControlBar_playPauseButton as PlayPauseButtonTemplate} from 'common/templates';
+import {icon_pauseIcon_30 as PauseIconTemplate} from 'common/templates';
+import {icon_playIcon_30 as PlayIconTemplate} from 'common/templates';
 
 var PlayPauseButtonView = LayoutView.extend({
   id: 'playPauseButton',
   className: 'button button--icon button--icon--primary button--large',
-  template: _.template(PlayPauseButtonTemplate),
+  template: PlayPauseButtonTemplate,
 
   templateHelpers: {
-    pauseIcon: _.template(PauseIconTemplate)(),
-    playIcon: _.template(PlayIconTemplate)()
+    pauseIcon: PauseIconTemplate(),
+    playIcon: PlayIconTemplate()
   },
 
   ui: {

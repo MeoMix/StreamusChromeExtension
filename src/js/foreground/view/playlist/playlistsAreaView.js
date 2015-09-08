@@ -1,14 +1,14 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import PlaylistsView from 'foreground/view/playlist/playlistsView';
 import CreatePlaylistDialogView from 'foreground/view/dialog/createPlaylistDialogView';
-import PlaylistsAreaTemplate from 'template/playlist/playlistsArea.html!text';
+import {playlist_playlistsArea as PlaylistsAreaTemplate} from 'common/templates';
 
 var PlaylistsAreaView = LayoutView.extend({
   id: 'playlistsArea',
   className: 'flexColumn',
-  template: _.template(PlaylistsAreaTemplate),
+  template: PlaylistsAreaTemplate,
   templateHelpers: {
+    // TODO: createPlaylistMessage
     createPlaylist: chrome.i18n.getMessage('createPlaylist')
   },
 

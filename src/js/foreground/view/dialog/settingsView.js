@@ -12,11 +12,11 @@ import RadioGroupView from 'foreground/view/element/radioGroupView';
 import SimpleListItemView from 'foreground/view/element/simpleListItemView';
 import SwitchView from 'foreground/view/element/switchView';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import SettingsTemplate from 'template/dialog/settings.html!text';
+import {dialog_settings as SettingsTemplate} from 'common/templates';
 
 var SettingsView = LayoutView.extend({
   id: 'settings',
-  template: _.template(SettingsTemplate),
+  template: SettingsTemplate,
 
   templateHelpers: {
     generalMessage: chrome.i18n.getMessage('general'),

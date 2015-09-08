@@ -1,6 +1,6 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import {Behavior} from 'marionette';
-import ResizeEmitterTemplate from 'template/behavior/resizeEmitter.html!text';
+import {behavior_resizeEmitter as ResizeEmitterTemplate} from 'common/templates';
 
 // There's a lack of support in modern browsers for being notified of a DOM element changing dimensions.
 // Provide this functionality by leveraging 'scroll' events attached to hidden DOM elements attached to
@@ -26,7 +26,7 @@ var ResizeEmitter = Behavior.extend({
 
   onRender: function() {
     // Append a hidden element which will trigger 'scroll' events whenever it resizes.
-    this.$el.append(_.template(ResizeEmitterTemplate)());
+    this.$el.append(ResizeEmitterTemplate());
     // Need to rebind because the view's DOM was modified after render.
     this.view.bindUIElements();
   },

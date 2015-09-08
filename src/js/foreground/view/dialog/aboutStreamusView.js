@@ -1,11 +1,10 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import AboutStreamusTemplate from 'template/dialog/aboutStreamus.html!text';
+import {dialog_aboutStreamus as AboutStreamusTemplate} from 'common/templates';
 
 var AboutStreamusView = LayoutView.extend({
   id: 'aboutStreamus',
-  template: _.template(AboutStreamusTemplate),
+  template: AboutStreamusTemplate,
 
   templateHelpers: {
     applicationDetails: chrome.app.getDetails(),

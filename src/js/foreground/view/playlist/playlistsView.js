@@ -1,15 +1,14 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {CompositeView} from 'marionette';
+﻿import {CompositeView} from 'marionette';
 import ListItemType from 'common/enum/listItemType';
 import Scrollable from 'foreground/view/behavior/scrollable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import PlaylistView from 'foreground/view/playlist/playlistView';
-import PlaylistsTemplate from 'template/playlist/playlists.html!text';
+import {playlist_playlists as PlaylistsTemplate} from 'common/templates';
 
 var PlaylistsView = CompositeView.extend({
   id: 'playlists',
   className: 'list u-flex--full',
-  template: _.template(PlaylistsTemplate),
+  template: PlaylistsTemplate,
 
   childView: PlaylistView,
   childViewContainer: '@ui.listItems',

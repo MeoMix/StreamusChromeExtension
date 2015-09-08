@@ -1,11 +1,10 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ClipboardRegion from 'background/view/clipboardRegion';
-import BackgroundAreaTemplate from 'template/backgroundArea.html!text';
+import {backgroundArea as BackgroundAreaTemplate} from 'common/templates';
 
 var BackgroundAreaView = LayoutView.extend({
   el: '#backgroundArea',
-  template: _.template(BackgroundAreaTemplate),
+  template: BackgroundAreaTemplate,
 
   regions: {
     clipboard: {

@@ -1,14 +1,13 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
-import PreviousButtonTemplate from 'template/streamControlBar/previousButton.html!text';
-import PreviousIconTemplate from 'template/icon/previousIcon_24.svg!text';
+﻿import {LayoutView} from 'marionette';
+import {streamControlBar_previousButton as PreviousButtonTemplate} from 'common/templates';
+import {icon_previousIcon_24 as PreviousIconTemplate} from 'common/templates';
 
 var PreviousButton = LayoutView.extend({
   id: 'previousButton',
   className: 'button button--icon button--icon--primary button--large',
-  template: _.template(PreviousButtonTemplate),
+  template: PreviousButtonTemplate,
   templateHelpers: {
-    previousIcon: _.template(PreviousIconTemplate)()
+    previousIcon: PreviousIconTemplate()
   },
 
   events: {

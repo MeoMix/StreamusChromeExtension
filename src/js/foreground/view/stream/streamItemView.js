@@ -5,12 +5,12 @@ import DeleteListItemButtonView from 'foreground/view/listItemButton/deleteListI
 import PlayPauseVideoButtonView from 'foreground/view/listItemButton/playPauseVideoButtonView';
 import SaveVideoButtonView from 'foreground/view/listItemButton/saveVideoButtonView';
 import VideoOptionsButtonView from 'foreground/view/listItemButton/videoOptionsButtonView';
-import StreamItemTemplate from 'template/stream/streamItem.html!text';
 import VideoActions from 'foreground/model/video/videoActions';
+import {stream_streamItem as StreamItemTemplate} from 'common/templates';
 
 var StreamItemView = ListItemView.extend({
   className: ListItemView.prototype.className + ' stream-item listItem--medium listItem--hasButtons listItem--selectable',
-  template: _.template(StreamItemTemplate),
+  template: StreamItemTemplate,
 
   events: _.extend({}, ListItemView.prototype.events, {
     'dblclick': '_onDblClick'

@@ -1,14 +1,13 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
 import PlaylistActions from 'foreground/model/playlist/playlistActions';
-import OptionsListItemButtonTemplate from 'template/listItemButton/optionsListItemButton.html!text';
-import OptionsIconTemplate from 'template/icon/optionsIcon_18.svg!text';
+import {listItemButton_optionsListItemButton as OptionsListItemButtonTemplate} from 'common/templates';
+import {icon_optionsIcon_18 as OptionsIconTemplate} from 'common/templates';
 
 var PlaylistOptionsButtonView = LayoutView.extend({
-  template: _.template(OptionsListItemButtonTemplate),
+  template: OptionsListItemButtonTemplate,
   templateHelpers: {
-    optionsIcon: _.template(OptionsIconTemplate)()
+    optionsIcon: OptionsIconTemplate()
   },
 
   attributes: {

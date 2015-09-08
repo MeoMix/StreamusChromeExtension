@@ -1,21 +1,20 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import KeyCode from 'foreground/enum/keyCode';
-import SearchInputAreaTemplate from 'template/appBar/searchInputArea.html!text';
-import SearchIconTemplate from 'template/icon/searchIcon_24.svg!text';
-import CloseIconTemplate from 'template/icon/closeIcon_24.svg!text';
+import {appBar_searchInputArea as SearchInputAreaTemplate} from 'common/templates';
+import {icon_searchIcon_24 as SearchIconTemplate} from 'common/templates';
+import {icon_closeIcon_24 as CloseIconTemplate} from 'common/templates';
 
 var SearchInputAreaView = LayoutView.extend({
   className: 'searchInputArea flexRow',
-  template: _.template(SearchInputAreaTemplate),
+  template: SearchInputAreaTemplate,
 
   templateHelpers: function() {
     return {
       searchQuery: this.search.get('query'),
       showSearchMessage: chrome.i18n.getMessage('showSearch'),
-      searchIcon: _.template(SearchIconTemplate)(),
+      searchIcon: SearchIconTemplate(),
       searchMessage: chrome.i18n.getMessage('search'),
-      clearSearchIcon: _.template(CloseIconTemplate)()
+      clearSearchIcon: CloseIconTemplate()
     };
   },
 

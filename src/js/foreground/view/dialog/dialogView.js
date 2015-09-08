@@ -3,11 +3,11 @@ import {LayoutView} from 'marionette';
 import Checkbox from 'foreground/model/element/checkbox';
 import CheckboxView from 'foreground/view/element/checkboxView';
 import KeyCode from 'foreground/enum/keyCode';
-import DialogTemplate from 'template/dialog/dialog.html!text';
+import {dialog_dialog as DialogTemplate} from 'common/templates';
 
 var DialogView = LayoutView.extend({
   className: 'dialog overlay overlay--faded',
-  template: _.template(DialogTemplate),
+  template: DialogTemplate,
   contentView: null,
 
   regions: {

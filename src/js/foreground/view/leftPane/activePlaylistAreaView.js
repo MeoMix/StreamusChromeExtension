@@ -1,13 +1,12 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import PlaylistItemsView from 'foreground/view/leftPane/playlistItemsView';
-import ActivePlaylistAreaTemplate from 'template/leftPane/activePlaylistArea.html!text';
+import {leftPane_activePlaylistArea as ActivePlaylistAreaTemplate} from 'common/templates';
 
 var ActivePlaylistAreaView = LayoutView.extend({
   id: 'activePlaylistArea',
   className: 'flexColumn',
-  template: _.template(ActivePlaylistAreaTemplate),
+  template: ActivePlaylistAreaTemplate,
 
   templateHelpers: {
     addAllMessage: chrome.i18n.getMessage('addAll'),

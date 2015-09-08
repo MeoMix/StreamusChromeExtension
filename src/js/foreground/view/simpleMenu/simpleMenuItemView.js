@@ -1,11 +1,10 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import FixedPosition from 'foreground/enum/fixedPosition';
-import SimpleMenuItemTemplate from 'template/simpleMenu/simpleMenuItem.html!text';
+import {simpleMenu_simpleMenuItem as SimpleMenuItemTemplate} from 'common/templates';
 
 var SimpleMenuItemView = LayoutView.extend({
   className: 'listItem listItem--small listItem--selectable listItem--clickable',
-  template: _.template(SimpleMenuItemTemplate),
+  template: SimpleMenuItemTemplate,
 
   events: {
     'click': '_onClick'
