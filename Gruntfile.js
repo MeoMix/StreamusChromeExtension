@@ -215,7 +215,9 @@ module.exports = function(grunt) {
     copy: {
       options: {
         // Force file modified time to update so that grunt-newer is able to know not to copy to dest multiple times.
-        mtimeUpdate: true
+        mtimeUpdate: true,
+        // Force directories to update their modified time.
+        timestamp: true
       },
       release: {
         expand: true,
