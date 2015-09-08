@@ -397,7 +397,7 @@ module.exports = function(grunt) {
     var options = {
       runtime: false,
       sourceMaps: false,
-      true: false
+      minify: false
     };
 
     Rsvp.Promise.all([
