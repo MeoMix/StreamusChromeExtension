@@ -129,7 +129,9 @@
     "storage",
     "identity",
     "identity.email",
-    "*://*.youtube.com/*"
+    "*://*.youtube.com/*",
+    // Prevent sending OPTIONS pre-flight checks. Improves RTT performance.
+    "https://aws-server.streamus.com/Streamus/*"
   ],
   "web_accessible_resources": [
     "js/lib/*.js",
