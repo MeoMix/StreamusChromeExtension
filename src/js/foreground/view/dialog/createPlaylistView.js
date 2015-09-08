@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import DataSourceType from 'common/enum/dataSourceType';
 import DialogContent from 'foreground/view/behavior/dialogContent';
 import CreatePlaylistTemplate from 'template/dialog/createPlaylist.html!text';

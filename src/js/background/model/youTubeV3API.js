@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import Videos from 'background/collection/videos';
 import YouTubeAPIKey from 'background/key/youTubeAPIKey';
 import VideoType from 'background/enum/videoType';

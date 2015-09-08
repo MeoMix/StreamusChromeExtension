@@ -1,4 +1,4 @@
-﻿import _ from 'lodash';
+﻿import _ from 'common/shim/lodash.reference.shim';
 import Marionette from 'marionette';
 
 Marionette.View.prototype.useCustomUiSelector = false;

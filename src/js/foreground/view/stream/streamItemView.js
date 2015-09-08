@@ -1,4 +1,5 @@
-﻿import ListItemView from 'foreground/view/listItemView';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import ListItemView from 'foreground/view/listItemView';
 import ListItemMultiSelect from 'foreground/view/behavior/itemViewMultiSelect';
 import DeleteListItemButtonView from 'foreground/view/listItemButton/deleteListItemButtonView';
 import PlayPauseVideoButtonView from 'foreground/view/listItemButton/playPauseVideoButtonView';

@@ -1,4 +1,5 @@
-﻿import {Region} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Region} from 'marionette';
 import SimpleMenuView from 'foreground/view/simpleMenu/simpleMenuView';
 import SimpleMenu from 'foreground/model/simpleMenu/simpleMenu';
 import SimpleMenuItems from 'foreground/collection/simpleMenu/simpleMenuItems';

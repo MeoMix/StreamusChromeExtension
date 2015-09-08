@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import SpinnerTemplate from 'template/element/spinner.html!text';
 
 var SpinnerView = LayoutView.extend({

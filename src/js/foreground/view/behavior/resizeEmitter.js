@@ -1,4 +1,5 @@
-﻿import {Behavior} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Behavior} from 'marionette';
 import ResizeEmitterTemplate from 'template/behavior/resizeEmitter.html!text';
 
 // There's a lack of support in modern browsers for being notified of a DOM element changing dimensions.

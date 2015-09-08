@@ -1,4 +1,5 @@
-﻿import {Behavior} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Behavior} from 'marionette';
 import ListItemType from 'common/enum/listItemType';
 import 'lib/jquery-ui';
 

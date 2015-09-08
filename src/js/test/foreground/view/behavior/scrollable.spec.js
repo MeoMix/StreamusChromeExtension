@@ -1,4 +1,5 @@
-﻿import Scrollable from 'foreground/view/behavior/scrollable';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import Scrollable from 'foreground/view/behavior/scrollable';
 import {CompositeView} from 'marionette';
 
 describe('Scrollable', function() {

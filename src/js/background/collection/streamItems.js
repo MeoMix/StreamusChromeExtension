@@ -1,4 +1,5 @@
-﻿import {Collection} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Collection} from 'backbone';
 import Cocktail from 'backbone.cocktail';
 import LocalStorage from 'lib/backbone.localStorage';
 import ChromeCommand from 'background/enum/chromeCommand';

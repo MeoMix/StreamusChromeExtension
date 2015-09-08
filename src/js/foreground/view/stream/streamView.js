@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import ClearStreamButton from 'foreground/model/stream/clearStreamButton';
 import SaveStreamButton from 'foreground/model/stream/saveStreamButton';
 import ClearStreamButtonView from 'foreground/view/stream/clearStreamButtonView';

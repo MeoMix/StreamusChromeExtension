@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import YouTubeV3API from 'background/model/youTubeV3API';
 
 // Ensure that the network is not flooded with requests when issuing several getRelatedVideos requests.

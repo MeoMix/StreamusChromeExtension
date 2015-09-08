@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import Videos from 'background/collection/videos';
 import OmniboxModifier from 'background/enum/omniboxModifier';
 import YouTubeV3API from 'background/model/youTubeV3API';

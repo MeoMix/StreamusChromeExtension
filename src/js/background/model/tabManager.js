@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import ChromeCommand from 'background/enum/chromeCommand';
 
 var TabManager = Model.extend({

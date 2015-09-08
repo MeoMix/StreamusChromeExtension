@@ -1,4 +1,5 @@
-﻿import {Collection} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Collection} from 'backbone';
 import CollectionMultiSelect from 'background/mixin/collectionMultiSelect';
 import CollectionSequence from 'background/mixin/collectionSequence';
 import CollectionUniqueVideo from 'background/mixin/collectionUniqueVideo';

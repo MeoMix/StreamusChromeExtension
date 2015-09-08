@@ -1,4 +1,5 @@
-﻿import SpinnerView from 'foreground/view/element/spinnerView';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import SpinnerView from 'foreground/view/element/spinnerView';
 import ListItemView from 'foreground/view/listItemView';
 import AddPlaylistButtonView from 'foreground/view/listItemButton/addPlaylistButtonView';
 import DeletePlaylistButtonView from 'foreground/view/listItemButton/deletePlaylistButtonView';

@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import Orientation from 'foreground/enum/orientation';
 
 var Slider = Model.extend({

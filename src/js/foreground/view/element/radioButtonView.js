@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import RadioButtonTemplate from 'template/element/radioButton.html!text';
 
 var RadioButtonView = LayoutView.extend({

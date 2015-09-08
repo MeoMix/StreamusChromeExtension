@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import Utility from 'common/utility';
 import ExportFileType from 'common/enum/exportFileType';
 import RadioGroups from 'foreground/collection/element/radioGroups';

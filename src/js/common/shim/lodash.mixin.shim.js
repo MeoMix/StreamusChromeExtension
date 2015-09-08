@@ -1,4 +1,4 @@
-﻿import _ from 'lodash';
+﻿import _ from 'common/shim/lodash.reference.shim';
 
 _.mixin({
   // Inspired by: https://gist.github.com/danro/7846358

@@ -1,4 +1,5 @@
-﻿import {CompositeView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {CompositeView} from 'marionette';
 import ListItemType from 'common/enum/listItemType';
 import CollectionViewMultiSelect from 'foreground/view/behavior/collectionViewMultiSelect';
 import Scrollable from 'foreground/view/behavior/scrollable';

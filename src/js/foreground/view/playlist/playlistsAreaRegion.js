@@ -1,4 +1,5 @@
-﻿import {Region} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Region} from 'marionette';
 import PlaylistsAreaView from 'foreground/view/playlist/playlistsAreaView';
 
 var PlaylistsAreaRegion = Region.extend({

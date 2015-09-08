@@ -1,4 +1,5 @@
-﻿import Tooltipable from 'foreground/view/behavior/tooltipable';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import Tooltipable from 'foreground/view/behavior/tooltipable';
 
 describe('Tooltipable', function() {
   beforeEach(function() {

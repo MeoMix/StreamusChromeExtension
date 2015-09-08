@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import VideoStreamView from 'contentScript/youTubePlayer/view/videoStreamView';
 import VideoStream from 'contentScript/youTubePlayer/model/videoStream';
 import VideoCommand from 'common/enum/videoCommand';

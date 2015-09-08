@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import DataSource from 'background/model/dataSource';
 import YouTubeV3API from 'background/model/youTubeV3API';
 

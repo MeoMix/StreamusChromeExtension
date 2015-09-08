@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import FixedPosition from 'foreground/enum/fixedPosition';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
 import LayoutType from 'common/enum/layoutType';

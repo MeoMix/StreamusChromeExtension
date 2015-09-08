@@ -1,4 +1,5 @@
-﻿import {CompositeView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {CompositeView} from 'marionette';
 import RadioButtonView from 'foreground/view/element/radioButtonView';
 import KeyCode from 'foreground/enum/keyCode';
 import RadioGroupTemplate from 'template/element/radioGroup.html!text';

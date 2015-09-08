@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import TooltipTemplate from 'template/tooltip/tooltip.html!text';
 
 var TooltipView = LayoutView.extend({

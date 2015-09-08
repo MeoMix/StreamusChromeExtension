@@ -1,4 +1,6 @@
-﻿var ViewTestUtility = {
+﻿import _ from 'common/shim/lodash.reference.shim';
+
+var ViewTestUtility = {
   ensureBasicAssumptions: function() {
     describe('Basic Assumptions', function() {
       it('should show', function() {

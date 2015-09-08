@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import SettingsDialogView from 'foreground/view/dialog/settingsDialogView';
 import AboutStreamusDialogView from 'foreground/view/dialog/aboutStreamusDialogView';
 import AdminMenuAreaTemplate from 'template/appBar/adminMenuArea.html!text';

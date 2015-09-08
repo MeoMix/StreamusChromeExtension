@@ -1,4 +1,4 @@
-﻿import 'common/shim/lodash.shim';
+﻿import 'common/shim/lodash.mixin.shim';
 import 'common/shim/backbone.cocktail.shim';
 import 'common/shim/backbone.marionette.view.shim';
 import 'common/shim/backbone.marionette.region.shim';

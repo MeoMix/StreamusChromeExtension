@@ -1,4 +1,5 @@
-﻿import {Region} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Region} from 'marionette';
 import YouTubePlayerError from 'common/enum/youTubePlayerError';
 import ErrorDialogView from 'foreground/view/dialog/errorDialogView';
 import GoogleSignInDialogView from 'foreground/view/dialog/googleSignInDialogView';

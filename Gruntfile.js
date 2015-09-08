@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     replace: 'grunt-text-replace'
   });
 
-  var compiledFileTargets = ['**/*', '!**/background/**', '!**/common/**', '!**/contentScript/youTubePlayer/**', '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'];
+  var compiledFileTargets = ['**/*', '!**/background/**', '!**/common/**', '**/common/shim/lodash.reference.shim.js', '!**/contentScript/youTubePlayer/**', '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'];
 
   grunt.initConfig({
     //	Read project settings from package.json in order to be able to reference the properties with grunt.
@@ -305,7 +305,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'src',
           // Exclude compiling main.js because it holds System.import.
-          src: ['**/*.js', '!**/main.js', '!**/lib/**'],
+          src: ['**/*.js', '!**/main.js', '!**/lib/**', '!**/common/shim/lodash.reference.shim.js'],
           dest: 'compiled'
         }]
       }

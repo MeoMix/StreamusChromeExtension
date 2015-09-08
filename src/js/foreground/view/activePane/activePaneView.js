@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import ActivePaneType from 'foreground/enum/activePaneType';
 import StreamView from 'foreground/view/stream/streamView';
 import ActivePlaylistAreaView from 'foreground/view/leftPane/activePlaylistAreaView';

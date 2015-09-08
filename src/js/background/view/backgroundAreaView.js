@@ -1,5 +1,5 @@
-﻿import {LayoutView} from 'marionette';
-import _ from 'lodash';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import ClipboardRegion from 'background/view/clipboardRegion';
 import BackgroundAreaTemplate from 'template/backgroundArea.html!text';
 

@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import User from 'background/model/user';
 
 // Wait 30 seconds before allowing signing in attempts. Prevents spamming the server with sign-in requests.

@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
 
 var ErrorView = LayoutView.extend({

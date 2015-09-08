@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import CheckboxTemplate from 'template/element/checkbox.html!text';
 
 var CheckboxView = LayoutView.extend({

@@ -1,4 +1,6 @@
-﻿window.chrome = {
+﻿import _ from 'common/shim/lodash.reference.shim';
+
+window.chrome = {
   alarms: {
     create: function() { },
     clear: function() { },

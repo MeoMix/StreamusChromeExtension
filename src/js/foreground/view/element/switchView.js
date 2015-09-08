@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import SwitchTemplate from 'template/element/switch.html!text';
 
 var SwitchView = LayoutView.extend({

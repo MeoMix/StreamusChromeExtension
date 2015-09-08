@@ -1,4 +1,5 @@
-﻿import RelatedVideosManager from 'background/model/relatedVideosManager';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import RelatedVideosManager from 'background/model/relatedVideosManager';
 
 describe('RelatedVideosManager', function() {
   beforeEach(function() {

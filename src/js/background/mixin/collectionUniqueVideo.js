@@ -1,4 +1,5 @@
-﻿import {Collection, Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Collection, Model} from 'backbone';
 
 export default {
   initialize: function() {

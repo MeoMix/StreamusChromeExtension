@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import PlaylistItemsView from 'foreground/view/leftPane/playlistItemsView';
 import ActivePlaylistAreaTemplate from 'template/leftPane/activePlaylistArea.html!text';

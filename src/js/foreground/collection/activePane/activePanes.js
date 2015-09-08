@@ -1,4 +1,5 @@
-﻿import {Collection} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Collection} from 'backbone';
 import ActivePane from 'foreground/model/activePane/activePane';
 import ActivePaneType from 'foreground/enum/activePaneType';
 import LayoutType from 'common/enum/layoutType';

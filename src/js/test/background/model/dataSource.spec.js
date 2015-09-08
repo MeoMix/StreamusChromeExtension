@@ -1,4 +1,5 @@
-﻿import DataSource from 'background/model/dataSource';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import DataSource from 'background/model/dataSource';
 import YouTubeV3API from 'background/model/youTubeV3API';
 import DataSourceType from 'common/enum/dataSourceType';
 

@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import PlayPauseButtonTemplate from 'template/streamControlBar/playPauseButton.html!text';
 import PauseIconTemplate from 'template/icon/pauseIcon_30.svg!text';
 import PlayIconTemplate from 'template/icon/playIcon_30.svg!text';

@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import RadioButtonTemplate from 'template/streamControlBar/radioButton.html!text';
 import RadioIconTemplate from 'template/icon/radioIcon_18.svg!text';

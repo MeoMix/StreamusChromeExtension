@@ -1,4 +1,5 @@
-﻿import {Collection} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Collection} from 'backbone';
 import Video from 'background/model/video';
 import Utility from 'common/utility';
 

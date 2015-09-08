@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 
 // A de-normalization point for infering what the active playlist without needing to worry about
 // whether a user is signed in or not.

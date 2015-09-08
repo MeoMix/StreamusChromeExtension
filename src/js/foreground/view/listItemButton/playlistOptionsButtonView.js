@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
 import PlaylistActions from 'foreground/model/playlist/playlistActions';
 import OptionsListItemButtonTemplate from 'template/listItemButton/optionsListItemButton.html!text';

@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import NotificationTemplate from 'template/notification/notification.html!text';
 
 var NotificationView = LayoutView.extend({

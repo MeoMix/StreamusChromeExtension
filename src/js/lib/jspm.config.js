@@ -6,8 +6,7 @@ System.config({
     "optional": [
       "runtime",
       "optimisation.modules.system"
-    ],
-    "ignore": "/lib/"
+    ]
   },
   paths: {
     "background/*": "js/background/*",
@@ -38,7 +37,7 @@ System.config({
     "chai": "npm:chai@3.2.0",
     "core-js": "npm:core-js@1.1.4",
     "jquery": "github:components/jquery@2.1.4",
-    "lodash": "lib/lodash",
+    "lodash": "npm:lodash@3.10.1",
     "marionette": "github:marionettejs/backbone.marionette@2.4.2",
     "mocha": "npm:mocha@2.3.1",
     "sinon": "npm:sinon@1.16.1",
@@ -83,6 +82,9 @@ System.config({
     },
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:lodash@3.10.1": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:mocha@2.3.1": {
       "css": "github:systemjs/plugin-css@0.1.16"

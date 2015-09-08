@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import NextButtonTemplate from 'template/streamControlBar/nextButton.html!text';
 import NextIconTemplate from 'template/icon/nextIcon_24.svg!text';
 

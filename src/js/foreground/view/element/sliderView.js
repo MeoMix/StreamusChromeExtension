@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import ResizeEmitter from 'foreground/view/behavior/resizeEmitter';
 import Slider from 'foreground/model/element/slider';
 import SliderTemplate from 'template/element/slider.html!text';

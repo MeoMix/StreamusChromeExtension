@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import AdminMenuArea from 'foreground/model/appBar/adminMenuArea';
 import AdminMenuAreaView from 'foreground/view/appBar/adminMenuAreaView';
 import ActivePaneFilterView from 'foreground/view/appBar/activePaneFilterView';

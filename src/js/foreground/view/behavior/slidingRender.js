@@ -1,4 +1,5 @@
-﻿import {Behavior} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Behavior} from 'marionette';
 import Direction from 'common/enum/direction';
 
 var SlidingRender = Behavior.extend({

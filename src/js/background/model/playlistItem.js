@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import Video from 'background/model/video';
 import ListItemType from 'common/enum/listItemType';
 

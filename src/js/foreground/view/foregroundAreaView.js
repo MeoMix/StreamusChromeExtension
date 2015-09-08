@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import ActivePanesRegion from 'foreground/view/activePane/activePanesRegion';
 import AppBarRegion from 'foreground/view/appBar/appBarRegion';
 import SimpleMenuRegion from 'foreground/view/simpleMenu/simpleMenuRegion';

@@ -1,4 +1,5 @@
-﻿import {Collection, Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Collection, Model} from 'backbone';
 import CreatePlaylistDialogView from 'foreground/view/dialog/createPlaylistDialogView';
 import FixedPosition from 'foreground/enum/fixedPosition';
 // TODO: Naming

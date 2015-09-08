@@ -1,4 +1,6 @@
-﻿export default {
+﻿import _ from 'common/shim/lodash.reference.shim';
+
+export default {
   initialize: function() {
     this.on('change:selected', this._onChangeSelected);
     this.on('change:firstSelected', this._onChangeFirstSelected);

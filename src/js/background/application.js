@@ -1,4 +1,5 @@
-﻿import {Application} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Application} from 'marionette';
 import Wreqr from 'backbone.wreqr';
 import BackgroundArea from 'background/model/backgroundArea';
 import BackgroundAreaView from 'background/view/backgroundAreaView';

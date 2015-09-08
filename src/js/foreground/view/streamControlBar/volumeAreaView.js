@@ -1,3 +1,4 @@
+import _ from 'common/shim/lodash.reference.shim';
 import {LayoutView} from 'marionette';
 import VolumeAreaTemplate from 'template/streamControlBar/volumeArea.html!text';
 import VolumeUpIconTemplate from 'template/icon/volumeUpIcon_24.svg!text';

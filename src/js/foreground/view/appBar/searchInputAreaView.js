@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import KeyCode from 'foreground/enum/keyCode';
 import SearchInputAreaTemplate from 'template/appBar/searchInputArea.html!text';
 import SearchIconTemplate from 'template/icon/searchIcon_24.svg!text';

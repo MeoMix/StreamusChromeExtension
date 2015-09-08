@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import LocalStorage from 'lib/backbone.localStorage';
 import StreamItems from 'background/collection/streamItems';
 import RelatedVideosManager from 'background/model/relatedVideosManager';

@@ -1,4 +1,5 @@
-﻿import {CollectionView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {CollectionView} from 'marionette';
 import SimpleMenuItemView from 'foreground/view/simpleMenu/simpleMenuItemView';
 import Scrollable from 'foreground/view/behavior/scrollable';
 

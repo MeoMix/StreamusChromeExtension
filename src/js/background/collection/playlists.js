@@ -1,4 +1,5 @@
-﻿import {Collection} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Collection} from 'backbone';
 import SyncActionType from 'background/enum/syncActionType';
 import CollectionSequence from 'background/mixin/collectionSequence';
 import Playlist from 'background/model/playlist';

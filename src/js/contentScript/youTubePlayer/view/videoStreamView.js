@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import PlayerState from 'common/enum/playerState';
 import YouTubePlayerState from 'common/enum/youTubePlayerState';
 

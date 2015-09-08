@@ -1,3 +1,4 @@
+import _ from 'common/shim/lodash.reference.shim';
 import {Collection, Model} from 'backbone';
 import Playlists from 'background/collection/playlists';
 

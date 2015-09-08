@@ -82,7 +82,8 @@
     <Content Include="src\js\common\shim\backbone.marionette.region.shim.js" />
     <Content Include="src\js\common\shim\backbone.marionette.view.shim.js" />
     <Content Include="src\js\common\enum\videoCommand.js" />
-    <Content Include="src\js\common\shim\lodash.shim.js" />
+    <Content Include="src\js\common\shim\lodash.mixin.shim.js" />
+    <Content Include="src\js\common\shim\lodash.reference.shim.js" />
     <Content Include="src\js\contentScript\youTubePlayer\application.js" />
     <Content Include="src\js\contentScript\youTubePlayer\main.js" />
     <Content Include="src\js\contentScript\youTubePlayer\model\port.js" />
@@ -466,7 +467,6 @@
     </Content>
     <Content Include="src\js\lib\backbone.localStorage.js" />
     <Content Include="src\js\lib\jquery-ui.js" />
-    <Content Include="src\js\lib\lodash.js" />
     <Content Include="src\css\contentScript\beatport.css" />
     <Content Include="src\font\Roboto-Medium.ttf" />
     <Content Include="src\font\Roboto-Regular.ttf" />

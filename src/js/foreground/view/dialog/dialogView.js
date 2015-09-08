@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import Checkbox from 'foreground/model/element/checkbox';
 import CheckboxView from 'foreground/view/element/checkboxView';
 import KeyCode from 'foreground/enum/keyCode';

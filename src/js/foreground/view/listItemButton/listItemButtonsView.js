@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/model/listItemButton/listItemButton';
 
 var ListItemButtonsView = LayoutView.extend({

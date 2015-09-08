@@ -1,4 +1,5 @@
-﻿import Dialog from 'foreground/model/dialog/dialog';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import Dialog from 'foreground/model/dialog/dialog';
 import CreatePlaylistView from 'foreground/view/dialog/createPlaylistView';
 import CreatePlaylist from 'foreground/model/dialog/createPlaylist';
 import DialogView from 'foreground/view/dialog/dialogView';

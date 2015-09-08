@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import PlayerState from 'common/enum/playerState';
 
 var ChromeIconManager = Model.extend({

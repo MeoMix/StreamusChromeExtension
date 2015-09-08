@@ -1,4 +1,4 @@
-﻿import _ from 'lodash';
+﻿import _ from 'common/shim/lodash.reference.shim';
 import {Region, Error}from 'marionette';
 
 Region.buildRegion = function(regionConfig, DefaultRegionClass) {

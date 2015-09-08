@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
 import DeleteListItemButtonTemplate from 'template/listItemButton/deleteListItemButton.html!text';
 import DeleteIconTemplate from 'template/icon/deleteIcon_18.svg!text';

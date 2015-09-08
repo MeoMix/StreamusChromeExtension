@@ -1,4 +1,5 @@
-﻿import {Model} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
 import VideoCommand from 'common/enum/videoCommand';
 import VideoQuality from 'common/enum/videoQuality';
 import YouTubeQuality from 'background/enum/youTubeQuality';

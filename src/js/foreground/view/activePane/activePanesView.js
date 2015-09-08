@@ -1,4 +1,5 @@
-﻿import {CollectionView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {CollectionView} from 'marionette';
 import ActivePaneType from 'foreground/enum/activePaneType';
 import ActivePaneView from 'foreground/view/activePane/activePaneView';
 import ActivePanesTemplate from 'template/activePane/activePanes.html!text';

@@ -1,5 +1,6 @@
 ﻿// Entities which need to keep track of their sequence in order to be ordered properly
 // while also maintaing efficiency with CRUD operations.
+import _ from 'common/shim/lodash.reference.shim';
 import Direction from 'common/enum/direction';
 
 export default {

@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
 
 var TimeSliderView = LayoutView.extend({

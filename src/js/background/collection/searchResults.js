@@ -1,4 +1,5 @@
-﻿import {Collection} from 'backbone';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Collection} from 'backbone';
 import CollectionMultiSelect from 'background/mixin/collectionMultiSelect';
 import SearchResult from 'background/model/searchResult';
 

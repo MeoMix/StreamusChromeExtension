@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import RepeatButtonState from 'common/enum/repeatButtonState';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import RepeatButtonTemplate from 'template/streamControlBar/repeatButton.html!text';

@@ -1,4 +1,5 @@
-﻿import {Region} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Region} from 'marionette';
 import SelectionBar from 'foreground/model/selectionBar/selectionBar';
 import SelectionBarView from 'foreground/view/selectionBar/selectionBarView';
 

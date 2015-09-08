@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import SpinnerView from 'foreground/view/element/spinnerView';
 import SearchResultsView from 'foreground/view/search/searchResultsView';
 import VideoActions from 'foreground/model/video/videoActions';

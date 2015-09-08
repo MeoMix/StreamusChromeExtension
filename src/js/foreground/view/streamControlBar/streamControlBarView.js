@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import TimeLabelArea from 'foreground/model/streamControlBar/timeLabelArea';
 import TimeSlider from 'foreground/model/streamControlBar/timeSlider';
 import Tooltipable from 'foreground/view/behavior/tooltipable';

@@ -1,4 +1,5 @@
-﻿import {LayoutView} from 'marionette';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
 import SimpleMenuItemsView from 'foreground/view/simpleMenu/simpleMenuItemsView';
 import SimpleMenuItemView from 'foreground/view/simpleMenu/simpleMenuItemView';
 import SimpleMenuTemplate from 'template/simpleMenu/simpleMenu.html!text';
