@@ -1,11 +1,16 @@
 sudo: false
 language: node_js
 node_js:
-  - "0.12"
+- '0.12'
 before_install:
-  - npm install -g grunt-cli
+- npm install -g grunt-cli
+- npm install -g jspm
+- jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
 before_script:
-  - grunt 'file-creator:youTubeAPIKey'
-  - grunt 'less'
-  - jspm install
+- grunt 'file-creator:youTubeAPIKey'
+- grunt 'less'
+- jspm install
 install: npm install
+env:
+  global:
+    secure: Fs3jMM0O5eZRGXmWC5aYkQKTOYf2zfWv2ThGYRIa7dnwVNGhZKiCN9myLArbccED04xABHzEdlbJJxGiRqfd2L3Z/IzJpPGn1nZO55bI0A4qY09Ud4dbBJcltVZGzl09nRI8z6vNJfveK2NtCqundXCL0SXaVKtrF0Y/AFE+bo4=

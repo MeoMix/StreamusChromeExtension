@@ -381,7 +381,7 @@ module.exports = function(grunt) {
       runtime: false,
       sourceMaps: false,
       minify: true
-  };
+    };
 
     Rsvp.Promise.all([
       backgroundBuilder.buildSFX('js/background/plugins.js', 'dist/js/background/main.js', options),

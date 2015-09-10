@@ -72,9 +72,11 @@ Streamus uses a fair number of third-party JavaScript libraries. Introduction of
 * [SystemJS](https://github.com/systemjs/systemjs)
 * [Babel](https://babeljs.io/)
 * [Grunt](http://gruntjs.com/)
+* [Handlebars](http://handlebarsjs.com/)
 
 <h3>Non-core</h3>
 * [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
+* [Backbone Cocktail](https://github.com/onsi/cocktail)
 * [jQuery UI](http://jqueryui.com/)
 
 <h3>Testing</h3>
