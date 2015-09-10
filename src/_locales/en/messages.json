@@ -303,14 +303,14 @@
   "searchAndAdd": {
     "message": "Search and Add"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus isn't linked to your Chrome account. Your playlists will be available on other computers if you link your accounts."
   },
   "link": {
     "message": "Link",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "You're not signed into Chrome. Your playlists are only available on this computer."
   },
   "remindGoogleSignIn": {

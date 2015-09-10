@@ -1,21 +1,19 @@
-﻿define(function(require) {
-  'use strict';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {Model} from 'backbone';
+import ListItemType from 'common/enum/listItemType';
 
-  var ListItemType = require('common/enum/listItemType');
-
-  var SearchResult = Backbone.Model.extend({
-    defaults: function() {
-      return {
-        id: _.uniqueId('searchResult_'),
-        selected: false,
-        // Whether the item was the first to be selected or one of many.
-        // Important for proper shift+click functionality.
-        firstSelected: false,
-        listItemType: ListItemType.SearchResult,
-        video: null
-      };
-    }
-  });
-
-  return SearchResult;
+var SearchResult = Model.extend({
+  defaults: function() {
+    return {
+      id: _.uniqueId('searchResult_'),
+      selected: false,
+      // Whether the item was the first to be selected or one of many.
+      // Important for proper shift+click functionality.
+      firstSelected: false,
+      listItemType: ListItemType.SearchResult,
+      video: null
+    };
+  }
 });
+
+export default SearchResult;

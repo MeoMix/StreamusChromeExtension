@@ -1,0 +1,17 @@
+﻿{{#if labelText}}
+  {{#if iconOnLeft}}
+  <span data-ui='icon' class='checkbox-icon'></span>
+
+  <label class='checkbox-label'>
+    {{labelText}}
+  </label>
+  {{else}}
+  <label class='checkbox-label'>
+    {{labelText}}
+  </label>
+
+  <span data-ui='icon' class='checkbox-icon'></span>
+  {{/if}}
+{{else}}
+  <span data-ui='icon' class='checkbox-icon'></span>
+{{/if}}

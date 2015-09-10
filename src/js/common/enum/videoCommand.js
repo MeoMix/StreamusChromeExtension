@@ -1,4 +1,4 @@
-﻿define({
+﻿export default {
   PlayVideo: 'playVideo',
   PauseVideo: 'pauseVideo',
   SetVolume: 'setVolume',
@@ -6,4 +6,4 @@
   UnMute: 'unMute',
   SeekTo: 'seekTo',
   SetPlaybackQuality: 'setPlaybackQuality'
-});
+};

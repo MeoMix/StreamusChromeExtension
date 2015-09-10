@@ -1,19 +1,15 @@
-﻿define(function(require) {
-  'use strict';
+﻿import SearchResultsView from 'foreground/view/search/searchResultsView';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var SearchResultsView = require('foreground/view/search/searchResultsView');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('SearchResultsView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new SearchResultsView();
-    });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
+describe('SearchResultsView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new SearchResultsView();
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

@@ -1,11 +1,6 @@
-﻿define(function(require) {
-  'use strict';
+﻿import 'marionette';
+import Application from 'contentScript/youTubePlayer/application';
 
-  require('backbone.marionette');
-
-  // Finally, load the application which will initialize the youTubePlayer:
-  require(['application'], function(Application) {
-    window.Application = new Application();
-    window.Application.start();
-  });
-});
+// Finally, load the application which will initialize the youTubePlayer:
+window.Application = new Application();
+window.Application.start();

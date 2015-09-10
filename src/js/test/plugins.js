@@ -1,42 +1,38 @@
-﻿define(function(require) {
-  'use strict';
+﻿// NOTE: Don't import test/phantomjs.shim because babel has a dependency on bind.
+// Can't shim bind via an import if bind needs to exist to import.
+// Once grunt-mocha supports phantom.js 2.0 then it'll be OK
+import 'test/chrome.mock';
+import 'common/shim/backbone.cocktail.shim';
+import 'common/shim/backbone.marionette.region.shim';
+import 'common/shim/backbone.marionette.toJson.shim';
+import 'common/shim/backbone.marionette.view.shim';
+import 'common/shim/handlebars.helpers.shim';
+import 'common/shim/lodash.mixin.shim';
+import 'common/shim/lodash.reference.shim';
 
-  require('backbone.marionette');
-  require('backbone.localStorage');
-  require('jquery-ui');
-  require('test/phantomjs.shim');
-  require('test/chrome.mock');
+import 'test/mochaSetup';
+// Load bridge.js manually after importing mocha because it expects mocha to be defined.
+import 'test/bridge';
+import chai, {expect} from 'chai';
+import sinon from 'sinon';
 
-  require('common/shim/backbone.marionette.view.shim');
-  require('common/shim/backbone.marionette.region.shim');
+window.expect = expect;
+window.sinon = sinon;
 
-  var Cocktail = require('cocktail');
-  Cocktail.patch(Backbone);
+import BackgroundApplication from 'background/application';
+import ForegroundApplication from 'foreground/application';
+import TestUtility from 'test/testUtility';
+import Test from 'test/test';
 
-  var lodashMixin = require('common/lodashMixin');
-  _.mixin(lodashMixin);
+// Finally, load the tests:
+window.StreamusBG = new BackgroundApplication();
+window.StreamusBG.localDebug = true;
+window.StreamusBG.instantiateBackgroundArea();
 
-  window.expect = chai.expect;
-
-  // Make describe/it defined for viewing in browser
-  window.mocha.setup({
-    ui: 'bdd'
-  });
-
-  // Finally, load the tests:
-  require(['background/application', 'foreground/application', 'test/testUtility', 'test/test'],
-    function(BackgroundApplication, ForegroundApplication, TestUtility) {
-    window.StreamusBG = new BackgroundApplication();
-    window.StreamusBG.localDebug = true;
-    window.StreamusBG.instantiateBackgroundArea();
-
-    window.StreamusFG = new ForegroundApplication({
-      backgroundProperties: window.StreamusBG.getExposedProperties(),
-      backgroundChannels: window.StreamusBG.getExposedChannels()
-    });
-
-    window.TestUtility = TestUtility;
-
-    window.mocha.run();
-  });
+window.StreamusFG = new ForegroundApplication({
+  backgroundProperties: window.StreamusBG.getExposedProperties(),
+  backgroundChannels: window.StreamusBG.getExposedChannels()
 });
+
+window.TestUtility = TestUtility;
+mocha.run();

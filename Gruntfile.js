@@ -1,15 +1,19 @@
-﻿/*jslint node: true*/
-// Options:
+﻿// Options:
 // * grunt: Lint JavaScript, LESS, and run tests
 // * grunt build: Build a debug release
 // * grunt build:release: Build a release / increment version
-'use strict';
-
+// * grunt compile: Move files from /src to /compiled and compile LESS and JavaScript. Start watch task to monitor changes.
 var _ = require('lodash');
+var Builder = require('systemjs-builder');
+var Rsvp = require('rsvp');
 
 module.exports = function(grunt) {
+  // Use jit-grunt to improve task initialization times. Only load modules as needed.
+  require('jit-grunt')(grunt, {
+    replace: 'grunt-text-replace'
+  });
 
-  require('load-grunt-tasks')(grunt);
+  var compiledFileTargets = ['**/*', '!**/background/**', '!**/common/**', '**/common/shim/lodash.reference.shim.js', '!**/js/contentScript/youTubePlayer/**', 'js/contentScript/youTubePlayer/sandboxInject.js', 'js/contentScript/youTubePlayer/playerApi.js', '!**/foreground/**', '!**/test/**', '!**/less/**', '**/main.js'];
 
   grunt.initConfig({
     //	Read project settings from package.json in order to be able to reference the properties with grunt.
@@ -28,7 +32,27 @@ module.exports = function(grunt) {
         dest: 'dist/img/'
       }
     },
-    //	Improve code quality by applying a code-quality check with jshint
+    htmlmin: {
+      options: {
+        removeComments: true,
+        collapseWhitespace: true,
+        collapseBooleanAttributes: true,
+        removeAttributeQuotes: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        removeOptionalTags: true
+      },
+      dist: {
+        files: {
+          'dist/background.html': 'dist/background.html',
+          'dist/foreground.html': 'dist/foreground.html'
+        }
+      }
+    },
+    // Improve code quality by applying a code-quality check with jshint
     jshint: {
       // A full list of options and their defaults here: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
       options: {
@@ -42,11 +66,13 @@ module.exports = function(grunt) {
         maxdepth: 4,
         maxstatements: 35,
         maxcomplexity: 10,
-        //	Don't validate libraries
+        // Allow ES6 conventions
+        esnext: true,
+        // Don't validate libraries
         ignores: ['src/js/lib/**/*.js']
       },
 
-      files: ['src/js/**/*.js', 'Gruntfile.js']
+      files: ['src/js/**/*.js']
     },
     // Compile LESS to CSS
     less: {
@@ -57,13 +83,19 @@ module.exports = function(grunt) {
         strictMath: true,
         strictUnits: true
       },
-
-      files: {
+      compiled: {
         expand: true,
         cwd: 'src/less/',
         src: 'foreground.less',
-        dest: 'src/css/',
-        ext: '.css'
+        ext: '.css',
+        dest: 'compiled/css/'
+      },
+      dist: {
+        expand: true,
+        cwd: 'src/less/',
+        src: 'foreground.less',
+        ext: '.css',
+        dest: 'dist/css/'
       }
     },
     // Ensure LESS code-quality by comparing it against Twitter's ruleset.
@@ -77,78 +109,77 @@ module.exports = function(grunt) {
         }
       }
     },
-    requirejs: {
-      production: {
-        // All r.js options can be found here: https://github.com/jrburke/r.js/blob/master/build/example.build.js
-        options: {
-          appDir: 'src',
-          mainConfigFile: 'src/js/common/requireConfig.js',
-          dir: 'dist/',
-          // Skip optimizing because there's no load benefit for an extension and it makes error debugging hard.
-          optimize: 'none',
-          optimizeCss: 'none',
-          // Inlines the text for any text! dependencies, to avoid the separate
-          // async XMLHttpRequest calls to load those dependencies.
-          inlineText: true,
-          useStrict: true,
-          stubModules: ['text'],
-          findNestedDependencies: true,
-          // Don't leave a copy of the file if it has been concatenated into a larger one.
-          removeCombined: true,
-          // List the modules that will be optimized. All their immediate and deep
-          // dependencies will be included in the module's file when the build is done
-          modules: [{
-            name: 'background/main',
-            insertRequire: ['background/main']
-          }, {
-            name: 'foreground/main',
-            insertRequire: ['foreground/main']
-          }],
-          fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/
-        }
-      }
-    },
     replace: {
       // Remove Chrome permissions not supported on other browsers.
       invalidPermissions: {
         src: ['<%= meta.releaseDirectory %>/manifest.json'],
         overwrite: true,
-        replacements: [{
-          from: '"background",',
-          to: ''
-        }, {
-          from: '"identity.email",',
-          to: ''
-        }]
+        replacements: [
+          {
+            from: '"background",',
+            to: ''
+          }, {
+            from: '"identity.email",',
+            to: ''
+          }
+        ]
       },
       // Ensure that the localDebug flag is not set to true when building a release.
       localDebug: {
-        src: ['dist/js/background/background.js'],
+        src: ['dist/js/background/main.js'],
         overwrite: true,
-        replacements: [{
-          // Local debugging is for development only.
-          from: 'localDebug: true',
-          to: 'localDebug: false'
-        }]
+        replacements: [
+          {
+            // Local debugging is for development only.
+            from: 'localDebug: true',
+            to: 'localDebug: false'
+          }
+        ]
         //}, {
         //  from: 'referer = \'https://streamus.com\/',
         //  to: 'referer = \'https://streаmus.com\/'
         //}]
       },
-      // Remove development key and comments from manifest for deployment
-      manifest: {
+      // Remove comments and unbundled file references
+      manifestCleanup: {
         src: ['dist/manifest.json'],
         overwrite: true,
-        replacements: [{
-          // Remove manifest key because it can't be uploaded to the web store.
-          // The key is helpful for debugging because it keeps the extension ID stable.
-          from: /"key".*/,
-          to: ''
-        }, {
-          // Remove comments because they can't be uploaded to the web store.
-          from: /\/\/ .*/ig,
-          to: ''
-        }]
+        replacements: [
+          {
+            // Remove comments because they can't be uploaded to the web store.
+            from: /\/\/ .*/ig,
+            to: ''
+          }, {
+            from: '"js/lib/jspm_packages/system.js", "js/lib/jspm.config.js", ',
+            to: ''
+          }
+        ]
+      },
+      // Remove manifest key
+      manifestKey: {
+        src: ['dist/manifest.json'],
+        overwrite: true,
+        replacements: [
+          {
+            // Remove manifest key because it can't be uploaded to the web store.
+            // The key is helpful for debugging because it keeps the extension ID stable.
+            from: /"key".*/,
+            to: ''
+          }
+        ]
+      },
+      htmlBundle: {
+        src: ['dist/*.html'],
+        overwrite: true,
+        replacements: [
+          {
+            from: '<script src=\'js/lib/jspm_packages/system.js\'></script>',
+            to: ''
+          }, {
+            from: '<script src=\'js/lib/jspm.config.js\'></script>',
+            to: ''
+          }
+        ]
       }
     },
     compress: {
@@ -174,62 +205,74 @@ module.exports = function(grunt) {
           src: ['*', '!en']
         }]
       },
-      // Cleanup the dist folder of files which don't need to be pushed to production.
-      dist: {
-        files: [{
-          expand: true,
-          cwd: 'dist/',
-          src: ['template', 'build.txt']
-        }]
+      compiledFile: {
+        expand: true,
+        cwd: 'compiled',
+        // Set via grunt.event.on('watch') event handler
+        src: ''
       }
     },
     copy: {
+      options: {
+        // Force file modified time to update so that grunt-newer is able to know not to copy to dest multiple times.
+        mtimeUpdate: true,
+        // Force directories to update their modified time.
+        timestamp: true
+      },
       release: {
         expand: true,
         cwd: 'dist/',
         src: '**/*',
         dest: '<%= meta.releaseDirectory %>'
       },
-      // Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
-      contentScripts: {
-        files: {
-          'dist/js/contentScript/beatport.js': ['src/js/contentScript/beatport.js'],
-          'dist/js/contentScript/youTube.js': ['src/js/contentScript/youTube.js']
-        }
-      }
-    },
-    watch: {
-      less: {
-        options: {
-          nospawn: true
-        },
-        files: ['src/less/*'],
-        tasks: ['less']
+      compiled: {
+        expand: true,
+        cwd: 'src/',
+        // Exclude ES6-enabled JavaScript files which will be copied during transpilation.
+        // Exclude LESS files which will be copied during compilation.
+        src: compiledFileTargets,
+        dest: 'compiled/'
+      },
+      // Move non-compiled files to distribution folder.
+      dist: {
+        expand: true,
+        cwd: 'src/',
+        src: ['js/contentScript/*.js', 'js/contentScript/youTubePlayer/sandboxInject.js', 'js/contentScript/youTubePlayer/playerApi.js', 'css/contentScript/*.css', 'img/**', 'font/**', '_locales/**', 'background.html', 'foreground.html', 'manifest.json'],
+        dest: 'dist/'
       }
     },
     jscs: {
-      src: ['src/js/**/*.js', '!src/js/lib/**/*.js', 'Gruntfile.js'],
+      src: ['src/js/**/*.js', '!src/js/lib/**/*.js'],
       options: {
         config: '.jscsrc',
         fix: true
+      }
+    },
+    connect: {
+      server: {
+        options: {
+          port: 8888,
+          base: './src'
+        }
       }
     },
     mocha: {
       tests: {
         options: {
           log: true,
-          // Don't automatically inject mocha.run because requireJS deps need to load first
-          run: false
-        },
-        src: ['src/test.html']
+          logErrors: true,
+          run: false,
+          inject: '',
+          urls: ['http://localhost:8888/test.html']
+        }
       }
     },
     // Create the key file YouTube's API using the testing key (NOT the production key).
-    // Used mainly for Travis CI builds.
+    // Used for Travis CI builds.
     'file-creator': {
       youTubeAPIKey: {
         'src/js/background/key/youTubeAPIKey.js': function(fs, fd, done) {
-          fs.writeSync(fd, 'define(function() { return \'AIzaSyDBCJuq0aey3bL3K6C0l4mKzT_y8zy9Msw\'; });');
+          fs.writeSync(fd, 'export default \'AIzaSyBZcQXI0oPbD2QtC74jDfkfpk_81TYrDcU\';');
           done();
         }
       }
@@ -254,29 +297,122 @@ module.exports = function(grunt) {
           zip: 'release/Streamus v<%= meta.buildVersion %>/chrome/Streamus v<%= meta.buildVersion %>.zip'
         }
       }
+    },
+    babel: {
+      options: {
+        modules: 'system'
+      },
+      compiled: {
+        files: [{
+          expand: true,
+          cwd: 'src',
+          // Exclude compiling main.js because it holds System.import.
+          src: ['**/*.js', '!**/main.js', '!**/lib/**', '!**/common/shim/lodash.reference.shim.js', '!**/contentScript/youTubePlayer/sandboxInject.js', '!**/contentScript/youTubePlayer/playerApi.js', '!**/contentScript/*.js'],
+          dest: 'compiled'
+        }]
+      }
+    },
+    // NOTE: Spawn must be disabled to keep watch running under same context in order to dynamically modify config file.
+    watch: {
+      // Compile LESS files to 'compiled' directory.
+      less: {
+        options: {
+          interrupt: true,
+          cwd: 'src/less'
+        },
+        files: ['**/*.less'],
+        tasks: ['less']
+      },
+      // Copy all non-ES6/LESS files to 'compiled' directory.
+      // Include main files because they're not ES6. Exclude LESS because they're compiled.
+      copyUncompiled: {
+        options: {
+          event: ['added', 'changed'],
+          cwd: 'src'
+        },
+        files: compiledFileTargets,
+        tasks: ['newer:copy:compiled']
+      },
+      // Compile and copy ES6 files to 'compiled' directory. Exclude main files because they're not ES6.
+      copyCompiled: {
+        options: {
+          event: ['added', 'changed'],
+          cwd: 'src/js'
+        },
+        files: ['background/**/*', 'common/**/*', '**/contentScript/youTubePlayer/**', 'foreground/**/*', 'test/**/*', '!**/main.js'],
+        tasks: ['newer:babel:compiled']
+      },
+      // Whenever a file is deleted from 'src' ensure it is also deleted from 'compiled'
+      remove: {
+        options: {
+          event: ['deleted'],
+          spawn: false,
+          cwd: 'src'
+        },
+        files: ['**/*'],
+        tasks: ['clean:compiledFile']
+      }
     }
+  });
+
+  grunt.event.on('watch', function(action, filepath) {
+    if (action === 'deleted') {
+      // Drop src off of filepath to properly rely on 'cwd' task configuration.
+      grunt.config('clean.compiledFile.src', filepath.replace('src\\', ''));
+    }
+  });
+
+  grunt.registerTask('compile', ['copy:compiled', 'babel:compiled', 'less:compiled', 'watch']);
+
+  grunt.registerTask('buildDist', function() {
+    grunt.task.run('copy:dist', 'less:dist');
+
+    var backgroundBuilder = new Builder(undefined, 'src/js/lib/jspm.config.js');
+    backgroundBuilder.loader.baseURL += 'src/';
+
+    var foregroundBuilder = new Builder(undefined, 'src/js/lib/jspm.config.js');
+    foregroundBuilder.loader.baseURL += 'src/';
+
+    var youTubePlayerBuilder = new Builder(undefined, 'src/js/lib/jspm.config.js');
+    youTubePlayerBuilder.loader.baseURL += 'src/';
+
+    var done = this.async();
+    var options = {
+      runtime: false,
+      sourceMaps: false,
+      minify: true
+    };
+
+    Rsvp.Promise.all([
+      backgroundBuilder.buildSFX('js/background/plugins.js', 'dist/js/background/main.js', options),
+      foregroundBuilder.buildSFX('js/foreground/plugins.js', 'dist/js/foreground/main.js', options),
+      youTubePlayerBuilder.buildSFX('js/contentScript/youTubePlayer/plugins.js', 'dist/js/contentScript/youTubePlayer/main.js', options)
+    ]).then(function() {
+      grunt.task.run('replace:manifestCleanup', 'replace:htmlBundle');
+      done();
+    }).catch(function(error) {
+      console.log('buildSFX error:', error);
+      done();
+    });
   });
 
   //  Build release and place .zip files in the release directory
   grunt.registerTask('build', function(buildFlag) {
     var isRelease = buildFlag === 'release';
-    // Ensure tests pass before performing any sort of bundling.
-    grunt.task.run('test');
 
+    // Ensure tests pass before allowing a release.
     if (isRelease) {
-      grunt.task.run('version:project:minor');
+      grunt.task.run('test', 'version:project:minor');
     }
 
-    grunt.task.run('requirejs');
+    grunt.task.run('buildDist');
 
     // Don't replace manifest key during debugging because server will throw CORS errors.
-    // No need to clean-up comments because debug version isn't uploaded
     if (isRelease) {
-      grunt.task.run('replace:manifest');
+      grunt.task.run('replace:manifestKey');
     }
-
-    grunt.task.run('replace:localDebug', 'copy:contentScripts', 'less', 'imagemin', 'clean:dist');
-    grunt.task.run('buildReleases:' + isRelease);
+    
+    grunt.task.run('replace:localDebug', 'imagemin', 'htmlmin', 'buildReleases:' + isRelease);
   });
 
   // Ensure that non-English translations are in-sync with the English translation
@@ -303,7 +439,7 @@ module.exports = function(grunt) {
 
   // Run linters and enforce code-quality standards
   grunt.registerTask('default', ['test']);
-  grunt.registerTask('test', ['jshint', 'recess', 'jscs', 'mocha']);
+  grunt.registerTask('test', ['jshint', 'recess', 'jscs', 'connect', 'mocha']);
 
   // Synchronous wrapper
   grunt.registerTask('buildReleases', function(isRelease) {

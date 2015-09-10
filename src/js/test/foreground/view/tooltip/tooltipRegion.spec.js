@@ -1,63 +1,59 @@
-﻿define(function(require) {
-  'use strict';
+﻿import TooltipRegion from 'foreground/view/tooltip/tooltipRegion';
+import TooltipView from 'foreground/view/tooltip/tooltipView';
 
-  var TooltipRegion = require('foreground/view/tooltip/tooltipRegion');
-  var TooltipView = require('foreground/view/tooltip/tooltipView');
+describe('TooltipRegion', function() {
+  beforeEach(function() {
+    this.tooltipRegion = new TooltipRegion({
+      el: document.createDocumentFragment()
+    });
+  });
 
-  describe('TooltipRegion', function() {
-    beforeEach(function() {
-      this.tooltipRegion = new TooltipRegion({
-        el: document.createDocumentFragment()
-      });
+  it('should be able to show a tooltip view', function() {
+    sinon.stub(window, 'requestAnimationFrame');
+
+    this.tooltipRegion._showTooltip({
+      text: 'Hello, world',
+      targetBoundingClientRect: {
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        width: 0,
+        height: 0
+      }
     });
 
-    it('should be able to show a tooltip view', function() {
-      sinon.stub(window, 'requestAnimationFrame');
+    expect(this.tooltipRegion.hasView()).to.equal(true);
+    expect(window.requestAnimationFrame.calledOnce).to.equal(true);
 
-      this.tooltipRegion._showTooltip({
-        text: 'Hello, world',
-        targetBoundingClientRect: {
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          width: 0,
-          height: 0
-        }
-      });
+    window.requestAnimationFrame.restore();
+  });
 
-      expect(this.tooltipRegion.hasView()).to.equal(true);
-      expect(window.requestAnimationFrame.calledOnce).to.equal(true);
+  it('should not throw an error if asked to hide a non-existing tooltip view', function() {
+    sinon.spy(this.tooltipRegion, '_hideTooltip');
+    this.tooltipRegion._hideTooltip();
+    expect(this.tooltipRegion._hideTooltip.threw()).to.equal(false);
+    this.tooltipRegion._hideTooltip.restore();
+  });
 
-      window.requestAnimationFrame.restore();
-    });
+  it('should be able to hide an existing view', function() {
+    var tooltipView = new TooltipView();
+    sinon.stub(tooltipView, 'hide');
 
-    it('should not throw an error if asked to hide a non-existing tooltip view', function() {
-      sinon.spy(this.tooltipRegion, '_hideTooltip');
-      this.tooltipRegion._hideTooltip();
-      expect(this.tooltipRegion._hideTooltip.threw()).to.equal(false);
-      this.tooltipRegion._hideTooltip.restore();
-    });
+    this.tooltipRegion.currentView = tooltipView;
+    this.tooltipRegion._hideTooltip();
+    expect(tooltipView.hide.calledOnce).to.equal(true);
+    tooltipView.hide.restore();
+  });
 
-    it('should be able to hide an existing view', function() {
-      var tooltipView = new TooltipView();
-      sinon.stub(tooltipView, 'hide');
+  it('should be able to set a tooltipview offset', function() {
+    var tooltipView = new TooltipView();
+    sinon.stub(tooltipView, 'showAtOffset');
 
-      this.tooltipRegion.currentView = tooltipView;
-      this.tooltipRegion._hideTooltip();
-      expect(tooltipView.hide.calledOnce).to.equal(true);
-      tooltipView.hide.restore();
-    });
+    var boundingClientRect = {};
+    this.tooltipRegion._setTooltipViewOffset(tooltipView, boundingClientRect);
 
-    it('should be able to set a tooltipview offset', function() {
-      var tooltipView = new TooltipView();
-      sinon.stub(tooltipView, 'showAtOffset');
-
-      var boundingClientRect = {};
-      this.tooltipRegion._setTooltipViewOffset(tooltipView, boundingClientRect);
-
-      expect(tooltipView.showAtOffset.calledOnce).to.equal(true);
-      tooltipView.showAtOffset.restore();
-    });
+    expect(tooltipView.showAtOffset.calledOnce).to.equal(true);
+    tooltipView.showAtOffset.restore();
   });
 });

@@ -1,30 +1,26 @@
-﻿define(function(require) {
-  'use strict';
+﻿import Dialog from 'foreground/model/dialog/dialog';
+import DeletePlaylistView from 'foreground/view/dialog/deletePlaylistView';
+import DialogView from 'foreground/view/dialog/dialogView';
 
-  var Dialog = require('foreground/model/dialog/dialog');
-  var DeletePlaylistView = require('foreground/view/dialog/deletePlaylistView');
-  var DialogView = require('foreground/view/dialog/dialogView');
+var DeletePlaylistDialogView = DialogView.extend({
+  id: 'deletePlaylistDialog',
 
-  var DeletePlaylistDialogView = DialogView.extend({
-    id: 'deletePlaylistDialog',
+  initialize: function(options) {
+    this.model = new Dialog({
+      submitButtonText: chrome.i18n.getMessage('delete'),
+      reminderProperty: 'remindDeletePlaylist'
+    });
 
-    initialize: function(options) {
-      this.model = new Dialog({
-        submitButtonText: chrome.i18n.getMessage('delete'),
-        reminderProperty: 'remindDeletePlaylist'
-      });
+    this.contentView = new DeletePlaylistView({
+      model: options.playlist
+    });
 
-      this.contentView = new DeletePlaylistView({
-        model: options.playlist
-      });
+    DialogView.prototype.initialize.apply(this, arguments);
+  },
 
-      DialogView.prototype.initialize.apply(this, arguments);
-    },
-
-    onSubmit: function() {
-      this.contentView.deletePlaylist();
-    }
-  });
-
-  return DeletePlaylistDialogView;
+  onSubmit: function() {
+    this.contentView.deletePlaylist();
+  }
 });
+
+export default DeletePlaylistDialogView;

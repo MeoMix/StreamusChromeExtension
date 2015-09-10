@@ -1,26 +1,22 @@
-﻿define(function(require) {
-  'use strict';
+﻿import AddPlaylistButtonView from 'foreground/view/listItemButton/addPlaylistButtonView';
+import Playlist from 'background/model/playlist';
+import StreamItems from 'background/collection/streamItems';
+import ListItemButton from 'foreground/model/listItemButton/listItemButton';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var AddPlaylistButtonView = require('foreground/view/listItemButton/addPlaylistButtonView');
-  var Playlist = require('background/model/playlist');
-  var StreamItems = require('background/collection/streamItems');
-  var ListItemButton = require('foreground/model/listItemButton/listItemButton');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('AddPlaylistButtonView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new AddPlaylistButtonView({
-        model: new ListItemButton(),
-        playlist: new Playlist(),
-        streamItems: new StreamItems()
-      });
+describe('AddPlaylistButtonView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new AddPlaylistButtonView({
+      model: new ListItemButton(),
+      playlist: new Playlist(),
+      streamItems: new StreamItems()
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

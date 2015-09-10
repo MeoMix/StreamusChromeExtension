@@ -1,33 +1,30 @@
-﻿define(function(require) {
-  'use strict';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import Dialog from 'foreground/model/dialog/dialog';
+import CreatePlaylistView from 'foreground/view/dialog/createPlaylistView';
+import CreatePlaylist from 'foreground/model/dialog/createPlaylist';
+import DialogView from 'foreground/view/dialog/dialogView';
 
-  var Dialog = require('foreground/model/dialog/dialog');
-  var CreatePlaylistView = require('foreground/view/dialog/createPlaylistView');
-  var CreatePlaylist = require('foreground/model/dialog/createPlaylist');
-  var DialogView = require('foreground/view/dialog/dialogView');
+var CreatePlaylistDialogView = DialogView.extend({
+  id: 'createPlaylistDialog',
 
-  var CreatePlaylistDialogView = DialogView.extend({
-    id: 'createPlaylistDialog',
+  initialize: function(options) {
+    this.model = new Dialog({
+      submitButtonText: chrome.i18n.getMessage('create')
+    });
 
-    initialize: function(options) {
-      this.model = new Dialog({
-        submitButtonText: chrome.i18n.getMessage('create')
-      });
+    this.contentView = new CreatePlaylistView({
+      model: new CreatePlaylist(),
+      dataSourceManager: StreamusFG.backgroundProperties.dataSourceManager,
+      playlists: options.playlists,
+      videos: _.isUndefined(options.videos) ? [] : options.videos
+    });
 
-      this.contentView = new CreatePlaylistView({
-        model: new CreatePlaylist(),
-        dataSourceManager: StreamusFG.backgroundProperties.dataSourceManager,
-        playlists: options.playlists,
-        videos: _.isUndefined(options.videos) ? [] : options.videos
-      });
+    DialogView.prototype.initialize.apply(this, arguments);
+  },
 
-      DialogView.prototype.initialize.apply(this, arguments);
-    },
-
-    onSubmit: function() {
-      this.contentView.createPlaylist();
-    }
-  });
-
-  return CreatePlaylistDialogView;
+  onSubmit: function() {
+    this.contentView.createPlaylist();
+  }
 });
+
+export default CreatePlaylistDialogView;

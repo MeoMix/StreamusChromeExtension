@@ -1,20 +1,17 @@
-﻿define(function(require) {
-  'use strict';
+﻿import {Behavior} from 'marionette';
+import Scrollable from 'foreground/view/behavior/scrollable';
 
-  var Scrollable = require('foreground/view/behavior/scrollable');
-
-  var DialogContent = Marionette.Behavior.extend({
-    behaviors: {
-      Scrollable: {
-        behaviorClass: Scrollable
-      }
-    },
-
-    onRender: function() {
-      // Prefer to do this in initialize, but $el isn't available to Behavior until after view's initialize.
-      this.$el.addClass('dialog-content');
+var DialogContent = Behavior.extend({
+  behaviors: {
+    Scrollable: {
+      behaviorClass: Scrollable
     }
-  });
+  },
 
-  return DialogContent;
+  onRender: function() {
+    // Prefer to do this in initialize, but $el isn't available to Behavior until after view's initialize.
+    this.$el.addClass('dialog-content');
+  }
 });
+
+export default DialogContent;

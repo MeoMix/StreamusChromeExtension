@@ -1,42 +1,40 @@
-﻿define(function(require) {
-  'use strict';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
+import ListItemButton from 'foreground/view/behavior/listItemButton';
+import deleteListItemButtonTemplate from 'template/listItemButton/deleteListItemButton.hbs!';
+import deleteIconTemplate from 'template/icon/deleteIcon_18.hbs!';
 
-  var ListItemButton = require('foreground/view/behavior/listItemButton');
-  var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
-  var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
+var DeleteListItemButtonView = LayoutView.extend({
+  template: deleteListItemButtonTemplate,
+  templateHelpers: {
+    deleteIcon: deleteIconTemplate
+  },
 
-  var DeleteListItemButtonView = Marionette.LayoutView.extend({
-    template: _.template(DeleteListItemButtonTemplate),
-    templateHelpers: {
-      deleteIcon: _.template(DeleteIconTemplate)()
-    },
-
-    behaviors: {
-      ListItemButton: {
-        behaviorClass: ListItemButton
-      }
-    },
-
-    attributes: {
-      'data-tooltip-text': chrome.i18n.getMessage('delete')
-    },
-
-    listItem: null,
-
-    initialize: function(options) {
-      this.listItem = options.listItem;
-      // Ensure that the user isn't able to destroy the model more than once.
-      this._deleteListItem = _.once(this._deleteListItem);
-    },
-
-    onClick: function() {
-      this._deleteListItem();
-    },
-
-    _deleteListItem: function() {
-      this.listItem.destroy();
+  behaviors: {
+    ListItemButton: {
+      behaviorClass: ListItemButton
     }
-  });
+  },
 
-  return DeleteListItemButtonView;
+  attributes: {
+    'data-tooltip-text': chrome.i18n.getMessage('delete')
+  },
+
+  listItem: null,
+
+  initialize: function(options) {
+    this.listItem = options.listItem;
+    // Ensure that the user isn't able to destroy the model more than once.
+    this._deleteListItem = _.once(this._deleteListItem);
+  },
+
+  onClick: function() {
+    this._deleteListItem();
+  },
+
+  _deleteListItem: function() {
+    this.listItem.destroy();
+  }
 });
+
+export default DeleteListItemButtonView;

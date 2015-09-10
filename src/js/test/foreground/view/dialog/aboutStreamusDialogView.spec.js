@@ -1,19 +1,15 @@
-﻿define(function(require) {
-  'use strict';
+﻿import AboutStreamusDialogView from 'foreground/view/dialog/aboutStreamusDialogView';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var AboutStreamusDialogView = require('foreground/view/dialog/aboutStreamusDialogView');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('AboutStreamusDialogView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new AboutStreamusDialogView();
-    });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
+describe('AboutStreamusDialogView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new AboutStreamusDialogView();
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

@@ -1,52 +1,49 @@
-﻿define(function(require) {
-  'use strict';
+﻿import {LayoutView} from 'marionette';
+import Tooltipable from 'foreground/view/behavior/tooltipable';
+import radioButtonTemplate from 'template/streamControlBar/radioButton.hbs!';
+import radioIconTemplate from 'template/icon/radioIcon_18.hbs!';
 
-  var Tooltipable = require('foreground/view/behavior/tooltipable');
-  var RadioButtonTemplate = require('text!template/streamControlBar/radioButton.html');
-  var RadioIconTemplate = require('text!template/icon/radioIcon_18.svg');
+var RadioButtonView = LayoutView.extend({
+  id: 'radioButton',
+  className: 'button button--icon button--icon--secondary button--medium',
+  template: radioButtonTemplate,
+  templateHelpers: {
+    radioIcon: radioIconTemplate
+  },
 
-  var RadioButtonView = Marionette.LayoutView.extend({
-    id: 'radioButton',
-    className: 'button button--icon button--icon--secondary button--medium',
-    template: _.template(RadioButtonTemplate),
-    templateHelpers: {
-      radioIcon: _.template(RadioIconTemplate)()
-    },
+  attributes: {
+    'data-ui': 'tooltipable'
+  },
 
-    attributes: {
-      'data-ui': 'tooltipable'
-    },
+  events: {
+    'click': '_onClick'
+  },
 
-    events: {
-      'click': '_onClick'
-    },
+  modelEvents: {
+    'change:enabled': '_onChangeEnabled'
+  },
 
-    modelEvents: {
-      'change:enabled': '_onChangeEnabled'
-    },
-
-    behaviors: {
-      Tooltipable: {
-        behaviorClass: Tooltipable
-      }
-    },
-
-    onRender: function() {
-      this._setState(this.model.get('enabled'), this.model.getStateMessage());
-    },
-
-    _onClick: function() {
-      this.model.toggleEnabled();
-    },
-
-    _onChangeEnabled: function(model, enabled) {
-      this._setState(enabled, model.getStateMessage());
-    },
-
-    _setState: function(enabled, stateMessage) {
-      this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
+  behaviors: {
+    Tooltipable: {
+      behaviorClass: Tooltipable
     }
-  });
+  },
 
-  return RadioButtonView;
+  onRender: function() {
+    this._setState(this.model.get('enabled'), this.model.getStateMessage());
+  },
+
+  _onClick: function() {
+    this.model.toggleEnabled();
+  },
+
+  _onChangeEnabled: function(model, enabled) {
+    this._setState(enabled, model.getStateMessage());
+  },
+
+  _setState: function(enabled, stateMessage) {
+    this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
+  }
 });
+
+export default RadioButtonView;

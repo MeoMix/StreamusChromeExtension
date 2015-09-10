@@ -1,0 +1,26 @@
+﻿<div class='instruction-wrapper'>
+  <div data-ui='playlistEmptyMessage' class='instruction'>
+    <div class='instruction-header'>
+      {{i18n 'playlistEmpty'}}
+    </div>
+    <div class='instruction-content'>
+      {{i18n 'wouldYouLikeTo'}} <span data-ui='showSearchLink' class='u-link u-lowercase'>{{i18n 'searchForVideos'}}</span>?
+    </div>
+  </div>
+
+  <div data-region='playlistItems' class='flexColumn'></div>
+</div>
+
+<div class='contentBar contentBar--bottom u-bordered--top flexColumn-bugFix'>
+  <div class='contentBar--bottom-text--left flexRow'>
+    <div data-ui='playlistDetails textTooltipable' class='u-lowercase u-textOverflowEllipsis text u-textSecondary'></div>
+  </div>
+
+  <div data-ui='playAllButton' class='button button--flat'>
+    {{i18n 'playAll'}}
+  </div>
+
+  <div data-ui='addAllButton tooltipable' class='button button--flat'>
+    {{i18n 'addAll'}}
+  </div>
+</div>

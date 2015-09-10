@@ -22,23 +22,25 @@ Start by cloning the development branch. All PRs should be submitted to the deve
 * For more information regarding Chrome extension APIs, see [Chrome Platform APIs](https://developer.chrome.com/extensions/api_index)
 
 <h3>Dependencies</h3>
-You will need to have [Node](https://nodejs.org/) installed on your system as well as [Grunt](http://gruntjs.com/). After installing Node, navigate using a terminal to the directory in which you cloned Streamus. Then, perform the following command to install dependencies:
+You will need to have [Node](https://nodejs.org/), [Grunt](http://gruntjs.com/), and [jspm](http://jspm.io/) installed on your system. After installing Node, navigate using a terminate to the directory in which you cloned Streamus. Then, perform the following command to install dependencies:
 
-    npm install
+npm install
+jspm install
 
-<h3>Loading and editing CSS</h3>
-Streamus' CSS is compiled via [LESS](http://lesscss.org/). As such, you need to run the following command from the '/StreamusChromeExtension' directory before working with the software:
+<h3>Compiling code</h3>
+Streamus' CSS is compiled via [LESS](http://lesscss.org/) and much of it's JavaScript is transpiled via [Babel](https://babeljs.io/). Run the following command from your terminal to build a usable version of Streamus:
 
-    grunt less && grunt watch
+grunt compile
 
-This command will parse all currently existing .less files and transform them into .css. Then, it will begin to watch for modifications to those files and automatically re-compiled into .css.
+This command will parse all currently existing .less files and transform them into .css. Then, it will compile all ES6 JavaScript files into their equivalent ES5 syntax. Then, it will begin to watch for modifications to those files and automatically re-compiled as needed.
+All compiled files go into the /compiled directory.
 
-<img src='http://i.imgur.com/5VGgBs1.png' />
+<img src='http://i.imgur.com/8POyKL2.png' />
 
 <h3>API keys</h3>
 You will need to modify the example key files located in the [/js/background/key/](https://github.com/MeoMix/StreamusChromeExtension/tree/Development/src/js/background/key) directory. Copy `youTubeAPIKey.js.example`, rename it to `youTubeAPIKey.js` and replace the example API key with your own. Production keys are not committed to GitHub. The example key provided should not be relied upon for anything other than testing and it may be revoked without warning. You are strongly encouraged to generate your own key.
 
-<img src='http://i.imgur.com/Oyb7KqV.png' />
+<img src='http://i.imgur.com/qyL2RhS.png' />
 
 <h3>Server settings</h3>
 Ensure that the property 'localDebug' is set to **false** unless you have configured an instance of Streamus' server on your local machine. The localDebug property can be found at [/js/background/application.js](https://github.com/MeoMix/StreamusChromeExtension/blob/Development/src/js/background/application.js).
@@ -49,12 +51,11 @@ Ensure that the property 'localDebug' is set to **false** unless you have config
 1. Navigate to **chrome://extensions/**
 2. Ensure the checkbox labeled **Developer mode** is enabled.
 3. Click the button labeled **Load unpacked extension...**
-4. Select the directory **/StreamusChromeExtension/src/**
-
-<img src='http://i.imgur.com/1fckCGn.png' />
+4. Select the directory **/StreamusChromeExtension/compiled** (Note: this directory won't exist by default. See Compiling code for more details)
 
 <h3>Testing</h3>
-Test cases may be ran by navigating to chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/test.html, but only after the extension package has been loaded into Google Chrome. 
+Test cases may be ran by navigating to chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/test.html, but only after the extension package has been loaded into Google Chrome.
+Alternatively, tests may be ran through grunt via `grunt test`
 
 <img src='http://i.imgur.com/OGBCmTz.png' />
 
@@ -66,12 +67,16 @@ Streamus uses a fair number of third-party JavaScript libraries. Introduction of
 * [jQuery](http://jquery.com/)
 * [Backbone](http://backbonejs.org/)
 * [Marionette](http://marionettejs.com)
-* [Lo-Dash](http://lodash.com/)
-* [Require](http://requirejs.org/)
-* [Text](https://github.com/requirejs/text)
+* [lodash](http://lodash.com/)
+* [jspm](http://jspm.io//)
+* [SystemJS](https://github.com/systemjs/systemjs)
+* [Babel](https://babeljs.io/)
+* [Grunt](http://gruntjs.com/)
+* [Handlebars](http://handlebarsjs.com/)
 
 <h3>Non-core</h3>
 * [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
+* [Backbone Cocktail](https://github.com/onsi/cocktail)
 * [jQuery UI](http://jqueryui.com/)
 
 <h3>Testing</h3>

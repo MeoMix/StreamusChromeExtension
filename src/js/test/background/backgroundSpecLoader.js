@@ -1,22 +1,18 @@
-﻿define(function(require) {
-  'use strict';
+﻿// /collection/
+import 'test/background/collection/clientErrors.spec';
+import 'test/background/collection/playlistItems.spec';
+import 'test/background/collection/playlists.spec';
+import 'test/background/collection/searchResults.spec';
+import 'test/background/collection/videos.spec';
+import 'test/background/collection/streamItems.spec';
 
-  // /collection/
-  require('test/background/collection/clientErrors.spec');
-  require('test/background/collection/playlistItems.spec');
-  require('test/background/collection/playlists.spec');
-  require('test/background/collection/searchResults.spec');
-  require('test/background/collection/videos.spec');
-  require('test/background/collection/streamItems.spec');
-
-  // /model/
-  require('test/background/model/activePlaylistManager.spec');
-  require('test/background/model/clientErrorManager.spec');
-  require('test/background/model/dataSource.spec');
-  require('test/background/model/playlistItem.spec');
-  require('test/background/model/playlistItems.spec');
-  require('test/background/model/relatedVideosManager.spec');
-  require('test/background/model/signInManager.spec');
-  require('test/background/model/user.spec');
-  require('test/background/model/youTubeV3API.spec');
-});
+// /model/
+import 'test/background/model/activePlaylistManager.spec';
+import 'test/background/model/clientErrorManager.spec';
+import 'test/background/model/dataSource.spec';
+import 'test/background/model/playlistItem.spec';
+import 'test/background/model/playlistItems.spec';
+import 'test/background/model/relatedVideosManager.spec';
+import 'test/background/model/signInManager.spec';
+import 'test/background/model/user.spec';
+import 'test/background/model/youTubeV3API.spec';

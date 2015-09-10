@@ -1,35 +1,32 @@
-﻿// TODO: Show a sign-in view.
-define(function(require) {
-  'use strict';
+﻿import {CollectionView} from 'marionette';
+import ActivePaneType from 'foreground/enum/activePaneType';
+import ActivePaneView from 'foreground/view/activePane/activePaneView';
+import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
+import activePanesTemplate from 'template/activePane/activePanes.hbs!';
 
-  var ActivePaneType = require('foreground/enum/activePaneType');
-  var ActivePaneView = require('foreground/view/activePane/activePaneView');
-  var ActivePanesTemplate = require('text!template/activePane/activePanes.html');
-  var ViewEntityContainer = require('foreground/view/behavior/viewEntityContainer');
+// TODO: Show a sign-in view.
+var ActivePanesView = CollectionView.extend({
+  className: 'activePanes flexRow',
+  childView: ActivePaneView,
+  template: activePanesTemplate,
 
-  var ActivePanesView = Marionette.CollectionView.extend({
-    className: 'activePanes flexRow',
-    childView: ActivePaneView,
-    template: _.template(ActivePanesTemplate),
+  childViewOptions: function() {
+    return {
+      streamItems: StreamusFG.backgroundProperties.stream.get('items')
+    };
+  },
 
-    childViewOptions: function() {
-      return {
-        streamItems: StreamusFG.backgroundProperties.stream.get('items')
-      };
-    },
-
-    behaviors: {
-      ViewEntityContainer: {
-        behaviorClass: ViewEntityContainer,
-        viewEntityNames: ['collection']
-      }
-    },
-
-    // Sort the panes such that the stream appears on the right side.
-    viewComparator: function(activePane) {
-      return activePane.get('type') === ActivePaneType.Stream ? 1 : 0;
+  behaviors: {
+    ViewEntityContainer: {
+      behaviorClass: ViewEntityContainer,
+      viewEntityNames: ['collection']
     }
-  });
+  },
 
-  return ActivePanesView;
+  // Sort the panes such that the stream appears on the right side.
+  viewComparator: function(activePane) {
+    return activePane.get('type') === ActivePaneType.Stream ? 1 : 0;
+  }
 });
+
+export default ActivePanesView;

@@ -1,22 +1,18 @@
-﻿define(function(require) {
-  'use strict';
+﻿import CheckboxView from 'foreground/view/element/checkboxView';
+import Checkbox from 'foreground/model/element/checkbox';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var CheckboxView = require('foreground/view/element/checkboxView');
-  var Checkbox = require('foreground/model/element/checkbox');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('CheckboxView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new CheckboxView({
-        model: new Checkbox()
-      });
+describe('CheckboxView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new CheckboxView({
+      model: new Checkbox()
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

@@ -1,11 +1,7 @@
-﻿define(function(require) {
-  'use strict';
+﻿import Playlists from 'background/collection/playlists';
 
-  var Playlists = require('background/collection/playlists');
-
-  describe('Playlists', function() {
-    beforeEach(function() {
-      this.playlists = new Playlists();
-    });
+describe('Playlists', function() {
+  beforeEach(function() {
+    this.playlists = new Playlists();
   });
 });

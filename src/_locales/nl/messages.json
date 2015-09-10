@@ -306,14 +306,14 @@
   "searchAndAdd": {
     "message": "Zoek en voeg toe"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus is niet gekoppelt aan je Chrome account. Je afspeellijsten zijn ook beschikbaar op andere computers als je je accounts koppelt."
   },
   "link": {
     "message": "Koppel",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "Je bent niet ingelogd bij Chrome. Je afspeellijsten zijn alleen op deze computer beschikbaar."
   },
   "remindGoogleSignIn": {

@@ -1,22 +1,18 @@
-﻿define(function(require) {
-  'use strict';
+﻿import SimpleMenuView from 'foreground/view/simpleMenu/simpleMenuView';
+import SimpleMenu from 'foreground/model/simpleMenu/simpleMenu';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var SimpleMenuView = require('foreground/view/simpleMenu/simpleMenuView');
-  var SimpleMenu = require('foreground/model/simpleMenu/simpleMenu');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('SimpleMenuView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new SimpleMenuView({
-        model: new SimpleMenu()
-      });
+describe('SimpleMenuView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new SimpleMenuView({
+      model: new SimpleMenu()
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

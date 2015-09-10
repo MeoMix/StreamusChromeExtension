@@ -1,16 +1,14 @@
-﻿define(function() {
-  'use strict';
+﻿import {Model} from 'backbone';
 
-  var SimpleListItem = Backbone.Model.extend({
-    defaults: function() {
-      return {
-        property: '',
-        labelKey: '',
-        value: '',
-        options: []
-      };
-    }
-  });
-
-  return SimpleListItem;
+var SimpleListItem = Model.extend({
+  defaults: function() {
+    return {
+      property: '',
+      labelKey: '',
+      value: '',
+      options: []
+    };
+  }
 });
+
+export default SimpleListItem;

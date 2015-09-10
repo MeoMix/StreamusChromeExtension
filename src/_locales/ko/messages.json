@@ -306,14 +306,14 @@
   "searchAndAdd": {
     "message": "검색과 추가"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "구글 계정에 스트리머스가 연동되지 않았습니다. 구글 계정을 연동시키면 다른 컴퓨터에서도 재생목록을 이용할 수 있습니다."
   },
   "link": {
     "message": "계정 연동",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "크롬에 로그인 되지 않았습니다. 이 컴퓨터에서만 재생목록을 사용할 수 있습니다."
   },
   "remindGoogleSignIn": {

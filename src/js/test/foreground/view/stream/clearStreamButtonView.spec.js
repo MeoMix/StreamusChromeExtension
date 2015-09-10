@@ -1,25 +1,21 @@
-﻿define(function(require) {
-  'use strict';
+﻿import ClearStreamButtonView from 'foreground/view/stream/clearStreamButtonView';
+import ClearStreamButton from 'foreground/model/stream/clearStreamButton';
+import StreamItems from 'background/collection/streamItems';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var ClearStreamButtonView = require('foreground/view/stream/clearStreamButtonView');
-  var ClearStreamButton = require('foreground/model/stream/clearStreamButton');
-  var StreamItems = require('background/collection/streamItems');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('ClearStreamButtonView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new ClearStreamButtonView({
-        model: new ClearStreamButton({
-          streamItems: new StreamItems()
-        })
-      });
+describe('ClearStreamButtonView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new ClearStreamButtonView({
+      model: new ClearStreamButton({
+        streamItems: new StreamItems()
+      })
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

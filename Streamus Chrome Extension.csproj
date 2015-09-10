@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="false" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -19,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,10 +78,13 @@
     <Content Include="src\img\streamus_icon_white19.png" />
     <Content Include="src\js\background\model\youTubePlayer.js" />
     <Content Include="src\js\common\enum\youTubePlayerState.js" />
+    <Content Include="src\js\common\shim\backbone.cocktail.shim.js" />
     <Content Include="src\js\common\shim\backbone.marionette.region.shim.js" />
     <Content Include="src\js\common\shim\backbone.marionette.view.shim.js" />
     <Content Include="src\js\common\enum\videoCommand.js" />
-    <Content Include="src\js\contentScript\require.shim.js" />
+    <Content Include="src\js\common\shim\handlebars.helpers.shim.js" />
+    <Content Include="src\js\common\shim\lodash.mixin.shim.js" />
+    <Content Include="src\js\common\shim\lodash.reference.shim.js" />
     <Content Include="src\js\contentScript\youTubePlayer\application.js" />
     <Content Include="src\js\contentScript\youTubePlayer\main.js" />
     <Content Include="src\js\contentScript\youTubePlayer\model\port.js" />
@@ -94,10 +99,8 @@
     <Content Include="src\js\background\model\analyticsManager.js" />
     <Content Include="src\js\foreground\enum\orientation.js" />
     <Content Include="src\js\foreground\model\activePane\activePane.js" />
-    <Content Include="src\js\background\model\videoButton.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
     <Content Include="src\js\common\enum\layoutType.js" />
-    <Content Include="src\js\common\lodashMixin.js" />
     <Content Include="src\js\foreground\enum\fixedPosition.js" />
     <Content Include="src\js\foreground\enum\activePaneType.js" />
     <Content Include="src\js\foreground\model\appBar\activePaneFilter.js" />
@@ -145,6 +148,7 @@
     <Content Include="src\js\foreground\view\streamControlBar\timeSliderView.js" />
     <Content Include="src\js\foreground\view\tooltip\tooltipRegion.js" />
     <Content Include="src\js\foreground\view\tooltip\tooltipView.js" />
+    <Content Include="src\js\lib\jspm.config.js" />
     <Content Include="src\js\test\background\backgroundSpecLoader.js" />
     <Content Include="src\js\test\background\collection\clientErrors.spec.js" />
     <Content Include="src\js\test\background\collection\playlistItems.spec.js" />
@@ -152,6 +156,7 @@
     <Content Include="src\js\test\background\collection\searchResults.spec.js" />
     <Content Include="src\js\test\background\collection\videos.spec.js" />
     <Content Include="src\js\test\background\collection\streamItems.spec.js" />
+    <Content Include="src\js\test\bridge.js" />
     <Content Include="src\js\test\chrome.mock.js" />
     <Content Include="src\js\test\common\commonSpecLoader.js" />
     <Content Include="src\js\test\background\model\activePlaylistManager.spec.js" />
@@ -168,7 +173,6 @@
     <Content Include="src\js\test\foreground\view\activePane\activePaneView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\activePaneFilterView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\adminMenuAreaView.spec.js" />
-    <Content Include="src\js\test\foreground\view\appBar\appBarRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\appBar\appBarView.spec.js" />
     <Content Include="src\js\test\foreground\view\appBar\searchInputAreaView.spec.js" />
@@ -185,25 +189,15 @@
     <Content Include="src\js\test\foreground\view\streamControlBar\timeSliderView.spec.js" />
     <Content Include="src\js\test\foreground\view\streamControlBar\volumeAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\behaviorSpecLoader.js" />
-    <Content Include="src\js\test\foreground\view\behavior\collectionViewMultiSelect.spec.js" />
-    <Content Include="src\js\test\foreground\view\behavior\dialogContent.spec.js" />
-    <Content Include="src\js\test\foreground\view\behavior\itemViewMultiSelect.spec.js" />
-    <Content Include="src\js\test\foreground\view\behavior\listItemButton.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\scrollable.spec.js" />
-    <Content Include="src\js\test\foreground\view\behavior\slidingRender.spec.js" />
-    <Content Include="src\js\test\foreground\view\behavior\sortable.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\tooltipable.spec.js" />
     <Content Include="src\js\test\foreground\foregroundSpecLoader.js" />
-    <Content Include="src\js\test\foreground\view\behavior\viewModelContainer.spec.js" />
     <Content Include="src\js\test\foreground\view\listItemButton\playlistOptionsButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\simpleMenu\simpleMenuRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\simpleMenu\simpleMenuSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\dialog\aboutStreamusDialogView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\aboutStreamusView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\clearStreamView.spec.js" />
-    <Content Include="src\js\test\foreground\view\dialog\dialogRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\dialogSpecLoader.js" />
-    <Content Include="src\js\test\foreground\view\dialog\dialogView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\errorView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\googleSignInView.spec.js" />
     <Content Include="src\js\test\foreground\view\dialog\linkUserIdView.spec.js" />
@@ -233,69 +227,66 @@
     <Content Include="src\js\test\foreground\view\listItemButton\playPauseVideoButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\listItemButton\playPlaylistButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\listItemButton\saveVideoButtonView.spec.js" />
-    <Content Include="src\js\test\foreground\view\listItemView.spec.js" />
-    <Content Include="src\js\test\foreground\view\notification\notificationRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\notification\notificationSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\notification\notificationView.spec.js" />
-    <Content Include="src\js\test\foreground\view\playlist\playlistsAreaRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\playlist\playlistsAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\playlist\playlistSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\playlist\playlistsView.spec.js" />
     <Content Include="src\js\test\foreground\view\playlist\playlistView.spec.js" />
-    <Content Include="src\js\test\foreground\view\search\searchRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\search\searchResultsView.spec.js" />
     <Content Include="src\js\test\foreground\view\search\searchResultView.spec.js" />
     <Content Include="src\js\test\foreground\view\search\searchSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\search\searchView.spec.js" />
-    <Content Include="src\js\test\foreground\view\selectionBar\selectionBarRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\selectionBar\selectionBarSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\selectionBar\selectionBarView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\clearStreamButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\saveStreamButtonView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamItemsView.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamItemView.spec.js" />
-    <Content Include="src\js\test\foreground\view\stream\streamRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\stream\streamSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\stream\streamView.spec.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\tooltip\tooltipView.spec.js" />
     <Content Include="src\js\test\foreground\view\viewTestUtility.js" />
+    <Content Include="src\js\test\mochaSetup.js" />
     <Content Include="src\js\test\phantomjs.shim.js" />
-    <Content Include="src\js\lib\test\chai.js" />
-    <Content Include="src\js\lib\test\mocha.js" />
-    <Content Include="src\js\lib\test\sinon.js" />
-    <Content Include="src\template\activePane\activePanes.html" />
-    <Content Include="src\template\activePane\activePane.html" />
-    <Content Include="src\template\appBar\activePaneFilter.html" />
-    <Content Include="src\template\appBar\searchInputArea.html" />
-    <Content Include="src\template\behavior\resizeEmitter.html" />
-    <Content Include="src\template\contentScript\youTubePlayer\watermark.html" />
-    <Content Include="src\template\dialog\aboutStreamus.html" />
-    <Content Include="src\template\element\slider.html" />
-    <Content Include="src\template\simpleMenu\simpleMenuItem.html" />
-    <Content Include="src\template\icon\closeIcon_24.svg" />
-    <Content Include="src\template\icon\deleteIcon_18.svg" />
-    <Content Include="src\template\icon\menuIcon_24.svg" />
-    <Content Include="src\template\icon\optionsIcon_18.svg" />
-    <Content Include="src\template\icon\pauseIcon_18.svg" />
-    <Content Include="src\template\icon\settingsIcon_24.svg" />
-    <Content Include="src\template\icon\pauseIcon_30.svg" />
-    <Content Include="src\template\icon\playIcon_18.svg" />
-    <Content Include="src\template\icon\playIcon_30.svg" />
-    <Content Include="src\template\icon\addIcon_18.svg" />
-    <Content Include="src\template\icon\radioIcon_18.svg" />
-    <Content Include="src\template\icon\repeatIcon_18.svg" />
-    <Content Include="src\template\icon\repeatOneIcon_18.svg" />
-    <Content Include="src\template\icon\saveIcon_18.svg" />
-    <Content Include="src\template\icon\searchIcon_24.svg" />
-    <Content Include="src\template\icon\shuffleIcon_18.svg" />
-    <Content Include="src\template\icon\nextIcon_24.svg" />
-    <Content Include="src\template\icon\previousIcon_24.svg" />
-    <Content Include="src\template\icon\volumeDownIcon_24.svg" />
-    <Content Include="src\template\icon\volumeMuteIcon_24.svg" />
-    <Content Include="src\template\icon\volumeOffIcon_24.svg" />
-    <Content Include="src\template\icon\volumeUpIcon_24.svg" />
+    <None Include="src\template\activePane\activePanes.hbs" />
+    <None Include="src\template\activePane\activePane.hbs" />
+    <None Include="src\template\appBar\activePaneFilter.hbs" />
+    <None Include="src\template\appBar\searchInputArea.hbs" />
+    <None Include="src\template\behavior\resizeEmitter.hbs" />
+    <None Include="src\template\contentScript\youTubePlayer\watermark.hbs" />
+    <None Include="src\template\dialog\aboutStreamus.hbs" />
+    <Content Include="src\template\dialog\error.hbs" />
+    <Content Include="src\template\dialog\linkUserId.hbs" />
+    <Content Include="src\template\dialog\clearStream.hbs" />
+    <Content Include="src\template\dialog\googleSignIn.hbs" />
+    <Content Include="src\template\dialog\updateStreamus.hbs" />
+    <None Include="src\template\element\slider.hbs" />
+    <None Include="src\template\simpleMenu\simpleMenuItem.hbs" />
+    <None Include="src\template\icon\closeIcon_24.hbs" />
+    <None Include="src\template\icon\deleteIcon_18.hbs" />
+    <None Include="src\template\icon\menuIcon_24.hbs" />
+    <None Include="src\template\icon\optionsIcon_18.hbs" />
+    <None Include="src\template\icon\pauseIcon_18.hbs" />
+    <None Include="src\template\icon\settingsIcon_24.hbs" />
+    <None Include="src\template\icon\pauseIcon_30.hbs" />
+    <None Include="src\template\icon\playIcon_18.hbs" />
+    <None Include="src\template\icon\playIcon_30.hbs" />
+    <None Include="src\template\icon\addIcon_18.hbs" />
+    <None Include="src\template\icon\radioIcon_18.hbs" />
+    <None Include="src\template\icon\repeatIcon_18.hbs" />
+    <None Include="src\template\icon\repeatOneIcon_18.hbs" />
+    <None Include="src\template\icon\saveIcon_18.hbs" />
+    <None Include="src\template\icon\searchIcon_24.hbs" />
+    <None Include="src\template\icon\shuffleIcon_18.hbs" />
+    <None Include="src\template\icon\nextIcon_24.hbs" />
+    <None Include="src\template\icon\previousIcon_24.hbs" />
+    <None Include="src\template\icon\volumeDownIcon_24.hbs" />
+    <None Include="src\template\icon\volumeMuteIcon_24.hbs" />
+    <None Include="src\template\icon\volumeOffIcon_24.hbs" />
+    <None Include="src\template\icon\volumeUpIcon_24.hbs" />
     <Content Include="src\img\yellow_0bar_19.png" />
     <Content Include="src\img\yellow_0bar_38.png" />
     <Content Include="src\img\yellow_1bar_19.png" />
@@ -361,7 +352,6 @@
     <Content Include="src\js\background\model\dataSource.js" />
     <Content Include="src\js\common\utility.js" />
     <Content Include="src\js\background\model\youTubeV3API.js" />
-    <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
     <Content Include="src\js\foreground\collection\element\checkboxes.js" />
     <Content Include="src\js\foreground\collection\element\radioButtons.js" />
@@ -478,18 +468,11 @@
     <Content Include="src\js\test\plugins.js" />
     <Content Include="src\js\test\background\model\playlistItem.spec.js" />
     <Content Include="src\js\test\background\model\playlistItems.spec.js" />
-    <Content Include="src\js\lib\cocktail.js" />
-    <Content Include="src\js\lib\backbone.js" />
     <Content Include="README.md">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="src\js\lib\backbone.localStorage.js" />
-    <Content Include="src\js\lib\backbone.marionette.js" />
-    <Content Include="src\js\lib\jquery.js" />
     <Content Include="src\js\lib\jquery-ui.js" />
-    <Content Include="src\js\lib\lodash.js" />
-    <Content Include="src\js\lib\require.js" />
-    <Content Include="src\js\lib\text.js" />
     <Content Include="src\css\contentScript\beatport.css" />
     <Content Include="src\font\Roboto-Medium.ttf" />
     <Content Include="src\font\Roboto-Regular.ttf" />
@@ -500,6 +483,7 @@
     <Content Include="CONTRIBUTING.md" />
     <Content Include=".jscsrc" />
     <Content Include=".webstoreUploadCredentials" />
+    <Content Include="src\js\common\shim\backbone.marionette.toJson.shim.js" />
     <None Include="src\js\lib\chrome-api-vsdoc.js" />
     <Content Include="src\less\color.less" />
     <Content Include="src\less\font.less" />
@@ -513,57 +497,56 @@
     <Content Include="src\less\activePaneFilter.less" />
     <Content Include="src\less\activePane.less" />
     <None Include="src\less\foreground.less" />
-    <Content Include="src\template\appBar\appBar.html" />
-    <Content Include="src\template\backgroundArea.html" />
-    <Content Include="src\template\element\checkbox.html" />
-    <Content Include="src\template\element\radioButton.html" />
-    <Content Include="src\template\element\radioGroup.html" />
-    <Content Include="src\template\element\simpleListItem.html" />
-    <Content Include="src\template\simpleMenu\simpleMenu.html" />
-    <Content Include="src\template\element\spinner.html" />
-    <Content Include="src\template\element\switch.html" />
-    <Content Include="src\template\foregroundArea.html" />
-    <Content Include="src\template\leftPane\playlistItems.html" />
-    <Content Include="src\template\listItemButton\addListItemButton.html" />
-    <Content Include="src\template\listItemButton\optionsListItemButton.html" />
-    <Content Include="src\template\listItemButton\playPauseVideoButton.html" />
-    <Content Include="src\template\playlist\playlists.html" />
-    <Content Include="src\template\dialog\exportPlaylist.html" />
-    <Content Include="src\template\appBar\adminMenuArea.html" />
-    <Content Include="src\template\notification\notification.html" />
-    <Content Include="src\template\listItemButton\deleteListItemButton.html" />
-    <Content Include="src\template\listItemButton\saveListItemButton.html" />
-    <Content Include="src\template\listItemButton\playListItemButton.html" />
-    <Content Include="src\template\appBar\playlistTitle.html" />
-    <Content Include="src\template\leftPane\leftPane.html" />
-    <Content Include="src\template\playlist\playlistsArea.html" />
-    <Content Include="src\template\leftPane\activePlaylistArea.html" />
-    <Content Include="src\template\dialog\createPlaylist.html" />
-    <Content Include="src\template\dialog\deletePlaylist.html" />
-    <Content Include="src\template\dialog\editPlaylist.html" />
-    <Content Include="src\template\dialog\dialog.html" />
-    <Content Include="src\template\playlist\playlist.html" />
-    <Content Include="src\template\leftPane\playlistItem.html" />
-    <Content Include="src\template\selectionBar\selectionBar.html" />
-    <Content Include="src\template\streamControlBar\nextButton.html" />
-    <Content Include="src\template\streamControlBar\playPauseButton.html" />
-    <Content Include="src\template\streamControlBar\previousButton.html" />
-    <Content Include="src\template\streamControlBar\radioButton.html" />
-    <Content Include="src\template\streamControlBar\repeatButton.html" />
-    <Content Include="src\template\streamControlBar\shuffleButton.html" />
-    <Content Include="src\template\streamControlBar\streamControlBar.html" />
-    <Content Include="src\template\streamControlBar\timeLabelArea.html" />
-    <Content Include="src\template\streamControlBar\timeSlider.html" />
-    <Content Include="src\template\stream\clearStreamButton.html" />
-    <Content Include="src\template\stream\saveStreamButton.html" />
-    <Content Include="src\template\stream\streamItem.html" />
-    <Content Include="src\template\dialog\settings.html" />
-    <Content Include="src\template\leftPane\signIn.html" />
-    <Content Include="src\template\stream\stream.html" />
-    <Content Include="src\template\stream\streamItems.html" />
-    <Content Include="src\template\search\searchResult.html" />
-    <Content Include="src\template\search\search.html" />
-    <Content Include="src\template\streamControlBar\volumeArea.html" />
+    <None Include="src\template\appBar\appBar.hbs" />
+    <None Include="src\template\backgroundArea.hbs" />
+    <None Include="src\template\element\checkbox.hbs" />
+    <None Include="src\template\element\radioButton.hbs" />
+    <None Include="src\template\element\radioGroup.hbs" />
+    <None Include="src\template\element\simpleListItem.hbs" />
+    <None Include="src\template\simpleMenu\simpleMenu.hbs" />
+    <None Include="src\template\element\spinner.hbs" />
+    <None Include="src\template\element\switch.hbs" />
+    <None Include="src\template\foregroundArea.hbs" />
+    <None Include="src\template\leftPane\playlistItems.hbs" />
+    <None Include="src\template\listItemButton\addListItemButton.hbs" />
+    <None Include="src\template\listItemButton\optionsListItemButton.hbs" />
+    <None Include="src\template\listItemButton\playPauseVideoButton.hbs" />
+    <None Include="src\template\playlist\playlists.hbs" />
+    <None Include="src\template\dialog\exportPlaylist.hbs" />
+    <None Include="src\template\appBar\adminMenuArea.hbs" />
+    <None Include="src\template\notification\notification.hbs" />
+    <None Include="src\template\listItemButton\deleteListItemButton.hbs" />
+    <None Include="src\template\listItemButton\saveListItemButton.hbs" />
+    <None Include="src\template\listItemButton\playListItemButton.hbs" />
+    <None Include="src\template\appBar\playlistTitle.hbs" />
+    <None Include="src\template\leftPane\leftPane.hbs" />
+    <None Include="src\template\playlist\playlistsArea.hbs" />
+    <None Include="src\template\leftPane\activePlaylistArea.hbs" />
+    <None Include="src\template\dialog\createPlaylist.hbs" />
+    <None Include="src\template\dialog\deletePlaylist.hbs" />
+    <None Include="src\template\dialog\editPlaylist.hbs" />
+    <None Include="src\template\dialog\dialog.hbs" />
+    <None Include="src\template\playlist\playlist.hbs" />
+    <None Include="src\template\leftPane\playlistItem.hbs" />
+    <None Include="src\template\selectionBar\selectionBar.hbs" />
+    <None Include="src\template\streamControlBar\nextButton.hbs" />
+    <None Include="src\template\streamControlBar\playPauseButton.hbs" />
+    <None Include="src\template\streamControlBar\previousButton.hbs" />
+    <None Include="src\template\streamControlBar\radioButton.hbs" />
+    <None Include="src\template\streamControlBar\repeatButton.hbs" />
+    <None Include="src\template\streamControlBar\shuffleButton.hbs" />
+    <None Include="src\template\streamControlBar\streamControlBar.hbs" />
+    <None Include="src\template\streamControlBar\timeLabelArea.hbs" />
+    <None Include="src\template\stream\clearStreamButton.hbs" />
+    <None Include="src\template\stream\saveStreamButton.hbs" />
+    <None Include="src\template\stream\streamItem.hbs" />
+    <None Include="src\template\dialog\settings.hbs" />
+    <None Include="src\template\leftPane\signIn.hbs" />
+    <None Include="src\template\stream\stream.hbs" />
+    <None Include="src\template\stream\streamItems.hbs" />
+    <None Include="src\template\search\searchResult.hbs" />
+    <None Include="src\template\search\search.hbs" />
+    <None Include="src\template\streamControlBar\volumeArea.hbs" />
     <Content Include="src\js\test\main.js" />
     <Content Include="src\js\test\background\model\relatedVideosManager.spec.js" />
     <Content Include="src\js\test\background\model\dataSource.spec.js" />
@@ -571,8 +554,8 @@
     <Content Include="src\js\test\background\model\youTubeV3API.spec.js" />
     <Content Include="src\js\test\test.js" />
     <Content Include="src\js\test\testUtility.js" />
-    <Content Include="src\template\search\searchResults.html" />
-    <Content Include="src\template\tooltip\tooltip.html" />
+    <None Include="src\template\search\searchResults.hbs" />
+    <None Include="src\template\tooltip\tooltip.hbs" />
     <Content Include="src\test.html" />
     <Content Include="package.json" />
     <Content Include="src\_locales\de\messages.json" />
@@ -628,6 +611,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

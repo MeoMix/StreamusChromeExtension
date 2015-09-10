@@ -1,22 +1,18 @@
-﻿define(function(require) {
-  'use strict';
+﻿import SearchInputAreaView from 'foreground/view/appBar/searchInputAreaView';
+import Search from 'background/model/search';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var SearchInputAreaView = require('foreground/view/appBar/searchInputAreaView');
-  var Search = require('background/model/search');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('SearchAreaView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new SearchInputAreaView({
-        search: new Search()
-      });
+describe('SearchAreaView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new SearchInputAreaView({
+      search: new Search()
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

@@ -1,22 +1,18 @@
-﻿define(function(require) {
-  'use strict';
+﻿import RadioGroupView from 'foreground/view/element/radioGroupView';
+import RadioGroup from 'foreground/model/element/radioGroup';
+import ViewTestUtility from 'test/foreground/view/viewTestUtility';
 
-  var RadioGroupView = require('foreground/view/element/radioGroupView');
-  var RadioGroup = require('foreground/model/element/radioGroup');
-  var viewTestUtility = require('test/foreground/view/viewTestUtility');
-
-  describe('RadioGroupView', function() {
-    beforeEach(function() {
-      this.documentFragment = document.createDocumentFragment();
-      this.view = new RadioGroupView({
-        model: new RadioGroup()
-      });
+describe('RadioGroupView', function() {
+  beforeEach(function() {
+    this.documentFragment = document.createDocumentFragment();
+    this.view = new RadioGroupView({
+      model: new RadioGroup()
     });
-
-    afterEach(function() {
-      this.view.destroy();
-    });
-
-    viewTestUtility.ensureBasicAssumptions.call(this);
   });
+
+  afterEach(function() {
+    this.view.destroy();
+  });
+
+  ViewTestUtility.ensureBasicAssumptions.call(this);
 });

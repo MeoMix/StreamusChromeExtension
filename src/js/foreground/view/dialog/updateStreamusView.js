@@ -1,17 +1,16 @@
-﻿define(function(require) {
-  'use strict';
+﻿import _ from 'common/shim/lodash.reference.shim';
+import {LayoutView} from 'marionette';
+import DialogContent from 'foreground/view/behavior/dialogContent';
+import updateStreamusTemplate from 'template/dialog/updateStreamus.hbs!';
 
-  var DialogContent = require('foreground/view/behavior/dialogContent');
+var UpdateStreamusView = LayoutView.extend({
+  template: updateStreamusTemplate,
 
-  var UpdateStreamusView = Marionette.LayoutView.extend({
-    template: _.template(chrome.i18n.getMessage('anUpdateIsAvailable')),
-
-    behaviors: {
-      DialogContent: {
-        behaviorClass: DialogContent
-      }
+  behaviors: {
+    DialogContent: {
+      behaviorClass: DialogContent
     }
-  });
-
-  return UpdateStreamusView;
+  }
 });
+
+export default UpdateStreamusView;

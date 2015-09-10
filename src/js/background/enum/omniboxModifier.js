@@ -1,3 +1,3 @@
-﻿define({
+﻿export default {
   Add: 'add'
-});
+};

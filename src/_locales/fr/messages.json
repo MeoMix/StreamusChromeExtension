@@ -306,14 +306,14 @@
   "searchAndAdd": {
     "message": "Rechercher et ajouter"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus n'est pas associé à votre compte Google. Associez votre compte pour que vos playlists soient accessibles sur d'autres ordinateurs."
   },
   "link": {
     "message": "Associer",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "Vous n'êtes pas connecté à Google. Vos playlists ne seront accessibles que sur cet ordinateur."
   },
   "remindGoogleSignIn": {

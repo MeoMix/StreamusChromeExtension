@@ -1,13 +1,11 @@
-﻿define(function() {
-  'use strict';
+﻿import {Model} from 'backbone';
 
-  var Tooltip = Backbone.Model.extend({
-    defaults: {
-      text: '',
-      top: 0,
-      left: 0
-    }
-  });
-
-  return Tooltip;
+var Tooltip = Model.extend({
+  defaults: {
+    text: '',
+    top: 0,
+    left: 0
+  }
 });
+
+export default Tooltip;

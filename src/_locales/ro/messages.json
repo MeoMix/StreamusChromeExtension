@@ -306,14 +306,14 @@
   "searchAndAdd": {
     "message": "Cauta si adauga"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus nu este conectat cu contul Chrome. Daca cele doua conturi vor fi conectate, listele vor aparea si pe alte computere."
   },
   "link": {
     "message": "Conecteaza",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "Nu esti autentificat in Chrome. Listele sunt disponibile numai pe acest computer"
   },
   "remindGoogleSignIn": {

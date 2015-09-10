@@ -1,11 +1,9 @@
-﻿define(function() {
-  'use strict';
+﻿import {Model} from 'backbone';
 
-  var AdminMenuArea = Backbone.Model.extend({
-    defaults: {
-      menuShown: false
-    }
-  });
-
-  return AdminMenuArea;
+var AdminMenuArea = Model.extend({
+  defaults: {
+    menuShown: false
+  }
 });
+
+export default AdminMenuArea;

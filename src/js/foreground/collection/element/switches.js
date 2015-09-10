@@ -1,11 +1,8 @@
-﻿define(function(require) {
-  'use strict';
+﻿import {Collection} from 'backbone';
+import Switch from 'foreground/model/element/switch';
 
-  var Switch = require('foreground/model/element/switch');
-
-  var Switches = Backbone.Collection.extend({
-    model: Switch
-  });
-
-  return Switches;
+var Switches = Collection.extend({
+  model: Switch
 });
+
+export default Switches;

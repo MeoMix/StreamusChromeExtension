@@ -1,15 +1,14 @@
-﻿define(function(require) {
-  'use strict';
+﻿import {Collection} from 'backbone';
+import RadioGroup from 'foreground/model/element/radioGroup';
 
-  var RadioGroup = require('foreground/model/element/radioGroup');
+var RadioGroups = Collection.extend({
+  model: RadioGroup,
 
-  var RadioGroups = Backbone.Collection.extend({
-    model: RadioGroup,
-
-    getByProperty: function(property) {
-      return this.findWhere({property: property});
-    }
-  });
-
-  return RadioGroups;
+  getByProperty: function(property) {
+    return this.findWhere({
+      property: property
+    });
+  }
 });
+
+export default RadioGroups;

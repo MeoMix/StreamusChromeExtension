@@ -1,12 +1,9 @@
-﻿define(function(require) {
-  'use strict';
+﻿import {LayoutView} from 'marionette';
+import spinnerTemplate from 'template/element/spinner.hbs!';
 
-  var SpinnerTemplate = require('text!template/element/spinner.html');
-
-  var SpinnerView = Marionette.LayoutView.extend({
-    tagName: 'spinner',
-    template: _.template(SpinnerTemplate)
-  });
-
-  return SpinnerView;
+var SpinnerView = LayoutView.extend({
+  tagName: 'spinner',
+  template: spinnerTemplate
 });
+
+export default SpinnerView;
