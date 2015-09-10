@@ -46,8 +46,8 @@ window.chrome = {
     getViews: function() { }
   },
   i18n: {
-    getMessage: function() {
-      return '';
+    getMessage: function(messageName) {
+      return messageName;
     },
     getUILanguage: function() {
       return 'en';
