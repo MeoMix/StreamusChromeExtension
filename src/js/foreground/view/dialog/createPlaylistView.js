@@ -2,11 +2,11 @@
 import {LayoutView} from 'marionette';
 import DataSourceType from 'common/enum/dataSourceType';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import CreatePlaylistTemplate from 'template/dialog/createPlaylist.hbs!';
+import createPlaylistTemplate from 'template/dialog/createPlaylist.hbs!';
 
 var CreatePlaylistView = LayoutView.extend({
   id: 'createPlaylist',
-  template: CreatePlaylistTemplate,
+  template: createPlaylistTemplate,
   titleMaxLength: 150,
 
   templateHelpers: function() {

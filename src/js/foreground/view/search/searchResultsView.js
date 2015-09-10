@@ -6,11 +6,12 @@ import SlidingRender from 'foreground/view/behavior/slidingRender';
 import Sortable from 'foreground/view/behavior/sortable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import SearchResultView from 'foreground/view/search/searchResultView';
-import SearchResultsTemplate from 'template/search/searchResults.hbs!';
+import searchResultsTemplate from 'template/search/searchResults.hbs!';
 
 var SearchResultsView = CompositeView.extend({
   id: 'searchResults',
   className: 'list u-flex--full',
+  template: searchResultsTemplate,
   childViewContainer: '@ui.listItems',
   childView: SearchResultView,
   childViewType: ListItemType.SearchResult,
@@ -27,8 +28,6 @@ var SearchResultsView = CompositeView.extend({
   resortView: function() {
     this._renderChildren();
   },
-
-  template: SearchResultsTemplate,
 
   ui: {
     listItems: 'listItems'

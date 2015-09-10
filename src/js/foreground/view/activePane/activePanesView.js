@@ -2,13 +2,13 @@
 import ActivePaneType from 'foreground/enum/activePaneType';
 import ActivePaneView from 'foreground/view/activePane/activePaneView';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
-import ActivePanesTemplate from 'template/activePane/activePanes.hbs!';
+import activePanesTemplate from 'template/activePane/activePanes.hbs!';
 
 // TODO: Show a sign-in view.
 var ActivePanesView = CollectionView.extend({
   className: 'activePanes flexRow',
   childView: ActivePaneView,
-  template: ActivePanesTemplate,
+  template: activePanesTemplate,
 
   childViewOptions: function() {
     return {

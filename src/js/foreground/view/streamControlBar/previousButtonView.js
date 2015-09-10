@@ -1,13 +1,13 @@
 ﻿import {LayoutView} from 'marionette';
-import PreviousButtonTemplate from 'template/streamControlBar/previousButton.hbs!';
-import PreviousIconTemplate from 'template/icon/previousIcon_24.hbs!';
+import previousButtonTemplate from 'template/streamControlBar/previousButton.hbs!';
+import previousIconTemplate from 'template/icon/previousIcon_24.hbs!';
 
 var PreviousButton = LayoutView.extend({
   id: 'previousButton',
   className: 'button button--icon button--icon--primary button--large',
-  template: PreviousButtonTemplate,
+  template: previousButtonTemplate,
   templateHelpers: {
-    previousIcon: PreviousIconTemplate
+    previousIcon: previousIconTemplate
   },
 
   events: {

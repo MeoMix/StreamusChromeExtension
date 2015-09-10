@@ -1,12 +1,12 @@
 ﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
-import PlayListItemButtonTemplate from 'template/listItemButton/playListItemButton.hbs!';
-import PlayIconTemplate from 'template/icon/playIcon_18.hbs!';
+import playListItemButtonTemplate from 'template/listItemButton/playListItemButton.hbs!';
+import playIconTemplate from 'template/icon/playIcon_18.hbs!';
 
 var PlayPlaylistButtonView = LayoutView.extend({
-  template: PlayListItemButtonTemplate,
+  template: playListItemButtonTemplate,
   templateHelpers: {
-    playIcon: PlayIconTemplate
+    playIcon: playIconTemplate
   },
 
   behaviors: {

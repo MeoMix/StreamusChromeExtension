@@ -1,10 +1,10 @@
 ﻿import {LayoutView} from 'marionette';
 import ClipboardRegion from 'background/view/clipboardRegion';
-import BackgroundAreaTemplate from 'template/backgroundArea.hbs!';
+import backgroundAreaTemplate from 'template/backgroundArea.hbs!';
 
 var BackgroundAreaView = LayoutView.extend({
   el: '#backgroundArea',
-  template: BackgroundAreaTemplate,
+  template: backgroundAreaTemplate,
 
   regions: {
     clipboard: {

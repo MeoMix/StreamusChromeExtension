@@ -82,6 +82,7 @@
     <Content Include="src\js\common\shim\backbone.marionette.region.shim.js" />
     <Content Include="src\js\common\shim\backbone.marionette.view.shim.js" />
     <Content Include="src\js\common\enum\videoCommand.js" />
+    <Content Include="src\js\common\shim\handlebars.helpers.shim.js" />
     <Content Include="src\js\common\shim\lodash.mixin.shim.js" />
     <Content Include="src\js\common\shim\lodash.reference.shim.js" />
     <Content Include="src\js\contentScript\youTubePlayer\application.js" />

@@ -5,7 +5,7 @@ import Scrollable from 'foreground/view/behavior/scrollable';
 import SlidingRender from 'foreground/view/behavior/slidingRender';
 import Sortable from 'foreground/view/behavior/sortable';
 import PlaylistItemView from 'foreground/view/leftPane/playlistItemView';
-import PlaylistItemsTemplate from 'template/leftPane/playlistItems.hbs!';
+import playlistItemsTemplate from 'template/leftPane/playlistItems.hbs!';
 
 var PlaylistItemsView = CompositeView.extend({
   id: 'playlistItems',
@@ -27,7 +27,7 @@ var PlaylistItemsView = CompositeView.extend({
     this._renderChildren();
   },
 
-  template: PlaylistItemsTemplate,
+  template: playlistItemsTemplate,
 
   ui: {
     listItems: 'listItems'

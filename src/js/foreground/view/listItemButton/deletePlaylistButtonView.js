@@ -2,13 +2,13 @@
 import {LayoutView} from 'marionette';
 import PlaylistActions from 'foreground/model/playlist/playlistActions';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
-import DeleteListItemButtonTemplate from 'template/listItemButton/deleteListItemButton.hbs!';
-import DeleteIconTemplate from 'template/icon/deleteIcon_18.hbs!';
+import deleteListItemButtonTemplate from 'template/listItemButton/deleteListItemButton.hbs!';
+import deleteIconTemplate from 'template/icon/deleteIcon_18.hbs!';
 
 var DeletePlaylistButtonView = LayoutView.extend({
-  template: DeleteListItemButtonTemplate,
+  template: deleteListItemButtonTemplate,
   templateHelpers: {
-    deleteIcon: DeleteIconTemplate
+    deleteIcon: deleteIconTemplate
   },
 
   attributes: {

@@ -4,12 +4,12 @@ import SaveStreamButton from 'foreground/model/stream/saveStreamButton';
 import ClearStreamButtonView from 'foreground/view/stream/clearStreamButtonView';
 import SaveStreamButtonView from 'foreground/view/stream/saveStreamButtonView';
 import StreamItemsView from 'foreground/view/stream/streamItemsView';
-import StreamTemplate from 'template/stream/stream.hbs!';
+import streamTemplate from 'template/stream/stream.hbs!';
 
 var StreamView = LayoutView.extend({
   id: 'stream',
   className: 'flexColumn',
-  template: StreamTemplate,
+  template: streamTemplate,
 
   templateHelpers: {
     emptyMessage: chrome.i18n.getMessage('streamEmpty'),

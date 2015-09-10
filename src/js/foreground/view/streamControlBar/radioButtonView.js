@@ -1,14 +1,14 @@
 ﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import RadioButtonTemplate from 'template/streamControlBar/radioButton.hbs!';
-import RadioIconTemplate from 'template/icon/radioIcon_18.hbs!';
+import radioButtonTemplate from 'template/streamControlBar/radioButton.hbs!';
+import radioIconTemplate from 'template/icon/radioIcon_18.hbs!';
 
 var RadioButtonView = LayoutView.extend({
   id: 'radioButton',
   className: 'button button--icon button--icon--secondary button--medium',
-  template: RadioButtonTemplate,
+  template: radioButtonTemplate,
   templateHelpers: {
-    radioIcon: RadioIconTemplate
+    radioIcon: radioIconTemplate
   },
 
   attributes: {

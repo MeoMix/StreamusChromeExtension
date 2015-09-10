@@ -134,17 +134,9 @@
     "https://aws-server.streamus.com/Streamus/*"
   ],
   "web_accessible_resources": [
-    "js/lib/*.js",
-    "js/common/enum/playerState.js",
-    "js/common/enum/youTubePlayerState.js",
-    "js/common/enum/videoCommand.js",
-    "js/contentScript/youTubePlayer/application.js",
-    "js/contentScript/youTubePlayer/playerApi.js",
-    "js/contentScript/youTubePlayer/plugins.js",
-    "js/contentScript/youTubePlayer/model/port.js",
-    "js/contentScript/youTubePlayer/model/videoStream.js",
-    "js/contentScript/youTubePlayer/view/videoStreamView.js",
-    "js/contentScript/youTubePlayer/view/youTubePlayerView.js",
-    "template/contentScript/youTubePlayer/watermark.html"
+    "js/lib/*",
+    "js/common/*",
+    "js/contentScript/*",
+    "template/contentScript/*"
   ]
 }

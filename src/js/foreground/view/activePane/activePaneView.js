@@ -2,11 +2,11 @@
 import ActivePaneType from 'foreground/enum/activePaneType';
 import StreamView from 'foreground/view/stream/streamView';
 import ActivePlaylistAreaView from 'foreground/view/leftPane/activePlaylistAreaView';
-import ActivePaneTemplate from 'template/activePane/activePane.hbs!';
+import activePaneTemplate from 'template/activePane/activePane.hbs!';
 
 var ActivePaneView = LayoutView.extend({
   className: 'activePane flexColumn',
-  template: ActivePaneTemplate,
+  template: activePaneTemplate,
 
   regions: {
     content: 'content'

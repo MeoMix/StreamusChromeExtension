@@ -1,21 +1,21 @@
 import {LayoutView} from 'marionette';
-import VolumeAreaTemplate from 'template/streamControlBar/volumeArea.hbs!';
-import VolumeUpIconTemplate from 'template/icon/volumeUpIcon_24.hbs!';
-import VolumeDownIconTemplate from 'template/icon/volumeDownIcon_24.hbs!';
-import VolumeOffIconTemplate from 'template/icon/volumeOffIcon_24.hbs!';
-import VolumeMuteIconTemplate from 'template/icon/volumeMuteIcon_24.hbs!';
+import volumeAreaTemplate from 'template/streamControlBar/volumeArea.hbs!';
+import volumeUpIconTemplate from 'template/icon/volumeUpIcon_24.hbs!';
+import volumeDownIconTemplate from 'template/icon/volumeDownIcon_24.hbs!';
+import volumeOffIconTemplate from 'template/icon/volumeOffIcon_24.hbs!';
+import volumeMuteIconTemplate from 'template/icon/volumeMuteIcon_24.hbs!';
 
 var VolumeAreaView = LayoutView.extend({
   id: 'volumeArea',
   className: 'volumeArea',
-  template: VolumeAreaTemplate,
+  template: volumeAreaTemplate,
 
   templateHelpers: function() {
     return {
-      volumeUpIcon: VolumeUpIconTemplate,
-      volumeDownIcon: VolumeDownIconTemplate,
-      volumeOffIcon: VolumeOffIconTemplate,
-      volumeMuteIcon: VolumeMuteIconTemplate
+      volumeUpIcon: volumeUpIconTemplate,
+      volumeDownIcon: volumeDownIconTemplate,
+      volumeOffIcon: volumeOffIconTemplate,
+      volumeMuteIcon: volumeMuteIconTemplate
     };
   },
 

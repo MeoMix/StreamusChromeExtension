@@ -4,12 +4,12 @@ import SimpleMenuItemsView from 'foreground/view/simpleMenu/simpleMenuItemsView'
 import SimpleMenuItemView from 'foreground/view/simpleMenu/simpleMenuItemView';
 import FixedPosition from 'foreground/enum/fixedPosition';
 import Utility from 'common/utility';
-import SimpleMenuTemplate from 'template/simpleMenu/simpleMenu.hbs!';
+import simpleMenuTemplate from 'template/simpleMenu/simpleMenu.hbs!';
 
 var SimpleMenuView = LayoutView.extend({
   id: 'simpleMenu',
   className: 'panel panel--detached',
-  template: SimpleMenuTemplate,
+  template: simpleMenuTemplate,
 
   regions: {
     simpleMenuItems: 'simpleMenuItems',

@@ -6,12 +6,12 @@ import SlidingRender from 'foreground/view/behavior/slidingRender';
 import Sortable from 'foreground/view/behavior/sortable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import StreamItemView from 'foreground/view/stream/streamItemView';
-import StreamItemsTemplate from 'template/stream/streamItems.hbs!';
+import streamItemsTemplate from 'template/stream/streamItems.hbs!';
 
 var StreamItemsView = CompositeView.extend({
   id: 'streamItems',
   className: 'list u-flex--full',
-  template: StreamItemsTemplate,
+  template: streamItemsTemplate,
   childViewContainer: '@ui.listItems',
   childView: StreamItemView,
   childViewType: ListItemType.StreamItem,

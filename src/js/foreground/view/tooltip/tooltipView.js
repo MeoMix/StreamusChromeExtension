@@ -1,9 +1,9 @@
 ﻿import {LayoutView} from 'marionette';
-import TooltipTemplate from 'template/tooltip/tooltip.hbs!';
+import tooltipTemplate from 'template/tooltip/tooltip.hbs!';
 
 var TooltipView = LayoutView.extend({
   className: 'panel panel--detached',
-  template: TooltipTemplate,
+  template: tooltipTemplate,
 
   ui: {
     panelContent: 'panelContent'

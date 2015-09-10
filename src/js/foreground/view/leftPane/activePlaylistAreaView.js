@@ -1,12 +1,12 @@
 ﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import PlaylistItemsView from 'foreground/view/leftPane/playlistItemsView';
-import ActivePlaylistAreaTemplate from 'template/leftPane/activePlaylistArea.hbs!';
+import activePlaylistAreaTemplate from 'template/leftPane/activePlaylistArea.hbs!';
 
 var ActivePlaylistAreaView = LayoutView.extend({
   id: 'activePlaylistArea',
   className: 'flexColumn',
-  template: ActivePlaylistAreaTemplate,
+  template: activePlaylistAreaTemplate,
 
   templateHelpers: {
     addAllMessage: chrome.i18n.getMessage('addAll'),

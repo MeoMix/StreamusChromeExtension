@@ -3,12 +3,12 @@ import ListItemType from 'common/enum/listItemType';
 import Scrollable from 'foreground/view/behavior/scrollable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import PlaylistView from 'foreground/view/playlist/playlistView';
-import PlaylistsTemplate from 'template/playlist/playlists.hbs!';
+import playlistsTemplate from 'template/playlist/playlists.hbs!';
 
 var PlaylistsView = CompositeView.extend({
   id: 'playlists',
   className: 'list u-flex--full',
-  template: PlaylistsTemplate,
+  template: playlistsTemplate,
 
   childView: PlaylistView,
   childViewContainer: '@ui.listItems',

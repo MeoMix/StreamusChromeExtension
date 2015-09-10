@@ -1,12 +1,12 @@
 ﻿import {LayoutView} from 'marionette';
 import PlaylistsView from 'foreground/view/playlist/playlistsView';
 import CreatePlaylistDialogView from 'foreground/view/dialog/createPlaylistDialogView';
-import PlaylistsAreaTemplate from 'template/playlist/playlistsArea.hbs!';
+import playlistsAreaTemplate from 'template/playlist/playlistsArea.hbs!';
 
 var PlaylistsAreaView = LayoutView.extend({
   id: 'playlistsArea',
   className: 'flexColumn',
-  template: PlaylistsAreaTemplate,
+  template: playlistsAreaTemplate,
   templateHelpers: {
     // TODO: createPlaylistMessage
     createPlaylist: chrome.i18n.getMessage('createPlaylist')

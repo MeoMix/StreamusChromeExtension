@@ -1,10 +1,10 @@
 ﻿import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import EditPlaylistTemplate from 'template/dialog/editPlaylist.hbs!';
+import editPlaylistTemplate from 'template/dialog/editPlaylist.hbs!';
 
 var EditPlaylistView = LayoutView.extend({
   id: 'editPlaylist',
-  template: EditPlaylistTemplate,
+  template: editPlaylistTemplate,
   titleMaxLength: 150,
 
   templateHelpers: function() {

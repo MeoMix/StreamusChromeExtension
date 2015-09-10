@@ -6,11 +6,11 @@ import DeletePlaylistButtonView from 'foreground/view/listItemButton/deletePlayl
 import PlayPlaylistButtonView from 'foreground/view/listItemButton/playPlaylistButtonView';
 import PlaylistOptionsButtonView from 'foreground/view/listItemButton/playlistOptionsButtonView';
 import PlaylistActions from 'foreground/model/playlist/playlistActions';
-import PlaylistTemplate from 'template/playlist/playlist.hbs!';
+import playlistTemplate from 'template/playlist/playlist.hbs!';
 
 var PlaylistView = ListItemView.extend({
   className: ListItemView.prototype.className + ' playlist listItem--small listItem--hasButtons listItem--selectable',
-  template: PlaylistTemplate,
+  template: playlistTemplate,
 
   ui: {
     title: 'title',

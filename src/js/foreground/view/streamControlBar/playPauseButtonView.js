@@ -1,16 +1,16 @@
 ﻿import {LayoutView} from 'marionette';
-import PlayPauseButtonTemplate from 'template/streamControlBar/playPauseButton.hbs!';
-import PauseIconTemplate from 'template/icon/pauseIcon_30.hbs!';
-import PlayIconTemplate from 'template/icon/playIcon_30.hbs!';
+import playPauseButtonTemplate from 'template/streamControlBar/playPauseButton.hbs!';
+import pauseIconTemplate from 'template/icon/pauseIcon_30.hbs!';
+import playIconTemplate from 'template/icon/playIcon_30.hbs!';
 
 var PlayPauseButtonView = LayoutView.extend({
   id: 'playPauseButton',
   className: 'button button--icon button--icon--primary button--large',
-  template: PlayPauseButtonTemplate,
+  template: playPauseButtonTemplate,
 
   templateHelpers: {
-    pauseIcon: PauseIconTemplate,
-    playIcon: PlayIconTemplate
+    pauseIcon: pauseIconTemplate,
+    playIcon: playIconTemplate
   },
 
   ui: {

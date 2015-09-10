@@ -1,11 +1,11 @@
 ﻿import {CompositeView} from 'marionette';
 import RadioButtonView from 'foreground/view/element/radioButtonView';
 import KeyCode from 'foreground/enum/keyCode';
-import RadioGroupTemplate from 'template/element/radioGroup.hbs!';
+import radioGroupTemplate from 'template/element/radioGroup.hbs!';
 
 var RadioGroupView = CompositeView.extend({
   tagName: 'radio-group',
-  template: RadioGroupTemplate,
+  template: radioGroupTemplate,
   childViewContainer: '@ui.buttons',
   childView: RadioButtonView,
 

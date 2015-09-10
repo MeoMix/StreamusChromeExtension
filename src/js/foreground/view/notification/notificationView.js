@@ -1,11 +1,11 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import {LayoutView} from 'marionette';
-import NotificationTemplate from 'template/notification/notification.hbs!';
+import notificationTemplate from 'template/notification/notification.hbs!';
 
 var NotificationView = LayoutView.extend({
   id: 'notification',
   className: 'notification panel panel--bottom u-zIndex--5',
-  template: NotificationTemplate,
+  template: notificationTemplate,
 
   hideTimeout: null,
   hideTimeoutDelay: 3000,

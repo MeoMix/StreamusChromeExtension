@@ -3,7 +3,7 @@ import {LayoutView} from 'marionette';
 import VideoStreamView from 'contentScript/youTubePlayer/view/videoStreamView';
 import VideoStream from 'contentScript/youTubePlayer/model/videoStream';
 import VideoCommand from 'common/enum/videoCommand';
-import WatermarkTemplate from 'template/contentScript/youTubePlayer/watermark.hbs!';
+import watermarkTemplate from 'template/contentScript/youTubePlayer/watermark.hbs!';
 
 var YouTubePlayerView = LayoutView.extend({
   el: 'body',
@@ -64,7 +64,6 @@ var YouTubePlayerView = LayoutView.extend({
 
   // Mimic YouTube's watermark template since it doesn't appear when hiding the control bar manually.
   _showWatermark: function() {
-    var watermarkTemplate = _.template(WatermarkTemplate);
     this.ui.settingsButton.before(watermarkTemplate({
       // TODO: Tooltip isn't stylized on new layout.
       videoUrl: this._getVideoUrl()

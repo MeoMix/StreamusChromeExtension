@@ -1,13 +1,13 @@
 ﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
 import VideoActions from 'foreground/model/video/videoActions';
-import OptionsListItemButtonTemplate from 'template/listItemButton/optionsListItemButton.hbs!';
-import OptionsIconTemplate from 'template/icon/optionsIcon_18.hbs!';
+import optionsListItemButtonTemplate from 'template/listItemButton/optionsListItemButton.hbs!';
+import optionsIconTemplate from 'template/icon/optionsIcon_18.hbs!';
 
 var VideoOptionsButtonView = LayoutView.extend({
-  template: OptionsListItemButtonTemplate,
+  template: optionsListItemButtonTemplate,
   templateHelpers: {
-    optionsIcon: OptionsIconTemplate
+    optionsIcon: optionsIconTemplate
   },
 
   attributes: {

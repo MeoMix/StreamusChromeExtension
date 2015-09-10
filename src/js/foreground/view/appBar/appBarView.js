@@ -6,18 +6,18 @@ import ActivePaneFilterView from 'foreground/view/appBar/activePaneFilterView';
 import ActivePaneFilter from 'foreground/model/appBar/activePaneFilter';
 import SearchInputAreaView from 'foreground/view/appBar/searchInputAreaView';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import AppBarTemplate from 'template/appBar/appBar.hbs!';
-import MenuIconTemplate from 'template/icon/menuIcon_24.hbs!';
-import CloseIconTemplate from 'template/icon/closeIcon_24.hbs!';
+import appBarTemplate from 'template/appBar/appBar.hbs!';
+import menuIconTemplate from 'template/icon/menuIcon_24.hbs!';
+import closeIconTemplate from 'template/icon/closeIcon_24.hbs!';
 
 var AppBarView = LayoutView.extend({
   id: 'appBar',
-  template: AppBarTemplate,
+  template: appBarTemplate,
 
   templateHelpers: function() {
     return {
-      menuIcon: MenuIconTemplate,
-      closeIcon: CloseIconTemplate
+      menuIcon: menuIconTemplate,
+      closeIcon: closeIconTemplate
     };
   },
 

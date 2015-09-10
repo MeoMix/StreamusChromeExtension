@@ -1,20 +1,20 @@
 ﻿import {LayoutView} from 'marionette';
 import KeyCode from 'foreground/enum/keyCode';
-import SearchInputAreaTemplate from 'template/appbar/searchInputArea.hbs!';
-import SearchIconTemplate from 'template/icon/searchIcon_24.hbs!';
-import CloseIconTemplate from 'template/icon/closeIcon_24.hbs!';
+import searchInputAreaTemplate from 'template/appbar/searchInputArea.hbs!';
+import searchIconTemplate from 'template/icon/searchIcon_24.hbs!';
+import closeIconTemplate from 'template/icon/closeIcon_24.hbs!';
 
 var SearchInputAreaView = LayoutView.extend({
   className: 'searchInputArea flexRow',
-  template: SearchInputAreaTemplate,
+  template: searchInputAreaTemplate,
 
   templateHelpers: function() {
     return {
       searchQuery: this.search.get('query'),
       showSearchMessage: chrome.i18n.getMessage('showSearch'),
-      searchIcon: SearchIconTemplate,
+      searchIcon: searchIconTemplate,
       searchMessage: chrome.i18n.getMessage('search'),
-      clearSearchIcon: CloseIconTemplate
+      clearSearchIcon: closeIconTemplate
     };
   },
 

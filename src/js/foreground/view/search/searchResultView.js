@@ -6,11 +6,11 @@ import PlayPauseVideoButtonView from 'foreground/view/listItemButton/playPauseVi
 import SaveVideoButtonView from 'foreground/view/listItemButton/saveVideoButtonView';
 import VideoOptionsButtonView from 'foreground/view/listItemButton/videoOptionsButtonView';
 import VideoActions from 'foreground/model/video/videoActions';
-import SearchResultTemplate from 'template/search/searchResult.hbs!';
+import searchResultTemplate from 'template/search/searchResult.hbs!';
 
 var SearchResultView = ListItemView.extend({
   className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',
-  template: SearchResultTemplate,
+  template: searchResultTemplate,
 
   events: _.extend({}, ListItemView.prototype.events, {
     'dblclick': '_onDblClick'

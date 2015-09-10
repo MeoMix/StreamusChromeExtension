@@ -1,5 +1,5 @@
 ﻿import {LayoutView} from 'marionette';
-import CheckboxTemplate from 'template/element/checkbox.hbs!';
+import checkboxTemplate from 'template/element/checkbox.hbs!';
 
 var CheckboxView = LayoutView.extend({
   tagName: 'checkbox',
@@ -8,7 +8,7 @@ var CheckboxView = LayoutView.extend({
     className += this.model.get('iconOnLeft') ? ' checkbox--leftIcon' : ' checkbox--rightIcon';
     return className;
   },
-  template: CheckboxTemplate,
+  template: checkboxTemplate,
 
   ui: {
     icon: 'icon'

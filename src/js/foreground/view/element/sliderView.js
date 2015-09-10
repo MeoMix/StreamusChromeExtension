@@ -1,14 +1,14 @@
 ﻿import {LayoutView} from 'marionette';
 import ResizeEmitter from 'foreground/view/behavior/resizeEmitter';
 import Slider from 'foreground/model/element/slider';
-import SliderTemplate from 'template/element/slider.hbs!';
+import sliderTemplate from 'template/element/slider.hbs!';
 
 // Provide a Web Component implementation of <input type='range'> which doesn't utilize an <input> element
 // nor any browser stylings. Should support most expected behaviors of an input element.
 // Notable differences include support for vertical styling and default support for 'wheel' events.
 var SliderView = LayoutView.extend({
   tagName: 'streamus-slider',
-  template: SliderTemplate,
+  template: sliderTemplate,
 
   ui: {
     'track': 'track',

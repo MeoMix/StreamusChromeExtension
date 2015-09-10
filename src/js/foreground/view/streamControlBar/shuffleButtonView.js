@@ -1,14 +1,14 @@
 ﻿import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import ShuffleButtonTemplate from 'template/streamControlBar/shuffleButton.hbs!';
-import ShuffleIconTemplate from 'template/icon/shuffleIcon_18.hbs!';
+import shuffleButtonTemplate from 'template/streamControlBar/shuffleButton.hbs!';
+import shuffleIconTemplate from 'template/icon/shuffleIcon_18.hbs!';
 
 var ShuffleButtonView = LayoutView.extend({
   id: 'shuffleButton',
   className: 'button button--icon button--icon--secondary button--medium',
-  template: ShuffleButtonTemplate,
+  template: shuffleButtonTemplate,
   templateHelpers: {
-    shuffleIcon: ShuffleIconTemplate
+    shuffleIcon: shuffleIconTemplate
   },
 
   attributes: {

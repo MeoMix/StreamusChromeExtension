@@ -1,10 +1,10 @@
 ﻿import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import AboutStreamusTemplate from 'template/dialog/aboutStreamus.hbs!';
+import aboutStreamusTemplate from 'template/dialog/aboutStreamus.hbs!';
 
 var AboutStreamusView = LayoutView.extend({
   id: 'aboutStreamus',
-  template: AboutStreamusTemplate,
+  template: aboutStreamusTemplate,
 
   templateHelpers: {
     applicationDetails: chrome.app.getDetails(),

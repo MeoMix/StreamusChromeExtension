@@ -2,12 +2,12 @@
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import ClearStreamDialogView from 'foreground/view/dialog/clearStreamDialogView';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
-import ClearStreamButtonTemplate from 'template/stream/clearStreamButton.hbs!';
+import clearStreamButtonTemplate from 'template/stream/clearStreamButton.hbs!';
 
 var ClearStreamButtonView = LayoutView.extend({
   id: 'clearStreamButton',
   className: 'button button--flat',
-  template: ClearStreamButtonTemplate,
+  template: clearStreamButtonTemplate,
   templateHelpers: {
     clearMessage: chrome.i18n.getMessage('clear')
   },
