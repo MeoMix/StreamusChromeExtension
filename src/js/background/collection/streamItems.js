@@ -1,6 +1,5 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import {Collection} from 'backbone';
-import Cocktail from 'backbone.cocktail';
 import LocalStorage from 'lib/backbone.localStorage';
 import ChromeCommand from 'background/enum/chromeCommand';
 import CollectionMultiSelect from 'background/mixin/collectionMultiSelect';
@@ -15,10 +14,9 @@ var StreamItems = Collection.extend({
   model: StreamItem,
   localStorage: new LocalStorage('StreamItems'),
   userFriendlyName: chrome.i18n.getMessage('stream'),
+  mixins: [CollectionMultiSelect, CollectionSequence, CollectionUniqueVideo],
 
   initialize: function() {
-    Cocktail.mixin(this, CollectionMultiSelect, CollectionSequence, CollectionUniqueVideo);
-
     this.on('add', this._onAdd);
     this.on('remove', this._onRemove);
     this.on('change:playedRecently', this._onChangePlayedRecently);

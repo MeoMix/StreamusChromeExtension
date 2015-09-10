@@ -26,7 +26,6 @@
   // Disable YouTube's player resizing logic: https://github.com/YePpHa/YouTubeCenter/issues/1844
   // Run this before document ready so that YouTube's scripts read the modified value during initialization.
   window.matchMedia = null;
-  console.log('matchMedia disabled');
 
   // This is a heavy-handed approach for forcing YouTube to use the HTML5 player if possible.
   // By forcing canPlayType to return 'probably' YouTube will assume the browser supports HTML5 video.
