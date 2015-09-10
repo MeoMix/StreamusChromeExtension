@@ -76,7 +76,7 @@
         },
         "format": "cjs"
       },
-      "github:marionettejs/backbone.marionette@2.4.2": {
+      "github:marionettejs/backbone.marionette@2.4.3": {
         "map": {
           "underscore": "common/shim/lodash.reference.shim"
         },

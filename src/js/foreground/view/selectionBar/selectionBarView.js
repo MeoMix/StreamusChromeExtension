@@ -11,6 +11,10 @@ var SelectionBarView = LayoutView.extend({
   className: 'selectionBar panel-content panel-content--uncolored',
   template: selectionBarTemplate,
 
+  templateHelpers: {
+    closeIcon: closeIconTemplate
+  },
+
   ui: {
     playButton: 'playButton',
     addButton: 'addButton',

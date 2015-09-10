@@ -1,7 +1,7 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import {Collection, Model} from 'backbone';
 
-export default {
+var CollectionUniqueVideo = {
   initialize: function() {
     // Stub out the default implementation of add with one which enforces uniqueness based on video id.
     this.add = this._add;
@@ -101,3 +101,5 @@ export default {
     return !_.isUndefined(this._getByVideoId(video.get('id')));
   }
 };
+
+export default CollectionUniqueVideo;

@@ -32,7 +32,7 @@ System.config({
     "hbs": "github:davis/plugin-hbs@1.1.0",
     "jquery": "github:components/jquery@2.1.4",
     "lodash": "npm:lodash@3.10.1",
-    "marionette": "github:marionettejs/backbone.marionette@2.4.2",
+    "marionette": "github:marionettejs/backbone.marionette@2.4.3",
     "mocha": "npm:mocha@2.3.1",
     "process": "npm:process@0.11.1",
     "sinon": "npm:sinon@1.16.1",
