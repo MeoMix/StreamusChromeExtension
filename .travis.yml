@@ -13,4 +13,4 @@ before_script:
 install: npm install
 env:
   global:
-    secure: Fs3jMM0O5eZRGXmWC5aYkQKTOYf2zfWv2ThGYRIa7dnwVNGhZKiCN9myLArbccED04xABHzEdlbJJxGiRqfd2L3Z/IzJpPGn1nZO55bI0A4qY09Ud4dbBJcltVZGzl09nRI8z6vNJfveK2NtCqundXCL0SXaVKtrF0Y/AFE+bo4=
+  - secure: N/yV6FNB4bOhqk5AgGTMylbHTk/2uZK/kfOmIiDRhK6eIeuDcyb/KyasAeFztnzRxbjeLx1pCimSafthLbL4VxP1MtNag/qYwg/58tQ89guuvkFuAdYAVk28Ub6giW6mAQZyfzehrwOOVZeMhl7w4Kg9UNC3Y4iGF746pkworGM=
