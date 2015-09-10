@@ -1,13 +1,13 @@
 ﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
 import PlaylistActions from 'foreground/model/playlist/playlistActions';
-import {listItemButton_optionsListItemButton as OptionsListItemButtonTemplate} from 'common/templates';
-import {icon_optionsIcon_18 as OptionsIconTemplate} from 'common/templates';
+import OptionsListItemButtonTemplate from 'template/listItemButton/optionsListItemButton.hbs!';
+import OptionsIconTemplate from 'template/icon/optionsIcon_18.hbs!';
 
 var PlaylistOptionsButtonView = LayoutView.extend({
   template: OptionsListItemButtonTemplate,
   templateHelpers: {
-    optionsIcon: OptionsIconTemplate()
+    optionsIcon: OptionsIconTemplate
   },
 
   attributes: {

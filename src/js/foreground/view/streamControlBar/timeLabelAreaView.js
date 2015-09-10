@@ -2,7 +2,7 @@
 import {LayoutView} from 'marionette';
 import Utility from 'common/utility';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import {streamControlBar_timeLabelArea as TimeLabelAreaTemplate} from 'common/templates';
+import TimeLabelAreaTemplate from 'template/streamControlBar/timeLabelArea.hbs!';
 
 var TimeLabelArea = LayoutView.extend({
   id: 'timeLabelArea',

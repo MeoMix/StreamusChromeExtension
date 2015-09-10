@@ -3,8 +3,8 @@ import {LayoutView} from 'marionette';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
 import VideoActions from 'foreground/model/video/videoActions';
-import {selectionBar_selectionBar as SelectionBarTemplate} from 'common/templates';
-import {icon_closeIcon_24 as CloseIconTemplate} from 'common/templates';
+import SelectionBarTemplate from 'template/selectionBar/selectionBar.hbs!';
+import CloseIconTemplate from 'template/icon/closeIcon_24.hbs!';
 
 var SelectionBarView = LayoutView.extend({
   id: 'selectionBar',
@@ -16,7 +16,7 @@ var SelectionBarView = LayoutView.extend({
     addMessage: chrome.i18n.getMessage('add'),
     saveMessage: chrome.i18n.getMessage('save'),
     deleteMessage: chrome.i18n.getMessage('delete'),
-    closeIcon: CloseIconTemplate()
+    closeIcon: CloseIconTemplate
   },
 
   ui: {

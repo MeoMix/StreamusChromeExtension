@@ -3,6 +3,7 @@ import 'common/shim/backbone.cocktail.shim';
 import 'common/shim/backbone.marionette.view.shim';
 import 'common/shim/backbone.marionette.region.shim';
 import 'common/shim/backbone.marionette.toJson.shim';
+import 'common/shim/handlebars.helpers.shim';
 
 // Finally, load the application:
 import Application from 'background/application';

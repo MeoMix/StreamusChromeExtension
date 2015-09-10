@@ -6,7 +6,7 @@ import SlidingRender from 'foreground/view/behavior/slidingRender';
 import Sortable from 'foreground/view/behavior/sortable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import SearchResultView from 'foreground/view/search/searchResultView';
-import {search_searchResults as SearchResultsTemplate} from 'common/templates';
+import SearchResultsTemplate from 'template/search/searchResults.hbs!';
 
 var SearchResultsView = CompositeView.extend({
   id: 'searchResults',

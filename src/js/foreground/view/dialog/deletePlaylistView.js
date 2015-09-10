@@ -1,7 +1,7 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import {dialog_deletePlaylist as DeletePlaylistTemplate} from 'common/templates';
+import DeletePlaylistTemplate from 'template/dialog/deletePlaylist.hbs!';
 
 var DeletePlaylistView = LayoutView.extend({
   template: DeletePlaylistTemplate,

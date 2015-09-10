@@ -1,15 +1,15 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
-import {listItemButton_playPauseVideoButton as PlayPauseVideoButtonTemplate} from 'common/templates';
-import {icon_playIcon_18 as PlayIconTemplate} from 'common/templates';
-import {icon_pauseIcon_18 as PauseIconTemplate} from 'common/templates';
+import PlayPauseVideoButtonTemplate from 'template/listItemButton/playPauseVideoButton.hbs!';
+import PlayIconTemplate from 'template/icon/playIcon_18.hbs!';
+import PauseIconTemplate from 'template/icon/pauseIcon_18.hbs!';
 
 var PlayPauseVideoButtonView = LayoutView.extend({
   template: PlayPauseVideoButtonTemplate,
   templateHelpers: {
-    playIcon: PlayIconTemplate(),
-    pauseIcon: PauseIconTemplate()
+    playIcon: PlayIconTemplate,
+    pauseIcon: PauseIconTemplate
   },
 
   attributes: {

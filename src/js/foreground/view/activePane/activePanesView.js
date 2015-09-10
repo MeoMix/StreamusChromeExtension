@@ -2,7 +2,7 @@
 import ActivePaneType from 'foreground/enum/activePaneType';
 import ActivePaneView from 'foreground/view/activePane/activePaneView';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
-import {activePane_activePanes as ActivePanesTemplate} from 'common/templates';
+import ActivePanesTemplate from 'template/activePane/activePanes.hbs!';
 
 // TODO: Show a sign-in view.
 var ActivePanesView = CollectionView.extend({

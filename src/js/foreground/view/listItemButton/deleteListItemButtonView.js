@@ -1,13 +1,13 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
-import {listItemButton_deleteListItemButton as DeleteListItemButtonTemplate} from 'common/templates';
-import {icon_deleteIcon_18 as DeleteIconTemplate} from 'common/templates';
+import DeleteListItemButtonTemplate from 'template/listItemButton/deleteListItemButton.hbs!';
+import DeleteIconTemplate from 'template/icon/deleteIcon_18.hbs!';
 
 var DeleteListItemButtonView = LayoutView.extend({
   template: DeleteListItemButtonTemplate,
   templateHelpers: {
-    deleteIcon: DeleteIconTemplate()
+    deleteIcon: DeleteIconTemplate
   },
 
   behaviors: {

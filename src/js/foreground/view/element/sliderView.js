@@ -1,7 +1,7 @@
 ﻿import {LayoutView} from 'marionette';
 import ResizeEmitter from 'foreground/view/behavior/resizeEmitter';
 import Slider from 'foreground/model/element/slider';
-import {element_slider as SliderTemplate} from 'common/templates';
+import SliderTemplate from 'template/element/slider.hbs!';
 
 // Provide a Web Component implementation of <input type='range'> which doesn't utilize an <input> element
 // nor any browser stylings. Should support most expected behaviors of an input element.

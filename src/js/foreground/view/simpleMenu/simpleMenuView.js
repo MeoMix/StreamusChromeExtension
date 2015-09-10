@@ -4,7 +4,7 @@ import SimpleMenuItemsView from 'foreground/view/simpleMenu/simpleMenuItemsView'
 import SimpleMenuItemView from 'foreground/view/simpleMenu/simpleMenuItemView';
 import FixedPosition from 'foreground/enum/fixedPosition';
 import Utility from 'common/utility';
-import {simpleMenu_simpleMenu as SimpleMenuTemplate} from 'common/templates';
+import SimpleMenuTemplate from 'template/simpleMenu/simpleMenu.hbs!';
 
 var SimpleMenuView = LayoutView.extend({
   id: 'simpleMenu',

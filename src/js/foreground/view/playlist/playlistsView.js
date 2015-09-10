@@ -3,7 +3,7 @@ import ListItemType from 'common/enum/listItemType';
 import Scrollable from 'foreground/view/behavior/scrollable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import PlaylistView from 'foreground/view/playlist/playlistView';
-import {playlist_playlists as PlaylistsTemplate} from 'common/templates';
+import PlaylistsTemplate from 'template/playlist/playlists.hbs!';
 
 var PlaylistsView = CompositeView.extend({
   id: 'playlists',

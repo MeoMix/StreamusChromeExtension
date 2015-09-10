@@ -1,6 +1,6 @@
 ﻿import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import {dialog_editPlaylist as EditPlaylistTemplate} from 'common/templates';
+import EditPlaylistTemplate from 'template/dialog/editPlaylist.hbs!';
 
 var EditPlaylistView = LayoutView.extend({
   id: 'editPlaylist',

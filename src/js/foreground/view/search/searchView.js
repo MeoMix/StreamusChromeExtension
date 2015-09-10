@@ -3,7 +3,7 @@ import SpinnerView from 'foreground/view/element/spinnerView';
 import SearchResultsView from 'foreground/view/search/searchResultsView';
 import VideoActions from 'foreground/model/video/videoActions';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import {search_search as SearchTemplate} from 'common/templates';
+import SearchTemplate from 'template/search/search.hbs!';
 
 var SearchView = LayoutView.extend({
   id: 'search',

@@ -1,6 +1,6 @@
 ﻿import {LayoutView} from 'marionette';
 import FixedPosition from 'foreground/enum/fixedPosition';
-import {simpleMenu_simpleMenuItem as SimpleMenuItemTemplate} from 'common/templates';
+import SimpleMenuItemTemplate from 'template/simpleMenu/simpleMenuItem.hbs!';
 
 var SimpleMenuItemView = LayoutView.extend({
   className: 'listItem listItem--small listItem--selectable listItem--clickable',

@@ -1,8 +1,8 @@
 ﻿import {LayoutView} from 'marionette';
 import SettingsDialogView from 'foreground/view/dialog/settingsDialogView';
 import AboutStreamusDialogView from 'foreground/view/dialog/aboutStreamusDialogView';
-import {appBar_adminMenuArea as AdminMenuAreaTemplate} from 'common/templates';
-import {icon_settingsIcon_24 as SettingsIconTemplate} from 'common/templates';
+import AdminMenuAreaTemplate from 'template/appBar/adminMenuArea.hbs!';
+import SettingsIconTemplate from 'template/icon/settingsIcon_24.hbs!';
 
 var AdminMenuAreaView = LayoutView.extend({
   id: 'adminMenuArea',
@@ -14,7 +14,7 @@ var AdminMenuAreaView = LayoutView.extend({
     openInTabMessage: chrome.i18n.getMessage('openInTab'),
     aboutStreamusMessage: chrome.i18n.getMessage('aboutStreamus'),
     reloadMessage: chrome.i18n.getMessage('reload'),
-    settingsIcon: SettingsIconTemplate()
+    settingsIcon: SettingsIconTemplate
   },
 
   ui: {

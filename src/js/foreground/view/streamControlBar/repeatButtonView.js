@@ -1,9 +1,9 @@
 ﻿import {LayoutView} from 'marionette';
 import RepeatButtonState from 'common/enum/repeatButtonState';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
-import {streamControlBar_repeatButton as RepeatButtonTemplate} from 'common/templates';
-import {icon_repeatIcon_18 as RepeatIconTemplate} from 'common/templates';
-import {icon_repeatOneIcon_18 as RepeatOneIconTemplate} from 'common/templates';
+import RepeatButtonTemplate from 'template/streamControlBar/repeatButton.hbs!';
+import RepeatIconTemplate from 'template/icon/repeatIcon_18.hbs!';
+import RepeatOneIconTemplate from 'template/icon/repeatOneIcon_18.hbs!';
 
 var RepeatButtonView = LayoutView.extend({
   id: 'repeatButton',
@@ -11,8 +11,8 @@ var RepeatButtonView = LayoutView.extend({
   template: RepeatButtonTemplate,
 
   templateHelpers: {
-    repeatIcon: RepeatIconTemplate(),
-    repeatOneIcon: RepeatOneIconTemplate()
+    repeatIcon: RepeatIconTemplate,
+    repeatOneIcon: RepeatOneIconTemplate
   },
 
   attributes: {

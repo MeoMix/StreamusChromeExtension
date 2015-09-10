@@ -2,7 +2,7 @@
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import VideoActions from 'foreground/model/video/videoActions';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
-import {stream_saveStreamButton as SaveStreamButtonTemplate} from 'common/templates';
+import SaveStreamButtonTemplate from 'template/stream/saveStreamButton.hbs!';
 
 var SaveStreamButtonView = LayoutView.extend({
   id: 'saveStreamButton',

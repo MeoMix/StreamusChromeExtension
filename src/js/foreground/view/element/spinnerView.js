@@ -1,5 +1,5 @@
 ﻿import {LayoutView} from 'marionette';
-import {element_spinner as SpinnerTemplate} from 'common/templates';
+import SpinnerTemplate from 'template/element/spinner.hbs!';
 
 var SpinnerView = LayoutView.extend({
   tagName: 'spinner',

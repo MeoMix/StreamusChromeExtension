@@ -1,9 +1,9 @@
 import {LayoutView} from 'marionette';
-import {streamControlBar_volumeArea as VolumeAreaTemplate} from 'common/templates';
-import {icon_volumeUpIcon_24 as VolumeUpIconTemplate} from 'common/templates';
-import {icon_volumeDownIcon_24 as VolumeDownIconTemplate} from 'common/templates';
-import {icon_volumeOffIcon_24 as VolumeOffIconTemplate} from 'common/templates';
-import {icon_volumeMuteIcon_24 as VolumeMuteIconTemplate} from 'common/templates';
+import VolumeAreaTemplate from 'template/streamControlBar/volumeArea.hbs!';
+import VolumeUpIconTemplate from 'template/icon/volumeUpIcon_24.hbs!';
+import VolumeDownIconTemplate from 'template/icon/volumeDownIcon_24.hbs!';
+import VolumeOffIconTemplate from 'template/icon/volumeOffIcon_24.hbs!';
+import VolumeMuteIconTemplate from 'template/icon/volumeMuteIcon_24.hbs!';
 
 var VolumeAreaView = LayoutView.extend({
   id: 'volumeArea',
@@ -12,10 +12,10 @@ var VolumeAreaView = LayoutView.extend({
 
   templateHelpers: function() {
     return {
-      volumeUpIcon: VolumeUpIconTemplate(),
-      volumeDownIcon: VolumeDownIconTemplate(),
-      volumeOffIcon: VolumeOffIconTemplate(),
-      volumeMuteIcon: VolumeMuteIconTemplate()
+      volumeUpIcon: VolumeUpIconTemplate,
+      volumeDownIcon: VolumeDownIconTemplate,
+      volumeOffIcon: VolumeOffIconTemplate,
+      volumeMuteIcon: VolumeMuteIconTemplate
     };
   },
 

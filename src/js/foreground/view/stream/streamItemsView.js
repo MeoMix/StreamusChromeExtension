@@ -6,7 +6,7 @@ import SlidingRender from 'foreground/view/behavior/slidingRender';
 import Sortable from 'foreground/view/behavior/sortable';
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import StreamItemView from 'foreground/view/stream/streamItemView';
-import {stream_streamItems as StreamItemsTemplate} from 'common/templates';
+import StreamItemsTemplate from 'template/stream/streamItems.hbs!';
 
 var StreamItemsView = CompositeView.extend({
   id: 'streamItems',

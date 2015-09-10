@@ -1,7 +1,7 @@
 ﻿import {CompositeView} from 'marionette';
 import RadioButtonView from 'foreground/view/element/radioButtonView';
 import KeyCode from 'foreground/enum/keyCode';
-import {element_radioGroup as RadioGroupTemplate} from 'common/templates';
+import RadioGroupTemplate from 'template/element/radioGroup.hbs!';
 
 var RadioGroupView = CompositeView.extend({
   tagName: 'radio-group',

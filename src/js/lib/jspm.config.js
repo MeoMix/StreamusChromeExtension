@@ -19,15 +19,7 @@ System.config({
     "npm:*": "js/lib/jspm_packages/npm/*"
   },
 
-  meta: {
-    "analytics": {
-      "exports": "ga",
-      "format": "global"
-    }
-  },
-
   map: {
-    "analytics": "https://www.google-analytics.com/analytics.js",
     "babel": "npm:babel-core@5.8.23",
     "babel-runtime": "npm:babel-runtime@5.8.20",
     "backbone": "npm:backbone@1.1.2",
@@ -36,12 +28,17 @@ System.config({
     "backbone.wreqr": "github:marionettejs/backbone.wreqr@1.3.5",
     "chai": "npm:chai@3.2.0",
     "core-js": "npm:core-js@1.1.4",
+    "handlebars": "github:components/handlebars.js@4.0.2",
+    "hbs": "github:davis/plugin-hbs@1.1.0",
     "jquery": "github:components/jquery@2.1.4",
     "lodash": "npm:lodash@3.10.1",
     "marionette": "github:marionettejs/backbone.marionette@2.4.2",
     "mocha": "npm:mocha@2.3.1",
     "process": "npm:process@0.11.1",
     "sinon": "npm:sinon@1.16.1",
+    "github:davis/plugin-hbs@1.1.0": {
+      "handlebars": "github:components/handlebars.js@4.0.2"
+    },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
     },

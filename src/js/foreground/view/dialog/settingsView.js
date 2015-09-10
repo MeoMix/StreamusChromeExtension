@@ -12,7 +12,7 @@ import RadioGroupView from 'foreground/view/element/radioGroupView';
 import SimpleListItemView from 'foreground/view/element/simpleListItemView';
 import SwitchView from 'foreground/view/element/switchView';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import {dialog_settings as SettingsTemplate} from 'common/templates';
+import SettingsTemplate from 'template/dialog/settings.hbs!';
 
 var SettingsView = LayoutView.extend({
   id: 'settings',

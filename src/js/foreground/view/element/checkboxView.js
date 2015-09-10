@@ -1,5 +1,5 @@
 ﻿import {LayoutView} from 'marionette';
-import {element_checkbox as CheckboxTemplate} from 'common/templates';
+import CheckboxTemplate from 'template/element/checkbox.hbs!';
 
 var CheckboxView = LayoutView.extend({
   tagName: 'checkbox',

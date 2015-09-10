@@ -4,7 +4,7 @@ import SaveStreamButton from 'foreground/model/stream/saveStreamButton';
 import ClearStreamButtonView from 'foreground/view/stream/clearStreamButtonView';
 import SaveStreamButtonView from 'foreground/view/stream/saveStreamButtonView';
 import StreamItemsView from 'foreground/view/stream/streamItemsView';
-import {stream_stream as StreamTemplate} from 'common/templates';
+import StreamTemplate from 'template/stream/stream.hbs!';
 
 var StreamView = LayoutView.extend({
   id: 'stream',

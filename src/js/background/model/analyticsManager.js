@@ -1,6 +1,5 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import {Model} from 'backbone';
-//import 'analytics';
 
 var AnalyticsManager = Model.extend({
   defaults: {
@@ -9,6 +8,11 @@ var AnalyticsManager = Model.extend({
 
   initialize: function() {
     this._createModule();
+    // TODO: I'd prefer to use import 'https://www.google-analytics.com/analytics.js';
+    // However, there are some blocking issues in JSPM:
+    // https://github.com/systemjs/builder/issues/304
+    // https://github.com/systemjs/builder/issues/269
+    $('body').append('<script src="https://www.google-analytics.com/analytics.js"></script>');
   },
 
   sendPageView: function(url) {

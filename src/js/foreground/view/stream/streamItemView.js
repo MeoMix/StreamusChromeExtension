@@ -6,7 +6,7 @@ import PlayPauseVideoButtonView from 'foreground/view/listItemButton/playPauseVi
 import SaveVideoButtonView from 'foreground/view/listItemButton/saveVideoButtonView';
 import VideoOptionsButtonView from 'foreground/view/listItemButton/videoOptionsButtonView';
 import VideoActions from 'foreground/model/video/videoActions';
-import {stream_streamItem as StreamItemTemplate} from 'common/templates';
+import StreamItemTemplate from 'template/stream/streamItem.hbs!';
 
 var StreamItemView = ListItemView.extend({
   className: ListItemView.prototype.className + ' stream-item listItem--medium listItem--hasButtons listItem--selectable',

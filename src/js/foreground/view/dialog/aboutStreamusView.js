@@ -1,6 +1,6 @@
 ﻿import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import {dialog_aboutStreamus as AboutStreamusTemplate} from 'common/templates';
+import AboutStreamusTemplate from 'template/dialog/aboutStreamus.hbs!';
 
 var AboutStreamusView = LayoutView.extend({
   id: 'aboutStreamus',

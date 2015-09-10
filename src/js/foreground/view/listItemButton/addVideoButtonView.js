@@ -1,12 +1,12 @@
 ﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
-import {listItemButton_addListItemButton as AddListItemButtonTemplate} from 'common/templates';
-import {icon_addIcon_18 as AddIconTemplate} from 'common/templates';
+import AddListItemButtonTemplate from 'template/listItemButton/addListItemButton.hbs!';
+import AddIconTemplate from 'template/icon/addIcon_18.hbs!';
 
 var AddVideoButtonView = LayoutView.extend({
   template: AddListItemButtonTemplate,
   templateHelpers: {
-    addIcon: AddIconTemplate()
+    addIcon: AddIconTemplate
   },
 
   behaviors: {

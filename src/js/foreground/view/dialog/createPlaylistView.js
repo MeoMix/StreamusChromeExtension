@@ -2,7 +2,7 @@
 import {LayoutView} from 'marionette';
 import DataSourceType from 'common/enum/dataSourceType';
 import DialogContent from 'foreground/view/behavior/dialogContent';
-import {dialog_createPlaylist as CreatePlaylistTemplate} from 'common/templates';
+import CreatePlaylistTemplate from 'template/dialog/createPlaylist.hbs!';
 
 var CreatePlaylistView = LayoutView.extend({
   id: 'createPlaylist',

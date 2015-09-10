@@ -1,13 +1,13 @@
 ﻿import {LayoutView} from 'marionette';
-import {streamControlBar_nextButton as NextButtonTemplate} from 'common/templates';
-import {icon_nextIcon_24 as NextIconTemplate} from 'common/templates';
+import NextButtonTemplate from 'template/streamControlBar/nextButton.hbs!';
+import NextIconTemplate from 'template/icon/nextIcon_24.hbs!';
 
 var NextButtonView = LayoutView.extend({
   id: 'nextButton',
   className: 'button button--icon button--icon--primary button--large',
   template: NextButtonTemplate,
   templateHelpers: {
-    nextIcon: NextIconTemplate()
+    nextIcon: NextIconTemplate
   },
 
   events: {

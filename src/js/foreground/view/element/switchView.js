@@ -1,5 +1,5 @@
 ﻿import {LayoutView} from 'marionette';
-import {element_switch as SwitchTemplate} from 'common/templates';
+import SwitchTemplate from 'template/element/switch.hbs!';
 
 var SwitchView = LayoutView.extend({
   tagName: 'switch',

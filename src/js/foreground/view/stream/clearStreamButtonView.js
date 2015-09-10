@@ -2,7 +2,7 @@
 import Tooltipable from 'foreground/view/behavior/tooltipable';
 import ClearStreamDialogView from 'foreground/view/dialog/clearStreamDialogView';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
-import {stream_clearStreamButton as ClearStreamButtonTemplate} from 'common/templates';
+import ClearStreamButtonTemplate from 'template/stream/clearStreamButton.hbs!';
 
 var ClearStreamButtonView = LayoutView.extend({
   id: 'clearStreamButton',

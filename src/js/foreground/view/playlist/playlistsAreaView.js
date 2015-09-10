@@ -1,7 +1,7 @@
 ﻿import {LayoutView} from 'marionette';
 import PlaylistsView from 'foreground/view/playlist/playlistsView';
 import CreatePlaylistDialogView from 'foreground/view/dialog/createPlaylistDialogView';
-import {playlist_playlistsArea as PlaylistsAreaTemplate} from 'common/templates';
+import PlaylistsAreaTemplate from 'template/playlist/playlistsArea.hbs!';
 
 var PlaylistsAreaView = LayoutView.extend({
   id: 'playlistsArea',

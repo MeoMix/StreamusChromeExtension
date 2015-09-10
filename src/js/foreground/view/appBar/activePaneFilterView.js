@@ -3,7 +3,7 @@ import {LayoutView} from 'marionette';
 import FixedPosition from 'foreground/enum/fixedPosition';
 import ViewEntityContainer from 'foreground/view/behavior/viewEntityContainer';
 import LayoutType from 'common/enum/layoutType';
-import {appBar_activePaneFilter as ActivePaneFilterTemplate} from 'common/templates';
+import ActivePaneFilterTemplate from 'template/appBar/activePaneFilter.hbs!';
 
 // A view which shows the title of the currently active pane and provides a drop-down menu for selecting another
 // pane to activate.

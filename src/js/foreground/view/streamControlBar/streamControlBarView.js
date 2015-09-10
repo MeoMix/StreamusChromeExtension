@@ -13,7 +13,7 @@ import NextButtonView from 'foreground/view/streamControlBar/nextButtonView';
 import PlayPauseButtonView from 'foreground/view/streamControlBar/playPauseButtonView';
 import PreviousButtonView from 'foreground/view/streamControlBar/previousButtonView';
 import VideoActions from 'foreground/model/video/videoActions';
-import {streamControlBar_streamControlBar as StreamControlBarTemplate} from 'common/templates';
+import StreamControlBarTemplate from 'template/streamControlBar/streamControlBar.hbs!';
 
 var StreamControlBarView = LayoutView.extend({
   id: 'streamControlBar',

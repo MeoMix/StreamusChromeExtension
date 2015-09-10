@@ -1,13 +1,13 @@
 ﻿import {LayoutView} from 'marionette';
 import ListItemButton from 'foreground/view/behavior/listItemButton';
 import VideoActions from 'foreground/model/video/videoActions';
-import {listItemButton_saveListItemButton as SaveListItemButtonTemplate} from 'common/templates';
-import {icon_saveIcon_18 as SaveIconTemplate} from 'common/templates';
+import SaveListItemButtonTemplate from 'template/listItemButton/saveListItemButton.hbs!';
+import SaveIconTemplate from 'template/icon/saveIcon_18.hbs!';
 
 var SaveVideoButtonView = LayoutView.extend({
   template: SaveListItemButtonTemplate,
   templateHelpers: {
-    saveIcon: SaveIconTemplate()
+    saveIcon: SaveIconTemplate
   },
 
   behaviors: {

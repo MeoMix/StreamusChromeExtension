@@ -3,7 +3,7 @@ import {LayoutView} from 'marionette';
 import VideoStreamView from 'contentScript/youTubePlayer/view/videoStreamView';
 import VideoStream from 'contentScript/youTubePlayer/model/videoStream';
 import VideoCommand from 'common/enum/videoCommand';
-import {contentScript_youTubePlayer_watermark as WatermarkTemplate} from 'common/templates';
+import WatermarkTemplate from 'template/contentScript/youTubePlayer/watermark.hbs!';
 
 var YouTubePlayerView = LayoutView.extend({
   el: 'body',

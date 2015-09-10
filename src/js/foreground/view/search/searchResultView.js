@@ -6,7 +6,7 @@ import PlayPauseVideoButtonView from 'foreground/view/listItemButton/playPauseVi
 import SaveVideoButtonView from 'foreground/view/listItemButton/saveVideoButtonView';
 import VideoOptionsButtonView from 'foreground/view/listItemButton/videoOptionsButtonView';
 import VideoActions from 'foreground/model/video/videoActions';
-import {search_searchResult as SearchResultTemplate} from 'common/templates';
+import SearchResultTemplate from 'template/search/searchResult.hbs!';
 
 var SearchResultView = ListItemView.extend({
   className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',

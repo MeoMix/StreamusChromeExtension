@@ -1,5 +1,5 @@
 ﻿import {LayoutView} from 'marionette';
-import {element_radioButton as RadioButtonTemplate} from 'common/templates';
+import RadioButtonTemplate from 'template/element/radioButton.hbs!';
 
 var RadioButtonView = LayoutView.extend({
   tagName: 'radio-button',
