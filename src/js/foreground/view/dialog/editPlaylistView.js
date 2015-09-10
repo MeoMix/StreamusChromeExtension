@@ -9,7 +9,6 @@ var EditPlaylistView = LayoutView.extend({
 
   templateHelpers: function() {
     return {
-      titleMessage: chrome.i18n.getMessage('title'),
       titleMaxLength: this.titleMaxLength
     };
   },

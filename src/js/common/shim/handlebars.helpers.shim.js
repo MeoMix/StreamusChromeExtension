@@ -8,3 +8,13 @@ Handlebars.registerHelper('get', function(model, attribute) {
 Handlebars.registerHelper('ternary', function(test, yes, no) {
   return test ? yes : no;
 });
+
+Handlebars.registerHelper('i18n', function(messageName) {
+  var message = chrome.i18n.getMessage(messageName);
+
+  if (message === '') {
+    throw new Error('Failed to find message: ' + messageName);
+  }
+
+  return chrome.i18n.getMessage(messageName);
+});

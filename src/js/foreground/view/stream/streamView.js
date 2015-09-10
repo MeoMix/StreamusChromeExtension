@@ -11,12 +11,6 @@ var StreamView = LayoutView.extend({
   className: 'flexColumn',
   template: streamTemplate,
 
-  templateHelpers: {
-    emptyMessage: chrome.i18n.getMessage('streamEmpty'),
-    searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
-    whyNotAddAVideoFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddAVideoFromAPlaylistOr')
-  },
-
   regions: {
     clearStreamButton: 'clearStreamButton',
     saveStreamButton: 'saveStreamButton',

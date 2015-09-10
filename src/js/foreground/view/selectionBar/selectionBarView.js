@@ -11,14 +11,6 @@ var SelectionBarView = LayoutView.extend({
   className: 'selectionBar panel-content panel-content--uncolored',
   template: selectionBarTemplate,
 
-  templateHelpers: {
-    playMessage: chrome.i18n.getMessage('play'),
-    addMessage: chrome.i18n.getMessage('add'),
-    saveMessage: chrome.i18n.getMessage('save'),
-    deleteMessage: chrome.i18n.getMessage('delete'),
-    closeIcon: closeIconTemplate
-  },
-
   ui: {
     playButton: 'playButton',
     addButton: 'addButton',

@@ -8,15 +8,6 @@ var ActivePlaylistAreaView = LayoutView.extend({
   className: 'flexColumn',
   template: activePlaylistAreaTemplate,
 
-  templateHelpers: {
-    addAllMessage: chrome.i18n.getMessage('addAll'),
-    playAllMessage: chrome.i18n.getMessage('playAll'),
-    playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
-    showSearchMessage: chrome.i18n.getMessage('showSearch'),
-    searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
-    wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
-  },
-
   regions: {
     playlistItems: 'playlistItems'
   },

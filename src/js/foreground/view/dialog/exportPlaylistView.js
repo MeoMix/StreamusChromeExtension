@@ -11,12 +11,6 @@ var ExportPlaylistView = LayoutView.extend({
   id: 'exportPlaylist',
   template: exportPlaylistTemplate,
 
-  templateHelpers: {
-    fileTypeMessage: chrome.i18n.getMessage('fileType'),
-    csvMessage: chrome.i18n.getMessage('csv'),
-    jsonMessage: chrome.i18n.getMessage('json')
-  },
-
   regions: {
     fileType: 'fileType'
   },

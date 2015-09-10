@@ -18,15 +18,6 @@ var SettingsView = LayoutView.extend({
   id: 'settings',
   template: settingsTemplate,
 
-  templateHelpers: {
-    generalMessage: chrome.i18n.getMessage('general'),
-    videoQualityMessage: chrome.i18n.getMessage('videoQuality'),
-    remindersMessage: chrome.i18n.getMessage('reminders'),
-    desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications'),
-    contextMenusMessage: chrome.i18n.getMessage('contextMenus'),
-    websiteEnhancementsMessage: chrome.i18n.getMessage('websiteEnhancements')
-  },
-
   regions: {
     videoQuality: 'videoQuality',
     openInTab: 'openInTab',

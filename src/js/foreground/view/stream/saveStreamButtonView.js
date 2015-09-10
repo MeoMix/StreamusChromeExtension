@@ -8,9 +8,6 @@ var SaveStreamButtonView = LayoutView.extend({
   id: 'saveStreamButton',
   className: 'button button--flat',
   template: saveStreamButtonTemplate,
-  templateHelpers: {
-    saveAllMessage: chrome.i18n.getMessage('saveAll')
-  },
 
   attributes: {
     'data-ui': 'tooltipable'

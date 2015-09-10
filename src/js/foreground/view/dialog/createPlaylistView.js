@@ -11,8 +11,6 @@ var CreatePlaylistView = LayoutView.extend({
 
   templateHelpers: function() {
     return {
-      titleMessage: chrome.i18n.getMessage('title'),
-      playlistUrlMessage: chrome.i18n.getMessage('playlistUrl'),
       titleMaxLength: this.titleMaxLength,
       // If the playlist is not already being created with videos then allow for importing of videos.
       showDataSource: this.videos.length === 0

@@ -7,11 +7,7 @@ var AboutStreamusView = LayoutView.extend({
   template: aboutStreamusTemplate,
 
   templateHelpers: {
-    applicationDetails: chrome.app.getDetails(),
-    applicationDetailsMessage: chrome.i18n.getMessage('applicationDetails'),
-    openHomepageMessage: chrome.i18n.getMessage('openHomepage'),
-    versionMessage: chrome.i18n.getMessage('version'),
-    openPatchNotesMessage: chrome.i18n.getMessage('openPatchNotes')
+    applicationDetails: chrome.app.getDetails()
   },
 
   ui: {

@@ -9,11 +9,6 @@ var AdminMenuAreaView = LayoutView.extend({
   template: adminMenuAreaTemplate,
 
   templateHelpers: {
-    settingsMessage: chrome.i18n.getMessage('settings'),
-    keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
-    openInTabMessage: chrome.i18n.getMessage('openInTab'),
-    aboutStreamusMessage: chrome.i18n.getMessage('aboutStreamus'),
-    reloadMessage: chrome.i18n.getMessage('reload'),
     settingsIcon: settingsIconTemplate
   },
 

@@ -10,19 +10,6 @@ var SearchView = LayoutView.extend({
   className: 'leftPane flexColumn panel-content panel-content--uncolored u-fullHeight',
   template: SearchTemplate,
 
-  templateHelpers: {
-    searchMessage: chrome.i18n.getMessage('search'),
-    saveAllMessage: chrome.i18n.getMessage('saveAll'),
-    addAllMessage: chrome.i18n.getMessage('addAll'),
-    playAllMessage: chrome.i18n.getMessage('playAll'),
-    notSignedInMessage: chrome.i18n.getMessage('notSignedIn'),
-    startTypingMessage: chrome.i18n.getMessage('startTyping'),
-    resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
-    searchingMessage: chrome.i18n.getMessage('searching'),
-    noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
-    trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse')
-  },
-
   regions: {
     searchResults: 'searchResults',
     spinner: 'spinner'

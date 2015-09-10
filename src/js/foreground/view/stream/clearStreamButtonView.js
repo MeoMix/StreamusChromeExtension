@@ -8,9 +8,6 @@ var ClearStreamButtonView = LayoutView.extend({
   id: 'clearStreamButton',
   className: 'button button--flat',
   template: clearStreamButtonTemplate,
-  templateHelpers: {
-    clearMessage: chrome.i18n.getMessage('clear')
-  },
 
   attributes: {
     'data-ui': 'tooltipable'

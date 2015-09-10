@@ -7,7 +7,7 @@ describe('Scrollable', function() {
     this.documentFragment = document.createDocumentFragment();
 
     var ScrollableView = CompositeView.extend({
-      template: _.template('<div class="children"></div>'),
+      template: '<div class="children"></div>',
       behaviors: {
         Scrollable: {
           behaviorClass: Scrollable

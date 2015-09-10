@@ -1,6 +1,6 @@
 ﻿import {LayoutView} from 'marionette';
 import KeyCode from 'foreground/enum/keyCode';
-import searchInputAreaTemplate from 'template/appbar/searchInputArea.hbs!';
+import searchInputAreaTemplate from 'template/appBar/searchInputArea.hbs!';
 import searchIconTemplate from 'template/icon/searchIcon_24.hbs!';
 import closeIconTemplate from 'template/icon/closeIcon_24.hbs!';
 
@@ -11,9 +11,7 @@ var SearchInputAreaView = LayoutView.extend({
   templateHelpers: function() {
     return {
       searchQuery: this.search.get('query'),
-      showSearchMessage: chrome.i18n.getMessage('showSearch'),
       searchIcon: searchIconTemplate,
-      searchMessage: chrome.i18n.getMessage('search'),
       clearSearchIcon: closeIconTemplate
     };
   },

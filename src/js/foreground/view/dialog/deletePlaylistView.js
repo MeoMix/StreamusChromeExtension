@@ -6,10 +6,6 @@ import deletePlaylistTemplate from 'template/dialog/deletePlaylist.hbs!';
 var DeletePlaylistView = LayoutView.extend({
   template: deletePlaylistTemplate,
 
-  templateHelpers: {
-    deleteMessage: chrome.i18n.getMessage('delete')
-  },
-
   behaviors: {
     DialogContent: {
       behaviorClass: DialogContent
