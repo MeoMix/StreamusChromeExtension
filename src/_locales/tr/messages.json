@@ -308,14 +308,14 @@
   "searchAndAdd": {
     "message": "Ara ve Ekle"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus Chrome hesabınızla bağlı değil.Farklı Chrome oturumlarında oynatma listelerinize ulaşabilmek için oturum açın"
   },
   "link": {
     "message": "Hesap",
     "description": "Bu 'Hesap' chrome 'Hesabımla' bağlantılı"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "Chrome'da oturum açılı değil.Oynatma listelerine yalnız bu bilgisayarda ulaşılabilir."
   },
   "remindGoogleSignIn": {

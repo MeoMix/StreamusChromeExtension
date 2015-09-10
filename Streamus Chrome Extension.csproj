@@ -258,6 +258,11 @@
     <None Include="src\template\behavior\resizeEmitter.hbs" />
     <None Include="src\template\contentScript\youTubePlayer\watermark.hbs" />
     <None Include="src\template\dialog\aboutStreamus.hbs" />
+    <Content Include="src\template\dialog\error.hbs" />
+    <Content Include="src\template\dialog\linkUserId.hbs" />
+    <Content Include="src\template\dialog\clearStream.hbs" />
+    <Content Include="src\template\dialog\googleSignIn.hbs" />
+    <Content Include="src\template\dialog\updateStreamus.hbs" />
     <None Include="src\template\element\slider.hbs" />
     <None Include="src\template\simpleMenu\simpleMenuItem.hbs" />
     <None Include="src\template\icon\closeIcon_24.hbs" />

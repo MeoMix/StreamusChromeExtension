@@ -1,13 +1,14 @@
 ﻿import _ from 'common/shim/lodash.reference.shim';
 import Scrollable from 'foreground/view/behavior/scrollable';
 import {CompositeView} from 'marionette';
+import Handlebars from 'handlebars';
 
 describe('Scrollable', function() {
   beforeEach(function() {
     this.documentFragment = document.createDocumentFragment();
 
     var ScrollableView = CompositeView.extend({
-      template: '<div class="children"></div>',
+      template: Handlebars.compile('<div class="children"></div>'),
       behaviors: {
         Scrollable: {
           behaviorClass: Scrollable

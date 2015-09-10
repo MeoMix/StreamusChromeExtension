@@ -1,9 +1,9 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
+import linkUserIdTemplate from 'template/dialog/linkUserId.hbs!';
 
 var LinkUserIdView = LayoutView.extend({
-  template: chrome.i18n.getMessage('linkAccountsMessage'),
+  template: linkUserIdTemplate,
 
   behaviors: {
     DialogContent: {

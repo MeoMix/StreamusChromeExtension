@@ -306,14 +306,14 @@
   "searchAndAdd": {
     "message": "Suchen und Hinzufügen"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus ist nicht mit deinem Chrome-Account verknüpft. Deine Playlists werden auf anderen Computern verfügbar sein wenn du deine Accounts verknüpfst."
   },
   "link": {
     "message": "Verlinke",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "Du bist nicht in Chrome eingeloggt. Deine Playlists sind nur auf diesem Computer verfügbar."
   },
   "remindGoogleSignIn": {

@@ -306,14 +306,14 @@
   "searchAndAdd": {
     "message": "Procurar e Adicionar"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus não está vinculada à sua conta Chrome. Suas listas de reprodução estarão disponíveis em outros computadores, se você ligar as suas contas."
   },
   "link": {
     "message": "Link",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "Você não está logado no Chrome. Suas listas de reprodução só estão disponíveis neste computador."
   },
   "remindGoogleSignIn": {

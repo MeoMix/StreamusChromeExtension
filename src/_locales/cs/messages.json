@@ -306,14 +306,14 @@
   "searchAndAdd": {
     "message": "Vyhledat a pridat"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus není propojen s Vaším Chrome úctem. Vaše seznamy budou dostupné z jakéhokoliv zarízení pokud úcty propojíte."
   },
   "link": {
     "message": "Propojit",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "Nejste prihlášeni do úctu Chrome. Seznamy budou dostupné pouze z tohoto zarízení."
   },
   "remindGoogleSignIn": {

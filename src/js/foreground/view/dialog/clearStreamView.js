@@ -1,9 +1,9 @@
-﻿import _ from 'common/shim/lodash.reference.shim';
-import {LayoutView} from 'marionette';
+﻿import {LayoutView} from 'marionette';
 import DialogContent from 'foreground/view/behavior/dialogContent';
+import clearStreamTemplate from 'template/dialog/clearStream.hbs!';
 
 var ClearStreamView = LayoutView.extend({
-  template: chrome.i18n.getMessage('clearStreamQuestion'),
+  template: clearStreamTemplate,
   behaviors: {
     DialogContent: {
       behaviorClass: DialogContent

@@ -306,14 +306,14 @@
   "searchAndAdd": {
     "message": "Søk og Legg til"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus er ikke koblet til din Chrome konto. Spillelistene vil være tilgjengelig på andre datamaskiner hvis du kobler til kontoene dine"
   },
   "link": {
     "message": "Koble til",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "Du er ikke pålogget Chrome. Dine spillelister er bare tilgjengelig på denne datamaskinen."
   },
   "remindGoogleSignIn": {

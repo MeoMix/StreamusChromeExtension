@@ -306,14 +306,14 @@
   "searchAndAdd": {
     "message": "Найти и добавить"
   },
-  "linkAccountsMessage": {
+  "linkAccounts": {
     "message": "Streamus не привязан к Вашему Chrome аккаунту. Ваши плейлисты будут доступны на других компьютерах после привязки."
   },
   "link": {
     "message": "Привязать",
     "description": "This is 'Link' as in 'Link my account'"
   },
-  "googleSignInMessage": {
+  "googleSignIn": {
     "message": "Вы не авторизированы в браузере. Ваши плейлисты доступны только на этом компьютере."
   },
   "remindGoogleSignIn": {
