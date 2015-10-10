@@ -22,7 +22,7 @@ Start by cloning the development branch. All PRs should be submitted to the deve
 * For more information regarding Chrome extension APIs, see [Chrome Platform APIs](https://developer.chrome.com/extensions/api_index)
 
 <h3>Dependencies</h3>
-You will need to have [Node](https://nodejs.org/), [Grunt](http://gruntjs.com/), and [jspm](http://jspm.io/) installed on your system. After installing Node, navigate using a terminate to the directory in which you cloned Streamus. Then, perform the following command to install dependencies:
+You will need to have [Node](https://nodejs.org/), [Grunt](http://gruntjs.com/), and [jspm](http://jspm.io/) installed on your system. After installing Node, navigate using a terminal to the directory in which you cloned Streamus. Then, perform the following command to install dependencies:
 
 npm install
 jspm install
