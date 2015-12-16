@@ -4,6 +4,9 @@
   <a title='Build Status' href="https://travis-ci.org/MeoMix/StreamusChromeExtension">
     <img src='https://travis-ci.org/MeoMix/StreamusChromeExtension.svg?branch=Development' />
   </a>
+  <a title='Join the chat at https://gitter.im/MeoMix/StreamusChromeExtension' href="https://gitter.im/MeoMix/StreamusChromeExtension?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
+    <img src='https://badges.gitter.im/Join%20Chat.svg?branch=Development' />
+  </a>
 </p>
 
 <h2>Overview</h2>
@@ -89,6 +92,3 @@ Streamus uses a fair number of third-party JavaScript libraries. Introduction of
 * [MeoMix](https://github.com/MeoMix)
 
 with translation support provided by a community of volunteers.
-
-
-[![Join the chat at https://gitter.im/MeoMix/StreamusChromeExtension](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MeoMix/StreamusChromeExtension?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
