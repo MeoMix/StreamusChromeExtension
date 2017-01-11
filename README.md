@@ -83,7 +83,7 @@ Streamus uses a fair number of third-party JavaScript libraries. Introduction of
 * [jQuery UI](http://jqueryui.com/)
 
 <h3>Testing</h3>
-* [Mocha](http://visionmedia.github.io/mocha/)
+* [Mocha](http://mochajs.org/)
 * [Chai](http://chaijs.com/)
 * [Sinon](http://sinonjs.org/)
 
