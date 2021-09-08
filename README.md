@@ -67,6 +67,7 @@ Alternatively, tests may be ran through grunt via `grunt test`
 Streamus uses a fair number of third-party JavaScript libraries. Introduction of additional libraries for off-the-shelf functionality is discouraged. Non-core libraries may be removed in the near future and additional functionality should not be implemented with them.
 
 <h3>Core</h3>
+
 * [jQuery](http://jquery.com/)
 * [Backbone](http://backbonejs.org/)
 * [Marionette](http://marionettejs.com)
@@ -78,11 +79,13 @@ Streamus uses a fair number of third-party JavaScript libraries. Introduction of
 * [Handlebars](http://handlebarsjs.com/)
 
 <h3>Non-core</h3>
+
 * [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
 * [Backbone Cocktail](https://github.com/onsi/cocktail)
 * [jQuery UI](http://jqueryui.com/)
 
 <h3>Testing</h3>
+
 * [Mocha](http://mochajs.org/)
 * [Chai](http://chaijs.com/)
 * [Sinon](http://sinonjs.org/)
